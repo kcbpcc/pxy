@@ -5,7 +5,7 @@ import subprocess
 directory = os.path.dirname(os.path.realpath(__file__))
 
 # Get a list of all Python files in the directory (excluding pxy.py)
-python_files = [f for f in os.listdir(directory) if f.endswith(".py") and f != "pxy.py" and f != "tstpxy.py" and f != "login_get_kite.py"]
+python_files = [f for f in os.listdir(directory) if f.endswith(".py") and f != "pxy.py" and f != "tstchk.py" and f != "login_get_kite.py"]
 
 
 # Variables to track success and failure
