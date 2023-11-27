@@ -134,7 +134,7 @@ if decision == "YES":
                 logging.warning("Not enough available cash to place the order.")
                 return dct['tradingsymbol']
     
-            if smktchk not in ['Sell']:
+            if smktchk not in ['Sell','Bear']:
                 logging.info(f"Not placing order for {tradingsymbol} because market condition is {smktchk}")
                 return tradingsymbol
    
