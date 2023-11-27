@@ -589,4 +589,7 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} in the main loop")
 
+
+#row['high'] > row['close_price'] and row['ltp'] < row['close_price']:
+
 ###########################################################################################################################################################################################################
