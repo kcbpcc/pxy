@@ -489,7 +489,8 @@ try:
                         row['source'] == 'holdings' and
                         row['product'] == 'CNC' and
                         row['PnL%'] > 1.4 and
-                        ((row['PnL%'] < ((row['pxy'])) and row['PnL%_H'] > ((row['pxy']))) or (row['PnL%'] > TIMPXY))
+                        ((row['PnL%'] < ((row['pxy'])) and row['PnL%_H'] > ((row['pxy']))) or (row['PnL%'] > TIMPXY)) 
+                        #or row['high'] > row['close'] and row['ltp'] < row['close']:
                    
                     ):
 
@@ -590,6 +591,6 @@ except Exception as e:
     logging.error(f"{str(e)} in the main loop")
 
 
-#row['high'] > row['close_price'] and row['ltp'] < row['close_price']:
+
 
 ###########################################################################################################################################################################################################
