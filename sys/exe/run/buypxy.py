@@ -152,7 +152,7 @@ if decision == "YES":
                 logging.error(f"{str(e)} while placing order")
                 logging.error(traceback.format_exc())
                 return dct['tradingsymbol']
-
+            
     if any(lst_tlyne):
         new_list = []
         # Filter the original list based on the subset of 'tradingsymbol' values
