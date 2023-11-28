@@ -23,8 +23,7 @@ yellow_color_code = "\033[93m"
 reset_color_code = "\033[0m"
 
 # Add a column to the table with the specified header
-table.add_column(f"{yellow_color_code}PXY® PreciseXceleratedYield Pvt Ltd™{reset_color_code}", [value1, value2, value3])  # Replace value1, value2, value3 with your actual values
-
+table.add_column(f"{yellow_color_code}PXY® PreciseXceleratedYield Pvt Ltd™{reset_color_code}"
 
 # Add the row with the wrapped notice
 table.add_row(wrapped_notice)
