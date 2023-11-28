@@ -2,14 +2,16 @@ import yfinance as yf
 import os
 import sys
 
+# Define the stock symbol (NSEI for Nifty 50)
+stock_symbol = "NSEI"
+
 def analyze_stock(symbol):
-    # Define the stock symbol (NSEI for Nifty 50)
     try:
         # Redirect standard output to os.devnull to suppress messages
         sys.stdout = open(os.devnull, 'w')
 
         # Download today's data
-        data = yf.download(stock_symbol, period="5d")
+        data = yf.download(symbol, period="5d")
     except Exception as e:
         print(f"Error during data download: {e}")
         return "Error", None
@@ -24,7 +26,7 @@ def analyze_stock(symbol):
     today_low = data['Low'].iloc[-1]
     yesterday_close = data['Close'].iloc[-2]
     current_price = data['Close'].iloc[-1]
-    
+
     # Check if the conditions are met
     below_open_high_above_open = (today_low < today_open) & (today_high > today_open)
     above_open_low_below_open = (today_high > today_open) & (today_low < today_open)
@@ -33,5 +35,10 @@ def analyze_stock(symbol):
         return 'yes'
     else:
         return 'no'
+
+# Call the analyze_stock function with the specified stock symbol
+result = analyze_stock(stock_symbol)
+print(result)
+
 
 
