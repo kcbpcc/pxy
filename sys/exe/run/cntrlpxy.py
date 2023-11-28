@@ -332,7 +332,8 @@ try:
         lambda row: row['_pr'] if nse_action == "SuperBull" else min(row['_pr'], row['_yi'] if mktpxy in ["Sell", "Bear"] else (row['_xl'] if mktpxy == "Buy" else row['_pr'])), 
         axis=1
     )
-    combined_df['PXY'] =  (combined_df['pxy'] * 3)    
+    
+    combined_df['PXY'] = combined_df.apply(lambda row: row['pxy'] * 3, axis=1)
 
     
 ###########################################################################################################################################################################################################
