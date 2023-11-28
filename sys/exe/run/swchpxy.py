@@ -2,10 +2,8 @@ import yfinance as yf
 import os
 import sys
 
-def get_nse_action():
+def analyze_stock(symbol):
     # Define the stock symbol (NSEI for Nifty 50)
-    def analyze_stock(symbol):
-
     try:
         # Redirect standard output to os.devnull to suppress messages
         sys.stdout = open(os.devnull, 'w')
