@@ -30,6 +30,7 @@ class Trendlyne:
                 tbody = maintag.find(name='tbody')
                 if tbody is not None:
                     # ... (rest of your code)
+                    pass
                 else:
                     print("No 'tbody' element found on the page.")
             else:
@@ -42,3 +43,4 @@ class Trendlyne:
 if __name__ == '__main__':
     t = Trendlyne()
     t.entry()
+
