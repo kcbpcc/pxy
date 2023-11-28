@@ -351,7 +351,10 @@ try:
     # Calculate total_PnL_percentage_mis_buy
     total_PnL_percentage_mis_buy = round(combined_df.loc[(combined_df['product'] == "MIS") & (combined_df['qty'] > 0), 'PnL'].sum()) if (combined_df['product'] == "MIS").any() and (combined_df['qty'] > 0).any() else 0    
     # Calculate total_PnL_percentage_mis_sell
-    total_PnL_percentage_mis_sell = round(combined_df.loc[(combined_df['product'] == "MIS") & (combined_df['qty'] < 0), 'PnL'].sum()) if (combined_df['product'] == "MIS").any() and (combined_df['qty'] < 0).any() else 0
+    #total_PnL_percentage_mis_sell = round(combined_df.loc[(combined_df['product'] == "MIS") & (combined_df['qty'] < 0), 'PnL'].sum()) if (combined_df['product'] == "MIS").any() and (combined_df['qty'] < 0).any() else 0
+    mis_sell_df = combined_df.loc[(combined_df['product'] == "MIS") & (combined_df['qty'] < 0)]
+    total_PnL_percentage_mis_sell = round(mis_sell_df['PnL'].sum()) if not mis_sell_df.empty else 0
+    
     # Calculate and print the sum of 'dPnL' values and its total 'dPnL%' for rows where 'qty' is greater than 0
     #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
