@@ -493,7 +493,7 @@ try:
                         row['qty'] > 0 and
                         row['product'] == 'CNC' and
                         row['PnL%'] > 1.4 and
-                        ((row['PnL%'] < ((row['pxy'])) and row['PnL%_H'] > ((row['pxy']))) or (row['PnL%'] > TIMPXY))
+                        ((row['PnL%'] < ((row['pxy']*3)) and row['PnL%_H'] > ((row['pxy']*3))) or (row['PnL%'] > TIMPXY))
                         #or ((row['high'] > row['close'] and row['ltp'] < row['close']) if nse_action == "SuperBear" else False)
 
                    
