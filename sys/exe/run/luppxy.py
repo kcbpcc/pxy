@@ -15,7 +15,7 @@ def calculate_loop_duration(current_time):
     if interval_1_start <= current_time <= interval_1_end or interval_2_start <= current_time <= interval_2_end:
         return 1
     else:
-        return 15
+        return 14
 
 # Get the current UTC time
 current_utc_time = datetime.utcnow()
