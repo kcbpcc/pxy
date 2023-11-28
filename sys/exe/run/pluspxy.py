@@ -6,9 +6,9 @@ import traceback
 class Trendlyne:
 
     base_url = "https://trendlyne.com/"
-    entry_url = base_url + "fundamentals/v1/stock-screener/424195/pluspxy/index/NIFTY500/nifty-500/"
-    #fundamentals/v1/stock-screener/410547/pluspxy/index/NIFTY500/nifty-500/
-    #https://trendlyne.com/fundamentals/v1/stock-screener/424195/pluspxy/index/NIFTY500/nifty-500/
+    entry_url = base_url + "fundamentals/v1/stock-screener/425413/pluspxy/"
+#https://trendlyne.com/fundamentals/v1/stock-screener/425413/pluspxy/
+
 
     def __init__(self):
         fake_response = requests.get(self.base_url)
