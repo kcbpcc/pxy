@@ -71,7 +71,7 @@ if decision == "YES":
 
             # get lists from positions and orders
             lst_dct_positions = broker.positions
-            lst_dct_orders = [order for order in broker.orders]
+            lst_dct_orders = [order for order in broker.orders if order.get('status') == 'OPEN']
             
             if lst_dct_positions and any(lst_dct_positions):
                 symbols_positions = [dct['symbol'] for dct in lst_dct_positions]
@@ -104,55 +104,54 @@ if decision == "YES":
         target = round_to_paise(ltp, max_target)
         return max(resistance, target)
 
-    def transact(dct, decision):
-        if decision == "YES":
-            try:
-                broker = Broker()  # Instantiate the broker object (replace with actual initialization logic)
+    def transact(dct):
+        try:
+            def get_ltp(exchange):
+                ltp = -1
+                key = f"{exchange}:{dct['tradingsymbol']}"
+                resp = broker.kite.ltp(key)
+                if resp and isinstance(resp, dict):
+                    ltp = resp[key]['last_price']
+                return ltp
     
-                def get_ltp(exchange):
-                    ltp = -1
-                    key = f"{exchange}:{dct['tradingsymbol']}"
-                    resp = broker.kite_ltp(key)
-                    if resp and isinstance(resp, dict):
-                        ltp = resp[key]['last_price']
-                    return ltp
+            ltp_nse = get_ltp('NSE')
+            logging.info(f"NSE LTP for {dct['tradingsymbol']} is {ltp_nse}")
     
-                ltp_nse = get_ltp('NSE')
-                logging.info(f"NSE LTP for {dct['tradingsymbol']} is {ltp_nse}")
+            if ltp_nse <= 0:
+                # If NSE price is not available, try BSE
+                ltp_bse = get_ltp('BSE')
+                logging.info(f"BSE LTP for {dct['tradingsymbol']} is {ltp_bse}")
     
-                if ltp_nse <= 0:
-                    ltp_bse = get_ltp('BSE')
-                    logging.info(f"BSE LTP for {dct['tradingsymbol']} is {ltp_bse}")
-    
-                    if ltp_bse > 0:
-                        exchange = 'BSE'
-                        ltp = ltp_bse
-                    else:
-                        return dct['tradingsymbol']
+                if ltp_bse > 0:
+                    exchange = 'BSE'
+                    ltp = ltp_bse
                 else:
-                    exchange = 'NSE'
-                    ltp = ltp_nse
+                    # If both NSE and BSE prices are not available, return
+                    return dct['tradingsymbol']
+            else:
+                exchange = 'NSE'
+                ltp = ltp_nse
     
-                order_id_buy = broker.order_place(
-                    tradingsymbol=dct['tradingsymbol'],
-                    exchange=exchange,
-                    transaction_type='BUY',
-                    quantity=int(float(dct['QTY'].replace(',', ''))),
-                    order_type='LIMIT',
-                    product='CNC',
-                    variety='regular',
-                    price=round_to_paise(ltp)
-                )
+            order_id_buy = broker.order_place(
+                tradingsymbol=dct['tradingsymbol'],
+                exchange=exchange,
+                transaction_type='BUY',
+                quantity=int(float(dct['QTY'].replace(',', ''))),
+                order_type='LIMIT',
+                product='CNC',
+                variety='regular',
+                price=round_to_paise(ltp)
+            )
     
-                if order_id_buy:
-                    logging.info(
-                        f"BUY {order_id_buy} placed for {dct['tradingsymbol']} successfully")
+            if order_id_buy:
+                logging.info(
+                    f"BUY {order_id_buy} placed for {dct['tradingsymbol']} successfully")
     
-            except Exception as e:
-                logging.error(f"{str(e)} while placing order")
-                logging.error(traceback.format_exc())
-                return dct['tradingsymbol']
-            
+        except Exception as e:
+            print(traceback.format_exc())
+            logging.error(f"{str(e)} while placing order")
+            return dct['tradingsymbol']
+
     if any(lst_tlyne):
         new_list = []
         # Filter the original list based on the subset of 'tradingsymbol' values
