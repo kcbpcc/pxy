@@ -7,7 +7,7 @@ NC='\033[0m' # No Color
 #sudo timedatectl set-timezone UTC && sudo timedatectl set-local-rtc 0 && timedatectl
 
 # Display menu
-echo -e " ${YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛${NC}"
+echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 
 echo "     -Night Buy                 🍭     nb"
 echo "     -SquireOff-ALL             ❌     ka"
@@ -23,7 +23,7 @@ echo "     -Test PXY All              🌟     ta"
 echo "     -python3                   🔥     py"
 echo "     -Or Simply exit            ⛔     ex"
 
-echo -e " ${YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛${NC}"
+echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 # Get user input
 read -t 15 -p "Enter your choice: " choice
 
