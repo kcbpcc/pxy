@@ -4,7 +4,6 @@ import sys
 
 # Define the stock symbol (NSEI for Nifty 50)
 
-
 def analyze_stock(symbol):
     try:
         # Redirect standard output to os.devnull to suppress messages
