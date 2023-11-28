@@ -52,10 +52,10 @@ def get_holdingsinfo(csv_file_path):
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100)
 
         table = PrettyTable()
-        table.field_names = ['LaksBoard', 'All', 'Green', 'Red']
-        table.add_row(['AllStocks', total_Stocks_count, green_Stocks_count, red_Stocks_count])
-        table.add_row(['Invested', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
-        table.add_row(['WorthNow', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
+        table.field_names = ['Board', 'All', 'Green', 'Red']
+        table.add_row(['Stocks', total_Stocks_count, green_Stocks_count, red_Stocks_count])
+        table.add_row(['Invest', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
+        table.add_row(['Worth', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
 
         if all_Stocks_profit_loss < 0:
             table.add_row(['P&L', f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
