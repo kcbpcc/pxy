@@ -49,6 +49,11 @@ def get_nse_action():
 
 # Call the get_nse_action function
 nse_action, nse_power = get_nse_action()
-print(f"Today's Market is {nse_action} with power {nse_power}")
+# ANSI escape code for bright yellow color
+yellow_color_code = "\033[93m"
+reset_color_code = "\033[0m"
+
+# Print the text in bright yellow
+print(f"{yellow_color_code}{nse_action} Market with power{nse_power}{reset_color_code}")
 
 
