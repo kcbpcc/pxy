@@ -106,47 +106,52 @@ if decision == "YES":
 
     def transact(dct):
         try:
-            def get_ltp():
+            def get_ltp(exchange):
                 ltp = -1
-                key = "NSE:" + dct['tradingsymbol']
+                key = f"{exchange}:{dct['tradingsymbol']}"
                 resp = broker.kite.ltp(key)
                 if resp and isinstance(resp, dict):
                     ltp = resp[key]['last_price']
                 return ltp
     
-            ltp = get_ltp()
-            logging.info(f"ltp for {dct['tradingsymbol']} is {ltp}")
+            ltp_nse = get_ltp('NSE')
+            logging.info(f"NSE LTP for {dct['tradingsymbol']} is {ltp_nse}")
     
-            if ltp <= 0:
-                return dct['tradingsymbol']
+            if ltp_nse <= 0:
+                # If NSE price is not available, try BSE
+                ltp_bse = get_ltp('BSE')
+                logging.info(f"BSE LTP for {dct['tradingsymbol']} is {ltp_bse}")
     
-            if decision == "NO":
-                logging.warning("Not enough available cash to place the order.")
-                return dct['tradingsymbol']
+                if ltp_bse > 0:
+                    exchange = 'BSE'
+                    ltp = ltp_bse
+                else:
+                    # If both NSE and BSE prices are not available, return
+                    return dct['tradingsymbol']
+            else:
+                exchange = 'NSE'
+                ltp = ltp_nse
     
-            order_id = broker.order_place(
+            order_id_buy = broker.order_place(
                 tradingsymbol=dct['tradingsymbol'],
-                exchange='NSE',
+                exchange=exchange,
                 transaction_type='BUY',
-                quantity=int(float(dct['QTY'].replace(',', ''))),
+                quantity=int(float(dct['calculated'])),
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
-                price=round_to_paise(ltp, +0.1)
+                price=round_to_paise(ltp, buff)
             )
     
-            if order_id:
-                logging.info(f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
-                
-            else:
-                print(traceback.format_exc())
-                logging.error(f"Unable to place order for {dct['tradingsymbol']}")
-                return dct['tradingsymbol']
+            if order_id_buy:
+                logging.info(
+                    f"BUY {order_id_buy} placed for {dct['tradingsymbol']} successfully")
     
         except Exception as e:
             print(traceback.format_exc())
             logging.error(f"{str(e)} while placing order")
             return dct['tradingsymbol']
+
     if any(lst_tlyne):
         new_list = []
         # Filter the original list based on the subset of 'tradingsymbol' values
