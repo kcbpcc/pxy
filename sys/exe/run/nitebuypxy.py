@@ -104,7 +104,7 @@ if decision == "YES":
         target = round_to_paise(ltp, max_target)
         return max(resistance, target)
 
-   def transact(dct):
+    def transact(dct):
         try:
             def get_ltp():
                 ltp = -1
@@ -113,7 +113,6 @@ if decision == "YES":
                 if resp and isinstance(resp, dict):
                     ltp = resp[key]['last_price']
                 return ltp
-
     
             ltp = get_ltp()
             logging.info(f"ltp for {dct['tradingsymbol']} is {ltp}")
