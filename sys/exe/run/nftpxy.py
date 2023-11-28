@@ -40,7 +40,7 @@ def get_nse_action():
         nse_action = "SuperBear"
     elif current_price > today_open:
         nse_action = "Bull"
-    elif current_price < yesterday_close:
+    elif current_price < today_open:
         nse_action = "Bear"
     else:
         nse_action = "Neutral"
