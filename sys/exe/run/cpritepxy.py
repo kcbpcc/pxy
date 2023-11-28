@@ -18,12 +18,8 @@ wrapped_notice = textwrap.fill(copyright_notice, width, break_long_words=False)
 # Create a table
 table = Table()
 
-# ANSI escape code for bright yellow color
-yellow_color_code = "\033[93m"
-reset_color_code = "\033[0m"
-
-# Add a column to the table with the specified header
-table.add_column(f"{yellow_color_code}PXY® PreciseXceleratedYield Pvt Ltd™{reset_color_code}"
+# Add the column header "PXY® PreciseXceleratedYield Pvt Ltd™"
+table.add_column(" 🏛🏛🏛® PreciseXceleratedYield Pvt Ltd™"🏛🏛🏛)
 
 # Add the row with the wrapped notice
 table.add_row(wrapped_notice)
