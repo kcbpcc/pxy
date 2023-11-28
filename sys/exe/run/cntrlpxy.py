@@ -333,9 +333,6 @@ try:
         axis=1
     )
     
-    combined_df['PXY'] = combined_df['pxy'] * 3
-
-    
 ###########################################################################################################################################################################################################
     TIMPXY = float(timpxy) if mktpxy in ["Buy", "Bull"] else (float(timpxy) * 0.75 if mktpxy == "Sell" else float(timpxy) * 0.5)
     mistimpxy = (TIMPXY/4)
