@@ -132,16 +132,17 @@ if decision == "YES":
                 exchange = 'NSE'
                 ltp = ltp_nse
     
-            order_id_buy = broker.order_place(
-                tradingsymbol=dct['tradingsymbol'],
-                exchange=exchange,
-                transaction_type='BUY',
-                quantity=int(float(dct['QTY'].replace(',', ''))),
-                order_type='LIMIT',
-                product='CNC',
-                variety='regular',
-                price=round_to_paise(ltp)
-            )
+            if decision == "YES":
+                order_id_buy = broker.order_place(
+                    tradingsymbol=dct['tradingsymbol'],
+                    exchange=exchange,
+                    transaction_type='BUY',
+                    quantity=int(float(dct['QTY'].replace(',', ''))),
+                    order_type='LIMIT',
+                    product='CNC',
+                    variety='regular',
+                    price=round_to_paise(ltp)
+                )
     
             if order_id_buy:
                 logging.info(
