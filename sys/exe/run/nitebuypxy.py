@@ -104,25 +104,14 @@ if decision == "YES":
         target = round_to_paise(ltp, max_target)
         return max(resistance, target)
 
-    def transact(dct):
+   def transact(dct):
         try:
             def get_ltp():
                 ltp = -1
-                key_nse = "NSE:" + dct['tradingsymbol']
-                key_bse = "BSE:" + dct['tradingsymbol']
-                
-                # Try fetching LTP for NSE
-                resp_nse = broker.kite.ltp(key_nse)
-                
-                if resp_nse and isinstance(resp_nse, dict):
-                    ltp = resp_nse[key_nse]['last_price']
-                else:
-                    # If NSE fails, try fetching LTP for BSE
-                    resp_bse = broker.kite.ltp(key_bse)
-                    
-                    if resp_bse and isinstance(resp_bse, dict):
-                        ltp = resp_bse[key_bse]['last_price']
-                
+                key = "NSE:" + dct['tradingsymbol']
+                resp = broker.kite.ltp(key)
+                if resp and isinstance(resp, dict):
+                    ltp = resp[key]['last_price']
                 return ltp
 
     
