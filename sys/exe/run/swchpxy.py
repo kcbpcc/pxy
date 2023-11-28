@@ -3,7 +3,7 @@ import os
 import sys
 
 # Define the stock symbol (NSEI for Nifty 50)
-stock_symbol = "NSEI"
+
 
 def analyze_stock(symbol):
     try:
@@ -36,9 +36,7 @@ def analyze_stock(symbol):
     else:
         return 'no'
 
-# Call the analyze_stock function with the specified stock symbol
-result = analyze_stock(stock_symbol)
-print(result)
+
 
 
 
