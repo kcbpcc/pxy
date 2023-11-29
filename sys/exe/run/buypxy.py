@@ -94,65 +94,54 @@ except Exception as e:
     sys.exit(1)
 
 # Assuming kite is defined somewhere in the get_kite function
-# Use the 'margins' method to get margin data without specifying a segment
 response = broker.kite.margins()
 
-# Access the available cash from the response
-available_cash = response["equity"]["available"]["live_balance"]
+# Get the list of stocks from Trendlyne
+lst_tlyne = [...]  # Assuming lst_tlyne is defined somewhere before this block
 
-# Assuming calc_target and transact functions are defined somewhere in the code
-def calc_target(ltp, perc):
-    resistance = round_to_paise(ltp, perc)
-    target = round_to_paise(ltp, max_target)
-    return max(resistance, target)
+# Filter lst_tlyne based on combined symbols
+lst_tlyne = [x for x in lst_tlyne if x not in all_symbols]
 
-def transact(dct, broker):
-    try:
-        def get_ltp(exchange):
-            ltp = -1
-            key = f"{exchange}:{dct['tradingsymbol']}"
-            resp = broker.kite.ltp(key)
-            if resp and isinstance(resp, dict):
-                ltp = resp[key]['last_price']
-            return ltp
+logging.info(f"filtered from positions and orders ...{lst_tlyne}")
 
-        ltp_nse = get_ltp('NSE')
-        logging.info(f"NSE LTP for {dct['tradingsymbol']} is {ltp_nse}")
+def get_ltp(symbol):
+    ltp = -1
+    key = f"NSE:{symbol}"  # Adjust based on your exchange requirements
+    resp = broker.kite.ltp(key)
+    if resp and isinstance(resp, dict):
+        ltp = resp[key]['last_price']
+    return ltp
 
-        if ltp_nse <= 0:
-            # If NSE price is not available, try BSE
-            ltp_bse = get_ltp('BSE')
-            logging.info(f"BSE LTP for {dct['tradingsymbol']} is {ltp_bse}")
+# Iterate through the filtered list and check available cash for each symbol
+exchange = 'NSE'  # or 'BSE' or any other valid value
+for symbol in lst_tlyne:
+    # Assuming calc_target and transact functions are defined somewhere in the code
+    ltp = get_ltp(symbol)  # Implement a function to get the last traded price for the symbol
+    target_price = calc_target(ltp, some_percentage)
 
-            if ltp_bse > 0:
-                exchange = 'BSE'
-                ltp = ltp_bse
-            else:
-                # If both NSE and BSE prices are not available, return
-                return dct['tradingsymbol']
-        else:
-            exchange = 'NSE'
-            ltp = ltp_nse
-
+    # Check if available cash is enough to place a buy order
+    if available_cash > 11000:
+        # Place the buy order
         order_id_buy = broker.order_place(
-            tradingsymbol=dct['tradingsymbol'],
+            tradingsymbol=symbol,
             exchange=exchange,
             transaction_type='BUY',
-            quantity=int(float(dct['QTY'].replace(',', ''))),
+            quantity=some_quantity,
             order_type='LIMIT',
             product='CNC',
             variety='regular',
-            price=round_to_paise(ltp)
+            price=target_price
         )
 
         if order_id_buy:
-            logging.info(
-                f"BUY {order_id_buy} placed for {dct['tradingsymbol']} successfully")
+            logging.info(f"BUY {order_id_buy} placed for {symbol} successfully")
+            # Update available cash after placing the order
+            response = broker.kite.margins()
+            available_cash = response["equity"]["available"]["live_balance"]
+    else:
+        print(f"Insufficient available cash to place a buy order for {symbol}")
 
-    except Exception as e:
-        print(traceback.format_exc())
-        logging.error(f"{str(e)} while placing order")
-        return dct['tradingsymbol']
+    Utilities().slp_til_nxt_sec()  # Sleep until the next second
 
 if any(lst_tlyne):
     new_list = []
