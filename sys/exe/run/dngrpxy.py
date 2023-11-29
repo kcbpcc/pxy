@@ -2,11 +2,18 @@ import yfinance as yf
 
 def dangerbear(symbol):
     try:
+        # Redirect standard output to os.devnull to suppress messages
+        sys.stdout = open(os.devnull, 'w')
+
         # Download today's data
         data = yf.download(symbol, period="5d")
     except Exception as e:
         print(f"Error during data download: {e}")
-        return 'no'  # Assume 'no' in case of an error
+        return "Error", None
+    finally:
+        # Restore standard output
+        sys.stdout.close()
+        sys.stdout = sys.__stdout__
 
     # Extract relevant values
     yesterday_open = data['Open'].iloc[-2]
