@@ -2,168 +2,181 @@ from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
 from login_get_kite import get_kite
-from cnstpxy import dir_path, fileutils,max_target
+from cnstpxy import dir_path, fileutils, max_target
 from byhopxy import get
 from pluspxy import Trendlyne
 import pandas as pd
 import traceback
 import sys
 import os
-from ynfndpxy import calculate_decision
-from mktpxy import mktpxy
 import asyncio
 
 logging = Logger(10)
 holdings = dir_path + "holdings.csv"
 black_file = dir_path + "blacklist.txt"
 
-try:
-    sys.stdout = open('output.txt', 'w')
-    broker = get_kite(api="bypass", sec_dir=dir_path)
-    if fileutils.is_file_not_2day(holdings):
-        logging.debug("getting holdings for the day ...")
-        resp = broker.kite.holdings()
-        if resp and any(resp):
-            df = get(resp)
-            logging.debug(f"writing to csv ... {holdings}")
-            df.to_csv(holdings, index=False)
-        with open(black_file, 'w+') as bf:
-            pass
-except Exception as e:
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
-    sys.exit(1)
+def initialize():
+    try:
+        sys.stdout = open('output.txt', 'w')
+        broker = get_kite(api="bypass", sec_dir=dir_path)
+        if fileutils.is_file_not_2day(holdings):
+            logging.debug("getting holdings for the day ...")
+            resp = broker.kite.holdings()
+            if resp and any(resp):
+                df = get(resp)
+                logging.debug(f"writing to csv ... {holdings}")
+                df.to_csv(holdings, index=False)
+            with open(black_file, 'w+') as bf:
+                pass
+        return broker
+    except Exception as e:
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} unable to get holdings")
+        sys.exit(1)
 
-try:
-    lst = []
-    file_size_in_bytes = os.path.getsize(holdings)
-    logging.debug(f"holdings file size: {file_size_in_bytes} bytes")
-    if file_size_in_bytes > 50:
-        logging.debug(f"reading from csv ...{holdings}")
-        df_holdings = pd.read_csv(holdings)
-        if not df_holdings.empty:
-            lst = df_holdings['tradingsymbol'].to_list()
+def get_filtered_symbols(lst_tlyne, lst):
+    try:
+        if any(lst_tlyne):
+            logging.info(f"reading trendlyne ...{lst_tlyne}")
+            lst_tlyne = [x for x in lst_tlyne if x not in lst]
+            logging.info(f"filtered from holdings: {lst}")
+            
+            lst_dct_positions = broker.positions
+            lst_dct_orders = [order for order in broker.orders if order.get('status') == 'OPEN']
 
-    # get list from Trendlyne
-    lst_tlyne = []
-    lst_dct_tlyne = Trendlyne().entry()
-    if lst_dct_tlyne and any(lst_dct_tlyne):
-        print(pd.DataFrame(
-            lst_dct_tlyne).set_index('tradingsymbol').rename_axis('Trendlyne'), "\n")
-        lst_tlyne = [dct['tradingsymbol'] for dct in lst_dct_tlyne]
-except Exception as e:
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to read holdings or Trendlyne calls")
-    sys.exit(1)
+            if lst_dct_positions and any(lst_dct_positions):
+                symbols_positions = [dct['symbol'] for dct in lst_dct_positions]
+            else:
+                symbols_positions = []
 
-try:
-    if any(lst_tlyne):
-        logging.info(f"reading trendlyne ...{lst_tlyne}")
-        lst_tlyne = [
-            x for x in lst_tlyne if x not in lst]
-        logging.info(f"filtered from holdings: {lst}")
+            if lst_dct_orders and any(lst_dct_orders):
+                symbols_orders = [dct['symbol'] for dct in lst_dct_orders]
+            else:
+                symbols_orders = []
 
-        # get lists from positions and orders
-        lst_dct_positions = broker.positions
-        lst_dct_orders = [order for order in broker.orders if order.get('status') == 'OPEN']
+            all_symbols = symbols_positions + symbols_orders
 
-        if lst_dct_positions and any(lst_dct_positions):
-            symbols_positions = [dct['symbol'] for dct in lst_dct_positions]
+            # Assuming lst_tlyne is defined somewhere before this block
+            lst_tlyne = lst_tlyne if lst_tlyne else []  # Initialize lst_tlyne if not defined
+
+            # Filter lst_tlyne based on combined symbols
+            lst_tlyne = [x for x in lst_tlyne if x not in all_symbols]
+
+            logging.info(f"filtered from positions and orders ...{lst_tlyne}")
+        return lst_tlyne
+    except Exception as e:
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} unable to filter symbols")
+        sys.exit(1)
+
+def get_ltp(symbol):
+    try:
+        ltp = -1
+        key = f"NSE:{symbol}"  # Adjust based on your exchange requirements
+        resp = broker.kite.ltp(key)
+        if resp and isinstance(resp, dict):
+            ltp = resp[key]['last_price']
+        return ltp
+    except Exception as e:
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} unable to get LTP for {symbol}")
+        return -1
+
+def calc_target(ltp, perc):
+    resistance = round_to_paise(ltp, perc)
+    target = round_to_paise(ltp, max_target)
+    return max(resistance, target)
+
+def transact(symbol, exchange, quantity, available_cash):
+    try:
+        ltp = get_ltp(symbol)
+        if ltp == -1:
+            return
+
+        target_price = calc_target(ltp, some_percentage)
+
+        if available_cash > 11000:
+            # Place the buy order
+            order_id_buy = broker.order_place(
+                tradingsymbol=symbol,
+                exchange=exchange,
+                transaction_type='BUY',
+                quantity=quantity,
+                order_type='LIMIT',
+                product='CNC',
+                variety='regular',
+                price=target_price
+            )
+
+            if order_id_buy:
+                logging.info(f"BUY {order_id_buy} placed for {symbol} successfully")
+                # Update available cash after placing the order
+                response = broker.kite.margins()
+                available_cash = response["equity"]["available"]["live_balance"]
         else:
-            symbols_positions = []
+            print(f"Insufficient available cash to place a buy order for {symbol}")
 
-        if lst_dct_orders and any(lst_dct_orders):
-            symbols_orders = [dct['symbol'] for dct in lst_dct_orders]
-        else:
-            symbols_orders = []
+        Utilities().slp_til_nxt_sec()  # Sleep until the next second
+    except Exception as e:
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} error while placing order for {symbol}")
 
-        # Combine symbols from positions and orders
-        all_symbols = symbols_positions + symbols_orders
+def process_failed_symbols(lst_tlyne, lst_dct_tlyne, lst_failed_symbols):
+    try:
+        new_list = []
+        # Filter the original list based on the subset of 'tradingsymbol' values
+        lst_all_orders = [d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
+        # Read the list of previously failed symbols from the file
+        with open(black_file, 'r') as file:
+            lst_failed_symbols = [line.strip() for line in file.readlines()]
+        logging.info(f"ignored symbols: {lst_failed_symbols}")
+        lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
+        for d in lst_orders:
+            failed_symbol = transact(d['tradingsymbol'], 'NSE', int(float(d['QTY'].replace(',', ''))), available_cash)
+            if failed_symbol:
+                new_list.append(failed_symbol)
+            Utilities().slp_til_nxt_sec()
+        if any(new_list):
+            with open(black_file, 'w') as file:
+                for symbol in new_list:
+                    file.write(symbol + '\n')
+    except Exception as e:
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} error while processing failed symbols")
 
-        # Assuming lst_tlyne is defined somewhere before this block
-        lst_tlyne = lst_tlyne if lst_tlyne else []  # Initialize lst_tlyne if not defined
+# Your trading strategy variables
+some_percentage = 1.5  # Adjust based on your strategy
+some_quantity = 1  # Adjust based on your strategy
 
-        # Filter lst_tlyne based on combined symbols
-        lst_tlyne = [x for x in lst_tlyne if x not in all_symbols]
+# Initialize
+broker = initialize()
 
-        logging.info(f"filtered from positions and orders ...{lst_tlyne}")
+# Assuming lst_tlyne is defined somewhere before this block
+lst_tlyne = [...]  # Replace with actual data
+logging.info(f"filtered from positions and orders ...{lst_tlyne}")
 
-except Exception as e:
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to read positions")
-    sys.exit(1)
+# Filter lst_tlyne based on combined symbols
+lst_tlyne = get_filtered_symbols(lst_tlyne, lst)
 
-# Assuming kite is defined somewhere in the get_kite function
-response = broker.kite.margins()
+logging.info(f"filtered from positions and orders ...{lst_tlyne}")
 
 # Get the list of stocks from Trendlyne
-lst_tlyne = [...]  # Assuming lst_tlyne is defined somewhere before this block
+lst_tlyne = [...]  # Replace with actual data
 
 # Filter lst_tlyne based on combined symbols
 lst_tlyne = [x for x in lst_tlyne if x not in all_symbols]
 
 logging.info(f"filtered from positions and orders ...{lst_tlyne}")
 
-def get_ltp(symbol):
-    ltp = -1
-    key = f"NSE:{symbol}"  # Adjust based on your exchange requirements
-    resp = broker.kite.ltp(key)
-    if resp and isinstance(resp, dict):
-        ltp = resp[key]['last_price']
-    return ltp
-
 # Iterate through the filtered list and check available cash for each symbol
 exchange = 'NSE'  # or 'BSE' or any other valid value
 for symbol in lst_tlyne:
-    # Assuming calc_target and transact functions are defined somewhere in the code
-    ltp = get_ltp(symbol)  # Implement a function to get the last traded price for the symbol
-    target_price = calc_target(ltp, some_percentage)
-
-    # Check if available cash is enough to place a buy order
-    if available_cash > 11000:
-        # Place the buy order
-        order_id_buy = broker.order_place(
-            tradingsymbol=symbol,
-            exchange=exchange,
-            transaction_type='BUY',
-            quantity=some_quantity,
-            order_type='LIMIT',
-            product='CNC',
-            variety='regular',
-            price=target_price
-        )
-
-        if order_id_buy:
-            logging.info(f"BUY {order_id_buy} placed for {symbol} successfully")
-            # Update available cash after placing the order
-            response = broker.kite.margins()
-            available_cash = response["equity"]["available"]["live_balance"]
-    else:
-        print(f"Insufficient available cash to place a buy order for {symbol}")
-
-    Utilities().slp_til_nxt_sec()  # Sleep until the next second
+    transact(symbol, exchange, some_quantity, available_cash)
 
 if any(lst_tlyne):
-    new_list = []
-    # Filter the original list based on the subset of 'tradingsymbol' values
-    lst_all_orders = [
-        d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
-    # Read the list of previously failed symbols from the file
-    with open(black_file, 'r') as file:
-        lst_failed_symbols = [line.strip() for line in file.readlines()]
-    logging.info(f"ignored symbols: {lst_failed_symbols}")
-    lst_orders = [d for d in lst_all_orders if d['tradingsymbol']
-                not in lst_failed_symbols]
-    for d in lst_orders:
-        failed_symbol = transact(d, broker)
-        if failed_symbol:
-            new_list.append(failed_symbol)
-        Utilities().slp_til_nxt_sec()
-    if any(new_list):
-        with open(black_file, 'w') as file:
-            for symbol in new_list:
-                file.write(symbol + '\n')
+    process_failed_symbols(lst_tlyne, lst_dct_tlyne, lst_failed_symbols)
 elif available_cash <= 11000:
     print("Insufficient available cash to place a buy order.")
+
 
 
