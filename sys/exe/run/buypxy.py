@@ -15,6 +15,10 @@ logging = Logger(10)
 holdings = dir_path + "holdings.csv"
 black_file = dir_path + "blacklist.txt"
 
+# Define these values or adjust as per your implementation
+some_quantity = 1
+# Define or import calc_target and other necessary functions
+
 def initialize():
     try:
         sys.stdout = open('output.txt', 'w')
@@ -26,7 +30,7 @@ def initialize():
                 df = get(resp)
                 logging.debug(f"writing to csv ... {holdings}")
                 df.to_csv(holdings, index=False)
-            with open(black_file, 'w+') as bf:
+            with open(black_file, 'w+'):
                 pass
         return broker
     except Exception as e:
@@ -34,7 +38,7 @@ def initialize():
         logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
 
-def get_filtered_symbols(lst_tlyne, lst):
+def get_filtered_symbols(lst_tlyne, lst, broker):
     try:
         if any(lst_tlyne):
             logging.info(f"reading trendlyne ...{lst_tlyne}")
@@ -44,15 +48,8 @@ def get_filtered_symbols(lst_tlyne, lst):
             lst_dct_positions = broker.positions
             lst_dct_orders = [order for order in broker.orders if order.get('status') == 'OPEN']
 
-            if lst_dct_positions and any(lst_dct_positions):
-                symbols_positions = [dct['symbol'] for dct in lst_dct_positions]
-            else:
-                symbols_positions = []
-
-            if lst_dct_orders and any(lst_dct_orders):
-                symbols_orders = [dct['symbol'] for dct in lst_dct_orders]
-            else:
-                symbols_orders = []
+            symbols_positions = [dct['symbol'] for dct in lst_dct_positions] if lst_dct_positions else []
+            symbols_orders = [dct['symbol'] for dct in lst_dct_orders] if lst_dct_orders else []
 
             all_symbols = symbols_positions + symbols_orders
 
@@ -69,7 +66,7 @@ def get_filtered_symbols(lst_tlyne, lst):
         logging.error(f"{str(e)} unable to filter symbols")
         sys.exit(1)
 
-def get_ltp(symbol):
+def get_ltp(symbol, broker):
     try:
         ltp = -1
         key = f"NSE:{symbol}"  # Adjust based on your exchange requirements
@@ -82,14 +79,14 @@ def get_ltp(symbol):
         logging.error(f"{str(e)} unable to get LTP for {symbol}")
         return -1
 
-
-def transact(symbol, exchange, quantity, available_cash):
+def transact(symbol, exchange, quantity, available_cash, broker):
     try:
-        ltp = get_ltp(symbol)
+        ltp = get_ltp(symbol, broker)
         if ltp == -1:
             return
 
-        target_price = calc_target(ltp, some_percentage)
+        # Remove some_percentage and adjust target_price calculation as needed
+        target_price = calc_target(ltp)
 
         if available_cash > 11000:
             # Place the buy order
@@ -97,7 +94,7 @@ def transact(symbol, exchange, quantity, available_cash):
                 tradingsymbol=symbol,
                 exchange=exchange,
                 transaction_type='BUY',
-                quantity=int(float(dct['QTY'].replace(',', ''))),
+                quantity=quantity,
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
@@ -117,7 +114,7 @@ def transact(symbol, exchange, quantity, available_cash):
         print(traceback.format_exc())
         logging.error(f"{str(e)} error while placing order for {symbol}")
 
-def process_failed_symbols(lst_tlyne, lst_dct_tlyne, lst_failed_symbols):
+def process_failed_symbols(lst_tlyne, lst_dct_tlyne, lst_failed_symbols, broker):
     try:
         new_list = []
         # Filter the original list based on the subset of 'tradingsymbol' values
@@ -128,7 +125,7 @@ def process_failed_symbols(lst_tlyne, lst_dct_tlyne, lst_failed_symbols):
         logging.info(f"ignored symbols: {lst_failed_symbols}")
         lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
         for d in lst_orders:
-            failed_symbol = transact(d['tradingsymbol'], 'NSE', int(float(d['QTY'].replace(',', ''))), available_cash)
+            failed_symbol = transact(d['tradingsymbol'], 'NSE', some_quantity, available_cash, broker)
             if failed_symbol:
                 new_list.append(failed_symbol)
             Utilities().slp_til_nxt_sec()
@@ -149,7 +146,7 @@ lst_tlyne = [...]  # Replace with actual data
 logging.info(f"filtered from positions and orders ...{lst_tlyne}")
 
 # Filter lst_tlyne based on combined symbols
-lst_tlyne = get_filtered_symbols(lst_tlyne, lst)
+lst_tlyne = get_filtered_symbols(lst_tlyne, lst, broker)
 
 logging.info(f"filtered from positions and orders ...{lst_tlyne}")
 
@@ -164,10 +161,10 @@ logging.info(f"filtered from positions and orders ...{lst_tlyne}")
 # Iterate through the filtered list and check available cash for each symbol
 exchange = 'NSE'  # or 'BSE' or any other valid value
 for symbol in lst_tlyne:
-    transact(symbol, exchange, some_quantity, available_cash)
+    transact(symbol, exchange, some_quantity, available_cash, broker)
 
 if any(lst_tlyne):
-    process_failed_symbols(lst_tlyne, lst_dct_tlyne, lst_failed_symbols)
+    process_failed_symbols(lst_tlyne, lst_dct_tlyne, lst_failed_symbols, broker)
 elif available_cash <= 11000:
     print("Insufficient available cash to place a buy order.")
 
