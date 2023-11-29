@@ -82,10 +82,6 @@ def get_ltp(symbol):
         logging.error(f"{str(e)} unable to get LTP for {symbol}")
         return -1
 
-def calc_target(ltp, perc):
-    resistance = round_to_paise(ltp, perc)
-    target = round_to_paise(ltp, max_target)
-    return max(resistance, target)
 
 def transact(symbol, exchange, quantity, available_cash):
     try:
@@ -101,7 +97,7 @@ def transact(symbol, exchange, quantity, available_cash):
                 tradingsymbol=symbol,
                 exchange=exchange,
                 transaction_type='BUY',
-                quantity=quantity,
+                quantity=int(float(dct['QTY'].replace(',', ''))),
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
@@ -144,9 +140,6 @@ def process_failed_symbols(lst_tlyne, lst_dct_tlyne, lst_failed_symbols):
         print(traceback.format_exc())
         logging.error(f"{str(e)} error while processing failed symbols")
 
-# Your trading strategy variables
-some_percentage = 1.5  # Adjust based on your strategy
-some_quantity = 1  # Adjust based on your strategy
 
 # Initialize
 broker = initialize()
