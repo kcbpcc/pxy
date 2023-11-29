@@ -137,7 +137,7 @@ if decision == "YES":
                 logging.error(f"{str(e)} unable to get available cash")
                 sys.exit(1)
             
-            if available_cash > 1:
+            if available_cash > 1000:
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
