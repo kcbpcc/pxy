@@ -18,6 +18,6 @@ def dangerbear(symbol):
     danger_bear = (yesterday_close < yesterday_open) and (current_price < today_open) and (current_price < yesterday_close)
 
     if danger_bear:
-        return 'yes'
+        return 'YES'
     else:
-        return 'no'
+        return 'NO'
