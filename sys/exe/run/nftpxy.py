@@ -11,7 +11,7 @@ def get_nse_action():
         sys.stdout = open(os.devnull, 'w')
 
         # Download today's data
-        data = yf.download(stock_symbol, period="7d")
+        data = yf.download(stock_symbol, period="2d")
     except Exception as e:
         print(f"Error during data download: {e}")
         return "Error", None
