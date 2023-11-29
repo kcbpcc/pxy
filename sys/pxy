@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 
 # Display menu
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
-echo "***********************************************************"
+echo "*****************************************"
 echo "   -Night Buy                🍭     nb"
 echo "   -SquireOff-ALL            ❌     ka"
 echo "   -Sell all Buy             🔴     kb"
@@ -22,7 +22,7 @@ echo "   -Show profit Table        💵     pl"
 echo "   -Test PXY All             🌟     ta"
 echo "   -python3                  🔥     py"
 echo "   -Or Simply exit           ⛔     ex"
-echo "***********************************************************"
+echo "******************************************"
 
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 # Get user input
