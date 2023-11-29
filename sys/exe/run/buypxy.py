@@ -20,8 +20,6 @@ black_file = dir_path + "blacklist.txt"
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
-##    sys.stdout.close()
-##    sys.stdout = sys.__stdout__
     if fileutils.is_file_not_2day(holdings):
         logging.debug("getting holdings for the day ...")
         resp = broker.kite.holdings()
@@ -164,15 +162,25 @@ if decision == "YES":
         logging.info(f"ignored symbols: {lst_failed_symbols}")
         lst_orders = [d for d in lst_all_orders if d['tradingsymbol']
                     not in lst_failed_symbols]
-        for d in lst_orders:
-            failed_symbol = transact(d)
-            if failed_symbol:
-                new_list.append(failed_symbol)
-            Utilities().slp_til_nxt_sec()
-        if any(new_list):
-            with open(black_file, 'w') as file:
-                for symbol in new_list:
-                    file.write(symbol + '\n')
+        if decision == "YES":
+            try:
+                for d in lst_orders:
+                    # Check available funds before placing each order
+                    if decision == "YES":
+                        # Sufficient funds available, proceed with the order
+                        failed_symbol = transact(d)
+                        if failed_symbol:
+                            new_list.append(failed_symbol)
+                        Utilities().slp_til_nxt_sec()
+                    else:
+                        # Insufficient funds, log and skip the order
+                        logging.warning(f"Insufficient funds for {d['tradingsymbol']}. Skipping order.")
+                        with open(black_file, 'a') as file:
+                            file.write(d['tradingsymbol'] + '\n')
+            except Exception as e:
+                print(traceback.format_exc())
+
 elif decision == "NO":
     # Perform actions for "NO"
-    print("\033[91mNo Funds Avalable \033[0m") 
+    print("\033[91mNo Funds Available \033[0m")
+    # Add your code for the "NO" case here
