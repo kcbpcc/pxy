@@ -30,7 +30,8 @@ def calculate_decision():
 
         return decision
         return available_cash
-        
+        print(available_cash)
+    
     except Exception as e:
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get available cash")
