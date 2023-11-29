@@ -20,8 +20,8 @@ black_file = dir_path + "blacklist.txt"
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
-##    sys.stdout.close()
-##    sys.stdout = sys.__stdout__
+    # sys.stdout.close()
+    # sys.stdout = sys.__stdout__
     if fileutils.is_file_not_2day(holdings):
         logging.debug("getting holdings for the day ...")
         resp = broker.kite.holdings()
@@ -72,26 +72,26 @@ if decision == "YES":
             # get lists from positions and orders
             lst_dct_positions = broker.positions
             lst_dct_orders = [order for order in broker.orders if order.get('status') == 'OPEN']
-            
+
             if lst_dct_positions and any(lst_dct_positions):
                 symbols_positions = [dct['symbol'] for dct in lst_dct_positions]
             else:
                 symbols_positions = []
-            
+
             if lst_dct_orders and any(lst_dct_orders):
                 symbols_orders = [dct['symbol'] for dct in lst_dct_orders]
             else:
                 symbols_orders = []
-            
+
             # Combine symbols from positions and orders
             all_symbols = symbols_positions + symbols_orders
-            
+
             # Assuming lst_tlyne is defined somewhere before this block
             lst_tlyne = lst_tlyne if lst_tlyne else []  # Initialize lst_tlyne if not defined
-            
+
             # Filter lst_tlyne based on combined symbols
             lst_tlyne = [x for x in lst_tlyne if x not in all_symbols]
-            
+
             logging.info(f"filtered from positions and orders ...{lst_tlyne}")
 
     except Exception as e:
@@ -113,35 +113,35 @@ if decision == "YES":
                 if resp and isinstance(resp, dict):
                     ltp = resp[key]['last_price']
                 return ltp
-    
+
             ltp = get_ltp()
             logging.info(f"ltp for {dct['tradingsymbol']} is {ltp}")
-    
+
             if ltp <= 0:
                 return dct['tradingsymbol']
-    
+
             if decision == "NO":
                 logging.warning("Not enough available cash to place the order.")
                 return dct['tradingsymbol']
 
             try:
-        
+
                 # Use the 'margins' method to get margin data without specifying a segment
                 response = broker.kite.margins()
-        
+
                 # Access the available cash from the response
                 available_cash = response["equity"]["available"]["live_balance"]
-            
+
             except Exception as e:
                 remove_token(dir_path)
                 logging.error(f"{str(e)} unable to get available cash")
                 sys.exit(1)
-            
+
             try:
                 if available_cash > 11000:
                     # Check if there is an open order for the symbol
                     open_order_exists = any(order['symbol'] == dct['tradingsymbol'] for order in lst_dct_orders)
-                    
+
                     # If no open order exists for the symbol, place a new order
                     if not open_order_exists:
                         order_id = broker.order_place(
@@ -154,7 +154,7 @@ if decision == "YES":
                             variety='regular',
                             price=round_to_paise(ltp, +0.1)
                         )
-                        
+
                         if order_id:
                             logging.info(f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
                         else:
@@ -189,6 +189,6 @@ if decision == "YES":
                     file.write(symbol + '\n')
 elif decision == "NO":
     # Perform actions for "NO"
-    print("\033[91mNo Funds Avalable \033[0m") 
+    print("\033[91mNo Funds Avalable \033[0m")
 
 
