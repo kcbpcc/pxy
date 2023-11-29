@@ -11,16 +11,13 @@ def calculate_decision():
     try:
         # Assuming kite is defined in the get_kite function
         broker = get_kite(api="bypass", sec_dir=dir_path)
-        if broker is None:
-            # Log an error and exit if broker is not obtained
-            logging.error("Unable to get broker")
-            sys.exit(1)
     except Exception as e:
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get broker")
         sys.exit(1)
 
     try:
+
         # Assuming kite is defined somewhere in the get_kite function
         # Use the 'margins' method to get margin data without specifying a segment
         response = broker.kite.margins()
@@ -31,10 +28,11 @@ def calculate_decision():
         # Define 'YES' or 'NO' based on the available cash
         decision = "YES" if available_cash > 11000 else "NO"
 
-        return decision, available_cash  # Return both decision and available_cash
+        return decision
+        return available_cash
+        print(available_cash)
+    
     except Exception as e:
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get available cash")
         sys.exit(1)
-
-
