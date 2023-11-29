@@ -8,7 +8,7 @@ def dangerbear(symbol):
         sys.stdout = open(os.devnull, 'w')
 
         # Download today's data
-        data = yf.download(symbol, period="2d")
+        data = yf.download(symbol, period="3d")
     except Exception as e:
         print(f"Error during data download: {e}")
         return "Error", None
