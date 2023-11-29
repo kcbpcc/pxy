@@ -16,7 +16,7 @@ holdings = dir_path + "holdings.csv"
 black_file = dir_path + "blacklist.txt"
 
 # Define these values or adjust as per your implementation
-some_quantity = 1
+some_quantity = int(float(dct['QTY'].replace(',', '')))
 # Define or import calc_target and other necessary functions
 
 def initialize():
