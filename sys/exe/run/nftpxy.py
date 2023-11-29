@@ -54,6 +54,5 @@ yellow_color_code = "\033[93m"
 reset_color_code = "\033[0m"
 
 # Print the text in bright yellow
-print(f"    {yellow_color_code}{nse_action} Market with power ⚡{nse_power}{reset_color_code}")
-
+print(f"    {yellow_color_code}{nse_action} Market with power ⚡💥⚡{nse_power}{reset_color_code}")
 
