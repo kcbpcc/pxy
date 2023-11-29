@@ -336,22 +336,22 @@ try:
 ###########################################################################################################################################################################################################
     TIMPXY = (
         float(timpxy)
-        if (nse_action in (SuperBull, Bull) and mktpxy in ["Buy", "Bull"])
+        if (nse_action in ("SuperBull", "Bull") and mktpxy in ["Buy", "Bull"])
         else (
             float(timpxy) * 0.90
-            if (nse_action in (SuperBull, Bull) and mktpxy == "Sell")
+            if (nse_action in (S"SuperBull", "Bull") and mktpxy == "Sell")
             else (
                 float(timpxy) * 0.80
-                if (nse_action in (SuperBull, Bull) and mktpxy == "Bear")
+                if (nse_action in ("SuperBull", "Bull") and mktpxy == "Bear")
                 else (
                     float(timpxy) * 0.60
-                    if (nse_action in (SuperBear, Bear) and mktpxy in ["Buy", "Bull"])
+                    if (nse_action in ("SuperBear", "Bear") and mktpxy in ["Buy", "Bull"])
                     else (
                         float(timpxy) * 0.50
-                        if (nse_action in (SuperBear, Bear) and mktpxy == "sell")
+                        if (nse_action in ("SuperBear", "Bear") and mktpxy == "sell")
                         else (
                             float(timpxy) * 0.50
-                            if (nse_action in (SuperBear, Bear) and mktpxy == "Bear")
+                            if (nse_action in ("SuperBear", "Bear") and mktpxy == "Bear")
                             else float(timpxy) * 1  # Default value if none of the conditions match
                         )
                     )
