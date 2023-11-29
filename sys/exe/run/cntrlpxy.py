@@ -491,7 +491,7 @@ try:
     import pandas as pd
 
     # Always print "Table" in bright yellow
-    print(f"{BRIGHT_YELLOW}Table– Stocks above @Pr and might reach @Yi {RESET}")
+    print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
 
     # Print EXE_df_sorted without color
     print(PRINT_df_sorted.to_string(index=False))
