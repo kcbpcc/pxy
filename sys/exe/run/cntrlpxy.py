@@ -513,10 +513,12 @@ try:
                     
 ###########################################################################################################################################################################################################                    
                     if (
-                        row['qty'] > 0 and
+                        (row['qty'] > 0 and
                         row['product'] == 'CNC' and
-                        row['PnL%'] > 1.4 and
-                        ((row['PnL%'] < ((row['pxy'])*3) and row['PnL%_H'] > ((row['pxy'])*3)) or (row['PnL%'] > TIMPXY))
+                        row['PnL%'] > 1.4) and
+                        ((((row['PnL%'] < ((row['pxy'])*3) and row['PnL%_H'] > ((row['pxy'])*3)) or (row['PnL%'] > TIMPXY)) if row['source'] == 'holdings') or
+                        (((row['PnL%'] < ((row['pxy'])*3) and row['PnL%_H'] > ((row['pxy'])*3)) or (row['PnL%'] > TIMPXY)) if row['source'] == 'positions'))
+                        
                         #or ((row['high'] > row['close'] and row['ltp'] < row['close']) if nse_action == "SuperBear" else False)
 
                    
