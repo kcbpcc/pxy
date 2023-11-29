@@ -139,23 +139,23 @@ if decision == "YES":
             
             if available_cash > 11000:
                 order_id = broker.order_place(
-                tradingsymbol=dct['tradingsymbol'],
-                exchange='NSE',
-                transaction_type='BUY',
-                quantity=int(float(dct['QTY'].replace(',', ''))),
-                order_type='LIMIT',
-                product='CNC',
-                variety='regular',
-                price=round_to_paise(ltp, +0.1)
-            )
-    
-            if order_id:
-                logging.info(f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
-                
-            else:
-                print(traceback.format_exc())
-                logging.error(f"Unable to place order for {dct['tradingsymbol']}")
-                return dct['tradingsymbol']
+                    tradingsymbol=dct['tradingsymbol'],
+                    exchange='NSE',
+                    transaction_type='BUY',
+                    quantity=int(float(dct['QTY'].replace(',', ''))),
+                    order_type='LIMIT',
+                    product='CNC',
+                    variety='regular',
+                    price=round_to_paise(ltp, +0.1)
+                )
+            
+                if order_id:
+                    logging.info(f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
+                else:
+                    print(traceback.format_exc())
+                    logging.error(f"Unable to place order for {dct['tradingsymbol']}")
+                    return dct['tradingsymbol']
+
     
         except Exception as e:
             print(traceback.format_exc())
