@@ -136,10 +136,6 @@ if decision == "YES":
                 remove_token(dir_path)
                 logging.error(f"{str(e)} unable to get available cash")
                 sys.exit(1)
-
-
-
-
             
             if available_cash > 11000:
                     order_id = broker.order_place(
