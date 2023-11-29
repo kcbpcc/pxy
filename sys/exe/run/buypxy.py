@@ -185,10 +185,7 @@ def transact(dct):
                 with open(black_file, 'w') as file:
                     for symbol in new_list:
                         file.write(symbol + '\n')
-except Exception as e:
-    print(traceback.format_exc())
-    logging.error(f"{str(e)}")
-    sys.exit(1)
-
-
-
+    except Exception as e:
+        print(traceback.format_exc())
+        logging.error(f"{str(e)}")
+        sys.exit(1)
