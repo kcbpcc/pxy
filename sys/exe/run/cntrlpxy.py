@@ -236,7 +236,7 @@ try:
     import asyncio
     from dngrpxy import dangerbear
 
-    DangerBear = dangerbear(stock_symbol)
+    DangerBear = dangerbear('^NSEI')
     print(result)
     
     # Replace 'filePnL.csv' with the path to your actual CSV file
