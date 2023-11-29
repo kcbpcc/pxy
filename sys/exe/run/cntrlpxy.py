@@ -339,7 +339,7 @@ try:
         if (nse_action in ("SuperBull", "Bull") and mktpxy in ["Buy", "Bull"])
         else (
             float(timpxy) * 0.90
-            if (nse_action in (S"SuperBull", "Bull") and mktpxy == "Sell")
+            if (nse_action in ("SuperBull", "Bull") and mktpxy == "Sell")
             else (
                 float(timpxy) * 0.80
                 if (nse_action in ("SuperBull", "Bull") and mktpxy == "Bear")
