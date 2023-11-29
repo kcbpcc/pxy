@@ -101,19 +101,80 @@ response = broker.kite.margins()
 available_cash = response["equity"]["available"]["live_balance"]
 
 # Assuming calc_target and transact functions are defined somewhere in the code
+def calc_target(ltp, perc):
+    resistance = round_to_paise(ltp, perc)
+    target = round_to_paise(ltp, max_target)
+    return max(resistance, target)
 
-# place trades for symbol
-for d in lst_tlyne:
-    # Check available cash before placing a buy order
-    if available_cash > 11000:
-        order_id = transact(d, broker)  # Assuming the broker object is defined with necessary methods
-        if order_id:
-            print(f"Order placed for {d}, Order ID: {order_id}")
-            Utilities().slp_til_nxt_sec()
+def transact(dct, broker):
+    try:
+        def get_ltp(exchange):
+            ltp = -1
+            key = f"{exchange}:{dct['tradingsymbol']}"
+            resp = broker.kite.ltp(key)
+            if resp and isinstance(resp, dict):
+                ltp = resp[key]['last_price']
+            return ltp
+
+        ltp_nse = get_ltp('NSE')
+        logging.info(f"NSE LTP for {dct['tradingsymbol']} is {ltp_nse}")
+
+        if ltp_nse <= 0:
+            # If NSE price is not available, try BSE
+            ltp_bse = get_ltp('BSE')
+            logging.info(f"BSE LTP for {dct['tradingsymbol']} is {ltp_bse}")
+
+            if ltp_bse > 0:
+                exchange = 'BSE'
+                ltp = ltp_bse
+            else:
+                # If both NSE and BSE prices are not available, return
+                return dct['tradingsymbol']
         else:
-            print(f"Order placement failed for {d}")
-    else:
-        print("Insufficient available cash to place a buy order.")
+            exchange = 'NSE'
+            ltp = ltp_nse
 
+        order_id_buy = broker.order_place(
+            tradingsymbol=dct['tradingsymbol'],
+            exchange=exchange,
+            transaction_type='BUY',
+            quantity=int(float(dct['QTY'].replace(',', ''))),
+            order_type='LIMIT',
+            product='CNC',
+            variety='regular',
+            price=round_to_paise(ltp)
+        )
+
+        if order_id_buy:
+            logging.info(
+                f"BUY {order_id_buy} placed for {dct['tradingsymbol']} successfully")
+
+    except Exception as e:
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} while placing order")
+        return dct['tradingsymbol']
+
+if any(lst_tlyne):
+    new_list = []
+    # Filter the original list based on the subset of 'tradingsymbol' values
+    lst_all_orders = [
+        d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
+    # Read the list of previously failed symbols from the file
+    with open(black_file, 'r') as file:
+        lst_failed_symbols = [line.strip() for line in file.readlines()]
+    logging.info(f"ignored symbols: {lst_failed_symbols}")
+    lst_orders = [d for d in lst_all_orders if d['tradingsymbol']
+                not in lst_failed_symbols]
+    for d in lst_orders:
+        failed_symbol = transact(d, broker)
+        if failed_symbol:
+            new_list.append(failed_symbol)
+        Utilities().slp_til_nxt_sec()
+    if any(new_list):
+        with open(black_file, 'w') as file:
+            for symbol in new_list:
+                file.write(symbol + '\n')
+elif available_cash <= 11000:
+    print("Insufficient available cash to place a buy order.")
 
 
