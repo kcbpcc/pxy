@@ -123,7 +123,24 @@ if decision == "YES":
             if decision == "NO":
                 logging.warning("Not enough available cash to place the order.")
                 return dct['tradingsymbol']
-    
+
+            try:
+        
+                # Use the 'margins' method to get margin data without specifying a segment
+                response = broker.kite.margins()
+        
+                # Access the available cash from the response
+                available_cash = response["equity"]["available"]["live_balance"]
+            
+            except Exception as e:
+                remove_token(dir_path)
+                logging.error(f"{str(e)} unable to get available cash")
+                sys.exit(1)
+
+
+
+
+            
             if available_cash > 11000:
                     order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
