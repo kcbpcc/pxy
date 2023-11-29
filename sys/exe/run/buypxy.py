@@ -185,6 +185,6 @@ if decision == "YES":
             except Exception as e:
                 # Handle exceptions here
 
-elif decision == "NO":
-    # Perform actions for "NO"
-    print("\033[91mNo Funds Avalable \033[0m")
+    elif decision == "NO":
+        # Perform actions for "NO"
+        print("\033[91mNo Funds Avalable \033[0m")
