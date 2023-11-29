@@ -2,7 +2,7 @@ from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
 from login_get_kite import get_kite
-from cnstpxy import dir_path, fileutils, buff, max_target
+from cnstpxy import dir_path, fileutils,max_target
 from byhopxy import get
 from pluspxy import Trendlyne
 import pandas as pd
