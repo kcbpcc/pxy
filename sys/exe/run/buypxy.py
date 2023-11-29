@@ -167,34 +167,34 @@ if decision == "YES":
                 logging.error(f"{str(e)} while placing order")
                 return dct['tradingsymbol']
 
-        if any(lst_tlyne):
-            new_list = []
-        
-            # Filter the original list based on the subset of 'tradingsymbol' values
-            lst_all_orders = [
-                d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
-        
-            # Read the list of previously failed symbols from the file
-            with open(black_file, 'r') as file:
-                lst_failed_symbols = [line.strip() for line in file.readlines()]
+            if any(lst_tlyne):
+                new_list = []
             
-            logging.info(f"Ignored symbols: {lst_failed_symbols}")
-        
-            # Filter out symbols that failed in previous transactions
-            lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
-        
-            # Process each order
-            for d in lst_orders:
-                failed_symbol = transact(d)
-                if failed_symbol:
-                    new_list.append(failed_symbol)
-                Utilities().slp_til_nxt_sec()
-        
-            # If there are failed transactions, update the black_file
-            if any(new_list):
-                with open(black_file, 'w') as file:
-                    for symbol in new_list:
-                        file.write(symbol + '\n')
+                # Filter the original list based on the subset of 'tradingsymbol' values
+                lst_all_orders = [
+                    d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
+            
+                # Read the list of previously failed symbols from the file
+                with open(black_file, 'r') as file:
+                    lst_failed_symbols = [line.strip() for line in file.readlines()]
+                
+                logging.info(f"Ignored symbols: {lst_failed_symbols}")
+            
+                # Filter out symbols that failed in previous transactions
+                lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
+            
+                # Process each order
+                for d in lst_orders:
+                    failed_symbol = transact(d)
+                    if failed_symbol:
+                        new_list.append(failed_symbol)
+                    Utilities().slp_til_nxt_sec()
+            
+                # If there are failed transactions, update the black_file
+                if any(new_list):
+                    with open(black_file, 'w') as file:
+                        for symbol in new_list:
+                            file.write(symbol + '\n')
 
 elif decision == "NO":
     # Perform actions for "NO"
