@@ -41,7 +41,7 @@ def order_place(index, row):
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
-                price=round_to_paise(row['ltp'], -0.1)
+                price=round_to_paise(row['ltp'], -0.3)
             )
             if order_id:
                 logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
@@ -101,7 +101,7 @@ def mis_order_sell(index, row):
                 order_type='MARKET',
                 product='MIS',
                 variety='regular',
-                price=round_to_paise(row['ltp'], -0.1)
+                price=round_to_paise(row['ltp'], -0.3)
             )
             if order_id:
                 logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")
@@ -161,7 +161,7 @@ def mis_order_buy(index, row):
                 order_type='MARKET',
                 product='MIS',
                 variety='regular',
-                price=round_to_paise(row['ltp'], +0.1)
+                price=round_to_paise(row['ltp'], +0.3)
             )
             if order_id:
                 logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")
