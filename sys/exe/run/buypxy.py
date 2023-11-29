@@ -17,6 +17,7 @@ import asyncio
 logging = Logger(10)
 holdings = dir_path + "holdings.csv"
 black_file = dir_path + "blacklist.txt"
+
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
@@ -125,7 +126,6 @@ if decision == "YES":
                 return dct['tradingsymbol']
 
             try:
-
                 # Use the 'margins' method to get margin data without specifying a segment
                 response = broker.kite.margins()
 
@@ -177,7 +177,7 @@ if decision == "YES":
             lst_failed_symbols = [line.strip() for line in file.readlines()]
         logging.info(f"ignored symbols: {lst_failed_symbols}")
         lst_orders = [d for d in lst_all_orders if d['tradingsymbol']
-                    not in lst_failed_symbols]
+                      not in lst_failed_symbols]
         for d in lst_orders:
             failed_symbol = transact(d)
             if failed_symbol:
