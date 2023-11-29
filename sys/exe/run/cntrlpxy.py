@@ -234,6 +234,10 @@ try:
     from swchpxy import analyze_stock
     import telegram
     import asyncio
+    from dngrpxy import dangerbear
+
+    DangerBear = dangerbear(stock_symbol)
+    print(result)
     
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
