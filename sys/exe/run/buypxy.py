@@ -141,7 +141,7 @@ if decision == "YES":
                     order_type='LIMIT',
                     product='CNC',
                     variety='regular',
-                    price=round_to_paise(ltp)
+                    price=round_to_paise(ltp,+0.3)
                 )
     
             if order_id_buy:
