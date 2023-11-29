@@ -237,7 +237,7 @@ try:
     from dngrpxy import dangerbear
 
     DangerBear = dangerbear('^NSEI')
-    print(result)
+    print(DangerBear)
     
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
