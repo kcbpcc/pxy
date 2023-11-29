@@ -360,9 +360,6 @@ try:
         )
     )
     
-    mistimpxy = (TIMPXY / 4)
-    _smtimpxy = ((TIMPXY) * (-1)) / 4
-    _mistimpxy = float(_smtimpxy) if mktpxy in ["Sell", "Bear"] else (float(_smtimpxy) * 0.75 if mktpxy == "Buy" else float(_smtimpxy) * 0.5)
 
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
