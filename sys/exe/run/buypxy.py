@@ -165,7 +165,7 @@ if decision == "YES":
         lst_orders = [d for d in lst_all_orders if d['tradingsymbol']
                     not in lst_failed_symbols]
         for d in lst_orders:
-            failed_symbol = transact(d)
+            failed_symbol = transact(d) if decision == "YES" else None
             if failed_symbol:
                 new_list.append(failed_symbol)
             Utilities().slp_til_nxt_sec()
