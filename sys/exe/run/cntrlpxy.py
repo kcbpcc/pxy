@@ -18,15 +18,12 @@ RESET = "\033[0m"
 
 logging = Logger(30, dir_path + "main.log")
 try:
-    # Assuming kite is defined in the get_kite function
+    sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
-    if broker is None:
-        # Log an error and exit if broker is not obtained
-        logging.error("Unable to get broker")
-        sys.exit(1)
 except Exception as e:
     remove_token(dir_path)
-    logging.error(f"{str(e)} unable to get broker")
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 
 file_path = 'filePnL.csv'
