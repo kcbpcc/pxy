@@ -13,7 +13,10 @@ while True:
     from rich import print
     from luppxy import loop_duration
     from swchpxy import analyze_stock
+    from dngrpxy import dangerbear
 
+    DangerBear = dangerbear('^NSEI')
+    print(DangerBear)
     switch = analyze_stock('^NSEI')
     
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
