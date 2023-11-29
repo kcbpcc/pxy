@@ -1,4 +1,6 @@
 import yfinance as yf
+import os
+import sys
 
 def dangerbear(symbol):
     try:
