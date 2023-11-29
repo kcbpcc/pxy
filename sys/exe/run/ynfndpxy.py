@@ -17,7 +17,7 @@ def calculate_decision():
         sys.exit(1)
 
     try:
-        logging.debug("getting available cash ...")
+
         # Assuming kite is defined somewhere in the get_kite function
         # Use the 'margins' method to get margin data without specifying a segment
         response = broker.kite.margins()
@@ -30,7 +30,7 @@ def calculate_decision():
 
         return decision
         return available_cash
-    print(available_cash)
+        print(available_cash)
     
     except Exception as e:
         remove_token(dir_path)
