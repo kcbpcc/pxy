@@ -128,7 +128,7 @@ def transact(dct):
             sys.exit(1)
 
         try:
-            if available_cash > 11000:
+            if available_cash > 11:
                 # Check if there is an open order for the symbol
                 open_order_exists = any(order['symbol'] == dct['tradingsymbol'] for order in lst_dct_orders)
 
