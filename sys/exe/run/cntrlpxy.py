@@ -334,10 +334,36 @@ try:
     )
     
 ###########################################################################################################################################################################################################
-    TIMPXY = float(timpxy) if mktpxy in ["Buy", "Bull"] else (float(timpxy) * 0.80 if mktpxy == "Sell" else float(timpxy) * 0.60)
-    mistimpxy = (TIMPXY/4)
-    _smtimpxy = ((TIMPXY)*(-1))/4
+    TIMPXY = (
+        float(timpxy)
+        if (nse_action in (SuperBull, Bull) and mktpxy in ["Buy", "Bull"])
+        else (
+            float(timpxy) * 0.90
+            if (nse_action in (SuperBull, Bull) and mktpxy == "Sell")
+            else (
+                float(timpxy) * 0.80
+                if (nse_action in (SuperBull, Bull) and mktpxy == "Bear")
+                else (
+                    float(timpxy) * 0.60
+                    if (nse_action in (SuperBear, Bear) and mktpxy in ["Buy", "Bull"])
+                    else (
+                        float(timpxy) * 0.50
+                        if (nse_action in (SuperBear, Bear) and mktpxy == "sell")
+                        else (
+                            float(timpxy) * 0.50
+                            if (nse_action in (SuperBear, Bear) and mktpxy == "Bear")
+                            else float(timpxy) * 1  # Default value if none of the conditions match
+                        )
+                    )
+                )
+            )
+        )
+    )
+    
+    mistimpxy = (TIMPXY / 4)
+    _smtimpxy = ((TIMPXY) * (-1)) / 4
     _mistimpxy = float(_smtimpxy) if mktpxy in ["Sell", "Bear"] else (float(_smtimpxy) * 0.75 if mktpxy == "Buy" else float(_smtimpxy) * 0.5)
+
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
     numeric_columns = ['qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PnL%','PnL%_H', 'dPnL', 'dPnL%']
