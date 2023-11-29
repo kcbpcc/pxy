@@ -16,7 +16,7 @@ while True:
     from dngrpxy import dangerbear
 
     DangerBear = dangerbear('^NSEI')
-    print(DangerBear)
+
     switch = analyze_stock('^NSEI')
     
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
@@ -80,7 +80,7 @@ while True:
         if current_color == 'Bear' and last_closed_color == 'Bear':
             mktpxy = 'Bear'
             console.print("🐻🔴🔴🔴 [bold]Bearish sentiment![/bold] 🍯💰", style=bear_style)
-            subprocess.run(['python3', 'sellpxy.py']) if nse_action == 'SuperBear' and switch == 'yes' else None
+            subprocess.run(['python3', 'sellpxy.py']) if DangerBear == YES else None
             subprocess.run(['python3', 'cntrlpxy.py'])
         elif current_color == 'Bull' and last_closed_color == 'Bull':
             mktpxy = 'Bull'
@@ -90,7 +90,7 @@ while True:
         elif current_color == 'Bear' and last_closed_color == 'Bull':
             mktpxy = 'Sell'
             console.print("🛒🔴🛬⤵️ [bold]Time to sell![/bold] 📉💰", style=sell_style) 
-            subprocess.run(['python3', 'sellpxy.py']) if nse_action == 'SuperBear' and switch == 'yes' else None
+            subprocess.run(['python3', 'sellpxy.py']) if DangerBear == YES else None
             subprocess.run(['python3', 'cntrlpxy.py'])
         elif current_color == 'Bull' and last_closed_color == 'Bear':
             mktpxy = 'Buy'
