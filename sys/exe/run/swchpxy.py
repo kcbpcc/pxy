@@ -3,7 +3,7 @@ import os
 import sys
 
 def analyze_stock(symbol):
-    for days in range(2, 8):
+    for days in range(1, 8):
         try:
             # Redirect standard output to os.devnull to suppress messages
             sys.stdout = open(os.devnull, 'w')
