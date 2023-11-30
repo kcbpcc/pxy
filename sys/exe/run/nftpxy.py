@@ -18,9 +18,11 @@ def get_nse_action():
             today_open = data['Open'].iloc[-1]
             today_high = data['High'].iloc[-1]
             today_low = data['Low'].iloc[-1]
-            yesterday_close = data['Close'].iloc[-2]
             current_price = data['Close'].iloc[-1]
-
+            
+            yesterday_close = data['Close'].iloc[-2]
+            yesterday_open = data['Open'].iloc[-2]
+            
             # Calculate nse_power
             nse_power = round((current_price - (today_low - 0.01)) / (abs(today_high + 0.01) - abs(today_low - 0.01)), 2)
 
@@ -28,14 +30,14 @@ def get_nse_action():
             nse_action = ""
 
             # Determine the candlestick condition for today
-            if current_price > today_open and current_price > yesterday_close:
+            if yesterday_close > yesterday_open and current_price > today_open and current_price > yesterday_close:
                 nse_action = "SuperBull"
-            elif current_price < today_open and current_price < yesterday_close:
+            elif yesterday_close > yesterday_open and current_price < today_open and current_price < yesterday_close:
                 nse_action = "SuperBear"
-            elif current_price > today_open:
-                nse_action = "Bull"
-            elif current_price < today_open:
-                nse_action = "Bear"
+            elif yesterday_close < yesterday_open and current_price > today_open and current_price > yesterday_close:
+                nse_action = "DangerBull"
+            elif yesterday_close < yesterday_open and current_price < today_open and current_price < yesterday_close:
+                nse_action = "DangerBear"
             else:
                 nse_action = "Neutral"
 
