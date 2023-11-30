@@ -10,6 +10,7 @@ import traceback
 import sys
 import os
 
+
 logging = Logger(30)
 holdings = dir_path + "holdings.csv"
 black_file = dir_path + "blacklist.txt"
