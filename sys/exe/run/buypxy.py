@@ -174,5 +174,7 @@ if decision == "YES":
 
 elif decision == "NO":
     # Perform actions for "NO"
-    print("\033[91mNo Funds Avalable \033[0m") 
+print("\033[91mNo Funds Avalable \033[0m") 
+
+
 
