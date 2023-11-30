@@ -12,7 +12,7 @@ import csv
 import telegram
 import asyncio
 from tprftpxy import sum_last_numerical_value_in_each_row
-
+print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
 result = sum_last_numerical_value_in_each_row(file_path)  
