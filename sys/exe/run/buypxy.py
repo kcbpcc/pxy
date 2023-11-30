@@ -125,7 +125,7 @@ if decision == "YES":
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
                     transaction_type='BUY',
-                    quantity=int(float(dct['QTY'])),
+                    quantity=int(float(dct['QTY'].replace(',', ''))), 
                     order_type='LIMIT',
                     product='CNC',
                     variety='regular',
