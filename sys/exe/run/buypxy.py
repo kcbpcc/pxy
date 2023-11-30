@@ -18,47 +18,57 @@ from nftpxy import nse_action
 import asyncio
 
 logging = Logger(30)
-holdings = dir_path + "holdings.csv"
+file_path = "fileHPdf.csv"
 black_file = dir_path + "blacklist.txt"
 
 try:
     broker = get_kite(api="bypass", sec_dir=dir_path)
-    if fileutils.is_file_not_2day(holdings):
-        logging.debug("getting holdings for the day ...")
-        resp = broker.kite.holdings()
-        if resp and any(resp):
-            df = get(resp)
-            logging.debug(f"writing to csv ... {holdings}")
-            df.to_csv(holdings, index=False)
-        with open(black_file, 'w+') as bf:
-            pass
+
 except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 
-
 try:
     lst = []
-    file_size_in_bytes = os.path.getsize(holdings)
-    logging.debug(f"holdings file size: {file_size_in_bytes} bytes")
-    if file_size_in_bytes > 50:
-        logging.debug(f"reading from csv ...{holdings}")
-        df_holdings = pd.read_csv(holdings)
-        if not df_holdings.empty:
-            lst = df_holdings['tradingsymbol'].to_list()
 
-    # get list from Trendlyne
+    # Read from fileHPdf
+    file_size_in_bytes = os.path.getsize(file_path)
+    logging.debug(f"fileHPdf file size: {file_size_in_bytes} bytes")
+    if file_size_in_bytes > 50:
+        logging.debug(f"reading from csv ...{file_path}")
+        df_holdings = pd.read_csv(file_path)
+        if not df_holdings.empty:
+            # Check both trading symbol columns
+            lst_tradingsymbol1 = df_holdings['tradingsymbol1'].to_list()
+            lst_tradingsymbol2 = df_holdings['tradingsymbol2'].to_list()
+
+            # Combine both lists to get unique symbols
+            lst = list(set(lst_tradingsymbol1 + lst_tradingsymbol2))
+
+    # Get list from Trendlyne
     lst_tlyne = []
     lst_dct_tlyne = Trendlyne().entry()
     if lst_dct_tlyne and any(lst_dct_tlyne):
         print(pd.DataFrame(
             lst_dct_tlyne).set_index('tradingsymbol').rename_axis('Trendlyne'), "\n")
         lst_tlyne = [dct['tradingsymbol'] for dct in lst_dct_tlyne]
+
+    # Fetch orders from Zerodha Kite
+    orders = broker.kite.orders()
+
+    # Extract trading symbols from Zerodha orders
+    lst_kite = [order['tradingsymbol'] for order in orders]
+
+    # Combine lists from fileHPdf, Trendlyne, and Zerodha Kite
+    lst = list(set(lst + lst_tlyne + lst_kite))
+
 except Exception as e:
     print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to read holdings or Trendlyne calls")
+    logging.error(f"{str(e)} unable to read fileHPdf, Trendlyne calls, or fetch orders from Zerodha Kite")
     sys.exit(1)
+
+
 
 try:
     if any(lst_tlyne):
