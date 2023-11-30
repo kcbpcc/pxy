@@ -19,7 +19,7 @@ wrapped_notice = textwrap.fill(copyright_notice, width, break_long_words=False)
 table = Table()
 
 # Add the column header "PXY® PreciseXceleratedYield Pvt Ltd™"
-table.add_column("  PXY® PreciseXceleratedYield Pvt Ltd™")
+table.add_column("PXY® PreciseXceleratedYield Pvt Ltd™")
 
 # Add the row with the wrapped notice
 table.add_row(wrapped_notice)
