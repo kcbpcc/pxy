@@ -64,7 +64,7 @@ def order_place(index, row):
                             if column in row:
                                 del row[column]
                         
-                        message_text = f"Booked{result}{str(row)} https://www.tradingview.com/chart/?symbol={key}"
+                        message_text = f"{str(row)} https://www.tradingview.com/chart/?symbol={key}          Booked:{result}"
                         
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
