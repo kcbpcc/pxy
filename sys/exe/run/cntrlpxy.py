@@ -259,8 +259,7 @@ try:
     from swchpxy import analyze_stock
     import telegram
     import asyncio
-   
-    DangerBear = dangerbear('^NSEI')
+
     
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
