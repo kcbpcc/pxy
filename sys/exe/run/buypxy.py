@@ -102,28 +102,16 @@ def transact(dct):
             order_type='LIMIT',
             product='CNC',
             variety='regular',
-            price=round_to_paise(ltp, buff)
+            price=round_to_paise(ltp, +0.2)
         )
         if order_id:
             logging.info(
                 f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
-            order_id = broker.order_place(
-                tradingsymbol=dct['tradingsymbol'],
-                exchange='NSE',
-                transaction_type='SELL',
-                quantity=int(float(dct['calculated'])),
-                order_type='LIMIT',
-                product='CNC',
-                variety='regular',
-                price=calc_target(ltp, dct['res_3'])
-            )
-            if order_id:
-                logging.info(
-                    f"SELL {order_id} placed for {dct['tradingsymbol']} successfully")
     except Exception as e:
         print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
         return dct['tradingsymbol']
+
 
 
 if any(lst_tlyne):
