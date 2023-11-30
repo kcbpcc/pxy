@@ -117,7 +117,7 @@ if decision == "YES":
             ltp = get_ltp()
             logging.info(f"ltp for {dct['tradingsymbol']} is {ltp}")
             if ltp <= 0:
-                return dct['tradingsymbol'], available_cash
+                return dct['tradingsymbol'], remaining_cash
     
             # Check if available cash is greater than 11000
             if available_cash > 11000:
@@ -135,11 +135,11 @@ if decision == "YES":
                     logging.info(
                         f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
                     # No need to calculate remaining available cash in this case
-                    return dct['tradingsymbol'], available_cash
+                    return dct['tradingsymbol'], remaining_cash
             else:
                 logging.warning(
                     f"Skipping order placement for {dct['tradingsymbol']} due to insufficient available cash.")
-            return dct['tradingsymbol'], available_cash
+            return dct['tradingsymbol'], remaining_cash
         except Exception as e:
             print(traceback.format_exc())
             logging.error(f"{str(e)} while placing order")
