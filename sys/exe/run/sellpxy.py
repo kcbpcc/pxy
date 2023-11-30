@@ -4,7 +4,7 @@ from toolkit.utilities import Utilities
 from login_get_kite import get_kite
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from byhopxy import get
-from pluspxy import Trendlyne
+from minuspxy import Trendlyne
 import pandas as pd
 import traceback
 import sys
@@ -126,12 +126,12 @@ if decision == "YES":
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
-                    transaction_type='BUY',
+                    transaction_type='SELL',
                     quantity=int(float(dct['QTY'].replace(',', ''))), 
                     order_type='LIMIT',
                     product='CNC',
                     variety='regular',
-                    price=round_to_paise(ltp, 0.2)
+                    price=round_to_paise(ltp, -0.2)
                 )
                 if order_id:
                     logging.info(
