@@ -31,12 +31,8 @@ try:
         logging.debug(f"reading from csv ...{file_path}")
         df_holdings = pd.read_csv(file_path)
         if not df_holdings.empty:
-            # Check both trading symbol columns
-            lst_tradingsymbol1 = df_holdings['tradingsymbol1'].to_list()
-            lst_tradingsymbol2 = df_holdings['tradingsymbol2'].to_list()
-
-            # Combine both lists to get unique symbols
-            lst = list(set(lst_tradingsymbol1 + lst_tradingsymbol2))
+            # Extract trading symbols directly from the single column
+            lst = df_holdings['tradingsymbol'].tolist()
 
     # Get list from Trendlyne
     lst_tlyne = []
@@ -59,6 +55,7 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to read fileHPdf, Trendlyne calls, or fetch orders from Zerodha Kite")
     sys.exit(1)
+
 
 
 try:
