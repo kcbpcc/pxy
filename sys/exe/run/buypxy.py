@@ -105,6 +105,8 @@ if decision == "YES":
         return max(resistance, target)
 
     def transact(dct, remaining_cash):
+        response = broker.kite.margins()
+        available_cash = response["equity"]["available"]["live_balance"]
         try:
             def get_ltp():
                 ltp = -1
