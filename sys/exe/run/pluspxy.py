@@ -41,7 +41,7 @@ class Trendlyne:
                         data_list_of_dicts = []
                         for row in rows:
                             data_dict = {
-                                'PXY_OPENDAGGARA': row[0],
+                                'nifty': row[0],
                                 'tradingsymbol': row[1],
                                 'QTY': row[2],
                                 '4': row[3],
