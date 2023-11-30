@@ -118,7 +118,7 @@ def transact(dct):
             tradingsymbol=dct['tradingsymbol'],
             exchange='NSE',
             transaction_type='BUY',
-            quantity=int(float(dct['calculated'])),
+            quantity=int(float(dct['QTY'])),
             order_type='LIMIT',
             product='CNC',
             variety='regular',
