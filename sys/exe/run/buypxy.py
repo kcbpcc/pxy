@@ -104,7 +104,7 @@ if decision == "YES":
         target = round_to_paise(ltp, max_target)
         return max(resistance, target)
 
-    def transact(dct, available_cash):
+    def transact(dct, remaining_cash):
         try:
             def get_ltp():
                 ltp = -1
@@ -161,9 +161,10 @@ if decision == "YES":
                       not in lst_failed_symbols]
     
         response = broker.kite.margins()
-        available_cash = response["equity"]["available"]["live_balance"]  # Initialize available cash with the live balance
+        remaining_cash = response["equity"]["available"]["live_balance"]
+        
         for d in lst_orders:
-            symbol, available_cash = transact(d, available_cash)
+            symbol, remaining_cash = transact(d, remaining_cash)
             Utilities().slp_til_nxt_sec()
     
         # write the failed symbols to file, so we dont repeat them again
