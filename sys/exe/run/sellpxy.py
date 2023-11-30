@@ -4,7 +4,7 @@ from toolkit.utilities import Utilities
 from login_get_kite import get_kite
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from byhopxy import get
-from minuspxy import Trendlyne
+from pluspxy import Trendlyne
 import pandas as pd
 import traceback
 import sys
@@ -12,11 +12,7 @@ import os
 import ynfndpxy
 from ynfndpxy import calculate_decision
 from mktpxy import mktpxy
-from mktchksmbl import getsmktchk
-from swchpxy import analyze_stock
-from nftpxy import nse_action
 import asyncio
-
 
 logging = Logger(10)
 holdings = dir_path + "holdings.csv"
@@ -44,7 +40,6 @@ except Exception as e:
 decision = calculate_decision()
 
 if decision == "YES":
-
     try:
         lst = []
         file_size_in_bytes = os.path.getsize(holdings)
@@ -76,7 +71,7 @@ if decision == "YES":
 
             # get lists from positions and orders
             lst_dct_positions = broker.positions
-            lst_dct_orders = [order for order in broker.orders if order.get('status') == 'OPEN']
+            lst_dct_orders = broker.orders
             
             if lst_dct_positions and any(lst_dct_positions):
                 symbols_positions = [dct['symbol'] for dct in lst_dct_positions]
@@ -109,79 +104,77 @@ if decision == "YES":
         target = round_to_paise(ltp, max_target)
         return max(resistance, target)
 
-    def transact(dct, broker):
-        
-        tradingsymbol = dct['tradingsymbol']
-        symbol = tradingsymbol + ".NS"  # Append ".NS" to the tradingsymbol
-        smktchk = getsmktchk(symbol, '5')
-    
+    def transact(dct, remaining_cash):
+        response = broker.kite.margins()
+        available_cash = response["equity"]["available"]["live_balance"]
         try:
             def get_ltp():
                 ltp = -1
-                key = "NSE:" + tradingsymbol
+                key = "NSE:" + dct['tradingsymbol']
                 resp = broker.kite.ltp(key)
                 if resp and isinstance(resp, dict):
                     ltp = resp[key]['last_price']
                 return ltp
     
             ltp = get_ltp()
-            logging.info(f"ltp for {tradingsymbol} is {ltp}")
-    
+            logging.info(f"ltp for {dct['tradingsymbol']} is {ltp}")
             if ltp <= 0:
-                return tradingsymbol
-                
-            if decision == "NO":
-                logging.warning("Not enough available cash to place the order.")
-                return dct['tradingsymbol']
+                return dct['tradingsymbol'], remaining_cash
     
-            if smktchk not in ['Sell','Bear']:
-                logging.info(f"Not placing order for {tradingsymbol} because market condition is {smktchk}")
-                return tradingsymbol
-   
-            order_id = broker.order_place(
-                tradingsymbol=tradingsymbol,
-                exchange='NSE',
-                transaction_type='SELL',
-                quantity=int(float(dct['QTY'].replace(',', ''))),
-                order_type='MARKET',
-                product='MIS',
-                variety='regular',
-                price=round_to_paise(ltp, 0)
-            )
-    
-            if order_id:
-                logging.info(f"SELL {order_id} placed for {tradingsymbol} successfully")
-                
+            # Check if available cash is greater than 11000
+            if available_cash > 11000:
+                order_id = broker.order_place(
+                    tradingsymbol=dct['tradingsymbol'],
+                    exchange='NSE',
+                    transaction_type='BUY',
+                    quantity=int(float(dct['QTY'].replace(',', ''))), 
+                    order_type='LIMIT',
+                    product='CNC',
+                    variety='regular',
+                    price=round_to_paise(ltp, 0.2)
+                )
+                if order_id:
+                    logging.info(
+                        f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
+                    # No need to calculate remaining available cash in this case
+                    return dct['tradingsymbol'], remaining_cash
             else:
-                print(traceback.format_exc())
-                logging.error(f"Unable to place order for {tradingsymbol}")
-                return tradingsymbol
-    
+                logging.warning(
+                    f"Skipping order placement for {dct['tradingsymbol']} due to insufficient available cash.")
+            return dct['tradingsymbol'], remaining_cash
         except Exception as e:
             print(traceback.format_exc())
             logging.error(f"{str(e)} while placing order")
-            return tradingsymbol
-
+            return dct['tradingsymbol'], remaining_cash
+    
+    
+    
     if any(lst_tlyne):
         new_list = []
         # Filter the original list based on the subset of 'tradingsymbol' values
         lst_all_orders = [
             d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
+    
         # Read the list of previously failed symbols from the file
         with open(black_file, 'r') as file:
             lst_failed_symbols = [line.strip() for line in file.readlines()]
         logging.info(f"ignored symbols: {lst_failed_symbols}")
         lst_orders = [d for d in lst_all_orders if d['tradingsymbol']
-                    not in lst_failed_symbols]
+                      not in lst_failed_symbols]
+    
+        response = broker.kite.margins()
+        remaining_cash = response["equity"]["available"]["live_balance"]
+        
         for d in lst_orders:
-            failed_symbol = transact(d, broker)  # Pass the broker instance
-            if failed_symbol:
-                new_list.append(failed_symbol)
+            symbol, remaining_cash = transact(d, remaining_cash)
             Utilities().slp_til_nxt_sec()
+    
+        # write the failed symbols to file, so we dont repeat them again
         if any(new_list):
             with open(black_file, 'w') as file:
                 for symbol in new_list:
                     file.write(symbol + '\n')
+        print(f"Available Cash: {available_cash}")
 elif decision == "NO":
     # Perform actions for "NO"
     print("\033[91mNo Funds Avalable \033[0m") 
