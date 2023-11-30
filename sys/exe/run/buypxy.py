@@ -143,7 +143,7 @@ if decision == "YES":
         except Exception as e:
             print(traceback.format_exc())
             logging.error(f"{str(e)} while placing order")
-            return dct['tradingsymbol'], available_cash
+            return dct['tradingsymbol'], remaining_cash
     
     
     
