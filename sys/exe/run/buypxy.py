@@ -71,7 +71,7 @@ if decision == "YES":
 
             # get lists from positions and orders
             lst_dct_positions = broker.positions
-            lst_dct_orders = [order for order in broker.orders if order.get('status') == 'OPEN']
+            lst_dct_orders = broker.orders
             
             if lst_dct_positions and any(lst_dct_positions):
                 symbols_positions = [dct['symbol'] for dct in lst_dct_positions]
