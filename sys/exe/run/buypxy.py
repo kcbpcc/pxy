@@ -121,8 +121,8 @@ if decision == "YES":
             if ltp <= 0:
                 return dct['tradingsymbol'], remaining_cash
     
-            # Check if available cash is greater than 110
-            if available_cash > 110:
+            # Check if available cash is greater than 11000
+            if available_cash > 11000:
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
