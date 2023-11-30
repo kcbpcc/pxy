@@ -86,7 +86,7 @@ def calc_target(ltp, perc):
     return max(resistance, target)
 
 
-def transact(dct):
+def transact(dct, available_cash):
     try:
         def get_ltp():
             ltp = -1
@@ -101,19 +101,27 @@ def transact(dct):
         if ltp <= 0:
             return dct['tradingsymbol']
 
-        order_id = broker.order_place(
-            tradingsymbol=dct['tradingsymbol'],
-            exchange='NSE',
-            transaction_type='BUY',
-            quantity=int(float(dct['QTY'])),
-            order_type='LIMIT',
-            product='CNC',
-            variety='regular',
-            price=round_to_paise(ltp, +0.2)
-        )
-        if order_id:
-            logging.info(
-                f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
+        # Check if available cash is greater than 11000
+        if available_cash > 11000:
+            order_id = broker.order_place(
+                tradingsymbol=dct['tradingsymbol'],
+                exchange='NSE',
+                transaction_type='BUY',
+                quantity=int(float(dct['QTY'])),
+                order_type='LIMIT',
+                product='CNC',
+                variety='regular',
+                price=round_to_paise(ltp, +0.2)
+            )
+            if order_id:
+                logging.info(
+                    f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
+                # Update available cash after placing the order
+                available_cash -= YOUR_ORDER_AMOUNT  # Update this with the actual order amount
+        else:
+            logging.warning(
+                f"Skipping order placement for {dct['tradingsymbol']} due to insufficient available cash.")
+            return dct['tradingsymbol']
     except Exception as e:
         print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
@@ -135,8 +143,9 @@ if any(lst_tlyne):
                   not in lst_failed_symbols]
 
     # place trades for symbol
+    available_cash = 11000  # Initialize available cash with a suitable value
     for d in lst_orders:
-        failed_symbol = transact(d)
+        failed_symbol = transact(d, available_cash)
         if failed_symbol:
             new_list.append(failed_symbol)
         Utilities().slp_til_nxt_sec()
