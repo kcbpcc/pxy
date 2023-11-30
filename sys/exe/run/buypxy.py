@@ -99,7 +99,7 @@ def transact(dct, available_cash):
         ltp = get_ltp()
         logging.info(f"ltp for {dct['tradingsymbol']} is {ltp}")
         if ltp <= 0:
-            return dct['tradingsymbol']
+            return dct['tradingsymbol'], available_cash
 
         # Check if available cash is greater than 11000
         if available_cash > 11000:
@@ -116,16 +116,16 @@ def transact(dct, available_cash):
             if order_id:
                 logging.info(
                     f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
-                # Update available cash after placing the order
-                available_cash -= YOUR_ORDER_AMOUNT  # Update this with the actual order amount
+                # No need to calculate remaining available cash in this case
+                return dct['tradingsymbol'], available_cash
         else:
             logging.warning(
                 f"Skipping order placement for {dct['tradingsymbol']} due to insufficient available cash.")
-            return dct['tradingsymbol']
+        return dct['tradingsymbol'], available_cash
     except Exception as e:
         print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
-        return dct['tradingsymbol']
+        return dct['tradingsymbol'], available_cash
 
 
 
@@ -142,12 +142,10 @@ if any(lst_tlyne):
     lst_orders = [d for d in lst_all_orders if d['tradingsymbol']
                   not in lst_failed_symbols]
 
-    # place trades for symbol
-    available_cash = 11000  # Initialize available cash with a suitable value
+    response = broker.kite.margins()
+    available_cash = response["equity"]["available"]["live_balance"]  # Initialize available cash with the live balance
     for d in lst_orders:
-        failed_symbol = transact(d, available_cash)
-        if failed_symbol:
-            new_list.append(failed_symbol)
+        symbol, available_cash = transact(d, available_cash)
         Utilities().slp_til_nxt_sec()
 
     # write the failed symbols to file, so we dont repeat them again
