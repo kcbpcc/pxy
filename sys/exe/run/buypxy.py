@@ -143,7 +143,7 @@ def transact(stock_data):
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
-                price=round_to_paise(ltp, buff)
+                price=round_to_paise(ltp, +0.2)
             )
 
             if order_id:
