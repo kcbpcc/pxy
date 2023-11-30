@@ -111,7 +111,7 @@ def transact(dct, available_cash):
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
-                price=round_to_paise(ltp, +0.2)
+                price=round_to_paise(ltp, 0.2)
             )
             if order_id:
                 logging.info(
