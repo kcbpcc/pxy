@@ -174,6 +174,8 @@ if decision == "YES":
             with open(black_file, 'w') as file:
                 for symbol in new_list:
                     file.write(symbol + '\n')
+        response = broker.kite.margins()
+        available_cash = response["equity"]["available"]["live_balance"]        
         print(f"Available Cash: {available_cash}")
 elif decision == "NO":
     # Perform actions for "NO"
