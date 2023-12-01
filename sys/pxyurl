@@ -21,7 +21,13 @@ open_url() {
     url=${urls[$key]}
 
     if [ -n "$url" ]; then
-        xdg-open "$url"  # This assumes a Linux environment with xdg-open; use "open" for macOS
+        if command -v open &> /dev/null; then
+            open "$url"  # macOS
+        elif command -v xdg-open &> /dev/null; then
+            xdg-open "$url"  # Linux
+        else
+            echo "Error: Unable to open URL. Please open it manually in your web browser."
+        fi
     else
         echo "Invalid key. Please choose a valid key."
     fi
