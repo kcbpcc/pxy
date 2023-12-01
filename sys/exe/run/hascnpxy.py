@@ -41,7 +41,7 @@ def get_market_check(symbol):
 # Read symbols from the CSV file and list them first
 symbols_list = []
 
-with open('mktsmbl500pxy.txt', 'r') as file:
+with open('hascnpxy.txt', 'r') as file:
     csv_reader = csv.reader(file)
     for row in csv_reader:
         if len(row) > 1:  # Check if there is at least one symbol in the second column
