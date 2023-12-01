@@ -16,8 +16,6 @@ while True:
     import os
     import sys
 
-
-
     switch = analyze_stock('^NSEI')
     
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
@@ -87,7 +85,7 @@ while True:
         elif current_color == 'Bull' and last_closed_color == 'Bull':
             mktpxy = 'Bull'
             console.print("🐂🟢🟢🟢 [bold]Bullish sentiment![/bold] 💪💰", style=bull_style)
-            if nse_action in ['SuperBull', 'SuperBear', 'DangerBull', 'Neutral']: #and nse_power < 0.3:
+            if nse_action in ['SuperBull', 'SuperBear', 'DangerBull', 'Neutral']:
                 subprocess.run(['python3', 'buypxy.py'])
             subprocess.run(['python3', 'cntrlpxy.py'])
         elif current_color == 'Bear' and last_closed_color == 'Bull':
@@ -99,7 +97,7 @@ while True:
         elif current_color == 'Bull' and last_closed_color == 'Bear':
             mktpxy = 'Buy'
             console.print("🚀🟢🛫⤴️ [bold]Time to buy![/bold] 🌠💰", style=buy_style)
-            if nse_action in ['SuperBull', 'SuperBear', 'DangerBull', 'Neutral']: #and nse_power < 0.3:
+            if nse_action in ['SuperBull', 'SuperBear', 'DangerBull', 'Neutral']:
                 subprocess.run(['python3', 'buypxy.py'])
             subprocess.run(['python3', 'cntrlpxy.py'])
         else:
