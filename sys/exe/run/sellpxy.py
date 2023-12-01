@@ -174,7 +174,7 @@ if decision == "YES":
             with open(black_file, 'w') as file:
                 for symbol in new_list:
                     file.write(symbol + '\n')
-        print(f"Available Cash: {available_cash}")
+        print(f"Available Cash: {remaining_cash}")
 elif decision == "NO":
     # Perform actions for "NO"
     print("\033[91mNo Funds Avalable \033[0m") 
