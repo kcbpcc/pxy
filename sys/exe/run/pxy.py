@@ -12,6 +12,10 @@ while True:
     from rich import print
     from luppxy import loop_duration
     from swchpxy import analyze_stock
+    import yfinance as yf
+    import os
+    import sys
+
 
 
     switch = analyze_stock('^NSEI')
