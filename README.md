@@ -4,6 +4,10 @@ Git - https://git-scm.com/downloads
 
 sudo timedatectl set-timezone UTC && sudo timedatectl set-local-rtc 0 && timedatectl
 
+sudo usermod -aG sudo pxy
+
+sudo usermod -aG sudo userland
+
 sudo apt update
 
 sudo apt install software-properties-common
