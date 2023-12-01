@@ -13,6 +13,7 @@ import ynfndpxy
 from ynfndpxy import calculate_decision
 from mktpxy import mktpxy
 import asyncio
+from smbpxy import get_market_check
 
 logging = Logger(10)
 holdings = dir_path + "holdings.csv"
@@ -107,6 +108,8 @@ if decision == "YES":
     def transact(dct, remaining_cash):
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
+        smbchk = get_market_check(tradingsymbol+".NS", 5)
+
         try:
             def get_ltp():
                 ltp = -1
@@ -122,7 +125,7 @@ if decision == "YES":
                 return dct['tradingsymbol'], remaining_cash
     
             # Check if available cash is greater than 11000
-            if available_cash > 11000:
+            if available_cash > 11000 and smbchk == 'Buy' :
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
