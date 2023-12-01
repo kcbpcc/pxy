@@ -3,7 +3,7 @@ import warnings
 from rich import print
 from rich.console import Console
 import sys
-interval_to_check = 5  # Replace with the desired interval in minutes
+interval = 5  # Replace with the desired interval in minutes
 # Set the PYTHONIOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
 
