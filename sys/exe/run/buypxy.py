@@ -108,8 +108,11 @@ if decision == "YES":
     def transact(dct, remaining_cash):
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
-        smbchk = get_market_check(dct['tradingsymbol']+".NS", 5)
-
+        
+        try:
+            smbchk = get_market_check(dct['tradingsymbol']+".NS", 5)
+        except Exception as e:
+            smbchk = None
         try:
             def get_ltp():
                 ltp = -1
