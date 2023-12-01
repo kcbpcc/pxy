@@ -2,8 +2,7 @@ while True:
     
     import time
     import subprocess
-    from nftpxy import nse_action
-    import yfinance as yf
+    from nftpxy import nse_action ,nse_power
     import warnings
     from rich import print
     from rich.console import Console
