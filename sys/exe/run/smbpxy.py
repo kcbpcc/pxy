@@ -51,5 +51,5 @@ def get_market_check(symbol, interval):
 
 # Example usage:
 
-result = get_market_check(symbol_to_check, interval_to_check)
+result = get_market_check(symbol_to_check, 5m)
 
