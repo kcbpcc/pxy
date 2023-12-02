@@ -305,6 +305,8 @@ try:
     combined_df['high'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('high', 0))
     combined_df['low'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('low', 0))
     combined_df['close'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('close_price', 0))
+    codiff = (combined_df['open'] - combined_df['close']).abs()
+    
     combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
     #combined_df['smktchk'] = combined_df['key'].map(lambda x: getsmktchk(x.split(':')[-1] + ".NS", '5') if ':' in x else None)
     # Calculate 'Invested' column
