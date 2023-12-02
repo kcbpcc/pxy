@@ -460,7 +460,7 @@ try:
     
     epsilon = 1e-10
     NIFTY['strength']= ((NIFTY['ltp'] - (NIFTY['low'] - 0.01)) / (abs(NIFTY['high'] + 0.01) - abs(NIFTY['low'] - 0.01)))    
-    NIFTY['weakness'] = ((NIFTY['ltp'] - (NIFTY['high'] - 0.01)) / (abs(NIFTY['high'] + 0.01) - abs(NIFTY['low'] - 0.01)))
+    NIFTY['weakness'] = ((NIFTY['ltp'] - (NIFTY['high'] + 0.01)) / (abs(NIFTY['high'] + 0.01) - abs(NIFTY['low'] - 0.01)))
     power = NIFTY['strength'].astype(float).round(2).values[0]
 
     switch = analyze_stock('^NSEI')
