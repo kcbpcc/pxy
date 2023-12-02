@@ -550,6 +550,7 @@ try:
                         row['product'] == 'CNC' and
                         row['ltp'] < row['stp']
                     ):
+                        print(row)
                         try:
                             is_placed = order_place(key, row)
                             if is_placed:
