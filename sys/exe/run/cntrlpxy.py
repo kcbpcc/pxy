@@ -630,7 +630,44 @@ try:
         print(right_aligned_format.format(f"Booked: {BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
         print(left_aligned_format.format(f"intraSell:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}"), end="")
         print(right_aligned_format.format(f"pbPnL:{BRIGHT_GREEN if total_PnL_percentage_positions_buy >= 0 else BRIGHT_RED}{total_PnL_percentage_positions_buy}{RESET}"))
-       
+
+###########################################################################################################################################################################################################
+
+
+        import csv
+
+     
+        # Define the file name
+        csv_file = 'mobile.csv'
+        
+        # Open the CSV file in write mode
+        with open(csv_file, mode='w', newline='') as file:
+            # Create a CSV writer object
+            writer = csv.writer(file)
+        
+            # Write the header row
+            writer.writerow(['Day Switch', 'Day Power', 'Day Change%', 'dPnL', 'Day Status', 'dPnL%', 'Day Open%', 'TIMPXY', 'tPnL', 'Funds', 'tPnL%', 'Booked', 'intraSell', 'pbPnL'])
+        
+            # Write the data row
+            writer.writerow([
+                f"{BRIGHT_YELLOW}{switch}{RESET}",
+                f"{BRIGHT_GREEN if power > 0.5 else BRIGHT_RED}{power}{RESET}",
+                f"{BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}",
+                f"{BRIGHT_GREEN if total_dPnL > 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}",
+                f"{BRIGHT_GREEN if nse_action in ('SuperBear', 'SuperBull') else BRIGHT_RED}{nse_action}{RESET}",
+                f"{BRIGHT_GREEN if total_dPnL_percentage > 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2)}{RESET}",
+                f"{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}",
+                f"{BRIGHT_YELLOW}{round(TIMPXY, 2)}{RESET}",
+                f"{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round(total_PnL, 2)}{RESET}",
+                f"{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}",
+                f"{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}",
+                f"{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}",
+                f"{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}",
+                f"{BRIGHT_GREEN if total_PnL_percentage_positions_buy >= 0 else BRIGHT_RED}{total_PnL_percentage_positions_buy}{RESET}"
+            ])
+###########################################################################################################################################################################################################
+        
+
         subprocess.run(['python3', 'mktpxy.py'])
 
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
