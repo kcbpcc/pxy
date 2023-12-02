@@ -481,7 +481,7 @@ try:
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['qty', 'avg', 'close','open', 'high', 'low', 'PnL%_H', 'dPnL%', 'product', 'source', 'key', 'pxy', 'yxp', 'PnL%', 'PnL','stp', 'ltp']]
 
-    PRINT_df = pxy_df[['source','product','qty','key','yxp','pxy','PnL%','PnL','stp','ltp']]
+    PRINT_df = pxy_df[['source','product','qty','key','stp','ltp','PnL%','PnL']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': 'CM'})
     # Conditionally replace values in the 'HP' column
