@@ -514,14 +514,16 @@ try:
     BRIGHT_RED = "\033[91m"
     BRIGHT_GREEN = "\033[92m"
     import pandas as pd
-
+    
     # Set the maximum width for display
     pd.set_option('display.max_colwidth', 4)
     
+    # ... (your existing code)
     
     # Apply truncation to each cell in the DataFrame
-    PRINT_df_sorted_display = PRINT_df_sorted.applymap(lambda x: x[:3] if PRINT_df_sorted.columns.get_loc('qty') == 2 else (x[:4] if PRINT_df_sorted.columns.get_loc('key') == 3 else x))
-
+    PRINT_df_sorted_display = PRINT_df_sorted.copy()
+    PRINT_df_sorted_display['qty'] = PRINT_df_sorted_display['qty'].astype(str).str[:3]
+    PRINT_df_sorted_display['key'] = PRINT_df_sorted_display['key'].astype(str).str[:4]
     
     # Always print "Table" in bright yellow
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
