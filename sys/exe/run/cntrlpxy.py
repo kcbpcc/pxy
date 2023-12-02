@@ -332,8 +332,8 @@ try:
     
     combined_df[['strength', 'weakness']] = combined_df.apply(
         lambda row: pd.Series({
-            'strength': round((row['ltp'] - (row['low'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01)), 2),
-            'weakness': round((row['ltp'] - (row['high'] + 0.01)) / (abs(row['high'] + 0.09) - abs(row['low'] - 0.09)), 2)
+            'strength': round((row['ltp'] - (row['low'] - 0.09)) / (abs(row['high'] + 0.09) - abs(row['low'] - 0.09)), 2),
+            'weakness': round((row['ltp'] - (row['high'] + 0.09)) / (abs(row['high'] + 0.09) - abs(row['low'] - 0.09)), 2)
         }), axis=1
     )
     
