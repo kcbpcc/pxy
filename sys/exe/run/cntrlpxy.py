@@ -329,27 +329,39 @@ try:
     combined_df['dPnL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 
 ###########################################################################################################################################################################################################
+    import pandas as pd
+    
     epsilon = 1e-10
     
-    combined_df[['strength', 'weakness']] = combined_df.apply(
-        lambda row: pd.Series({
-            'strength': round((row['ltp'] - (row['low'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01)), 2),
-            'weakness': round((row['ltp'] - (row['high'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01)), 2)
-        }), axis=1
-    )
+    def calculate_strength_and_weakness(row):
+        denominator = abs(row['high'] + 0.01) - abs(row['low'] - 0.01)
     
-    combined_df[['pr', 'xl', 'yi', '_pr', '_xl', '_yi']] = combined_df.apply(
-        lambda row: pd.Series({
-            'pr': round(max(0.1, round(0.0 + (row['strength'] * 1.0), 2) - epsilon), 1),
-            'xl': round(max(1, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 1),
-            'yi': round(max(1.4, round(0.0 + (row['strength'] * 1.0), 2) * 3 - epsilon), 1),
-            '_pr': round(min(-0.1, round(0.0 + (row['weakness'] * 1.0), 2) - epsilon), 1),
-            '_xl': round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 1),
-            '_yi': round(min(-1.4, round(0.0 + (row['weakness'] * 1.0), 2) * 3 - epsilon), 1),
-           
-        }), axis=1
-    )
-
+        # Check if the denominator is zero before performing the division
+        if denominator != 0:
+            strength = round((row['ltp'] - (row['low'] - 0.01)) / denominator, 2)
+            weakness = round((row['ltp'] - (row['high'] + 0.01)) / denominator, 2)
+        else:
+            # Set strength and weakness to a default value of 0.5 when the denominator is zero
+            strength = 0.5
+            weakness = 0.5
+    
+        return {'strength': strength, 'weakness': weakness}
+    
+    def calculate_pr_xl_yi(row, epsilon):
+        pr = round(max(0.1, round(0.0 + (row['strength'] * 1.0), 2) - epsilon), 1)
+        xl = round(max(1, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 1)
+        yi = round(max(1.4, round(0.0 + (row['strength'] * 1.0), 2) * 3 - epsilon), 1)
+        _pr = round(min(-0.1, round(0.0 + (row['weakness'] * 1.0), 2) - epsilon), 1)
+        _xl = round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 1)
+        _yi = round(min(-1.4, round(0.0 + (row['weakness'] * 1.0), 2) * 3 - epsilon), 1)
+        
+        return {'pr': pr, 'xl': xl, 'yi': yi, '_pr': _pr, '_xl': _xl, '_yi': _yi}
+    
+    # Apply the functions to the DataFrame
+    combined_df[['strength', 'weakness']] = combined_df.apply(calculate_strength_and_weakness, axis=1).apply(pd.Series)
+    combined_df[['pr', 'xl', 'yi', '_pr', '_xl', '_yi']] = combined_df.apply(lambda row: calculate_pr_xl_yi(row, epsilon), axis=1)
+    
+    # Additional calculations for 'pxy' and 'yxp'
     combined_df['pxy'] = combined_df.apply(
         lambda row: row['pr'] if nse_action == "SuperBear" else max(row['pr'], row['yi'] if mktpxy in ["Buy", "Bull"] else (row['xl'] if mktpxy == "Sell" else row['pr'])), 
         axis=1
@@ -359,6 +371,7 @@ try:
         lambda row: row['_pr'] if nse_action == "SuperBull" else min(row['_pr'], row['_yi'] if mktpxy in ["Sell", "Bear"] else (row['_xl'] if mktpxy == "Buy" else row['_pr'])), 
         axis=1
     )
+
     
 ###########################################################################################################################################################################################################
     TIMPXY = (
