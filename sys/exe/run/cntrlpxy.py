@@ -64,7 +64,7 @@ def order_place(index, row):
                             if column in row:
                                 del row[column]
                         
-                        message_text = f"'🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛'\n{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now:    {result}"
+                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now:    {result}"
 
                         
                         # Define the bot token and your Telegram username or ID
@@ -305,7 +305,6 @@ try:
     combined_df['high'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('high', 0))
     combined_df['low'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('low', 0))
     combined_df['close'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('close_price', 0))
-    
     combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
     #combined_df['smktchk'] = combined_df['key'].map(lambda x: getsmktchk(x.split(':')[-1] + ".NS", '5') if ':' in x else None)
     # Calculate 'Invested' column
@@ -329,39 +328,27 @@ try:
     combined_df['dPnL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 
 ###########################################################################################################################################################################################################
-    import pandas as pd
-    
     epsilon = 1e-10
     
-    def calculate_strength_and_weakness(row):
-        denominator = abs(row['high'] + 0.01) - abs(row['low'] - 0.01)
+    combined_df[['strength', 'weakness']] = combined_df.apply(
+        lambda row: pd.Series({
+            'strength': round((row['ltp'] - (row['low'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01)), 2),
+            'weakness': round((row['ltp'] - (row['high'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01)), 2)
+        }), axis=1
+    )
     
-        # Check if the denominator is zero before performing the division
-        if denominator != 0:
-            strength = round((row['ltp'] - (row['low'] - 0.01)) / denominator, 2)
-            weakness = round((row['ltp'] - (row['high'] + 0.01)) / denominator, 2)
-        else:
-            # Set strength and weakness to a default value of 0.5 when the denominator is zero
-            strength = 0.5
-            weakness = 0.5
-    
-        return {'strength': strength, 'weakness': weakness}
-    
-    def calculate_pr_xl_yi(row, epsilon):
-        pr = round(max(0.1, round(0.0 + (row['strength'] * 1.0), 2) - epsilon), 1)
-        xl = round(max(1, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 1)
-        yi = round(max(1.4, round(0.0 + (row['strength'] * 1.0), 2) * 3 - epsilon), 1)
-        _pr = round(min(-0.1, round(0.0 + (row['weakness'] * 1.0), 2) - epsilon), 1)
-        _xl = round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 1)
-        _yi = round(min(-1.4, round(0.0 + (row['weakness'] * 1.0), 2) * 3 - epsilon), 1)
-        
-        return {'pr': pr, 'xl': xl, 'yi': yi, '_pr': _pr, '_xl': _xl, '_yi': _yi}
-    
-    # Apply the functions to the DataFrame
-    combined_df[['strength', 'weakness']] = combined_df.apply(calculate_strength_and_weakness, axis=1).apply(pd.Series)
-    combined_df[['pr', 'xl', 'yi', '_pr', '_xl', '_yi']] = combined_df.apply(lambda row: calculate_pr_xl_yi(row, epsilon), axis=1)
-    
-    # Additional calculations for 'pxy' and 'yxp'
+    combined_df[['pr', 'xl', 'yi', '_pr', '_xl', '_yi']] = combined_df.apply(
+        lambda row: pd.Series({
+            'pr': round(max(0.1, round(0.0 + (row['strength'] * 1.0), 2) - epsilon), 1),
+            'xl': round(max(1, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 1),
+            'yi': round(max(1.4, round(0.0 + (row['strength'] * 1.0), 2) * 3 - epsilon), 1),
+            '_pr': round(min(-0.1, round(0.0 + (row['weakness'] * 1.0), 2) - epsilon), 1),
+            '_xl': round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 1),
+            '_yi': round(min(-1.4, round(0.0 + (row['weakness'] * 1.0), 2) * 3 - epsilon), 1),
+           
+        }), axis=1
+    )
+
     combined_df['pxy'] = combined_df.apply(
         lambda row: row['pr'] if nse_action == "SuperBear" else max(row['pr'], row['yi'] if mktpxy in ["Buy", "Bull"] else (row['xl'] if mktpxy == "Sell" else row['pr'])), 
         axis=1
@@ -371,7 +358,6 @@ try:
         lambda row: row['_pr'] if nse_action == "SuperBull" else min(row['_pr'], row['_yi'] if mktpxy in ["Sell", "Bear"] else (row['_xl'] if mktpxy == "Buy" else row['_pr'])), 
         axis=1
     )
-
     
 ###########################################################################################################################################################################################################
     TIMPXY = (
@@ -473,7 +459,7 @@ try:
     
     epsilon = 1e-10
     NIFTY['strength']= ((NIFTY['ltp'] - (NIFTY['low'] - 0.01)) / (abs(NIFTY['high'] + 0.01) - abs(NIFTY['low'] - 0.01)))    
-    NIFTY['weakness'] = ((NIFTY['ltp'] - (NIFTY['high'] + 0.01)) / (abs(NIFTY['high'] + 0.01) - abs(NIFTY['low'] - 0.01)))
+    NIFTY['weakness'] = ((NIFTY['ltp'] - (NIFTY['high'] - 0.01)) / (abs(NIFTY['high'] + 0.01) - abs(NIFTY['low'] - 0.01)))
     power = NIFTY['strength'].astype(float).round(2).values[0]
 
     switch = analyze_stock('^NSEI')
@@ -642,44 +628,7 @@ try:
         print(right_aligned_format.format(f"Booked: {BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
         print(left_aligned_format.format(f"intraSell:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}"), end="")
         print(right_aligned_format.format(f"pbPnL:{BRIGHT_GREEN if total_PnL_percentage_positions_buy >= 0 else BRIGHT_RED}{total_PnL_percentage_positions_buy}{RESET}"))
-
-###########################################################################################################################################################################################################
-
-
-        import csv
-
-     
-        # Define the file name
-        csv_file = 'mobile.csv'
-        
-        # Open the CSV file in write mode
-        with open(csv_file, mode='w', newline='') as file:
-            # Create a CSV writer object
-            writer = csv.writer(file)
-        
-            # Write the header row
-            writer.writerow(['Day Switch', 'Day Power', 'Day Change%', 'dPnL', 'Day Status', 'dPnL%', 'Day Open%', 'TIMPXY', 'tPnL', 'Funds', 'tPnL%', 'Booked', 'intraSell', 'pbPnL'])
-        
-            # Write the data row
-            writer.writerow([
-                f"{BRIGHT_YELLOW}{switch}{RESET}",
-                f"{BRIGHT_GREEN if power > 0.5 else BRIGHT_RED}{power}{RESET}",
-                f"{BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}",
-                f"{BRIGHT_GREEN if total_dPnL > 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}",
-                f"{BRIGHT_GREEN if nse_action in ('SuperBear', 'SuperBull') else BRIGHT_RED}{nse_action}{RESET}",
-                f"{BRIGHT_GREEN if total_dPnL_percentage > 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2)}{RESET}",
-                f"{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}",
-                f"{BRIGHT_YELLOW}{round(TIMPXY, 2)}{RESET}",
-                f"{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round(total_PnL, 2)}{RESET}",
-                f"{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}",
-                f"{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}",
-                f"{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}",
-                f"{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}",
-                f"{BRIGHT_GREEN if total_PnL_percentage_positions_buy >= 0 else BRIGHT_RED}{total_PnL_percentage_positions_buy}{RESET}"
-            ])
-###########################################################################################################################################################################################################
-        
-
+       
         subprocess.run(['python3', 'mktpxy.py'])
 
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
@@ -688,8 +637,3 @@ except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
     logging.error(f"{str(e)} in the main loop")
-
-
-
-
-###########################################################################################################################################################################################################
