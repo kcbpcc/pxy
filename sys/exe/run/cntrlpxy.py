@@ -520,7 +520,8 @@ try:
     
     
     # Apply truncation to each cell in the DataFrame
-    PRINT_df_sorted_display = PRINT_df_sorted.applymap(lambda x: x[:4] if isinstance(x, str) else x)
+    PRINT_df_sorted_display = PRINT_df_sorted.applymap(lambda x: x[:3] if PRINT_df_sorted.columns.get_loc('qty') == 2 else (x[:4] if PRINT_df_sorted.columns.get_loc('key') == 3 else x))
+
     
     # Always print "Table" in bright yellow
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
