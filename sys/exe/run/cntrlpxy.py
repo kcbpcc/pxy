@@ -514,12 +514,19 @@ try:
     BRIGHT_RED = "\033[91m"
     BRIGHT_GREEN = "\033[92m"
     import pandas as pd
-
+    
+    # Set the maximum width for display
+    pd.set_option('display.max_colwidth', 3)
+    
+    # Apply truncation to each cell in the DataFrame
+    PRINT_df_sorted_display = PRINT_df_sorted.applymap(lambda x: f'{x[:3]}...' if isinstance(x, str) and len(x) > 3 else x)
+    
     # Always print "Table" in bright yellow
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
+    
+    # Print the truncated DataFrame without color
+    print(PRINT_df_sorted_display.to_string(index=False))
 
-    # Print EXE_df_sorted without color
-    print(PRINT_df_sorted.to_string(index=False))
 ###########################################################################################################################################################################################################
 
     # Define the CSV file path
