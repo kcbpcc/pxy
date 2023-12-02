@@ -334,7 +334,6 @@ try:
         lambda row: pd.Series({
             'strength': round((row['ltp'] - (row['low'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon) if abs(row['high'] + 0.01) - abs(row['low'] - 0.01) != 0 else 0.5, 2),
             'weakness': round((row['ltp'] - (row['high'] + 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon) if abs(row['high'] + 0.01) - abs(row['low'] - 0.01) != 0 else 0.5, 2)
-    }), axis=1
         }), axis=1
     )
     
