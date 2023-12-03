@@ -550,7 +550,8 @@ try:
                     if (
                         row['qty'] > 0 and
                         row['product'] == 'CNC' and
-                        (row['ltp'] < row['hstp'] and row['source'] == 'holdings') 
+                        row['source'] == 'holdings' and
+                        row['ltp'] < row['hstp'] 
                         
                     ):
                         print(row)
