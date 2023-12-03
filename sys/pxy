@@ -9,8 +9,8 @@ NC='\033[0m' # No Color
 # Display menu
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 echo "******************************************"
-echo "   -pxyupdate                🔄        up"
 echo "   -pxymon                   💫        mm"
+echo "   -pxyupdate                🔄        up"
 echo "   -pxybuy                   🟢        nb"
 echo "   -pxysell                  🔴        ka"
 echo "   -pxykill                  ❌        ka"
