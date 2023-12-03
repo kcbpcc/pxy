@@ -1,55 +1,53 @@
 import yfinance as yf
+import pandas as pd
 import warnings
-from rich import print
 from rich.console import Console
-import sys
-interval = 5  # Replace with the desired interval in minutes
-# Set the PYTHONIOENCODING environment variable to 'utf-8'
-sys.stdout.reconfigure(encoding='utf-8')
 
-# Suppress yfinance warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-# Create a Console instance for rich print formatting
 console = Console()
 
-# Function to calculate the Heikin-Ashi candle colors for the last three closed candles
-def calculate_last_three_heikin_ashi_colors(symbol, interval):
-    # Fetch real-time data for the specified interval
-    data = yf.Ticker(symbol).history(period='5d', interval=f'{interval}m')
+def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
+    try:
+        data = yf.Ticker(symbol).history(period=period, interval=f'{interval}m')
+        
+        if data.empty or len(data) < 3:
+            raise ValueError("Insufficient data points for Heikin-Ashi calculation")
 
-    # Calculate Heikin-Ashi candles
-    ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
-    ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+        ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
+        ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
-    # Calculate the colors of the last three closed candles
-    current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
-    last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-    second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+        current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
+        last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
+        second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
 
-    return current_color, last_closed_color, second_last_closed_color
+        return current_color, last_closed_color, second_last_closed_color
 
-# Function to determine the smbpxy check based on candle colors
-def get_smbpxy_check(symbol, interval):
-    # Check the colors of the last two closed candles and the currently running candle
-    current_color, last_closed_color, second_last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
+    except Exception as e:
+        console.print(f"[red]Error calculating Heikin-Ashi colors: {e}[/red]")
+        return None, None, None
 
-    # Determine the smbpxy check based on the candle colors
-    if current_color == 'Bear' and last_closed_color == 'Bear':
-        smbpxy = 'Bear'
-    elif current_color == 'Bull' and last_closed_color == 'Bull':
-        smbpxy = 'Bull'
-    elif current_color == 'Bear' and last_closed_color == 'Bull':
-        smbpxy = 'Sell'
-    elif current_color == 'Bull' and last_closed_color == 'Bear':
-        smbpxy = 'Buy'
-    else:
-        smbpxy = 'None'
+def get_smbpxy_check(symbol, interval, period='5d'):
+    try:
+        current_color, last_closed_color, second_last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval, period)
 
-    return smbpxy
+        if current_color and last_closed_color and second_last_closed_color:
+            if current_color == 'Bear' and last_closed_color == 'Bear':
+                smbpxy = 'Bear'
+            elif current_color == 'Bull' and last_closed_color == 'Bull':
+                smbpxy = 'Bull'
+            elif current_color == 'Bear' and last_closed_color == 'Bull':
+                smbpxy = 'Sell'
+            elif current_color == 'Bull' and last_closed_color == 'Bear':
+                smbpxy = 'Buy'
+            else:
+                smbpxy = 'None'
+        else:
+            smbpxy = 'None'
 
-# Example usage:
+        return smbpxy
 
-# smbpxy = get_smbpxy_check(symbol_to_check, 5m)
-
+    except Exception as e:
+        console.print(f"[red]Error determining smbpxy check: {e}[/red]")
+        return 'None'
