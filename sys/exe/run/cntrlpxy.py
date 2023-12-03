@@ -314,7 +314,7 @@ try:
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
 
-    combined_df['smbchk'] = combined_df['key'].map(lambda x: get_smbchk_check(x.split(':')[-1] + ".NS", '5') if ':' in x else None)
+    combined_df['smbchk'] = combined_df['key'].map(lambda x: get_smbpxy_check(x.split(':')[-1] + ".NS", '5') if ':' in x else None)
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
