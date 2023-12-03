@@ -314,7 +314,7 @@ try:
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
     try:
-        combined_df['smbchk'] = combined_df['key'].apply(lambda x: get_smbpxy_check(x.split(':')[-1] + ".NS", '5') if ':' in x else None)
+        combined_df['smbchk'] = combined_df['key'].apply(lambda x: get_smbpxy_check(':'.join(x.split(':')[::-1]) + ".NS", '5') if ':' in x else None)
     except Exception as e:
         combined_df['smbchk'] = None  # or set to an appropriate default value
     # Calculate 'Invested' column
