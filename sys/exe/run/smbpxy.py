@@ -2,6 +2,8 @@ import yfinance as yf
 import pandas as pd
 import warnings
 from rich.console import Console
+from mktpxy import get_market_check
+mktpxy, pktpxy = get_market_check('^NSEI')
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
