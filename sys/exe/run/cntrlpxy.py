@@ -262,6 +262,7 @@ try:
     from swchpxy import analyze_stock
     import telegram
     import asyncio
+    from smbpxy import get_market_check
 
     
     # Replace 'filePnL.csv' with the path to your actual CSV file
@@ -312,6 +313,11 @@ try:
     combined_df['hstp'] = (combined_df['high'] *0.99)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
+
+    try:
+        smbchk = get_market_check(dct['tradingsymbol']+".NS", 5)
+    except Exception as e:
+        smbchk = None
     
     
     #combined_df['smktchk'] = combined_df['key'].map(lambda x: getsmktchk(x.split(':')[-1] + ".NS", '5') if ':' in x else None)
@@ -397,7 +403,7 @@ try:
 
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
-    numeric_columns = ['hstp','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PnL%','PnL%_H', 'dPnL', 'dPnL%']
+    numeric_columns = ['smbchk','hstp','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PnL%','PnL%_H', 'dPnL', 'dPnL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(1)        # Filter combined_df
     filtered_df = combined_df[(combined_df['qty'] > 0) | ((combined_df['qty'] < 0) & (combined_df['product'] == 'MIS'))]
     # Filter combined_df for rows where 'qty' is greater than 0
@@ -481,13 +487,13 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['hstp','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','yxp','key','dPnL%','PnL','PnL%_H', 'PnL%']]
+    pxy_df = filtered_df.copy()[['smbchk','hstp','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','yxp','key','dPnL%','PnL','PnL%_H', 'PnL%']]
   
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
-    EXE_df = pxy_df[['hstp','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PnL%_H', 'dPnL%', 'product', 'source', 'key', 'pxy', 'yxp', 'PnL%', 'PnL']]
+    EXE_df = pxy_df[[''smbchk',hstp','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PnL%_H', 'dPnL%', 'product', 'source', 'key', 'pxy', 'yxp', 'PnL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','qty','key','hstp','pstp','_pstp','ltp','PnL%','PnL']]
+    PRINT_df = pxy_df[['source','product','qty','key','smbchk','hstp','pstp','_pstp','ltp','PnL%','PnL']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': 'CM'})
     # Conditionally replace values in the 'HP' column
