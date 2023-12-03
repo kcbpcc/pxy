@@ -314,10 +314,11 @@ try:
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
     try:
-        smbchk = get_smbchk_check(dct['tradingsymbol']+".NS", 5)
+        combined_df['smbchk'] = combined_df.apply(lambda row: get_smbchk_check(row['tradingsymbol'] + ".NS", 5), axis=1)
     except Exception as e:
-        smbchk = None
-    combined_df['smbchk'] = combined_df.apply(apply_smbchk, axis=1)
+        # Handle the exception if needed
+        print(f"An error occurred: {e}")
+        combined_df['smbchk'] = None
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
