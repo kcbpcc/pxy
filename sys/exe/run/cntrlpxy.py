@@ -367,21 +367,25 @@ try:
     )
 
     combined_df['pxy'] = combined_df.apply(
-        lambda row: row['pr'] if nse_action == "SuperBear" else max(
-            row['pr'],
-            row['yi'] if row['smbchk'] in ["Buy", "Bull"] else (row['xl'] if row['smbchk'] == "Sell" else row['pr'])
+        lambda row: round(row['pr'], 2) if nse_action == "SuperBear" else round(
+            max(
+                row['pr'],
+                row['yi'] if row['smbchk'] in ["Buy", "Bull"] else (row['xl'] if row['smbchk'] == "Sell" else row['pr'])
+            ), 2
+        ),
+        axis=1
+    )
+    
+    combined_df['yxp'] = combined_df.apply(
+        lambda row: round(row['_pr'], 2) if nse_action == "SuperBull" else round(
+            min(
+                row['_pr'],
+                row['_yi'] if row['smbchk'] in ["Sell", "Bear"] else (row['_xl'] if row['smbchk'] == "Buy" else row['_pr'])
+            ), 2
         ),
         axis=1
     )
 
-    
-    combined_df['yxp'] = combined_df.apply(
-        lambda row: row['_pr'] if nse_action == "SuperBull" else min(
-            row['_pr'],
-            row['_yi'] if row['smbchk'] in ["Sell", "Bear"] else (row['_xl'] if row['smbchk'] == "Buy" else row['_pr'])
-        ),
-        axis=1
-    )
 
     
 ###########################################################################################################################################################################################################
