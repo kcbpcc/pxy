@@ -25,8 +25,14 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
         return current_color, last_closed_color, second_last_closed_color
 
     except Exception as e:
-        #print(f"Exception occurred: {e}")
-        return None, None, None
+        error_message = str(e)
+        
+        # Check if the error message contains "No data found, symbol may be delisted"
+        if "No data found, symbol may be delisted" in error_message:
+            return mktpxy, mktpxy, mktpxy
+        
+        # Handle other exceptions as needed or re-raise the original exception
+        raise e
 
 
 def get_smbpxy_check(symbol, interval, period='5d'):
