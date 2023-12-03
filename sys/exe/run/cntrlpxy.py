@@ -332,6 +332,8 @@ try:
     csv_file_path = 'smb500.csv'
     csv_df = pd.read_csv(csv_file_path, header=None, names=['tradingsymbol'])
     if 'tradingsymbol' in combined_df.columns and 'mktpxy' in combined_df.columns:
+        print("Columns before applying function:", combined_df.columns)
+    
         # Define a function to apply to the DataFrame
         def apply_function(row):
             # Check if 'tradingsymbol' is in the CSV file
@@ -345,6 +347,8 @@ try:
     
         # Apply the function to create a new column 'smbchk'
         combined_df['smbchk'] = combined_df.apply(apply_function, axis=1)
+    
+        print("Columns after applying function:", combined_df.columns)
     else:
         print("Error: 'tradingsymbol' or 'mktpxy' column not found in combined_df.")
 
