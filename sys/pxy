@@ -16,7 +16,7 @@ echo "   -pxyallkill               ❌        ak"
 echo "   -pxybuykill               🟥        bk"
 echo "   -pxysellkill              🟩        sk"
 echo "   -pxyclean                 🚿        cl"
-echo "   -pxypnl                   💰        sp"
+echo "   -pxypnl                   💰        pl"
 echo "   -pxycheck                 ✅        ca"
 echo "   -pxypy                    🔥        py"
 echo "   -Or Simply exit           ⛔        ex"
@@ -62,7 +62,7 @@ case $choice in
         echo "Clean PXY®"
         pxyclean
         ;;
-    tp)
+    pl)
         echo "Get me PnL"
         pxypnl
         ;;
