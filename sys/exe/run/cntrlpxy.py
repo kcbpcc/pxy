@@ -328,12 +328,12 @@ try:
 ###########################################################################################################################################################################################################
     import pandas as pd
     
-    # Read CSV file into a DataFrame
-    csv_file_path = '../bypass.yaml'
-    csv_df = pd.read_csv(csv_file_path)
+    # Read CSV file into a DataFrame without a header
+    csv_file_path = 'smb500.csv'
+    csv_df = pd.read_csv(csv_file_path, header=None, names=['tradingsymbol'])
     
-    # Assuming your DataFrame structure has a column named 'tradingsymbol' and 'mktpxy'
-    # If your original DataFrame doesn't have these columns, adjust accordingly
+    # Assuming your DataFrame structure has a column named 'mktpxy'
+    # If your original DataFrame doesn't have this column, adjust accordingly
     
     # Check if 'tradingsymbol' is present in the DataFrame
     if 'tradingsymbol' in combined_df.columns:
