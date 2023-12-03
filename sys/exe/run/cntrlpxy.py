@@ -110,8 +110,7 @@ def mis_order_sell(index, row):
                 price=round_to_paise(row['ltp'], -0.3)
             )
             if order_id:
-                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")
-
+                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
                 # Write the row to the CSV file here
                 with open(csv_file_path, 'a', newline='') as csvfile:
                     csvwriter = csv.writer(csvfile)
@@ -125,7 +124,9 @@ def mis_order_sell(index, row):
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
-                        message_text = f"{str(row)} Symbol: {key} https://www.tradingview.com/chart/?symbol={key}"
+                        
+                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now:    {result}"
+
                         
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
@@ -146,9 +147,9 @@ def mis_order_sell(index, row):
                 
                 return True                
             else:
-                logging.error("Order placement failed")
+                logging.error("Order placement failed")       
         else:
-            logging.error("Invalid format for 'index'")
+            logging.error("Invalid format for 'index'")    
     except Exception as e:
         #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
@@ -170,7 +171,7 @@ def mis_order_buy(index, row):
                 price=round_to_paise(row['ltp'], +0.3)
             )
             if order_id:
-                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")
+                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
                 # Write the row to the CSV file here
                 with open(csv_file_path, 'a', newline='') as csvfile:
                     csvwriter = csv.writer(csvfile)
@@ -184,7 +185,9 @@ def mis_order_buy(index, row):
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
-                        message_text = f"{str(row)} Symbol: {key} https://www.tradingview.com/chart/?symbol={key}"
+                        
+                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now:    {result}"
+
                         
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
@@ -205,9 +208,9 @@ def mis_order_buy(index, row):
                 
                 return True                
             else:
-                logging.error("Order placement failed")
+                logging.error("Order placement failed")       
         else:
-            logging.error("Invalid format for 'index'")
+            logging.error("Invalid format for 'index'")    
     except Exception as e:
         #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
