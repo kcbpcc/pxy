@@ -9,16 +9,16 @@ NC='\033[0m' # No Color
 # Display menu
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 echo "******************************************"
-echo "   -pxymon                   💫        mm"
+echo "   -pxymon                   💫        mn"
 echo "   -pxyupdate                🔄        up"
-echo "   -pxybuy                   🟢        nb"
-echo "   -pxysell                  🔴        ka"
-echo "   -pxykill                  ❌        ka"
-echo "   -pxybuykill               🟥        kb"
-echo "   -pxysellkill              🟩        ks"
+echo "   -pxybuy                   🟢        by"
+echo "   -pxysell                  🔴        sl"
+echo "   -pxyallkill               ❌        ak"
+echo "   -pxybuykill               🟥        bk"
+echo "   -pxysellkill              🟩        sk"
 echo "   -pxyclean                 🚿        cl"
-echo "   -pxypnl                   💰        tp"
-echo "   -pxycheck                 ✅        ta"
+echo "   -pxypnl                   💰        sp"
+echo "   -pxycheck                 ✅        ca"
 echo "   -pxypy                    🔥        py"
 echo "   -Or Simply exit           ⛔        ex"
 echo "******************************************"
@@ -30,59 +30,51 @@ read -t 60 -p "Enter your choice: " choice
 # Perform actions based on user input
 case $choice in
     by)
-        echo "Executing pxybuy - Night Buy"
+        echo "Buy Positions"
         pxybuy
         ;;
-    ka)
-        echo "Executing pxykill - SquireOff all Positions"
+    ak)
+        echo "SquireOff all Positions"
         pxykill
         ;;
-    kb)
-        echo "Executing pxykillbuy - Sell all Buy Positions"
+    bk)
+        echo "Sell all Buy Positions"
         pxykillbuy
         ;;
-    ks)
-        echo "Executing pxykillsell - Rename sys/exe/pxykillsell to sys/pxykillsell"
+    sk)
+        echo Buy all Sell Positions"
         pxykillsell
         ;;
     up)
-        echo "Executing pxyupdate - Update pxyupdate"
+        echo "Update PXY®"
         pxyupdate
         ;;
     mm)
         echo "Waiting for 5 seconds..."
         sleep 5
         echo "Running 'pxy'"
-        pxyrun
-        ;;
-    ct)
-        echo "Run controle file"
-        pxycntrl
+        pxymon
         ;;
     cl)
-        echo "Clear Pxy"
-        pxycln
+        echo "Clean PXY®"
+        pxyclean
         ;;
     tp)
-        echo "Profit show"
-        pxytprft
+        echo "Get me PnL"
+        pxypnl
         ;;
-    pl)
-        echo "Profit Table display"
-        pxytblprft
-        ;;
-    ta)
-        echo "Test PXY All"
+    ca)
+        echo "Test All PXY®"
         pxychk
         ;;
     py)
-        echo "Clean PnL file"
+        echo "Python Program"
         pxypy
         ;;
     *)
         # Empty input (user didn't make a choice in 5 seconds)
         echo "..........Running 'pxy'"
-        pxyrun
+        pxymon
         ;;
     ex)
         echo "Exiting the script. Goodbye!"
