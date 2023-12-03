@@ -385,6 +385,8 @@ try:
         ),
         axis=1
     )
+    combined_df['yxp'] = combined_df['yxp'].round(2)
+    combined_df['pxy'] = combined_df['pxy'].round(2)
 
 
     
