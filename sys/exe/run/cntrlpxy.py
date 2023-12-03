@@ -313,31 +313,7 @@ try:
     combined_df['hstp'] = (combined_df['high'] *0.99)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
-    combined_df['smbchk'] = combined_df.apply(lambda row: get_smbchk_check(row['tradingsymbol'] + ".NS", '5'), axis=1)
-
-    import logging
-    
-    logging.basicConfig(filename='smbchk_debug.log', level=logging.DEBUG)
-    
-    try:
-        combined_df['smbchk'] = combined_df.apply(lambda row: get_smbchk_check(row['tradingsymbol'] + ".NS", '5'), axis=1)
-    except IndexError as idx_error:
-        logging.error(f"IndexError occurred while processing smbchk: {idx_error}")
-        combined_df['smbchk'] = None  # or set to an appropriate default value
-        affected_rows = combined_df[combined_df['smbchk'].isna()]
-        logging.info(f"Affected rows: {affected_rows['key']}")
-        
-        # Further investigation for specific rows causing the issue
-        for index in affected_rows.index:
-            try:
-                logging.info(f"Row details for index {index}: {combined_df.loc[index]}")
-            except Exception as inner_e:
-                logging.error(f"An error occurred while accessing row details: {inner_e}")
-    except Exception as e:
-        logging.error(f"An unexpected error occurred while processing smbchk: {e}")
-
-
-
+    combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS", '5'), axis=1)
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
