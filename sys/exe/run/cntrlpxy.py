@@ -556,7 +556,7 @@ try:
                         row['ltp'] < row['hstp'] 
                         
                     ):
-                        print(row)
+                        #print(row)
                         try:
                             is_placed = order_place(key, row)
                             if is_placed:
