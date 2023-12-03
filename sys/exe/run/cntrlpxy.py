@@ -31,6 +31,15 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 
+try:
+    broker = get_kite(api="bypass", sec_dir=dir_path)
+    
+except Exception as e:
+    remove_token(dir_path)
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} unable to get holdings")
+    sys.exit(1)
+
 
 file_path = 'filePnL.csv'
 ###########################################################################################################################################################################################################
