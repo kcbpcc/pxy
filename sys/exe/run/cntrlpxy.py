@@ -313,6 +313,8 @@ try:
     combined_df['hstp'] = (combined_df['high'] *0.99)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
+    combined_df['smbchk'] = combined_df.apply(lambda row: get_smbchk_check(row['tradingsymbol'] + ".NS", '5'), axis=1)
+
     import logging
     
     logging.basicConfig(filename='smbchk_debug.log', level=logging.DEBUG)
