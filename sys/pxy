@@ -1,4 +1,4 @@
-#!/bin/bash
+ll#!/bin/bash
 # ANSI color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -33,7 +33,7 @@ case $choice in
         pxybuy
         ;;
     sl)
-        echo "Buy Positions"
+        echo "Sell Positions"
         pxysell
         ;;
     ak)
