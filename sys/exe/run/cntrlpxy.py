@@ -326,26 +326,33 @@ try:
     #combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS", 5) if get_smbpxy_check(row['tradingsymbol'] + ".NS", 5) is not None else row['mktpxy'], axis=1)
     import pandas as pd
 ###########################################################################################################################################################################################################
+    import pandas as pd
+    
     # Read CSV file into a DataFrame
-    csv_file_path = 'smb500.csv'
+    csv_file_path = '../bypass.yaml'
     csv_df = pd.read_csv(csv_file_path)
     
     # Assuming your DataFrame structure has a column named 'tradingsymbol' and 'mktpxy'
     # If your original DataFrame doesn't have these columns, adjust accordingly
     
-    # Define a function to apply to the DataFrame
-    def apply_function(row):
-        # Check if 'tradingsymbol' is in the CSV file
-        if row['tradingsymbol'] in csv_df['tradingsymbol'].values:
-            # If it's in the CSV file, apply the function
-            smb_check_result = get_smbpxy_check(row['tradingsymbol'] + ".NS", 5)
-            return smb_check_result
-        else:
-            # If it's not in the CSV file, use the value of 'mktpxy'
-            return row['mktpxy']
+    # Check if 'tradingsymbol' is present in the DataFrame
+    if 'tradingsymbol' in combined_df.columns:
+        # Define a function to apply to the DataFrame
+        def apply_function(row):
+            # Check if 'tradingsymbol' is in the CSV file
+            if row['tradingsymbol'] in csv_df['tradingsymbol'].values:
+                # If it's in the CSV file, apply the function
+                smb_check_result = get_smbpxy_check(row['tradingsymbol'] + ".NS", 5)
+                return smb_check_result
+            else:
+                # If it's not in the CSV file, use the value of 'mktpxy'
+                return row['mktpxy']
     
-    # Apply the function to create a new column 'smbchk'
-    combined_df['smbchk'] = combined_df.apply(apply_function, axis=1)
+        # Apply the function to create a new column 'smbchk'
+        combined_df['smbchk'] = combined_df.apply(apply_function, axis=1)
+    else:
+        print("Error: 'tradingsymbol' column not found in combined_df.")
+
 ###########################################################################################################################################################################################################
     
     # Calculate 'Invested' column
