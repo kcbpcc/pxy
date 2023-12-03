@@ -313,8 +313,10 @@ try:
     combined_df['hstp'] = (combined_df['high'] *0.99)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
-
-    combined_df['smbchk'] = combined_df['key'].map(lambda x: get_smbpxy_check(x.split(':')[-1] + ".NS", '5') if ':' in x else None)
+    try:
+        combined_df['smbchk'] = combined_df['key'].map(lambda x: get_smbpxy_check(x.split(':')[-1] + ".NS", '5') if ':' in x else None)
+    except Exception as e:
+        combined_df['smbchk'] = None  # or set to an appropriate default value
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
