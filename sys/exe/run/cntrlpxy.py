@@ -331,12 +331,7 @@ try:
     # Read CSV file into a DataFrame without a header
     csv_file_path = 'smb500.csv'
     csv_df = pd.read_csv(csv_file_path, header=None, names=['tradingsymbol'])
-    
-    # Assuming your DataFrame structure has a column named 'mktpxy'
-    # If your original DataFrame doesn't have this column, adjust accordingly
-    
-    # Check if 'tradingsymbol' is present in the DataFrame
-    if 'tradingsymbol' in combined_df.columns:
+    if 'tradingsymbol' in combined_df.columns and 'mktpxy' in combined_df.columns:
         # Define a function to apply to the DataFrame
         def apply_function(row):
             # Check if 'tradingsymbol' is in the CSV file
@@ -351,7 +346,7 @@ try:
         # Apply the function to create a new column 'smbchk'
         combined_df['smbchk'] = combined_df.apply(apply_function, axis=1)
     else:
-        print("Error: 'tradingsymbol' column not found in combined_df.")
+        print("Error: 'tradingsymbol' or 'mktpxy' column not found in combined_df.")
 
 ###########################################################################################################################################################################################################
     
