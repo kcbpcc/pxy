@@ -21,15 +21,16 @@ SILVER = "\033[97m"
 UNDERLINE = "\033[4m"
 RESET = "\033[0m"
 
-logging = Logger(30, dir_path + "main.log")
+logging = Logger(30)
 try:
-    sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
+    
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
+
 
 file_path = 'filePnL.csv'
 ###########################################################################################################################################################################################################
