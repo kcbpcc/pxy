@@ -595,8 +595,9 @@ try:
                         row['qty'] < 0 and
                         row['source'] == 'positions' and
                         row['product'] == 'MIS' and
-                        row['PnL%'] < -0.14 and 
-                        row['PnL%'] < row['yxp'] 
+
+                        
+
                     ):
                         try:
                             is_placed = mis_order_buy(key, row)
