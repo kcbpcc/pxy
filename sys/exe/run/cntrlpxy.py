@@ -506,10 +506,8 @@ try:
     # Sort the DataFrame by 'PnL%' in ascending order
     # Assuming you have a DataFrame named PRINT_df
 
-    PRINT_df_sorted = PRINT_df[
-        ((PRINT_df['qty'] > 0) & (PRINT_df['PnL%'] > 0)) |
-        ((PRINT_df['qty'] < 0) & (PRINT_df['PnL%'] < 0))
-    ]
+    PRINT_df_sorted = PRINT_df[PRINT_df['qty'] != 0]
+
 
     # Sort the DataFrame by 'PnL' in ascending order
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PnL', ascending=True)
