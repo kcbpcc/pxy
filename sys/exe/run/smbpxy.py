@@ -2,14 +2,9 @@ import yfinance as yf
 import pandas as pd
 import warnings
 from rich.console import Console
-from mktpxy import get_market_check
-mktpxy, pktpxy = get_market_check('^NSEI')
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
-
-class NoDataError(Exception):
-    pass
 
 def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
     try:
@@ -27,14 +22,9 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
 
         return current_color, last_closed_color, second_last_closed_color
 
-    except ValueError as e:
-        # Handle insufficient data points exception
-        raise e
-
     except Exception as e:
-        # Handle other exceptions as needed
-        # If an exception occurs, return a default value (e.g., 'mktpxy')
-        return 'mktpxy', 'mktpxy', 'mktpxy'
+        print(f"Exception occurred: {e}")
+        return None, None, None
 
 
 def get_smbpxy_check(symbol, interval, period='5d'):
