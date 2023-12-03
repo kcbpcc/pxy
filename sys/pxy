@@ -98,5 +98,5 @@ case $choice in
         echo "Exiting the script. Goodbye!"
         exit 0
         ;;
-esac
+esac #
 echo "Exiting the script. Goodbye!"
