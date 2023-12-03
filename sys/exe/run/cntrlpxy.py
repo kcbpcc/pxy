@@ -316,7 +316,12 @@ try:
     try:
         combined_df['smbchk'] = combined_df['key'].apply(lambda x: get_smbpxy_check(':'.join(x.split(':')[::-1]) + ".NS", '5') if ':' in x else None)
     except Exception as e:
+        print(f"An error occurred while processing smbchk: {e}")
         combined_df['smbchk'] = None  # or set to an appropriate default value
+        # Add more information for debugging
+        print(f"Error details: {e}")
+        print(f"Affected rows: {combined_df[combined_df['smbchk'].isna()]['key']}")
+
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
