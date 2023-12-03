@@ -32,6 +32,10 @@ case $choice in
         echo "Buy Positions"
         pxybuy
         ;;
+    sl)
+        echo "Buy Positions"
+        pxysell
+        ;;
     ak)
         echo "SquireOff all Positions"
         pxykill
