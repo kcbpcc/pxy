@@ -315,9 +315,9 @@ try:
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
 
     try:
-        smbchk = get_smbpxy_check(dct['tradingsymbol']+".NS", 5)
+        combined_df['smbchk'] = get_smbpxy_check(dct['tradingsymbol']+".NS", 5)
     except Exception as e:
-        smbchk = None
+        combined_df['smbchk'] = None
     
     
     #combined_df['smbchk'] = combined_df['key'].map(lambda x: get_market_check(x.split(':')[-1] + ".NS", '5') if ':' in x else None)
