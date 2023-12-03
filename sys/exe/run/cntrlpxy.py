@@ -541,7 +541,7 @@ try:
             for index, row in EXE_df.iterrows():
                 key = row['key']  # Get the 'key' value
                 # Check the common conditions first
-                if if (
+                if (
                         row['ltp'] > 0 and
                         row['avg'] > 0 and
                         row['qty'] != 0
