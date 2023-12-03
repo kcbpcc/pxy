@@ -16,7 +16,7 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
         data = yf.Ticker(symbol).history(period=period, interval=f'{interval}m')
         
         if data.empty or len(data) < 3:
-            raise NoDataError("Insufficient data points for Heikin-Ashi calculation")
+            raise ValueError("Insufficient data points for Heikin-Ashi calculation")
 
         ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
         ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
@@ -27,13 +27,14 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
 
         return current_color, last_closed_color, second_last_closed_color
 
-    except NoDataError as e:
-        # Handle NoDataError as needed
-        return mktpxy, mktpxy, mktpxy
+    except ValueError as e:
+        # Handle insufficient data points exception
+        raise e
 
     except Exception as e:
-        # Handle other exceptions as needed or re-raise the original exception
-        raise e
+        # Handle other exceptions as needed
+        # If an exception occurs, return a default value (e.g., 'mktpxy')
+        return 'mktpxy', 'mktpxy', 'mktpxy'
 
 
 def get_smbpxy_check(symbol, interval, period='5d'):
