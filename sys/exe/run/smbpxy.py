@@ -8,12 +8,15 @@ mktpxy, pktpxy = get_market_check('^NSEI')
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
+class NoDataError(Exception):
+    pass
+
 def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
     try:
         data = yf.Ticker(symbol).history(period=period, interval=f'{interval}m')
         
         if data.empty or len(data) < 3:
-            raise ValueError("Insufficient data points for Heikin-Ashi calculation")
+            raise NoDataError("Insufficient data points for Heikin-Ashi calculation")
 
         ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
         ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
@@ -24,13 +27,11 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
 
         return current_color, last_closed_color, second_last_closed_color
 
+    except NoDataError as e:
+        # Handle NoDataError as needed
+        return mktpxy, mktpxy, mktpxy
+
     except Exception as e:
-        error_message = str(e)
-        
-        # Check if the error message contains "No data found, symbol may be delisted"
-        if "No data found, symbol may be delisted" in error_message:
-            return mktpxy, mktpxy, mktpxy
-        
         # Handle other exceptions as needed or re-raise the original exception
         raise e
 
