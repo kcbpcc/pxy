@@ -356,25 +356,33 @@ try:
     
     combined_df[['pr', 'xl', 'yi', '_pr', '_xl', '_yi']] = combined_df.apply(
         lambda row: pd.Series({
-            'pr': round(max(0.1, round(0.0 + (row['strength'] * 1.0), 2) - epsilon), 1),
-            'xl': round(max(1, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 1),
-            'yi': round(max(1.4, round(0.0 + (row['strength'] * 1.0), 2) * 3 - epsilon), 1),
-            '_pr': round(min(-0.1, round(0.0 + (row['weakness'] * 1.0), 2) - epsilon), 1),
-            '_xl': round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 1),
-            '_yi': round(min(-1.4, round(0.0 + (row['weakness'] * 1.0), 2) * 3 - epsilon), 1),
+            'pr': round(max(0.1, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 1),
+            'xl': round(max(1, round(0.0 + (row['strength'] * 1.0), 2) * 3 - epsilon), 1),
+            'yi': round(max(1.4, round(0.0 + (row['strength'] * 1.0), 2) * 4 - epsilon), 1),
+            '_pr': round(min(-0.1, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 1),
+            '_xl': round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 3 - epsilon), 1),
+            '_yi': round(min(-1.4, round(0.0 + (row['weakness'] * 1.0), 2) * 4 - epsilon), 1),
            
         }), axis=1
     )
 
     combined_df['pxy'] = combined_df.apply(
-        lambda row: row['pr'] if nse_action == "SuperBear" else max(row['pr'], row['yi'] if mktpxy in ["Buy", "Bull"] else (row['xl'] if mktpxy == "Sell" else row['pr'])), 
+        lambda row: row['pr'] if nse_action == "SuperBear" else max(
+            row['pr'],
+            row['yi'] if row['smbpxy'] in ["Buy", "Bull"] else (row['xl'] if row['smbpxy'] == "Sell" else row['pr'])
+        ),
         axis=1
     )
+
     
     combined_df['yxp'] = combined_df.apply(
-        lambda row: row['_pr'] if nse_action == "SuperBull" else min(row['_pr'], row['_yi'] if mktpxy in ["Sell", "Bear"] else (row['_xl'] if mktpxy == "Buy" else row['_pr'])), 
+        lambda row: row['_pr'] if nse_action == "SuperBull" else min(
+            row['_pr'],
+            row['_yi'] if row['smbpxy'] in ["Sell", "Bear"] else (row['_xl'] if row['smbpxy'] == "Buy" else row['_pr'])
+        ),
         axis=1
     )
+
     
 ###########################################################################################################################################################################################################
     TIMPXY = (
