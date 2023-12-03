@@ -327,6 +327,7 @@ try:
         for index in affected_rows.index:
             try:
                 print(f"Row details for index {index}: {combined_df.loc[index]}")
+                print(f"Checking symbol: {combined_df.loc[index]['tradingsymbol'] + '.NS'}")
             except Exception as inner_e:
                 print(f"An error occurred while accessing row details: {inner_e}")
 
