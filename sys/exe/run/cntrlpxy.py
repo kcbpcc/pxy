@@ -320,7 +320,16 @@ try:
         combined_df['smbchk'] = None  # or set to an appropriate default value
         # Add more information for debugging
         print(f"Error details: {e}")
-        print(f"Affected rows: {combined_df[combined_df['smbchk'].isna()]['key']}")
+        affected_rows = combined_df[combined_df['smbchk'].isna()]
+        print(f"Affected rows: {affected_rows['key']}")
+        
+        # Further investigation for specific rows causing the issue
+        for index in affected_rows.index:
+            try:
+                print(f"Row details for index {index}: {combined_df.loc[index]}")
+            except Exception as inner_e:
+                print(f"An error occurred while accessing row details: {inner_e}")
+
 
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
