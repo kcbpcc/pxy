@@ -30,12 +30,12 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
 
     return current_color, last_closed_color, second_last_closed_color
 
-# Function to determine the market check based on candle colors
-def get_market_check(symbol, interval):
+# Function to determine the smbpxy check based on candle colors
+def get_smbpxy_check(symbol, interval):
     # Check the colors of the last two closed candles and the currently running candle
     current_color, last_closed_color, second_last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
 
-    # Determine the market check based on the candle colors
+    # Determine the smbpxy check based on the candle colors
     if current_color == 'Bear' and last_closed_color == 'Bear':
         smbpxy = 'Bear'
     elif current_color == 'Bull' and last_closed_color == 'Bull':
@@ -51,5 +51,5 @@ def get_market_check(symbol, interval):
 
 # Example usage:
 
-# smbpxy = get_market_check(symbol_to_check, 5m)
+# smbpxy = get_smbpxy_check(symbol_to_check, 5m)
 
