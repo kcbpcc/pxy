@@ -320,7 +320,7 @@ try:
         smbchk = None
     
     
-    #combined_df['smktchk'] = combined_df['key'].map(lambda x: getsmktchk(x.split(':')[-1] + ".NS", '5') if ':' in x else None)
+    #combined_df['smbchk'] = combined_df['key'].map(lambda x: get_market_check(x.split(':')[-1] + ".NS", '5') if ':' in x else None)
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
