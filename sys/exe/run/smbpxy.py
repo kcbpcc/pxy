@@ -6,8 +6,6 @@ from rich.console import Console
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-console = Console()
-
 def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
     try:
         data = yf.Ticker(symbol).history(period=period, interval=f'{interval}m')
@@ -25,8 +23,8 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
         return current_color, last_closed_color, second_last_closed_color
 
     except Exception as e:
-        #console.print(f"[red]Error calculating Heikin-Ashi colors: {e}[/red]")
         return None, None, None
+
 
 def get_smbpxy_check(symbol, interval, period='5d'):
     try:
