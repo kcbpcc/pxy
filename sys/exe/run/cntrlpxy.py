@@ -323,37 +323,7 @@ try:
     combined_df['hstp'] = (combined_df['high'] *0.99)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
-    #combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS", 5) if get_smbpxy_check(row['tradingsymbol'] + ".NS", 5) is not None else row['mktpxy'], axis=1)
-    import pandas as pd
-###########################################################################################################################################################################################################
-    import pandas as pd
-    
-    # Read CSV file into a DataFrame without a header
-    csv_file_path = 'smb500.csv'
-    csv_df = pd.read_csv(csv_file_path, header=None, names=['tradingsymbol'])
-    if 'tradingsymbol' in combined_df.columns and 'mktpxy' in combined_df.columns:
-        print("Columns before applying function:", combined_df.columns)
-    
-        # Define a function to apply to the DataFrame
-        def apply_function(row):
-            # Check if 'tradingsymbol' is in the CSV file
-            if row['tradingsymbol'] in csv_df['tradingsymbol'].values:
-                # If it's in the CSV file, apply the function
-                smb_check_result = get_smbpxy_check(row['tradingsymbol'] + ".NS", 5)
-                return smb_check_result
-            else:
-                # If it's not in the CSV file, use the value of 'mktpxy'
-                return row['mktpxy']
-    
-        # Apply the function to create a new column 'smbchk'
-        combined_df['smbchk'] = combined_df.apply(apply_function, axis=1)
-    
-        print("Columns after applying function:", combined_df.columns)
-    else:
-        print("Error: 'tradingsymbol' or 'mktpxy' column not found in combined_df.")
-
-###########################################################################################################################################################################################################
-    
+    combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS", 5), axis=1)
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
