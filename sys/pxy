@@ -19,6 +19,7 @@ echo "   -pxyclean              🚿        cl"
 echo "   -pxypnl                💰        pl"
 echo "   -pxycheck              ✅        ca"
 echo "   -pxypy                 🔥        py"
+echo "    pxydashboard          📅        ds"
 echo "   -Or Simply exit        ⛔        ex"
 echo "******************************************"
 
@@ -35,6 +36,10 @@ case $choice in
     sl)
         echo "Sell Positions"
         pxysell
+        ;;
+    ds)
+        echo "Dash Board"
+        pxydashboard
         ;;
     ak)
         echo "SquireOff all Positions"
