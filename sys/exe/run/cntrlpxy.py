@@ -262,7 +262,7 @@ try:
     from swchpxy import analyze_stock
     import telegram
     import asyncio
-    from smbpxy import get_market_check
+    from smbpxy import get_smbpxy_check
 
     
     # Replace 'filePnL.csv' with the path to your actual CSV file
@@ -315,7 +315,7 @@ try:
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
 
     try:
-        smbchk = get_market_check(dct['tradingsymbol']+".NS", 5)
+        smbchk = get_smbpxy_check(dct['tradingsymbol']+".NS", 5)
     except Exception as e:
         smbchk = None
     
