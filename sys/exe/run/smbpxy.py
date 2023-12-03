@@ -11,19 +11,19 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
         data = yf.Ticker(symbol).history(period=period, interval=f'{interval}m')
         
         if data.empty or len(data) < 3:
-            return None, None, None
+            raise ValueError("Insufficient data points for Heikin-Ashi calculation")
 
         ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
         ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
-        current_color = 'Buy' if ha_close.iloc[-1] > ha_open.iloc[-1] else 'Sell'
-        last_closed_color = 'Buy' if ha_close.iloc[-2] > ha_open.iloc[-2] else 'Sell'
-        second_last_closed_color = 'Buy' if ha_close.iloc[-3] > ha_open.iloc[-3] else 'Sell'
+        current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
+        last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
+        second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
 
         return current_color, last_closed_color, second_last_closed_color
 
     except Exception as e:
-        # Suppress any exception messages
+        print(f"Exception occurred: {e}")
         return None, None, None
 
 
