@@ -597,7 +597,7 @@ try:
                         row['source'] == 'positions' and
                         row['product'] == 'MIS' and
 
-                        
+                        row['ltp'] > row['_pstp'] 
 
                     ):
                         try:
