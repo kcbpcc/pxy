@@ -13,7 +13,7 @@ echo "   -pxybuy                     🟢    nb"
 echo "   -pxysell                    🔴    ka"
 echo "   -pxybuykill                 🟢🚦  kb"
 echo "   -pxysellkill                🛑🚦  ks"
-echo "   -pxykill                    ❌     ka
+echo "   -pxykill                    ❌     ka"
 echo "   -pxyupdate                  🔄     up"
 echo "   -pxymon                     🖥️     mm"
 echo "   -pxyclean                   🚿     cl"
@@ -59,44 +59,35 @@ case $choice in
         echo "Run controle file"
         pxycntrl
         ;;
-    ct)
+    cl)
         echo "Clear Pxy"
         pxycln
         ;;
-
     tp)
         echo "Profit show"
         pxytprft
         ;;
-
     pl)
-        echo "Profit Table disply"
+        echo "Profit Table display"
         pxytblprft
         ;;
     ta)
         echo "Test PXY All"
         pxychk
         ;;
-    
-    cl)
-        echo "Clean PnL file"
-        pxycln
-        ;;
-
-   py)
+    py)
         echo "Clean PnL file"
         pxypy
         ;;
-
     *)
         # Empty input (user didn't make a choice in 5 seconds)
         echo "..........Running 'pxy'"
         pxyrun
         ;;
-
     ex)
         echo "Exiting the script. Goodbye!"
         exit 0
         ;;
-    esac #
+esac
+
 
