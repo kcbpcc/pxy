@@ -99,3 +99,4 @@ case $choice in
         exit 0
         ;;
 esac
+echo "Exiting the script. Goodbye!"
