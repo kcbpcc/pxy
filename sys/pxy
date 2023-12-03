@@ -9,19 +9,18 @@ NC='\033[0m' # No Color
 # Display menu
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 echo "******************************************"
-echo "   -Night Buy                🍭     nb"
-echo "   -SquireOff-ALL            ❌     ka"
-echo "   -Sell all Buy             🔴     kb"
-echo "   -Buy all Sell             🟢     ks"
-echo "   -Update pxy               📚     up"
-echo "   -Run pxy                  ✅     mm"
-echo "   -Control pxy              🚀     ct"
-echo "   -Clean pxy                🌈     cl"
-echo "   -Show me profit           💰     tp"
-echo "   -Show profit Table        💵     pl"
-echo "   -Test PXY All             🌟     ta"
-echo "   -python3                  🔥     py"
-echo "   -Or Simply exit           ⛔     ex"
+echo "   -pxybuy                     🟢    nb"
+echo "   -pxysell                    🔴    ka"
+echo "   -pxybuykill                 🟢🚦  kb"
+echo "   -pxysellkill                🛑🚦  ks"
+echo "   -pxykill                    ❌     ka
+echo "   -pxyupdate                  🔄     up"
+echo "   -pxymon                     🖥️     mm"
+echo "   -pxyclean                   🚿     cl"
+echo "   -pxypnl                     💰     tp"
+echo "   -pxycheck                   ✅     ta"
+echo "   -pxypy                      🔥     py"
+echo "   -Or Simply exit             ⛔     ex"
 echo "******************************************"
 
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
@@ -30,9 +29,9 @@ read -t 15 -p "Enter your choice: " choice
 
 # Perform actions based on user input
 case $choice in
-    nb)
+    by)
         echo "Executing pxybuy - Night Buy"
-        pxynbuy
+        pxybuy
         ;;
     ka)
         echo "Executing pxykill - SquireOff all Positions"
