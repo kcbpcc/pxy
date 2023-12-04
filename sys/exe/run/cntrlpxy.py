@@ -348,29 +348,40 @@ try:
     
     combined_df[['pr', 'xl', 'yi', '_pr', '_xl', '_yi']] = combined_df.apply(
         lambda row: pd.Series({
-            'pr': round(max(0.1, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 1),
-            'xl': round(max(1, round(0.0 + (row['strength'] * 1.0), 2) * 3 - epsilon), 1),
-            'yi': round(max(1.4, round(0.0 + (row['strength'] * 1.0), 2) * 4 - epsilon), 1),
-            '_pr': round(min(-0.1, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 1),
-            '_xl': round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 3 - epsilon), 1),
-            '_yi': round(min(-1.4, round(0.0 + (row['weakness'] * 1.0), 2) * 4 - epsilon), 1),
+            'pr': round(max(0.1, round(0.0 + (row['strength'] * 1.0), 2) * 1 - epsilon), 2),
+            'xl': round(max(1, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 2),
+            'yi': round(max(1.4, round(0.0 + (row['strength'] * 1.0), 2) * 3 - epsilon), 2),
+            '_pr': round(min(-0.1, round(0.0 + (row['weakness'] * 1.0), 2) * 1 - epsilon), 2),
+            '_xl': round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 2),
+            '_yi': round(min(-1.4, round(0.0 + (row['weakness'] * 1.0), 2) * 3 - epsilon), 2),
         }), axis=1
     )
     
     def calculate_pxy(row):
-        return round(
-            max(row['pr'], row['yi'] if row['smbchk'] in ["Buy", "Bull"] else (row['xl'] if row['smbchk'] == "Sell" else row['pr'])),
-            2
-    )
+        smbchk = row['smbchk']
+        pr, xl, yi = row['pr'], row['xl'], row['yi']
+    
+        if smbchk == "Sell" or smbchk == "Bear":
+            return round(max(pr, xl), 2)
+        elif smbchk == "Buy" or smbchk == "Bull":
+            return round(max(pr, yi), 2)
+        else:
+            return round(pr, 2)
     
     def calculate_yxp(row):
-        return round(
-            min(row['_pr'], row['_yi'] if row['smbchk'] in ["Sell", "Bear"] else (row['_xl'] if row['smbchk'] == "Buy" else row['_pr'])),
-            2
-    )
+        smbchk = row['smbchk']
+        _pr, _xl, _yi = row['_pr'], row['_xl'], row['_yi']
+    
+        if smbchk == "Sell" or smbchk == "Bear":
+            return round(max(_pr, _yi), 2)
+        elif smbchk == "Buy" or smbchk == "Bull":
+            return round(max(_pr, _xl), 2)
+        else:
+            return round(_pr, 2)
     
     combined_df['pxy'] = combined_df.apply(calculate_pxy, axis=1)
     combined_df['yxp'] = combined_df.apply(calculate_yxp, axis=1)
+
   
 ###########################################################################################################################################################################################################
     TIMPXY = (
