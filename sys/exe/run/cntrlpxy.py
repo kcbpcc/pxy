@@ -663,8 +663,8 @@ try:
         print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
         print(left_aligned_format.format(f"taPL%:{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked: {BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
-        print(left_aligned_format.format(f"intraSell:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}"), end="")
-        print(right_aligned_format.format(f"pbPnL:{BRIGHT_GREEN if total_PnL_percentage_positions_buy >= 0 else BRIGHT_RED}{total_PnL_percentage_positions_buy}{RESET}"))
+        print(left_aligned_format.format(f"psellPnL:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}"), end="")
+        print(right_aligned_format.format(f"pbuyPnL:{BRIGHT_GREEN if total_PnL_percentage_positions_buy >= 0 else BRIGHT_RED}{total_PnL_percentage_positions_buy}{RESET}"))
        
         subprocess.run(['python3', 'mktpxy.py'])
 
