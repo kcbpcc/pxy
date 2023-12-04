@@ -6,6 +6,9 @@ def process_csv(csv_file_path):
     # Set the overall table width
     table_width = 40
 
+    # Create a list of excluded columns
+    excluded_columns = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', 'yxp']
+
     # Create a table to display the selected columns with custom headers
     table = Table(show_header=True, header_style="bold cyan", min_width=table_width)
     table.add_column("Product", width=3)
@@ -26,11 +29,16 @@ def process_csv(csv_file_path):
             # Skip the header row
             header_row = next(csvreader)
 
+            # Find indices of columns to be excluded
+            excluded_indices = [header_row.index(col) for col in excluded_columns if col in header_row]
+
             # Iterate over each row in the CSV file and add it to the table
             for row in csvreader:
                 # Adjust column names to match your CSV file structure
-                if len(row) == 16:
-                    qty, avg, close, ltp, open_price, high, low, pnl_h, dpnl, CM, PH, key, pxy, yxp, pnl_percentage, pnl = row
+                if len(row) == 21:  # Update the length based on your actual column count
+                    # Exclude specified columns
+                    filtered_row = [value for idx, value in enumerate(row) if idx not in excluded_indices]
+                    qty, avg, close, ltp, open_price, high, low, apl_h, dpnl, product, source, key, pxy, yxp, apl, pnl_percentage, pnl = filtered_row
                 else:
                     # Handle cases where the number of columns is different
                     print(f"Skipping row with unexpected number of columns: {row}")
@@ -47,7 +55,7 @@ def process_csv(csv_file_path):
                 total_profit += float(pnl)
 
                 # Add the row to the table
-                table.add_row(CM, PH, key, pnl_percentage, pnl)
+                table.add_row(product, source, key, pnl_percentage, pnl)
 
     except FileNotFoundError:
         print("File not found!")
@@ -69,6 +77,7 @@ total_profit_main = process_csv(csv_file_path)
 
 # Now you can use total_profit_main in your main code
 # print("Total Profit in Main:", total_profit_main)
+
 
 
 
