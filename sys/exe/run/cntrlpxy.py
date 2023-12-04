@@ -58,15 +58,15 @@ def order_place(index, row):
                     try:
                         import telegram
                         import asyncio
-                        columns_to_drop = ['qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%',  'pxy', 'yxp']
-                        
+                    
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', 'yxp']
+                    
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
-                        
-                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now:    {result}"
-
+                    
+                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
                         
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
