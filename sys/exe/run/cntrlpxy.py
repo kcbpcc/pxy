@@ -381,6 +381,8 @@ try:
     
     combined_df['pxy'] = combined_df.apply(calculate_pxy, axis=1)
     combined_df['_pxy'] = combined_df.apply(calculate__pxy, axis=1)
+    combined_df['yxp'] = -1
+    combined_df['_yxp'] = 1
 
   
 ###########################################################################################################################################################################################################
