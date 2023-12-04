@@ -71,7 +71,7 @@ def process_csv(csv_file_path, ORDER_df):
 # Replace "filePnL.csv" with your actual CSV file path
 csv_file_path = "filePnL.csv"
 # Replace ORDER_df with your actual DataFrame
-ORDER_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','dPL%','oPL%','aPL%']]
+ORDER_df = [['source','product','qty','key','smbchk','yxp','pxy','dPL%','oPL%','aPL%']]
 # Call the function and get the total_profit value
 total_profit_main = process_csv(csv_file_path, ORDER_df)
 
