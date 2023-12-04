@@ -502,9 +502,9 @@ try:
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'product', 'source', 'key', 'pxy', 'yxp', 'aPL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','dPL%','oPL%','aPL%']]
+    ORDER_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','dPL%','oPL%','aPL%']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty' : 'Q','smbchk': 'O'})
+    PRINT_df = ORDER_df.rename(columns={'source': 'X', 'product': 'Y', 'qty' : 'Q','smbchk': 'O'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['X'] = PRINT_df['X'].replace({'holdings': 'H', 'positions': 'P'})
     # Conditionally replace values in the 'CM' column
