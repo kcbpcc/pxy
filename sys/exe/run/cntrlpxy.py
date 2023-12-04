@@ -548,7 +548,7 @@ try:
     
     # Print the DataFrame with minimized space between columns
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
-    print(df_str.replace('  ', ''))
+    print(df_str.replace('  ', ' '))
 
 
 
