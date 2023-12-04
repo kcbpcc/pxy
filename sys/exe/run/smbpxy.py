@@ -15,12 +15,15 @@ def calculate_last_two_heikin_ashi_colors(symbol, interval):
         current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
         last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
         return current_color, last_closed_color
-    except NoDataError as e:
-        print(f"NoDataError occurred: {e}")
-        return None, None
+    except NoDataError:
+        #console.print(f"[red]No data found for {symbol}, symbol may be delisted[/red]")
+        return 'None','None'
+    except InsufficientDataError:
+        #console.print(f"[red]Insufficient data points for Heikin-Ashi calculation for {symbol}[/red]")
+        return 'None','None'
     except Exception as e:
-        print(f"Exception occurred: {e}")
-        return None, None
+        #console.print(f"[red]Error determining smbpxy check: {e}[/red]")
+        return 'None','None'
 
 def get_smbpxy_check(symbol, interval, period='5d'):
     try:
