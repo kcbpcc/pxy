@@ -59,7 +59,7 @@ def order_place(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', 'yxp']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', '_pxy']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -120,7 +120,7 @@ def mis_order_sell(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', 'yxp']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', '_pxy']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -181,7 +181,7 @@ def mis_order_buy(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', 'yxp']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', '_pxy']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -368,7 +368,7 @@ try:
         else:
             return round(pr, 2)
     
-    def calculate_yxp(row):
+    def calculate__pxy(row):
         smbchk = row['smbchk']
         _pr, _xl, _yi = row['_pr'], row['_xl'], row['_yi']
     
@@ -380,7 +380,7 @@ try:
             return round(_pr, 2)
     
     combined_df['pxy'] = combined_df.apply(calculate_pxy, axis=1)
-    combined_df['yxp'] = combined_df.apply(calculate_yxp, axis=1)
+    combined_df['_pxy'] = combined_df.apply(calculate__pxy, axis=1)
 
   
 ###########################################################################################################################################################################################################
@@ -497,13 +497,13 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','yxp','key','dPL%','PnL','aPL%_H', 'aPL%']]
+    pxy_df = filtered_df.copy()[['smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','_pxy','key','dPL%','PnL','aPL%_H', 'aPL%']]
   
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
-    EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'product', 'source', 'key', 'pxy', 'yxp', 'aPL%', 'PnL']]
+    EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'product', 'source', 'key', 'pxy', '_pxy', 'aPL%', 'PnL']]
 
-    ORDER_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','dPL%','oPL%','aPL%']]
+    ORDER_df = pxy_df[['source','product','qty','key','smbchk','_pxy','pxy','dPL%','oPL%','aPL%']]
     # Rename columns for display
     PRINT_df = ORDER_df.rename(columns={'source': 'X', 'product': 'Y', 'qty' : 'Q','smbchk': 'O'})
     # Conditionally replace values in the 'HP' column
@@ -618,7 +618,7 @@ try:
                         row['source'] == 'positions' and
                         row['product'] == 'MIS' and
                         row['aPL%'] < -0.14 and 
-                        row['aPL%'] < row['yxp'] 
+                        row['aPL%'] < row['_pxy'] 
                     ):
                         try:
                             is_placed = mis_order_buy(key, row)
