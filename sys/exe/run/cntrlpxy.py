@@ -20,20 +20,11 @@ result = sum_last_numerical_value_in_each_row(file_path)
 SILVER = "\033[97m"
 UNDERLINE = "\033[4m"
 RESET = "\033[0m"
-
-logging = Logger(30)
-try:
-    broker = get_kite(api="bypass", sec_dir=dir_path)
-    
-except Exception as e:
-    remove_token(dir_path)
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
-    sys.exit(1)
+logging = Logger(30, dir_path + "main.log")
 
 try:
+    sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
-    
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
