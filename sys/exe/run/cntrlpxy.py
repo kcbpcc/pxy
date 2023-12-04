@@ -526,7 +526,7 @@ try:
     PRINT_df_sorted = PRINT_df.copy()
     
     # Apply the lambda function to limit 'chks' to 2 characters
-    PRINT_df_sorted['chks'] = PRINT_df_sorted['chks'].apply(lambda chks: chks[:2] if isinstance(chks, str) else chks)
+    PRINT_df_sorted['P'] = PRINT_df_sorted['P'].apply(lambda P: P[:2] if isinstance(P, str) else P)
     
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
     PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:3]
