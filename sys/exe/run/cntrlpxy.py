@@ -536,7 +536,7 @@ try:
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PnL%', ascending=True)
 
     # Convert the 'PnL' column to integers
-    PRINT_df_sorted.loc[:, 'PnL'] = PRINT_df_sorted['PnL%'].astype(int)
+    PRINT_df_sorted.loc[:, 'PnL%'] = PRINT_df_sorted['PnL%'].astype(int)
  
     SILVER = "\033[97m"
     UNDERLINE = "\033[4m"
