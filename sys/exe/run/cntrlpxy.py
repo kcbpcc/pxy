@@ -354,34 +354,24 @@ try:
             '_pr': round(min(-0.1, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 1),
             '_xl': round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 3 - epsilon), 1),
             '_yi': round(min(-1.4, round(0.0 + (row['weakness'] * 1.0), 2) * 4 - epsilon), 1),
-           
         }), axis=1
     )
-
-    combined_df['pxy'] = combined_df.apply(
-        lambda row: round(row['pr'], 2) if nse_action == "SuperBear" else round(
-            max(
-                row['pr'],
-                row['yi'] if row['smbchk'] in ["Buy", "Bull"] else (row['xl'] if row['smbchk'] == "Sell" else row['pr'])
-            ), 2
-        ),
-        axis=1
+    
+    def calculate_pxy(row):
+        return round(
+            max(row['pr'], row['yi'] if row['smbchk'] in ["Buy", "Bull"] else (row['xl'] if row['smbchk'] == "Sell" else row['pr'])),
+            2
     )
     
-    combined_df['yxp'] = combined_df.apply(
-        lambda row: round(row['_pr'], 2) if nse_action == "SuperBull" else round(
-            min(
-                row['_pr'],
-                row['_yi'] if row['smbchk'] in ["Sell", "Bear"] else (row['_xl'] if row['smbchk'] == "Buy" else row['_pr'])
-            ), 2
-        ),
-        axis=1
+    def calculate_yxp(row):
+        return round(
+            min(row['_pr'], row['_yi'] if row['smbchk'] in ["Sell", "Bear"] else (row['_xl'] if row['smbchk'] == "Buy" else row['_pr'])),
+            2
     )
-    combined_df['yxp'] = combined_df['yxp'].round(2)
-    combined_df['pxy'] = combined_df['pxy'].round(2)
-
-
     
+    combined_df['pxy'] = combined_df.apply(calculate_pxy, axis=1)
+    combined_df['yxp'] = combined_df.apply(calculate_yxp, axis=1)
+  
 ###########################################################################################################################################################################################################
     TIMPXY = (
         float(timpxy)
