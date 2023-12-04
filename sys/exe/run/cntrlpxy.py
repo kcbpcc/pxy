@@ -499,15 +499,15 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','_pxy','key','dPL%','PnL','aPL%_H', 'aPL%']]
+    pxy_df = filtered_df.copy()[['smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','_pxy','yxp','_yxp','key','dPL%','PnL','aPL%_H', 'aPL%']]
   
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
-    EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'product', 'source', 'key', 'pxy', '_pxy', 'aPL%', 'PnL']]
+    EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'product', 'source', 'key', 'pxy','yxp','_yxp', '_pxy', 'aPL%', 'PnL']]
 
-    ORDER_df = pxy_df[['source','product','qty','key','smbchk','_pxy','pxy','dPL%','oPL%','aPL%']]
+    PRINT_df = pxy_df[['source','product','qty','key','smbchk','_pxy','pxy','dPL%','oPL%','aPL%']]
     # Rename columns for display
-    PRINT_df = ORDER_df.rename(columns={'source': 'X', 'product': 'Y', 'qty' : 'Q','smbchk': 'O'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty' : 'Q','smbchk': 'O'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['X'] = PRINT_df['X'].replace({'holdings': 'H', 'positions': 'P'})
     # Conditionally replace values in the 'CM' column
