@@ -59,7 +59,7 @@ def order_place(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', '_pxy']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp','_yxp', '_pxy']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -120,7 +120,7 @@ def mis_order_sell(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', '_pxy']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp','_yxp', '_pxy']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -181,7 +181,7 @@ def mis_order_buy(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', '_pxy']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp','_yxp', '_pxy']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
