@@ -510,7 +510,7 @@ try:
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['smbchk','hstp','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PnL%_H', 'dPnL%', 'product', 'source', 'key', 'pxy', 'yxp', 'PnL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','PnL%','PnL']]
+    PRINT_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','hstp','ltp','PnL%','PnL']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': 'CM'})
     # Conditionally replace values in the 'HP' column
@@ -579,7 +579,7 @@ try:
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
                          row['PnL%'] > 1.4) and
-                        ((row['PnL%']) < (row['pxy']))
+                        ((row['PnL%']) < (row['pxy'])) or row(['ltp'] < row['hstp']
                     ):
                         try:
                             is_placed = order_place(key, row)
