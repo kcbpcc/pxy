@@ -20,8 +20,8 @@ while True:
     
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'cpritepxy.py'])
-    subprocess.run(['python3', 'cntrlpxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
+    subprocess.run(['python3', 'cntrlpxy.py'])
     subprocess.run(['python3', 'tblprftpxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
     
