@@ -6,17 +6,11 @@ def process_csv(csv_file_path, ORDER_df):
     # Set the overall table width
     table_width = 40
 
-    # Create a table to display all columns with custom headers
+    # Create a table to display selected columns with custom headers
     table = Table(show_header=True, header_style="bold cyan", min_width=table_width)
     table.add_column("Source")
     table.add_column("Product")
     table.add_column("Qty")
-    table.add_column("Key")
-    table.add_column("Smbchk")
-    table.add_column("Yxp")
-    table.add_column("Pxy")
-    table.add_column("DPL%")
-    table.add_column("OPL%")
     table.add_column("APL%")
 
     # Initialize the total profit variable
@@ -45,15 +39,13 @@ def process_csv(csv_file_path, ORDER_df):
                 key = key.replace("NSE:", "").replace("BSE:", "")
 
                 # Convert numerical values to strings and round them to two decimal places
-                dPL = str(round(float(dPL), 2))
-                oPL = str(round(float(oPL), 2))
                 aPL = str(round(float(aPL), 2))
 
                 # Accumulate the total profit
                 total_profit += float(aPL)
 
-                # Add the row to the table
-                table.add_row(source, product, qty, key, smbchk, yxp, pxy, dPL, oPL, aPL)
+                # Add the row to the table, excluding specified columns
+                table.add_row(source, product, qty, key, aPL)
 
     except FileNotFoundError:
         print("File not found!")
@@ -77,6 +69,7 @@ total_profit_main = process_csv(csv_file_path, ORDER_df)
 
 # Now you can use total_profit_main in your main code
 # print("Total Profit in Main:", total_profit_main)
+
 
 
 
