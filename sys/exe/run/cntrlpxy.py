@@ -321,6 +321,7 @@ try:
     combined_df['close'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('close_price', 0))
     combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
     combined_df['ostp'] = (combined_df['open'] *0.99)
+    combined_df['hsl'] = combined_df.apply(lambda row: (row['ltp'] - row['open']) / (row['open'] - row['ostp']) if (row['open'] - row['ostp']) != 0 else None, axis=1)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
