@@ -512,7 +512,7 @@ try:
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else '-')
-    PRINT_df['Px'] = PRINT_df['Px'].apply(lambda Px: '🟢' if Px == 'Bull' else ('🔴' if Px == 'Bear' else ('🌚' if Px == 'Sell' else ('🌞' if Px == 'Buy' else Px))))
+    PRINT_df['💫'] = PRINT_df['Px'].apply(lambda Px: '🟢' if Px == 'Bull' else ('🔴' if Px == 'Bear' else ('🌚' if Px == 'Sell' else ('🌞' if Px == 'Buy' else Px))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
@@ -526,7 +526,7 @@ try:
     PRINT_df_sorted = PRINT_df.copy()
     
     # Apply the lambda function to limit 'chks' to 2 characters
-    PRINT_df_sorted['Px'] = PRINT_df_sorted['Px'].apply(lambda Px: Px[:2] if isinstance(Px, str) else Px)
+    PRINT_df_sorted['💫'] = PRINT_df_sorted['Px'].apply(lambda Px: Px[:2] if isinstance(Px, str) else Px)
     
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
     PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:3]
