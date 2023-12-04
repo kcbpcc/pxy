@@ -520,38 +520,39 @@ try:
     # Assuming you have a DataFrame named PRINT_df
 
 
-    PRINT_df_sorted = PRINT_df
-
+    import pandas as pd
+    
+    # Assuming PRINT_df_sorted is your DataFrame
+    PRINT_df_sorted = PRINT_df.copy()
+    
+    # Apply the lambda function to limit 'chks' to 2 characters
+    PRINT_df_sorted['chks'] = PRINT_df_sorted['chks'].apply(lambda chks: chks[:2] if isinstance(chks, str) else chks)
+    
+    # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
     PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:3]
-
-    # Sort the DataFrame by 'PnL' in ascending order
+    
+    # Sort the DataFrame by 'PnL%' in ascending order
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PnL%', ascending=True)
-
-    # Convert the 'PnL' column to integers
+    
+    # Convert the 'PnL%' column to integers
     PRINT_df_sorted.loc[:, 'PnL%'] = PRINT_df_sorted['PnL%'].astype(int)
- 
-    SILVER = "\033[97m"
-    UNDERLINE = "\033[4m"
-    RESET = "\033[0m"
+    
     # ANSI escape codes for text coloring
     RESET = "\033[0m"
     BRIGHT_YELLOW = "\033[93m"
-    BRIGHT_RED = "\033[91m"
-    BRIGHT_GREEN = "\033[92m"
-    import pandas as pd
     
     # Set the maximum width for display
     pd.set_option('display.max_colwidth', 4)
-
+    
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-
     
     # Always print "Table" in bright yellow
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
     
     # Print the truncated DataFrame without color
     print(PRINT_df_sorted_display.to_string(index=False))
+
 ###########################################################################################################################################################################################################
 
     # Define the CSV file path
