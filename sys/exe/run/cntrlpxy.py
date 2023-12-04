@@ -582,7 +582,7 @@ try:
                         (row['qty'] > 0 and
                          row['product'] == 'CNC') and
                          #row['PnL%'] > 1.4 and
-                        (((row['PnL%']) < (row['pxy'])) or (row['PnL%']) > TIMPXY) or (row['ltp'] < row['hstp'])) 
+                        ((row['PnL%'] < row['pxy']) or (row['PnL%'] > TIMPXY) or (row['ltp'] < row['hstp']))                    
                     ):
                         try:
                             is_placed = order_place(key, row)
