@@ -17,6 +17,7 @@ def calculate_last_two_heikin_ashi_colors(symbol, interval):
         return current_color, last_closed_color
     except NoDataError as e:
         print(f"NoDataError occurred: {e}")
+        return None, None
     except Exception as e:
         print(f"Exception occurred: {e}")
         return None, None
