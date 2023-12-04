@@ -59,9 +59,9 @@ def get_holdingsinfo(csv_file_path):
         table.add_row(['WorthNow', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
 
         if all_Stocks_profit_loss < 0:
-            table.add_row(['💰₹💰 P&L', f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
+            table.add_row(['💰₹💰P&L', f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
         else:
-            table.add_row(['💰₹💰 P&L', f'{format_value(all_Stocks_profit_loss)}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
+            table.add_row(['💰₹💰P&L', f'{format_value(all_Stocks_profit_loss)}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
 
         table.align = 'r'
         print(table)
