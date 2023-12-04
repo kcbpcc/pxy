@@ -6,26 +6,25 @@ from rich.console import Console
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
+def calculate_last_three_heikin_ashi_colors(symbol, interval):
     try:
-        data = yf.Ticker(symbol).history(period=period, interval=f'{interval}m')
-        
-        if data.empty or len(data) < 3:
-            raise ValueError("Insufficient data points for Heikin-Ashi calculation")
+        # Fetch real-time data for the specified interval
+        data = yf.Ticker(symbol).history(period='7d', interval=f'{interval}m')
 
+        # Calculate Heikin-Ashi candles
         ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
         ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
+        # Calculate the colors of the last three closed candles
         current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
         last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
         second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
-
+        
         return current_color, last_closed_color, second_last_closed_color
 
     except Exception as e:
         print(f"Exception occurred: {e}")
         return None, None, None
-
 
 def get_smbpxy_check(symbol, interval, period='5d'):
     try:
