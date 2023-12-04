@@ -570,10 +570,11 @@ try:
                 key = row['key']  # Get the 'key' value
                 # Check the common conditions first
                 if (
-                    (row['ltp'] > 0 and
-                     row['avg'] > 0 and
-                     row['open'] > 0 and
-                     row['close'] > 0) 
+                    (row['open'] > 0 and
+                     row['high'] > 0 and
+                     row['low'] > 0 and
+                     row['close'] > 0  and
+                     row['qty'] != 0)
                 ):
                     
 ###########################################################################################################################################################################################################                    
