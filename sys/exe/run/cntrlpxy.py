@@ -518,7 +518,7 @@ try:
     # Sort the DataFrame by 'PnL%' in ascending order
     # Assuming you have a DataFrame named PRINT_df
 
-
+    
     import pandas as pd
         
     # Assuming PRINT_df_sorted is your DataFrame
@@ -543,7 +543,9 @@ try:
     # Set the maximum width for specific columns
     pd.set_option('display.max_colwidth', 4)
     pd.set_option('display.colheader_justify', 'left')  # Align column headers to the left
-    pd.set_option('display.col_space', 0)  # No space between columns
+    
+    # Manually adjust the width of the 'key' column
+    pd.set_option('display.max_colwidth', 8)  # Adjust the value for your desired width
     
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
@@ -553,6 +555,7 @@ try:
     
     # Print the truncated DataFrame without color
     print(PRINT_df_sorted_display.to_string(index=False, justify='left'))
+
 
 
     
