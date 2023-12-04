@@ -520,7 +520,7 @@ try:
     # Conditionally replace values in the 'CM' column
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
-    PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q >= 0 else '-')
+    PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else '-')
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
@@ -551,8 +551,7 @@ try:
 
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-    PRINT_df_sorted_display['qty'] = PRINT_df_sorted_display['qty'].astype(str).str[:4]
-    PRINT_df_sorted_display['key'] = PRINT_df_sorted_display['key'].astype(str).str[:5]
+
     
     # Always print "Table" in bright yellow
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
