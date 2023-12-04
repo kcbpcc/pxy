@@ -520,7 +520,7 @@ try:
 
 ###########################################################################################################################################################################################################    
     import pandas as pd
-        
+            
     # Assuming PRINT_df_sorted is your DataFrame
     PRINT_df_sorted = PRINT_df.copy()
     
@@ -543,14 +543,13 @@ try:
     # Set the maximum width for all columns
     pd.set_option('display.max_colwidth', 1)  # Adjust the value for your desired width
     
-    # Apply truncation to each cell in the DataFrame
-    PRINT_df_sorted_display = PRINT_df_sorted.copy()
+    # Get the string representation of the DataFrame without color
+    df_str = PRINT_df_sorted.to_string(index=False)
     
-    # Always print "Table" in bright yellow
+    # Print the DataFrame with minimized space between columns
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
-    
-    # Print the truncated DataFrame without color
-    print(PRINT_df_sorted_display.to_string(index=False, justify='left'))
+    print(df_str.replace('  ', ''))
+
 
 
 
