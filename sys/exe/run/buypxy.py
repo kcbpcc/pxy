@@ -13,7 +13,7 @@ import ynfndpxy
 from ynfndpxy import calculate_decision
 from mktpxy import mktpxy
 import asyncio
-from smbpxy import get_market_check
+from smbpxy import get_smbchk_check
 
 logging = Logger(10)
 holdings = dir_path + "holdings.csv"
