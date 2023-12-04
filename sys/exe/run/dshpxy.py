@@ -1,7 +1,7 @@
 import pandas as pd
 from prettytable import PrettyTable
 from colorama import Fore, Style
-from ynfndpxy import available_cash
+
 
 def convert_to_laks(value):
     return f'{value/100000:.4f}'
