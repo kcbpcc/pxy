@@ -514,7 +514,7 @@ try:
 
     PRINT_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','hsl','PnL%']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty' : 'Q'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty' : 'Q','smbchk': 'chks'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['X'] = PRINT_df['X'].replace({'holdings': 'H', 'positions': 'P'})
     # Conditionally replace values in the 'CM' column
@@ -529,6 +529,8 @@ try:
 
 
     PRINT_df_sorted = PRINT_df
+
+    PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:3]
 
     # Sort the DataFrame by 'PnL' in ascending order
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PnL%', ascending=True)
