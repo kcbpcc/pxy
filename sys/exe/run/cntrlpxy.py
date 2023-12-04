@@ -320,7 +320,7 @@ try:
     combined_df['low'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('low', 0))
     combined_df['close'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('close_price', 0))
     combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
-    combined_df['hstp'] = (combined_df['open'] *0.99)
+    combined_df['ostp'] = (combined_df['open'] *0.99)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
@@ -421,7 +421,7 @@ try:
 
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
-    numeric_columns = ['smbchk','hstp','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PnL%','PnL%_H', 'dPnL', 'dPnL%']
+    numeric_columns = ['smbchk','ostp','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PnL%','PnL%_H', 'dPnL', 'dPnL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(1)        # Filter combined_df
     filtered_df = combined_df[(combined_df['qty'] > 0) | ((combined_df['qty'] < 0) & (combined_df['product'] == 'MIS'))]
     # Filter combined_df for rows where 'qty' is greater than 0
@@ -505,13 +505,13 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['smbchk','hstp','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','yxp','key','dPnL%','PnL','PnL%_H', 'PnL%']]
+    pxy_df = filtered_df.copy()[['smbchk','ostp','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','yxp','key','dPnL%','PnL','PnL%_H', 'PnL%']]
   
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
-    EXE_df = pxy_df[['smbchk','hstp','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PnL%_H', 'dPnL%', 'product', 'source', 'key', 'pxy', 'yxp', 'PnL%', 'PnL']]
+    EXE_df = pxy_df[['smbchk','ostp','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PnL%_H', 'dPnL%', 'product', 'source', 'key', 'pxy', 'yxp', 'PnL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','hstp','ltp','dPnL%','PnL']]
+    PRINT_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','ostp','ltp','dPnL%','PnL']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': 'CM'})
     # Conditionally replace values in the 'HP' column
@@ -580,7 +580,7 @@ try:
                         (row['qty'] > 0 and
                          row['product'] == 'CNC') and
                          #row['PnL%'] > 1.4 and
-                        ((row['dPnL%'] < row['pxy']) or (row['dPnL%'] > TIMPXY) or (row['ltp'] < row['hstp']))                    
+                        ((row['dPnL%'] < row['pxy']) or (row['dPnL%'] > TIMPXY) or (row['open'] < row['ostp']))                    
                     ):
                         try:
                             is_placed = order_place(key, row)
