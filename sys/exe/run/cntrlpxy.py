@@ -514,7 +514,7 @@ try:
 
     PRINT_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','hsl','ltp','dPnL%','PnL']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': 'CM'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'X'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': 'H', 'positions': 'P'})
     # Conditionally replace values in the 'CM' column
