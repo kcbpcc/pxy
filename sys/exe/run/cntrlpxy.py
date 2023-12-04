@@ -581,7 +581,7 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PnL%'] > 1.4) and
+                         #row['PnL%'] > 1.4) and
                         (((row['PnL%']) < (row['pxy'])) or (row['ltp'] < row['hstp']))
                     ):
                         try:
