@@ -6,5 +6,5 @@ source ~/env/bin/activate
 cd ~/pxy/sys/exe/run
 
 # Run the Python script
-python3 cntrlpxy.py
+python3 pxy.py
 
