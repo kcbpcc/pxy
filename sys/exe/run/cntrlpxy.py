@@ -540,8 +540,9 @@ try:
     RESET = "\033[0m"
     BRIGHT_YELLOW = "\033[93m"
     
-    # Set the maximum width for display
+    # Set the maximum width for specific columns
     pd.set_option('display.max_colwidth', 4)
+    pd.set_option('display.colheader_justify', 'left')  # Align column headers to the left
     
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
@@ -550,8 +551,7 @@ try:
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
     
     # Print the truncated DataFrame without color
-    print(PRINT_df_sorted_display.to_string(index=False, justify='right'))
-
+    print(PRINT_df_sorted_display.to_string(index=False, justify='left'))
 ###########################################################################################################################################################################################################
 
     # Define the CSV file path
