@@ -54,7 +54,7 @@ def get_holdingsinfo(csv_file_path):
 
         table = PrettyTable()
         table.field_names = ['LaksBoard', 'All', 'Green', 'Red']
-        table.add_row(['📈Stocks', total_Stocks_count, green_Stocks_count, red_Stocks_count])
+        table.add_row(['Stocks📈', total_Stocks_count, green_Stocks_count, red_Stocks_count])
         table.add_row(['Invested', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
         table.add_row(['WorthNow', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
 
