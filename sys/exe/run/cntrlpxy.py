@@ -567,26 +567,23 @@ try:
                 key = row['key']  # Get the 'key' value
                 # Check the common conditions first
                 if (
-                        row['ltp'] > 0 and
-                        row['avg'] > 0 and
-                        row['qty'] != 0
-                    ):
+                    (row['ltp'] > 0 and
+                     row['avg'] > 0) 
+                ):
                     
 ###########################################################################################################################################################################################################                    
                     if (
                         (row['qty'] > 0 and
-                        row['product'] == 'CNC' and
-                        row['source'] == 'holdings') and
-
-                        row['ltp'] < row['hstp'] 
-                        
+                         row['product'] == 'CNC' and
+                         row['PnL%'] > 1.4) and
+                        ((((row['PnL%'] < ((row['pxy'])*3) and row['PnL%_H'] > ((row['pxy'])*3)) or (row['PnL%'] > TIMPXY)) and row['source'] == 'holdings') or
+                         (((row['PnL%'] < ((row['pxy'])*3) and row['PnL%_H'] > ((row['pxy'])*3)) or (row['PnL%'] > TIMPXY)) and row['source'] == 'positions'))
                     ):
-                        #print(row)
                         try:
                             is_placed = order_place(key, row)
                             if is_placed:
                                 # Print the row before placing the order
-                                print(row)
+                                print(row)                                
                         except InputException as e:
                             # Handle the specific exception and print only the error message
                             print(f"An error occurred while placing an order for key {key}: {e}")
@@ -596,11 +593,11 @@ try:
 
 ###########################################################################################################################################################################################################
                     elif (
-                        (row['qty'] > 0 and
+                        row['qty'] > 0 and
+                        row['source'] == 'positions' and
                         row['product'] == 'MIS' and
-                        row['source'] == 'positions') and
-
-                        row['ltp'] < row['pstp'] 
+                        row['PnL%'] > 0.14 and 
+                        row['PnL%'] > row['pxy']
                     ):
 
                         try:
@@ -620,9 +617,8 @@ try:
                         row['qty'] < 0 and
                         row['source'] == 'positions' and
                         row['product'] == 'MIS' and
-
-                        row['ltp'] > row['_pstp'] 
-
+                        row['PnL%'] < -0.14 and 
+                        row['PnL%'] < row['yxp'] 
                     ):
                         try:
                             is_placed = mis_order_buy(key, row)
