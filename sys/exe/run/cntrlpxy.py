@@ -561,7 +561,7 @@ try:
     selected_rows = []# Loop through the DataFrame and place orders based on conditions    
     if any(item in mktpxy for item in ['Sell', 'Bear', 'Buy', 'Bull', 'None']):  # Check if mktpxy is one of the specified values
         try:
-            for index, row in ORDER_df.iterrows():
+            for index, row in EXE_df.iterrows():
                 key = row['key']  # Get the 'key' value
                 # Check the common conditions first
                 if (
