@@ -512,13 +512,13 @@ try:
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['smbchk','hsl','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PnL%_H', 'dPnL%', 'product', 'source', 'key', 'pxy', 'yxp', 'PnL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','hsl','ltp','dPnL%','PnL']]
+    PRINT_df = pxy_df[['source','product','qty','key','smbchk','yxp','pxy','hsl','PnL%']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'X'})
     # Conditionally replace values in the 'HP' column
-    PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': 'H', 'positions': 'P'})
+    PRINT_df['HP'] = PRINT_df['X'].replace({'holdings': 'H', 'positions': 'P'})
     # Conditionally replace values in the 'CM' column
-    PRINT_df['CM'] = PRINT_df['CM'].replace({'CNC': 'C', 'MIS': 'M'})
+    PRINT_df['CM'] = PRINT_df['X'].replace({'CNC': 'C', 'MIS': 'M'})
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
@@ -529,10 +529,10 @@ try:
     PRINT_df_sorted = PRINT_df
 
     # Sort the DataFrame by 'PnL' in ascending order
-    PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PnL', ascending=True)
+    PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PnL%', ascending=True)
 
     # Convert the 'PnL' column to integers
-    PRINT_df_sorted.loc[:, 'PnL'] = PRINT_df_sorted['PnL'].astype(int)
+    PRINT_df_sorted.loc[:, 'PnL'] = PRINT_df_sorted['PnL%'].astype(int)
  
     SILVER = "\033[97m"
     UNDERLINE = "\033[4m"
