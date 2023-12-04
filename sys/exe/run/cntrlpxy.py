@@ -546,10 +546,6 @@ try:
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     
-    # Set the space between columns to 0 (Note: This option doesn't exist in recent versions of Pandas)
-    # This line won't have any effect, but you can try it in older versions if available
-    pd.set_option('display.col_space', 0)
-    
     # Always print "Table" in bright yellow
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
     
