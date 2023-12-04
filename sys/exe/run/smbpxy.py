@@ -6,25 +6,18 @@ from rich.console import Console
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-def calculate_last_three_heikin_ashi_colors(symbol, interval):
+# Function to calculate the Heikin-Ashi candle colors for the last two closed candles
+def calculate_last_two_heikin_ashi_colors(symbol, interval):
     try:
-        # Fetch real-time data for the specified interval
-        data = yf.Ticker(symbol).history(period='7d', interval=f'{interval}m')
-
-        # Calculate Heikin-Ashi candles
+        data = yf.Ticker(symbol).history(period='5d', interval=f'{interval}m')
         ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
         ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
-
-        # Calculate the colors of the last three closed candles
         current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
         last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-        second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
-        
-        return current_color, last_closed_color, second_last_closed_color
-
+        return current_color, last_closed_color
     except Exception as e:
-        print(f"Exception occurred: {e}")
-        return None, None, None
+        console.print(f"{symbol}: No data found, symbol may be delisted. Skipping to the next one.")
+        return None, None
 
 def get_smbpxy_check(symbol, interval, period='5d'):
     try:
