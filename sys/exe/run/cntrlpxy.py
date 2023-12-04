@@ -323,7 +323,7 @@ try:
     combined_df['hstp'] = (combined_df['open'] *0.99)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
-    combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(combined_df['tradingsymbol'] + ".NS", 5) if combined_df['qty'] != 0 and get_smbpxy_check(combined_df['tradingsymbol'] + ".NS", 5) is not None else mktpxy, axis=1)
+    combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS", 5) if row['qty'] != 0 and get_smbpxy_check(row['tradingsymbol'] + ".NS", 5) is not None else mktpxy, axis=1)
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
