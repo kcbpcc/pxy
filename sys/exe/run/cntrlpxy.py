@@ -520,7 +520,7 @@ try:
 
 ###########################################################################################################################################################################################################    
     import pandas as pd
-            
+    
     # Assuming PRINT_df_sorted is your DataFrame
     PRINT_df_sorted = PRINT_df.copy()
     
@@ -543,18 +543,19 @@ try:
     # Set the maximum width for all columns
     pd.set_option('display.max_colwidth', 1)  # Adjust the value for your desired width
     
-    # Get the string representation of the DataFrame without color
-    df_str = PRINT_df_sorted.to_string(index=False)
+    # Apply truncation to each cell in the DataFrame
+    PRINT_df_sorted_display = PRINT_df_sorted.copy()
     
-    # Print the DataFrame with minimized space between columns
+    # Set the space between columns to 0 (Note: This option doesn't exist in recent versions of Pandas)
+    # This line won't have any effect, but you can try it in older versions if available
+    pd.set_option('display.col_space', 0)
+    
+    # Always print "Table" in bright yellow
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
-    print(df_str.replace('  ', ' '))
-
-
-
-
-
     
+    # Print the truncated DataFrame without color
+    print(PRINT_df_sorted_display.to_string(index=False, justify='left'))
+  
 ###########################################################################################################################################################################################################
 
     # Define the CSV file path
