@@ -579,8 +579,8 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC') and
-                         #row['aPL%'] > 1.4 and
-                        ((row['dPL%'] < row['pxy']) or (row['dPL%'] > TIMPXY) or (row['open'] > row['open']*10))                    
+                         ((row['aPL%'] > -1 and row['aPL%'] > row['pxy'] and row['aPL%'] < 3 ) or ( row['aPL%'] < -1))
+                   
                     ):
                         try:
                             is_placed = order_place(key, row)
@@ -597,10 +597,8 @@ try:
 ###########################################################################################################################################################################################################
                     elif (
                         row['qty'] > 0 and
-                        row['source'] == 'positions' and
                         row['product'] == 'MIS' and
-                        row['aPL%'] > 0.14 and 
-                        row['aPL%'] > row['pxy']
+                        ((row['aPL%'] > -1 and row['aPL%'] > row['pxy'] and row['aPL%'] < 3 ) or ( row['aPL%'] < -1))
                     ):
 
                         try:
@@ -618,10 +616,8 @@ try:
 ###########################################################################################################################################################################################################
                     elif (
                         row['qty'] < 0 and
-                        row['source'] == 'positions' and
                         row['product'] == 'MIS' and
-                        row['aPL%'] < -0.14 and 
-                        row['aPL%'] < row['_pxy'] 
+                        ((row['aPL%'] < 1 and row['aPL%'] < row['pxy'] and row['aPL%'] > -3 ) or ( row['aPL%'] > 1))
                     ):
                         try:
                             is_placed = mis_order_buy(key, row)
