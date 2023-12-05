@@ -77,5 +77,5 @@ total_profit_main = process_csv(csv_file_path)
 
 # Now you can use total_profit_main in your main code
 # print("Total Profit in Main:", total_profit_main)
-
+print("Header Row:", header_row)
 
