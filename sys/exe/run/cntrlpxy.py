@@ -361,10 +361,18 @@ try:
         smbchk = row['smbchk']
         pr, xl, yi = row['pr'], row['xl'], row['yi']
     
-        if smbchk == "Sell" or smbchk == "Bear":
-            return round(max(pr, xl), 2)
-        elif smbchk == "Buy" or smbchk == "Bull":
+        if smbchk == "Bear": 
+            return round(max(pr, pr), 2)
+            
+        elif smbchk == "Buy": 
             return round(max(pr, yi), 2)
+
+        elif smbchk == "Bull":
+            return round(max(pr, yi), 2)
+
+        elif smbchk == "Sell":
+            return round(max(pr, xl), 2)
+        
         else:
             return round(pr, 2)
     
@@ -372,10 +380,18 @@ try:
         smbchk = row['smbchk']
         _pr, _xl, _yi = row['_pr'], row['_xl'], row['_yi']
     
-        if smbchk == "Sell" or smbchk == "Bear":
+        if smbchk == "Bear": 
             return round(max(_pr, _yi), 2)
-        elif smbchk == "Buy" or smbchk == "Bull":
+            
+        elif smbchk == "Buy": 
             return round(max(_pr, _xl), 2)
+
+        elif smbchk == "Bull":
+            return round(max(_pr, _pr), 2)
+
+        elif smbchk == "Sell":
+            return round(max(_pr, _yi), 2)
+        
         else:
             return round(_pr, 2)
     
