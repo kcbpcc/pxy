@@ -59,7 +59,7 @@ def order_place(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp','_yxp', '_pxy']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -120,7 +120,7 @@ def mis_order_sell(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp','_yxp', '_pxy']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -181,7 +181,7 @@ def mis_order_buy(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp','_yxp', '_pxy']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -503,7 +503,7 @@ try:
   
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
-    EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'product', 'source', 'key', 'pxy','yxp','_yxp', '_pxy', 'aPL%', 'PnL']]
+    EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'product', 'source', 'key', 'pxy','yxp', 'aPL%', 'PnL']]
 
     PRINT_df = pxy_df[['source','product','qty','key','smbchk','_pxy','pxy','dPL%','oPL%','aPL%']]
     # Rename columns for display
