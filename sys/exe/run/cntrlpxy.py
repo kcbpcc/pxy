@@ -59,7 +59,7 @@ def order_place(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -120,7 +120,7 @@ def mis_order_sell(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -181,7 +181,7 @@ def mis_order_buy(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy','yxp']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -324,11 +324,11 @@ try:
     # Calculate 'PnL' column as 'value' - 'Invested'
     combined_df['PnL'] = (combined_df['value'] - combined_df['Invested']).astype(int)
     combined_df['PnL_H'] = combined_df['value_H'] - combined_df['Invested']
-    # Calculate 'aPL%' column as ('PnL' / 'Invested') * 100
-    combined_df['aPL%'] = (combined_df['PnL'] / combined_df['Invested']) * 100
-    #combined_df['aPL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
-    combined_df['aPL%_H'] = (combined_df['PnL_H'] / combined_df['Invested']) * 100
-    #combined_df['aPL%_H'] = ((combined_df['PnL_H'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
+    # Calculate 'PL%' column as ('PnL' / 'Invested') * 100
+    combined_df['PL%'] = (combined_df['PnL'] / combined_df['Invested']) * 100
+    #combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
+    combined_df['PL%_H'] = (combined_df['PnL_H'] / combined_df['Invested']) * 100
+    #combined_df['PL%_H'] = ((combined_df['PnL_H'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
     # Calculate 'Yvalue' column as 'qty' * 'close'
     combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
     # Calculate 'dPnL' column as 'close_price' - 'ltp'
@@ -431,12 +431,12 @@ try:
 
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
-    numeric_columns = ['smbchk','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'aPL%','aPL%_H', 'dPnL', 'dPL%']
+    numeric_columns = ['smbchk','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)        # Filter combined_df
     filtered_df = combined_df[(combined_df['qty'] > 0) | ((combined_df['qty'] < 0) & (combined_df['product'] == 'MIS'))]
     # Filter combined_df for rows where 'qty' is greater than 0
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
-    # Calculate and print the sum of 'PnL' values and its total 'aPL%' for rows where 'qty' is greater than 0
+    # Calculate and print the sum of 'PnL' values and its total 'PL%' for rows where 'qty' is greater than 0
     total_PnL = round(combined_df_positive_qty['PnL'].sum())
     total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100    
     # Calculate total_PnL_percentage_mis_buy
@@ -515,13 +515,13 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','_pxy','yxp','_yxp','key','dPL%','PnL','aPL%_H', 'aPL%']]
+    pxy_df = filtered_df.copy()[['smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','_pxy','yxp','_yxp','key','dPL%','PnL','PL%_H', 'PL%']]
   
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
-    EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'product', 'source', 'key', 'pxy','yxp', 'aPL%', 'PnL']]
+    EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp','product', 'source', 'key', 'PL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','qty','key','_pxy','pxy','dPL%','oPL%','aPL%','smbchk']]
+    PRINT_df = pxy_df[['source','product','qty','key','_pxy','pxy','dPL%','oPL%','PL%','smbchk']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty': 'Q', 'smbchk': 'OO'})
     # Conditionally replace values in the 'HP' column
@@ -534,7 +534,7 @@ try:
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
-    # Sort the DataFrame by 'aPL%' in ascending order
+    # Sort the DataFrame by 'PL%' in ascending order
     # Assuming you have a DataFrame named PRINT_df
 
 ###########################################################################################################################################################################################################    
@@ -549,11 +549,11 @@ try:
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
     PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:3]
     
-    # Sort the DataFrame by 'aPL%' in ascending order
-    PRINT_df_sorted = PRINT_df_sorted.sort_values(by='aPL%', ascending=True)
+    # Sort the DataFrame by 'PL%' in ascending order
+    PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
     
-    # Convert the 'aPL%' column to integers
-    PRINT_df_sorted.loc[:, 'aPL%'] = PRINT_df_sorted['aPL%'].astype(int)
+    # Convert the 'PL%' column to integers
+    PRINT_df_sorted.loc[:, 'PL%'] = PRINT_df_sorted['PL%'].astype(int)
     
     # ANSI escape codes for text coloring
     RESET = "\033[0m"
@@ -595,7 +595,7 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC') and
-                         ((row['aPL%'] > -1 and row['aPL%'] > row['pxy'] and row['aPL%'] < 3 ) or ( row['aPL%'] < -1))
+                         ((row['PL%'] > -1 and row['PL%'] > row['pxy'] and row['PL%'] < 3 ) or ( row['PL%'] < -1))
                    
                     ):
                         try:
@@ -614,7 +614,7 @@ try:
                     elif (
                         row['qty'] > 0 and
                         row['product'] == 'MIS' and
-                        ((row['aPL%'] > -1 and row['aPL%'] > row['pxy'] and row['aPL%'] < 3 ) or ( row['aPL%'] < -1))
+                        ((row['PL%'] > -1 and row['PL%'] > row['pxy'] and row['PL%'] < 3 ) or ( row['PL%'] < -1))
                     ):
 
                         try:
@@ -633,7 +633,7 @@ try:
                     elif (
                         row['qty'] < 0 and
                         row['product'] == 'MIS' and
-                        ((row['aPL%'] < 1 and row['aPL%'] < row['pxy'] and row['aPL%'] > -3 ) or ( row['aPL%'] > 1))
+                        ((row['PL%'] < 1 and row['PL%'] < row['pxy'] and row['PL%'] > -3 ) or ( row['PL%'] > 1))
                     ):
                         try:
                             is_placed = mis_order_buy(key, row)
@@ -676,7 +676,7 @@ try:
         print(right_aligned_format.format(f"TIMPXY:{BRIGHT_YELLOW}{round(TIMPXY, 2)}{RESET}"))
         print(left_aligned_format.format(f"tPnL:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round(total_PnL, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
-        print(left_aligned_format.format(f"taPL%:{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}"), end="")
+        print(left_aligned_format.format(f"tPL%:{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked: {BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
         print(left_aligned_format.format(f"psellPnL:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}"), end="")
         print(right_aligned_format.format(f"pbuyPnL:{BRIGHT_GREEN if total_PnL_percentage_positions_buy >= 0 else BRIGHT_RED}{total_PnL_percentage_positions_buy}{RESET}"))
