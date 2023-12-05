@@ -507,14 +507,14 @@ try:
 
     PRINT_df = pxy_df[['source','product','qty','key','smbchk','_pxy','pxy','dPL%','oPL%','aPL%']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty' : 'Q','smbchk': 'trend'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty': 'Q', 'smbchk': 'OOO'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['X'] = PRINT_df['X'].replace({'holdings': 'H', 'positions': 'P'})
     # Conditionally replace values in the 'CM' column
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else '-')
-    PRINT_df['trend'] = PRINT_df['trend'].apply(lambda O: '🟢🟢' if trend == 'Bull' else ('🔴🔴' if trend == 'Bear' else ('🟢🔴' if trend == 'Sell' else ('🔴🟢' if trend == 'Buy' else trend))))
+    PRINT_df['OOO'] = PRINT_df['OOO'].apply(lambda OOO: '🟢🟢' if OOO == 'Bull' else ('🔴🔴' if OOO == 'Bear' else ('🟢🔴' if OOO == 'Sell' else ('🔴🟢' if OOO == 'Buy' else OOO))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
