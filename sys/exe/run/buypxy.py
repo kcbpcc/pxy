@@ -11,7 +11,7 @@ import sys
 import os
 import ynfndpxy
 from ynfndpxy import calculate_decision
-from mktpxy import mktpxy
+from mktpxy import get_market_check
 import asyncio
 from smbpxy import get_smbpxy_check
 
@@ -110,7 +110,7 @@ if decision == "YES":
         available_cash = response["equity"]["available"]["live_balance"]
         
         try:
-            smbchk = get_smbchk_check(dct['tradingsymbol']+".NS", 5)
+            smbchk = get_market_check(dct['tradingsymbol']+".NS", 5)
         except Exception as e:
             smbchk = None
         try:
