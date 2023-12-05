@@ -11,7 +11,7 @@ from colorama import Fore, Style
 import csv
 import telegram
 import asyncio
-from prftpxy import sum_last_numerical_value_in_each_row
+from bukdpxy import sum_last_numerical_value_in_each_row
 print(f'🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛')
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
