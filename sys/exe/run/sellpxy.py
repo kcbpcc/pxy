@@ -10,7 +10,7 @@ import traceback
 import sys
 import os
 import ynfndpxy
-from ynfndpxy import calculate_decision
+from fundpxy import calculate_decision
 from mktpxy import get_market_check
 import asyncio
 from smbpxy import get_smbpxy_check
