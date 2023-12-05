@@ -286,9 +286,7 @@ try:
     holdings_df = get_holdingsinfo(holdings_response, broker)
     positions_df = get_positionsinfo(positions_response, broker)
     ###########################################################################################################################################################################################################
-    order = broker.kite.orders()
-
-    print(f"Order ID: {order['order_id']}, Symbol: {order['tradingsymbol']}, Quantity: {order['quantity']}, Price: {order['price']}, Status: {order['status']}")
+ 
     response = broker.kite.margins()
     available_cash = response["equity"]["available"]["live_balance"]  
     # Add 'key' column to holdings_df and positions_df
