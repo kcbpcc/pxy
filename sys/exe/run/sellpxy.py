@@ -11,8 +11,9 @@ import sys
 import os
 import ynfndpxy
 from ynfndpxy import calculate_decision
-from mktpxy import mktpxy
+from mktpxy import get_market_check
 import asyncio
+from smbpxy import get_smbpxy_check
 
 logging = Logger(10)
 holdings = dir_path + "holdings.csv"
@@ -107,6 +108,11 @@ if decision == "YES":
     def transact(dct, remaining_cash):
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
+        
+        try:
+            smbchk = get_market_check(dct['tradingsymbol']+".NS", 5)
+        except Exception as e:
+            smbchk = None
         try:
             def get_ltp():
                 ltp = -1
@@ -122,16 +128,16 @@ if decision == "YES":
                 return dct['tradingsymbol'], remaining_cash
     
             # Check if available cash is greater than 11000
-            if available_cash > 11000:
+            if available_cash > 11000 and smbchk == 'Buy' :
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
                     transaction_type='SELL',
                     quantity=int(float(dct['QTY'].replace(',', ''))), 
-                    order_type='LIMIT',
+                    order_type='MARKET',
                     product='CNC',
                     variety='regular',
-                    price=round_to_paise(ltp, -0.2)
+                    price=round_to_paise(ltp, 0.2)
                 )
                 if order_id:
                     logging.info(
@@ -140,7 +146,7 @@ if decision == "YES":
                     return dct['tradingsymbol'], remaining_cash
             else:
                 logging.warning(
-                    f"Skipping order placement for {dct['tradingsymbol']} due to insufficient available cash.")
+                    f"Skipping order placement for {dct['tradingsymbol']} due to insufficient available cash or because of {smbchk}")
             return dct['tradingsymbol'], remaining_cash
         except Exception as e:
             print(traceback.format_exc())
@@ -174,6 +180,7 @@ if decision == "YES":
             with open(black_file, 'w') as file:
                 for symbol in new_list:
                     file.write(symbol + '\n')
+      
         print(f"Available Cash: {remaining_cash}")
 elif decision == "NO":
     # Perform actions for "NO"
