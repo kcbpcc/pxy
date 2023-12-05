@@ -4,7 +4,7 @@ from rich.table import Table
 
 def process_csv(csv_file_path):
     # Set the overall table width
-    table_width = 40
+    table_width = 30
 
     # Specify the headers for printing
     headers_for_printing = ['product', 'source', 'key', 'PL%', 'PnL']
