@@ -267,7 +267,7 @@ try:
     import telegram
     import asyncio
     from smbpxy import get_smbpxy_check
-    from ordpxy import list_open_orders_by_symbol
+    from ordpxy import get_open_order_status
 
     
     # Replace 'filePnL.csv' with the path to your actual CSV file
