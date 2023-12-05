@@ -9,7 +9,6 @@ import pandas as pd
 import traceback
 import sys
 import os
-import ynfndpxy
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
 import asyncio
