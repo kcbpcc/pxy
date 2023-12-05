@@ -579,7 +579,6 @@ try:
     print(PRINT_df_sorted_display.to_string(index=False, justify='left', col_space=-2))
   
 ###########################################################################################################################################################################################################
-    EXE_df['symbol_in_order'] = EXE_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:3]
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
     # Create an empty list to store the rows that meet the condition
@@ -590,15 +589,15 @@ try:
                 key = row['key']  # Get the 'key' value
                 # Check the common conditions first
                 if (
-                    (row['open'] > 0 and
-                     row['high'] > 0 and
-                     row['low'] > 0 and
-                     row['close'] > 0  and
-                     row['qty'] != 0 and
-                     get_open_order_status(symbol_in_order) == NO
-                    )
+                    row['open'] > 0 and
+                    row['high'] > 0 and
+                    row['low'] > 0 and
+                    row['close'] > 0 and
+                    row['qty'] != 0 and
+                    (symbol_in_order := key.split(":")[1]) and
+                    get_open_order_status(symbol_in_order) == "NO"
                 ):
-                    
+                            
 ###########################################################################################################################################################################################################                    
                     if (
                         (row['qty'] > 0 and
