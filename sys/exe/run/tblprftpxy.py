@@ -7,7 +7,7 @@ def process_csv(csv_file_path):
     table_width = 40
 
     # Specify the indices of columns to include
-    included_columns = [12, 13, 14, 16, 19]  # Adjust the indices based on the actual positions of columns in your data
+    included_columns = [1, 3, 1, 1, 1]  # Adjust the indices based on the actual positions of columns in your data
 
     # Create a table to display the selected columns with custom headers
     table = Table(show_header=True, header_style="bold cyan", min_width=table_width)
