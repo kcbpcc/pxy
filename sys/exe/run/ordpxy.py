@@ -9,10 +9,12 @@ logging = Logger(30, dir_path + "main.log")
 
 def get_open_order_status(symbol):
     try:
+        sys.stdout = open('output.txt', 'w')
         broker = get_kite(api="bypass", sec_dir=dir_path)
     except Exception as e:
         remove_token(dir_path)
-        logging.error(f"{str(e)} unable to get broker")
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
 
     try:
