@@ -10,8 +10,8 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval, period='5d'):
     try:
         data = yf.Ticker(symbol).history(period=period, interval=f'{interval}m')
         
-        if data.empty or len(data) < 3:
-            raise ValueError("Insufficient data points for Heikin-Ashi calculation")
+        #if data.empty or len(data) < 3:
+            #raise ValueError("Insufficient data points for Heikin-Ashi calculation")
 
         ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
         ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
