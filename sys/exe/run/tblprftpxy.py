@@ -7,7 +7,7 @@ def process_csv(csv_file_path):
     table_width = 40
 
     # Create a list of excluded columns
-    excluded_columns = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'pxy', 'yxp']
+    excluded_columns = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'product', 'source', 'key', 'pxy', 'yxp', 'aPL%', 'PnL']
 
     # Create a table to display the selected columns with custom headers
     table = Table(show_header=True, header_style="bold cyan", min_width=table_width)
@@ -35,10 +35,10 @@ def process_csv(csv_file_path):
             # Iterate over each row in the CSV file and add it to the table
             for row in csvreader:
                 # Adjust column names to match your CSV file structure
-                if len(row) == 21:  # Update the length based on your actual column count
+                if len(row) == len(header_row):  # Update the length based on your actual column count
                     # Exclude specified columns
                     filtered_row = [value for idx, value in enumerate(row) if idx not in excluded_indices]
-                    qty, avg, close, ltp, open_price, high, low, apl_h, dpnl, product, source, key, pxy, yxp, apl, pnl_percentage, pnl = filtered_row
+                    product, source, key, pnl_percentage, pnl = filtered_row
                 else:
                     # Handle cases where the number of columns is different
                     print(f"Skipping row with unexpected number of columns: {row}")
@@ -77,8 +77,5 @@ total_profit_main = process_csv(csv_file_path)
 
 # Now you can use total_profit_main in your main code
 # print("Total Profit in Main:", total_profit_main)
-
-
-
 
 
