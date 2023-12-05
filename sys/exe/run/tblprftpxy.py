@@ -6,16 +6,16 @@ def process_csv(csv_file_path):
     # Set the overall table width
     table_width = 40
 
-    # Create a list of excluded columns
-    excluded_columns = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'aPL%_H', 'dPL%', 'product', 'source', 'key', 'pxy', 'yxp', 'aPL%', 'PnL']
+    # Specify the indices of columns to include
+    included_columns = [12, 13, 14, 16, 19]  # Adjust the indices based on the actual positions of columns in your data
 
     # Create a table to display the selected columns with custom headers
     table = Table(show_header=True, header_style="bold cyan", min_width=table_width)
-    table.add_column("Product", width=3)
-    table.add_column("Source", width=3)
-    table.add_column("Key", width=10)
-    table.add_column("aPL%")
-    table.add_column("PnL")
+
+    # Add the specified columns to the table with custom headers
+    headers_for_printing = ["Product", "Source", "Key", "aPL%", "PnL"]
+    for column_index, header in zip(included_columns, headers_for_printing):
+        table.add_column(header, width=10)  # Adjust the width as needed
 
     # Initialize the total profit variable
     total_profit = 0
@@ -26,41 +26,28 @@ def process_csv(csv_file_path):
             # Create a CSV reader
             csvreader = csv.reader(csvfile)
 
-            # Skip the header row
-            header_row = next(csvreader)
-
-            # Find indices of columns to be excluded
-            excluded_indices = [header_row.index(col) for col in excluded_columns if col in header_row]
-
             # Iterate over each row in the CSV file and add it to the table
             for row in csvreader:
-                # Adjust column names to match your CSV file structure
-                if len(row) == len(header_row):  # Update the length based on your actual column count
-                    # Exclude specified columns
-                    filtered_row = [value for idx, value in enumerate(row) if idx not in excluded_indices]
-                    product, source, key, pnl_percentage, pnl = filtered_row
+                # Adjust column indices to match your CSV file structure
+                if len(row) == len(included_columns):
+                    # Convert numerical values to strings and round them to two decimal places
+                    row = [str(round(float(row[column_index]), 2)) for column_index in included_columns]
+
+                    # Accumulate the total profit
+                    total_profit += float(row[-1])  # Assuming PnL is the last column
+
+                    # Add the specified columns from the row to the table
+                    table.add_row(*row)
+
                 else:
                     # Handle cases where the number of columns is different
                     print(f"Skipping row with unexpected number of columns: {row}")
                     continue
 
-                # Remove "NSE:" or "BSE:" prefix from the "Key" column
-                key = key.replace("NSE:", "").replace("BSE:", "")
-
-                # Convert numerical values to strings and round them to two decimal places
-                pnl_percentage = str(round(float(pnl_percentage), 2))
-                pnl = str(round(float(pnl), 2))
-
-                # Accumulate the total profit
-                total_profit += float(pnl)
-
-                # Add the row to the table
-                table.add_row(product, source, key, pnl_percentage, pnl)
-
     except FileNotFoundError:
         print("File not found!")
 
-    # Print the table with the updated column names
+    # Print the table with the specified columns and headers
     print(table)
 
     # Print the total profit in INR (₹) format rounded to two decimal places
@@ -77,5 +64,3 @@ total_profit_main = process_csv(csv_file_path)
 
 # Now you can use total_profit_main in your main code
 # print("Total Profit in Main:", total_profit_main)
-print("Header Row:", header_row)
-
