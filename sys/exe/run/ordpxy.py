@@ -7,7 +7,7 @@ from cnstpxy import dir_path
 
 logging = Logger(30, dir_path + "main.log")
 
-def list_open_orders_by_symbol(symbol):
+def get_open_order_status(symbol):
     try:
         broker = get_kite(api="bypass", sec_dir=dir_path)
     except Exception as e:
@@ -20,11 +20,11 @@ def list_open_orders_by_symbol(symbol):
 
         for order in orders:
             if order['status'] == 'OPEN' and order['tradingsymbol'] == symbol:
-                print(f"Symbol: {order['tradingsymbol']}")
-                print(f"Order Status: {order['status']}")
-                print("---")
+                return "YES"  # There is at least one open order for the symbol
 
     except Exception as e:
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get orders")
         sys.exit(1)
+
+    return "NO"  # No open orders found for the symbol
