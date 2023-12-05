@@ -24,6 +24,8 @@ sudo apt install python3.9-venv
 
 python3.9 -m venv env
 
+sudo chmod -R 777 env
+
 source ~/env/bin/activate
 
 pip install --upgrade pip
@@ -33,6 +35,8 @@ sudo apt install git
 git --version
 
 git clone https://github.com/kcbpcc/pxy.git
+
+sudo chmod -R 777 pxy
 
 sudo cp ~/pxy/sys/pxy* /usr/local/bin/
 
