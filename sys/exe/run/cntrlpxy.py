@@ -595,7 +595,7 @@ try:
                      row['low'] > 0 and
                      row['close'] > 0  and
                      row['qty'] != 0 and
-                     get_open_order_status(symbol_in_order) = NO
+                     get_open_order_status(symbol_in_order) == NO
                     )
                 ):
                     
