@@ -607,7 +607,7 @@ try:
                    
                     ):
                         try:                            
-                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "YES" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row)                                
