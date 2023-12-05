@@ -607,7 +607,7 @@ try:
                    
                     ):
                         try:                            
-                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "YES" else False
+                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row)                                
@@ -626,7 +626,7 @@ try:
                     ):
 
                         try:
-                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "YES" else False
+                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row)                                
@@ -644,7 +644,7 @@ try:
                         ((row['PL%'] < 1 and row['PL%'] < row['pxy'] and row['PL%'] > -3 ) or ( row['PL%'] > 1))
                     ):
                         try:
-                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "YES" else False
+                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row)
