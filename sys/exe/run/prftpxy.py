@@ -4,7 +4,7 @@ from rich.table import Table
 
 def process_csv(csv_file_path):
     # Set the overall table width
-    table_width = 30
+    table_width = 40
 
     # Specify the headers for printing
     headers_for_printing = ['product', 'source', 'key', 'PL%', 'PnL']
@@ -30,9 +30,13 @@ def process_csv(csv_file_path):
 
             # Iterate over each row in the CSV file and add the last 5 columns to the table
             for row in csvreader:
+                # Skip empty rows
+                if not row:
+                    continue
+
                 # Skip rows with unexpected number of columns
                 if len(row) < len(headers_for_printing):
-                    print(f"Skipping row with unexpected number of columns: {row}")
+                    # Optionally, you can choose to print a message here if needed
                     continue
 
                 # Extract values of the last 5 columns
@@ -67,5 +71,3 @@ total_profit_main = process_csv(csv_file_path)
 
 # Now you can use total_profit_main in your main code
 # print("Total Profit in Main:", total_profit_main)
-
-
