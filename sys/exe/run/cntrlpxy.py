@@ -261,7 +261,6 @@ try:
     from nftpxy import nse_action
     from timepxy import calculate_timpxy
     import math
-    from mktchksmbl import getsmktchk
     from bukdpxy import sum_last_numerical_value_in_each_row
     from swchpxy import analyze_stock
     import telegram
