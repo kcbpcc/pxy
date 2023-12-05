@@ -25,21 +25,15 @@ def process_csv(csv_file_path):
             # Create a CSV reader
             csvreader = csv.reader(csvfile)
 
-            # Skip the header row
-            header_row = next(csvreader)
-
-            # Find the indices of the last 5 columns based on headers_for_printing
-            last_columns_indices = [header_row.index(col) for col in headers_for_printing]
-
             # Iterate over each row in the CSV file and add the last 5 columns to the table
             for row in csvreader:
                 # Skip rows with unexpected number of columns
-                if len(row) != len(header_row):
+                if len(row) < len(headers_for_printing):
                     print(f"Skipping row with unexpected number of columns: {row}")
                     continue
 
                 # Extract values of the last 5 columns
-                last_columns_values = [row[idx] for idx in last_columns_indices]
+                last_columns_values = row[-5:]
 
                 # Convert numerical values to strings and round them to two decimal places
                 last_columns_values = [str(round(float(value), 2)) for value in last_columns_values]
@@ -70,3 +64,4 @@ total_profit_main = process_csv(csv_file_path)
 
 # Now you can use total_profit_main in your main code
 # print("Total Profit in Main:", total_profit_main)
+
