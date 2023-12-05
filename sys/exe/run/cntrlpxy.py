@@ -286,7 +286,7 @@ try:
     holdings_df = get_holdingsinfo(holdings_response, broker)
     positions_df = get_positionsinfo(positions_response, broker)
     ###########################################################################################################################################################################################################
-    open_orders = broker.kite.orders()
+    order = broker.kite.orders()
 
     print(f"Order ID: {order['order_id']}, Symbol: {order['tradingsymbol']}, Quantity: {order['quantity']}, Price: {order['price']}, Status: {order['status']}")
     response = broker.kite.margins()
