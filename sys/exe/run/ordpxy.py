@@ -6,7 +6,7 @@ from cnstpxy import dir_path
 # Configure logging
 logging = Logger(30, dir_path + "main.log")
 
-def list_all_orders():
+def list_open_orders():
     try:
         # Assuming kite is defined in the get_kite function
         broker = get_kite(api="bypass", sec_dir=dir_path)
@@ -19,20 +19,18 @@ def list_all_orders():
         # Assuming kite is defined somewhere in the get_kite function
         # Use the 'orders' method to get a list of all orders
         orders = broker.kite.orders()
-        
-        # Print information about each order
+
+        # Print information about open orders
         for order in orders:
-            print(f"Order ID: {order['order_id']}")
-            print(f"Symbol: {order['tradingsymbol']}")
-            print(f"Quantity: {order['quantity']}")
-            print(f"Order Type: {order['order_type']}")
-            print(f"Order Status: {order['status']}")
-            print("---")
+            if order['status'] == 'OPEN':
+                print(f"Symbol: {order['tradingsymbol']}")
+                print(f"Order Status: {order['status']}")
+                print("---")
 
     except Exception as e:
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get orders")
         sys.exit(1)
 
-# Call the function to list all orders
-list_all_orders()
+# Call the function to list open orders
+list_open_orders()
