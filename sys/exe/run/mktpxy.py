@@ -58,29 +58,29 @@ def get_market_check(symbol):
     # Determine the market check based on the candle colors and use rich.print to format output
     if current_color == 'Bear' and last_closed_color == 'Bear':
         mktpxy = 'Bear'
-        pktpxy =  '🐻🔴🔴'
+        sktpxy = 'Bear'
         console.print("           🐻🔴🔴🔴 [bold]Bearish sentiment![/bold]🍯💰", style=bear_style)
     elif current_color == 'Bull' and last_closed_color == 'Bull':
         mktpxy = 'Bull'
-        pktpxy =  '🐂🟢🟢'
+        sktpxy = 'Bull'
         console.print("           🐂🟢🟢🟢 [bold]Bullish sentiment![/bold]💪💰", style=bull_style)
     elif current_color == 'Bear' and last_closed_color == 'Bull':
         mktpxy = 'Sell'
-        pktpxy =  '🔴🛬⤵️'
+        sktpxy = 'Sell'
         console.print("                🛒🔴🛬⤵️ [bold]Time to sell![/bold]📉💰", style=sell_style) 
     elif current_color == 'Bull' and last_closed_color == 'Bear':
         mktpxy = 'Buy'
-        pktpxy =  '🟢🛫⤴️'
+        sktpxy = 'Buy'
         console.print("                  🚀🟢🛫⤴️ [bold]Time to buy![/bold]🌠💰", style=buy_style)
     else:
         mktpxy = 'None'
         console.print("            🌟 [bold]Market on standby![/bold]🍿💰📊")
-        pktpxy =  '🍿💰📊'
+        sktpxy = 'None'
 
-    return mktpxy, pktpxy
+    return mktpxy, sktpxy
 
 # Call the function and store the result in a variable
-mktpxy, pktpxy = get_market_check('^NSEI')  # Capture both return values
+mktpxy, sktpxy = get_market_check('^NSEI')  # Capture both return values
 
 # Print the result (you can remove this if not needed)
 #print(f"mktpxy: {mktpxy}")
