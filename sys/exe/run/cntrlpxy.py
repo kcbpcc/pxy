@@ -259,10 +259,10 @@ try:
     from mktpxy import get_market_check
     import importlib
     from nftpxy import nse_action
-    from timpxy import calculate_timpxy
+    from timepxy import calculate_timpxy
     import math
     from mktchksmbl import getsmktchk
-    from tprftpxy import sum_last_numerical_value_in_each_row
+    from bukdpxy import sum_last_numerical_value_in_each_row
     from swchpxy import analyze_stock
     import telegram
     import asyncio
