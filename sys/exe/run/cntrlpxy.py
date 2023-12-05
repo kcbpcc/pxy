@@ -579,24 +579,25 @@ try:
     print(PRINT_df_sorted_display.to_string(index=False, justify='left', col_space=-2))
   
 ###########################################################################################################################################################################################################
-        # Define the CSV file path
-        csv_file_path = "filePnL.csv"
-        # Create an empty list to store the rows that meet the condition
-        selected_rows = []# Loop through the DataFrame and place orders based on conditions    
-        if any(item in mktpxy for item in ['Sell', 'Bear', 'Buy', 'Bull', 'None']):  # Check if mktpxy is one of the specified values
-            try:
-                for index, row in EXE_df.iterrows():
-                    key = row['key']  # Get the 'key' value
-                    # Check the common conditions first
-                    if (
-                        row['open'] > 0 and
-                        row['high'] > 0 and
-                        row['low'] > 0 and
-                        row['close'] > 0 and
-                        row['qty'] != 0 and
-                        (symbol_in_order := key.split(":")[1]) and
-                        get_open_order_status(symbol_in_order) == "NO"
-                    ):
+    # Define the CSV file path
+    csv_file_path = "filePnL.csv"
+    # Create an empty list to store the rows that meet the condition
+    selected_rows = []
+    # Loop through the DataFrame and place orders based on conditions
+    if any(item in mktpxy for item in ['Sell', 'Bear', 'Buy', 'Bull', 'None']):  # Check if mktpxy is one of the specified values
+        try:
+            for index, row in EXE_df.iterrows():
+                key = row['key']  # Get the 'key' value
+                symbol_in_order = row['key'].split(":")[1]
+                # Check the common conditions first
+                if (
+                    row['open'] > 0 and
+                    row['high'] > 0 and
+                    row['low'] > 0 and
+                    row['close'] > 0 and
+                    row['qty'] != 0 and
+                    get_open_order_status(symbol_in_order) == "NO"
+                ):
                             
 ###########################################################################################################################################################################################################                    
                     if (
