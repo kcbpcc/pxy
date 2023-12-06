@@ -583,11 +583,11 @@ try:
     
     # Always print "Table" in bright yellow
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
-    
+    print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     # Print the truncated DataFrame without color
 
     print(PRINT_df_sorted_display.to_string(index=False, justify='left', col_space=-2))
-    print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
+    
 
   
 ###########################################################################################################################################################################################################
