@@ -525,19 +525,7 @@ try:
     switch = analyze_stock('^NSEI')
     
 ###########################################################################################################################################################################################################
-    # ANSI escape codes
-    green_color_code = "\033[92m"
-    red_color_code = "\033[91m"
-    reset_color_code = "\033[0m"
-    
-    # Ascending icon in green
-    ascending_icon = f"{green_color_code}▲{reset_color_code}"
-    
-    # Descending icon in red
-    descending_icon = f"{red_color_code}▼{reset_color_code}"
 
-###########################################################################################################################################################################################################
-    
     # Define the file path for the CSV file
     lstchk_file = "fileHPdf.csv"
     # Dump the DataFrame to the CSV file, overwriting any existing file
@@ -559,7 +547,7 @@ try:
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else '-')
-    PRINT_df['OO'] = PRINT_df['OO'].apply(lambda OO: '🟢' if OO == 'Bull' else ('🔴' if OO == 'Bear' else ('descending_icon' if OO == 'Sell' else ('ascending_icon' if OO == 'Buy' else OO))))
+    PRINT_df['OO'] = PRINT_df['OO'].apply(lambda OO: '🟢' if OO == 'Bull' else ('🔴' if OO == 'Bear' else ('🌑' if OO == 'Sell' else ('🌕' if OO == 'Buy' else OO))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
