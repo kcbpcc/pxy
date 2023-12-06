@@ -62,7 +62,7 @@ case $choice in
         ;;
     ca)
         echo "Test All PXY®"
-        pxychk
+        pxycheck
         ;;
     py)
         echo "Python Program"
