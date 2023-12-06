@@ -16,7 +16,8 @@ warnings.filterwarnings("ignore", category=UserWarning)
 symbol = '^NSEI'
 
 # Intervals in minutes
-intervals = [5]
+intervals = [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+periods = [2,3,4,5,6,7]
 
 # Create a Console instance for rich print formatting
 console = Console()
@@ -24,7 +25,7 @@ console = Console()
 # Function to calculate the Heikin-Ashi candle colors for the last three closed candles
 def calculate_last_three_heikin_ashi_colors(symbol, interval):
     # Fetch real-time data for the specified interval
-    data = yf.Ticker(symbol).history(period='7d', interval=f'{interval}m')
+    data = yf.Ticker(symbol).history(period='{periods}d', interval=f'{interval}m')
 
     # Calculate Heikin-Ashi candles
     ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
