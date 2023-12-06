@@ -12,7 +12,7 @@ echo "Resetting the local branch 'main' to match the remote branch 'origin/main'
 git reset --hard origin/main
 
 echo "Copying files from ~/pxy/sys/ to /usr/local/bin/"
-cp ~/pxy/sys/pxy* /usr/local/bin/
+cp ~/pxy/sys/* /usr/local/bin/
 
 echo "Granting execute permissions to files in /usr/local/bin/"
 chmod +x /usr/local/bin/*
