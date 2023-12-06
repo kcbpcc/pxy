@@ -34,8 +34,9 @@ while True:
     # Specify the stock symbol (NIFTY 50)
     symbol = '^NSEI'
 
-    # Intervals in minutes
+    # Intervals 
     intervals = [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+    periods = [2,3,4,5,6,7]
 
 
     # Create a Console instance for rich print formatting
@@ -44,7 +45,7 @@ while True:
     # Function to calculate the Heikin-Ashi candle colors for the last three closed candles
     def calculate_last_three_heikin_ashi_colors(symbol, interval):
         # Fetch real-time data for the specified interval
-        data = yf.Ticker(symbol).history(period='2d', interval=f'{interval}m')
+        data = yf.Ticker(symbol).history(period='{'periods'}d', interval=f'{interval}m')
 
         # Calculate Heikin-Ashi candles
         ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
