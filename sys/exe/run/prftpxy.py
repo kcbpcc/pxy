@@ -43,13 +43,18 @@ def process_csv(csv_file_path):
                 last_columns_values = row[-5:]
 
                 # Convert numerical values to strings and round them to two decimal places
-                last_columns_values = [str(round(float(value), 2)) for value in last_columns_values]
+                processed_values = []
+                for value in last_columns_values:
+                    try:
+                        processed_values.append(str(round(float(value), 2)))
+                    except ValueError:
+                        processed_values.append(value)  # Keep non-numeric values as they are
 
                 # Accumulate the total profit
-                total_profit += float(last_columns_values[-1])  # Assuming PnL is the last column
+                total_profit += float(processed_values[-1])  # Assuming PnL is the last column
 
                 # Add the last 5 columns from the row to the table
-                table.add_row(*last_columns_values)
+                table.add_row(*processed_values)
 
     except FileNotFoundError:
         print("File not found!")
