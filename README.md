@@ -44,7 +44,7 @@ sudo chmod +x /usr/local/bin/pxy*
 
 cd ~/pxy/sys/exe
 
-pip install -r requirements.txt
+sudo pip install -r requirements.txt
 
 cd ~/pxy/sys/exe/run
 
