@@ -21,10 +21,9 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
-    subprocess.run(['python3', 'cntrlpxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
-    subprocess.run(['python3', 'cntrlpxy.py'])
-    
+  
+   
     # Set the python3IOENCODING environment variable to 'utf-8'
     sys.stdout.reconfigure(encoding='utf-8')
 
@@ -78,24 +77,24 @@ while True:
         # Determine the market check based on the candle colors and use rich.print to format output
         if current_color == 'Bear' and last_closed_color == 'Bear':
             mktpxy = 'Bear'
-            console.print("🐻🔴🔴🔴 [bold]Bearish sentiment![/bold] 🍯💰", style=bear_style)
-
+            subprocess.run(['python3', 'sellpxy.py']) if nse_action in ("SuperBear", "DangerBear") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
+            console.print("🐻🔴🔴🔴 [bold]Bearish sentiment![/bold] 🍯💰", style=bear_style)
         elif current_color == 'Bull' and last_closed_color == 'Bull':
             mktpxy = 'Bull'
-            console.print("🐂🟢🟢🟢 [bold]Bullish sentiment![/bold] 💪💰", style=bull_style)
-
+            subprocess.run(['python3', 'buypxy.py']) if nse_action in ("SuperBull", "DangerBull") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
+            console.print("🐂🟢🟢🟢 [bold]Bullish sentiment![/bold] 💪💰", style=bull_style)
         elif current_color == 'Bear' and last_closed_color == 'Bull':
             mktpxy = 'Sell'
-            console.print("🛒🔴🛬⤵️ [bold]Time to sell![/bold] 📉💰", style=sell_style) 
-
+            subprocess.run(['python3', 'sellpxy.py']) if nse_action in ("SuperBear", "DangerBear") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
+            console.print("🛒🔴🛬⤵️ [bold]Time to sell![/bold] 📉💰", style=sell_style)
         elif current_color == 'Bull' and last_closed_color == 'Bear':
             mktpxy = 'Buy'
-            console.print("🚀🟢🛫⤴️ [bold]Time to buy![/bold] 🌠💰", style=buy_style)
-
+            subprocess.run(['python3', 'buypxy.py']) if nse_action in ("SuperBull", "DangerBull") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
+            console.print("🚀🟢🛫⤴️ [bold]Time to buy![/bold] 🌠💰", style=buy_style)
         else:
             mktpxy = 'None'
             console.print("🌟 [bold]Market on standby![/bold] 🍿💰📊")
