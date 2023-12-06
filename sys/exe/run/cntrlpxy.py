@@ -110,7 +110,7 @@ def order_place(index, row):
         else:
             logging.error("Invalid format for 'index'")    
     except Exception as e:
-        print(traceback.format_exc())
+        #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
 ###########################################################################################################################################################################################################
