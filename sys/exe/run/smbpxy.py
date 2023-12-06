@@ -2,7 +2,8 @@ import yfinance as yf
 import pandas as pd
 import warnings
 from rich.console import Console
-from yfinance import NoDataError, InsufficientDataError
+from yfinance.shared import NoDataError, InsufficientDataError
+
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
