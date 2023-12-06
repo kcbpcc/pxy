@@ -146,6 +146,7 @@ if decision == "YES":
             else:
                 logging.warning(
                     f"Skipping order placement for {dct['tradingsymbol']} due to insufficient funds ({smbchk})"
+                )
             return dct['tradingsymbol'], remaining_cash
         except Exception as e:
             print(traceback.format_exc())
