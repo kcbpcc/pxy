@@ -134,18 +134,18 @@ if decision == "YES":
                     transaction_type='SELL',
                     quantity=int(float(dct['QTY'].replace(',', ''))), 
                     order_type='MARKET',
-                    product='CNC',
+                    product='MIS',
                     variety='regular',
                     price=round_to_paise(ltp, 0.2)
                 )
                 if order_id:
                     logging.info(
-                        f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
+                        f"SELL {order_id} placed for {dct['tradingsymbol']} successfully")
                     # No need to calculate remaining available cash in this case
                     return dct['tradingsymbol'], remaining_cash
             else:
                 logging.warning(
-                    f"Skipping order placement for {dct['tradingsymbol']} due to insufficient available cash or because of {smbchk}")
+                    f"Skipping order placement for {dct['tradingsymbol']} due to because of {smbchk}" OR insufficient available cash{available_cash} )
             return dct['tradingsymbol'], remaining_cash
         except Exception as e:
             print(traceback.format_exc())
