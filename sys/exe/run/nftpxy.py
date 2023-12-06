@@ -39,9 +39,9 @@ def get_nse_action():
             elif yesterday_close < yesterday_open and current_price < today_open and current_price < yesterday_close:
                 nse_action = "DangerBear"
             elif current_price < today_open:
-                nse_action = Bear
+                nse_action = "Bear"
             elif current_price > today_open:
-                nse_action = Bull
+                nse_action = "Bull"
             else:
                 
                 nse_action = "Neutral"
