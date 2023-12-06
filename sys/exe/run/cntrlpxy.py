@@ -546,7 +546,7 @@ try:
     # Conditionally replace values in the 'CM' column
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
-    PRINT_df['P'] = PRINT_df['P'].apply(lambda P: f"{'↑ Green' if P > 0 else '↓ Red'}")
+    PRINT_df['P'] = PRINT_df['P'].apply(lambda P: f"{'🟢' if P > 0 else '🔴'}")
     PRINT_df['OO'] = PRINT_df['OO'].apply(lambda OO: '🟢' if OO == 'Bull' else ('🔴' if OO == 'Bear' else ('🌚' if OO == 'Sell' else ('🌕' if OO == 'Buy' else OO))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
