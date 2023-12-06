@@ -540,14 +540,14 @@ try:
 
     PRINT_df = pxy_df[['source','product','key','yxp','pxy','dPL%','oPL%','PL%','qty','smbchk']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty': 'Qt', 'smbchk': 'OO'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty': 'Qt', 'smbchk': 'O'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['X'] = PRINT_df['X'].replace({'holdings': 'H', 'positions': 'Qt'})
     # Conditionally replace values in the 'CM' column
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Qt'] = PRINT_df['Qt'].apply(lambda P: f"{'🟢' if P > 0 else '🔴'}")
-    PRINT_df['OO'] = PRINT_df['OO'].apply(lambda OO: '🟢' if OO == 'Bull' else ('🔴' if OO == 'Bear' else ('🌚' if OO == 'Sell' else ('🌕' if OO == 'Buy' else OO))))
+    PRINT_df['O'] = PRINT_df['O'].apply(lambda OO: '🟢' if OO == 'Bull' else ('🔴' if OO == 'Bear' else ('🌚' if OO == 'Sell' else ('🌕' if OO == 'Buy' else OO))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
@@ -561,7 +561,7 @@ try:
     PRINT_df_sorted = PRINT_df.copy()
     
     # Apply the lambda function to limit 'chks' to 2 characters
-    PRINT_df_sorted['OO'] = PRINT_df_sorted['OO'].apply(lambda OO: OO[:2] if isinstance(OO, str) else OO)
+    PRINT_df_sorted['O'] = PRINT_df_sorted['O'].apply(lambda OO: OO[:2] if isinstance(OO, str) else OO)
     
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
     PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:3]
