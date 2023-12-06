@@ -12,9 +12,7 @@ echo "   -pxymon                💫        mn"
 echo "   -pxyupdate             🔄        up"
 echo "   -pxybuy                🟢        by"
 echo "   -pxysell               🔴        sl"
-echo "   -pxyallkill            ❌        ak"
-echo "   -pxybuykill            🟥        bk"
-echo "   -pxysellkill           🟩        sk"
+echo "   -pxykill               ❌        ak"
 echo "   -pxyclean              🚿        cl"
 echo "   -pxypnl                💰        pl"
 echo "   -pxycheck              ✅        ca"
@@ -44,14 +42,6 @@ case $choice in
     ak)
         echo "SquireOff all Positions"
         pxykill
-        ;;
-    bk)
-        echo "Sell all Buy Positions"
-        pxykillbuy
-        ;;
-    sk)
-        echo "Buy all Sell Positions"
-        pxykillsell
         ;;
     up)
         echo "Update PXY®"
