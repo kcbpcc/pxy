@@ -46,12 +46,17 @@ def process_csv(csv_file_path):
                 processed_values = []
                 for value in last_columns_values:
                     try:
-                        processed_values.append(str(round(float(value), 2)))
+                        processed_value = str(round(float(value), 2))
                     except ValueError:
-                        processed_values.append(value)  # Keep non-numeric values as they are
+                        processed_value = value  # Keep non-numeric values as they are
+                    processed_values.append(processed_value)
 
                 # Accumulate the total profit
-                total_profit += float(processed_values[-1])  # Assuming PnL is the last column
+                try:
+                    total_profit += float(processed_values[-1])  # Assuming PnL is the last column
+                except ValueError:
+                    # Handle the case where the total profit value cannot be converted to float
+                    print(f"Warning: Unable to convert total profit value '{processed_values[-1]}' to float.")
 
                 # Add the last 5 columns from the row to the table
                 table.add_row(*processed_values)
