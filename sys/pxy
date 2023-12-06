@@ -8,19 +8,18 @@ NC='\033[0m' # No Color
 # Display menu
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 echo "******************************************"
+echo "   -pxypy                 🔥        py"
 echo "   -pxymon                💫        mn"
-echo "   -pxyupdate             🔄        up"
+echo "   -pxypnl                💰        pl"
 echo "   -pxybuy                🟢        by"
 echo "   -pxysell               🔴        sl"
 echo "   -pxykill               ❌        ak"
 echo "   -pxyclean              🚿        cl"
-echo "   -pxypnl                💰        pl"
 echo "   -pxycheck              ✅        ca"
-echo "   -pxypy                 🔥        py"
+echo "   -pxyupdate             🔄        up"
 echo "    pxydashboard          📅        ds"
 echo "   -Or Simply exit        ⛔        ex"
 echo "******************************************"
-
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 # Get user input
 read -t 60 -p "Enter your choice: " choice
