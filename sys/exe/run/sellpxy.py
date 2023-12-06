@@ -109,7 +109,7 @@ if decision == "YES":
         available_cash = response["equity"]["available"]["live_balance"]
         
         try:
-            smbchk = get_smbpxy_check(dct['tradingsymbol']+".NS", 5)
+            smbchk = get_smbpxy_check(dct['tradingsymbol']+".NS")
         except Exception as e:
             smbchk = None
         try:
