@@ -600,9 +600,7 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC') and
-                         ((row['PL%'] > -1 and row['PL%'] > row['pxy'] and row['PL%'] < 3 ) or ( row['PL%'] < -1))
-                   
-                    ):
+                        ((row['PL%'] < -1) or ((row['PL%'] > -1) and (row['PL%'] > row['pxy'])))                     ):
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
@@ -619,11 +617,11 @@ try:
                     elif (
                         row['qty'] > 0 and
                         row['product'] == 'MIS' and
-                        ((row['PL%'] > -1 and row['PL%'] > row['pxy'] and row['PL%'] < 3 ) or ( row['PL%'] < -1))
+                        ((row['PL%'] < -1) or ((row['PL%'] > -1) and (row['PL%'] > row['pxy']))) 
                     ):
 
                         try:
-                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            is_placed = mis_order_buy(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row)                                
@@ -638,10 +636,10 @@ try:
                     elif (
                         row['qty'] < 0 and
                         row['product'] == 'MIS' and
-                        ((row['PL%'] < 1 and row['PL%'] < row['pxy'] and row['PL%'] > -3 ) or ( row['PL%'] > 1))
+                        ((row['PL%'] > 1) or ((row['PL%'] < 1) and (row['PL%'] < row['_pxy']))) 
                     ):
                         try:
-                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            is_placed = mis_order_sell(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row)
