@@ -540,14 +540,13 @@ try:
 
     PRINT_df = pxy_df[['source','product','key','yxp','pxy','dPL%','oPL%','PL%','qty','smbchk']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty': 'P', 'smbchk': 'O'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty': 'Q', 'smbchk': 'TR'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['X'] = PRINT_df['X'].replace({'holdings': 'H', 'positions': 'P'})
     # Conditionally replace values in the 'CM' column
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
-    PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
-    PRINT_df['P'] = PRINT_df['P'].apply(lambda P: f"{'+' if P > 0 else '-'}")
-    PRINT_df['O'] = PRINT_df['O'].apply(lambda OO: '🟢' if OO == 'Bull' else ('🔴' if OO == 'Bear' else ('🌚' if OO == 'Sell' else ('🌕' if OO == 'Buy' else OO))))
+    PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: f"{'+' if Q > 0 else '-'}")
+    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '🟢' if TR == 'Bull' else ('🔴' if TR == 'Bear' else ('🌚' if TR == 'Sell' else ('🌕' if TR == 'Buy' else TR))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
