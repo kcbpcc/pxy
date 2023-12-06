@@ -12,12 +12,12 @@ def process_csv(csv_file_path):
     # Create a table to display the selected columns with custom headers
     table = Table(show_header=True, header_style="bold cyan", min_width=table_width)
 
-    # Calculate the width for each column
-    column_width = min((table_width - 1) // len(headers_for_printing), 10)  # Assuming 1 character for separation
+    # Define specific column widths
+    column_widths = {'product': 4, 'source': 4, 'key': 18, 'PL%': 4, 'PnL': 10}
 
     # Add the specified columns to the table with custom headers and width
     for header in headers_for_printing:
-        table.add_column(header, width=column_width)
+        table.add_column(header, width=column_widths[header])
 
     # Initialize the total profit variable
     total_profit = 0
@@ -71,3 +71,4 @@ total_profit_main = process_csv(csv_file_path)
 
 # Now you can use total_profit_main in your main code
 # print("Total Profit in Main:", total_profit_main)
+
