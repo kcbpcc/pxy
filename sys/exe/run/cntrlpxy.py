@@ -548,7 +548,7 @@ try:
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else '-')
-    PRINT_df['OO'] = PRINT_df['OO'].apply(lambda OO: '🟢' if OO == 'Bull' else ('🔴' if OO == 'Bear' else ('🛬' if OO == 'Sell' else ('🛫' if OO == 'Buy' else OO))))
+    PRINT_df['OO'] = PRINT_df['OO'].apply(lambda OO: '🟢' if OO == 'Bull' else ('🔴' if OO == 'Bear' else ('↓' if OO == 'Sell' else ('↑' if OO == 'Buy' else OO))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
