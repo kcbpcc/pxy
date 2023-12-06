@@ -2,8 +2,6 @@ import yfinance as yf
 import pandas as pd
 import warnings
 from rich.console import Console
-from yfinance.shared import NoDataError, InsufficientDataError
-
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -51,14 +49,8 @@ def get_smbpxy_check(symbol):
 
         return 'None'
 
-    except yf.errors.NoDataError:
-        console.print(f"[red]No data found for {symbol}, symbol may be delisted[/red]")
-        return 'None'
-    except yf.errors.InsufficientDataError:
-        console.print(f"[red]Insufficient data points for Heikin-Ashi calculation for {symbol}[/red]")
-        return 'None'
-
     except Exception as e:
         console.print(f"[red]Error determining smbpxy check: {e}[/red]")
         return 'None'
+
 
