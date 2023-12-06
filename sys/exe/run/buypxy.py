@@ -133,8 +133,8 @@ if decision == "YES":
                     exchange='NSE',
                     transaction_type='BUY',
                     quantity=int(float(dct['QTY'].replace(',', ''))), 
-                    order_type='LIMIT',
-                    product='CNC',
+                    order_type='MARKET',
+                    product='MIS',
                     variety='regular',
                     price=round_to_paise(ltp, 0.2)
                 )
