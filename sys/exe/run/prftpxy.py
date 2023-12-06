@@ -13,7 +13,7 @@ def process_csv(csv_file_path):
     table = Table(show_header=True, header_style="bold cyan", min_width=table_width)
 
     # Define specific column widths
-    column_widths = {'product': 3, 'source': 3, 'key': 6, 'PL%': 3, 'PnL': 6}
+    column_widths = {'product': 3, 'source': 3, 'key': 9, 'PL%': 3, 'PnL': 6}
 
     # Add the specified columns to the table with custom headers and width
     for header in headers_for_printing:
