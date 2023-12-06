@@ -553,7 +553,7 @@ try:
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
     
     # Convert the 'PL%' column to integers
-    PRINT_df_sorted.loc[:, 'PL%'] = PRINT_df_sorted['PL%'].astype(int)
+    #PRINT_df_sorted.loc[:, 'PL%'] = PRINT_df_sorted['PL%'].astype(int)
     
     # ANSI escape codes for text coloring
     RESET = "\033[0m"
