@@ -1,6 +1,16 @@
 #!/bin/bash
+
+echo "Changing directory to $HOME/pxy"
 cd $HOME/pxy
+
+echo "Fetching all updates from the remote Git repository"
 git fetch --all
+
+echo "Resetting the local branch 'main' to match the remote branch 'origin/main'"
 git reset --hard origin/main
-sudo cp ~/pxy/sys/pxy* /usr/local/bin/
-sudo chmod +x /usr/local/bin/*
+
+echo "Copying files from ~/pxy/sys/ to /usr/local/bin/"
+cp ~/pxy/sys/pxy* /usr/local/bin/
+
+echo "Granting execute permissions to files in /usr/local/bin/"
+chmod +x /usr/local/bin/*
