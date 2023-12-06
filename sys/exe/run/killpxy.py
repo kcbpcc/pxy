@@ -336,7 +336,7 @@ try:
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01)
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
-    combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS", 5) if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS", 5) is not None else mktpxy, axis=1)
+    combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS") if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS") is not None else mktpxy, axis=1)
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
