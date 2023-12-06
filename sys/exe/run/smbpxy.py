@@ -15,7 +15,7 @@ periods = [2, 3, 4, 5, 6, 7]
 def calculate_last_two_heikin_ashi_colors(symbol, period, interval):
     try:
         # Using specified periods and intervals for past and current candle
-        data = yf.Ticker(symbol).history(period=f'{periods}d', interval=f'{intervals}m')
+        data = yf.Ticker(symbol).history(period=f'{period}d', interval=f'{interval}m')
 
         ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
         ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
@@ -59,3 +59,4 @@ def get_smbpxy_check(symbol):
     except Exception as e:
         console.print(f"[red]Error determining smbpxy check: {e}[/red]")
         return 'None'
+
