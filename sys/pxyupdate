@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x  # Enable debugging
+
 echo "Changing directory to $HOME/pxy"
 cd $HOME/pxy
 
@@ -14,3 +16,5 @@ cp ~/pxy/sys/pxy* /usr/local/bin/
 
 echo "Granting execute permissions to files in /usr/local/bin/"
 chmod +x /usr/local/bin/*
+
+set +x  # Disable debugging
