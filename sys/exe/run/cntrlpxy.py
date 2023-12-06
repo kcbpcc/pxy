@@ -328,7 +328,7 @@ try:
     combined_df['PnL'] = (combined_df['value'] - combined_df['Invested']).astype(int)
     combined_df['PnL_H'] = combined_df['value_H'] - combined_df['Invested']
     # Calculate 'PL%' column as ('PnL' / 'Invested') * 100
-    combined_df['PL%'] = (combined_df['PnL'] / combined_df['Invested']) * 100
+    combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100).round(2)
     #combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
     combined_df['PL%_H'] = (combined_df['PnL_H'] / combined_df['Invested']) * 100
     #combined_df['PL%_H'] = ((combined_df['PnL_H'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
