@@ -2,6 +2,5 @@
 cd $HOME/pxy
 git fetch --all
 git reset --hard origin/main
-
 sudo cp ~/pxy/sys/pxy* /usr/local/bin/
 sudo chmod +x /usr/local/bin/*
