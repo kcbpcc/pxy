@@ -1,3 +1,4 @@
+   
 import csv
 from rich import print
 from rich.table import Table
@@ -17,7 +18,11 @@ def process_csv(csv_file_path):
 
     # Add the specified columns to the table with custom headers and width
     for header in headers_for_printing:
-        table.add_column(header, width=column_widths[header])
+        if header in ['PL%', 'PnL']:
+            # Align 'PL%' and 'PnL' columns to the right
+            table.add_column(header, width=column_widths[header], justify='right')
+        else:
+            table.add_column(header, width=column_widths[header])
 
     # Initialize the total profit variable
     total_profit = 0
@@ -81,4 +86,3 @@ total_profit_main = process_csv(csv_file_path)
 
 # Now you can use total_profit_main in your main code
 # print("Total Profit in Main:", total_profit_main)
-
