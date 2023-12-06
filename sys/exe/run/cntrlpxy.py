@@ -379,7 +379,7 @@ try:
         else:
             return round(pr, 2)
     
-    def calculate__pxy(row):
+    def calculate_yxp(row):
         smbchk = row['smbchk']
         _pr, _xl, _yi = row['_pr'], row['_xl'], row['_yi']
     
@@ -399,10 +399,7 @@ try:
             return round(_pr, 2)
     
     combined_df['pxy'] = combined_df.apply(calculate_pxy, axis=1)
-    combined_df['_pxy'] = combined_df.apply(calculate__pxy, axis=1)
-    combined_df['yxp'] = -1
-    combined_df['_yxp'] = 1
-
+    combined_df['yxp'] = combined_df.apply(calculate__pxy, axis=1)
   
 ###########################################################################################################################################################################################################
     TIMPXY = (
@@ -518,13 +515,13 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','_pxy','yxp','_yxp','key','dPL%','PnL','PL%_H', 'PL%']]
+    pxy_df = filtered_df.copy()[['smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy',','yxp','key','dPL%','PnL','PL%_H', 'PL%']]
   
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp','product', 'source', 'key', 'PL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','qty','key','_pxy','pxy','dPL%','oPL%','PL%','smbchk']]
+    PRINT_df = pxy_df[['source','product','qty','key','yxp','pxy','dPL%','oPL%','PL%','smbchk']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty': 'Q', 'smbchk': 'OO'})
     # Conditionally replace values in the 'HP' column
@@ -636,7 +633,7 @@ try:
                     elif (
                         row['qty'] < 0 and
                         row['product'] == 'MIS' and
-                        ((row['PL%'] > 1) or ((row['PL%'] < 1) and (row['PL%'] < row['_pxy']))) 
+                        ((row['PL%'] > 1) or ((row['PL%'] < 1) and (row['PL%'] < row['yxp']))) 
                     ):
                         try:
                             is_placed = mis_order_sell(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
