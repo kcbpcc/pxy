@@ -292,7 +292,7 @@ try:
     timpxy = calculate_timpxy()
     #csv_file_path = "filePnL.csv"
     #total_profit_main = process_csv(csv_file_path)
-    mktpxy, pktpxy = get_market_check('^NSEI')
+    mktpxy = get_market_check('^NSEI')
     SILVER = "\033[97m"
     UNDERLINE = "\033[4m"
     RESET = "\033[0m"
