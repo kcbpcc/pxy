@@ -30,7 +30,6 @@ def calculate_last_two_heikin_ashi_colors(symbol, period, interval):
 
 def get_smbpxy_check(symbol):
     try:
-        # Loop through all intervals and periods
         for interval in intervals:
             for period in periods:
                 current_color, last_closed_color = calculate_last_two_heikin_ashi_colors(symbol, period, interval)
@@ -53,4 +52,16 @@ def get_smbpxy_check(symbol):
         console.print(f"[red]Error determining smbpxy check: {e}[/red]")
         return 'None'
 
+# Example usage:
+symbol = 'AAPL'
+min_interval = 1
+max_interval = 60
+
+for interval in range(min_interval, max_interval + 1):
+    result = get_smbpxy_check(symbol)
+    if result != 'None':
+        print(f"Smbpxy check result for interval {interval}: {result}")
+        break
+    else:
+        print(f"No data found for interval {interval}. Trying the next interval.")
 
