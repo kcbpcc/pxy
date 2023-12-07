@@ -17,11 +17,11 @@ from smbpxy import get_smbpxy_check
 logging = Logger(10)
 holdings = dir_path + "holdings.csv"
 black_file = dir_path + "blacklist.txt"
-
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
-
+##    sys.stdout.close()
+##    sys.stdout = sys.__stdout__
     if fileutils.is_file_not_2day(holdings):
         logging.debug("getting holdings for the day ...")
         resp = broker.kite.holdings()
@@ -126,28 +126,26 @@ if decision == "YES":
             if ltp <= 0:
                 return dct['tradingsymbol'], remaining_cash
     
-            # Assuming mktchk is defined or replaced with the appropriate condition
-            mktchk = get_market_check()  # Example, replace with the actual function or variable
-            print("got smbchk") if available_cash > 11000 and smbchk == 'Buy' else (print("got mktchk") if mktchk == 'Buy' else None)
-                
-            order_id = broker.order_place(
-                tradingsymbol=dct['tradingsymbol'],
-                exchange='NSE',
-                transaction_type='BUY',
-                quantity=int(float(dct['QTY'].replace(',', ''))), 
-                order_type='LIMIT',
-                product='CNC',
-                variety='regular',
-                price=round_to_paise(ltp, 0.2)
-            )
-            if order_id:
-                logging.info(
-                    f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
-                # No need to calculate remaining available cash in this case
-                return dct['tradingsymbol'], remaining_cash
+            # Check if available cash is greater than 11000
+            if available_cash > 11000 and smbchk == 'Buy' :
+                order_id = broker.order_place(
+                    tradingsymbol=dct['tradingsymbol'],
+                    exchange='NSE',
+                    transaction_type='BUY',
+                    quantity=int(float(dct['QTY'].replace(',', ''))), 
+                    order_type='LIMIT',
+                    product='CNC',
+                    variety='regular',
+                    price=round_to_paise(ltp, 0.2)
+                )
+                if order_id:
+                    logging.info(
+                        f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
+                    # No need to calculate remaining available cash in this case
+                    return dct['tradingsymbol'], remaining_cash
             else:
                 logging.warning(
-                    f"skip {dct['tradingsymbol']} is ({smbchk}) or no cash"
+                    f"Skipping order placement for {dct['tradingsymbol']} due to insufficient funds ({smbchk})"
                 )
             return dct['tradingsymbol'], remaining_cash
         except Exception as e:
@@ -155,33 +153,35 @@ if decision == "YES":
             logging.error(f"{str(e)} while placing order")
             return dct['tradingsymbol'], remaining_cash
     
+    
+    
     if any(lst_tlyne):
         new_list = []
         # Filter the original list based on the subset of 'tradingsymbol' values
         lst_all_orders = [
             d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
-
+    
         # Read the list of previously failed symbols from the file
         with open(black_file, 'r') as file:
             lst_failed_symbols = [line.strip() for line in file.readlines()]
         logging.info(f"ignored symbols: {lst_failed_symbols}")
         lst_orders = [d for d in lst_all_orders if d['tradingsymbol']
                       not in lst_failed_symbols]
-
+    
         response = broker.kite.margins()
         remaining_cash = response["equity"]["available"]["live_balance"]
-
+        
         for d in lst_orders:
             symbol, remaining_cash = transact(d, remaining_cash)
             Utilities().slp_til_nxt_sec()
-
-        # write the failed symbols to file, so we don't repeat them again
+    
+        # write the failed symbols to file, so we dont repeat them again
         if any(new_list):
             with open(black_file, 'w') as file:
                 for symbol in new_list:
                     file.write(symbol + '\n')
-
+      
         print(f"Available Cash: {remaining_cash}")
 elif decision == "NO":
     # Perform actions for "NO"
-    print("\033[91mNo Funds Available \033[0m")
+    print("\033[91mNo Funds Avalable \033[0m") 
