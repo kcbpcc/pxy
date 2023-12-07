@@ -1,7 +1,9 @@
 import yfinance as yf
 import warnings
+from rich import print
 from rich.console import Console
 from rich.style import Style
+import sys
 
 # Set the PYTHONIOENCODING environment variable to 'utf-8'
 import sys
