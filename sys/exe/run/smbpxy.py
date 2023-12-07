@@ -1,30 +1,52 @@
 import time
 import subprocess
-import yfinance as yf
-from nftpxy import nse_action, nse_power
+import warnings
+from rich import print
 from rich.console import Console
 from rich.style import Style
-from rich import print
-from looppxy import loop_duration
-import os
 import sys
+import yfinance as yf
+import os
+
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
+
+# Set the python3IOENCODING environment variable to 'utf-8'
+sys.stdout.reconfigure(encoding='utf-8')
+
+# Suppress yfinance warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+
+# Specify the stock symbol (NIFTY 50)
+symbol = '^NSEI'
 
 # Intervals
-intervals = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-periods = [2, 3, 4, 5, 6, 7]
+intervals = [5, 4, 3, 2, 1]
+periods = [1, 2, 3, 4, 5]
 
 # Create a Console instance for rich print formatting
 console = Console()
 
 # Function to calculate the Heikin-Ashi candle colors for the last three closed candles
 def calculate_last_three_heikin_ashi_colors(symbol, interval):
-    try:
-        # Fetch real-time data for the specified interval
-        data = yf.Ticker(symbol).history(period=f'{periods[-1]}d', interval=f'{interval}m')
+    # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
+    current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
-        # Check if there is enough data
-        if len(data) < 3:
-            raise ValueError("Insufficient data for the specified interval")
+    if 225 <= current_utc_time < 240:
+        data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
+
+        day_open = data['Open'].iloc[0]  # Open of the day
+        ltp = data['Close'].iloc[-1]  # Last traded price
+    
+        current_color = 'Bear' if day_open > ltp else 'Bull'
+        last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        second_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        third_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        fourth_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+
+    else:
+        # Fetch real-time data for the specified interval
+        data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
 
         # Calculate Heikin-Ashi candles
         ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
@@ -34,49 +56,33 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
         last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
         second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+        third_last_closed_color = 'Bear' if ha_close.iloc[-4] < ha_open.iloc[-4] else 'Bull'
+        fourth_last_closed_color = 'Bear' if ha_close.iloc[-5] < ha_open.iloc[-5] else 'Bull'
 
-        return current_color, last_closed_color, second_last_closed_color
-    except Exception as e:
-        console.print(f"Error: {e}")
-        return 'None', 'None', 'None'
 
-# Function to determine the market check based on candle colors
-def get_market_check(symbol):
-    selected_interval = None
+    return current_color, last_closed_color, second_last_closed_color, third_last_closed_color
 
-    # Dynamically select the first available interval
-    for interval in intervals:
-        try:
-            calculate_last_three_heikin_ashi_colors(symbol, interval)
-            selected_interval = interval
-            break
-        except Exception:
-            continue
-
-    if selected_interval is None:
-        console.print("No valid interval found. Waiting for more data... 🕰️")
-        return 'None'
-
-    current_color, last_closed_color, second_last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, selected_interval)
-
-# Function to determine the smbpxy check based on candle colors
 def get_smbpxy_check(symbol):
     try:
         # Loop through all intervals and periods
         for interval in intervals:
             for period in periods:
-                current_color, last_closed_color, _ = calculate_last_three_heikin_ashi_colors(symbol, interval)
+                current_color, last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
 
                 if current_color and last_closed_color:
-                    if current_color == last_closed_color:
-                        return 'Bear' if current_color == 'Bear' else 'Bull'
+                    if current_color == 'Bear' and last_closed_color == 'Bear':
+                        return 'Bear'
+                    elif current_color == 'Bull' and last_closed_color == 'Bull':
+                        return 'Bull'
+                    elif current_color == 'Bear' and last_closed_color == 'Bull':
+                        return 'Sell'
+                    elif current_color == 'Bull' and last_closed_color == 'Bear':
+                        return 'Buy'
                     else:
-                        return 'Sell' if current_color == 'Bear' else 'Buy'
+                        return 'None'
+
         return 'None'
 
-    except ValueError:
-        console.print(f"[red]Insufficient data points for Heikin-Ashi calculation for {symbol}[/red]")
-        return 'None'
     except Exception as e:
         console.print(f"[red]Error determining smbpxy check: {e}[/red]")
         return 'None'
