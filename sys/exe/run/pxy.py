@@ -46,12 +46,15 @@ while True:
 
         if 225 <= current_utc_time < 240:
             data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
-
-            current_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'
-            last_closed_color = 'Bear' if data['Open'].iloc[-2] < data['Open'].iloc[-2] else 'Bull'
-            second_last_closed_color = 'Bear' if data['Open'].iloc[-3] < data['Open'].iloc[-3] else 'Bull'
-            third_last_closed_color = 'Bear' if data['Open'].iloc[-4] < data['Open'].iloc[-4] else 'Bull'
-            fourth_last_closed_color = 'Bear' if data['Open'].iloc[-5] < data['Open'].iloc[-5] else 'Bull'
+   
+            day_open = data['Open'].iloc[0]  # Open of the day
+            ltp = data['Close'].iloc[-1]  # Last traded price
+        
+            current_color = 'Bear' if day_open > ltp else 'Bull'
+            last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+            second_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+            third_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+            fourth_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
 
         else:
             # Fetch real-time data for the specified interval
