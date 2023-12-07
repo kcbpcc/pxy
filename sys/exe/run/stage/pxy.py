@@ -44,19 +44,32 @@ while True:
 
     # Function to calculate the Heikin-Ashi candle colors for the last three closed candles
     def calculate_last_three_heikin_ashi_colors(symbol, interval):
-        # Fetch real-time data for the specified interval
-        data = yf.Ticker(symbol).history(period='{periods}d', interval=f'{interval}m')
+        # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
+        current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
+        
+        if 225 <= current_utc_time < 240:
+            data = yf.Ticker(symbol).history(period=f'{periods}d', interval=f'{interval}m')
+            
+            current_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'
+            last_closed_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'
+            second_last_closed_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'
+            third_last_closed_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'
+            fourth_last_closed_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'       
 
-        # Calculate Heikin-Ashi candles
-        ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
-        ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
-
-        # Calculate the colors of the last three closed candles
-        current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
-        last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-        second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
-        third_last_closed_color = 'Bear' if ha_close.iloc[-4] < ha_open.iloc[-4] else 'Bull'
-        fourth_last_closed_color = 'Bear' if ha_close.iloc[-5] < ha_open.iloc[-5] else 'Bull'
+        elif 
+            # Fetch real-time data for the specified interval
+            data = yf.Ticker(symbol).history(period='{periods}d', interval=f'{interval}m')
+    
+            # Calculate Heikin-Ashi candles
+            ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
+            ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+    
+            # Calculate the colors of the last three closed candles
+            current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
+            last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
+            second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+            third_last_closed_color = 'Bear' if ha_close.iloc[-4] < ha_open.iloc[-4] else 'Bull'
+            fourth_last_closed_color = 'Bear' if ha_close.iloc[-5] < ha_open.iloc[-5] else 'Bull'
 
         #print(f'Nifty -> : 3rd:{"🔴🔴🔴" if third_last_closed_color == "Bear" else "🟢🟢🟢"}|2nd:{"🔴🔴🔴" if second_last_closed_color == "Bear" else "🟢🟢🟢"}|1st:{"🔴🔴🔴" if last_closed_color == "Bear" else "🟢🟢🟢"}|now:{"🐻🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🛫⤴️"}')
         return current_color, last_closed_color, second_last_closed_color, third_last_closed_color
