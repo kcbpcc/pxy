@@ -443,7 +443,7 @@ try:
                         float(timpxy) * 0.50
                         if (nse_action in ("SuperBear", "Bear") and mktpxy == "sell")
                         else (
-                            float(timpxy) * 0.50
+                            float(timpxy) * 0.40
                             if (nse_action in ("SuperBear", "Bear") and mktpxy == "Bear")
                             else float(timpxy) * 1  # Default value if none of the conditions match
                         )
