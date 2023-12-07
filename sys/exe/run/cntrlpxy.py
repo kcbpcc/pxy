@@ -407,20 +407,21 @@ try:
         smbchk = row['smbchk']
         _pr, _xl, _yi = row['_pr'], row['_xl'], row['_yi']
     
-        if smbchk == "Bear": 
-            return round(max(_pr, _yi), 2)
-            
-        elif smbchk == "Buy": 
-            return round(max(_pr, _xl), 2)
-
+        if smbchk == "Bear":
+            return round(min(_pr, _yi), 2)
+    
+        elif smbchk == "Buy":
+            return round(min(_pr, _xl), 2)
+    
         elif smbchk == "Bull":
-            return round(max(_pr, _pr), 2)
-
+            return round(min(_pr, _yi), 2)
+    
         elif smbchk == "Sell":
-            return round(max(_pr, _yi), 2)
-        
+            return round(min(_pr, _yi), 2)
+    
         else:
             return round(_pr, 2)
+
     
     combined_df['pxy'] = combined_df.apply(calculate_pxy, axis=1)
     combined_df['yxp'] = combined_df.apply(calculate_yxp, axis=1)
