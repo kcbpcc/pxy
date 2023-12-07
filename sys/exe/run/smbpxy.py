@@ -6,7 +6,6 @@ from rich.console import Console
 from rich.style import Style
 from rich import print
 from looppxy import loop_duration
-from swchpxy import analyze_stock
 import os
 import sys
 
