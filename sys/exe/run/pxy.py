@@ -1,29 +1,25 @@
 while True:
-    
     import time
     import subprocess
-    from nftpxy import nse_action ,nse_power
+    from nftpxy import nse_action, nse_power
     import warnings
     from rich import print
     from rich.console import Console
     from rich.style import Style
     import sys
     import subprocess
-    from rich import print
+    import yfinance as yf
+
     from looppxy import loop_duration
     from swchpxy import analyze_stock
-    import yfinance as yf
-    import os
-    import sys
 
     switch = analyze_stock('^NSEI')
-    
-    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
+
+    # PXY® PreciseXceleratedYield Pvt Ltd™
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
-  
-   
+
     # Set the python3IOENCODING environment variable to 'utf-8'
     sys.stdout.reconfigure(encoding='utf-8')
 
@@ -34,10 +30,9 @@ while True:
     # Specify the stock symbol (NIFTY 50)
     symbol = '^NSEI'
 
-    # Intervals 
+    # Intervals
     intervals = [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-    periods = [2,3,4,5,6,7]
-
+    periods = [2, 3, 4, 5, 6, 7]
 
     # Create a Console instance for rich print formatting
     console = Console()
@@ -55,16 +50,27 @@ while True:
         current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
         last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
         second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
-        third_last_closed_color = 'Bear' if ha_close.iloc[-4] < ha_open.iloc[-4] else 'Bull'
-        fourth_last_closed_color = 'Bear' if ha_close.iloc[-5] < ha_open.iloc[-5] else 'Bull'
 
-        #print(f'Nifty -> : 3rd:{"🔴🔴🔴" if third_last_closed_color == "Bear" else "🟢🟢🟢"}|2nd:{"🔴🔴🔴" if second_last_closed_color == "Bear" else "🟢🟢🟢"}|1st:{"🔴🔴🔴" if last_closed_color == "Bear" else "🟢🟢🟢"}|now:{"🐻🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🛫⤴️"}')
-        return current_color, last_closed_color, second_last_closed_color, third_last_closed_color
+        return current_color, last_closed_color, second_last_closed_color
 
     # Function to determine the market check based on candle colors
     def get_market_check(symbol):
-        # Check the colors of the last two closed candles and the currently running candle
-        current_color, last_closed_color, second_last_closed_color, third_last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, intervals[0])
+        selected_interval = None
+
+        # Dynamically select the first available interval
+        for interval in intervals:
+            try:
+                calculate_last_three_heikin_ashi_colors(symbol, interval)
+                selected_interval = interval
+                break
+            except:
+                continue
+
+        if selected_interval is None:
+            console.print("No valid interval found. Waiting for more data... 🕰️")
+            return 'None'
+
+        current_color, last_closed_color, second_last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, selected_interval)
 
         # Initialize messages
         title = ""
