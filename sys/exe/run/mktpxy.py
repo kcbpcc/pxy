@@ -43,37 +43,37 @@ def calculate_last_two_heikin_ashi_colors(symbol, initial_interval='1m', final_i
 
         return current_color, last_closed_color
 
-# Function to determine the market check based on candle colors
-def get_market_check(symbol):
-    # Check the colors of the last two closed candles
-    current_color, last_closed_color = calculate_last_two_heikin_ashi_colors(symbol, intervals[0])
-
-    # Initialize messages
-    title = ""
-
-    # Define styles for rich.print
-    bear_style = Style(color="red")
-    bull_style = Style(color="green")
-
-    # Determine the market check based on the candle colors and use rich.print to format output
-    if current_color == 'Bear' and last_closed_color == 'Bear':
-        console.print("           🐻🔴🔴🔴 [bold]Bearish sentiment![/bold]🍯💰", style=bear_style)
-    elif current_color == 'Bull' and last_closed_color == 'Bull':
-        console.print("           🐂🟢🟢🟢 [bold]Bullish sentiment![/bold]💪💰", style=bull_style)
-    elif current_color == 'Bear' and last_closed_color == 'Bull':
-        console.print("                🛒🔴🛬⤵️ [bold]Time to sell![/bold]📉💰", style=bear_style)
-    elif current_color == 'Bull' and last_closed_color == 'Bear':
-        console.print("                  🚀🟢🛫⤴️ [bold]Time to buy![/bold]🌠💰", style=bull_style)
-    else:
-        console.print("            🌟 [bold]Market on standby![/bold]🍿💰📊")
-
-    return current_color, last_closed_color
-
-# Call the function and store the result in a variable
-mktpxy, sktpxy = get_market_check('^NSEI')  # Capture both return values
-
-# Print the result (you can remove this if not needed)
-# print(f"mktpxy: {mktpxy}")
+    # Function to determine the market check based on candle colors
+    def get_market_check(symbol):
+        # Check the colors of the last two closed candles
+        current_color, last_closed_color = calculate_last_two_heikin_ashi_colors(symbol, intervals[0])
+    
+        # Initialize messages
+        title = ""
+    
+        # Define styles for rich.print
+        bear_style = Style(color="red")
+        bull_style = Style(color="green")
+    
+        # Determine the market check based on the candle colors and use rich.print to format output
+        if current_color == 'Bear' and last_closed_color == 'Bear':
+            console.print("           🐻🔴🔴🔴 [bold]Bearish sentiment![/bold]🍯💰", style=bear_style)
+        elif current_color == 'Bull' and last_closed_color == 'Bull':
+            console.print("           🐂🟢🟢🟢 [bold]Bullish sentiment![/bold]💪💰", style=bull_style)
+        elif current_color == 'Bear' and last_closed_color == 'Bull':
+            console.print("                🛒🔴🛬⤵️ [bold]Time to sell![/bold]📉💰", style=bear_style)
+        elif current_color == 'Bull' and last_closed_color == 'Bear':
+            console.print("                  🚀🟢🛫⤴️ [bold]Time to buy![/bold]🌠💰", style=bull_style)
+        else:
+            console.print("            🌟 [bold]Market on standby![/bold]🍿💰📊")
+    
+        return current_color, last_closed_color
+    
+    # Call the function and store the result in a variable
+    mktpxy, sktpxy = get_market_check('^NSEI')  # Capture both return values
+    
+    # Print the result (you can remove this if not needed)
+    # print(f"mktpxy: {mktpxy}")
 
 
 
