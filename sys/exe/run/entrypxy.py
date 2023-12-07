@@ -126,6 +126,8 @@ if decision == "YES":
             if ltp <= 0:
                 return dct['tradingsymbol'], remaining_cash
     
+            # Assuming mktchk is defined or replaced with the appropriate condition
+            mktchk = get_market_check()  # Example, replace with the actual function or variable
             print("got smbchk") if available_cash > 11000 and smbchk == 'Buy' else (print("got mktchk") if mktchk == 'Buy' else None)
                 
             order_id = broker.order_place(
@@ -143,12 +145,16 @@ if decision == "YES":
                     f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
                 # No need to calculate remaining available cash in this case
                 return dct['tradingsymbol'], remaining_cash
-        else:
-            logging.warning(
-                f"skip {dct['tradingsymbol']} is ({smbchk}) or no cash"
-            )
-        return dct['tradingsymbol'], remaining_cash
-
+            else:
+                logging.warning(
+                    f"skip {dct['tradingsymbol']} is ({smbchk}) or no cash"
+                )
+            return dct['tradingsymbol'], remaining_cash
+        except Exception as e:
+            print(traceback.format_exc())
+            logging.error(f"{str(e)} while placing order")
+            return dct['tradingsymbol'], remaining_cash
+    
     if any(lst_tlyne):
         new_list = []
         # Filter the original list based on the subset of 'tradingsymbol' values
