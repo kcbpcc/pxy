@@ -334,7 +334,13 @@ try:
     combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
     combined_df['oPL%'] = combined_df.apply(lambda row: (((row['ltp'] - row['open']) / row['open']) * 100) if row['open'] != 0 else 1, axis=1)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
-    combined_df['_pstp'] = (combined_df['average_price'] *1.01)
+    combined_df['_pstp'] = (combined_df['average_price'] *1.01) 
+###########################################################################################################################################################################################################
+    subprocess.run(['python3', 'cpritepxy.py'])
+    subprocess.run(['python3', 'dshpxy.py'])
+    subprocess.run(['python3', 'prftpxy.py'])
+    print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
+###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
     combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS") if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS") is not None else mktpxy, axis=1)
     # Calculate 'Invested' column
