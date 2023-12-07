@@ -1,8 +1,7 @@
 while True:
-    
     import time
     import subprocess
-    from nftpxy import nse_action ,nse_power
+    from nftpxy import nse_action, nse_power
     import warnings
     from rich import print
     from rich.console import Console
@@ -17,13 +16,12 @@ while True:
     import sys
 
     switch = analyze_stock('^NSEI')
-    
+
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
-  
-   
+
     # Set the python3IOENCODING environment variable to 'utf-8'
     sys.stdout.reconfigure(encoding='utf-8')
 
@@ -34,10 +32,9 @@ while True:
     # Specify the stock symbol (NIFTY 50)
     symbol = '^NSEI'
 
-    # Intervals 
+    # Intervals
     intervals = [5, 4, 3, 2, 1]
-    periods = [1,2,3,4,5]
-
+    periods = [1, 2, 3, 4, 5]
 
     # Create a Console instance for rich print formatting
     console = Console()
@@ -46,24 +43,24 @@ while True:
     def calculate_last_three_heikin_ashi_colors(symbol, interval):
         # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
         current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
-        
-        if 225 <= current_utc_time < 240:
-            data = yf.Ticker(symbol).history(period=f'{periods}d', interval=f'{interval}m')
-            
-            current_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'
-            last_closed_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'
-            second_last_closed_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'
-            third_last_closed_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'
-            fourth_last_closed_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'       
 
-        elif 
+        if 225 <= current_utc_time < 240:
+            data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
+
+            current_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'
+            last_closed_color = 'Bear' if data['Open'].iloc[-2] < data['Open'].iloc[-2] else 'Bull'
+            second_last_closed_color = 'Bear' if data['Open'].iloc[-3] < data['Open'].iloc[-3] else 'Bull'
+            third_last_closed_color = 'Bear' if data['Open'].iloc[-4] < data['Open'].iloc[-4] else 'Bull'
+            fourth_last_closed_color = 'Bear' if data['Open'].iloc[-5] < data['Open'].iloc[-5] else 'Bull'
+
+        else:
             # Fetch real-time data for the specified interval
-            data = yf.Ticker(symbol).history(period='{periods}d', interval=f'{interval}m')
-    
+            data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
+
             # Calculate Heikin-Ashi candles
             ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
             ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
-    
+
             # Calculate the colors of the last three closed candles
             current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
             last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
@@ -71,13 +68,14 @@ while True:
             third_last_closed_color = 'Bear' if ha_close.iloc[-4] < ha_open.iloc[-4] else 'Bull'
             fourth_last_closed_color = 'Bear' if ha_close.iloc[-5] < ha_open.iloc[-5] else 'Bull'
 
-        #print(f'Nifty -> : 3rd:{"🔴🔴🔴" if third_last_closed_color == "Bear" else "🟢🟢🟢"}|2nd:{"🔴🔴🔴" if second_last_closed_color == "Bear" else "🟢🟢🟢"}|1st:{"🔴🔴🔴" if last_closed_color == "Bear" else "🟢🟢🟢"}|now:{"🐻🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🛫⤴️"}')
+        # print(f'Nifty -> : 3rd:{"🔴🔴🔴" if third_last_closed_color == "Bear" else "🟢🟢🟢"}|2nd:{"🔴🔴🔴" if second_last_closed_color == "Bear" else "🟢🟢🟢"}|1st:{"🔴🔴🔴" if last_closed_color == "Bear" else "🟢🟢🟢"}|now:{"🐻🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🛫⤴️"}')
         return current_color, last_closed_color, second_last_closed_color, third_last_closed_color
 
     # Function to determine the market check based on candle colors
     def get_market_check(symbol):
         # Check the colors of the last two closed candles and the currently running candle
-        current_color, last_closed_color, second_last_closed_color, third_last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, intervals[0])
+        current_color, last_closed_color, second_last_closed_color, third_last_closed_color = calculate_last_three_heikin_ashi_colors(
+            symbol, intervals[0])
 
         # Initialize messages
         title = ""
@@ -91,22 +89,22 @@ while True:
         # Determine the market check based on the candle colors and use rich.print to format output
         if current_color == 'Bear' and last_closed_color == 'Bear':
             mktpxy = 'Bear'
-            #subprocess.run(['python3', 'sellpxy.py']) if nse_action in ("SuperBear", "DangerBear","Bear") else None
+            # subprocess.run(['python3', 'sellpxy.py']) if nse_action in ("SuperBear", "DangerBear","Bear") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
             console.print("🐻🔴🔴🔴 [bold]Bearish sentiment![/bold] 🍯💰", style=bear_style)
         elif current_color == 'Bull' and last_closed_color == 'Bull':
             mktpxy = 'Bull'
-            #subprocess.run(['python3', 'buypxy.py']) if nse_action in ("SuperBull", "DangerBull","Bull") else None
+            # subprocess.run(['python3', 'buypxy.py']) if nse_action in ("SuperBull", "DangerBull","Bull") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
             console.print("🐂🟢🟢🟢 [bold]Bullish sentiment![/bold] 💪💰", style=bull_style)
         elif current_color == 'Bear' and last_closed_color == 'Bull':
             mktpxy = 'Sell'
-            #subprocess.run(['python3', 'sellpxy.py']) if nse_action in ("SuperBear", "DangerBear","Bear") else None
+            # subprocess.run(['python3', 'sellpxy.py']) if nse_action in ("SuperBear", "DangerBear","Bear") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
             console.print("🛒🔴🛬⤵️ [bold]Time to sell![/bold] 📉💰", style=sell_style)
         elif current_color == 'Bull' and last_closed_color == 'Bear':
             mktpxy = 'Buy'
-            #subprocess.run(['python3', 'buypxy.py']) if nse_action in ("SuperBull", "DangerBull","Bull") else None
+            # subprocess.run(['python3', 'buypxy.py']) if nse_action in ("SuperBull", "DangerBull","Bull") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
             console.print("🚀🟢🛫⤴️ [bold]Time to buy![/bold] 🌠💰", style=buy_style)
         else:
@@ -119,14 +117,17 @@ while True:
     mktpxy = get_market_check('^NSEI')
 
     # Print the result (you can remove this if not needed)
-    #print(f"mktpxy: {mktpxy}")
+    # print(f"mktpxy: {mktpxy}")
 
-    import time
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
             print("✨.", end='', flush=True)
         print("\nTask completed!")
+
+    # Make sure loop_duration is defined before calling the function
+    loop_duration = 10  # Replace with the actual loop duration
     secs = 60
     progress_bar(loop_duration)
+
 
