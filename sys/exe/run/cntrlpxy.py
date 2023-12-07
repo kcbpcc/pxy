@@ -414,7 +414,7 @@ try:
             return round(min(_pr, _xl), 2)
     
         elif smbchk == "Bull":
-            return round(min(_pr, _yi), 2)
+            return round(min(_pr, _pr), 2)
     
         elif smbchk == "Sell":
             return round(min(_pr, _yi), 2)
