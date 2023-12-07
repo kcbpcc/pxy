@@ -61,8 +61,7 @@ def get_smbpxy_check(symbol):
         console.print(f"[red]Error determining smbpxy check: {e}[/red]")
         return 'None'
 
-# Example usage:
-symbol = 'AAPL'
+
 min_interval = 1
 max_interval = 60
 max_retries = 3
