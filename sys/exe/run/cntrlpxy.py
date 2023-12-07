@@ -699,10 +699,10 @@ try:
         print(left_aligned_format.format(f"psellPnL:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}"), end="")
         print(right_aligned_format.format(f"pbuyPnL:{BRIGHT_GREEN if total_PnL_percentage_positions_buy >= 0 else BRIGHT_RED}{total_PnL_percentage_positions_buy}{RESET}"))
         
-        mktpxy = get_market_check('^NSEI')
+        
 
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
-
+        mktpxy = get_market_check('^NSEI')
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
