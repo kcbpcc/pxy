@@ -18,9 +18,7 @@ while True:
     switch = analyze_stock('^NSEI')
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-    subprocess.run(['python3', 'cpritepxy.py'])
-    subprocess.run(['python3', 'dshpxy.py'])
-    subprocess.run(['python3', 'prftpxy.py'])
+
 
     # Set the python3IOENCODING environment variable to 'utf-8'
     sys.stdout.reconfigure(encoding='utf-8')
