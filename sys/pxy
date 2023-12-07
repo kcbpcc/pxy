@@ -11,7 +11,7 @@ echo "******************************************"
 echo "   -pxypy                 🔥        py"
 echo "   -pxymon                💫        mn"
 echo "   -pxypnl                💰        pl"
-echo "   -pxybuy                🟢        by"
+echo "   -pxyenrty              🟢        en"
 echo "   -pxysell               🔴        sl"
 echo "   -pxykill               ❌        ak"
 echo "   -pxyclean              🚿        cl"
@@ -26,14 +26,6 @@ read -t 60 -p "Enter your choice: " choice
 
 # Perform actions based on user input
 case $choice in
-    by)
-        echo "Buy Positions"
-        pxybuy
-        ;;
-    sl)
-        echo "Sell Positions"
-        pxysell
-        ;;
     ds)
         echo "Dash Board"
         pxydashboard
@@ -49,7 +41,7 @@ case $choice in
     mm)
         echo "Waiting for 5 seconds..."
         sleep 5
-        echo "Running 'pxy'"
+        echo "..........🚀🚀🚀🚀Running 'pxy'"
         pxymon
         ;;
     cl)
@@ -70,7 +62,7 @@ case $choice in
         ;;
     *)
         # Empty input (user didn't make a choice in 5 seconds)
-        echo "..........Running 'pxy'"
+        echo "..........🚀🚀🚀🚀Running 'pxy'"
         pxymon
         ;;
     ex)
