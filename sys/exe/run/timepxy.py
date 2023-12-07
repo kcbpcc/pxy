@@ -14,7 +14,7 @@ def calculate_timpxy():
     # Calculate timpxy value based on the minute difference in UTC
     if start_time_utc <= current_datetime_utc <= end_time_utc:
         total_minutes = (current_datetime_utc - start_time_utc).total_seconds() / 60
-        timpxy = max(5, round(20 - total_minutes / 30, 1))
+        timpxy = max(5, round(15 - total_minutes / ((end_time_utc - start_time_utc).total_seconds() / 10), 1))
         return timpxy
     else:
         # Return 5 for all times outside the specified time range
@@ -22,4 +22,4 @@ def calculate_timpxy():
 
 # Example usage:
 result = calculate_timpxy()
-#print(result)
+print(result)
