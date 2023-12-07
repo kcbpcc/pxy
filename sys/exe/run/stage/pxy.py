@@ -36,7 +36,7 @@ while True:
 
     # Intervals 
     intervals = [5, 4, 3, 2, 1]
-    periods = [2,3,4,5]
+    periods = [1,2,3,4,5]
 
 
     # Create a Console instance for rich print formatting
