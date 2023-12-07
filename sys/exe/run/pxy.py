@@ -1,14 +1,19 @@
 while True:
     import time
     import subprocess
+    from nftpxy import nse_action ,nse_power
     import warnings
+    from rich import print
     from rich.console import Console
     from rich.style import Style
     import sys
-    import yfinance as yf
-
+    import subprocess
+    from rich import print
     from looppxy import loop_duration
     from swchpxy import analyze_stock
+    import yfinance as yf
+    import os
+    import sys
 
     switch = analyze_stock('^NSEI')
 
