@@ -8,13 +8,23 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 console = Console()
 
+# Placeholder definitions for intervals and periods
 intervals = [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 periods = [1, 2, 3, 4, 5, 6, 7]
 
-def calculate_last_two_heikin_ashi_colors(symbol, period, interval):
+def calculate_last_two_heikin_ashi_colors(symbol, initial_interval='1m', final_interval='15m', settle_periods=3):
     try:
-        # Using specified periods and intervals for past and current candle
-        data = yf.Ticker(symbol).history(period=f'{period}d', interval=f'{interval}m')
+        # Using the initial interval for past and current candle
+        initial_data = yf.Ticker(symbol).history(period='1d', interval=initial_interval)
+
+        # Resample to the final interval
+        data = initial_data.resample(final_interval).agg({
+            'Open': 'first',
+            'High': 'max',
+            'Low': 'min',
+            'Close': 'last',
+            'Volume': 'sum'
+        })
 
         ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
         ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
@@ -27,7 +37,7 @@ def calculate_last_two_heikin_ashi_colors(symbol, period, interval):
     except Exception as e:
         console.print(f"[red]Exception occurred: {e}[/red]")
         return 'Error', 'Error'
-
+        
 def get_smbpxy_check(symbol):
     try:
         # Loop through all intervals and periods
@@ -52,5 +62,6 @@ def get_smbpxy_check(symbol):
     except Exception as e:
         console.print(f"[red]Error determining smbpxy check: {e}[/red]")
         return 'None'
+
 
 
