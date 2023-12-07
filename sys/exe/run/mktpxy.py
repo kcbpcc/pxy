@@ -76,3 +76,4 @@ mktpxy, sktpxy = get_market_check('^NSEI')  # Capture both return values
 # print(f"mktpxy: {mktpxy}")
 
 
+
