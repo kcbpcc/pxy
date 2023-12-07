@@ -1,7 +1,6 @@
 
     import time
     import subprocess
-    from nftpxy import nse_action, nse_power
     import warnings
     from rich import print
     from rich.console import Console
@@ -9,18 +8,13 @@
     import sys
     import subprocess
     from rich import print
-    from looppxy import loop_duration
-    from swchpxy import analyze_stock
     import yfinance as yf
     import os
     import sys
 
-    switch = analyze_stock('^NSEI')
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-    subprocess.run(['python3', 'cpritepxy.py'])
-    subprocess.run(['python3', 'dshpxy.py'])
-    subprocess.run(['python3', 'prftpxy.py'])
+
 
     # Set the python3IOENCODING environment variable to 'utf-8'
     sys.stdout.reconfigure(encoding='utf-8')
