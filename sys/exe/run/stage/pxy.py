@@ -35,8 +35,8 @@ while True:
     symbol = '^NSEI'
 
     # Intervals 
-    intervals = [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-    periods = [2,3,4,5,6,7]
+    intervals = [5, 4, 3, 2, 1]
+    periods = [2,3,4,5]
 
 
     # Create a Console instance for rich print formatting
