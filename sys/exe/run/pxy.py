@@ -1,13 +1,10 @@
 while True:
     import time
     import subprocess
-    from nftpxy import nse_action, nse_power
     import warnings
-    from rich import print
     from rich.console import Console
     from rich.style import Style
     import sys
-    import subprocess
     import yfinance as yf
 
     from looppxy import loop_duration
@@ -39,19 +36,27 @@ while True:
 
     # Function to calculate the Heikin-Ashi candle colors for the last three closed candles
     def calculate_last_three_heikin_ashi_colors(symbol, interval):
-        # Fetch real-time data for the specified interval
-        data = yf.Ticker(symbol).history(period='{periods}d', interval=f'{interval}m')
+        try:
+            # Fetch real-time data for the specified interval
+            data = yf.Ticker(symbol).history(period='{periods}d', interval=f'{interval}m')
 
-        # Calculate Heikin-Ashi candles
-        ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
-        ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+            # Check if there is enough data
+            if len(data) < 3:
+                raise ValueError("Insufficient data for the specified interval")
 
-        # Calculate the colors of the last three closed candles
-        current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
-        last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-        second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+            # Calculate Heikin-Ashi candles
+            ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
+            ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
-        return current_color, last_closed_color, second_last_closed_color
+            # Calculate the colors of the last three closed candles
+            current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
+            last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
+            second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+
+            return current_color, last_closed_color, second_last_closed_color
+        except Exception as e:
+            print(f"Error: {e}")
+            return 'None', 'None', 'None'
 
     # Function to determine the market check based on candle colors
     def get_market_check(symbol):
