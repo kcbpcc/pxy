@@ -129,8 +129,7 @@ while True:
         print("\nTask completed!")
 
     # Make sure loop_duration is defined before calling the function
-    loop_duration = 10  # Replace with the actual loop duration
-    secs = 60
+
     progress_bar(loop_duration)
 
 
