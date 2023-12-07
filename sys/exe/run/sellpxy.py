@@ -127,7 +127,7 @@ if decision == "YES":
                 return dct['tradingsymbol'], remaining_cash
     
             # Check if available cash is greater than 11000
-            if available_cash > 11000 and (smbchk == 'Sell' or Bear):
+            if available_cash > 11000 and (smbchk == 'Sell' or 'Bear'):
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
