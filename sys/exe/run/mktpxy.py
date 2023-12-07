@@ -1,100 +1,97 @@
+import time
+import subprocess
+import warnings
+from rich import print
+from rich.console import Console
+from rich.style import Style
+import sys
+import yfinance as yf
+import os
 
-    import time
-    import subprocess
-    import warnings
-    from rich import print
-    from rich.console import Console
-    from rich.style import Style
-    import sys
-    import subprocess
-    from rich import print
-    import yfinance as yf
-    import os
-    import sys
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
+# Set the python3IOENCODING environment variable to 'utf-8'
+sys.stdout.reconfigure(encoding='utf-8')
 
-    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
+# Suppress yfinance warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
 
+# Specify the stock symbol (NIFTY 50)
+symbol = '^NSEI'
 
-    # Set the python3IOENCODING environment variable to 'utf-8'
-    sys.stdout.reconfigure(encoding='utf-8')
+# Intervals
+intervals = [5, 4, 3, 2, 1]
+periods = [1, 2, 3, 4, 5]
 
-    # Suppress yfinance warnings
-    warnings.filterwarnings("ignore", category=FutureWarning)
-    warnings.filterwarnings("ignore", category=UserWarning)
+# Create a Console instance for rich print formatting
+console = Console()
 
-    # Specify the stock symbol (NIFTY 50)
-    symbol = '^NSEI'
+# Function to calculate the Heikin-Ashi candle colors for the last three closed candles
+def calculate_last_three_heikin_ashi_colors(symbol, interval):
+    # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
+    current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
-    # Intervals
-    intervals = [5, 4, 3, 2, 1]
-    periods = [1, 2, 3, 4, 5]
+    if 225 <= current_utc_time < 240:
+        data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
 
-    # Create a Console instance for rich print formatting
-    console = Console()
+        day_open = data['Open'].iloc[0]  # Open of the day
+        ltp = data['Close'].iloc[-1]  # Last traded price
+    
+        current_color = 'Bear' if day_open > ltp else 'Bull'
+        last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        second_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        third_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        fourth_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
 
-    # Function to calculate the Heikin-Ashi candle colors for the last three closed candles
-    def calculate_last_three_heikin_ashi_colors(symbol, interval):
-        # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
-        current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
+    else:
+        # Fetch real-time data for the specified interval
+        data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
 
-        if 225 <= current_utc_time < 240:
-            data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
+        # Calculate Heikin-Ashi candles
+        ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
+        ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
-            current_color = 'Bear' if data['Open'].iloc[-1] < data['Open'].iloc[-1] else 'Bull'
-            last_closed_color = 'Bear' if data['Open'].iloc[-2] < data['Open'].iloc[-2] else 'Bull'
-            second_last_closed_color = 'Bear' if data['Open'].iloc[-3] < data['Open'].iloc[-3] else 'Bull'
-            third_last_closed_color = 'Bear' if data['Open'].iloc[-4] < data['Open'].iloc[-4] else 'Bull'
-            fourth_last_closed_color = 'Bear' if data['Open'].iloc[-5] < data['Open'].iloc[-5] else 'Bull'
+        # Calculate the colors of the last three closed candles
+        current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
+        last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
+        second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+        third_last_closed_color = 'Bear' if ha_close.iloc[-4] < ha_open.iloc[-4] else 'Bull'
+        fourth_last_closed_color = 'Bear' if ha_close.iloc[-5] < ha_open.iloc[-5] else 'Bull'
 
-        else:
-            # Fetch real-time data for the specified interval
-            data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
+    print(f'Nifty -> : 3rd:{"🔴🔴🔴" if third_last_closed_color == "Bear" else "🟢🟢🟢"}|2nd:{"🔴🔴🔴" if second_last_closed_color == "Bear" else "🟢🟢🟢"}|1st:{"🔴🔴🔴" if last_closed_color == "Bear" else "🟢🟢🟢"}|now:{"🐻🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🛫⤴️"}')
+    return current_color, last_closed_color, second_last_closed_color, third_last_closed_color
 
-            # Calculate Heikin-Ashi candles
-            ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
-            ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+# Function to determine the market check based on candle colors
+def get_market_check(symbol):
+    # Check the colors of the last two closed candles and the currently running candle
+    current_color, last_closed_color, second_last_closed_color, third_last_closed_color = calculate_last_three_heikin_ashi_colors(
+        symbol, intervals[0])
 
-            # Calculate the colors of the last three closed candles
-            current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
-            last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-            second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
-            third_last_closed_color = 'Bear' if ha_close.iloc[-4] < ha_open.iloc[-4] else 'Bull'
-            fourth_last_closed_color = 'Bear' if ha_close.iloc[-5] < ha_open.iloc[-5] else 'Bull'
+    # Initialize messages
+    title = ""
 
-        print(f'Nifty -> : 3rd:{"🔴🔴🔴" if third_last_closed_color == "Bear" else "🟢🟢🟢"}|2nd:{"🔴🔴🔴" if second_last_closed_color == "Bear" else "🟢🟢🟢"}|1st:{"🔴🔴🔴" if last_closed_color == "Bear" else "🟢🟢🟢"}|now:{"🐻🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🛫⤴️"}')
-        return current_color, last_closed_color, second_last_closed_color, third_last_closed_color
+    # Define styles for rich.print
+    bear_style = Style(color="red")
+    bull_style = Style(color="green")
+    buy_style = Style(color="green")
+    sell_style = Style(color="red")
 
-    # Function to determine the market check based on candle colors
-    def get_market_check(symbol):
-        # Check the colors of the last two closed candles and the currently running candle
-        current_color, last_closed_color, second_last_closed_color, third_last_closed_color = calculate_last_three_heikin_ashi_colors(
-            symbol, intervals[0])
+    # Determine the market check based on the candle colors and use rich.print to format output
+    if current_color == 'Bear' and last_closed_color == 'Bear':
+        mktpxy = 'Bear'
 
-        # Initialize messages
-        title = ""
+    elif current_color == 'Bull' and last_closed_color == 'Bull':
+        mktpxy = 'Bull'
 
-        # Define styles for rich.print
-        bear_style = Style(color="red")
-        bull_style = Style(color="green")
-        buy_style = Style(color="green")
-        sell_style = Style(color="red")
+    elif current_color == 'Bear' and last_closed_color == 'Bull':
+        mktpxy = 'Sell'
 
-        # Determine the market check based on the candle colors and use rich.print to format output
-        if current_color == 'Bear' and last_closed_color == 'Bear':
-            mktpxy = 'Bear'
+    elif current_color == 'Bull' and last_closed_color == 'Bear':
+        mktpxy = 'Buy'
+    else:
+        mktpxy = 'None'
 
-        elif current_color == 'Bull' and last_closed_color == 'Bull':
-            mktpxy = 'Bull'
-
-        elif current_color == 'Bear' and last_closed_color == 'Bull':
-            mktpxy = 'Sell'
-
-        elif current_color == 'Bull' and last_closed_color == 'Bear':
-            mktpxy = 'Buy'
-        else:
-            mktpxy = 'None'
-
-        return mktpxy
+    return mktpxy
 
 
