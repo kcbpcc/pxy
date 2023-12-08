@@ -32,7 +32,7 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
     # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
-    if 210 <= current_utc_time < 240:
+    if 210 <= current_utc_time < 900:
         data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
 
         day_open = data['Open'].iloc[0]  # Open of the day
