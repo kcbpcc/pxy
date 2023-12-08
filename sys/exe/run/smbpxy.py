@@ -34,7 +34,7 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
 
     if 210 <= current_utc_time < 1000:
 
-        data = yf.download(stock_symbol, period=f"{days}d")
+        data = yf.download(symbol, period=f"{days}d")
 
         # Extract today's open, yesterday's close, and current price
         today_open = data['Open'].iloc[-1]
