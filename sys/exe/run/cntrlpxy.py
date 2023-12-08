@@ -274,7 +274,7 @@ try:
     import numpy as np
     from mktpxy import get_market_check
     import importlib
-    from nftpxy import nse_action
+    from nftpxy import nse_action, nse_power
     from timepxy import calculate_timpxy
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
