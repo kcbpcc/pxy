@@ -590,7 +590,7 @@ try:
     # Print the truncated DataFrame without color
     print(PRINT_df_sorted_display.to_string(index=False, justify='left', col_space=-2))
     print("*" * 42)
-    print(f"PXY® is running on timepxy ⏰⏰{TIMPXY}⏰⏰")
+    print(f"....PXY® is running on timepxy ⏰⏰{TIMPXY}⏰⏰")
   
 ###########################################################################################################################################################################################################
     # Define the CSV file path
