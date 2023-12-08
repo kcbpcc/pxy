@@ -313,7 +313,7 @@ try:
     combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
     # Get OHLC data for the 'key' column
     lst = combined_df['key'].tolist()
-    resp = broker.kite.ohlc(lst)
+    resp = broker.kite.ohlc(pd.read_csv('dummyfileHPdf.csv')['key'].tolist() if not lst else lst)
     # Create a dictionary from the response for easier mapping
     dct = {
         k: {
