@@ -700,7 +700,7 @@ try:
         print(left_aligned_format.format(f"Status:{BRIGHT_GREEN if nse_action in ('SuperBear', 'SuperBull') else BRIGHT_RED}{nse_action}{RESET}"), end="")
         print(right_aligned_format.format(f"dPL%:{BRIGHT_GREEN if total_dPnL_percentage > 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2)}{RESET}"))
         print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}"), end="")
-        print(right_aligned_format.format(f"TIMPXY:{BRIGHT_YELLOW}{round(TIMPXY, 2)}{RESET}"))
+        print(right_aligned_format.format(f"CNC::{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{total_PnL_cnc_buy}{RESET}"))
         print(left_aligned_format.format(f"tPnL:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round(total_PnL, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
         print(left_aligned_format.format(f"tPL%:{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}"), end="")
