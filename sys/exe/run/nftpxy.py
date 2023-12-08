@@ -35,9 +35,9 @@ def get_nse_action():
             elif yesterday_close > current_price and today_open > current_price:
                 nse_action = "Bearish"
             elif yesterday_close > current_price and today_open < current_price:
-                nse_action = "Bull"  # Corrected from the original code
+                nse_action = "Bull"  
             elif yesterday_close < current_price and today_open > current_price:
-                nse_action = "Bear"  # Corrected from the original code
+                nse_action = "Bear"  
             else:
                 nse_action = "Neutral"
 
@@ -53,7 +53,7 @@ def get_nse_action():
     return "Error", None
 
 # Call the get_nse_action function
-nse_action, nse_power = get_nse_action()
+#nse_action, nse_power = get_nse_action()
 # ANSI escape code for bright yellow color
 yellow_color_code = "\033[93m"
 reset_color_code = "\033[0m"
