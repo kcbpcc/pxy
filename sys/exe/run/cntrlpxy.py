@@ -466,7 +466,9 @@ try:
     total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0   
     # Calculate total_PnL_percentage_mis_buy
     cnc_buy_df = combined_df.loc[(combined_df['product'] == "CNC") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
-    total_PnL_percentage_positions_buy = round(cnc_buy_df['PnL'].sum()) if not cnc_buy_df.empty else 0    
+    total_PnL_cnc_buy = round(cnc_buy_df['PnL'].sum()) if not cnc_buy_df.empty else 0    
+    mis_buy_df = combined_df.loc[(combined_df['product'] == "MIS") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
+    total_PnL_mis_buy = round(mis_buy_df['PnL'].sum()) if not mis_buy_df.empty else 0
     # Calculate total_PnL_percentage_mis_sell
     mis_sell_df = combined_df.loc[(combined_df['product'] == "MIS") & (combined_df['qty'] < 0)]
     total_PnL_percentage_mis_sell = round(mis_sell_df['PnL'].sum()) if not mis_sell_df.empty else 0    
@@ -704,7 +706,7 @@ try:
         print(left_aligned_format.format(f"tPL%:{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked: {BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
         print(left_aligned_format.format(f"psellPnL:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}"), end="")
-        print(right_aligned_format.format(f"pbuyPnL:{BRIGHT_GREEN if total_PnL_percentage_positions_buy >= 0 else BRIGHT_RED}{total_PnL_percentage_positions_buy}{RESET}"))
+        print(right_aligned_format.format(f"pbuyPnL:CNC{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{total_PnL_cnc_buy}{RESET}"))
         
         
 
