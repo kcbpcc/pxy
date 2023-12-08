@@ -326,7 +326,7 @@ try:
         for k, v in resp.items()
     }
     # Add 'ltp', 'open', 'high', and 'low' columns to the DataFrame
-    combined_df['ltp'] = combined_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row['last_price']), axis=1)
+    combined_df['ltp'] = combined_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row['last_price']), axis=1).astype(float)
     combined_df['open'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('open', 0))
     combined_df['high'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('high', 0))
     combined_df['low'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('low', 0))
