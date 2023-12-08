@@ -50,7 +50,7 @@ def get_holdingsinfo(csv_file_path):
         all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
 
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)
-        day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100)
+        day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
 
         table = PrettyTable()
         table.field_names = ['📉 Board', '🟢🔴🟢🔴', '🟩🟩🟩', '🟥🟥🟥']
