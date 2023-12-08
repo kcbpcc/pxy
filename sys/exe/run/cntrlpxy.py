@@ -283,7 +283,8 @@ try:
     import asyncio
     from smbpxy import get_smbpxy_check
     #from ordpxy import get_open_order_status
-
+    yellow_color_code = "\033[93m"  # Replace with your actual ANSI color code for yellow
+    reset_color_code = "\033[0m"    # Replace with your actual ANSI color code for resetting color
     print(f"{yellow_color_code}Market is {nse_action}⚡💥 -- Power⚡💥{nse_power}{reset_color_code}💥⚡")
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
