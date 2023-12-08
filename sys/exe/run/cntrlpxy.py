@@ -700,7 +700,7 @@ try:
         print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked: {BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
         print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}"), end="")
-        print(right_aligned_format.format(f"pMIS:{BRIGHT_GREEN if total_PnL_mis_buy >= 0 else BRIGHT_RED}{total_PnL_mis_buy}{RESET}"))
+        print(right_aligned_format.format(f"TIMEPXY:{BRIGHT_GREEN if TIMEPXY >= 5 else BRIGHT_RED}{TIMEPXY}{RESET}"))
         print("*" * 42)
 
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
