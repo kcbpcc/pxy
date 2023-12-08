@@ -53,7 +53,7 @@ def get_nse_action():
     return "Error", None
 
 # Call the get_nse_action function
-#nse_action, nse_power = get_nse_action()
+nse_action, nse_power = get_nse_action()
 # ANSI escape code for bright yellow color
 yellow_color_code = "\033[93m"
 reset_color_code = "\033[0m"
