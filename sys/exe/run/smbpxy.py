@@ -32,17 +32,22 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
     # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
-    if 210 <= current_utc_time < 240:
-        data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
+    if 210 <= current_utc_time < 1000:
 
-        day_open = data['Open'].iloc[0]  # Open of the day
-        ltp = data['Close'].iloc[-1]  # Last traded price
-    
-        current_color = 'Bear' if day_open > ltp else 'Bull'
-        last_closed_color = 'Bear' if day_open > ltp else 'Bull'
-        second_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
-        third_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
-        fourth_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        data = yf.download(stock_symbol, period=f"{days}d")
+
+        # Extract today's open, yesterday's close, and current price
+        today_open = data['Open'].iloc[-1]
+        current_price = data['Close'].iloc[-1]
+            
+        yesterday_close = data['Close'].iloc[-2]
+        yesterday_open = data['Open'].iloc[-2]
+
+        current_color = 'Bear' if today_open > current_price else 'Bull'
+        last_closed_color = 'Bear' if today_open > current_price else 'Bull'
+        second_last_closed_color = 'Bear' if today_open > current_price else 'Bull'
+        third_last_closed_color = 'Bear' if today_open > current_price else 'Bull'
+        fourth_last_closed_color = 'Bear' if today_open > current_price else 'Bull'
 
     else:
         # Fetch real-time data for the specified interval
