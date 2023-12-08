@@ -429,30 +429,21 @@ try:
 ###########################################################################################################################################################################################################
     TIMPXY = (
         float(timpxy)
-        if (nse_action in ("SuperBull", "Bull") and mktpxy in ["Buy", "Bull"])
+        if (nse_action in ("Bullish"))
         else (
             float(timpxy) * 0.90
-            if (nse_action in ("SuperBull", "Bull") and mktpxy == "Sell")
+            if (nse_action in ("Bull"))
             else (
-                float(timpxy) * 0.80
-                if (nse_action in ("SuperBull", "Bull") and mktpxy == "Bear")
+                float(timpxy) * 0.60
+                if (nse_action in ("Bear"))
                 else (
-                    float(timpxy) * 0.60
-                    if (nse_action in ("SuperBear", "Bear") and mktpxy in ["Buy", "Bull"])
-                    else (
-                        float(timpxy) * 0.50
-                        if (nse_action in ("SuperBear", "Bear") and mktpxy == "sell")
-                        else (
-                            float(timpxy) * 0.40
-                            if (nse_action in ("SuperBear", "Bear") and mktpxy == "Bear")
-                            else float(timpxy) * 1  # Default value if none of the conditions match
-                        )
-                    )
+                    float(timpxy) * 0.30
+                    if (nse_action in ("Bearish"))
+                    else 0.50  # You might want to add a default value here
                 )
             )
         )
     )
-    
 
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
