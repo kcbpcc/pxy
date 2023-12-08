@@ -700,14 +700,14 @@ try:
         print(left_aligned_format.format(f"Status:{BRIGHT_GREEN if nse_action in ('SuperBear', 'SuperBull') else BRIGHT_RED}{nse_action}{RESET}"), end="")
         print(right_aligned_format.format(f"dPL%:{BRIGHT_GREEN if total_dPnL_percentage > 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2)}{RESET}"))
         print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}"), end="")
-        print(right_aligned_format.format(f"CNC::{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{total_PnL_cnc_buy}{RESET}"))
+        print(right_aligned_format.format(f"pPnL::{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{total_PnL_cnc_buy}{RESET}"))
         print(left_aligned_format.format(f"tPnL:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round(total_PnL, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
         print(left_aligned_format.format(f"tPL%:{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked: {BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
-        print(left_aligned_format.format(f"MIS -:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET} +:{BRIGHT_GREEN if total_PnL_mis_buy >= 0 else BRIGHT_RED}{total_PnL_mis_buy}{RESET}", end=""))
-        print(right_aligned_format.format(f"CNC::{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{total_PnL_cnc_buy}{RESET}"))        
-        
+        print(left_aligned_format.format(f"MIS(-):{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}"), end="")
+        print(right_aligned_format.format(f"MIS(+):{BRIGHT_GREEN if total_PnL_mis_buy >= 0 else BRIGHT_RED}{total_PnL_mis_buy}{RESET}"))
+                
 
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
         mktpxy = get_market_check('^NSEI')
