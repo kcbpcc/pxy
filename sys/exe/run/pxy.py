@@ -106,22 +106,20 @@ while True:
         # Determine the market check based on the candle colors and use rich.print to format output
         if current_color == 'Bear' and last_closed_color == 'Bear':
             mktpxy = 'Bear'
-            # subprocess.run(['python3', 'sellpxy.py']) if nse_action in ("SuperBear", "DangerBear","Bear") else None
+            subprocess.run(['python3', 'sellpxy.py']) if nse_action == "Bearish" else None
             subprocess.run(['python3', 'cntrlpxy.py'])
             console.print("🐻🔴🔴🔴 [bold]Bearish sentiment![/bold] 🍯💰", style=bear_style)
         elif current_color == 'Bull' and last_closed_color == 'Bull':
             mktpxy = 'Bull'
-            subprocess.run(['python3', 'entrypxy.py']) if nse_action in ("SuperBull", "DangerBull","Bull") else None
+            subprocess.run(['python3', 'buypxy.py']) if nse_action in ("Bullish","Bear","Bull") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
             console.print("🐂🟢🟢🟢 [bold]Bullish sentiment![/bold] 💪💰", style=bull_style)
         elif current_color == 'Bear' and last_closed_color == 'Bull':
             mktpxy = 'Sell'
-            # subprocess.run(['python3', 'sellpxy.py']) if nse_action in ("SuperBear", "DangerBear","Bear") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
             console.print("🛒🔴🛬⤵️ [bold]Time to sell![/bold] 📉💰", style=sell_style)
         elif current_color == 'Bull' and last_closed_color == 'Bear':
             mktpxy = 'Buy'
-            subprocess.run(['python3', 'entrypxy.py']) if nse_action in ("SuperBull", "DangerBull","Bull") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
             console.print("🚀🟢🛫⤴️ [bold]Time to buy![/bold] 🌠💰", style=buy_style)
         else:
