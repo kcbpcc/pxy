@@ -539,7 +539,7 @@ try:
     lstchk_file = "fileHPdf.csv"
     # Dump the DataFrame to the CSV file, overwriting any existing file
     combined_df.to_csv(lstchk_file, index=False)
-    print(f"DataFrame has been saved to {lstchk_file}")
+    #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
     pxy_df = filtered_df.copy()[['smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','yxp','key','dPL%','PnL','PL%_H', 'PL%']]
   
