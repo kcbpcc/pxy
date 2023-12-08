@@ -42,7 +42,7 @@ case $choice in
         echo "Waiting for 5 seconds..."
         sleep 5
         echo "🔥💫🚀🔥💫🚀🔥💫🚀🔥💫🚀.....Running PXY®"
-        pxymon
+        pxy
         ;;
     cl)
         echo "Clean PXY®"
@@ -63,7 +63,7 @@ case $choice in
     *)
         # Empty input (user didn't make a choice in 5 seconds)
         echo "🔥💫🚀🔥💫🚀🔥💫🚀🔥💫🚀.....Running PXY®"
-        pxymon
+        pxy
         ;;
     ex)
         echo "Exiting the script. Goodbye!"
