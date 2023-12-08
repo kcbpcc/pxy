@@ -60,14 +60,14 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         fourth_last_closed_color = 'Bear' if ha_close.iloc[-5] < ha_open.iloc[-5] else 'Bull'
 
 
-    return current_color, last_closed_color, second_last_closed_color, third_last_closed_color
+    return current_color, last_closed_color, second_last_closed_color, third_last_closed_color, fourth_last_closed_color
 
 def get_smbpxy_check(symbol):
     try:
         # Loop through all intervals and periods
         for interval in intervals:
             for period in periods:
-                current_color, last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
+                current_color, last_closed_color, second_last_closed_color, third_last_closed_color, fourth_last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
 
                 if current_color and last_closed_color:
                     if current_color == 'Bear' and last_closed_color == 'Bear':
