@@ -284,7 +284,7 @@ try:
     from smbpxy import get_smbpxy_check
     #from ordpxy import get_open_order_status
 
-    
+    print(f"{yellow_color_code}Market is {nse_action}⚡💥 -- Power⚡💥{nse_power}{reset_color_code}💥⚡")
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
