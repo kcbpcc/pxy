@@ -53,7 +53,7 @@ def get_holdingsinfo(csv_file_path):
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
 
         table = PrettyTable()
-        table.field_names = ['📉 Board ', '🟢🔴🟢🔴', '🟩🟩🟩', '🟥🟥🟥']
+        table.field_names = ['📉 Board', '🟢🔴🟢🔴', '🟩🟩🟩', '🟥🟥🟥']
         table.add_row(['Stocks📈', total_Stocks_count, green_Stocks_count, red_Stocks_count])
         table.add_row(['Invested', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
         table.add_row(['WorthNow', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
