@@ -1,3 +1,4 @@
+print(f'🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛')
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from login_get_kite import get_kite, remove_token
@@ -12,7 +13,7 @@ import csv
 import telegram
 import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
-print(f'🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛')
+
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
 result = sum_last_numerical_value_in_each_row(file_path)  
