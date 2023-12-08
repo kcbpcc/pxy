@@ -30,20 +30,15 @@ def get_nse_action():
             nse_action = ""
 
             # Determine the candlestick condition for today
-            if yesterday_close > yesterday_open and current_price > today_open and current_price > yesterday_close:
+            if yesterday_close < current_price and today_open < current_price:
                 nse_action = "SuperBull"
-            elif yesterday_close > yesterday_open and current_price < today_open and current_price < yesterday_close:
+            elif yesterday_close > current_price and today_open > current_price:
                 nse_action = "SuperBear"
-            elif yesterday_close < yesterday_open and current_price > today_open and current_price > yesterday_close:
-                nse_action = "DangerBull"
-            elif yesterday_close < yesterday_open and current_price < today_open and current_price < yesterday_close:
-                nse_action = "DangerBear"
-            elif current_price < today_open:
-                nse_action = "Bear"
-            elif current_price > today_open:
-                nse_action = "Bull"
+            elif yesterday_close > current_price and today_open < current_price:
+                nse_action = "Bear"  # Corrected from the original code
+            elif yesterday_close < current_price and today_open > current_price:
+                nse_action = "Bull"  # Corrected from the original code
             else:
-                
                 nse_action = "Neutral"
 
             return nse_action, nse_power
