@@ -33,10 +33,25 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
     if 210 <= current_utc_time < 240:
-        data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
+        sys.stdout = open(os.devnull, 'w')
 
-        day_open = data['Open'].iloc[0]  # Open of the day
-        ltp = data['Close'].iloc[-1]  # Last traded price
+        # Download data for the specified number of days (fixed to 5 days)
+        data = yf.download(symbol, period="5d")
+        
+        # Extract today's open, yesterday's close, and current price
+        today_open = data['Open'].iloc[-1]
+        today_high = data['High'].iloc[-1]
+        today_low = data['Low'].iloc[-1]
+        current_price = data['Close'].iloc[-1]
+        
+        yesterday_close = data['Close'].iloc[-2]
+        yesterday_open = data['Open'].iloc[-2]
+        
+        sys.stdout.close()
+        sys.stdout = sys.__stdout__
+
+        day_open = today_open  # Open of the day
+        ltp = current_price  # Last traded price
     
         current_color = 'Bear' if day_open > ltp else 'Bull'
         last_closed_color = 'Bear' if day_open > ltp else 'Bull'
