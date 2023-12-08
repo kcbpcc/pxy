@@ -1,10 +1,14 @@
 import time
+import subprocess
 import warnings
 from rich import print
 from rich.console import Console
+from rich.style import Style
 import sys
 import yfinance as yf
 import os
+
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
@@ -14,7 +18,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
 # Specify the stock symbol (NIFTY 50)
-
+symbol = '^NSEI'
 
 # Intervals
 intervals = [5, 4, 3, 2, 1]
@@ -28,29 +32,17 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
     # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
-    if 210 <= current_utc_time < 1000:
-        for days in range(1, 8):
-            # Redirect standard output to os.devnull to suppress messages
-            with open(os.devnull, 'w') as devnull:
-                sys.stdout = devnull
+    if 210 <= current_utc_time < 240:
+        data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
 
-                # Download data for the specified number of days
-                data = yf.download(symbol, period=f"{days}d")
-
-                # Extract today's open, yesterday's close, and current price
-                today_open = data['Open'].iloc[-1]
-                current_price = data['Close'].iloc[-1]
-                yesterday_close = data['Close'].iloc[-2]
-                yesterday_open = data['Open'].iloc[-2]
-
-                current_color = 'Bear' if today_open > current_price else 'Bull'
-                last_closed_color = 'Bear' if yesterday_open > yesterday_close else 'Bull'
-                second_last_closed_color = 'Bear' if yesterday_close > data['Open'].iloc[-3] else 'Bull'
-                third_last_closed_color = 'Bear' if data['Open'].iloc[-3] > data['Close'].iloc[-3] else 'Bull'
-                fourth_last_closed_color = 'Bear' if data['Close'].iloc[-3] > data['Open'].iloc[-4] else 'Bull'
-
-            # Restore the standard output
-            sys.stdout = sys.__stdout__
+        day_open = data['Open'].iloc[0]  # Open of the day
+        ltp = data['Close'].iloc[-1]  # Last traded price
+    
+        current_color = 'Bear' if day_open > ltp else 'Bull'
+        last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        second_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        third_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        fourth_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
 
     else:
         # Fetch real-time data for the specified interval
@@ -66,6 +58,7 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
         third_last_closed_color = 'Bear' if ha_close.iloc[-4] < ha_open.iloc[-4] else 'Bull'
         fourth_last_closed_color = 'Bear' if ha_close.iloc[-5] < ha_open.iloc[-5] else 'Bull'
+
 
     return current_color, last_closed_color, second_last_closed_color, third_last_closed_color, fourth_last_closed_color
 
@@ -93,7 +86,5 @@ def get_smbpxy_check(symbol):
     except Exception as e:
         console.print(f"[red]Error determining smbpxy check: {e}[/red]")
         return 'None'
-
-
 
 
