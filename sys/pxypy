@@ -6,7 +6,7 @@ source ~/env/bin/activate
 cd ~/pxy/sys/exe/run
 
 # Prompt the user for input
-echo "Enter the name of the Python script to run:"
+echo "script to run:"
 read script_name
 
 # Run the Python script with the user-provided input
