@@ -128,7 +128,8 @@ if decision == "YES":
     
             # Check if available cash is greater than 11000
             
-            if available_cash > 11000 and smbchk == 'Buy' or 'Bull'): 
+            if available_cash > 11000 and smbchk in ('Buy', 'Bull'):
+ 
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
