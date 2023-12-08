@@ -692,7 +692,7 @@ try:
         right_aligned_format = "{:>" + str(column_width) + "}"
         
         # Print statements
-        print("*" * 42)
+
         print(left_aligned_format.format(f"Switch:{BRIGHT_YELLOW}{switch}{RESET}"), end="")
         print(right_aligned_format.format(f"Power:{BRIGHT_GREEN if power > 0.5 else BRIGHT_RED}{power}{RESET}"))
         print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}"), end="")
