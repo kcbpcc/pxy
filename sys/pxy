@@ -38,7 +38,6 @@ case $choice in
         echo "Sell"
         pxysell
         ;;        
-
     ka)
         echo "SquireOff all Positions"
         pxykill
@@ -67,7 +66,6 @@ case $choice in
         echo "Python Program"
         pxypy
         ;;
-
     "") # Empty input (user just pressed Enter)
         echo "🔥💫🚀🔥💫🚀🔥💫🚀🔥💫🚀.....Running PXY®"
         pxypxy
