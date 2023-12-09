@@ -22,7 +22,7 @@ echo "   -Or Simply exit        ⛔        ex"
 echo "******************************************"
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 # Get user input
-read -t 60 -p "Enter your choice: " choice
+read -p "Enter your choice: " choice
 
 # Perform actions based on user input
 case $choice in
@@ -58,13 +58,13 @@ case $choice in
         echo "Python Program"
         pxypy
         ;;
-    *)
-        # Empty input (user didn't make a choice in 5 seconds)
+
+    "") # Empty input (user just pressed Enter)
         echo "🔥💫🚀🔥💫🚀🔥💫🚀🔥💫🚀.....Running PXY®"
         pxypxy
         ;;
-    ex)
-        echo "Exiting the script. Goodbye!"
-        exit 0
+    *)
+        # Handle other cases if needed
+        echo "Invalid choice: $choice"
         ;;
 esac
