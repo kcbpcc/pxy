@@ -7,7 +7,7 @@ source ~/env/bin/activate
 cd ~/pxy/sys/exe/run
 
 # Prompt the user for input
-read -t 60 -p "Enter your choice: " script_name
+read -t 60 -p "Enter your script name: " script_name
 
 # Run the Python script with the user-provided input
 python3 "${script_name}pxy.py"
