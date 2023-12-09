@@ -1,13 +1,13 @@
 #!/bin/bash
 
+# Activate the virtual environment
 source ~/env/bin/activate
 
 # Change to the script's directory
 cd ~/pxy/sys/exe/run
 
 # Prompt the user for input
-echo "script to run:"
-read script_name
+read -t 60 -p "Enter your choice: " script_name
 
 # Run the Python script with the user-provided input
-python3 "$script_name"pxy.py
+python3 "${script_name}pxy.py"
