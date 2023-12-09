@@ -13,9 +13,9 @@ echo "   -pxymon                💫        mn"
 echo "   -pxypnl                💰        pl"
 echo "   -pxybuy                🟢        by"
 echo "   -pxysell               🔴        sl"
-echo "   -pxykill               ❌        ak"
+echo "   -pxykill               ❌        ka"
 echo "   -pxyclean              🚿        cl"
-echo "   -pxycheck              ✅        ca"
+echo "   -pxycheck              ✅        ch"
 echo "   -pxyupdate             🔄        up"
 echo "   -pxydashboard          📅        ds"
 echo "   -Or Simply exit        ⛔        ex"
@@ -34,7 +34,7 @@ case $choice in
         echo "Buy"
         pxybuy
         ;;    
-    ak)
+    ka)
         echo "SquireOff all Positions"
         pxykill
         ;;
@@ -54,7 +54,7 @@ case $choice in
         echo "Get me PnL"
         pxypnl
         ;;
-    ca)
+    ch)
         echo "Test All PXY®"
         pxycheck
         ;;
