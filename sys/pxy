@@ -38,7 +38,7 @@ case $choice in
         echo "Update PXY®"
         pxyupdate
         ;;
-    mm)
+    mn)
         echo "Control..."
         pxymon
         ;;
