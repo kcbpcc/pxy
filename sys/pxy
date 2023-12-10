@@ -18,7 +18,6 @@ echo "   -pxyclean              🚿        cl"
 echo "   -pxycheck              ✅        ch"
 echo "   -pxyupdate             🔄        up"
 echo "   -pxydashboard          📅        ds"
-echo "   -Or Simply exit        ⛔        ex"
 echo "******************************************"
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 # Get user input
