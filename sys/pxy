@@ -15,7 +15,7 @@ echo "   -pxybuy                🟢        by"
 echo "   -pxysell               🔴        sl"
 echo "   -pxykill               ❌        ka"
 echo "   -pxyclean              🚿        cl"
-echo "   -pxycheck              ✅        ch"
+echo "   -pxycheck              ✅        ck"
 echo "   -pxyupdate             🔄        up"
 echo "   -pxydashboard          📅        ds"
 echo "******************************************"
@@ -57,7 +57,7 @@ case $choice in
         echo "Get me PnL"
         pxypnl
         ;;
-    ch)
+    ck)
         echo "Test All PXY®"
         pxycheck
         ;;
