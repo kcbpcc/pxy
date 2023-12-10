@@ -18,7 +18,7 @@ echo "   -pxyclean              🚿        cl"
 echo "   -pxycheck              ✅        ck"
 echo "   -pxyupdate             🔄        up"
 echo "   -pxydashboard          📅        ds"
-echo "    buy, dsh, cln, cntrl, kill, bukd, idocln, minus, plus, fund, mkt, nft, sell, time, loop, swch, ord, prft, smb"
+echo "buy,dsh,cln,cntrl,kill,bukd,idocln,minus,plus,fund,mkt,nft,sell,time,loop,swch,ord,prft,smb"
 
 echo "******************************************"
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
