@@ -17,7 +17,7 @@ echo "   -pxykill               ❌        ka"
 echo "   -pxyclean              🚿        cl"
 echo "   -pxycheck              ✅        ck"
 echo "   -pxyupdate             🔄        up"
-echo "   -pxydashboard          📅        ds"
+echo "   -pxydashboard          📊        ds"
 echo "******************************************"
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 # Get user input
