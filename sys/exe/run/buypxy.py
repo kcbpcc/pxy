@@ -15,6 +15,8 @@ import asyncio
 from smbpxy import get_smbpxy_check
 
 
+
+
 logging = Logger(10)
 holdings = dir_path + "holdings.csv"
 black_file = dir_path + "blacklist.txt"
@@ -108,6 +110,7 @@ if decision == "YES":
     def transact(dct, remaining_cash):
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
+        mktpxy = get_market_check('^NSEI')
         smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
         smbchk = get_smbpxy_check(['tradingsymbol'] + ".NS") if 'tradingsymbol' in smb500_list and get_smbpxy_check(['tradingsymbol'] + ".NS") is not None else mktpxy
 
