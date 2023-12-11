@@ -17,9 +17,9 @@ def calculate_loop_duration(current_time):
     # Check if current time is within the defined intervals
     if interval_1_start <= current_time <= interval_1_end or interval_2_start <= current_time <= interval_2_end:
         return 1
-    elif interval_3_start <= current_time <= interval_3_end:
+    elif interval_3_start <= current_time or current_time <= interval_3_end:
         # Calculate the time remaining until the end of interval_3
-        remaining_time = interval_3_end - current_time
+        remaining_time = (interval_3_end - current_time) if current_time <= interval_3_end else (timedelta(days=1) + interval_3_end - current_time)
         # Convert the remaining time to seconds
         return round(remaining_time.total_seconds())
     else:
@@ -33,4 +33,5 @@ loop_duration = calculate_loop_duration(current_utc_time)
 
 print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}")
 print(f"Time remaining until Interval 3 end: {loop_duration} seconds")
+
 
