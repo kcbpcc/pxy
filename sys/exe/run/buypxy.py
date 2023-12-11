@@ -13,6 +13,7 @@ from fundpxy import calculate_decision
 from mktpxy import get_market_check
 import asyncio
 from smbpxy import get_smbpxy_check
+mktchk = get_market_check('^NSEI')
 
 logging = Logger(10)
 holdings = dir_path + "holdings.csv"
