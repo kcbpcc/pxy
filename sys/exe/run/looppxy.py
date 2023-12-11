@@ -6,9 +6,9 @@ def calculate_loop_duration(current_time):
     interval_1_end = datetime.strptime("04:00", "%H:%M").time()
     
     interval_2_start = datetime.strptime("09:14", "%H:%M").time()
-    interval_2_end = datetime.strptime("09:50", "%H:%M").time()
+    interval_2_end = datetime.strptime("10:00", "%H:%M").time()
 
-    interval_3_start = datetime.strptime("09:51", "%H:%M").time()
+    interval_3_start = datetime.strptime("10:01", "%H:%M").time()
     interval_3_end = datetime.strptime("03:43", "%H:%M").time()
 
     # Convert current time to datetime object with today's date
