@@ -36,19 +36,7 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         sys.stdout = open(os.devnull, 'w')
 
         # Download data for the specified number of days (fixed to 5 days)
-        try:
-            data = yf.download(symbol, period="5d")
-            # Process the data as needed
-            print("Data successfully downloaded for symbol:", symbol)
-        except Exception as e:
-            print("Error downloading data for symbol:", symbol)
-            print("Error details:", str(e))
-            
-            # If there's an error, fallback to '^NSEI'
-            symbol = '^NSEI'
-            data = yf.download(symbol, period="5d")
-            # Process the data for the default symbol
-            print("Fallback: Data successfully downloaded for default symbol:", symbol)
+        data = yf.download(symbol, period="5d")
         
         # Extract today's open, yesterday's close, and current price
         today_open = data['Open'].iloc[-1]
@@ -73,20 +61,8 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
 
     else:
         # Fetch real-time data for the specified interval
-        
-        try:
-            # Try fetching data with the provided symbol
-            data = yf.Ticker(symbol).history(period=f'{period}d', interval=f'{interval}m')
-        except Exception as e:
-            # If an exception occurs, print the error and hard code the symbol to '^NSEI'
-            print(f"Error fetching data for symbol {symbol}: {e}")
-            print("Attempting to fetch data for '^NSEI'")
-            
-            # Hard code the symbol to '^NSEI' and try fetching data again
-            symbol = '^NSEI'
-            data = yf.Ticker(symbol).history(period=f'{period}d', interval=f'{interval}m')
-            print("Fallback: Data successfully downloaded for default symbol:", symbol)
-            
+        data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
+
         # Calculate Heikin-Ashi candles
         ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
         ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
