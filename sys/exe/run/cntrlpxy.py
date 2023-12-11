@@ -619,7 +619,9 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC') and
-                        (((row['PL%']) > (row['pxy'])) or ((row['PL%']) > TIMPXY) or ((row['PL%']) < -0.9)) 
+                        ((row['PL%']) > (row['pxy']) and ((row['PL%']) < 2)) or
+                        ((row['PL%']) > TIMPXY) or
+                        ((row['PL%']) < -0.5) 
                     ):
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
