@@ -94,7 +94,7 @@ def get_smbpxy_check(symbol):
                     elif current_color == 'Bull' and last_closed_color == 'Bear':
                         return 'Buy'
                     else:
-                        return 'None'
+                        return get_smbpxy_check('^NSEI')
 
         return 'None'
 
