@@ -99,7 +99,12 @@ def get_smbpxy_check(symbol):
         return 'None'
 
     except Exception as e:
-        console.print(f"[red]Error determining smbpxy check: {e}[/red]")
-        return 'None'
+        console.print(f"[red]Error determining smbpxy check for symbol {symbol}: {e}[/red]")
+        console.print("[yellow]Trying with default symbol '^NSEI'[/yellow]")
 
-
+        try:
+            # Retry with the default symbol '^NSEI'
+            return get_smbpxy_check('^NSEI')
+        except Exception as fallback_error:
+            console.print(f"[red]Error determining smbpxy check with default symbol: {fallback_error}[/red]")
+            return 'None'
