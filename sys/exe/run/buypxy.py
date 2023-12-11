@@ -4,7 +4,7 @@ from toolkit.utilities import Utilities
 from login_get_kite import get_kite
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from byhopxy import get
-from pluspxy import Trendlyne
+from buypluspxy import Trendlyne
 import pandas as pd
 import traceback
 import sys
