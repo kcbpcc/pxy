@@ -134,8 +134,8 @@ while True:
     # Print the result (you can remove this if not needed)
     # print(f"mktpxy: {mktpxy}")
 
-    def progress_bar(duration):
-        for i in range(duration):
+    def progress_bar(loop_duration):
+        for i in range(loop_duration):
             time.sleep(1)
             print("✨.", end='', flush=True)
         print("\nTask completed!")
