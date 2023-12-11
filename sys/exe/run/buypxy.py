@@ -13,7 +13,7 @@ from fundpxy import calculate_decision
 from mktpxy import get_market_check
 import asyncio
 from smbpxy import get_smbpxy_check
-mktpxy=get_market_check('^NSEI')
+
 
 logging = Logger(10)
 holdings = dir_path + "holdings.csv"
@@ -112,7 +112,7 @@ if decision == "YES":
         try:
             smbchk = get_smbpxy_check(dct['tradingsymbol']+".NS")
         except Exception as e:
-            smbchk = mktpxy
+            smbchk = get_market_check('^NSEI')
         try:
             def get_ltp():
                 ltp = -1
