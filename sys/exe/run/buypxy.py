@@ -108,14 +108,7 @@ if decision == "YES":
     def transact(dct, remaining_cash):
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
-        
-        try:
-            smbchk = get_smbpxy_check(dct['tradingsymbol'] + ".NS")
-        except Exception as e:
-            # Log the exception for debugging or handle it as needed
-            print(f"Error in get_smbpxy_check: {e}")
-            smbchk = get_market_check('^NSEI')
-            print(f"smbchk (fallback): {smbchk}, symbol: {symbol}")
+        smbchk = get_smbpxy_check(dct['tradingsymbol'] + ".NS")
 
         try:
             def get_ltp():
