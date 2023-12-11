@@ -17,7 +17,7 @@ def calculate_loop_duration(current_time):
     # Check if current time is within the defined intervals
     if interval_1_start <= current_time <= interval_1_end or interval_2_start <= current_time <= interval_2_end:
         return 1
-    elif interval_3_start <= current_time:
+    elif interval_3_start <= current_time <= interval_3_end:
         # Calculate the time remaining until the end of interval_3
         remaining_time = interval_3_end - current_time
         # Convert the remaining time to seconds
