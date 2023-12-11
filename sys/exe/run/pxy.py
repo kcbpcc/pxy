@@ -139,7 +139,7 @@ while True:
         for i in range(duration):
             time.sleep(1)
             print("✨.", end='', flush=True)
-        print("\nTask completed!")
+        print("\nLets see what happens next!")
 
     # Make sure loop_duration is defined before calling the function
 
