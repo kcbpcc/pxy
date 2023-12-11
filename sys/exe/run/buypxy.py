@@ -4,7 +4,7 @@ from toolkit.utilities import Utilities
 from login_get_kite import get_kite
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from byhopxy import get
-from buypluspxy import Trendlyne
+from pluspxy import Trendlyne
 import pandas as pd
 import traceback
 import sys
@@ -107,10 +107,11 @@ if decision == "YES":
     def transact(dct, remaining_cash):
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
-        mktpxy = get_market_check('^NSEI')
-        smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
-        smbchk = get_smbpxy_check(['tradingsymbol'] + ".NS") if 'tradingsymbol' in smb500_list and get_smbpxy_check(['tradingsymbol'] + ".NS") is not None else mktpxy
         
+        try:
+            smbchk = get_smbpxy_check(dct['tradingsymbol']+".NS")
+        except Exception as e:
+            smbchk = mktchk
         try:
             def get_ltp():
                 ltp = -1
@@ -152,7 +153,6 @@ if decision == "YES":
         except Exception as e:
             print(traceback.format_exc())
             logging.error(f"{str(e)} while placing order")
-            print({smbchk})
             return dct['tradingsymbol'], remaining_cash
     
     
