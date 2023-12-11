@@ -87,7 +87,7 @@ def order_place(index, row):
                                 del row[column]
                     
                         #message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-                        message_text = '\n'.join(f"{str(key).ljust(15)} {str(value).rjust(15)}" for key, value in row.items() if key != 'key') + f"\nhttps://www.tradingview.com/chart/?symbol={row['key']}"
+                        message_text = '\n'.join(f"{str(key).ljust(15)} {str(value).rjust(15)}" for key, value in row_data.items() if key != 'key') + f"\nhttps://www.tradingview.com/chart/?symbol={row_data['key']}"
 
                         
                         # Define the bot token and your Telegram username or ID
