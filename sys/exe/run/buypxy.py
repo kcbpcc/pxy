@@ -110,7 +110,7 @@ if decision == "YES":
         mktpxy = get_market_check('^NSEI')
         smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
         smbchk = get_smbpxy_check(['tradingsymbol'] + ".NS") if 'tradingsymbol' in smb500_list and get_smbpxy_check(['tradingsymbol'] + ".NS") is not None else mktpxy
-        print({smbchk})
+        
         try:
             def get_ltp():
                 ltp = -1
@@ -152,6 +152,7 @@ if decision == "YES":
         except Exception as e:
             print(traceback.format_exc())
             logging.error(f"{str(e)} while placing order")
+            print({smbchk})
             return dct['tradingsymbol'], remaining_cash
     
     
