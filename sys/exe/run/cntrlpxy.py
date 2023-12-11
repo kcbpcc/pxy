@@ -634,7 +634,7 @@ try:
                     elif (
                         row['qty'] > 0 and
                         row['product'] == 'MIS' and
-                        ((row['PL%'] < -1) or ((row['PL%'] > 0) and (row['PL%'] > row['pxy']))) 
+                        (((row['PL%']) > (row['pxy'])) or ((row['PL%']) > TIMPXY) or ((row['PL%']) < -0.9))
                     ):
 
                         try:
@@ -653,8 +653,9 @@ try:
                     elif (
                         row['qty'] < 0 and
                         row['product'] == 'MIS' and
-                        ((row['PL%'] > 1) or ((row['PL%'] < 0) and (row['PL%'] < row['yxp']))) 
+                        (((row['PL%']) < (row['yxp'])) or ((row['PL%']) > 0.9)) 
                     ):
+
                         try:
                             is_placed = mis_order_buy(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
