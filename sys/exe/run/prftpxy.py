@@ -1,4 +1,3 @@
-   
 import csv
 from rich import print
 from rich.table import Table
@@ -49,11 +48,16 @@ def process_csv(csv_file_path):
 
                 # Convert numerical values to strings and round them to two decimal places
                 processed_values = []
-                for value in last_columns_values:
+                for idx, value in enumerate(last_columns_values):
                     try:
                         processed_value = str(round(float(value), 2))
                     except ValueError:
                         processed_value = value  # Keep non-numeric values as they are
+
+                    # Remove prefixes "BSE:" or "NSE:" from the 'key' column
+                    if headers_for_printing[idx] == 'key':
+                        processed_value = processed_value.replace('BSE:', '').replace('NSE:', '')
+
                     processed_values.append(processed_value)
 
                 # Accumulate the total profit
