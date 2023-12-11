@@ -1,3 +1,4 @@
+print(f'🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛')
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from login_get_kite import get_kite, remove_token
@@ -12,7 +13,7 @@ import csv
 import telegram
 import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
-print(f'🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛')
+
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
 result = sum_last_numerical_value_in_each_row(file_path)  
@@ -86,6 +87,8 @@ def order_place(index, row):
                                 del row[column]
                     
                         message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
+                        #message_text = '\n'.join(f"{str(value).rjust(15)}" for value in row.values()) + f"\nhttps://www.tradingview.com/chart/?symbol={row['key']}"
+
                         
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
@@ -110,7 +113,7 @@ def order_place(index, row):
         else:
             logging.error("Invalid format for 'index'")    
     except Exception as e:
-        print(traceback.format_exc())
+        #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
 ###########################################################################################################################################################################################################
@@ -147,7 +150,8 @@ def mis_order_sell(index, row):
                                 del row[column]
                     
                         message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-                        
+                        #message_text = '\n'.join(f"{str(value).rjust(15)}" for value in row.values()) + f"\nhttps://www.tradingview.com/chart/?symbol={row['key']}"
+
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
                         user_usernames = ('-4022487175')  # Replace with your Telegram username or ID
@@ -274,7 +278,7 @@ try:
     import numpy as np
     from mktpxy import get_market_check
     import importlib
-    from nftpxy import nse_action
+    from nftpxy import nse_action, nse_power
     from timepxy import calculate_timpxy
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
@@ -283,8 +287,9 @@ try:
     import asyncio
     from smbpxy import get_smbpxy_check
     #from ordpxy import get_open_order_status
-
-    
+    yellow_color_code = "\033[93m"  # Replace with your actual ANSI color code for yellow
+    reset_color_code = "\033[0m"    # Replace with your actual ANSI color code for resetting color
+    print(f"{yellow_color_code}Market is {nse_action}⚡💥 -- Power⚡💥{nse_power}{reset_color_code}💥⚡")
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
@@ -334,7 +339,13 @@ try:
     combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
     combined_df['oPL%'] = combined_df.apply(lambda row: (((row['ltp'] - row['open']) / row['open']) * 100) if row['open'] != 0 else 1, axis=1)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
-    combined_df['_pstp'] = (combined_df['average_price'] *1.01)
+    combined_df['_pstp'] = (combined_df['average_price'] *1.01) 
+###########################################################################################################################################################################################################
+    subprocess.run(['python3', 'cpritepxy.py'])
+    subprocess.run(['python3', 'dshpxy.py'])
+    subprocess.run(['python3', 'prftpxy.py'])
+    print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
+###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
     combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS") if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS") is not None else mktpxy, axis=1)
     # Calculate 'Invested' column
@@ -370,11 +381,11 @@ try:
     combined_df[['pr', 'xl', 'yi', '_pr', '_xl', '_yi']] = combined_df.apply(
         lambda row: pd.Series({
             'pr': round(max(0.5, round(0.0 + (row['strength'] * 1.0), 2) * 1 - epsilon), 2),
-            'xl': round(max(1, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 2),
-            'yi': round(max(1.5, round(0.0 + (row['strength'] * 1.0), 2) * 3 - epsilon), 2),
+            'xl': round(max(1, round(0.0 + (row['strength'] * 1.0), 2) * 1.5 - epsilon), 2),
+            'yi': round(max(1.5, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 2),
             '_pr': round(min(-0.5, round(0.0 + (row['weakness'] * 1.0), 2) * 1 - epsilon), 2),
-            '_xl': round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 2),
-            '_yi': round(min(-1.5, round(0.0 + (row['weakness'] * 1.0), 2) * 3 - epsilon), 2),
+            '_xl': round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 1.5 - epsilon), 2),
+            '_yi': round(min(-1.5, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 2),
         }), axis=1
     )
     
@@ -401,51 +412,43 @@ try:
         smbchk = row['smbchk']
         _pr, _xl, _yi = row['_pr'], row['_xl'], row['_yi']
     
-        if smbchk == "Bear": 
-            return round(max(_pr, _yi), 2)
-            
-        elif smbchk == "Buy": 
-            return round(max(_pr, _xl), 2)
-
+        if smbchk == "Bear":
+            return round(min(_pr, _yi), 2)
+    
+        elif smbchk == "Buy":
+            return round(min(_pr, _xl), 2)
+    
         elif smbchk == "Bull":
-            return round(max(_pr, _pr), 2)
-
+            return round(min(_pr, _pr), 2)
+    
         elif smbchk == "Sell":
-            return round(max(_pr, _yi), 2)
-        
+            return round(min(_pr, _yi), 2)
+    
         else:
             return round(_pr, 2)
+
     
     combined_df['pxy'] = combined_df.apply(calculate_pxy, axis=1)
     combined_df['yxp'] = combined_df.apply(calculate_yxp, axis=1)
   
 ###########################################################################################################################################################################################################
     TIMPXY = (
-        float(timpxy)
-        if (nse_action in ("SuperBull", "Bull") and mktpxy in ["Buy", "Bull"])
+        round(float(timpxy), 2)
+        if (nse_action in ("Bullish"))
         else (
-            float(timpxy) * 0.90
-            if (nse_action in ("SuperBull", "Bull") and mktpxy == "Sell")
+            round(float(timpxy) * 0.90, 2)
+            if (nse_action in ("Bull"))
             else (
-                float(timpxy) * 0.80
-                if (nse_action in ("SuperBull", "Bull") and mktpxy == "Bear")
+                round(float(timpxy) * 0.60, 2)
+                if (nse_action in ("Bear"))
                 else (
-                    float(timpxy) * 0.60
-                    if (nse_action in ("SuperBear", "Bear") and mktpxy in ["Buy", "Bull"])
-                    else (
-                        float(timpxy) * 0.50
-                        if (nse_action in ("SuperBear", "Bear") and mktpxy == "sell")
-                        else (
-                            float(timpxy) * 0.50
-                            if (nse_action in ("SuperBear", "Bear") and mktpxy == "Bear")
-                            else float(timpxy) * 1  # Default value if none of the conditions match
-                        )
-                    )
+                    round(float(timpxy) * 0.30, 2)
+                    if (nse_action in ("Bearish"))
+                    else 0.50  # You might want to add a default value here
                 )
             )
         )
     )
-    
 
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
@@ -456,17 +459,19 @@ try:
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
     # Calculate and print the sum of 'PnL' values and its total 'PL%' for rows where 'qty' is greater than 0
     total_PnL = round(combined_df_positive_qty['PnL'].sum())
-    total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100    
+    total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0   
     # Calculate total_PnL_percentage_mis_buy
     cnc_buy_df = combined_df.loc[(combined_df['product'] == "CNC") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
-    total_PnL_percentage_positions_buy = round(cnc_buy_df['PnL'].sum()) if not cnc_buy_df.empty else 0    
+    total_PnL_cnc_buy = round(cnc_buy_df['PnL'].sum()) if not cnc_buy_df.empty else 0    
+    mis_buy_df = combined_df.loc[(combined_df['product'] == "MIS") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
+    total_PnL_mis_buy = round(mis_buy_df['PnL'].sum()) if not mis_buy_df.empty else 0
     # Calculate total_PnL_percentage_mis_sell
     mis_sell_df = combined_df.loc[(combined_df['product'] == "MIS") & (combined_df['qty'] < 0)]
     total_PnL_percentage_mis_sell = round(mis_sell_df['PnL'].sum()) if not mis_sell_df.empty else 0    
     # Calculate and print the sum of 'dPnL' values and its total 'dPL%' for rows where 'qty' is greater than 0
     #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
-    total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100
+    total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
 ###########################################################################################################################################################################################################    
     import pandas as pd
     # Assuming you have a list of instrument keys, e.g., ['NIFTY50', 'RELIANCE', ...]
@@ -530,7 +535,7 @@ try:
     lstchk_file = "fileHPdf.csv"
     # Dump the DataFrame to the CSV file, overwriting any existing file
     combined_df.to_csv(lstchk_file, index=False)
-    print(f"DataFrame has been saved to {lstchk_file}")
+    #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
     pxy_df = filtered_df.copy()[['smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','pxy','yxp','key','dPL%','PnL','PL%_H', 'PL%']]
   
@@ -538,7 +543,7 @@ try:
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp','product', 'source', 'key', 'PL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','key','yxp','pxy','dPL%','oPL%','PL%','qty','smbchk']]
+    PRINT_df = pxy_df[['source','product','key','yxp','dPL%','oPL%','pxy','PL%','qty','smbchk']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty': 'Q', 'smbchk': 'TR'})
     # Conditionally replace values in the 'HP' column
@@ -580,13 +585,14 @@ try:
     
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
+    print("*" * 42)
     
     # Always print "Table" in bright yellow
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
-    
-    # Print the truncated DataFrame without color
 
+    # Print the truncated DataFrame without color
     print(PRINT_df_sorted_display.to_string(index=False, justify='left', col_space=-2))
+    print("*" * 42)
   
 ###########################################################################################################################################################################################################
     # Define the CSV file path
@@ -613,7 +619,8 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC') and
-                        ((row['PL%'] < -1) or ((row['PL%'] > 0) and (row['PL%'] > row['pxy'])))                     ):
+                        (row['PL%']) > 0
+                    ):
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
@@ -629,7 +636,8 @@ try:
 ###########################################################################################################################################################################################################
                     elif (
                         row['qty'] > 0 and
-                        row['product'] == 'MIS'  
+                        row['product'] == 'MIS' and
+                        (((row['PL%']) > (row['pxy'])) or ((row['PL%']) > TIMPXY) or ((row['PL%']) < -0.9))
                     ):
 
                         try:
@@ -647,8 +655,10 @@ try:
 ###########################################################################################################################################################################################################
                     elif (
                         row['qty'] < 0 and
-                        row['product'] == 'MIS' 
+                        row['product'] == 'MIS' and
+                        (((row['PL%']) < (row['yxp'])) or ((row['PL%']) > 0.9)) 
                     ):
+
                         try:
                             is_placed = mis_order_buy(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
@@ -680,24 +690,25 @@ try:
         
         # Print statements
         
-        print(left_aligned_format.format(f"Day Switch:{BRIGHT_YELLOW}{switch}{RESET}"), end="")
-        print(right_aligned_format.format(f"Day Power:{BRIGHT_GREEN if power > 0.5 else BRIGHT_RED}{power}{RESET}"))
-        print(left_aligned_format.format(f"Day Change%:{BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}"), end="")
-        print(right_aligned_format.format(f"dPnL:{BRIGHT_GREEN if total_dPnL > 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}"))
-        print(left_aligned_format.format(f"Day Status:{BRIGHT_GREEN if nse_action in ('SuperBear', 'SuperBull') else BRIGHT_RED}{nse_action}{RESET}"), end="")
-        print(right_aligned_format.format(f"dPL%:{BRIGHT_GREEN if total_dPnL_percentage > 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2)}{RESET}"))
-        print(left_aligned_format.format(f"Day Open%:{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}"), end="")
-        print(right_aligned_format.format(f"TIMPXY:{BRIGHT_YELLOW}{round(TIMPXY, 2)}{RESET}"))
-        print(left_aligned_format.format(f"tPnL:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round(total_PnL, 2)}{RESET}"), end="")
-        print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
+        print(left_aligned_format.format(f"Status:{BRIGHT_GREEN if nse_action in ('Bullish', 'Bull') else BRIGHT_RED}{nse_action}{RESET}"), end="")
+        print(right_aligned_format.format(f"Power:{BRIGHT_GREEN if power > 0.5 else BRIGHT_RED}{power}{RESET}"))
         print(left_aligned_format.format(f"tPL%:{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}"), end="")
-        print(right_aligned_format.format(f"Booked: {BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
-        print(left_aligned_format.format(f"psellPnL:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}"), end="")
-        print(right_aligned_format.format(f"pbuyPnL:{BRIGHT_GREEN if total_PnL_percentage_positions_buy >= 0 else BRIGHT_RED}{total_PnL_percentage_positions_buy}{RESET}"))
-        subprocess.run(['python3', 'mktpxy.py'])
+        print(right_aligned_format.format(f"dPnL:{BRIGHT_GREEN if total_dPnL > 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}"))
+        print(left_aligned_format.format(f"tPnL:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round(total_PnL, 2)}{RESET}"), end="")
+        print(right_aligned_format.format(f"dPL%:{BRIGHT_GREEN if total_dPnL_percentage > 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2)}{RESET}"))
+        print(left_aligned_format.format(f"MIS:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}"), end="")
+        print(right_aligned_format.format(f"CNC:{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{total_PnL_cnc_buy}{RESET}"))
+        print(left_aligned_format.format(f"Switch:{BRIGHT_YELLOW}{switch}{RESET}"), end="")
+        print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
+        print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}"), end="")
+        print(right_aligned_format.format(f"TIMEPXY:{BRIGHT_GREEN if TIMPXY >= 5 else BRIGHT_RED}{TIMPXY}{RESET}"))
+        print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}"), end="")
+        print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
+
+        print("*" * 42)
 
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
-
+        mktpxy = get_market_check('^NSEI')
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
