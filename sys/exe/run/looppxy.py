@@ -36,4 +36,4 @@ current_utc_time = datetime.utcnow().time()
 loop_duration = calculate_loop_duration(current_utc_time)
 
 print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}")
-print(f"CLOSED MARKET : {loop_duration} seconds")
+print(f"Loop Duration : {loop_duration} seconds")
