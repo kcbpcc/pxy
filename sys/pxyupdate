@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "CD DIR to $HOME/pxy"
+#echo "CD DIR to $HOME/pxy"
 cd $HOME/pxy
 echo "GET UPDATES"
 git fetch --all
