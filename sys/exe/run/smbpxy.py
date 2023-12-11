@@ -32,7 +32,7 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
     # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
-    if 210 <= current_utc_time < 250:
+    if 210 <= current_utc_time < 300:
         sys.stdout = open(os.devnull, 'w')
 
         # Download data for the specified number of days (fixed to 5 days)
