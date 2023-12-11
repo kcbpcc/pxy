@@ -107,4 +107,4 @@ def get_smbpxy_check(symbol):
             return get_smbpxy_check('^NSEI')
         except Exception as fallback_error:
             console.print(f"[red]Error determining smbpxy check with default symbol: {fallback_error}[/red]")
-            return 'None'
+            return get_smbpxy_check('^NSEI')
