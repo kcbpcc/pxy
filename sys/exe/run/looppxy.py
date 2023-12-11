@@ -30,11 +30,10 @@ def calculate_loop_duration(current_time):
         return 14
 
 # Get the current UTC time
-current_utc_time = datetime.utcnow()
+current_utc_time = datetime.utcnow().time()
 
 # Calculate loop duration based on current time
 loop_duration = calculate_loop_duration(current_utc_time)
 
 print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}")
 print(f"Time remaining until Interval 3 end: {loop_duration} seconds")
-
