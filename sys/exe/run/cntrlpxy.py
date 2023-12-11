@@ -433,16 +433,16 @@ try:
   
 ###########################################################################################################################################################################################################
     TIMPXY = (
-        float(timpxy)
+        round(float(timpxy), 2)
         if (nse_action in ("Bullish"))
         else (
-            float(timpxy) * 0.90
+            round(float(timpxy) * 0.90, 2)
             if (nse_action in ("Bull"))
             else (
-                float(timpxy) * 0.60
+                round(float(timpxy) * 0.60, 2)
                 if (nse_action in ("Bear"))
                 else (
-                    float(timpxy) * 0.30
+                    round(float(timpxy) * 0.30, 2)
                     if (nse_action in ("Bearish"))
                     else 0.50  # You might want to add a default value here
                 )
