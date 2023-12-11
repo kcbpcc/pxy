@@ -86,8 +86,8 @@ def order_place(index, row):
                             if column in row:
                                 del row[column]
                     
-                        #message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-                        message_text = '\n'.join(f"{str(value).rjust(15)}" for value in row.values()) + f"\nhttps://www.tradingview.com/chart/?symbol={row['key']}"
+                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
+                        #message_text = '\n'.join(f"{str(value).rjust(15)}" for value in row.values()) + f"\nhttps://www.tradingview.com/chart/?symbol={row['key']}"
 
                         
                         # Define the bot token and your Telegram username or ID
@@ -149,8 +149,8 @@ def mis_order_sell(index, row):
                             if column in row:
                                 del row[column]
                     
-                        #message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-                        message_text = '\n'.join(f"{str(value).rjust(15)}" for value in row.values()) + f"\nhttps://www.tradingview.com/chart/?symbol={row['key']}"
+                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
+                        #message_text = '\n'.join(f"{str(value).rjust(15)}" for value in row.values()) + f"\nhttps://www.tradingview.com/chart/?symbol={row['key']}"
 
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
