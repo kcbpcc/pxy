@@ -9,4 +9,5 @@ echo "COPY ~/pxy/sys/ to /usr/local/bin/"
 sudo cp ~/pxy/sys/* /usr/local/bin/ &> /dev/null
 echo "GRANT /usr/local/bin/"
 sudo chmod +x /usr/local/bin/*
+echo '                                 '
 echo "       *****UPDATE COMPLETED*****"
