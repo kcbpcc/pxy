@@ -36,7 +36,14 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         sys.stdout = open(os.devnull, 'w')
 
         # Download data for the specified number of days (fixed to 5 days)
-        data = yf.download(symbol, period="5d")
+        try:
+            data = yf.download(symbol, period=period)
+        except Exception as e:
+            print(f"Error downloading data for {symbol}: {e}")
+            print(f"Using ^NSEI as a fallback.")
+            data = yf.download("^NSEI", period=period)
+    
+        return data
         
         # Extract today's open, yesterday's close, and current price
         today_open = data['Open'].iloc[-1]
