@@ -36,4 +36,4 @@ current_utc_time = datetime.utcnow().time()
 loop_duration = calculate_loop_duration(current_utc_time)
 
 print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}")
-print(f"Time remaining until Interval 3 end: {loop_duration} seconds")
+print(f"let me sleep : {loop_duration} seconds")
