@@ -17,7 +17,7 @@ def calculate_loop_duration(current_time):
     # Check if current time is within the defined intervals
     if interval_1_start <= current_time <= interval_1_end or interval_2_start <= current_time <= interval_2_end:
         return 1
-    elif interval_3_start <= current_time or current_time <= interval_3_end:
+    elif interval_3_start <= current_time and current_time <= interval_3_end:
         # Calculate the remaining time until the end of interval_3
         remaining_time = timedelta(hours=12) - (current_time - interval_3_start)
         # Convert the remaining time to hours
@@ -31,5 +31,5 @@ current_utc_time = datetime.utcnow()
 # Calculate loop duration based on current time
 loop_duration = calculate_loop_duration(current_utc_time)
 
-#print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}")
-#print(f"Loop duration: {loop_duration} seconds")
+print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}")
+print(f"Loop duration: {loop_duration} hours")
