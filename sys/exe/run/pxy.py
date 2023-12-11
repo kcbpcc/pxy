@@ -120,6 +120,7 @@ while True:
             console.print("🛒🔴🛬⤵️ [bold]Time to sell![/bold] 📉💰", style=sell_style)
         elif current_color == 'Bull' and last_closed_color == 'Bear':
             mktpxy = 'Buy'
+            subprocess.run(['python3', 'buypxy.py']) if nse_action in ("Bullish","Bear","Bull") else None
             subprocess.run(['python3', 'cntrlpxy.py'])
             console.print("🚀🟢🛫⤴️ [bold]Time to buy![/bold] 🌠💰", style=buy_style)
         else:
