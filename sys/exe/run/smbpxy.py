@@ -36,14 +36,7 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         sys.stdout = open(os.devnull, 'w')
 
         # Download data for the specified number of days (fixed to 5 days)
-        try:
-            data = yf.download(symbol, period=period)
-        except Exception as e:
-            print(f"Error downloading data for {symbol}: {e}")
-            print(f"Using ^NSEI as a fallback.")
-            data = yf.download("^NSEI", period=period)
-    
-        return data
+        data = yf.download(symbol, period="5d")
         
         # Extract today's open, yesterday's close, and current price
         today_open = data['Open'].iloc[-1]
@@ -101,17 +94,10 @@ def get_smbpxy_check(symbol):
                     elif current_color == 'Bull' and last_closed_color == 'Bear':
                         return 'Buy'
                     else:
-                        return get_smbpxy_check('^NSEI')
+                        return 'None'
 
         return 'None'
 
     except Exception as e:
-        console.print(f"[red]Error determining smbpxy check for symbol {symbol}: {e}[/red]")
-        console.print("[yellow]Trying with default symbol '^NSEI'[/yellow]")
-
-        try:
-            # Retry with the default symbol '^NSEI'
-            return get_smbpxy_check('^NSEI')
-        except Exception as fallback_error:
-            console.print(f"[red]Error determining smbpxy check with default symbol: {fallback_error}[/red]")
-            return get_smbpxy_check('^NSEI')
+        console.print(f"[red]Error determining smbpxy check: {e}[/red]")
+        return 'None'
