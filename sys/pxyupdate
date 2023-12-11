@@ -1,7 +1,6 @@
 #!/bin/bash
-#echo "CD DIR to $HOME/pxy"
 cd $HOME/pxy
-echo "GET UPDATES"
+echo "           *****GET UPDATES*****"
 git fetch --all
 echo "RESET SOFTWERE"
 git reset --hard origin/main
