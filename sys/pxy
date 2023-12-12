@@ -25,43 +25,43 @@ read -p "Enter your choice: " choice
 
 # Perform actions based on user input
 case $choice in
-    ds)
+    10)
         echo "Dash Board"
         pxydashboard
         ;;
-    by)
+    04)
         echo "Buy"
         pxybuy
         ;;    
-    sl)
+    05)
         echo "Sell"
         pxysell
         ;;        
-    ka)
+    06)
         echo "SquireOff all Positions"
         pxykill
         ;;
-    up)
+    09)
         echo "Update PXY®......................"
         pxyupdate
         ;;
-    mn)
+    02)
         echo "Control..."
         pxymon
         ;;
-    cl)
+    07)
         echo "Clean PXY®"
         pxyclean
         ;;
-    pl)
+    03)
         echo "Get me PnL"
         pxypnl
         ;;
-    ck)
+    08)
         echo "Test All PXY®"
         pxycheck
         ;;
-    py)
+    01)
         echo "Python Program"
         pxypy
         ;;
