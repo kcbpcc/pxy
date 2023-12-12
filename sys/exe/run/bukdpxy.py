@@ -21,4 +21,4 @@ def sum_last_numerical_value_in_each_row(csv_file):
 file_path = 'filePnL.csv'
 result = sum_last_numerical_value_in_each_row(file_path)
 
-print(f"Booked Profit: {result}")
+#print(f"Booked Profit: {result}")
