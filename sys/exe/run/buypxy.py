@@ -158,7 +158,7 @@ if decision == "YES":
                     return dct['tradingsymbol'], remaining_cash
             else:
                 logging.warning(
-                    f"Skipping order placement for {dct['tradingsymbol']} due ({smbchk} remaining_cash{remaining_cash} )"
+                    f"Skipping order placement for {dct['tradingsymbol']} due to insufficient funds ({smbchk}). Remaining Cash: {remaining_cash:.2f}"
                 )
             return dct['tradingsymbol'], remaining_cash
         
