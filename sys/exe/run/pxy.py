@@ -145,4 +145,4 @@ while True:
                 print("✨.", end='', flush=True)
             print("\nLets see what happens next!")
         # Make sure loop_duration is defined before calling the function
-        progress_bar(loop_duration)
+    progress_bar(loop_duration)
