@@ -5,5 +5,7 @@ source ~/env/bin/activate
 # Change to the script's directory
 cd ~/pxy/sys/exe/run
 
-# Run the Python script
+# Run the Python scripts sequentially
 python3 chkpxy.py
+python3 buypluspxy.py
+python3 sellminuspxy.py
