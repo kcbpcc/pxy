@@ -6,6 +6,8 @@ symbol = "^NSEI"  # Replace "AAPL" with the actual symbol you want to use
 
 # Get the market check result
 
+mktpxy = get_market_check('^NSEI')
+
 #print(f"Market Check from mktpxy script: {mktpxy}")
 
 
