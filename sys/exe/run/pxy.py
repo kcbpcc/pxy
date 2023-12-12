@@ -110,12 +110,14 @@ while True:
         if current_color == 'Bear' and last_closed_color == 'Bear':
             mktpxy = 'Bear'
             subprocess.run(['python3', 'cntrlpxy.py'])
-            subprocess.run(['python3', 'sellpxy.py']) if nse_action == "Bearish" else None            
+            subprocess.run(['python3', 'sellpxy.py']) if nse_action == "Bearish" else None
+            subprocess.run(['python3', 'cntrlpxy.py'])
             console.print("🐻🔴🔴🔴 [bold]Bearish sentiment![/bold] 🍯💰", style=bear_style)
         elif current_color == 'Bull' and last_closed_color == 'Bull':
             mktpxy = 'Bull'
             subprocess.run(['python3', 'cntrlpxy.py'])
             subprocess.run(['python3', 'buypxy.py']) if nse_action in ("Bullish","Bear","Bull") else None
+            subprocess.run(['python3', 'cntrlpxy.py'])
             console.print("🐂🟢🟢🟢 [bold]Bullish sentiment![/bold] 💪💰", style=bull_style)
         elif current_color == 'Bear' and last_closed_color == 'Bull':
             mktpxy = 'Sell'
@@ -130,12 +132,10 @@ while True:
             mktpxy = 'None'
             console.print("🌟 [bold]Market on standby![/bold] 🍿💰📊")
 
-        return mktpxy
-        
+        return mktpxy        
 
     # Call the function and store the result in a variable
     mktpxy = get_market_check('^NSEI')
-    subprocess.run(['python3', 'cntrlpxy.py'])
 
     # Print the result (you can remove this if not needed)
     # print(f"mktpxy: {mktpxy}")
