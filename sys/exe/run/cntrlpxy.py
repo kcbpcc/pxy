@@ -86,7 +86,7 @@ def order_place(index, row):
                             if column in row:
                                 del row[column]
                                 
-                        message_text = f"Booked profit until now: {result}\nhttps://www.tradingview.com/chart/?symbol={key}\n" + "\n".join([f"{header}:{value}" for header, value in data])
+                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
                         
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
@@ -148,7 +148,7 @@ def order_place_avg(index, row):
                             if column in row:
                                 del row[column]
                     
-                        message_text = f"Booked profit until now: {result}\nhttps://www.tradingview.com/chart/?symbol={key}\n" + "\n".join([f"{header}:{value}" for header, value in data])
+                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
 
                         
                         # Define the bot token and your Telegram username or ID
@@ -211,7 +211,7 @@ def mis_order_buy(index, row):
                             if column in row:
                                 del row[column]
                     
-                        message_text = f"Booked profit until now: {result}\nhttps://www.tradingview.com/chart/?symbol={key}\n" + "\n".join([f"{header}:{value}" for header, value in data])
+                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
                         
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
