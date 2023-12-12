@@ -8,16 +8,16 @@ NC='\033[0m' # No Color
 # Display menu
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 echo "******************************************"
-echo "   -pxypy                 🔥        01"
-echo "   -pxymon                💫        02"
-echo "   -pxypnl                💰        03"
-echo "   -pxybuy                🟢        04"
-echo "   -pxysell               🔴        05"
-echo "   -pxykill               ❌        06"
-echo "   -pxyclean              🚿        07"
-echo "   -pxycheck              ✅        08"
-echo "   -pxyupdate             🔄        09"
-echo "   -pxydashboard          📊        10"
+echo "   -pxypy                 🔥        py"
+echo "   -pxymon                💫        mn"
+echo "   -pxypnl                💰        pl"
+echo "   -pxybuy                🟢        by"
+echo "   -pxysell               🔴        sl"
+echo "   -pxykill               ❌        ka"
+echo "   -pxyclean              🚿        cl"
+echo "   -pxycheck              ✅        ck"
+echo "   -pxyupdate             🔄        up"
+echo "   -pxydashboard          📊        ds"
 echo "******************************************"
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 # Get user input
@@ -25,43 +25,43 @@ read -p "Enter your choice: " choice
 
 # Perform actions based on user input
 case $choice in
-    10)
+    ds)
         echo "Dash Board"
         pxydashboard
         ;;
-    04)
+    by)
         echo "Buy"
         pxybuy
         ;;    
-    05)
+    sl)
         echo "Sell"
         pxysell
         ;;        
-    06)
+    ka)
         echo "SquireOff all Positions"
         pxykill
         ;;
-    09)
-        echo "Update PXY®......................"
+    up)
+        echo "Update PXY®"
         pxyupdate
         ;;
-    02)
+    mn)
         echo "Control..."
         pxymon
         ;;
-    07)
+    cl)
         echo "Clean PXY®"
         pxyclean
         ;;
-    03)
+    pl)
         echo "Get me PnL"
         pxypnl
         ;;
-    08)
+    ck)
         echo "Test All PXY®"
         pxycheck
         ;;
-    01)
+    py)
         echo "Python Program"
         pxypy
         ;;
