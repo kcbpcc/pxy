@@ -132,10 +132,10 @@ while True:
 
         return mktpxy
         
-    subprocess.run(['python3', 'cntrlpxy.py'])
 
     # Call the function and store the result in a variable
     mktpxy = get_market_check('^NSEI')
+    subprocess.run(['python3', 'cntrlpxy.py'])
 
     # Print the result (you can remove this if not needed)
     # print(f"mktpxy: {mktpxy}")
