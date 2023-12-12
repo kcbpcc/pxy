@@ -734,7 +734,7 @@ try:
         print(left_aligned_format.format(f"Switch:{BRIGHT_YELLOW}{switch}{RESET}"), end="")
         print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
         print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}"), end="")
-        print(right_aligned_format.format(f"TIMEPXY:{BRIGHT_GREEN if trgtpxy >= 5 else BRIGHT_RED}{trgtpxy}{RESET}"))
+        print(right_aligned_format.format(f"trgtpxy:{BRIGHT_GREEN if trgtpxy >= 5 else BRIGHT_RED}{trgtpxy}{RESET}"))
         print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
 
