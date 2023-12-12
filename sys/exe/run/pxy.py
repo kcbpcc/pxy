@@ -137,12 +137,12 @@ while True:
 
     # Print the result (you can remove this if not needed)
     # print(f"mktpxy: {mktpxy}")
-
+    print("\n{'random_message'}")
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
             print("✨.", end='', flush=True)
-        print("\n{'random_message'}")
+        
 
     # Make sure loop_duration is defined before calling the function
 
