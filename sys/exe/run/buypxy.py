@@ -114,26 +114,36 @@ if decision == "YES":
         except Exception as e:
             smbchk = mktchk
         try:
-            def get_ltp():
+            def get_ltp(exchange):
                 ltp = -1
-                key = "NSE:" + dct['tradingsymbol']
+                key = f"{exchange}:{dct['tradingsymbol']}"
                 resp = broker.kite.ltp(key)
                 if resp and isinstance(resp, dict):
                     ltp = resp[key]['last_price']
                 return ltp
-    
-            ltp = get_ltp()
-            logging.info(f"ltp for {dct['tradingsymbol']} is {ltp}")
-            if ltp <= 0:
-                return dct['tradingsymbol'], remaining_cash
-    
+        
+            # Try getting LTP from NSE
+            ltp_nse = get_ltp('NSE')
+            logging.info(f"LTP for {dct['tradingsymbol']} on NSE is {ltp_nse}")
+        
+            # If LTP from NSE is not available or <= 0, try getting LTP from BSE
+            if ltp_nse <= 0:
+                ltp_bse = get_ltp('BSE')
+                logging.info(f"LTP for {dct['tradingsymbol']} on BSE is {ltp_bse}")
+        
+                # If LTP from BSE is available, use it
+                if ltp_bse > 0:
+                    ltp = ltp_bse
+                else:
+                    # Neither NSE nor BSE LTP is available, return with remaining_cash
+                    return dct['tradingsymbol'], remaining_cash
+        
             # Check if available cash is greater than 11000
-            
             if available_cash > 11000 and smbchk in ('Buy', 'Bull'):
- 
+                # Place the order on the exchange where LTP is available
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
-                    exchange='NSE',
+                    exchange='NSE' if ltp_nse > 0 else 'BSE',
                     transaction_type='BUY',
                     quantity=int(float(dct['QTY'].replace(',', ''))), 
                     order_type='LIMIT',
@@ -151,11 +161,10 @@ if decision == "YES":
                     f"Skipping order placement for {dct['tradingsymbol']} due to insufficient funds ({smbchk})"
                 )
             return dct['tradingsymbol'], remaining_cash
+        
         except Exception as e:
-            print(traceback.format_exc())
-            logging.error(f"{str(e)} while placing order")
+            logging.error(f"Error while placing order: {str(e)}")
             return dct['tradingsymbol'], remaining_cash
-    
     
     
     if any(lst_tlyne):
