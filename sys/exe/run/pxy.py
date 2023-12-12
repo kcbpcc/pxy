@@ -14,6 +14,9 @@ while True:
     import yfinance as yf
     import os
     import sys
+    import slefpxy import get_random_spiritual_message
+    
+    random_message = get_random_spiritual_message()
 
     switch = analyze_stock('^NSEI')
 
@@ -139,7 +142,7 @@ while True:
         for i in range(duration):
             time.sleep(1)
             print("✨.", end='', flush=True)
-        print("\nLets see what happens next!")
+        print("\n{'random_message'}")
 
     # Make sure loop_duration is defined before calling the function
 
