@@ -12,7 +12,6 @@ import os
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
 import asyncio
-from smbpxy import get_smbpxy_check
 mktchk = get_market_check('^NSEI')
 
 logging = Logger(10)
@@ -109,10 +108,7 @@ if decision == "YES":
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
         
-        try:
-            smbchk = get_smbpxy_check(dct['tradingsymbol']+".NS")
-        except Exception as e:
-            smbchk = mktchk
+
         try:
             def get_ltp(exchange):
                 ltp = -1
@@ -139,7 +135,7 @@ if decision == "YES":
                     return dct['tradingsymbol'], remaining_cash
         
             # Check if available cash is greater than 11000
-            if available_cash > 11000 and smbchk in ('Buy', 'Bull'):
+            if available_cash > 11000:
                 # Place the order on the exchange where LTP is available
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
@@ -158,7 +154,7 @@ if decision == "YES":
                     return dct['tradingsymbol'], remaining_cash
             else:
                 logging.warning(
-                    f"Skipping {dct['tradingsymbol']}:({smbchk}),Cash: {int(remaining_cash)}"
+                    f"Skipping {dct['tradingsymbol']}:,Remaining Cash: {int(remaining_cash)}"
                 )
             return dct['tradingsymbol'], remaining_cash
         
