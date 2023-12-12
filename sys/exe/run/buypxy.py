@@ -113,8 +113,10 @@ if decision == "YES":
             smbchk = get_smbpxy_check(dct['tradingsymbol']+".NS")
         except Exception as e:
             smbchk = mktchk
+            
         try:
             def get_ltp():
+                exchange = ['BSE', 'NSE']
                 ltp = -1
                 key = f"{exchange}:{symbol}"
                 resp = broker.kite.ltp(key)
