@@ -118,7 +118,7 @@ if decision == "YES":
             def get_ltp():
                 exchange = ['BSE', 'NSE']
                 ltp = -1
-                key = f"{exchange}:{tradingsymbol}"
+                key = f"{exchange}:{'tradingsymbol'}"
                 resp = broker.kite.ltp(key)
                 if resp and isinstance(resp, dict):
                     ltp = resp[key]['last_price']
