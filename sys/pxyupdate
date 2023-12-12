@@ -1,7 +1,9 @@
 #!/bin/bash
 cd $HOME/pxy
+echo '                                 '
 echo "       *****GET UPDATES**********"
 git fetch --all
+echo '                                 '
 echo "       *****RESET SOFTWERE*******"
 git reset --hard origin/main
 sudo cp ~/pxy/sys/* /usr/local/bin/ &> /dev/null
