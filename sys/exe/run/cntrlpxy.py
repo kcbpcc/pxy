@@ -347,7 +347,7 @@ try:
     subprocess.run(['python3', 'dshpxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
-    print("Please be patient. It takes a while as I am computing...")
+
     print(random_message)
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
