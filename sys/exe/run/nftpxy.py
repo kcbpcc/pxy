@@ -34,9 +34,9 @@ def get_nse_action():
                 nse_action = "Bullish"
             elif yesterday_close > current_price and today_open > current_price:
                 nse_action = "Bearish"
-            elif yesterday_close > today_open and today_open < current_price:
+            elif today_open < current_price:
                 nse_action = "Bull"  
-            elif yesterday_close < current_price and today_open > current_price:
+            elif today_open > current_price:
                 nse_action = "Bear"  
             else:
                 nse_action = "Neutral"
