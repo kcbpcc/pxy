@@ -609,13 +609,17 @@ try:
                             
 ###########################################################################################################################################################################################################                    
                     if (
-                        (row['qty'] > 0 and
-                         row['product'] == 'CNC' and
-                         row['PL%'] > 1.5 and
-                         row['source'] == 'holdings') and
-                        ((row['PL%'] > trgtpxy) or 
-                         ((row['dPL%'] < 0) and (row['oPL%'] < 0)))
+                        row['qty'] > 0 and
+                        row['product'] == 'CNC' and
+                        row['PL%'] > 1.5 and
+                        row['smbchk'] != 'Bull or Buy' and
+                        row['source'] == 'holdings' and
+                        (
+                            row['PL%'] > trgtpxy or
+                            (row['dPL%'] < 0 and row['oPL%'] < 0)
+                        )
                     ):
+
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
@@ -633,6 +637,7 @@ try:
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.5 and
+                         row['smbchk'] != 'Bull or Buy' and
                          row['source'] == 'positions') and
                         (row['PL%'] > trgtpxy)
                     ):
