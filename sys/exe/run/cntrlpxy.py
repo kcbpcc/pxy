@@ -595,7 +595,7 @@ try:
 
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
-    filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PnL'] > ({TIMPXY}/2)]
+    filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PnL'] > (TIMPXY/2)]
     
     # Printing the filtered DataFrame without index, left justification, and adjusted column spacing
     print(filtered_df.to_string(index=False, justify='left', col_space=-2))
