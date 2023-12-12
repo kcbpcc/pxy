@@ -113,12 +113,10 @@ if decision == "YES":
             smbchk = get_smbpxy_check(dct['tradingsymbol']+".NS")
         except Exception as e:
             smbchk = mktchk
-            
         try:
             def get_ltp():
-                exchange = ['BSE', 'NSE']
                 ltp = -1
-                key = f"{exchange}:{'tradingsymbol'}"
+                key = "NSE:" + dct['tradingsymbol']
                 resp = broker.kite.ltp(key)
                 if resp and isinstance(resp, dict):
                     ltp = resp[key]['last_price']
@@ -135,7 +133,7 @@ if decision == "YES":
  
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
-                    exchange={exchange},
+                    exchange='NSE',
                     transaction_type='BUY',
                     quantity=int(float(dct['QTY'].replace(',', ''))), 
                     order_type='LIMIT',
