@@ -435,23 +435,6 @@ try:
     combined_df['yxp'] = combined_df.apply(calculate_yxp, axis=1)
   
 ###########################################################################################################################################################################################################
-    TIMPXY = (
-        round(float(timpxy), 2)
-        if (nse_action in ("Bullish"))
-        else (
-            round(float(timpxy) * 0.90, 2)
-            if (nse_action in ("Bull"))
-            else (
-                round(float(timpxy) * 0.50, 2)
-                if (nse_action in ("Bear"))
-                else (
-                    round(float(timpxy) * 0.35, 2)
-                    if (nse_action in ("Bearish"))
-                    else 5  # You might want to add a default value here
-                )
-            )
-        )
-    )
     from trgtpxy import calculate_trgtpxy
     trgtpxy = calculate_trgtpxy(timpxy, nse_action)
 ###########################################################################################################################################################################################################    
