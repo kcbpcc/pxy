@@ -452,7 +452,7 @@ try:
             )
         )
     )
-    from trgtpxy = calculate_trgtpxy(timepxy, 
+    from trgtpxy import calculate_trgtpxy
     trgtpxy = calculate_trgtpxy(timpxy, nse_action)
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
