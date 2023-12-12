@@ -595,7 +595,12 @@ try:
     print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
 
     # Print the truncated DataFrame without color
-    print(PRINT_df_sorted_display.to_string(index=False, justify='left', col_space=-2))
+    # Assuming PRINT_df_sorted_display is your DataFrame
+    filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL'] > 0]
+    
+    # Printing the filtered DataFrame without index, left justification, and adjusted column spacing
+    print(filtered_df.to_string(index=False, justify='left', col_space=-2))
+
     print("*" * 42)
   
 ###########################################################################################################################################################################################################
