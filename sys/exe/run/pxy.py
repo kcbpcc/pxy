@@ -14,7 +14,7 @@ while True:
     import yfinance as yf
     import os
     import sys
-    from slefpxy import get_random_spiritual_message
+    from selfpxy import get_random_spiritual_message
     
     random_message = get_random_spiritual_message()
 
