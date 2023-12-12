@@ -131,6 +131,8 @@ while True:
             console.print("🌟 [bold]Market on standby![/bold] 🍿💰📊")
 
         return mktpxy
+        
+    subprocess.run(['python3', 'cntrlpxy.py'])
 
     # Call the function and store the result in a variable
     mktpxy = get_market_check('^NSEI')
