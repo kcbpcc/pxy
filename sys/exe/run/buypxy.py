@@ -116,7 +116,7 @@ if decision == "YES":
         try:
             def get_ltp():
                 ltp = -1
-                key = "NSE:" + dct['tradingsymbol']
+                key = f"{exchange}:{symbol}"
                 resp = broker.kite.ltp(key)
                 if resp and isinstance(resp, dict):
                     ltp = resp[key]['last_price']
@@ -133,7 +133,7 @@ if decision == "YES":
  
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
-                    exchange='NSE',
+                    exchange={exchange},
                     transaction_type='BUY',
                     quantity=int(float(dct['QTY'].replace(',', ''))), 
                     order_type='LIMIT',
