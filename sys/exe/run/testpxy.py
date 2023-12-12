@@ -4,7 +4,7 @@ import traceback
 
 class Trendlyne:
     base_url = "https://trendlyne.com/"
-    entry_url = base_url + "fundamentals/stock-screener/429696/sell-minus-pxy/index/NIFTY500/nifty-500/"
+    entry_url = base_url + "fundamentals/stock-screener/432332/buy-plus-pxy/"
     
     def __init__(self):
         fake_response = requests.get(self.base_url)
@@ -27,12 +27,17 @@ class Trendlyne:
             
             soup = BeautifulSoup(r.content, 'html.parser')
             
+            # Print the entire HTML content for debugging
+            print(soup.prettify())
+
             # Find the main content area
             main_content = soup.find(name='main')
             if main_content is not None:
                 # Extract relevant data directly from the main content
                 data_list = main_content.find_all(name='span', attrs={'class': 'column-value'})
-                inner_contents = [span.get_text(strip=True).replace('%', '') for span in data_list]
+                print("Number of 'span' elements found:", len(data_list))  # Debugging line
+                inner_contents = [span.get_text(strip=True) for span in data_list]
+                print("Inner contents of 'span' elements:", inner_contents)  # Debugging line
                 inner_contents = [content.replace('\n', '').replace(' ', '') for content in inner_contents]
                 rows = [inner_contents[i:i+9] for i in range(0, len(inner_contents), 9)]
 
@@ -63,4 +68,5 @@ class Trendlyne:
 if __name__ == '__main__':
     t = Trendlyne()
     t.entry()
+
 
