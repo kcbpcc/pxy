@@ -442,10 +442,10 @@ try:
             round(float(timpxy) * 0.90, 2)
             if (nse_action in ("Bull"))
             else (
-                round(float(timpxy) * 0.60, 2)
+                round(float(timpxy) * 0.50, 2)
                 if (nse_action in ("Bear"))
                 else (
-                    round(float(timpxy) * 0.30, 2)
+                    round(float(timpxy) * 0.35, 2)
                     if (nse_action in ("Bearish"))
                     else 5  # You might want to add a default value here
                 )
