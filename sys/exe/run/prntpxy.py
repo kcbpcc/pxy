@@ -1,5 +1,5 @@
 from colorama import Fore, Style
-from mktpxy import mktpxy
+from mktpxy import get_market_check
 
 
 symbol = "^NSEI"  # Replace "AAPL" with the actual symbol you want to use
