@@ -619,7 +619,7 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC') and
-                        (((row['PL%']) > TIMPXY) and ((row['PL%']) > 0))
+                        ((row['PL%'] > 1.5) and (row['PL%'] > TIMPXY))
                         
                     ):
                         try:                            
@@ -637,7 +637,7 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC') and
-                        ((row['PL%']) < -10)
+                        (row['PL%'] < -15)
                         
                     ):
                         try:                            
