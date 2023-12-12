@@ -286,6 +286,8 @@ try:
     import telegram
     import asyncio
     from smbpxy import get_smbpxy_check
+    from selfpxy import get_random_spiritual_message
+    random_message = get_random_spiritual_message()
     #from ordpxy import get_open_order_status
     yellow_color_code = "\033[93m"  # Replace with your actual ANSI color code for yellow
     reset_color_code = "\033[0m"    # Replace with your actual ANSI color code for resetting color
@@ -345,6 +347,8 @@ try:
     subprocess.run(['python3', 'dshpxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
+    print("Please be patient. It takes a while as I am computing...")
+    print(random_message)
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
     combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS") if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS") is not None else mktpxy, axis=1)
