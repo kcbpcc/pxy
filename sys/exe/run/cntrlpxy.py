@@ -656,7 +656,7 @@ try:
                     elif (
                         row['qty'] < 0 and
                         row['product'] == 'MIS' and
-                        (((row['PL%']) < -1) or ((row['PL%']) > 0.3)) 
+                        ((row['PL%']) < -1) 
                     ):
 
                         try:
