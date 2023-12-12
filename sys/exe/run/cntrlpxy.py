@@ -452,7 +452,8 @@ try:
             )
         )
     )
-
+    from trgtpxy = calculate_trgtpxy(timepxy, 
+    trgtpxy = calculate_trgtpxy(timpxy, nse_action)
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
     numeric_columns = ['smbchk','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
@@ -629,7 +630,7 @@ try:
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.5 and
                          row['source'] == 'holdings') and
-                        ((row['PL%'] > TIMPXY) or 
+                        ((row['PL%'] > trgtpxy) or 
                          ((row['dPL%'] < 0) and (row['oPL%'] < 0)))
                     ):
                         try:                            
@@ -650,7 +651,7 @@ try:
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.5 and
                          row['source'] == 'positions') and
-                        (row['PL%'] > TIMPXY)
+                        (row['PL%'] > trgtpxy)
                     ):
 
                         try:                            
@@ -733,7 +734,7 @@ try:
         print(left_aligned_format.format(f"Switch:{BRIGHT_YELLOW}{switch}{RESET}"), end="")
         print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
         print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}"), end="")
-        print(right_aligned_format.format(f"TIMEPXY:{BRIGHT_GREEN if TIMPXY >= 5 else BRIGHT_RED}{TIMPXY}{RESET}"))
+        print(right_aligned_format.format(f"TIMEPXY:{BRIGHT_GREEN if trgtpxy >= 5 else BRIGHT_RED}{trgtpxy}{RESET}"))
         print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
 
