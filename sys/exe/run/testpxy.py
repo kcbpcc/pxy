@@ -2,9 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import traceback
 
-
 class Trendlyne:
-
     base_url = "https://trendlyne.com/"
     entry_url = base_url + "fundamentals/stock-screener/432332/buy-plus-pxy/"
     
@@ -25,42 +23,44 @@ class Trendlyne:
     def entry(self):
         try:
             r = requests.get(self.entry_url, headers=self.headers)
-            if r.status_code == 200:
-                soup = BeautifulSoup(r.content, 'html.parser')
-                maintag = soup.find(name='main')
-                if maintag is not None:
-                    tbody = maintag.find(name='tbody')
-                    if tbody is not None:
-                        data_list = tbody.find_all(name='span', attrs={'class': 'column-value'})
-                        inner_contents = [span.get_text(strip=True).replace('%', '') for span in data_list]
-                        inner_contents = [content.replace('\n', '').replace(' ', '') for content in inner_contents]
-                        rows = [inner_contents[i:i+9] for i in range(0, len(inner_contents), 9)]
+            r.raise_for_status()  # Raises an HTTPError for bad responses (4xx or 5xx)
+            
+            soup = BeautifulSoup(r.content, 'html.parser')
+            
+            maintag = soup.find(name='main')
+            if maintag is not None:
+                tbody = maintag.find(name='tbody')
+                if tbody is not None:
+                    data_list = tbody.find_all(name='span', attrs={'class': 'column-value'})
+                    inner_contents = [span.get_text(strip=True).replace('%', '') for span in data_list]
+                    inner_contents = [content.replace('\n', '').replace(' ', '') for content in inner_contents]
+                    rows = [inner_contents[i:i+9] for i in range(0, len(inner_contents), 9)]
 
-                        data_list_of_dicts = []
-                        for row in rows:
-                            data_dict = {
-                                'power': row[0],
-                                'tradingsymbol': row[1],
-                                'QTY': row[2],
-                                '4': row[3],
-                                '5': row[4],
-                                '6': row[5],
-                                '7': row[6],
-                                '8': row[7],
-                                '9': row[8]
-                            }
-                            data_list_of_dicts.append(data_dict)
-                        return data_list_of_dicts
-                    else:
-                        print("No 'tbody' element found on the page.")
+                    data_list_of_dicts = []
+                    for row in rows:
+                        data_dict = {
+                            'power': row[0],
+                            'tradingsymbol': row[1],
+                            'QTY': row[2],
+                            '4': row[3],
+                            '5': row[4],
+                            '6': row[5],
+                            '7': row[6],
+                            '8': row[7],
+                            '9': row[8]
+                        }
+                        data_list_of_dicts.append(data_dict)
+                    print(data_list_of_dicts)
                 else:
-                    print("No 'main' element found on the page.")
+                    print("No 'tbody' element found on the page.")
             else:
-                print("Request failed with status code:", r.status_code)
+                print("No 'main' element found on the page.")
+        except requests.exceptions.RequestException as req_err:
+            print(f"Request failed: {req_err}")
         except Exception as e:
+            print(f"An error occurred: {e}")
             print(traceback.format_exc())
-            print(e)
 
 if __name__ == '__main__':
     t = Trendlyne()
-    print(t.entry())
+    t.entry()
