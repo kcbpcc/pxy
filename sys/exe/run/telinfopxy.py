@@ -1,37 +1,33 @@
 import subprocess
 import asyncio
 import telegram
-from html import escape
+from pyth.plugins.plaintext.writer import RtfWriter
 
-# ... (Other import statements remain the same)
 
 # Define the bot token and your Telegram username or ID
 bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
 user_usernames = '-4022487175'  # Replace with your Telegram username or ID
 
-# Function to send an HTML message to Telegram
-async def send_telegram_html_file(html_content):
+# Function to send an RTF message to Telegram
+async def send_telegram_rtf_file(rtf_content):
     bot = telegram.Bot(token=bot_token)
-    await bot.send_message(chat_id=user_usernames, text=html_content, parse_mode='HTML')
+    await bot.send_document(chat_id=user_usernames, document=rtf_content, caption='PXY Output.rtf')
 
 async def run_and_send_message():
     try:
-        # Run the Python program and capture the HTML output
+        # Run the Python program and capture the output
         output = subprocess.check_output(['python3', '/home/userland/pxy/sys/exe/run/telinfopxy.py'], text=True)
 
-        # Convert escape codes to HTML-compatible tags
-        output = output.replace('[93m', '<font color="yellow">').replace('[0m', '</font>')
+        # Convert the output to RTF format
+        rtf_output = RtfWriter.write_plain_text(output)
 
-        # Create an HTML file with the program output
-        html_content = f"<pre>{escape(output)}</pre>"
+        # Save the RTF content to a file
+        rtf_file_path = '/home/userland/pxy/sys/exe/run/output.rtf'
+        with open(rtf_file_path, 'w', encoding='utf-8') as file:
+            file.write(rtf_output)
 
-        # Save the HTML content to a file
-        html_file_path = '/home/userland/pxy/sys/exe/run/output.html'
-        with open(html_file_path, 'w', encoding='utf-8') as file:
-            file.write(html_content)
-
-        # Send the HTML content as a message via Telegram
-        await send_telegram_html_file(html_content)
+        # Send the RTF content as a document via Telegram
+        await send_telegram_rtf_file(open(rtf_file_path, 'rb'))
 
     except subprocess.CalledProcessError as e:
         # Handle errors if the subprocess fails
@@ -41,6 +37,7 @@ async def run_and_send_message():
 # Run the asynchronous function using asyncio.run
 if __name__ == "__main__":
     asyncio.run(run_and_send_message())
+
 
 
 
