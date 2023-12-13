@@ -85,10 +85,8 @@ def order_place(index, row):
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
-                    
+                                
                         message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-                        #message_text = '\n'.join(f"{str(value).rjust(15)}" for value in row.values()) + f"\nhttps://www.tradingview.com/chart/?symbol={row['key']}"
-
                         
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
@@ -116,8 +114,9 @@ def order_place(index, row):
         #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
+
 ###########################################################################################################################################################################################################
-def mis_order_sell(index, row):
+def order_place_avg(index, row):
     try:
         exchsym = str(index).split(":")
         if len(exchsym) >= 2:
@@ -125,12 +124,12 @@ def mis_order_sell(index, row):
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
                 exchange=exchsym[0],
-                transaction_type='SELL',
+                transaction_type='BUY',
                 quantity=int(row['qty']),
-                order_type='MARKET',
-                product='MIS',
+                order_type='LIMIT',
+                product='CNC',
                 variety='regular',
-                price=round_to_paise(row['ltp'], -0.3)
+                price=round_to_paise(row['ltp'], +0.3)
             )
             if order_id:
                 logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
@@ -149,9 +148,8 @@ def mis_order_sell(index, row):
                             if column in row:
                                 del row[column]
                     
-                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-                        #message_text = '\n'.join(f"{str(value).rjust(15)}" for value in row.values()) + f"\nhttps://www.tradingview.com/chart/?symbol={row['key']}"
-
+                        message_text = f"This Buy is average @-15% {str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}"
+                       
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
                         user_usernames = ('-4022487175')  # Replace with your Telegram username or ID
@@ -178,6 +176,7 @@ def mis_order_sell(index, row):
         #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
+
 ###########################################################################################################################################################################################################
 def mis_order_buy(index, row):
     try:
@@ -189,10 +188,10 @@ def mis_order_buy(index, row):
                 exchange=exchsym[0],
                 transaction_type='BUY',
                 quantity=int(-1*row['qty']),
-                order_type='MARKET',
+                order_type='LIMIT',
                 product='MIS',
                 variety='regular',
-                price=round_to_paise(row['ltp'], +0.3)
+                price=round_to_paise(row['ltp'], +0.1)
             )
             if order_id:
                 logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
@@ -286,6 +285,8 @@ try:
     import telegram
     import asyncio
     from smbpxy import get_smbpxy_check
+    from selfpxy import get_random_spiritual_message
+    random_message = get_random_spiritual_message()
     #from ordpxy import get_open_order_status
     yellow_color_code = "\033[93m"  # Replace with your actual ANSI color code for yellow
     reset_color_code = "\033[0m"    # Replace with your actual ANSI color code for resetting color
@@ -345,6 +346,7 @@ try:
     subprocess.run(['python3', 'dshpxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
+
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
     combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS") if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS") is not None else mktpxy, axis=1)
@@ -380,12 +382,12 @@ try:
     
     combined_df[['pr', 'xl', 'yi', '_pr', '_xl', '_yi']] = combined_df.apply(
         lambda row: pd.Series({
-            'pr': round(max(0.5, round(0.0 + (row['strength'] * 1.0), 2) * 1 - epsilon), 2),
-            'xl': round(max(1, round(0.0 + (row['strength'] * 1.0), 2) * 1.5 - epsilon), 2),
-            'yi': round(max(1.5, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 2),
-            '_pr': round(min(-0.5, round(0.0 + (row['weakness'] * 1.0), 2) * 1 - epsilon), 2),
-            '_xl': round(min(-1, round(0.0 + (row['weakness'] * 1.0), 2) * 1.5 - epsilon), 2),
-            '_yi': round(min(-1.5, round(0.0 + (row['weakness'] * 1.0), 2) * 2 - epsilon), 2),
+            'pr': round(max(0.4, round(0.0 + (row['strength'] * 1.0), 2) * 1 - epsilon), 2),
+            'xl': round(max(0.8, round(0.0 + (row['strength'] * 1.0), 2) * 1.5 - epsilon), 2),
+            'yi': round(max(1.2, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 2),
+            '_pr': round(min(-0.3, round(0.0 + (row['weakness'] * 1.0), 2) * 0.3 - epsilon), 2),
+            '_xl': round(min(-0.6, round(0.0 + (row['weakness'] * 1.0), 2) * 0.6 - epsilon), 2),
+            '_yi': round(min(-1.0, round(0.0 + (row['weakness'] * 1.0), 2) * 1.0 - epsilon), 2),
         }), axis=1
     )
     
@@ -432,29 +434,13 @@ try:
     combined_df['yxp'] = combined_df.apply(calculate_yxp, axis=1)
   
 ###########################################################################################################################################################################################################
-    TIMPXY = (
-        round(float(timpxy), 2)
-        if (nse_action in ("Bullish"))
-        else (
-            round(float(timpxy) * 0.90, 2)
-            if (nse_action in ("Bull"))
-            else (
-                round(float(timpxy) * 0.60, 2)
-                if (nse_action in ("Bear"))
-                else (
-                    round(float(timpxy) * 0.30, 2)
-                    if (nse_action in ("Bearish"))
-                    else 0.50  # You might want to add a default value here
-                )
-            )
-        )
-    )
-
+    from trgtpxy import calculate_trgtpxy
+    trgtpxy = calculate_trgtpxy(timpxy, nse_action)
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
     numeric_columns = ['smbchk','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)        # Filter combined_df
-    filtered_df = combined_df[(combined_df['qty'] > 0) | ((combined_df['qty'] < 0) & (combined_df['product'] == 'MIS'))]
+    filtered_df = combined_df[combined_df['qty'] != 0]
     # Filter combined_df for rows where 'qty' is greater than 0
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
     # Calculate and print the sum of 'PnL' values and its total 'PL%' for rows where 'qty' is greater than 0
@@ -543,7 +529,7 @@ try:
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp','product', 'source', 'key', 'PL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','key','yxp','dPL%','oPL%','pxy','PL%','qty','smbchk']]
+    PRINT_df = pxy_df[['source','product','key','yxp','dPL%','oPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty': 'Q', 'smbchk': 'TR'})
     # Conditionally replace values in the 'HP' column
@@ -588,10 +574,20 @@ try:
     print("*" * 42)
     
     # Always print "Table" in bright yellow
-    print(f"{BRIGHT_YELLOW}Table–Stocks above @Pr and might reach @Yi{RESET}")
-
+    
+    
     # Print the truncated DataFrame without color
-    print(PRINT_df_sorted_display.to_string(index=False, justify='left', col_space=-2))
+    # Assuming PRINT_df_sorted_display is your DataFrame
+    filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4]
+    mis_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['Y'] == 'M']
+    mis_filtered_df = mis_filtered_df.sort_values(by='PL%', ascending=False)
+   # Printing the filtered DataFrame without index, left justification, and adjusted column spacing
+    print(f"{BRIGHT_YELLOW}Table–CNC Stocks in positions and holdings{RESET}")
+    print(filtered_df.to_string(index=False, justify='left', col_space=-2))
+    print(f"{BRIGHT_YELLOW}Table–MIS Stocks in positions and negitive{RESET}")
+    print(mis_filtered_df.to_string(index=False, justify='left', col_space=-2))
+    
+
     print("*" * 42)
   
 ###########################################################################################################################################################################################################
@@ -617,10 +613,17 @@ try:
                             
 ###########################################################################################################################################################################################################                    
                     if (
-                        (row['qty'] > 0 and
-                         row['product'] == 'CNC') and
-                        (row['PL%']) > 0
+                        row['qty'] > 0 and
+                        row['product'] == 'CNC' and
+                        row['PL%'] > 1.5 and
+                        row['smbchk'] != 'Bull or Buy' and
+                        row['source'] == 'holdings' and
+                        (
+                            row['PL%'] > trgtpxy or
+                            (row['dPL%'] < 0 and row['oPL%'] < 0)
+                        )
                     ):
+
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
@@ -633,30 +636,52 @@ try:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
 
-###########################################################################################################################################################################################################
+###########################################################################################################################################################################################################                    
                     elif (
-                        row['qty'] > 0 and
-                        row['product'] == 'MIS' and
-                        (((row['PL%']) > (row['pxy'])) or ((row['PL%']) > TIMPXY) or ((row['PL%']) < -0.9))
+                        (row['qty'] > 0 and
+                         row['product'] == 'CNC' and
+                         row['PL%'] > 1.5 and
+                         row['smbchk'] != 'Bull or Buy' and
+                         row['source'] == 'positions') and
+                        (row['PL%'] > trgtpxy)
                     ):
 
-                        try:
-                            is_placed = mis_order_sell(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                        try:                            
+                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row)                                
-
                         except InputException as e:
                             # Handle the specific exception and print only the error message
                             print(f"An error occurred while placing an order for key {key}: {e}")
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+###########################################################################################################################################################################################################                    
+                    elif (
+                        (row['qty'] > 0 and
+                         row['product'] == 'CNC' and
+                         row['source'] == 'holdings') and
+                        (row['PL%'] < -15)
+                    ):
+
+                        try:                            
+                            is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            if is_placed:
+                                # Print the row before placing the order
+                                print(row)                                
+                        except InputException as e:
+                            # Handle the specific exception and print only the error message
+                            print(f"An error occurred while placing an order for key {key}: {e}")
+                        except Exception as e:
+                            # Handle any other exceptions that may occur during order placement
+                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+
 ###########################################################################################################################################################################################################
                     elif (
                         row['qty'] < 0 and
                         row['product'] == 'MIS' and
-                        (((row['PL%']) < (row['yxp'])) or ((row['PL%']) > 0.9)) 
+                        ((row['PL%']) < 100
                     ):
 
                         try:
@@ -701,7 +726,7 @@ try:
         print(left_aligned_format.format(f"Switch:{BRIGHT_YELLOW}{switch}{RESET}"), end="")
         print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
         print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}"), end="")
-        print(right_aligned_format.format(f"TIMEPXY:{BRIGHT_GREEN if TIMPXY >= 5 else BRIGHT_RED}{TIMPXY}{RESET}"))
+        print(right_aligned_format.format(f"trgtpxy:{BRIGHT_GREEN if trgtpxy >= 5 else BRIGHT_RED}{trgtpxy}{RESET}"))
         print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
 
