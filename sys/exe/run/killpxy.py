@@ -188,7 +188,7 @@ def mis_order_buy(index, row):
                 exchange=exchsym[0],
                 transaction_type='BUY',
                 quantity=int(-1*row['qty']),
-                order_type='LIMIT',
+                order_type='MARKET',
                 product='MIS',
                 variety='regular',
                 price=round_to_paise(row['ltp'], +0.1)
