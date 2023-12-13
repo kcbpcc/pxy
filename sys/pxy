@@ -44,7 +44,7 @@ case $choice in
         echo "🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
         pxyupdate
         ;;
-    py)
+    cl)
         echo "🚿🚿🚿 Cleanup...🚿🚿🚿"
         pxyclean
         ;;
@@ -52,7 +52,7 @@ case $choice in
         echo "🧪🧪🧪 Test All PXY®...🧪🧪🧪"
         pxycheck
         ;;
-    pxypy)
+    py)
         echo "🏃🏃🏃 Python Program...🏃🏃🏃"
         pxypy
         ;;
