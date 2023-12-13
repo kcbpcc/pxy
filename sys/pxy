@@ -40,7 +40,7 @@ case $choice in
         pxykill
         ;;
     up)
-        echo "🧰⚙️🔧🛠️🔐 Update PXY®...🧰🧰🧰"🧰⚙️🔧🛠️🔐 
+        echo "🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐 
         pxyupdate
         ;;
     py)
