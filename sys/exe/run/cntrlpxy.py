@@ -148,9 +148,8 @@ def order_place_avg(index, row):
                             if column in row:
                                 del row[column]
                     
-                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-
-                        
+                        message_text = f"This Buy is average @-15% {str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}"
+                       
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
                         user_usernames = ('-4022487175')  # Replace with your Telegram username or ID
