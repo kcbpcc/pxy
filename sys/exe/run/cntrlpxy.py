@@ -585,7 +585,7 @@ try:
         ) | (
             (PRINT_df_sorted_display['PnL'] < 0) & (PRINT_df_sorted_display['PL%'] > 0)
         ) | (
-            (PRINT_df_sorted_display['Y'].isin(['MIS', 'M']))
+            (PRINT_df_sorted_display['Y'] == 'M'])
         )
     ]
 
