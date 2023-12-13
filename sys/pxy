@@ -19,7 +19,7 @@ echo "   -pxydashboard          📊        ds"
 echo "******************************************"
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 # Get user input
-read -p "Enter your choice:⚙️⚙️⚙️ " choice
+read -p "Enter your choice:⚙️⚙️⚙️👉👉 " choice
 
 # Perform actions based on user input
 case $choice in
