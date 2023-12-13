@@ -24,8 +24,8 @@ async def run_and_send_message():
         # Run the Python program and capture the HTML output in a file
         subprocess.run(['python3', 'cntrlpxy.py'], check=True)
 
-        # Read the HTML content from the file
-
+        # Read the HTML content from the file in the same directory
+        html_file_path = 'output.html'  # Assuming the HTML file is in the same directory
         html_content = read_html_file(html_file_path)
 
         # Send the HTML content as a message via Telegram
@@ -39,6 +39,7 @@ async def run_and_send_message():
 # Run the asynchronous function using asyncio.run
 if __name__ == "__main__":
     asyncio.run(run_and_send_message())
+
 
 
 
