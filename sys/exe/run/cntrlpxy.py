@@ -582,7 +582,7 @@ try:
     mis_filtered_df = PRINT_df_sorted_display[
         (PRINT_df_sorted_display['PL%'] < 0) & 
         (PRINT_df_sorted_display['PnL'] < 0) & 
-        (PRINT_df_sorted_display['Y'] == 'M')
+        (PRINT_df_sorted_display['Y'] == 'MIS')
     ]
     # Printing the filtered DataFrame without index, left justification, and adjusted column spacing
     print(f"{BRIGHT_YELLOW}Table–CNC Stocks in positions and holdings{RESET}")
