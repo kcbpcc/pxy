@@ -584,7 +584,7 @@ try:
     
     # Printing the filtered DataFrame without index, left justification, and adjusted column spacing
     print(filtered_df.to_string(index=False, justify='left', col_space=-2))
-    print(mis_filtered_df.to_string(index=False, justify='left', col_space=-2))
+    #print(mis_filtered_df.to_string(index=False, justify='left', col_space=-2))
     
 
     print("*" * 42)
