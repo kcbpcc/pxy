@@ -585,8 +585,8 @@ try:
     print(f"{BRIGHT_YELLOW}Table–CNC Stocks in positions and holdings{RESET}")
     print(filtered_df.to_string(index=False, justify='left', col_space=-2))
     print(f"{BRIGHT_YELLOW}Table–MIS Stocks in positions and negitive{RESET}")
-    print(mis_filtered_df.to_string(index=False, justify='left', col_space=-2))
-    
+    if not mis_filtered_df.empty:
+        print(mis_filtered_df.to_string(index=False, justify='left', col_space=-2))    
 
     print("*" * 42)
   
