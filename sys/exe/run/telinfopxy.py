@@ -25,8 +25,9 @@ async def run_and_send_message():
         error_message = f"Error running the program: {e}"
         await send_telegram_message(error_message)
 
-# Call the function whenever you want the script to run
-await run_and_send_message()
+# Run the asynchronous function using asyncio.run
+if __name__ == "__main__":
+    asyncio.run(run_and_send_message())
 
 
 
