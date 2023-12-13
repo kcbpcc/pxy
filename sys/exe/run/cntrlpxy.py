@@ -743,12 +743,10 @@ try:
         
         # Your formatted message
         formatted_message = f"""
-        Status: {nse_action}
-        Power: {power}
-        tPL%: {round(total_PnL_percentage, 2)}
-        dPnL: {round(total_dPnL, 2)}
-        tPnL: {round(total_PnL, 2)}
-        dPL%: {round(total_dPnL_percentage, 2)}
+        Status: {nse_action}, Power: {power} ,tPL%: {round(total_PnL_percentage, 2)},tPnL: {round(total_PnL, 2)}        
+        dPnL: {round(total_dPnL, 2)},dPL%: {round(total_dPnL_percentage, 2)},
+        
+        
         MIS: {total_PnL_percentage_mis_sell}
         CNC: {total_PnL_cnc_buy}
         Switch: {switch}
