@@ -3,6 +3,7 @@ import asyncio
 import telegram
 from html import escape
 
+# ... (Other import statements remain the same)
 
 # Define the bot token and your Telegram username or ID
 bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
@@ -11,19 +12,21 @@ user_usernames = '-4022487175'  # Replace with your Telegram username or ID
 # Function to send an HTML message to Telegram
 async def send_telegram_html_file(html_content):
     bot = telegram.Bot(token=bot_token)
-    sanitized_html = escape(html_content)  # Sanitize HTML
-    await bot.send_message(chat_id=user_usernames, text=sanitized_html, parse_mode='HTML')
+    await bot.send_message(chat_id=user_usernames, text=html_content, parse_mode='HTML')
 
 async def run_and_send_message():
     try:
         # Run the Python program and capture the HTML output
-        output = subprocess.check_output(['python3', 'cntrlpxy.py'], text=True)
+        output = subprocess.check_output(['python3', '/home/userland/pxy/sys/exe/run/telinfopxy.py'], text=True)
+
+        # Convert escape codes to HTML-compatible tags
+        output = output.replace('[93m', '<font color="yellow">').replace('[0m', '</font>')
 
         # Create an HTML file with the program output
         html_content = f"<pre>{escape(output)}</pre>"
 
         # Save the HTML content to a file
-        html_file_path = 'output.html'
+        html_file_path = '/home/userland/pxy/sys/exe/run/output.html'
         with open(html_file_path, 'w', encoding='utf-8') as file:
             file.write(html_content)
 
