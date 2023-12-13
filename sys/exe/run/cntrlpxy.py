@@ -188,10 +188,10 @@ def mis_order_buy(index, row):
                 exchange=exchsym[0],
                 transaction_type='BUY',
                 quantity=int(-1*row['qty']),
-                order_type='MARKET',
+                order_type='LIMIT',
                 product='MIS',
                 variety='regular',
-                price=round_to_paise(row['ltp'], +0.3)
+                price=round_to_paise(row['ltp'], - 0.)
             )
             if order_id:
                 logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
