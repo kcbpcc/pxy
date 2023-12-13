@@ -581,7 +581,7 @@ try:
     filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4]
     mis_filtered_df = PRINT_df_sorted_display[
         (PRINT_df_sorted_display['PL%'] < 0) & 
-        (PRINT_df_sorted_display['PL'] < 0) & 
+        (PRINT_df_sorted_display['PnL'] < 0) & 
         (PRINT_df_sorted_display['product'] == 'MIS')
     ]
     # Printing the filtered DataFrame without index, left justification, and adjusted column spacing
