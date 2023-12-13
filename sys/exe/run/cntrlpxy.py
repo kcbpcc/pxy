@@ -536,7 +536,7 @@ try:
     PRINT_df['X'] = PRINT_df['X'].replace({'holdings': 'H', 'positions': 'P'})
     # Conditionally replace values in the 'CM' column
     PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
-    PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: f"{'+' if Q > 0 else '-'}")
+    PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('0' if Q == 0 else '-'))
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '🟢' if TR == 'Bull' else ('🔴' if TR == 'Bear' else ('🌚' if TR == 'Sell' else ('🌕' if TR == 'Buy' else TR))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
@@ -579,8 +579,7 @@ try:
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
     filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 1.4) & (PRINT_df_sorted_display['Q'] == '+')]
-    mis_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['Y'] == 'M']
-    mis_filtered_df = mis_filtered_df.sort_values(by='PL%', ascending=False)
+    filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 0) & (PRINT_df_sorted_display['Q'] == '-')]
 
     
     print(f"{BRIGHT_YELLOW}Table–CNC Stocks in positions and holdings{RESET}")
