@@ -8,11 +8,6 @@ from html import escape
 bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
 user_usernames = '-4022487175'  # Replace with your Telegram username or ID
 
-# Function to read HTML content from a file
-def read_html_file(file_path):
-    with open(file_path, 'r', encoding='utf-8') as file:
-        return file.read()
-
 # Function to send an HTML message to Telegram
 async def send_telegram_html_file(html_content):
     bot = telegram.Bot(token=bot_token)
@@ -21,12 +16,16 @@ async def send_telegram_html_file(html_content):
 
 async def run_and_send_message():
     try:
-        # Run the Python program and capture the HTML output in a file
-        subprocess.run(['python3', 'cntrlpxy.py'], check=True)
+        # Run the Python program and capture the HTML output
+        output = subprocess.check_output(['python3', 'cntrlpxy.py'], text=True)
 
-        # Read the HTML content from the file in the same directory
-        html_file_path = 'output.html'  # Assuming the HTML file is in the same directory
-        html_content = read_html_file(html_file_path)
+        # Create an HTML file with the program output
+        html_content = f"<pre>{escape(output)}</pre>"
+
+        # Save the HTML content to a file
+        html_file_path = 'output.html'
+        with open(html_file_path, 'w', encoding='utf-8') as file:
+            file.write(html_content)
 
         # Send the HTML content as a message via Telegram
         await send_telegram_html_file(html_content)
