@@ -10,7 +10,6 @@ echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 echo "******************************************"
 echo "   -pxypy                 🔥        py"
 echo "   -pxymon                💫        mn"
-echo "   -pxypnl                💰        pl"
 echo "   -pxybuy                🟢        by"
 echo "   -pxysell               🔴        sl"
 echo "   -pxykill               ❌        ka"
@@ -53,10 +52,7 @@ case $choice in
         echo "Clean PXY®"
         pxyclean
         ;;
-    pl)
-        echo "Get me PnL"
-        pxypnl
-        ;;
+
     ck)
         echo "Test All PXY®"
         pxycheck
