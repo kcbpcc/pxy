@@ -385,9 +385,9 @@ try:
             'pr': round(max(0.4, round(0.0 + (row['strength'] * 1.0), 2) * 1 - epsilon), 2),
             'xl': round(max(0.8, round(0.0 + (row['strength'] * 1.0), 2) * 1.5 - epsilon), 2),
             'yi': round(max(1.2, round(0.0 + (row['strength'] * 1.0), 2) * 2 - epsilon), 2),
-            '_pr': round(min(-0.4, round(0.0 + (row['weakness'] * 1.0), 2) * 0.5 - epsilon), 2),
-            '_xl': round(min(-0.8, round(0.0 + (row['weakness'] * 1.0), 2) * 1 - epsilon), 2),
-            '_yi': round(min(-1.2, round(0.0 + (row['weakness'] * 1.0), 2) * 1.5 - epsilon), 2),
+            '_pr': round(min(-0.3, round(0.0 + (row['weakness'] * 1.0), 2) * 0.5 - epsilon), 2),
+            '_xl': round(min(-0.6, round(0.0 + (row['weakness'] * 1.0), 2) * 1 - epsilon), 2),
+            '_yi': round(min(-1.2, round(0.0 + (row['weakness'] * 1.0), 2) * 1.2 - epsilon), 2),
         }), axis=1
     )
     
