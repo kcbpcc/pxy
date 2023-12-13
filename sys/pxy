@@ -9,7 +9,6 @@ NC='\033[0m' # No Color
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 echo "******************************************"
 echo "   -pxypy                 🔥        py"
-echo "   -pxymon                💫        mn"
 echo "   -pxybuy                🟢        by"
 echo "   -pxysell               🔴        sl"
 echo "   -pxykill               ❌        ka"
@@ -48,11 +47,6 @@ case $choice in
         echo "Control..."
         pxymon
         ;;
-    cl)
-        echo "Clean PXY®"
-        pxyclean
-        ;;
-
     ck)
         echo "Test All PXY®"
         pxycheck
