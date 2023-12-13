@@ -581,9 +581,12 @@ try:
     filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4]
     mis_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['Y'] == 'M']
     mis_filtered_df = mis_filtered_df.sort_values(by='PL%', ascending=False)
-   # Printing the filtered DataFrame without index, left justification, and adjusted column spacing
+
+    
     print(f"{BRIGHT_YELLOW}Table–CNC Stocks in positions and holdings{RESET}")
-    print(filtered_df.to_string(index=False, justify='left', col_space=-2))
+    if not filtered_df.empty:
+        print(filtered_df.to_string(index=False, justify='left', col_space=-2))
+
     print(f"{BRIGHT_YELLOW}Table–MIS Stocks in positions and negitive{RESET}")
     if not mis_filtered_df.empty:
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-2))    
