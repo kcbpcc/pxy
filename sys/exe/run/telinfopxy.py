@@ -1,5 +1,5 @@
 import subprocess
-import time
+import asyncio
 import telegram
 
 # Define the bot token and your Telegram username or ID
@@ -11,20 +11,20 @@ async def send_telegram_message(message_text):
     bot = telegram.Bot(token=bot_token)
     await bot.send_message(chat_id=user_usernames, text=message_text)
 
-def run_and_send_message():
+async def run_and_send_message():
     try:
         # Run the Python program and capture the output
         output = subprocess.check_output(['python3', 'cntrlpxy.py'], text=True)
 
         # Send the output as a message via Telegram
         telegram_message = f"Program Output:\n\n{output}"
-        send_telegram_message(telegram_message)
+        await send_telegram_message(telegram_message)
 
     except subprocess.CalledProcessError as e:
         # Handle errors if the subprocess fails
         error_message = f"Error running the program: {e}"
-        send_telegram_message(error_message)
+        await send_telegram_message(error_message)
 
-# Call the function whenever you want the script to run
-run_and_send_message()
+# Call the asynchronous function whenever you want the script to run
+asyncio.run(run_and_send_message())
 
