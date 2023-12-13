@@ -579,9 +579,13 @@ try:
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
     filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4]
+    mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['qty'] < 0)]
+
     
     # Printing the filtered DataFrame without index, left justification, and adjusted column spacing
     print(filtered_df.to_string(index=False, justify='left', col_space=-2))
+    print(mis_filtered_df.to_string(index=False, justify='left', col_space=-2))
+    
 
     print("*" * 42)
   
