@@ -734,43 +734,14 @@ try:
 
         print("*" * 42)
 ###########################################################################################################################################################################################################
-        import asyncio
-        import requests
+        import subprocess
+        import sys
         
-        # Replace '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo' with your actual bot token
-        bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'
-        user_usernames = '-4022487175'  # Replace with your Telegram username or ID
-        
-        # Your formatted message
-        formatted_message = f"""
-        Status: {nse_action}, Power: {power} ,tPL%: {round(total_PnL_percentage, 2)},tPnL: {round(total_PnL, 2)}        
-        dPnL: {round(total_dPnL, 2)},dPL%: {round(total_dPnL_percentage, 2)},
-        
-        
-        MIS: {total_PnL_percentage_mis_sell}
-        CNC: {total_PnL_cnc_buy}
-        Switch: {switch}
-        Funds: {available_cash:.0f}
-        Change%: {round(NIFTY['Day_Change_%'][0], 2)}
-        trgtpxy: {trgtpxy}
-        Open%: {round(NIFTY['Open_Change_%'][0], 2)}
-        Booked: {round(result)}
-        """
-        
-        async def send_telegram_message():
-            url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
-            params = {
-                'chat_id': user_usernames,
-                'text': formatted_message,
-                'parse_mode': 'Markdown'
-            }
-            response = requests.get(url, params=params)
-            response.raise_for_status()
-        
-        # Run the event loop and send the message asynchronously
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(send_telegram_message())
-
+        def play_linux_alert_sound():
+            if sys.platform.startswith('linux'):
+                subprocess.call(["aplay", "/usr/share/sounds/freedesktop/stereo/message.oga"])
+            else:
+                print("Unsupported platform")
 ###########################################################################################################################################################################################################
 
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
