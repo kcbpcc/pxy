@@ -6,4 +6,5 @@ source ~/env/bin/activate
 cd ~/pxy/sys/exe/run
 
 # Run the Python script
-python3 dshpxy.py
+python3 worldpxy.py
+python3 cntrlpxy.py
