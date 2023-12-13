@@ -18,6 +18,7 @@ echo "   -pxyupdate             🧰        up"
 echo "   -pxydashboard          📊        ds"
 echo "******************************************"
 echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
+
 # Get user input
 read -p "Enter your choice:⚙️⚙️⚙️👉👉 " choice
 
@@ -40,7 +41,7 @@ case $choice in
         pxykill
         ;;
     up)
-        echo "🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐 
+        echo "🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
         pxyupdate
         ;;
     py)
@@ -51,11 +52,11 @@ case $choice in
         echo "🧪🧪🧪 Test All PXY®...🧪🧪🧪"
         pxycheck
         ;;
-    py)
+    pxypy)
         echo "🏃🏃🏃 Python Program...🏃🏃🏃"
         pxypy
         ;;
-    "") # Empty input (user just pressed Enter)
+    "")
         echo "🔥💫🚀🔥💫🚀🔥💫🚀🔥💫🚀.....Running PXY®"
         pxypxy
         ;;
