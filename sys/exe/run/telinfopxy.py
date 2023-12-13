@@ -9,7 +9,9 @@ user_usernames = '-4022487175'  # Replace with your Telegram username or ID
 # Function to send a message to Telegram
 async def send_telegram_message(message_text):
     bot = telegram.Bot(token=bot_token)
-    await bot.send_message(chat_id=user_usernames, text=message_text, parse_mode='HTML')
+    # Use HTML formatting to reduce font size
+    formatted_message = f'<small>{message_text}</small>'
+    await bot.send_message(chat_id=user_usernames, text=formatted_message, parse_mode='HTML')
 
 async def run_and_send_message():
     try:
