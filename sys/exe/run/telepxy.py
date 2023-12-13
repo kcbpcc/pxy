@@ -1,1 +1,1 @@
-import cntrlpxy 
+from cntrlpxy import *
