@@ -24,36 +24,35 @@ read -p "Enter your choice:⚙️⚙️⚙️👉👉 " choice
 # Perform actions based on user input
 case $choice in
     ds)
-        echo "📊📊📊 Dash Board..."
+        echo "📊📊📊 Dash Board...📊📊📊"
         pxydashboard
         ;;
     by)
-        echo "🟢🟢🟢 Buying..."
+        echo "🟢🟢🟢 Buying...🟢🟢🟢"
         pxybuy
         ;;    
     sl)
-        echo "🔴🔴🔴 Selling..."
+        echo "🔴🔴🔴 Selling...🔴🔴🔴"
         pxysell
         ;;        
     ka)
-        echo "❌❌❌ SquireOff all Positions..."
+        echo "❌❌❌ SquireOff all Positions...❌❌❌"
         pxykill
         ;;
     up)
-        echo "🧰🧰🧰 Update PXY®..."
+        echo "🧰⚙️🔧🛠️🔐 Update PXY®...🧰🧰🧰"🧰⚙️🔧🛠️🔐 
         pxyupdate
         ;;
-
     py)
-        echo "🚿🚿🚿 Cleanup..."
+        echo "🚿🚿🚿 Cleanup...🚿🚿🚿"
         pxyclean
         ;;
     ck)
-        echo "🧪🧪🧪 Test All PXY®..."
+        echo "🧪🧪🧪 Test All PXY®...🧪🧪🧪"
         pxycheck
         ;;
     py)
-        echo "🏃🏃🏃 Python Program..."
+        echo "🏃🏃🏃 Python Program...🏃🏃🏃"
         pxypy
         ;;
     "") # Empty input (user just pressed Enter)
