@@ -589,6 +589,9 @@ try:
         )
     ]
 
+    unique_values = PRINT_df_sorted_display['Y'].unique()
+    print(unique_values)
+
     # Printing the filtered DataFrame without index, left justification, and adjusted column spacing
     print(f"{BRIGHT_YELLOW}Table–CNC Stocks in positions and holdings{RESET}")
     print(filtered_df.to_string(index=False, justify='left', col_space=-2))
