@@ -578,13 +578,13 @@ try:
     
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
-    filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 1.4) & (PRINT_df_sorted_display['Q'] == '+')]
-    filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 0) & (PRINT_df_sorted_display['Q'] == '-')]
+    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 1.4) & (PRINT_df_sorted_display['Q'] == '+')]
+    mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 0) & (PRINT_df_sorted_display['Q'] == '-')]
 
     
     print(f"{BRIGHT_YELLOW}Table–CNC Stocks in positions and holdings{RESET}")
     if not filtered_df.empty:
-        print(filtered_df.to_string(index=False, justify='left', col_space=-2))
+        print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2))
 
     print(f"{BRIGHT_YELLOW}Table–MIS Stocks in positions and negitive{RESET}")
     if not mis_filtered_df.empty:
