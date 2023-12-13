@@ -2,39 +2,34 @@ import subprocess
 import asyncio
 import telegram
 from html import escape
-from PIL import ImageGrab  # Use Pillow instead of PIL
+
 
 # Define the bot token and your Telegram username or ID
 bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
 user_usernames = '-4022487175'  # Replace with your Telegram username or ID
 
-# Function to send a message to Telegram
-async def send_telegram_message(message_text):
-    bot = telegram.Bot(token=bot_token)
-    sanitized_message = escape(message_text)  # Sanitize HTML
-    await bot.send_message(chat_id=user_usernames, text=sanitized_message, parse_mode='HTML')
+# Function to read HTML content from a file
+def read_html_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return file.read()
 
-async def send_telegram_message_photo(photo_bytes):
+# Function to send an HTML message to Telegram
+async def send_telegram_html_file(html_content):
     bot = telegram.Bot(token=bot_token)
-    await bot.send_photo(chat_id=user_usernames, photo=photo_bytes)
+    sanitized_html = escape(html_content)  # Sanitize HTML
+    await bot.send_message(chat_id=user_usernames, text=sanitized_html, parse_mode='HTML')
 
 async def run_and_send_message():
     try:
-        # Example: Capture a screenshot using Pillow
-        screenshot = ImageGrab.grab()
+        # Run the Python program and capture the HTML output in a file
+        subprocess.run(['python3', 'cntrlpxy.py'], check=True)
 
-        # Convert the screenshot to bytes (you may need to adjust this based on your use case)
-        screenshot_bytes = screenshot.tobytes()
+        # Read the HTML content from the file
 
-        # Run the Python program and capture the output
-        output = subprocess.check_output(['python3', 'cntrlpxy.py'], text=True)
+        html_content = read_html_file(html_file_path)
 
-        # Send the output and the screenshot as a message via Telegram
-        telegram_message = f"Program Output:\n\n{output}"
-        await send_telegram_message(telegram_message)
-
-        # You can send the screenshot bytes as well if needed
-        await send_telegram_message_photo(screenshot_bytes)
+        # Send the HTML content as a message via Telegram
+        await send_telegram_html_file(html_content)
 
     except subprocess.CalledProcessError as e:
         # Handle errors if the subprocess fails
