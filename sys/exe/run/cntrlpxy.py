@@ -579,11 +579,8 @@ try:
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
     filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4]
-    mis_filtered_df = PRINT_df_sorted_display[((PRINT_df_sorted_display['PnL'] > 0) & (PRINT_df_sorted_display['PL%'] < 0)) | ((PRINT_df_sorted_display['PnL'] < 0) & (PRINT_df_sorted_display['PL%'] > 0)) | (PRINT_df_sorted_display['Y'] == 'M')]
-    unique_values = PRINT_df_sorted_display['Y'].unique()
-    print(unique_values)
-
-    # Printing the filtered DataFrame without index, left justification, and adjusted column spacing
+    mis_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['Y'] == 'M']
+   # Printing the filtered DataFrame without index, left justification, and adjusted column spacing
     print(f"{BRIGHT_YELLOW}Table–CNC Stocks in positions and holdings{RESET}")
     print(filtered_df.to_string(index=False, justify='left', col_space=-2))
     print(f"{BRIGHT_YELLOW}Table–MIS Stocks in positions and negitive{RESET}")
