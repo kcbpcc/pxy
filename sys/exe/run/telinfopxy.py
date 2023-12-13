@@ -1,8 +1,9 @@
 import subprocess
 import asyncio
 import telegram
-from pyth.plugins.plaintext.writer import RtfWriter
+from io import open
 
+# ... (Other import statements remain the same)
 
 # Define the bot token and your Telegram username or ID
 bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
@@ -18,13 +19,10 @@ async def run_and_send_message():
         # Run the Python program and capture the output
         output = subprocess.check_output(['python3', '/home/userland/pxy/sys/exe/run/telinfopxy.py'], text=True)
 
-        # Convert the output to RTF format
-        rtf_output = RtfWriter.write_plain_text(output)
-
-        # Save the RTF content to a file
+        # Save the output as RTF format
         rtf_file_path = '/home/userland/pxy/sys/exe/run/output.rtf'
         with open(rtf_file_path, 'w', encoding='utf-8') as file:
-            file.write(rtf_output)
+            file.write(output)
 
         # Send the RTF content as a document via Telegram
         await send_telegram_rtf_file(open(rtf_file_path, 'rb'))
