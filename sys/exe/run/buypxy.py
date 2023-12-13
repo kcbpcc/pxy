@@ -108,32 +108,34 @@ if decision == "YES":
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
         
-
+        # Define ltp before the try block
+        ltp = -1
+    
         try:
             def get_ltp(exchange):
-                ltp = -1
+                nonlocal ltp  # Use nonlocal to reference the outer ltp variable
                 key = f"{exchange}:{dct['tradingsymbol']}"
                 resp = broker.kite.ltp(key)
                 if resp and isinstance(resp, dict):
                     ltp = resp[key]['last_price']
                 return ltp
-        
+    
             # Try getting LTP from NSE
             ltp_nse = get_ltp('NSE')
             logging.info(f"LTP for {dct['tradingsymbol']} on NSE is {ltp_nse}")
-        
+    
             # If LTP from NSE is not available or <= 0, try getting LTP from BSE
             if ltp_nse <= 0:
                 ltp_bse = get_ltp('BSE')
                 logging.info(f"LTP for {dct['tradingsymbol']} on BSE is {ltp_bse}")
-        
+    
                 # If LTP from BSE is available, use it
                 if ltp_bse > 0:
                     ltp = ltp_bse
                 else:
                     # Neither NSE nor BSE LTP is available, return with remaining_cash
                     return dct['tradingsymbol'], remaining_cash
-        
+    
             # Check if available cash is greater than 11000
             if available_cash > 11000:
                 # Place the order on the exchange where LTP is available
@@ -154,15 +156,14 @@ if decision == "YES":
                     return dct['tradingsymbol'], remaining_cash
             else:
                 logging.warning(
-                    f"Skipping {dct['tradingsymbol']}:,Remaining Cash: {int(remaining_cash)}"
+                    f"Skipping {dct['tradingsymbol']}: Remaining Cash: {int(remaining_cash)}"
                 )
             return dct['tradingsymbol'], remaining_cash
-        
+    
         except Exception as e:
             logging.error(f"Error while placing order: {str(e)}")
             return dct['tradingsymbol'], remaining_cash
-    
-    
+        
     if any(lst_tlyne):
         new_list = []
         # Filter the original list based on the subset of 'tradingsymbol' values
