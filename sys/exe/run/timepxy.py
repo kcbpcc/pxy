@@ -3,7 +3,7 @@ import pytz
 
 def calculate_timpxy():
     # Define the start time in UTC
-    start_time_utc = datetime.datetime.utcnow().replace(hour=3, minute=01, second=0, microsecond=0, tzinfo=pytz.utc)
+    start_time_utc = datetime.datetime.utcnow().replace(hour=3, minute=30, second=0, microsecond=0, tzinfo=pytz.utc)
     
     # Define the end time in UTC
     end_time_utc = datetime.datetime.utcnow().replace(hour=9, minute=30, second=0, microsecond=0, tzinfo=pytz.utc)
@@ -26,4 +26,3 @@ def calculate_timpxy():
 # Example usage:
 result = calculate_timpxy()
 print(f"PXY® is running on timepxy ⏰   {result}   ⏰")
-
