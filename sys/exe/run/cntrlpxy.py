@@ -578,7 +578,7 @@ try:
     
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
-    filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4]
+    filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 1.4) & (PRINT_df_sorted_display['Q'] == '+')]
     mis_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['Y'] == 'M']
     mis_filtered_df = mis_filtered_df.sort_values(by='PL%', ascending=False)
 
