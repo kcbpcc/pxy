@@ -733,6 +733,43 @@ try:
         print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
 
         print("*" * 42)
+###########################################################################################################################################################################################################
+        import asyncio
+        from aiogram import Bot, types
+        from aiogram.types import ParseMode
+        from aiogram import Dispatcher
+        
+        # Replace '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo' with your actual bot token
+        bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'
+        user_usernames = '-4022487175'  # Replace with your Telegram username or ID
+        
+        # Your formatted message
+        formatted_message = f"""
+        *Status:* {BRIGHT_GREEN if nse_action in ('Bullish', 'Bull') else BRIGHT_RED}{nse_action}{RESET}
+        *Power:* {BRIGHT_GREEN if power > 0.5 else BRIGHT_RED}{power}{RESET}
+        *tPL%:* {BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}
+        *dPnL:* {BRIGHT_GREEN if total_dPnL > 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}
+        *tPnL:* {BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round(total_PnL, 2)}{RESET}
+        *dPL%:* {BRIGHT_GREEN if total_dPnL_percentage > 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2)}{RESET}
+        *MIS:* {BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}
+        *CNC:* {BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{total_PnL_cnc_buy}{RESET}
+        *Switch:* {BRIGHT_YELLOW}{switch}{RESET}
+        *Funds:* {BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}
+        *Change%:* {BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}
+        *trgtpxy:* {BRIGHT_GREEN if trgtpxy >= 5 else BRIGHT_RED}{trgtpxy}{RESET}
+        *Open%:* {BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}
+        *Booked:* {BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}
+        """
+        
+        async def send_telegram_message():
+            bot = Bot(token=bot_token)
+            dp = Dispatcher(bot)
+            await bot.send_message(chat_id=user_usernames, text=formatted_message, parse_mode=ParseMode.MARKDOWN)
+        
+        # Run the event loop and send the message asynchronously
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(send_telegram_message())
+###########################################################################################################################################################################################################
 
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
         mktpxy = get_market_check('^NSEI')
