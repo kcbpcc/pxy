@@ -625,7 +625,7 @@ try:
                          row['product'] == 'CNC' and
                          row['PL%'] > (cnc_filter) and
                          row['source'] == 'holdings' and
-                         row['smbchk'] != 'Bull or Buy') and  # <-- Added 'and' here
+                         row['smbchk'] != 'Bull or Buy') and  
                         (
                             (row['PL%'] > (time_target)) or
                             (row['dPL%'] < 0 and row['oPL%'] < 0) or
@@ -741,15 +741,7 @@ try:
         print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
 
         print("*" * 42)
-###########################################################################################################################################################################################################
-        import subprocess
-        import sys
-        
-        def play_linux_alert_sound():
-            if sys.platform.startswith('linux'):
-                subprocess.call(["aplay", "/usr/share/sounds/freedesktop/stereo/message.oga"])
-            else:
-                print("Unsupported platform")
+
 ###########################################################################################################################################################################################################
 
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
