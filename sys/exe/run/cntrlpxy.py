@@ -579,11 +579,13 @@ try:
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
     from nftpxy import nse_action, nse_power   
-    cnc_filter = round(1.4 + (nse_power * 3.6), 2)
-    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter * 0.5) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['Y'] == 'C')]
+    cnc_target = round(1.4 + (nse_power * 3.6), 2)
+    cnc_filter = cnc_target/2
+    
+    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['Y'] == 'C')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['Y'] == 'M')]
 
-    print(f"{BRIGHT_YELLOW}My Portfolio Triumphs @PnL%:{cnc_filter} {RESET}")
+    print(f"{BRIGHT_YELLOW}My Portfolio Triumphs @bade:{cnc_filter}level:{cnc_target},target:{trgtpxy}, {RESET}")
     if not cnc_filtered_df.empty:
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2))
 
@@ -596,8 +598,6 @@ try:
 ###########################################################################################################################################################################################################
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
-    from nftpxy import nse_action, nse_power   
-    cnc_filter = round(1.4 + (nse_power * 3.6), 2)
     # Create an empty list to store the rows that meet the condition
     selected_rows = []
     # Loop through the DataFrame and place orders based on conditions
@@ -620,13 +620,13 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > (cnc_filter * 0.5) and
+                         row['PL%'] > (cnc_filter) and
                          row['source'] == 'holdings' and
                          row['smbchk'] != 'Bull or Buy') and  # <-- Added 'and' here
                         (
                             (row['PL%'] > (cnc_filter + trgtpxy)) or
                             (row['dPL%'] < 0 and row['oPL%'] < 0) or
-                            (row['PL%_H'] > cnc_filter and row['PL%'] < cnc_filter)
+                            (row['PL%_H'] > cnc_target and row['PL%'] < cnc_target)
                         )
                     ):
                         try:                            
