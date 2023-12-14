@@ -14,5 +14,5 @@ sudo chmod +x /usr/local/bin/*
 echo '                                 '
 echo "       *****UPDATE COMPLETED*****"
 echo '                                 '
-rm $HOME/pxy/sys/exe/run/filePnL.csv
+#rm $HOME/pxy/sys/exe/run/filePnL.csv
 mv $HOME/pxy/sys/exe/run/_filePnL.csv $HOME/pxy/sys/exe/run/filePnL.csv 
