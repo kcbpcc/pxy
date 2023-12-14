@@ -22,24 +22,26 @@ def colorize(value):
 
 def get_holdingsinfo(csv_file_path):
     try:
-        # Read data from the local CSV file
+        # Read data from the local CSV file and filter out rows where qty is not equal to zero
         holdings_df = pd.read_csv(csv_file_path)
-
-        selected_columns = ['tradingsymbol','qty','close_price', 'average_price','ltp']
-        selected_holdings_df = holdings_df[selected_columns].copy()
+        selected_holdings_df = holdings_df[holdings_df['qty'] != 0].copy()
+    
+        selected_columns = ['tradingsymbol', 'qty', 'close_price', 'average_price', 'ltp']
+        selected_holdings_df = selected_holdings_df[selected_columns].copy()
+    
         selected_holdings_df['cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
         selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
         selected_holdings_df['perc'] = ((selected_holdings_df['unrealized'] / selected_holdings_df['cap']) * 100).where(selected_holdings_df['cap'] > 0)
 
         total_Stocks_count = len(selected_holdings_df)
 
-        green_Stocks_df = selected_holdings_df[(selected_holdings_df['perc'] > 0) & (selected_holdings_df['qty'] != 0)]        
+        green_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] > 0]
         green_Stocks_count = len(green_Stocks_df)
         green_Stocks_capital = green_Stocks_df['cap'].sum()
         green_Stocks_worth = green_Stocks_df['ltp'].dot(green_Stocks_df['qty']).round(4)
         green_Stocks_profit_loss = (green_Stocks_worth - green_Stocks_capital).round(4)
 
-        red_Stocks_df = selected_holdings_df[(selected_holdings_df['perc'] < 0) & (selected_holdings_df['qty'] != 0)]     
+        red_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] < 0]
         red_Stocks_count = len(red_Stocks_df)
         red_Stocks_capital = red_Stocks_df['cap'].sum()
         red_Stocks_worth = red_Stocks_df['ltp'].dot(red_Stocks_df['qty']).round(4)
