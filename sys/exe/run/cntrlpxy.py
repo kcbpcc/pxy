@@ -585,10 +585,10 @@ try:
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['Y'] == 'M')]
 
     print(f"{BRIGHT_YELLOW}My Portfolio Triumphs @PnL% -{cnc_filter} {RESET}")
-    if not filtered_df.empty:
+    if not cnc_filtered_df.empty:
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2))
 
-    print(f"{BRIGHT_YELLOW}Table–MIS Stocks in positions and negitive{RESET}")
+    print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}")
     if not mis_filtered_df.empty:
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-2))    
 
