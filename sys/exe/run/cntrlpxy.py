@@ -651,7 +651,8 @@ try:
                          row['PL%'] > 1.5 and
                          row['smbchk'] != 'Bull or Buy' and
                          row['source'] == 'positions') and
-                        (row['PL%'] > trgtpxy)
+                        
+                        (row['PL%'] > time_target)
                     ):
 
                         try:                            
