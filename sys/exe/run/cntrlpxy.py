@@ -622,14 +622,13 @@ try:
                          row['product'] == 'CNC' and
                          row['PL%'] > (cnc_filter * 0.5) and
                          row['source'] == 'holdings' and
-                         row['smbchk'] != 'Bull or Buy')
+                         row['smbchk'] != 'Bull or Buy') and  # <-- Added 'and' here
                         (
                             (row['PL%'] > (cnc_filter + trgtpxy)) or
                             (row['dPL%'] < 0 and row['oPL%'] < 0) or
-                            (row['PL%_H'] > cnc_filter and row['PL%'] < cnc_filter )
+                            (row['PL%_H'] > cnc_filter and row['PL%'] < cnc_filter)
                         )
                     ):
-
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
