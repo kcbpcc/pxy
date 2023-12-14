@@ -585,7 +585,7 @@ try:
     cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['Y'] == 'C')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['Y'] == 'M')]
 
-    print(f"{BRIGHT_YELLOW}My Portfolio Triumphs @bade:{cnc_filter}level:{cnc_target},target:{trgtpxy}, {RESET}")
+    print(f"{BRIGHT_YELLOW}My Portfolio base:{cnc_filter},level:{cnc_target},target:{trgtpxy}, {RESET}")
     if not cnc_filtered_df.empty:
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2))
 
