@@ -22,13 +22,11 @@ def colorize(value):
 
 def get_holdingsinfo(csv_file_path):
     try:
-        # Read data from the local CSV file and filter out rows where qty is not equal to zero
+        # Read data from the local CSV file
         holdings_df = pd.read_csv(csv_file_path)
-        selected_holdings_df = holdings_df[holdings_df['qty'] != 0].copy()
-    
-        selected_columns = ['tradingsymbol', 'qty', 'close_price', 'average_price', 'ltp']
-        selected_holdings_df = selected_holdings_df[selected_columns].copy()
-    
+
+        selected_columns = ['tradingsymbol','qty','close_price', 'average_price','ltp']
+        selected_holdings_df = holdings_df[selected_columns].copy()
         selected_holdings_df['cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
         selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
         selected_holdings_df['perc'] = ((selected_holdings_df['unrealized'] / selected_holdings_df['cap']) * 100).where(selected_holdings_df['cap'] > 0)
