@@ -6,7 +6,7 @@ import traceback
 class Trendlyne:
 
     base_url = "https://trendlyne.com/"
-    entry_url = base_url + "fundamentals/v1/stock-screener/429696/sell-minus-pxy/index/NIFTY200/nifty-200/"
+    entry_url = base_url + "fundamentals/v1/stock-screener/429696/sell-minus-pxy/index/NIFTY50/nifty-50/"
     
 
     def __init__(self):
