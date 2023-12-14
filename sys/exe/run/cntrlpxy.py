@@ -628,7 +628,6 @@ try:
                          row['smbchk'] != 'Bull or Buy') and  
                         (
                             (row['PL%'] > (time_target)) or
-                            (row['dPL%'] < 0 and row['oPL%'] < 0) or
                             (row['PL%_H'] > cnc_target and row['PL%'] < cnc_target)
                         )
                     ):
@@ -648,7 +647,7 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 1.5 and
+                         row['PL%'] > (cnc_filter) and
                          row['smbchk'] != 'Bull or Buy' and
                          row['source'] == 'positions') and
                         
