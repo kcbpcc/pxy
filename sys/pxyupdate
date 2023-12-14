@@ -11,5 +11,11 @@ git reset --hard origin/main
 sudo cp ~/pxy/sys/* /usr/local/bin/ &> /dev/null
 sudo chmod +x /usr/local/bin/*
 echo '                                 '
+echo '                                 '
+git fetch --all
+echo '                                 '
+echo "       *****RESET SOFTWERE*******"
+echo '                                 '
+git reset --hard origin/main
 echo "       *****UPDATE COMPLETED*****"
 echo '                                 '
