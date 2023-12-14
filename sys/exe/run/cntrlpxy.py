@@ -579,7 +579,6 @@ try:
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
     from nftpxy import nse_action, nse_power   
-    # Assuming nse_power is a global variable
     cnc_filter = round(1.4 + (nse_power * 3.6), 2)
     cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['Y'] == 'C')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['Y'] == 'M')]
@@ -597,6 +596,8 @@ try:
 ###########################################################################################################################################################################################################
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
+    from nftpxy import nse_action, nse_power   
+    cnc_filter = round(1.4 + (nse_power * 3.6), 2)
     # Create an empty list to store the rows that meet the condition
     selected_rows = []
     # Loop through the DataFrame and place orders based on conditions
@@ -619,12 +620,12 @@ try:
                     if (
                         row['qty'] > 0 and
                         row['product'] == 'CNC' and
-                        row['PL%'] > 1.5 and
-                        row['smbchk'] != 'Bull or Buy' and
+                        row['PL%'] > cnc_filter and
                         row['source'] == 'holdings' and
                         (
-                            row['PL%'] > trgtpxy or
-                            (row['dPL%'] < 0 and row['oPL%'] < 0)
+                            (row['PL%'] > (cnc_filter + trgtpxy) and row['smbchk'] != 'Bull or Buy')or
+                            (row['dPL%'] < 0 and row['oPL%'] < 0) or
+                            (row['PL%_H'] > cnc_filter and row['PL%'] < cnc_filter )
                         )
                     ):
 
