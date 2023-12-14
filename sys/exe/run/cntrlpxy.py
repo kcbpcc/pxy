@@ -731,8 +731,15 @@ try:
         print(right_aligned_format.format(f"dPL%:{BRIGHT_GREEN if total_dPnL_percentage > 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2)}{RESET}"))
         print(left_aligned_format.format(f"MIS:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}"), end="")
         print(right_aligned_format.format(f"CNC:{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{total_PnL_cnc_buy}{RESET}"))
+        
+        
         print(left_aligned_format.format(f"Switch:{BRIGHT_YELLOW}{switch}{RESET}"), end="")
         print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
+
+        print(left_aligned_format.format(f"Base:{BRIGHT_YELLOW}{cnc_filter}{RESET}"), end="")
+        print(right_aligned_format.format(f"Level:{BRIGHT_GREEN if cnc_target > 2 else BRIGHT_YELLOW}{cnc_target:.0f}{RESET}"))
+
+        
         print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Target:{BRIGHT_GREEN if time_target >= 5 else BRIGHT_RED}{time_target}{RESET}"))
         print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}"), end="")
