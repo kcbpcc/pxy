@@ -580,10 +580,10 @@ try:
     # Assuming PRINT_df_sorted_display is your DataFrame
     from nftpxy import nse_action, nse_power   
     cnc_filter = round(1.4 + (nse_power * 3.6), 2)
-    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['Y'] == 'C')]
+    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > (cnc_filter*0.5) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['Y'] == 'C')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['Y'] == 'M')]
 
-    print(f"{BRIGHT_YELLOW}My Portfolio Triumphs @PnL%:{cnc_filter} {RESET}")
+    print(f"{BRIGHT_YELLOW}My Portfolio Triumphs @PnL%:({cnc_filter}*0.5) {RESET}")
     if not cnc_filtered_df.empty:
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2))
 
