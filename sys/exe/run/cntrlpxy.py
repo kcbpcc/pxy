@@ -584,7 +584,7 @@ try:
     cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['Y'] == 'C')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['Y'] == 'M')]
 
-    print(f"{BRIGHT_YELLOW}Table–CNC Stocks in positions and holdings{RESET}")
+    print(f"{BRIGHT_YELLOW}Table–CNC Stocks Above P&L% > {cnc_filter} {RESET}")
     if not filtered_df.empty:
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2))
 
