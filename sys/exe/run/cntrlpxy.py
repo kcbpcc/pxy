@@ -587,8 +587,8 @@ try:
     if not cnc_filtered_df.empty:
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2))
 
-    print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}")
     if not mis_filtered_df.empty:
+        print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-2))    
 
     print("*" * 42)
