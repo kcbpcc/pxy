@@ -1,6 +1,6 @@
 #!/bin/bash
 cd $HOME/pxy
-mv ~pxy/sys/exe/run/filePnL.csv ~pxy/sys/exe/run/_filePnL.csv 
+mv /home/userland/pxy/sys/exe/run/filePnL.csv /home/userland/pxy/sys/exe/run/_filePnL.csv 
 echo '                                 '
 echo "       *****GET UPDATES**********"
 echo '                                 '
@@ -14,5 +14,5 @@ sudo chmod +x /usr/local/bin/*
 echo '                                 '
 echo "       *****UPDATE COMPLETED*****"
 echo '                                 '
-rm ~pxy/sys/exe/run/filePnL.csv
-mv ~pxy/sys/exe/run/_filePnL.csv ~pxy/sys/exe/run/filePnL.csv 
+rm /home/userland/pxy/sys/exe/run/filePnL.csv
+mv /home/userland/pxy/sys/exe/run/_filePnL.csv /home/userland/pxy/sys/exe/run/filePnL.csv 
