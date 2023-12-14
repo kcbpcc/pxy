@@ -618,11 +618,11 @@ try:
                             
 ###########################################################################################################################################################################################################                    
                     if (
-                        row['qty'] > 0 and
-                        row['product'] == 'CNC' and
-                        row['PL%'] > (cnc_filter * 0.5) and
-                        row['source'] == 'holdings' and
-                        row['smbchk'] != 'Bull or Buy'
+                        (row['qty'] > 0 and
+                         row['product'] == 'CNC' and
+                         row['PL%'] > (cnc_filter * 0.5) and
+                         row['source'] == 'holdings' and
+                         row['smbchk'] != 'Bull or Buy')
                         (
                             (ow['PL%'] > (cnc_filter + trgtpxy)) or
                             (row['dPL%'] < 0 and row['oPL%'] < 0) or
