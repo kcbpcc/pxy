@@ -30,7 +30,7 @@ def get_holdingsinfo(csv_file_path):
         zero_qty_count = holdings_df[holdings_df['qty'] == 0].shape[0]
         
         # Print the count
-        print(              "\033[92mNumber of Stocks Sold: \033[93m{}\033[0m".format(zero_qty_count))
+        print("                   \033[92mNumber of Stocks Sold: \033[93m{}\033[0m".format(zero_qty_count))
 
   
         selected_columns = ['tradingsymbol', 'qty', 'close_price', 'average_price', 'ltp']
