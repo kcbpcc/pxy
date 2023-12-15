@@ -25,6 +25,9 @@ def get_nse_action():
             
             # Calculate nse_power
             nse_power = round((current_price - (today_low - 0.01)) / (abs(today_high + 0.01) - abs(today_low - 0.01)), 2)
+            Day_Change = round(((current_price - yesterday_close) / yesterday_close) * 100, 2)
+            Open_Change = round(((current_price - today_open) / today_open) * 100, 2)
+
 
             # Initialize Day Action as an empty string
             nse_action = ""
@@ -41,7 +44,7 @@ def get_nse_action():
             else:
                 nse_action = "Bull"
 
-            return nse_action, nse_power
+            return nse_action, nse_power, Day_Change, Open_Change 
 
         except Exception as e:
             print(f"Error during data download for {days} days: {e}")
@@ -53,7 +56,7 @@ def get_nse_action():
     return "Error", None
 
 # Call the get_nse_action function
-nse_action, nse_power = get_nse_action()
+nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
 # ANSI escape code for bright yellow color
 yellow_color_code = "\033[93m"
 reset_color_code = "\033[0m"
