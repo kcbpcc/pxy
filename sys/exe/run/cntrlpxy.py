@@ -623,7 +623,7 @@ try:
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
                          row['PL%'] > (cnc_filter) and
-                         row['source'] == 'holdings' and
+                         
                          row['smbchk'] != 'Bull or Buy') and  
                         (
                             (row['PL%'] > (time_target)) or
