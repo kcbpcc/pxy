@@ -39,7 +39,7 @@ def get_nse_action():
             elif today_open > current_price:
                 nse_action = "Bear"  
             else:
-                nse_action = "Neutral"
+                nse_action = "Bull"
 
             return nse_action, nse_power
 
