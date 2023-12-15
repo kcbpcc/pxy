@@ -79,15 +79,15 @@ def get_holdingsinfo(csv_file_path):
         table.align = 'r'
         print(table)
 
-# ANSI escape code for yellow color
-yellow_color_code = "\033[93m"
-reset_color_code = "\033[0m"
-
-# Assuming zero_qty_count is already defined
-zero_qty_count = 10  # Replace this with the actual value
-
-# Print the text in yellow color
-print(yellow_color_code + "Number of Sold stocks with profit:" + reset_color_code, zero_qty_count)
+    # ANSI escape code for yellow color
+    yellow_color_code = "\033[93m"
+    reset_color_code = "\033[0m"
+    
+    # Assuming zero_qty_count is already defined
+    zero_qty_count = 10  # Replace this with the actual value
+    
+    # Print the text in yellow color
+    print(yellow_color_code + "Number of Sold stocks with profit:" + reset_color_code, zero_qty_count)
 
 
     except Exception as e:
