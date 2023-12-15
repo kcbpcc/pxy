@@ -587,7 +587,7 @@ try:
         # Print statements
         print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if Open_Change >= 0 else BRIGHT_RED}{round(Open_Change, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Power:{BRIGHT_GREEN if nse_power > 0.5 else BRIGHT_RED}{nse_power}{RESET}"))
-        print(left_aligned_format.format(f"TotalPL%:{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}"), end="")
+        print(left_aligned_format.format(f"TotalPnL%:{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"DayPnL:{BRIGHT_GREEN if total_dPnL > 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}"))
         print(left_aligned_format.format(f"TotalPnL:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round(total_PnL, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"DayPnL%:{BRIGHT_GREEN if total_dPnL_percentage > 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2)}{RESET}"))
