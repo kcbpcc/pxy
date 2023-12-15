@@ -8,8 +8,6 @@ import sys
 import yfinance as yf
 import os
 
-############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -55,10 +53,6 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
     
         current_color = 'Bear' if day_open > ltp else 'Bull'
         last_closed_color = 'Bear' if day_open > ltp else 'Bull'
-        second_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
-        third_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
-        fourth_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
-
 
     else:
         # Fetch real-time data for the specified interval
@@ -71,17 +65,14 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         # Calculate the colors of the last three closed candles
         current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
         last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-        second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
-        third_last_closed_color = 'Bear' if ha_close.iloc[-4] < ha_open.iloc[-4] else 'Bull'
-        fourth_last_closed_color = 'Bear' if ha_close.iloc[-5] < ha_open.iloc[-5] else 'Bull'
 
-    print(f'Nifty -> : 2nd:{"🔴🔴" if second_last_closed_color == "Bear" else "🟢🟢"}|1st:{"🔴🔴" if last_closed_color == "Bear" else "🟢🟢"}|now:{"🐻🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🛫⤴️"}')
-    return current_color, last_closed_color, second_last_closed_color, third_last_closed_color
+    print(f'Nifty -> : 1st:{"🔴🔴" if last_closed_color == "Bear" else "🟢🟢"}|now:{"🐻🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🛫⤴️"}')
+    return current_color, last_closed_color
 
 # Function to determine the market check based on candle colors
 def get_market_check(symbol):
     # Check the colors of the last two closed candles and the currently running candle
-    current_color, last_closed_color, second_last_closed_color, third_last_closed_color = calculate_last_three_heikin_ashi_colors(
+    current_color, last_closed_color = calculate_last_three_heikin_ashi_colors(
         symbol, intervals[0])
 
     # Initialize messages
@@ -109,5 +100,8 @@ def get_market_check(symbol):
         mktpxy = 'None'
 
     return mktpxy
+
+
+
 
 
