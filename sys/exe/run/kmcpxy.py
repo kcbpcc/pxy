@@ -4,11 +4,11 @@ from selenium.webdriver.common.keys import Keys
 import csv
 
 # Your login credentials
-username = 'your_username'
-password = 'your_password'
+username = 'KMC617337'
+password = 'Gouri678'
 
 # URL for login
-login_url = 'https://www.kammamarimonony.com/login'
+login_url = 'https://www.kammamatrimony.com/login'
 
 # Create a webdriver instance
 driver = webdriver.Chrome()
