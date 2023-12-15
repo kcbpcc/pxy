@@ -63,7 +63,7 @@ def get_holdingsinfo(csv_file_path):
 
         table = PrettyTable()
         table.field_names = ['🧘', '🟢🔴🟢', '🟩🟩🟩', '🟥🟥🟥']
-        table.add_row(['📈', total_Stocks_count, green_Stocks_count, red_Stocks_count,0000])
+        table.add_row(['📈', total_Stocks_count, green_Stocks_count, red_Stocks_count])
         table.add_row(['💰', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
         table.add_row(['🔄', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
 
