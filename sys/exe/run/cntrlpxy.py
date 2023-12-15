@@ -580,7 +580,7 @@ try:
     # Assuming PRINT_df_sorted_display is your DataFrame
     from nftpxy import nse_action, nse_power   
     cnc_target = round(2.4 + (nse_power * 3.6), 2)
-    cnc_filter = cnc_target/2
+    cnc_filter = round(cnc_target / 2, 2)
     time_target = round(cnc_filter + trgtpxy, 2)
    
     cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['Y'] == 'C')]
