@@ -30,7 +30,8 @@ def get_holdingsinfo(csv_file_path):
         zero_qty_count = holdings_df[holdings_df['qty'] == 0].shape[0]
         
         # Print the count
-        print("\033[92mNumber of Stocks Sold:", zero_qty_count, "\033[0m")
+        print(              "\033[92mNumber of Stocks Sold: \033[93m{}\033[0m".format(zero_qty_count))
+
   
         selected_columns = ['tradingsymbol', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
@@ -50,8 +51,8 @@ def get_holdingsinfo(csv_file_path):
         red_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] < 0]
         red_Stocks_count = len(red_Stocks_df)
         red_Stocks_capital = red_Stocks_df['cap'].sum()
-        red_Stocks_worth = red_Stocks_df['ltp'].dot(red_Stocks_df['qty']).round(4)
-        red_Stocks_profit_loss = (red_Stocks_worth - red_Stocks_capital).round(4)
+        red_Stocks_worth = red_Stocks_df['ltp'].dot(red_Stocks_df['qty']).round(2)
+        red_Stocks_profit_loss = (red_Stocks_worth - red_Stocks_capital).round(2)
 
         all_Stocks_capital = red_Stocks_df['cap'].sum() + green_Stocks_df['cap'].sum()
         all_Stocks_worth = green_Stocks_df['ltp'].dot(green_Stocks_df['qty']).round(4) + red_Stocks_df['ltp'].dot(red_Stocks_df['qty']).round(4)
@@ -61,10 +62,10 @@ def get_holdingsinfo(csv_file_path):
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
 
         table = PrettyTable()
-        table.field_names = ['📉 Board', '🟢🔴🟢', '🟩🟩🟩', '🟥🟥🟥']
-        table.add_row(['Stocks📈', total_Stocks_count, green_Stocks_count, red_Stocks_count])
-        table.add_row(['Invested', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
-        table.add_row(['WorthNow', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
+        table.field_names = ['Board', '🔴🟢', '🟩🟩', '🟥🟥']
+        table.add_row(['Stocks', total_Stocks_count, green_Stocks_count, red_Stocks_count])
+        table.add_row(['Invest', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
+        table.add_row(['Worth', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
 
         if all_Stocks_profit_loss < 0:
             table.add_row(['💰₹💰P&L', f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
