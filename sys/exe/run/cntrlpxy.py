@@ -398,62 +398,7 @@ try:
     #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
-###########################################################################################################################################################################################################    
-    import pandas as pd
-    # Assuming you have a list of instrument keys, e.g., ['NIFTY50', 'RELIANCE', ...]
-    instrument_keys = ['NSE:NIFTY 50']
-    # Create an empty DataFrame named NIFTY
-    NIFTY = pd.DataFrame()
-    # Get OHLC data for the list of keys
-    resp = broker.kite.ohlc("NSE:NIFTY 50")
-    # Create a dictionary from the response for easier mapping
-    dct = {
-        k: {
-            'ltp': v['ohlc'].get('ltp', v['last_price']),
-            'open': v['ohlc']['open'],
-            'high': v['ohlc']['high'],
-            'low': v['ohlc']['low'],
-            'close_price': v['ohlc']['close'],
-        }
-        for k, v in resp.items()
-    }
-    # Set the 'key' column to the instrument keys from your list
-    NIFTY['key'] = instrument_keys
-    # Populate other columns based on the dct dictionary
-    NIFTY['ltp'] = NIFTY['key'].map(lambda x: dct.get(x, {}).get('ltp', 0))
-    NIFTY['timestamp'] = pd.to_datetime('now').strftime('%H:%M:%S')
-    NIFTY['open'] = NIFTY['key'].map(lambda x: dct.get(x, {}).get('open', 0))
-    NIFTY['high'] = NIFTY['key'].map(lambda x: dct.get(x, {}).get('high', 0))
-    NIFTY['low'] = NIFTY['key'].map(lambda x: dct.get(x, {}).get('low', 0))
-    NIFTY['close_price'] = NIFTY['key'].map(lambda x: dct.get(x, {}).get('close_price', 0))
-    NIFTY['Day_Change_%'] = round(((NIFTY['ltp'] - NIFTY['close_price']) / NIFTY['close_price']) * 100, 2)
-    NIFTY['Open_Change_%'] = round(((NIFTY['ltp'] - NIFTY['open']) / NIFTY['open']) * 100, 2)
-    NIFTYconditions = [
-        (NIFTY['Day_Change_%'] > 0) & (NIFTY['Open_Change_%'] > 0),
-        (NIFTY['Open_Change_%'] > 0) & (NIFTY['Day_Change_%'] < 0),
-        (NIFTY['Day_Change_%'] < 0) & (NIFTY['Open_Change_%'] < 0),
-        (NIFTY['Day_Change_%'] > 0) & (NIFTY['Open_Change_%'] < 0)
-    ]
-    choices = ['SuperBull', 'Bull', 'SuperBear', 'Bear']
-    NIFTY['Day Status'] = np.select(NIFTYconditions, choices, default='Bear')
-    status_factors = {
-        'SuperBull': +1,
-        'Bull': 0,
-        'Bear': 0,
-        'SuperBear': -1
-    }
-    # Calculate 'Score' for each row based on 'Day Status' and 'status_factors'
-    NIFTY['Score'] = NIFTY['Day Status'].map(status_factors).fillna(0)
-    score_value = NIFTY['Score'].values[0]
-    # Assuming you have a DataFrame named "NIFTY" with columns 'ltp', 'low', 'high', 'close'
-    # Calculate the metrics
-    
-    epsilon = 1e-10
-    NIFTY['strength']= ((NIFTY['ltp'] - (NIFTY['low'] - 0.01)) / (abs(NIFTY['high'] + 0.01) - abs(NIFTY['low'] - 0.01)))    
-    NIFTY['weakness'] = ((NIFTY['ltp'] - (NIFTY['high'] - 0.01)) / (abs(NIFTY['high'] + 0.01) - abs(NIFTY['low'] - 0.01)))
-    power = NIFTY['strength'].astype(float).round(2).values[0]
 
-    switch = analyze_stock('^NSEI')
     
 ###########################################################################################################################################################################################################
 
