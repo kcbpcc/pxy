@@ -53,9 +53,9 @@ def get_holdingsinfo(csv_file_path):
         red_Stocks_worth = red_Stocks_df['ltp'].dot(red_Stocks_df['qty']).round(4)
         red_Stocks_profit_loss = (red_Stocks_worth - red_Stocks_capital).round(4)
 
-        all_Stocks_capital = selected_holdings_df['cap'].sum()
-        all_Stocks_worth = selected_holdings_df['ltp'].dot(selected_holdings_df['qty']).round(4)
-        all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
+        all_Stocks_capital = red_Stocks_df['cap'].sum() + green_Stocks_df['cap'].sum()
+        all_Stocks_worth = green_Stocks_df['ltp'].dot(green_Stocks_df['qty']).round(4) + red_Stocks_df['ltp'].dot(red_Stocks_df['qty']).round(4)
+        all_Stocks_profit_loss = (green_Stocks_worth - green_Stocks_capital).round(4) + (red_Stocks_worth - red_Stocks_capital).round(4)
 
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
