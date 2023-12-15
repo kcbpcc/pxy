@@ -131,7 +131,7 @@ while True:
 
     # Print the result (you can remove this if not needed)
     # print(f"mktpxy: {mktpxy}")
-    print(random_message)
+    print("\033[93m" + random_message + "\033[0m")
 
     def progress_bar(duration):
         for i in range(duration):
