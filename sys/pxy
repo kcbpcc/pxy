@@ -5,63 +5,66 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Display menu
-echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
-echo "******************************************"
-echo "   -pxypy                 🔥        py"
-echo "   -pxybuy                🟢        by"
-echo "   -pxysell               🔴        sl"
-echo "   -pxykill               ❌        ka"
-echo "   -pxyclean              🚿        cl"
-echo "   -pxycheck              🧪        ck"
-echo "   -pxyupdate             🧰        up"
-echo "   -pxydashboard          📊        ds"
-echo "******************************************"
-echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
+while true; do
+    # Display menu
+    echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
+    echo "******************************************"
+    echo "   -pxypy                 🔥        py"
+    echo "   -pxybuy                🟢        by"
+    echo "   -pxysell               🔴        sl"
+    echo "   -pxykill               ❌        ka"
+    echo "   -pxyclean              🚿        cl"
+    echo "   -pxycheck              🧪        ck"
+    echo "   -pxyupdate             🧰        up"
+    echo "   -pxydashboard          📊        ds"
+    echo "******************************************"
+    echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 
-# Get user input
-read -p "Enter your choice:⚙️⚙️⚙️👉👉 " choice
+    # Get user input
+    read -p "Enter your choice:⚙️⚙️⚙️👉👉 " choice
 
-# Perform actions based on user input
-case $choice in
-    ds)
-        echo "📊📊📊 Dash Board...📊📊📊"
-        pxydashboard
-        ;;
-    by)
-        echo "🟢🟢🟢 Buying...🟢🟢🟢"
-        pxybuy
-        ;;    
-    sl)
-        echo "🔴🔴🔴 Selling...🔴🔴🔴"
-        pxysell
-        ;;        
-    ka)
-        echo "❌❌❌ SquireOff all Positions...❌❌❌"
-        pxykill
-        ;;
-    up)
-        echo "     🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
-        pxyupdate
-        ;;
-    cl)
-        echo "🚿🚿🚿 Cleanup...🚿🚿🚿"
-        pxyclean
-        ;;
-    ck)
-        echo "🧪🧪🧪 Test All PXY®...🧪🧪🧪"
-        pxycheck
-        ;;
-    py)
-        echo "🏃🏃🏃 Python Program...🏃🏃🏃"
-        pxypy
-        ;;
-    "")
-        echo "🔥💫🚀🔥💫🚀🔥💫🚀🔥💫🚀.....Running PXY®"
-        pxypxy
-        ;;
-    *)
-        # Handle other cases if needed
-        echo "Invalid choice: $choice"
-        ;;
-esac
+    # Perform actions based on user input
+    case $choice in
+        ds)
+            echo "📊📊📊 Dash Board...📊📊📊"
+            pxydashboard
+            ;;
+        by)
+            echo "🟢🟢🟢 Buying...🟢🟢🟢"
+            pxybuy
+            ;;    
+        sl)
+            echo "🔴🔴🔴 Selling...🔴🔴🔴"
+            pxysell
+            ;;        
+        ka)
+            echo "❌❌❌ SquireOff all Positions...❌❌❌"
+            pxykill
+            ;;
+        up)
+            echo "     🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
+            pxyupdate
+            ;;
+        cl)
+            echo "🚿🚿🚿 Cleanup...🚿🚿🚿"
+            pxyclean
+            ;;
+        ck)
+            echo "🧪🧪🧪 Test All PXY®...🧪🧪🧪"
+            pxycheck
+            ;;
+        py)
+            echo "🏃🏃🏃 Python Program...🏃🏃🏃"
+            pxypy
+            ;;
+        "")
+            echo "🔥💫🚀🔥💫🚀🔥💫🚀🔥💫🚀.....Running PXY®"
+            pxypxy
+            ;;
+        *)
+            # Handle other cases if needed
+            echo "Invalid choice: $choice"
+            ;;
+    esac
+done
+
