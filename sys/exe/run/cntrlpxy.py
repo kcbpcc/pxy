@@ -287,6 +287,7 @@ try:
     from smbpxy import get_smbpxy_check
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
+    switch = analyze_stock('^NSEI')
     #from ordpxy import get_open_order_status
     yellow_color_code = "\033[93m"  # Replace with your actual ANSI color code for yellow
     reset_color_code = "\033[0m"    # Replace with your actual ANSI color code for resetting color
