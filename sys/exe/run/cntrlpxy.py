@@ -288,7 +288,6 @@ try:
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
     switch = analyze_stock('^NSEI')
-    nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
     #from ordpxy import get_open_order_status
     yellow_color_code = "\033[93m"  # Replace with your actual ANSI color code for yellow
     reset_color_code = "\033[0m"    # Replace with your actual ANSI color code for resetting color
@@ -619,9 +618,9 @@ try:
         print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
         print(left_aligned_format.format(f"Base:{BRIGHT_YELLOW}{cnc_filter}{RESET}"), end="")
         print(right_aligned_format.format(f"Level:{BRIGHT_GREEN if cnc_target > 2 else BRIGHT_YELLOW}{cnc_target}{RESET}"))
-        print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if ['Day_Change'][0] >= 0 else BRIGHT_RED}{round(['Day_Change'][0], 2)}{RESET}"), end="")
+        print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if Day_Change >= 0 else BRIGHT_RED}{round(Day_Change, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Target:{BRIGHT_GREEN if time_target >= 5 else BRIGHT_RED}{time_target}{RESET}"))
-        print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if ['Open_Change'][0] >= 0 else BRIGHT_RED}{round(['Open_Change'][0], 2)}{RESET}"), end="")
+        print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if Open_Change >= 0 else BRIGHT_RED}{round(Open_Change, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
 
         print("*" * 42)
