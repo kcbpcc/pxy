@@ -619,9 +619,9 @@ try:
         print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
         print(left_aligned_format.format(f"Base:{BRIGHT_YELLOW}{cnc_filter}{RESET}"), end="")
         print(right_aligned_format.format(f"Level:{BRIGHT_GREEN if cnc_target > 2 else BRIGHT_YELLOW}{cnc_target}{RESET}"))
-        print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if NIFTY['Day_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change_%'][0], 2)}{RESET}"), end="")
+        print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if NIFTY['Day_Change'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Day_Change][0], 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Target:{BRIGHT_GREEN if time_target >= 5 else BRIGHT_RED}{time_target}{RESET}"))
-        print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if NIFTY['Open_Change_%'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change_%'][0], 2)}{RESET}"), end="")
+        print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if NIFTY['Open_Change'][0] >= 0 else BRIGHT_RED}{round(NIFTY['Open_Change'][0], 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
 
         print("*" * 42)
