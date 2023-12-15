@@ -131,7 +131,7 @@ while True:
 
     # Print the result (you can remove this if not needed)
     # print(f"mktpxy: {mktpxy}")
-    print(f'🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛')    
+    print("*" * 42)   
 
     print(random_message)
     def progress_bar(duration):
