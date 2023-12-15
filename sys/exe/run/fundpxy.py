@@ -26,7 +26,7 @@ def calculate_decision():
         available_cash = response["equity"]["available"]["live_balance"]
         print(f"Available Cash: {available_cash}")
         # Define 'YES' or 'NO' based on the available cash
-        decision = "YES" if available_cash > 11 else "NO"
+        decision = "YES" if available_cash > 6000 else "NO"
 
         return decision
         return available_cash
