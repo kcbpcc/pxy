@@ -581,10 +581,8 @@ try:
     from nftpxy import nse_action, nse_power   
     cnc_target = round(1.4 + (nse_power * 3.6), 2)
     cnc_filter = cnc_target/2
-    time_target = cnc_filter + trgtpxy
-
-
-    
+    time_target = round(cnc_filter + trgtpxy, 2)
+   
     cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['Y'] == 'C')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['Y'] == 'M')]
 
