@@ -22,7 +22,6 @@ while True:
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
-
     # Set the python3IOENCODING environment variable to 'utf-8'
     sys.stdout.reconfigure(encoding='utf-8')
 
@@ -68,9 +67,6 @@ while True:
         
             current_color = 'Bear' if day_open > ltp else 'Bull'
             last_closed_color = 'Bear' if day_open > ltp else 'Bull'
-            second_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
-            third_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
-            fourth_last_closed_color = 'Bear' if day_open > ltp else 'Bull'
 
 
         else:
@@ -84,18 +80,14 @@ while True:
             # Calculate the colors of the last three closed candles
             current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
             last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-            second_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
-            third_last_closed_color = 'Bear' if ha_close.iloc[-4] < ha_open.iloc[-4] else 'Bull'
-            fourth_last_closed_color = 'Bear' if ha_close.iloc[-5] < ha_open.iloc[-5] else 'Bull'
 
         # print(f'Nifty -> : 3rd:{"🔴🔴🔴" if third_last_closed_color == "Bear" else "🟢🟢🟢"}|2nd:{"🔴🔴🔴" if second_last_closed_color == "Bear" else "🟢🟢🟢"}|1st:{"🔴🔴🔴" if last_closed_color == "Bear" else "🟢🟢🟢"}|now:{"🐻🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🛫⤴️"}')
-        return current_color, last_closed_color, second_last_closed_color, third_last_closed_color
+        return current_color, last_closed_color
 
     # Function to determine the market check based on candle colors
     def get_market_check(symbol):
         # Check the colors of the last two closed candles and the currently running candle
-        current_color, last_closed_color, second_last_closed_color, third_last_closed_color = calculate_last_three_heikin_ashi_colors(
-            symbol, intervals[0])
+        current_color, last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, intervals[0])
 
         # Initialize messages
         title = ""
@@ -142,9 +134,10 @@ while True:
     print(random_message)
 
     def progress_bar(duration):
-            for i in range(duration):
-                time.sleep(1)
-                print("✨.", end='', flush=True)
-            print("\nLets see what happens next!")
-        # Make sure loop_duration is defined before calling the function
+        for i in range(duration):
+            time.sleep(1)
+            print("✨.", end='', flush=True)
+        print("\nLets see what happens next!")
+    # Make sure loop_duration is defined before calling the function
     progress_bar(loop_duration)
+
