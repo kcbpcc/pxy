@@ -25,11 +25,13 @@ def get_holdingsinfo(csv_file_path):
         # Read data from the local CSV file and filter out rows where qty is not equal to zero
         holdings_df = pd.read_csv(csv_file_path)
         selected_holdings_df = holdings_df[holdings_df['qty'] != 0].copy()
+
+
         zero_qty_count = holdings_df[holdings_df['qty'] == 0].shape[0]
         
         # Print the count
-        print("Number of Sold stocks with profit:", zero_qty_count)
-   
+        print("\033[92mNumber of Stocks Sold:", zero_qty_count, "\033[0m")
+  
         selected_columns = ['tradingsymbol', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
     
@@ -72,9 +74,9 @@ def get_holdingsinfo(csv_file_path):
         table.align = 'r'
         print(table)
 
-except Exception as e:
-    print(f"An error occurred: {e}")
-    return None
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
 
 # Call the function with the path to your CSV file
 get_holdingsinfo('fileHPdf.csv')
