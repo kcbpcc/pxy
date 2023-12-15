@@ -585,8 +585,7 @@ try:
         right_aligned_format = "{:>" + str(column_width) + "}"
         
         # Print statements
-        
-        print(left_aligned_format.format(f"Status:{BRIGHT_GREEN if nse_action in ('Bullish', 'Bull') else BRIGHT_RED}{nse_action}{RESET}"), end="")
+        print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if Open_Change >= 0 else BRIGHT_RED}{round(Open_Change, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Power:{BRIGHT_GREEN if nse_power > 0.5 else BRIGHT_RED}{nse_power}{RESET}"))
         print(left_aligned_format.format(f"tPL%:{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"dPnL:{BRIGHT_GREEN if total_dPnL > 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}"))
@@ -600,7 +599,7 @@ try:
         print(right_aligned_format.format(f"Level:{BRIGHT_GREEN if cnc_target > 2 else BRIGHT_YELLOW}{cnc_target}{RESET}"))
         print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if Day_Change >= 0 else BRIGHT_RED}{round(Day_Change, 2)}{RESET}"), end="")
         print(right_aligned_format.format(f"Target:{BRIGHT_GREEN if time_target >= 5 else BRIGHT_RED}{time_target}{RESET}"))
-        print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if Open_Change >= 0 else BRIGHT_RED}{round(Open_Change, 2)}{RESET}"), end="")
+        print(left_aligned_format.format(f"Status:{BRIGHT_GREEN if nse_action in ('Bullish', 'Bull') else BRIGHT_RED}{nse_action}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
 
         print("*" * 42)
