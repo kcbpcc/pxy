@@ -4,7 +4,7 @@ from colorama import Fore, Style
 
 
 def convert_to_laks(value):
-    return f'{value/100000:.4f}'
+    return f'{value/100000:.2f}'
 
 def format_value(value):
     if value == 'Profit & Loss':
