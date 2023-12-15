@@ -511,7 +511,7 @@ try:
                          row['smbchk'] != 'Bull or Buy') and  
                         (
                             (row['source'] == 'holdings' and row['PL%'] > (time_target)) or
-                            (row['source'] == 'holdings' and row['dPL%'] < 0 and row['oPL%'] < 0)
+                            (row['source'] == 'holdings' and row['dPL%'] < 0 and row['oPL%'] < 0) or
                             (row['source'] == 'positions' and row['PL%'] > (time_target/2)) 
                         )
                     ):
