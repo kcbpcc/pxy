@@ -579,7 +579,7 @@ try:
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
     from nftpxy import nse_action, nse_power   
-    cnc_target = round(1.4 + (nse_power * 3.6), 2)
+    cnc_target = round(2.4 + (nse_power * 3.6), 2)
     cnc_filter = cnc_target/2
     time_target = round(cnc_filter + trgtpxy, 2)
    
