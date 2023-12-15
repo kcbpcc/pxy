@@ -508,11 +508,10 @@ try:
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
                          row['PL%'] > (cnc_filter) and
-                         
                          row['smbchk'] != 'Bull or Buy') and  
                         (
                             (row['PL%'] > (time_target)) or
-                            (row['PL%_H'] > cnc_target and row['PL%'] < cnc_target)
+                            (row['PL%_H'] > cnc_target and row['PL%'] < cnc_target and row['source'] == 'holdings')
                         )
                     ):
                         try:                            
@@ -527,27 +526,7 @@ try:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
 
-###########################################################################################################################################################################################################                    
-                    elif (
-                        (row['qty'] > 0 and
-                         row['product'] == 'CNC' and
-                         row['PL%'] > (cnc_filter) and
-                         row['smbchk'] != 'Bull or Buy' and
-                         row['source'] == 'positions') and
-                        (row['PL%'] > time_target)
-                    ):
 
-                        try:                            
-                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                # Print the row before placing the order
-                                print(row)                                
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
-                        except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
 ###########################################################################################################################################################################################################                    
                     elif (
                         (row['qty'] > 0 and
