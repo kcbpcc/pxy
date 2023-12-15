@@ -649,7 +649,6 @@ try:
                          row['PL%'] > (cnc_filter) and
                          row['smbchk'] != 'Bull or Buy' and
                          row['source'] == 'positions') and
-                        
                         (row['PL%'] > time_target)
                     ):
 
