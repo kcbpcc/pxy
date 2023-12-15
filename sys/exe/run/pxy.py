@@ -15,7 +15,7 @@ while True:
     import os
     import sys
     from selfpxy import get_random_spiritual_message
-    
+    from termcolor import colored
     random_message = get_random_spiritual_message()
 
     switch = analyze_stock('^NSEI')
@@ -131,7 +131,7 @@ while True:
 
     # Print the result (you can remove this if not needed)
     # print(f"mktpxy: {mktpxy}")
-    print("\033[93m" + random_message + "\033[0m")
+    print(colored(random_message, 'yellow'))
 
     def progress_bar(duration):
         for i in range(duration):
