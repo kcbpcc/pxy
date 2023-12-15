@@ -510,8 +510,9 @@ try:
                          row['PL%'] > (cnc_filter) and
                          row['smbchk'] != 'Bull or Buy') and  
                         (
-                            (row['PL%'] > (time_target)) or
-                            (row['PL%_H'] > cnc_target and row['PL%'] < cnc_target and row['source'] == 'holdings')
+                            (row['source'] == 'holdings' and row['PL%'] > (time_target)) or
+                            (row['source'] == 'holdings' and row['dPL%'] < 0 and row['oPL%'] < 0)
+                            (row['positions'] == 'holdings' and row['PL%'] > (time_target/2)) 
                         )
                     ):
                         try:                            
