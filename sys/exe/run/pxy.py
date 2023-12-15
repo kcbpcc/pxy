@@ -131,7 +131,14 @@ while True:
 
     # Print the result (you can remove this if not needed)
     # print(f"mktpxy: {mktpxy}")
-    print(colored(random_message, 'yellow'))
+    print(f'🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛')
+    bright_yellow = "\033[93m"
+    
+    # ANSI escape code to reset text color to default
+    reset_color = "\033[0m"
+    
+    # Print the message in bright yellow
+    print(bright_yellow + random_message + reset_color)
 
     def progress_bar(duration):
         for i in range(duration):
