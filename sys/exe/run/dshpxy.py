@@ -89,10 +89,10 @@ def get_holdingsinfo(csv_file_path):
         table.add_row(
             "💵P&L💵",
             f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}',
-            format_value(all_Stocks_profit_loss),  # Convert to string
-            format_value(green_Stocks_profit_loss),  # Convert to string
-            format_value(red_Stocks_profit_loss)  # Convert to string
+            str(all_Stocks_profit_loss),  # Convert to string
+            str(green_Stocks_profit_loss),  # Convert to string
+            str(red_Stocks_profit_loss)  # Convert to string
         )
-        
+    
         console.print(table)
 
