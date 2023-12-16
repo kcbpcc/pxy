@@ -16,7 +16,7 @@ import asyncio
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
 
-holdings_file = dir_path + "fileHPdf.csv"
+holdings_file = "fileHPdf.csv"
 black_file = dir_path + "blacklist.txt"
 
 try:
