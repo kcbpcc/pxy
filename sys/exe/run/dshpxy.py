@@ -2,7 +2,6 @@ import pandas as pd
 from rich.console import Console
 from rich.table import Table
 from rich import box
-from colorama import Fore, Style
 import traceback  # Added import for traceback
 
 def convert_to_laks(value):
@@ -58,13 +57,14 @@ def get_holdingsinfo(csv_file_path):
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2)
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2) != 0 else 0
 
-        console = Console()
+        console = Console(width=40)  # Set max table width to 40
         table = Table(show_header=True, header_style="bold magenta", box=box.SIMPLE)
         
-        table.add_column("⏰Laks", style="cyan", justify="right")
-        table.add_column("🟢🔴🟢", style="green", justify="right")
-        table.add_column("🟩🟩🟩", style="green", justify="right")
-        table.add_column("🟥🟥🟥", style="red", justify="right")
+        # Set equal space for the 4 columns
+        table.add_column("⏰Laks", style="cyan", justify="right", width=10)
+        table.add_column("🟢🔴🟢", style="green", justify="right", width=10)
+        table.add_column("🟩🟩🟩", style="green", justify="right", width=10)
+        table.add_column("🟥🟥🟥", style="red", justify="right", width=10)
         
         table.add_row(
             "📈Count" if total_Stocks_count else "",  # Ensure there's always a value
@@ -102,4 +102,5 @@ def get_holdingsinfo(csv_file_path):
 
 # Call the function with the path to your CSV file
 get_holdingsinfo('fileHPdf.csv')
+
 
