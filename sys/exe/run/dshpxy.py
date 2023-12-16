@@ -85,20 +85,12 @@ def get_holdingsinfo(csv_file_path):
             convert_to_laks(red_Stocks_worth),
         )
 
-        if all_Stocks_profit_loss < 0:
-            table.add_row(
-                "💵P&L💵" if all_Stocks_profit_loss else "",  # Ensure there's always a value
-                f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}',
-                colorize(green_Stocks_profit_loss),
-                colorize(red_Stocks_profit_loss),
-            )
-        else:
-            table.add_row(
-                "💵P&L💵" if all_Stocks_profit_loss else "",  # Ensure there's always a value
-                format_value(all_Stocks_profit_loss),
-                colorize(green_Stocks_profit_loss),
-                colorize(red_Stocks_profit_loss),
-            )
+        table.add_row(
+            "💵P&L💵",
+            f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}',
+            colorize(green_Stocks_profit_loss),
+            colorize(red_Stocks_profit_loss),
+        )
 
         console.print(table)
 
