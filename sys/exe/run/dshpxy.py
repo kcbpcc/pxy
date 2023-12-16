@@ -1,9 +1,8 @@
 import pandas as pd
-from prettytable import PrettyTable
-from colorama import Fore, Style
 from rich.console import Console
 from rich.table import Table
 from rich import box
+from colorama import Fore, Style
 import traceback  # Added import for traceback
 
 def convert_to_laks(value):
@@ -95,3 +94,12 @@ def get_holdingsinfo(csv_file_path):
         )
     
         console.print(table)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        traceback.print_exc()
+        return None
+
+# Call the function with the path to your CSV file
+get_holdingsinfo('fileHPdf.csv')
+
