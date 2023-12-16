@@ -76,7 +76,7 @@ if decision == "YES":
             # Filter lst_tlyne based on combined symbols
             lst_tlyne = [x for x in lst_tlyne if x not in all_symbols]
 
-            logging.info(f"filtered from orders ...{lst_tlyne}")
+            logging.info(f"filtered from orders,these are not in orders ...{lst_tlyne}")
 
     except Exception as e:
         print(traceback.format_exc())
