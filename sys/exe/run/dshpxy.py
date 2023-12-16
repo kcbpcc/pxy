@@ -2,7 +2,8 @@ import pandas as pd
 from rich.console import Console
 from rich.table import Table
 from rich import box
-from rich.style import Style  # Import Style class from rich.style
+from colorama import Fore
+from colorama.style import Style
 import traceback
 
 def convert_to_laks(value):
@@ -32,7 +33,7 @@ def get_holdingsinfo(csv_file_path):
 
         selected_columns = ['tradingsymbol', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
-    
+
         selected_holdings_df['cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
         selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
         selected_holdings_df['perc'] = ((selected_holdings_df['unrealized'] / selected_holdings_df['cap']) * 100).where(selected_holdings_df['cap'] > 0)
@@ -58,15 +59,14 @@ def get_holdingsinfo(csv_file_path):
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2)
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2) != 0 else 0
 
-        console = Console(width=40)  # Set max table width to 40
+        console = Console(width=40)
         table = Table(show_header=True, header_style="bold magenta", box=box.SIMPLE)
-        
-        # Set equal space for the 4 columns
+
         table.add_column("⏰Laks", style="cyan", justify="right", width=10)
         table.add_column("🟢🔴🟢", style="green", justify="right", width=10)
         table.add_column("🟩🟩🟩", style="green", justify="right", width=10)
         table.add_column("🟥🟥🟥", style="red", justify="right", width=10)
-        
+
         table.add_row(
             "📈Count" if total_Stocks_count else "",  # Ensure there's always a value
             str(total_Stocks_count),
@@ -85,15 +85,15 @@ def get_holdingsinfo(csv_file_path):
             convert_to_laks(green_Stocks_worth),
             convert_to_laks(red_Stocks_worth),
         )
-        
+
         table.add_row(
             "💵P&L💵",
             f'{Fore.RED}{Style(bright=True)}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}',
-            str(round(all_Stocks_profit_loss)),  # Convert to string and round to 0 decimal places
-            str(round(green_Stocks_profit_loss)),  # Convert to string and round to 0 decimal places
-            str(round(red_Stocks_profit_loss))  # Convert to string and round to 0 decimal places
+            str(round(all_Stocks_profit_loss)),
+            str(round(green_Stocks_profit_loss)),
+            str(round(red_Stocks_profit_loss))
         )
-    
+
         console.print(table)
 
     except Exception as e:
@@ -103,5 +103,6 @@ def get_holdingsinfo(csv_file_path):
 
 # Call the function with the path to your CSV file
 get_holdingsinfo('fileHPdf.csv')
+
 
 
