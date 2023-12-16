@@ -2,8 +2,7 @@ import pandas as pd
 from rich.console import Console
 from rich.table import Table
 from rich import box
-from colorama import Fore
-from colorama.style import Style
+from colorama import Fore, Style  # Corrected import for Style
 import traceback
 
 def convert_to_laks(value):
