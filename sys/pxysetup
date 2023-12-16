@@ -46,6 +46,7 @@ while true; do
             ;;
 
         6)            
+            source ~/env/bin/activate            
             cd ~/pxy/sys/exe
             sudo pip3 install -r requirements.txt
             cd ~/pxy/sys/exe/run
