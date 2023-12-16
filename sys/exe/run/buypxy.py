@@ -26,6 +26,9 @@ try:
 except Exception as e:
     print(traceback.format_exc())
     sys.exit(1)
+    
+# Call the calculate_decision function to get the decision
+decision = calculate_decision()
 
 if decision == "YES":
     try:
