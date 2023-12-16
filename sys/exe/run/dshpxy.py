@@ -28,7 +28,7 @@ def get_holdingsinfo(csv_file_path):
         selected_holdings_df = holdings_df[holdings_df['qty'] != 0].copy()
 
         zero_qty_count = holdings_df[holdings_df['qty'] == 0].shape[0]
-        print("Number of Stocks Sold: {}".format(zero_qty_count))
+
 
         selected_columns = ['tradingsymbol', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
@@ -94,6 +94,7 @@ def get_holdingsinfo(csv_file_path):
 
         
         console.print(table)
+        print("*" - 42)
         print("Number of Stocks Sold💸💸💸: {}".format(zero_qty_count))
     except Exception as e:
         print(f"An error occurred: {e}")
