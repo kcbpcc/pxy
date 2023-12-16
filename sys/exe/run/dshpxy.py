@@ -95,7 +95,7 @@ def get_holdingsinfo(csv_file_path):
         
         console.print(table)
         
-        print("  Number of Stocks Sold💸💸💸: {}".format(zero_qty_count))
+        print("  Number of Stocks Sold 💸💸💸: {}".format(zero_qty_count))
         print(" " * 42)
     except Exception as e:
         print(f"An error occurred: {e}")
