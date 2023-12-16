@@ -58,7 +58,7 @@ def get_holdingsinfo(csv_file_path):
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2)
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2) != 0 else 0
 
-        console = Console(width=40)
+        console = Console(width=42)
         table = Table(show_header=True, header_style="bold magenta", box=box.SIMPLE)
 
         table.add_column("⏰Laks", style="cyan", justify="right", width=10)
