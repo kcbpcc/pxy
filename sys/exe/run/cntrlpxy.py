@@ -624,9 +624,6 @@ try:
             engine.say(text)
             engine.runAndWait()
         
-        def main():
-            # Get user input for market information
-
             # Text to voice
             market_info = f"Today Market is {status}, running power at {power}, candle switched {switch}, Booked profit is {book}, Day P&L is {number}, running target is {gr}, and remaining funds {ddgg}"
         
