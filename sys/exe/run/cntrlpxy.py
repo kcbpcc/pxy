@@ -614,7 +614,25 @@ try:
         print(" " * 42)
 
 ###########################################################################################################################################################################################################
+        import pyttsx3
+        
+        def text_to_speech(text):
+            engine = pyttsx3.init()
+            voices = engine.getProperty('voices')
+            engine.setProperty('voice', voices[1].id)  # Index 1 usually corresponds to a female voice
+        
+            engine.say(text)
+            engine.runAndWait()
+        
+        def main():
+     
+            # Text to voice
+            text = f"Today Market is {nse_action}, running power at {nse_power}, candle switched {switch}, Booked profit is {result}, Day P&L is {total_dPnL}, running target is {time_target}, and remaining funds {available_cash}"
 
+        print("\nReading market information:")
+        text_to_speech(text)
+
+###########################################################################################################################################################################################################
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
         mktpxy = get_market_check('^NSEI')
 except Exception as e:
