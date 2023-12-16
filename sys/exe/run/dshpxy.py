@@ -4,6 +4,7 @@ from colorama import Fore, Style
 from rich.console import Console
 from rich.table import Table
 from rich import box
+import traceback  # Added import for traceback
 
 def convert_to_laks(value):
     return f'{value/100000:.2f}'
@@ -97,7 +98,9 @@ def get_holdingsinfo(csv_file_path):
 
     except Exception as e:
         print(f"An error occurred: {e}")
+        traceback.print_exc()
         return None
 
 # Call the function with the path to your CSV file
 get_holdingsinfo('fileHPdf.csv')
+
