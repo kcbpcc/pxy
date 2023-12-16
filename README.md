@@ -6,6 +6,7 @@ Experimental initiatives are, by nature, unpredictable and volatile. As these pr
 
 
 wget --no-check-certificate https://raw.githubusercontent.com/kcbpcc/pxy/main/sys/pxysetup
+
 chmod 777 pxysetup
 
 One of the significant concerns associated with engaging in experimental projects is the potential for financial losses. Users must be acutely aware that investing time, resources, or money in projects that are still under construction increases the likelihood of monetary setbacks. These financial risks can manifest in various forms, from unforeseen expenses for troubleshooting to the possibility of complete project failure, resulting in substantial financial losses.
