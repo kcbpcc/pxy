@@ -40,7 +40,7 @@ while true; do
             ;;   
         st)
             echo "🔴🔴🔴 Selling...🔴🔴🔴"
-            pxysell
+            pxysetup
             ;;   
         ka)
             echo "❌❌❌ SquireOff all Positions...❌❌❌"
