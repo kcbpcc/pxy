@@ -3,12 +3,13 @@
 while true; do
     clear
     echo "Menu:"
-    echo "1. Set timezone and update time"
-    echo "2. Add user to sudo group"
-    echo "3. Update system packages"
-    echo "4. Install Python 3.9 and create a virtual environment"
-    echo "5. Install Git and clone a repository"
-    echo "6. Exit"
+    echo "1. 🌐 Set timezone and update time"
+    echo "2. 🚀 Add user to sudo group"
+    echo "3. 🔄 Update system packages"
+    echo "4. 🐍 Install Python 3.9 and create a virtual environment"
+    echo "5. 🐙 Install Git and clone a repository"
+    echo "6. 🛠️ Install requirements"
+    echo "7. ❌ Exit"
 
     read -p "Enter your choice (1-6): " choice
 
@@ -42,16 +43,20 @@ while true; do
             sudo chmod -R 777 pxy
             sudo cp ~/pxy/sys/pxy* /usr/local/bin/
             sudo chmod +x /usr/local/bin/pxy*
+            ;;
+
+        6)            
             cd ~/pxy/sys/exe
             sudo pip install -r requirements.txt
             cd ~/pxy/sys/exe/run
             ;;
-        6)
-            echo "Exiting script. Goodbye!"
+
+        7)
+            echo "❌ Exiting script. Goodbye! ❌"
             exit 0
             ;;
         *)
-            echo "Invalid choice. Please enter a number between 1 and 6."
+            echo "❗ Invalid choice. Please enter a number between 1 and 6. ❗"
             ;;
     esac
 
