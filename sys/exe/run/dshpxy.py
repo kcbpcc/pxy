@@ -95,4 +95,3 @@ def get_holdingsinfo(csv_file_path):
         )
     
         console.print(table)
-
