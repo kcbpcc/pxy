@@ -98,10 +98,10 @@ def get_holdingsinfo(csv_file_path):
             formatted_green = format_and_colorize(green_Stocks_profit_loss)
             formatted_red = format_and_colorize(red_Stocks_profit_loss)
 
-# Print the results
-print(f"All Stocks Profit/Loss: {formatted_all}")
-print(f"Green Stocks Profit/Loss: {formatted_green}")
-print(f"Red Stocks Profit/Loss: {formatted_red}")
+            # Print the results
+            print(f"All Stocks Profit/Loss: {formatted_all}")
+            print(f"Green Stocks Profit/Loss: {formatted_green}")
+            print(f"Red Stocks Profit/Loss: {formatted_red}")
         )
 
         
