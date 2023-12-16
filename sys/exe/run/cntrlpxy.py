@@ -618,17 +618,18 @@ try:
         
         def text_to_speech(text):
             engine = pyttsx3.init()
-            voices = engine.getProperty('voices')
-            engine.setProperty('voice', voices[1].id)  # Index 1 usually corresponds to a female voice
+        
+            # Use the default TTS engine on Android
+            engine.setProperty('engine', 'sapi5')
         
             engine.say(text)
             engine.runAndWait()
         
         # Text to voice
         market_info = f"Today Market is {nse_action}, running power at {nse_power}, candle switched {switch}, Booked profit is {result}, Day P&L is {total_dPnL}, running target is {time_target}, and remaining funds {available_cash}"
-        
+    
         print("\nReading market information:")
-        text_to_speech(market_info)       
+        text_to_speech(market_info)
 
 ###########################################################################################################################################################################################################
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
