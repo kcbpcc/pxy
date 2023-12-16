@@ -32,6 +32,8 @@ def get_holdingsinfo(csv_file_path):
     try:
         # ... (rest of the code remains unchanged)
 
+        total_Stocks_count = len(selected_holdings_df)  # Define total_Stocks_count before using it
+
         console = Console(width=42)
         table = Table(show_header=True, header_style="bold magenta", box=box.SIMPLE)
 
