@@ -61,12 +61,12 @@ def get_holdingsinfo(csv_file_path):
 
         console = Console()
         table = Table(show_header=True, header_style="bold magenta", box=box.SIMPLE)
-
+        
         table.add_column("⏰Laks", style="cyan", justify="right")
         table.add_column("🟢🔴🟢", style="green", justify="right")
         table.add_column("🟩🟩🟩", style="green", justify="right")
         table.add_column("🟥🟥🟥", style="red", justify="right")
-
+        
         table.add_row(
             "📈Count" if total_Stocks_count else "",  # Ensure there's always a value
             str(total_Stocks_count),
@@ -85,7 +85,7 @@ def get_holdingsinfo(csv_file_path):
             convert_to_laks(green_Stocks_worth),
             convert_to_laks(red_Stocks_worth),
         )
-
+        
         table.add_row(
             "💵P&L💵",
             f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}',
@@ -93,14 +93,6 @@ def get_holdingsinfo(csv_file_path):
             format_value(green_Stocks_profit_loss),  # Convert to string
             format_value(red_Stocks_profit_loss)  # Convert to string
         )
-
+        
         console.print(table)
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        traceback.print_exc()
-        return None
-
-# Call the function with the path to your CSV file
-get_holdingsinfo('fileHPdf.csv')
 
