@@ -16,21 +16,15 @@ import asyncio
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
 
-holdings_file = "fileHPdf.csv"
+
 black_file = dir_path + "blacklist.txt"
 
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
-    
-    # Read the fileHPdf.csv directly
-    df_holdings = pd.read_csv(holdings_file)
-
-    logging.debug(f"Read holdings file: {holdings_file}")
 
 except Exception as e:
     print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to read holdings file: {holdings_file}")
     sys.exit(1)
 
 if decision == "YES":
