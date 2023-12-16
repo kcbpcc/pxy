@@ -62,9 +62,9 @@ def get_holdingsinfo(csv_file_path):
         table = Table(show_header=True, header_style="bold magenta", box=box.SIMPLE)
 
         table.add_column("⏰Laks", style="cyan", justify="right", width=10)
-        table.add_column("🟢🔴🟢", style="green", justify="right", width=10)
-        table.add_column("🟩🟩🟩", style="green", justify="right", width=10)
-        table.add_column("🟥🟥🟥", style="red", justify="right", width=10)
+        table.add_column("🟢🔴⏰🟢", style="green", justify="right", width=10)
+        table.add_column("🟩🟩⏰🟩", style="green", justify="right", width=10)
+        table.add_column("🟥🟥⏰🟥", style="red", justify="right", width=10)
 
         table.add_row(
             "📈Count" if total_Stocks_count else "",  # Ensure there's always a value
