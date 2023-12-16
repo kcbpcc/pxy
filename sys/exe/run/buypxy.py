@@ -57,24 +57,18 @@ if decision == "YES":
             lst_tlyne = [
                 x for x in lst_tlyne if x not in lst]
 
-            logging.info(f"filtered from holdings: {lst}")
+            logging.info(f"filtered from holdings and positions: {lst}")
 
-            # get lists from positions and orders
-            lst_dct_positions = broker.positions
+            # get lists from orders
             lst_dct_orders = broker.orders
-
-            if lst_dct_positions and any(lst_dct_positions):
-                symbols_positions = [dct['symbol'] for dct in lst_dct_positions]
-            else:
-                symbols_positions = []
 
             if lst_dct_orders and any(lst_dct_orders):
                 symbols_orders = [dct['symbol'] for dct in lst_dct_orders]
             else:
                 symbols_orders = []
 
-            # Combine symbols from positions and orders
-            all_symbols = symbols_positions + symbols_orders
+            # Combine symbols orders
+            all_symbols = symbols_orders
 
             # Assuming lst_tlyne is defined somewhere before this block
             lst_tlyne = lst_tlyne if lst_tlyne else []  # Initialize lst_tlyne if not defined
@@ -82,7 +76,7 @@ if decision == "YES":
             # Filter lst_tlyne based on combined symbols
             lst_tlyne = [x for x in lst_tlyne if x not in all_symbols]
 
-            logging.info(f"filtered from positions and orders ...{lst_tlyne}")
+            logging.info(f"filtered from orders ...{lst_tlyne}")
 
     except Exception as e:
         print(traceback.format_exc())
