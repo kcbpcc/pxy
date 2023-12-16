@@ -6,7 +6,7 @@ while true; do
     echo "1. 🌐 Set timezone and update time"
     echo "2. 🚀 Add user to sudo group"
     echo "3. 🔄 Update system packages"
-    echo "4. 🐍 Install Python 3.9 and create a virtual environment"
+    echo "4. 🐍 Install Python 3.9 and env"
     echo "5. 🐙 Install Git and clone a repository"
     echo "6. 🛠️ Install requirements"
     echo "7. ❌ Exit"
