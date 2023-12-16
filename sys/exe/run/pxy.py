@@ -15,7 +15,6 @@ while True:
     import os
     import sys
     from selfpxy import get_random_spiritual_message
-    from termcolor import colored
     random_message = get_random_spiritual_message()
 
     switch = analyze_stock('^NSEI')
