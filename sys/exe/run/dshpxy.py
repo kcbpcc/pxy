@@ -16,11 +16,11 @@ def format_value(value):
 def colorize(value):
     if isinstance(value, (int, float)):
         if value < 0:
-            return f'{Fore.RED}{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
+            return f'{Fore.RED}{Style(bright=True)}{format_value(value)}{Style.RESET_ALL}'
         elif value > 0:
-            return f'{Fore.GREEN}{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
+            return f'{Fore.GREEN}{Style(bright=True)}{format_value(value)}{Style.RESET_ALL}'
         else:
-            return f'{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
+            return f'{Style(bright=True)}{format_value(value)}{Style.RESET_ALL}'
 
 def get_holdingsinfo(csv_file_path):
     try:
@@ -88,7 +88,7 @@ def get_holdingsinfo(csv_file_path):
         
         table.add_row(
             "💵P&L💵",
-            f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}',
+            f'{Fore.RED}{Style(bright=True)}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}',
             str(round(all_Stocks_profit_loss)),  # Convert to string and round to 0 decimal places
             str(round(green_Stocks_profit_loss)),  # Convert to string and round to 0 decimal places
             str(round(red_Stocks_profit_loss))  # Convert to string and round to 0 decimal places
