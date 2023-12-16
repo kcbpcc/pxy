@@ -1,26 +1,4 @@
-import pandas as pd
-from prettytable import PrettyTable
-from colorama import Fore, Style
-from rich.console import Console
-from rich.table import Table
-from rich import box
-
-def convert_to_laks(value):
-    return f'{value/100000:.2f}'
-
-def format_value(value):
-    if value == 'Profit & Loss':
-        return 'Profit & Loss'
-    return f'{value:.0f}' if isinstance(value, (int, float)) else value
-
-def colorize(value):
-    if isinstance(value, (int, float)):
-        if value < 0:
-            return f'{Fore.RED}{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
-        elif value > 0:
-            return f'{Fore.GREEN}{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
-        else:
-            return f'{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
+# ... (your existing imports)
 
 def get_holdingsinfo(csv_file_path):
     try:
@@ -28,7 +6,7 @@ def get_holdingsinfo(csv_file_path):
         selected_holdings_df = holdings_df[holdings_df['qty'] != 0].copy()
 
         zero_qty_count = holdings_df[holdings_df['qty'] == 0].shape[0]
-        print("                \033[92mNumber of Stocks Sold:\033[93m{}\033[0m".format(zero_qty_count))
+        print("Number of Stocks Sold: {}".format(zero_qty_count))
 
         selected_columns = ['tradingsymbol', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
@@ -67,16 +45,19 @@ def get_holdingsinfo(csv_file_path):
         table.add_column("🟥🟥🟥", style="red", justify="right")
 
         table.add_row(
+            "📈Count",
             str(total_Stocks_count),
             str(green_Stocks_count),
             str(red_Stocks_count),
         )
         table.add_row(
+            "💰Invst",
             convert_to_laks(all_Stocks_capital),
             convert_to_laks(green_Stocks_capital),
             convert_to_laks(red_Stocks_capital),
         )
         table.add_row(
+            "🔄Worth",
             convert_to_laks(all_Stocks_worth),
             convert_to_laks(green_Stocks_worth),
             convert_to_laks(red_Stocks_worth),
@@ -84,15 +65,17 @@ def get_holdingsinfo(csv_file_path):
 
         if all_Stocks_profit_loss < 0:
             table.add_row(
-                f'[bold red]{format_value(all_Stocks_profit_loss)}[/bold red]',
-                f'[green]{format_value(green_Stocks_profit_loss)}[/green]',
-                f'[red]{format_value(red_Stocks_profit_loss)}[/red]',
+                "💵P&L💵",
+                f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}',
+                colorize(green_Stocks_profit_loss),
+                colorize(red_Stocks_profit_loss),
             )
         else:
             table.add_row(
+                "💵P&L💵",
                 format_value(all_Stocks_profit_loss),
-                format_value(green_Stocks_profit_loss),
-                format_value(red_Stocks_profit_loss),
+                colorize(green_Stocks_profit_loss),
+                colorize(red_Stocks_profit_loss),
             )
 
         console.print(table)
