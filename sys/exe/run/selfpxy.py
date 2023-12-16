@@ -74,8 +74,30 @@ def get_random_spiritual_message():
         "Life is a symphony; don't forget to dance to your own tune."
     ]
 
-    return random.choice(spiritual_messages)
+    # Choose a random message
+    random_message = random.choice(spiritual_messages)
+
+    # Split the message into lines with a maximum of 40 characters per line
+    words = random_message.split()
+    lines = []
+    current_line = words[0]
+
+    for word in words[1:]:
+        if len(current_line) + len(word) + 1 <= 40:
+            current_line += " " + word
+        else:
+            lines.append(current_line)
+            current_line = word
+
+    # Add the last line
+    lines.append(current_line)
+
+    # Join the lines with newline characters
+    formatted_message = '\n'.join(lines)
+
+    return formatted_message
 
 # Example usage:
 random_message = get_random_spiritual_message()
-#print(random_message)
+print(random_message)
+
