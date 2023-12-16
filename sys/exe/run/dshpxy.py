@@ -86,7 +86,7 @@ def get_holdingsinfo(csv_file_path):
         )
 
         table.add_row(
-            "💵P&L💵" if all_Stocks_profit_loss else ""
+            "💵P&L💵" if all_Stocks_profit_loss else "",
             str(round(all_Stocks_profit_loss)),
             str(round(green_Stocks_profit_loss)),
             str(round(red_Stocks_profit_loss))
