@@ -614,7 +614,7 @@ try:
         print(" " * 42)
 
 ###########################################################################################################################################################################################################
-        import pyttsx3
+         import pyttsx3
         
         def text_to_speech(text):
             engine = pyttsx3.init()
@@ -625,11 +625,22 @@ try:
             engine.say(text)
             engine.runAndWait()
         
-        # Text to voice
-        market_info = f"Today Market is {nse_action}, running power at {nse_power}, candle switched {switch}, Booked profit is {result}, Day P&L is {total_dPnL}, running target is {time_target}, and remaining funds {available_cash}"
-    
-        print("\nReading market information:")
-        text_to_speech(market_info)
+        if __name__ == "__main__":
+            # Get user input for market information
+            status = input("Enter market status: ")
+            power = input("Enter running power: ")
+            switch = input("Is the candle switched on or off? ")
+            book = input("Enter booked profit: ")
+            number = input("Enter day P&L: ")
+            gr = input("Enter running target: ")
+            ddgg = input("Enter remaining funds: ")
+        
+            # Text to voice
+            market_info = f"Today Market is {status}, running power at {power}, candle switched {switch}, Booked profit is {book}, Day P&L is {number}, running target is {gr}, and remaining funds {ddgg}"
+        
+            print("\nReading market information:")
+            text_to_speech(market_info)
+
 
 ###########################################################################################################################################################################################################
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
