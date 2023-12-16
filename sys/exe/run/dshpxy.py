@@ -2,7 +2,8 @@ import pandas as pd
 from rich.console import Console
 from rich.table import Table
 from rich import box
-import traceback  # Added import for traceback
+from rich.style import Style  # Import Style class from rich.style
+import traceback
 
 def convert_to_laks(value):
     return f'{value/100000:.2f}'
