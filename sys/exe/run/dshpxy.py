@@ -88,9 +88,9 @@ def get_holdingsinfo(csv_file_path):
         table.add_row(
             "💵P&L💵",
             f'{Fore.RED}{Style.BRIGHT}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}',
-            str(round(all_Stocks_profit_loss)).ljust(0),  # Adjusted width to 10 and left-justified
-            str(round(green_Stocks_profit_loss)).ljust(0),  # Adjusted width to 10 and left-justified
-            str(round(red_Stocks_profit_loss)).ljust(0)  # Adjusted width to 10 and left-justified
+            str(round(all_Stocks_profit_loss)).rjust(0),  # Adjusted width to 10 and left-justified
+            str(round(green_Stocks_profit_loss)).rjust(0),  # Adjusted width to 10 and left-justified
+            str(round(red_Stocks_profit_loss)).rjust(0)  # Adjusted width to 10 and left-justified
         )
         
         console.print(table)
