@@ -1,9 +1,7 @@
 import pandas as pd
-from rich.console import Console
-from rich.table import Table
-from rich import box
-from colorama import Fore, Style  # Corrected import for Style
-import traceback
+from prettytable import PrettyTable
+from colorama import Fore, Style
+
 
 def convert_to_laks(value):
     return f'{value/100000:.4f}'
@@ -16,105 +14,64 @@ def format_value(value):
 def colorize(value):
     if isinstance(value, (int, float)):
         if value < 0:
-            return f'{Fore.RED}{Style(bright=True)}{format_value(value)}{Style.RESET_ALL}'
+            return f'{Fore.RED}{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
         elif value > 0:
-            return f'{Fore.GREEN}{Style(bright=True)}{format_value(value)}{Style.RESET_ALL}'
+            return f'{Fore.GREEN}{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
         else:
-            return f'{Style(bright=True)}{format_value(value)}{Style.RESET_ALL}'
+            return f'{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
 
 def get_holdingsinfo(csv_file_path):
     try:
+        # Read data from the local CSV file and filter out rows where qty is not equal to zero
         holdings_df = pd.read_csv(csv_file_path)
         selected_holdings_df = holdings_df[holdings_df['qty'] != 0].copy()
-
-        zero_qty_count = holdings_df[holdings_df['qty'] == 0].shape[0]
-
-
+    
         selected_columns = ['tradingsymbol', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
-
+    
         selected_holdings_df['cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
         selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
         selected_holdings_df['perc'] = ((selected_holdings_df['unrealized'] / selected_holdings_df['cap']) * 100).where(selected_holdings_df['cap'] > 0)
 
-        green_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] > 0]
-        red_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] < 0]
-
         total_Stocks_count = len(selected_holdings_df)
+
+        green_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] > 0]
         green_Stocks_count = len(green_Stocks_df)
         green_Stocks_capital = green_Stocks_df['cap'].sum()
-        green_Stocks_worth = green_Stocks_df['ltp'].dot(green_Stocks_df['qty']).round(2)
-        green_Stocks_profit_loss = (green_Stocks_worth - green_Stocks_capital).round(2)
+        green_Stocks_worth = green_Stocks_df['ltp'].dot(green_Stocks_df['qty']).round(4)
+        green_Stocks_profit_loss = (green_Stocks_worth - green_Stocks_capital).round(4)
 
+        red_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] < 0]
         red_Stocks_count = len(red_Stocks_df)
         red_Stocks_capital = red_Stocks_df['cap'].sum()
-        red_Stocks_worth = red_Stocks_df['ltp'].dot(red_Stocks_df['qty']).round(2)
-        red_Stocks_profit_loss = (red_Stocks_worth - red_Stocks_capital).round(2)
+        red_Stocks_worth = red_Stocks_df['ltp'].dot(red_Stocks_df['qty']).round(4)
+        red_Stocks_profit_loss = (red_Stocks_worth - red_Stocks_capital).round(4)
 
-        all_Stocks_capital = red_Stocks_df['cap'].sum() + green_Stocks_df['cap'].sum()
-        all_Stocks_worth = green_Stocks_df['ltp'].dot(green_Stocks_df['qty']).round(2) + red_Stocks_df['ltp'].dot(red_Stocks_df['qty']).round(2)
-        all_Stocks_profit_loss = (green_Stocks_worth - green_Stocks_capital).round(2) + (red_Stocks_worth - red_Stocks_capital).round(2)
+        all_Stocks_capital = selected_holdings_df['cap'].sum()
+        all_Stocks_worth = selected_holdings_df['ltp'].dot(selected_holdings_df['qty']).round(4)
+        all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
 
-        day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2)
-        day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(2) != 0 else 0
+        day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)
+        day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
 
-        console = Console(width=42)
-        table = Table(show_header=True, header_style="bold magenta", box=box.SIMPLE)
+        table = PrettyTable()
+        table.field_names = ['📉 Board', '🟢🔴🟢', '🟩🟩🟩', '🟥🟥🟥']
+        table.add_row(['Stocks📈', total_Stocks_count, green_Stocks_count, red_Stocks_count])
+        table.add_row(['Invested', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
+        table.add_row(['WorthNow', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
 
-        table.add_column("⏰Laks", style="cyan", justify="right", width=10)
-        table.add_column(" 🟢🔴🟢", style="green", justify="right", width=10)
-        table.add_column(" 🟩🟩🟩", style="green", justify="right", width=10)
-        table.add_column(" 🟥🟥🟥", style="red", justify="right", width=10)
+        if all_Stocks_profit_loss < 0:
+            table.add_row(['💰₹💰P&L', f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
+        else:
+            table.add_row(['💰₹💰P&L', f'{format_value(all_Stocks_profit_loss)}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
 
-        table.add_row(
-            "📈Count" if total_Stocks_count else "",  # Ensure there's always a value
-            str(total_Stocks_count),
-            str(green_Stocks_count),
-            str(red_Stocks_count),
-        )
-        table.add_row(
-            "💰Invst" if all_Stocks_capital else "",  # Ensure there's always a value
-            convert_to_laks(all_Stocks_capital),
-            convert_to_laks(green_Stocks_capital),
-            convert_to_laks(red_Stocks_capital),
-        )
-        table.add_row(
-            "🔄Worth" if all_Stocks_worth else "",  # Ensure there's always a value
-            convert_to_laks(all_Stocks_worth),
-            convert_to_laks(green_Stocks_worth),
-            convert_to_laks(red_Stocks_worth),
-        )
+        table.align = 'r'
+        print(table)
 
-        table.add_row(
-            "💵P&L💵" if all_Stocks_profit_loss else "",
-            def format_and_colorize(value):
-                rounded_value = round(value)
-                color = "green" if value >= 0 else "red"
-                formatted_value = f"\033[1;{31 if value < 0 else 32}m{rounded_value}\033[0m"  # ANSI escape codes for color
-                return formatted_value
-            
-            # Format and colorize the values
-            formatted_all = format_and_colorize(all_Stocks_profit_loss)
-            formatted_green = format_and_colorize(green_Stocks_profit_loss)
-            formatted_red = format_and_colorize(red_Stocks_profit_loss)
-
-            # Print the results
-            print(f"All Stocks Profit/Loss: {formatted_all}")
-            print(f"Green Stocks Profit/Loss: {formatted_green}")
-            print(f"Red Stocks Profit/Loss: {formatted_red}")
-        )
-
-        
-        console.print(table)
-        
-        print("  Number of Stocks Sold 💸💸💸: {}".format(zero_qty_count))
-        print(" " * 42)
     except Exception as e:
         print(f"An error occurred: {e}")
-        traceback.print_exc()
         return None
 
 # Call the function with the path to your CSV file
 get_holdingsinfo('fileHPdf.csv')
-
 
