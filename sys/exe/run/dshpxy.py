@@ -67,9 +67,10 @@ def get_holdingsinfo(csv_file_path):
 
         table = PrettyTable()
         table.field_names = ['⏰Laks ', ' 🟢🔴🟢', ' 🟩🟩🟩', ' 🟥🟥🟥']
-        table.add_row(['📈Count', total_Stocks_count, green_Stocks_count, red_Stocks_count)])
+        table.add_row(['📈Count', total_Stocks_count, green_Stocks_count, red_Stocks_count])
         table.add_row(['💰Invst', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
         table.add_row(['🔄Worth', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
+
 
         if all_Stocks_profit_loss < 0:
             table.add_row(['💵P&L💵', f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
