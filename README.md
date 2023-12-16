@@ -48,5 +48,7 @@ sudo pip install -r requirements.txt
 
 cd ~/pxy/sys/exe/run
 
+wget https://raw.githubusercontent.com/kcbpcc/pxy/main/sys/pxysetup
+
 
 
