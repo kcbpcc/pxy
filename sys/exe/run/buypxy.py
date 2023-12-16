@@ -15,29 +15,23 @@ import asyncio
 
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
-holdings = dir_path + "holdings.csv"
+
+holdings_file = dir_path + "fileHPdf.csv"
 black_file = dir_path + "blacklist.txt"
 
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
+    
+    # Read the fileHPdf.csv directly
+    df_holdings = pd.read_csv(holdings_file)
 
-    if fileutils.is_file_not_2day(holdings):
-        logging.debug("getting holdings for the day ...")
-        resp = broker.kite.holdings()
-        if resp and any(resp):
-            df = get(resp)
-            logging.debug(f"writing to csv ... {holdings}")
-            df.to_csv(holdings, index=False)
-        with open(black_file, 'w+'):
-            pass
+    logging.debug(f"Read holdings file: {holdings_file}")
+
 except Exception as e:
     print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
+    logging.error(f"{str(e)} unable to read holdings file: {holdings_file}")
     sys.exit(1)
-
-# Call the calculate_decision function to get the decision
-decision = calculate_decision()
 
 if decision == "YES":
     try:
