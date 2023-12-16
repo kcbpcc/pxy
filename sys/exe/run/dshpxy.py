@@ -1,4 +1,26 @@
-# ... (your existing imports)
+import pandas as pd
+from prettytable import PrettyTable
+from colorama import Fore, Style
+from rich.console import Console
+from rich.table import Table
+from rich import box
+
+def convert_to_laks(value):
+    return f'{value/100000:.2f}'
+
+def format_value(value):
+    if value == 'Profit & Loss':
+        return 'Profit & Loss'
+    return f'{value:.0f}' if isinstance(value, (int, float)) else value
+
+def colorize(value):
+    if isinstance(value, (int, float)):
+        if value < 0:
+            return f'{Fore.RED}{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
+        elif value > 0:
+            return f'{Fore.GREEN}{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
+        else:
+            return f'{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
 
 def get_holdingsinfo(csv_file_path):
     try:
@@ -45,19 +67,19 @@ def get_holdingsinfo(csv_file_path):
         table.add_column("🟥🟥🟥", style="red", justify="right")
 
         table.add_row(
-            "📈Count",
+            "📈Count" if total_Stocks_count else "",  # Ensure there's always a value
             str(total_Stocks_count),
             str(green_Stocks_count),
             str(red_Stocks_count),
         )
         table.add_row(
-            "💰Invst",
+            "💰Invst" if all_Stocks_capital else "",  # Ensure there's always a value
             convert_to_laks(all_Stocks_capital),
             convert_to_laks(green_Stocks_capital),
             convert_to_laks(red_Stocks_capital),
         )
         table.add_row(
-            "🔄Worth",
+            "🔄Worth" if all_Stocks_worth else "",  # Ensure there's always a value
             convert_to_laks(all_Stocks_worth),
             convert_to_laks(green_Stocks_worth),
             convert_to_laks(red_Stocks_worth),
@@ -65,14 +87,14 @@ def get_holdingsinfo(csv_file_path):
 
         if all_Stocks_profit_loss < 0:
             table.add_row(
-                "💵P&L💵",
+                "💵P&L💵" if all_Stocks_profit_loss else "",  # Ensure there's always a value
                 f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}',
                 colorize(green_Stocks_profit_loss),
                 colorize(red_Stocks_profit_loss),
             )
         else:
             table.add_row(
-                "💵P&L💵",
+                "💵P&L💵" if all_Stocks_profit_loss else "",  # Ensure there's always a value
                 format_value(all_Stocks_profit_loss),
                 colorize(green_Stocks_profit_loss),
                 colorize(red_Stocks_profit_loss),
