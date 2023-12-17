@@ -3,7 +3,7 @@ from telegram import Bot
 
 async def send_test_message():
     # Define the bot token and user ID
-    bot_token = '6603707685:AAFhWgPpliYjDqeBY24UyDipBbuBavcb4Bo'  # Replace with your actual bot token
+    bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
     user_id = '-4022487175'  # Replace with your Telegram user ID
 
     # Create a bot instance
