@@ -88,7 +88,7 @@ if decision == "YES":
         resistance = round_to_paise(ltp, perc)
         target = round_to_paise(ltp, max_target)
         return max(resistance, target)
-
+    
     def transact(dct, remaining_cash):
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
@@ -138,7 +138,6 @@ if decision == "YES":
                     logging.info(
                         f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
                     # No need to calculate remaining available cash in this case
-                    return dct['tradingsymbol'], remaining_cash
                     import telegram
                     import asyncio
                     
@@ -154,23 +153,26 @@ if decision == "YES":
                             bot = telegram.Bot(token=bot_token)
                             await bot.send_message(chat_id=user_usernames, text=message_text)
                     
+                        # Send the 'row' content as a message to Telegram immediately after printing the row
+                        loop = asyncio.get_event_loop()
+                        loop.run_until_complete(send_telegram_message(message_text))
+                        
                     except Exception as e:
                         # Handle the exception (e.g., log it) and continue with your code
                         print(f"Error sending message to Telegram: {e}")
                     
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
-                    loop = asyncio.get_event_loop()
-                    loop.run_until_complete(send_telegram_message(message_text))
-
+                    return dct['tradingsymbol'], remaining_cash
+    
             else:
                 logging.warning(
-                    f"Skipping {dct['tradingsymbol']}: Remaining Cash: {int(remaining_cash)}"
-                )
+                    f"Skipping {dct['tradingsymbol']}: Remaining Cash: {int(remaining_cash)}")
             return dct['tradingsymbol'], remaining_cash
     
         except Exception as e:
             logging.error(f"Error while placing order: {str(e)}")
             return dct['tradingsymbol'], remaining_cash
+
+
         
     if any(lst_tlyne):
         new_list = []
