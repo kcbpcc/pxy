@@ -145,7 +145,7 @@ if decision == "YES":
                         message_text = f"{ltp} \nhttps://www.tradingview.com/chart/?symbol={tradingsymbol}"
                     
                         # Define the bot token and your Telegram username or ID
-                        bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
+                        bot_token = '6603707685:AAFhWgPpliYjDqeBY24UyDipBbuBavcb4Bo'  # Replace with your actual bot token
                         user_usernames = ('-4022487175')  # Replace with your Telegram username or ID
                     
                         # Function to send a message to Telegram
