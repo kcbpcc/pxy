@@ -33,19 +33,19 @@ while true; do
             pxydashboard
             ;;        
         by)
-            echo "🟢🟢🟢 Buying...🟢🟢🟢"
+            echo "    🟢🟢🟢 Buying...🟢🟢🟢"
             pxybuy
             ;;    
         sl)
-            echo "🔴🔴🔴 Selling...🔴🔴🔴"
+            echo "    🔴🔴🔴 Selling...🔴🔴🔴"
             pxysell
             ;;   
         st)
-            echo "🔴🔴🔴 Selling...🔴🔴🔴"
+            echo "    🔴🔴🔴 Selling...🔴🔴🔴"
             pxysetup
             ;;   
         ka)
-            echo "❌❌❌ SquireOff all Positions...❌❌❌"
+            echo "    ❌❌❌ SquireOff all Positions...❌❌❌"
             pxykill
             ;;
         up)
@@ -53,24 +53,24 @@ while true; do
             pxyupdate
             ;;
         cl)
-            echo "🚿🚿🚿 Cleanup...🚿🚿🚿"
+            echo "    🚿🚿🚿 Cleanup...🚿🚿🚿"
             pxyclean
             ;;
         ck)
-            echo "🧪🧪🧪 Test All PXY®...🧪🧪🧪"
+            echo "    🧪🧪🧪 Test All PXY®...🧪🧪🧪"
             pxycheck
             ;;
         py)
-            echo "🏃🏃🏃 Python Program...🏃🏃🏃"
+            echo "    🏃🏃🏃 Python Program...🏃🏃🏃"
             pxypy
             ;;
         rn)
-            echo "...................👉exe/run"
+            echo "    ...................👉exe/run"
             pxyrun
             ;;
 
         "")
-            echo "🔥💫🚀🔥💫🚀🔥💫🚀🔥💫🚀.....Running PXY®"
+            echo "    🔥💫🚀🔥💫🚀🔥💫.....Running PXY®"
             pxypxy
             ;;
         *)
