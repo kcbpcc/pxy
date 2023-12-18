@@ -399,7 +399,7 @@ try:
     trgtpxy = calculate_trgtpxy(timpxy, nse_action)
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
-    numeric_columns = ['smb_power','smbchk','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
+    numeric_columns = ['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)        # Filter combined_df
     filtered_df = combined_df[combined_df['qty'] != 0]
     # Filter combined_df for rows where 'qty' is greater than 0
@@ -429,14 +429,14 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['smb_power','smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
+    pxy_df = filtered_df.copy()[['tPL%','smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
 
 
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
-    EXE_df = pxy_df[['smb_power','smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
+    EXE_df = pxy_df[['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','key','dPL%','oPL%','smb_power','PL%','PnL','qty','smbchk']]
+    PRINT_df = pxy_df[['source','product','key','dPL%','oPL%','tPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'X', 'product': 'Y', 'qty': 'Q', 'smbchk': 'TR'})
     # Conditionally replace values in the 'HP' column
