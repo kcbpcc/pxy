@@ -360,7 +360,8 @@ try:
     cnc_target = round(2.4 + (nse_power * 3.6), 2)
     cnc_filter = round(cnc_target / 2, 2)
     time_target = round(cnc_filter + trgtpxy, 2)
-    combined_df['tPL%'] = time_target * combined_df[['smb_power']]    
+    combined_df['tPL%'] = time_target * combined_df[['smb_power']]  
+    combined_df['tPL%'] = combined_df['tPL%'].clip(lower=3.0)
     
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cpritepxy.py'])
