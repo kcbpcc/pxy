@@ -10,7 +10,6 @@ while true; do
     echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
     echo "******************************************"
     echo "   -pxypy                 🔥        py"
-    echo "   -pxyrun                🎲        rn"
     echo "   -pxybuy                🟢        by"    
     echo "   -pxysell               🔴        sl"    
     echo "   -pxykill               ❌        ka"
@@ -61,12 +60,8 @@ while true; do
             pxycheck
             ;;
         py)
-            echo "    🏃🏃🏃 Python Program...🏃🏃🏃"
-            pxypy
-            ;;
-        rn)
             echo "    ...................👉exe/run"
-            pxyrun
+            pxypy
             ;;
 
         "")
