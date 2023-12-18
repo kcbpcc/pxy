@@ -33,8 +33,6 @@ def get_holdingsinfo(csv_file_path):
         selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
         selected_holdings_df['perc'] = ((selected_holdings_df['unrealized'] / selected_holdings_df['cap']) * 100).where(selected_holdings_df['cap'] > 0)
 
-        total_Stocks_count = len(selected_holdings_df)
-
         green_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] > 0]
         green_Stocks_count = len(green_Stocks_df)
         green_Stocks_capital = green_Stocks_df['cap'].sum()
@@ -47,6 +45,8 @@ def get_holdingsinfo(csv_file_path):
         red_Stocks_worth = red_Stocks_df['ltp'].dot(red_Stocks_df['qty']).round(4)
         red_Stocks_profit_loss = (red_Stocks_worth - red_Stocks_capital).round(4)
 
+        all_Stocks_df = selected_holdings_df
+        all_Stocks_count = len(selected_holdings_df)
         all_Stocks_capital = selected_holdings_df['cap'].sum()
         all_Stocks_worth = selected_holdings_df['ltp'].dot(selected_holdings_df['qty']).round(4)
         all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
@@ -56,7 +56,7 @@ def get_holdingsinfo(csv_file_path):
 
         table = PrettyTable()
         table.field_names = ['📉 Board', 'Total', 'Green', 'Red']
-        table.add_row(['Stocks📈', total_Stocks_count, green_Stocks_count, red_Stocks_count])
+        table.add_row(['Stocks📈', all_Stocks_count, green_Stocks_count, red_Stocks_count])
         table.add_row(['Invested', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
         table.add_row(['WorthNow', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
 
