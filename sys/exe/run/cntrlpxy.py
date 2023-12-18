@@ -342,6 +342,7 @@ try:
     combined_df['oPL%'] = combined_df.apply(lambda row: (((row['ltp'] - row['open']) / row['open']) * 100) if row['open'] != 0 else 1, axis=1)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01) 
+    epsilon = 1e-10
     combined_df[['smb_power']] = combined_df.apply(
     lambda row: pd.Series({
         'smb_power': round(
