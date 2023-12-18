@@ -6,7 +6,7 @@ source ~/env/bin/activate
 # Change to the script's directory
 cd ~/pxy/sys/exe/run
 
-ls -l 
+ls
 
 # Prompt the user for the script's <name>
 read -p "Enter the name of the script (without 'pxy.py'): " script_name
