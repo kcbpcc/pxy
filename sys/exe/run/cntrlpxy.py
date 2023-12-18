@@ -553,7 +553,7 @@ try:
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
                          row['source'] == 'holdings') and
-                        (row['PL%'] < -8)
+                        (row['PL%'] < -15)
                     ):
                         
                         from rebuypxy import update_reinvest_csv
