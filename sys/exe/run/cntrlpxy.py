@@ -413,7 +413,12 @@ try:
     #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
     pxy_df = filtered_df.copy()[['smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
-  
+
+    from nftpxy import nse_action, nse_power   
+    cnc_target = round(2.4 + (nse_power * 3.6), 2)
+    cnc_filter = round(cnc_target / 2, 2)
+    time_target = round(cnc_filter + trgtpxy, 2)
+    
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
@@ -467,10 +472,7 @@ try:
     
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
-    from nftpxy import nse_action, nse_power   
-    cnc_target = round(2.4 + (nse_power * 3.6), 2)
-    cnc_filter = round(cnc_target / 2, 2)
-    time_target = round(cnc_filter + trgtpxy, 2)
+
    
     cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['Y'] == 'C')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['Y'] == 'M')]
