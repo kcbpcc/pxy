@@ -53,29 +53,24 @@ def get_holdingsinfo(csv_file_path):
 
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
-
         table = PrettyTable()
         table.field_names = ['📉 Board', 'Total', 'Green', 'Red']
         table.add_row(['Stocks📈', all_Stocks_count, green_Stocks_count, red_Stocks_count])
         table.add_row(['Invested', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
         table.add_row(['WorthNow', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
-
         if all_Stocks_profit_loss < 0:
             table.add_row(['💰₹💰P&L', f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
         else:
             table.add_row(['💰₹💰P&L', f'{format_value(all_Stocks_profit_loss)}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
-
         table.align = 'r'
         print(table)
         zero_qty_count = holdings_df[holdings_df['qty'] == 0].shape[0]
+        print(" " * 42)
         print("Number of Stocks Sold 💸💸💸: {}".format(zero_qty_count))
         print(" " * 42)
-
-
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-
 # Call the function with the path to your CSV file
 get_holdingsinfo('fileHPdf.csv')
 
