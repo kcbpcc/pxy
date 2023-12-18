@@ -10,8 +10,9 @@ while true; do
     echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
     echo "******************************************"
     echo "   -pxypy                 🔥        py"
-    echo "   -pxybuy                🟢        by"
-    echo "   -pxysell               🔴        sl"
+    echo "   -pxyrun                🎲        rn"
+    echo "   -pxybuy                🟢        by"    
+    echo "   -pxysell               🔴        sl"    
     echo "   -pxykill               ❌        ka"
     echo "   -pxyclean              🚿        cl"
     echo "   -pxycheck              🧪        ck"
@@ -26,10 +27,14 @@ while true; do
 
     # Perform actions based on user input
     case $choice in
+        rn)
+            echo "...................👉exe/run"
+            pxyrun
+            ;;
         ds)
             echo "...................Dash Board"
             pxydashboard
-            ;;
+            ;;        
         by)
             echo "🟢🟢🟢 Buying...🟢🟢🟢"
             pxybuy
