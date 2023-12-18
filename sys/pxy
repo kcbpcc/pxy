@@ -27,10 +27,7 @@ while true; do
 
     # Perform actions based on user input
     case $choice in
-        rn)
-            echo "...................👉exe/run"
-            pxyrun
-            ;;
+
         ds)
             echo "...................Dash Board"
             pxydashboard
@@ -67,6 +64,11 @@ while true; do
             echo "🏃🏃🏃 Python Program...🏃🏃🏃"
             pxypy
             ;;
+        rn)
+            echo "...................👉exe/run"
+            pxyrun
+            ;;
+
         "")
             echo "🔥💫🚀🔥💫🚀🔥💫🚀🔥💫🚀.....Running PXY®"
             pxypxy
