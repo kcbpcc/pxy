@@ -116,6 +116,7 @@ def order_place(index, row):
     return False
 
 ###########################################################################################################################################################################################################
+
 def order_place_avg(index, row):
     try:
         exchsym = str(index).split(":")
@@ -132,50 +133,45 @@ def order_place_avg(index, row):
                 price=round_to_paise(row['ltp'], +0.3)
             )
             if order_id:
-                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
-                # Write the row to the CSV file here
-                with open(csv_file_path, 'a', newline='') as csvfile:
-                    csvwriter = csv.writer(csvfile)
-                    csvwriter.writerow(row.tolist())  # Write the selected row to the CSV file
-                    try:
-                        import telegram
-                        import asyncio
-                    
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
-                    
-                        # Dropping specified columns from the row
-                        for column in columns_to_drop:
-                            if column in row:
-                                del row[column]
-                    
-                        message_text = f"This Buy is average @-15% {str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}"
-                       
-                        # Define the bot token and your Telegram username or ID
-                        bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
-                        user_usernames = ('-4022487175')  # Replace with your Telegram username or ID
-                        
-                        # Function to send a message to Telegram
-                        async def send_telegram_message(message_text):
-                            bot = telegram.Bot(token=bot_token)
-                            await bot.send_message(chat_id=user_usernames, text=message_text)
-                    
-                    except Exception as e:
-                        # Handle the exception (e.g., log it) and continue with your code
-                        print(f"Error sending message to Telegram: {e}")
-                    
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
-                    loop = asyncio.get_event_loop()
-                    loop.run_until_complete(send_telegram_message(message_text))
+                logging.info(f"BUY {order_id} placed for {exchsym[1]} successfully")
                 
-                return True                
-            else:
-                logging.error("Order placement failed")       
+                # No need to calculate remaining available cash in this case
+
+                try:
+                    message_text = f"{row['ltp']} \nhttps://www.tradingview.com/chart/?symbol={exchsym[1]}"
+
+                    # Define the bot token and your Telegram username or ID
+                    bot_token = '6603707685:AAFhWgPpliYjDqeBY24UyDipBbuBavcb4Bo'  # Replace with your actual bot token
+                    user_id = '-4080532935'  # Replace with your Telegram user ID
+
+                    # Function to send a message to Telegram
+                    async def send_telegram_message(message_text):
+                        bot = telegram.Bot(token=bot_token)
+                        await bot.send_message(chat_id=user_id, text=message_text)
+
+                    # Send the 'row' content as a message to Telegram immediately after printing the row
+                    asyncio.run(send_telegram_message(message_text))
+
+                except Exception as e:
+                    # Handle the exception (e.g., log it) and continue with your code
+                    print(f"Error sending message to Telegram: {e}")
+
+                return exchsym[1], remaining_cash
+
+            return True
+
         else:
-            logging.error("Invalid format for 'index'")    
+            logging.error("Order placement failed")
+
+    else:
+        logging.error("Invalid format for 'index'")
+
     except Exception as e:
-        #print(traceback.format_exc())
+        # print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
+
     return False
+
 
 ###########################################################################################################################################################################################################
 def mis_order_buy(index, row):
