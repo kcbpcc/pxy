@@ -89,10 +89,14 @@ if decision == "YES":
         target = round_to_paise(ltp, max_target)
         return max(resistance, target)
     
+    import logging
+    import telegram
+    import asyncio
+    
     def transact(dct, remaining_cash):
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
-        
+    
         # Define ltp before the try block
         ltp = -1
     
@@ -138,29 +142,26 @@ if decision == "YES":
                     logging.info(
                         f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
                     # No need to calculate remaining available cash in this case
-                    import telegram
-                    import asyncio
-                    
+    
                     try:
-                        message_text = f"{ltp} \nhttps://www.tradingview.com/chart/?symbol={tradingsymbol}"
-                    
+                        message_text = f"{ltp} \nhttps://www.tradingview.com/chart/?symbol={dct['tradingsymbol']}"
+    
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6603707685:AAFhWgPpliYjDqeBY24UyDipBbuBavcb4Bo'  # Replace with your actual bot token
                         user_id = '-4080532935'  # Replace with your Telegram user ID
-                   
+    
                         # Function to send a message to Telegram
                         async def send_telegram_message(message_text):
                             bot = telegram.Bot(token=bot_token)
-                            await bot.send_message(chat_id=user_usernames, text=message_text)
-                    
+                            await bot.send_message(chat_id=user_id, text=message_text)
+    
                         # Send the 'row' content as a message to Telegram immediately after printing the row
-                        loop = asyncio.get_event_loop()
-                        loop.run_until_complete(send_telegram_message(message_text))
+                        asyncio.run(send_telegram_message(message_text))
                         
                     except Exception as e:
                         # Handle the exception (e.g., log it) and continue with your code
                         print(f"Error sending message to Telegram: {e}")
-                    
+    
                     return dct['tradingsymbol'], remaining_cash
     
             else:
@@ -171,7 +172,6 @@ if decision == "YES":
         except Exception as e:
             logging.error(f"Error while placing order: {str(e)}")
             return dct['tradingsymbol'], remaining_cash
-
 
         
     if any(lst_tlyne):
