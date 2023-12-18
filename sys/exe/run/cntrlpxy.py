@@ -556,6 +556,7 @@ try:
                         (row['PL%'] < -8)
                     ):
                         
+                        from rebuypxy import update_reinvest_csv
                         if update_reinvest_csv(key):
                             try:                            
                                 is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
