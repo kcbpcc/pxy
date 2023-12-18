@@ -156,21 +156,19 @@ def order_place_avg(index, row):
                     # Handle the exception (e.g., log it) and continue with your code
                     print(f"Error sending message to Telegram: {e}")
 
-                return exchsym[1], remaining_cash
+                return exchsym[1], remaining_cash  # Define remaining_cash appropriately
 
             return True
 
         else:
             logging.error("Order placement failed")
 
-    else:
-        logging.error("Invalid format for 'index'")
-
     except Exception as e:
         # print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
 
     return False
+
 
 
 ###########################################################################################################################################################################################################
