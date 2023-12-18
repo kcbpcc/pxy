@@ -555,8 +555,8 @@ try:
                          row['source'] == 'holdings') and
                         (row['PL%'] < -15)
                     ):
-                        key_value = 'key'
-                        if update_reinvest_csv(key_value):
+                        
+                        if update_reinvest_csv(key):
                             try:                            
                                 is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                                 if is_placed:
