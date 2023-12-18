@@ -12,7 +12,7 @@ ls
 read -p "Name of the script 👉: " script_name
 
 # Construct the full script name
-full_script_name="${script_name}pxy.py"
+full_script_name="${script_name}"
 
 # Check if the constructed script exists
 if [ -f "$full_script_name" ]; then
