@@ -1,7 +1,23 @@
 #!/bin/bash
 
+# Activate the virtual environment
 source ~/env/bin/activate
 
 # Change to the script's directory
 cd ~/pxy/sys/exe/run
-ls
+
+ls -l 
+
+# Prompt the user for the script's <name>
+read -p "Enter the name of the script (without 'pxy.py'): " script_name
+
+# Construct the full script name
+full_script_name="${script_name}pxy.py"
+
+# Check if the constructed script exists
+if [ -f "$full_script_name" ]; then
+    # Run the Python script
+    python3 "$full_script_name"
+else
+    echo "Error: The specified script does not exist."
+fi
