@@ -553,7 +553,7 @@ try:
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
                          row['source'] == 'holdings') and
-                        (row['PL%'] < -15)
+                        (row['PL%'] < -8)
                     ):
                         
                         if update_reinvest_csv(key):
