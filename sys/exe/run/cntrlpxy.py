@@ -342,6 +342,9 @@ try:
     combined_df['oPL%'] = combined_df.apply(lambda row: (((row['ltp'] - row['open']) / row['open']) * 100) if row['open'] != 0 else 1, axis=1)
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01) 
+    ###########################################################################################################################################################################################################
+    from trgtpxy import calculate_trgtpxy
+    trgtpxy = calculate_trgtpxy(timpxy, nse_action)
     epsilon = 1e-10
     combined_df[['smb_power']] = combined_df.apply(
     lambda row: pd.Series({
@@ -394,9 +397,7 @@ try:
 
 
   
-###########################################################################################################################################################################################################
-    from trgtpxy import calculate_trgtpxy
-    trgtpxy = calculate_trgtpxy(timpxy, nse_action)
+
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
     numeric_columns = ['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
