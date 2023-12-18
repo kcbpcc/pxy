@@ -9,7 +9,7 @@ cd ~/pxy/sys/exe/run
 ls
 
 # Prompt the user for the script's <name>
-read -p "Enter the name of the script (without 'pxy.py'): " script_name
+read -p "Name of the script 👉: " script_name
 
 # Construct the full script name
 full_script_name="${script_name}pxy.py"
