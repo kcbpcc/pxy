@@ -436,11 +436,11 @@ try:
 
     PRINT_df = pxy_df[['source','product','key','dPL%','oPL%','tPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': ' X', 'product': 'Y', 'qty': 'Q', 'smbchk': 'TR'})
+    PRINT_df = PRINT_df.rename(columns={'source': ' X', 'product': ' Y', 'qty': 'Q', 'smbchk': 'TR'})
     # Conditionally replace values in the 'HP' column
     PRINT_df[' X'] = PRINT_df[' X'].replace({'holdings': '💼', 'positions': '🎯'})
     # Conditionally replace values in the 'CM' column
-    PRINT_df['Y'] = PRINT_df['Y'].replace({'CNC': 'C', 'MIS': 'M'})
+    PRINT_df[' Y'] = PRINT_df[' Y'].replace({'CNC': '🗓️', 'MIS': '⌛'})
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '🟢' if TR == 'Bull' else ('🔴' if TR == 'Bear' else ('🌚' if TR == 'Sell' else ('🌕' if TR == 'Buy' else TR))))
     # Convert the 'PnL' column to integers
