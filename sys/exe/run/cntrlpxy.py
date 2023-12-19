@@ -513,8 +513,8 @@ try:
                     row['high'] > 0 and
                     row['low'] > 0 and
                     row['close'] > 0 and
-                    row['qty'] != 0 and
-                    row['avg'] != 0
+                    row['avg'] != 0 and
+                    row['qty'] != 0
                     
                 ):
                             
@@ -565,6 +565,11 @@ try:
                                 # Handle any other exceptions that may occur during order placement
                                 print(f"An unexpected error occurred while placing an order for key {key}: {e}")
                             print(f"Reinvested for : {key} as it is gone case")
+                        else:
+                            print(f"Reinvesting skipped for: {key} have already completed")
+
+                        
+
 
 ###########################################################################################################################################################################################################
                     elif (
