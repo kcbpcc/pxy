@@ -289,6 +289,7 @@ try:
     yellow_color_code = "\033[93m"  # Replace with your actual ANSI color code for yellow
     reset_color_code = "\033[0m"    # Replace with your actual ANSI color code for resetting color
     print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
+    print(" " * 42)
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
@@ -296,7 +297,9 @@ try:
     timpxy = calculate_timpxy()
     #csv_file_path = "filePnL.csv"
     #total_profit_main = process_csv(csv_file_path)
+    print(" " * 42)
     mktpxy = get_market_check('^NSEI')
+    print(" " * 42)
     SILVER = "\033[97m"
     UNDERLINE = "\033[4m"
     RESET = "\033[0m"
