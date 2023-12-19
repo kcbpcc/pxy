@@ -119,8 +119,9 @@ def order_place(index, row):
 
 def order_place_avg(index, row):
     try:
+        from rebuypxy import update_reinvest_csv
         exchsym = str(index).split(":")
-        if len(exchsym) >= 2:
+        if len(exchsym) >= 2 and update_reinvest_csv(exchsym):          
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
@@ -544,7 +545,23 @@ try:
 
 
 ###########################################################################################################################################################################################################                    
-
+                    elif (
+                        (row['qty'] > 0 and
+                         row['product'] == 'CNC' and
+                         row['source'] == 'holdings') and
+                        (row['PL%'] < -15)
+                    ):
+                        try:                            
+                            is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            if is_placed:
+                                # Print the row before placing the order
+                                print(row)                                
+                        except InputException as e:
+                            # Handle the specific exception and print only the error message
+                            print(f"An error occurred while placing an order for key {key}: {e}")
+                        except Exception as e:
+                            # Handle any other exceptions that may occur during order placement
+                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
 
 ###########################################################################################################################################################################################################
                     elif (
