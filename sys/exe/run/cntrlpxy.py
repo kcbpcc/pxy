@@ -312,6 +312,8 @@ try:
     except Exception as e:
         print(f"An error occurred: {e}")
         # Handle the error as needed
+        # Set available_cash to 0 or any other default value
+        available_cash = 0
     # Add 'key' column to holdings_df and positions_df
     # Create 'key' column if holdings_df is not empty
     holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
