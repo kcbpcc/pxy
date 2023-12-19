@@ -436,9 +436,9 @@ try:
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','key','dPL%','oPL%','tPL%','PL%','PnL','qty','smbchk']]
+    PRINT_df = pxy_df[['source','product','key','dPL%','tPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smbchk': 'TR','key': '_key','dPL%': '_dPL%','oPL%': '_oPL%' })
+    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smbchk': 'TR','key': '_key','dPL%': '_dPL%'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '💼', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
