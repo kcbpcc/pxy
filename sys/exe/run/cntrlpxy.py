@@ -352,11 +352,12 @@ try:
     }), axis=1
     )
     from nftpxy import nse_action, nse_power   
-    cnc_target = round(2.4 + (nse_power * 3.6), 2)
+    cnc_target = round(3 + (nse_power * 3.6), 2)
     cnc_filter = round(cnc_target / 2, 2)
     time_target = round(cnc_filter + trgtpxy, 2)
     combined_df['tPL%'] = time_target * combined_df[['smb_power']]  
     combined_df['tPL%'] = combined_df['tPL%'].clip(lower=3.0)
+    
     
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cpritepxy.py'])
@@ -528,7 +529,7 @@ try:
                         (
                             (row['source'] == 'holdings' and row['PL%'] > (row['tPL%'])) or
                             (row['source'] == 'holdings' and row['dPL%'] < 0 and row['oPL%'] < 0) or
-                            (row['source'] == 'positions' and row['PL%'] > (row['tPL%'])) 
+                            (row['source'] == 'positions' and row['PL%'] > ((row['tPL%'])/2)) 
                         )
                     ):
                         try:                            
