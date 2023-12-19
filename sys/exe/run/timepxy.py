@@ -17,11 +17,11 @@ def calculate_timpxy():
         total_time_range_minutes = (end_time_utc - start_time_utc).total_seconds() / 60
         
         # Calculate timpxy using linear interpolation
-        timpxy = max(5, round(15 - (total_minutes / total_time_range_minutes) * 10, 2))
+        timpxy = max(7, round(20 - (total_minutes / total_time_range_minutes) * 13, 2))
         return timpxy
     else:
-        # Return 5 for all times outside the specified time range
-        return 5
+        # Return 7 for all times outside the specified time range
+        return 7
 
 # Example usage:
 result = calculate_timpxy()
