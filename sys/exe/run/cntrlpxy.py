@@ -641,7 +641,7 @@ try:
 
 ###########################################################################################################################################################################################################
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
-        mktpxy = get_market_check('^NSEI')
+        #mktpxy = get_market_check('^NSEI')
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
