@@ -438,13 +438,13 @@ try:
 
     PRINT_df = pxy_df[['source','product','key','dPL%','tPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'QQ', 'smbchk': 'TR','key': '_key','dPL%': '_dPL%'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': '_Q', 'smbchk': '__TR','key': '_key','dPL%': '_dPL%'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '💼', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
     PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🗓️', 'MIS': '⌛'})
-    PRINT_df['QQ'] = PRINT_df['QQ'].apply(lambda QQ: '+' if QQ > 0 else ('-' if QQ < 0 else ''))
-    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '🟢' if TR == 'Bull' else ('🔴' if TR == 'Bear' else ('🌚' if TR == 'Sell' else ('🌕' if TR == 'Buy' else TR))))
+    PRINT_df['_Q'] = PRINT_df['_Q'].apply(lambda _Q: '+' if _Q > 0 else ('-' if _Q < 0 else ''))
+    PRINT_df['_TR'] = PRINT_df['_TR'].apply(lambda _TR: '🟢' if _TR == 'Bull' else ('🔴' if _TR == 'Bear' else ('🌚' if _TR == 'Sell' else ('🌕' if _TR == 'Buy' else _TR))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['_key'] = PRINT_df['_key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
@@ -458,7 +458,7 @@ try:
     PRINT_df_sorted = PRINT_df.copy()
     
     # Apply the lambda function to limit 'chks' to 2 characters
-    PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
+    PRINT_df_sorted['_TR'] = PRINT_df_sorted['_TR'].apply(lambda _TR: _TR[:2] if isinstance(_TR, str) else _TR)
     
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
     PRINT_df_sorted['_key'] = PRINT_df_sorted['_key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:4]
@@ -487,8 +487,8 @@ try:
     # Assuming PRINT_df_sorted_display is your DataFrame
 
    
-    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['QQ'] == '+') & (PRINT_df_sorted_display['_CM'] == '🗓️')]
-    mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['QQ'] == '-') & (PRINT_df_sorted_display['_CM'] == '⌛')]
+    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['_Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '🗓️')]
+    mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['_Q'] == '-') & (PRINT_df_sorted_display['_CM'] == '⌛')]
 
     
     if not cnc_filtered_df.empty:
