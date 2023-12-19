@@ -490,9 +490,12 @@ try:
     cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '🗓️')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['_CM'] == '⌛')]
 
-    print(f"{BRIGHT_YELLOW}Portfolio base:{cnc_filter}|level:{cnc_target}|target:{time_target}{RESET}")
+    
     if not cnc_filtered_df.empty:
-        print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2))
+        print(f"{BRIGHT_YELLOW}Portfolio base:{cnc_filter}|level:{cnc_target}|target:{time_target}{RESET}")
+        inf_filtered_df = cnc_filtered_df.query('not PL% in [np.inf, -np.inf]')
+        # Print the filtered DataFrame with specified formatting
+        print(inf_filtered_df.to_string(index=False, justify='left', col_space=-2))
  
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
