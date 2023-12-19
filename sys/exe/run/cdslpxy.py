@@ -1,4 +1,3 @@
-
 from selenium import webdriver
 import time
 from selenium.webdriver.support.ui import WebDriverWait
@@ -6,7 +5,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-import config
+
+import traceback
+import sys
 import re
 
 message = ""
@@ -20,9 +21,19 @@ pattern_otp = "\d{6}"
 
 option = Options()
 # Loading default Chrome Profile
-option.add_argument(fr"user-data-dir=C:\Users\{config.WINDOWS_USER}\AppData\Local\Google\Chrome\User Data")
-driver = webdriver.Chrome(executable_path=config.WEB_DRIVER_LOCATION, options=option)
-option.add_experimental_option("prefs", {"profile.default_content_setting_values.notifications": 2})
+option.add_argument("user-data-dir=/home/userland/.config/google-chrome")  # Replace 'userland' with your Linux username
+driver = webdriver.Chrome(executable_path="/usr/local/bin/chromedriver", options=option)
+
+try:
+    sys.stdout = open('output.txt', 'w')
+    # Incorporate your login mechanism here
+    # Assuming get_kite is a function that logs in and returns a broker object
+    # Update this part with your actual login mechanism
+    broker = get_kite(api="bypass", sec_dir=dir_path)
+
+except Exception as e:
+    print(traceback.format_exc())
+    sys.exit(1)
 
 # Opening Messages Web app
 driver.get('https://messages.google.com/web/')
@@ -32,15 +43,11 @@ driver.execute_script("window.open('https://kite.zerodha.com/');")
 time.sleep(2)
 driver.switch_to.window(driver.window_handles[1])
 
+# Replace the following lines with your login mechanism
+# For example, you might need to enter the credentials in the login form
 # clicking login button
 driver.find_element_by_class_name("button-orange").click()
 driver.implicitly_wait(60)
-
-# entering security pin
-driver.find_element_by_id('pin').send_keys(config.KITE_PIN)
-driver.find_element_by_class_name("button-orange").click()
-driver.implicitly_wait(60)
-time.sleep(2)
 
 # navigating to holding page
 driver.get(HOLDINGS_URL)
@@ -53,7 +60,7 @@ time.sleep(2)
 driver.implicitly_wait(60)
 kite_window = driver.window_handles[1]
 
-# Selecting "Continue" in authorisation pop up
+# Selecting "Continue" in authorization pop up
 try:
     WebDriverWait(driver, 8).until(
         EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div/div/div[3]/div/button[1]")))
