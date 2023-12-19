@@ -10,8 +10,7 @@ import traceback
 import sys
 import re
 
-message = ""
-OTP = 0
+TPIN = "303518"
 
 KITE_URL = "https://kite.zerodha.com/"
 HOLDINGS_URL = "https://kite.zerodha.com/holdings"
@@ -85,6 +84,11 @@ except TimeoutException:
     print("CDSL Page Not Loaded")
 
 time.sleep(3)
+
+# Entering the hardcoded TPIN
+driver.find_element_by_id("txtPIN").send_keys(TPIN)
+driver.find_element_by_id("btnCommit").click()
+driver.implicitly_wait(60)
 
 # Manually input the OTP
 manual_otp = input("Please enter the OTP manually: ")
