@@ -420,7 +420,9 @@ try:
 
     
 ###########################################################################################################################################################################################################
-
+    import pandas as pd
+    from tabulate import tabulate
+    
     # Define the file path for the CSV file
     lstchk_file = "fileHPdf.csv"
     # Dump the DataFrame to the CSV file, overwriting any existing file
@@ -491,6 +493,8 @@ try:
     print(f"{BRIGHT_YELLOW}Portfolio base:{cnc_filter}|level:{cnc_target}|target:{time_target}{RESET}")
     if not cnc_filtered_df.empty:
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2))
+        table = tabulate(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2), headers='keys', tablefmt='pretty', colalign=("center",) * len(PRINT_df.columns))
+        print(table)
 
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
