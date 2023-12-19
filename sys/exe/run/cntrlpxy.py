@@ -273,6 +273,7 @@ try:
     from mktpxy import get_market_check
     import importlib
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change
+    print(" " * 42)
     from timepxy import calculate_timpxy
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
@@ -283,6 +284,7 @@ try:
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
     switch = analyze_stock('^NSEI')
+    print(" " * 42)
     #from ordpxy import get_open_order_status
     yellow_color_code = "\033[93m"  # Replace with your actual ANSI color code for yellow
     reset_color_code = "\033[0m"    # Replace with your actual ANSI color code for resetting color
@@ -492,7 +494,7 @@ try:
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     print("*" * 42)
-    
+    print(" " * 42)
     # Always print "Table" in bright yellow
     
     
@@ -511,7 +513,7 @@ try:
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-0))    
-
+    print(" " * 42)
     print("*" * 42)
   
 ###########################################################################################################################################################################################################
@@ -603,7 +605,7 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
-        
+        print(" " * 42) 
         print(f"{BRIGHT_YELLOW}📉🔀Trades Overview & Market Dynamics 📈🔄 {RESET}")
         # ANSI escape codes for text coloring
         RESET = "\033[0m"
