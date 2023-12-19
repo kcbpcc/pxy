@@ -493,11 +493,11 @@ try:
     
     if not cnc_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Portfolio base:{cnc_filter}|level:{cnc_target}|target:{time_target}{RESET}")
-        print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-1)) 
+        print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0)) 
  
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
-        print(mis_filtered_df.to_string(index=False, justify='left', col_space=-1))    
+        print(mis_filtered_df.to_string(index=False, justify='left', col_space=-0))    
 
     print("*" * 42)
   
