@@ -438,7 +438,7 @@ try:
 
     PRINT_df = pxy_df[['source','product','key','dPL%','tPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': '_Q', 'smbchk': '__TR','key': '_key','dPL%': '_dPL%'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': '_Q', 'smbchk': '_TR','key': '_key','dPL%': '_dPL%'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '💼', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
