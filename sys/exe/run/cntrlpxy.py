@@ -310,8 +310,8 @@ try:
         available_cash = response["equity"]["available"]["live_balance"]
         # Rest of your code that depends on the 'available_cash' variable
     except Exception as e:
-    print(f"An error occurred: {e}")
-    # Handle the error as needed
+        print(f"An error occurred: {e}")
+        # Handle the error as needed
     # Add 'key' column to holdings_df and positions_df
     # Create 'key' column if holdings_df is not empty
     holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
