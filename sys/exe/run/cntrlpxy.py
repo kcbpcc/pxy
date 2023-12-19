@@ -357,16 +357,14 @@ try:
     time_target = round(cnc_filter + trgtpxy, 2)
     combined_df['tPL%'] = time_target * combined_df[['smb_power']]  
     def clip_tpl(row):
-    if row['source'] == 'holdings':
-        return max(row['tPL%'], 3.0)
-    elif row['source'] == 'positions':
-        return max(row['tPL%'], 3.0) / 2
-    else:
-        return row['tPL%']
-
+        if row['source'] == 'holdings':
+            return max(row['tPL%'], 3.0)
+        elif row['source'] == 'positions':
+            return max(row['tPL%'], 3.0) / 2
+        else:
+            return row['tPL%']
     combined_df['tPL%'] = combined_df.apply(clip_tpl, axis=1)
-    
-    
+   
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
