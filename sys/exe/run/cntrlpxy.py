@@ -493,21 +493,11 @@ try:
     
     if not cnc_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Portfolio base:{cnc_filter}|level:{cnc_target}|target:{time_target}{RESET}")
-        import pandas as pd
-        import numpy as np
-        
-        # Assuming 'PL%' is the column you want to filter
-        cnc_filtered_df['PL%'] = cnc_filtered_df['PL%'].replace([np.inf, -np.inf], np.nan)
-        
-        # Import NumPy before using it in the query
-        inf_filtered_df = cnc_filtered_df.query('not (`PL%` in [np.inf, -np.inf])')
-        
-        # Print the filtered DataFrame with specified formatting
-        print(inf_filtered_df.to_string(index=False, justify='left', col_space=-2))
+        print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-1)) 
  
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
-        print(mis_filtered_df.to_string(index=False, justify='left', col_space=-2))    
+        print(mis_filtered_df.to_string(index=False, justify='left', col_space=-1))    
 
     print("*" * 42)
   
