@@ -513,7 +513,8 @@ try:
                     row['high'] > 0 and
                     row['low'] > 0 and
                     row['close'] > 0 and
-                    row['qty'] != 0
+                    row['qty'] != 0 and
+                    row['avg'] != 0
                     
                 ):
                             
