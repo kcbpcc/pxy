@@ -128,8 +128,8 @@ while True:
     # Print the result (you can remove this if not needed)
     # print(f"mktpxy: {mktpxy}")
     print(" " * 42)   
-
     print(random_message)
+    print(" " * 42)   
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
