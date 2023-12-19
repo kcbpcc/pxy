@@ -16,6 +16,7 @@ async def main():
         browser = await launch({'headless': True})  # Set 'headless' to True for headless mode
         page = await browser.newPage()
 
+        print("Before launching the browser")
         # Opening Kite Web app
         await page.goto('https://kite.zerodha.com/')
         
@@ -30,6 +31,7 @@ async def main():
 
         # Close the browser
         await browser.close()
+        print("After closing the browser")
 
         # Switch to Selenium for the remaining interactions
         option = Options()
