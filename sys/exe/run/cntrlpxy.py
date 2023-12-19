@@ -438,7 +438,7 @@ try:
 
     PRINT_df = pxy_df[['source','product','key','dPL%','oPL%','tPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smbchk': 'TR'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smbchk': 'TR','key': _key })
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '💼', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
@@ -447,7 +447,7 @@ try:
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '🟢' if TR == 'Bull' else ('🔴' if TR == 'Bear' else ('🌚' if TR == 'Sell' else ('🌕' if TR == 'Buy' else TR))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
-    PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
+    PRINT_df['_key'] = PRINT_df['_key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
     # Sort the DataFrame by 'PL%' in ascending order
     # Assuming you have a DataFrame named PRINT_df
 
@@ -461,7 +461,7 @@ try:
     PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
     
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
-    PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:4]
+    PRINT_df_sorted['_key'] = PRINT_df_sorted['_key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:4]
     
     # Sort the DataFrame by 'PL%' in ascending order
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
@@ -493,9 +493,7 @@ try:
     print(f"{BRIGHT_YELLOW}Portfolio base:{cnc_filter}|level:{cnc_target}|target:{time_target}{RESET}")
     if not cnc_filtered_df.empty:
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2))
-        table = tabulate(cnc_filtered_df.to_string(index=False, justify='left', col_space=-2), headers='keys', tablefmt='pretty', colalign=("center",) * len(cnc_filtered_df.columns))
-        print(table)
-
+ 
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-2))    
