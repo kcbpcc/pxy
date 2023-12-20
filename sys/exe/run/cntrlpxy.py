@@ -286,7 +286,7 @@ try:
     from mktpxy import get_market_check
     import importlib
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change
-    print(" " * 42)
+    print("_" * 42)
     from timepxy import calculate_timpxy
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
@@ -297,12 +297,12 @@ try:
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
     switch = analyze_stock('^NSEI')
-    print(" " * 42)
+    print("_" * 42)
     #from ordpxy import get_open_order_status
     yellow_color_code = "\033[93m"  # Replace with your actual ANSI color code for yellow
     reset_color_code = "\033[0m"    # Replace with your actual ANSI color code for resetting color
     print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
-    print(" " * 42)
+    print("_" * 42)
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
@@ -311,7 +311,7 @@ try:
     #csv_file_path = "filePnL.csv"
     #total_profit_main = process_csv(csv_file_path)
     mktpxy = get_market_check('^NSEI')
-    print(" " * 42)
+    print("_" * 42)
     SILVER = "\033[97m"
     UNDERLINE = "\033[4m"
     RESET = "\033[0m"
@@ -403,16 +403,16 @@ try:
     
     # Print the message with the chosen color
     print(f"Available Funds 💰💰💰: {color_code}{available_cash:.0f}{RESET}")
-    print(" " * 42)
+    print("_" * 42)
     print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
-    print(" " * 42)
+    print("_" * 42)
     mktpxy = get_market_check('^NSEI')
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
-    print(" " * 42)
+    print("_" * 42)
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
     print(random_message)
-    print(" " * 42)
+    print("_" * 42)
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
     combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS") if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS") is not None else mktpxy, axis=1)
@@ -517,7 +517,7 @@ try:
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
 
-    print(" " * 42)
+    print("_" * 42)
     # Always print "Table" in bright yellow
     
     
@@ -536,7 +536,7 @@ try:
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-0))    
-    print(" " * 42)
+    print("_" * 42)
   
 ###########################################################################################################################################################################################################
     # Define the CSV file path
@@ -625,7 +625,7 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
-        print(" " * 42) 
+        print("_" * 42) 
         print(f"{BRIGHT_YELLOW}📉🔀Trades Overview & Market Dynamics 📈🔄 {RESET}")
         # ANSI escape codes for text coloring
         RESET = "\033[0m"
@@ -654,7 +654,7 @@ try:
         print(right_aligned_format.format(f"Target:{BRIGHT_GREEN if time_target >= 5 else BRIGHT_RED}{time_target}{RESET}"))
         print(left_aligned_format.format(f"Status:{BRIGHT_GREEN if nse_action in ('Bullish', 'Bull') else BRIGHT_RED}{nse_action}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
-        print(" " * 42)
+        print("_" * 42)
 
 ###########################################################################################################################################################################################################
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
