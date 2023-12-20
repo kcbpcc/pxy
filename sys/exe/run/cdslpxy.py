@@ -1,5 +1,6 @@
 import time
 import traceback
+from pyvirtualdisplay import Display
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -10,12 +11,17 @@ from selenium.common.exceptions import TimeoutException
 TPIN = "303518"
 
 def main():
+    display = Display(visible=0, size=(800, 600))
+    display.start()
+
     try:
         # Selenium part
         options = Options()
         options.add_argument("--headless")
         options.add_argument("user-data-dir=/home/userland/.config/google-chrome")
-        driver = webdriver.Chrome(executable_path="/usr/local/bin/chromedriver", options=options)
+        
+        # Provide the path to chromedriver executable directly in the webdriver.Chrome() call
+        driver = webdriver.Chrome(options=options, executable_path="/usr/local/bin/chromedriver")
 
         # Opening Kite Web app
         driver.get('https://kite.zerodha.com/')
@@ -74,7 +80,6 @@ def main():
             print("Entered OTP on the CDSL page.")
         else:
             print("No OTP provided. Exiting script.")
-            driver.quit()
 
     except Exception as e:
         print(f"Error: {e}")
@@ -84,8 +89,11 @@ def main():
         # Ensure the browser is closed in case of any exceptions
         if driver:
             driver.quit()
+        display.stop()
 
 # Run the main function
-main()
+if __name__ == "__main__":
+    main()
+
 
 
