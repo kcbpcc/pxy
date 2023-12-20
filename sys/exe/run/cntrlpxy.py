@@ -125,12 +125,9 @@ def order_place_avg(index, row):
         # Check existing positions
         positions_response = broker.kite.positions()
         open_positions = positions_response.get('net', [])
-        # Print for debugging
-        print(f"positions_response: {positions_response}")
-        print(f"open_positions: {open_positions}")
 
         existing_position = next((position for position in open_positions if position['tradingsymbol'] == exchsym[1]), None)
-
+        print(f"existing_position: {existing_position}")
         if existing_position:
             logging.info(f"Position already exists for {exchsym[1]}. Skipping order placement.")
             return True
