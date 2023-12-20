@@ -453,11 +453,11 @@ try:
     EXE_df = pxy_df[['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
     PRINT_df = pxy_df[['source','product','key','tPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': 'CM', 'qty': 'Q', 'smbchk': 'TR','key': 'key','dPL%': 'dPL%'})
-    # Conditionally replace values in the 'HP' column
-    PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '💼', 'positions': '🎯'})
-    # Conditionally replace values in the 'CM' column
-    PRINT_df['CM'] = PRINT_df['CM'].replace({'CNC': '⏰', 'MIS': '⌛'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'H/P', 'product': 'C/M', 'qty': 'Q', 'smbchk': 'TR','key': 'key','dPL%': 'dPL%'})
+    # Conditionally replace values in the 'H/P' column
+    PRINT_df['H/P'] = PRINT_df['H/P'].replace({'holdings': '💼', 'positions': '🎯'})
+    # Conditionally replace values in the 'C/M' column
+    PRINT_df['C/M'] = PRINT_df['C/M'].replace({'CNC': '⏰', 'MIS': '⌛'})
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '🟢' if TR == 'Bull' else ('🔴' if TR == 'Bear' else ('🌚' if TR == 'Sell' else ('🌕' if TR == 'Buy' else TR))))
     # Convert the 'PnL' column to integers
@@ -502,8 +502,8 @@ try:
     # Assuming PRINT_df_sorted_display is your DataFrame
 
    
-    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['CM'] == '⏰')]
-    mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['CM'] == '⌛')]
+    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['C/M'] == '⏰')]
+    mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['C/M'] == '⌛')]
 
     
     if not cnc_filtered_df.empty:
