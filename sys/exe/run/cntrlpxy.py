@@ -569,6 +569,7 @@ try:
                         (row['qty'] > 0 and
                          row['PL%'] < -10)
                     ):
+                        print(row) 
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
