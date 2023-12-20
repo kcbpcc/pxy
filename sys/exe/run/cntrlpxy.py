@@ -568,8 +568,7 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['source'] == 'holdings') and
-                        (row['PL%'] < -7)
+                         row['dPL%'] < -7)
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
