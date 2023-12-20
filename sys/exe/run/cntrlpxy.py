@@ -526,7 +526,7 @@ try:
     # Create an empty list to store the rows that meet the condition
     selected_rows = []
     # Loop through the DataFrame and place orders based on conditions
-    if nse_power < 0.5 :
+    if :
         try:
             for index, row in EXE_df.iterrows():
                 key = row['key']  # Get the 'key' value
