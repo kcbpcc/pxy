@@ -533,8 +533,8 @@ try:
                          row['PL%'] > (cnc_filter) and
                          row['smbchk'] != 'Bull or Buy') and  
                         (
-                            (row['PL%'] > (row['tPL%'])) or
-                            (row['source'] == 'holdings' and row['dPL%'] < 0 and row['oPL%'] < 0)
+                            (row['PL%'] > (row['tPL%']))
+
                         )
                     ):
                         try:                            
