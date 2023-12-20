@@ -453,13 +453,13 @@ try:
     EXE_df = pxy_df[['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
     PRINT_df = pxy_df[['source','product','key','dPL%','tPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': 'CM', 'qty': 'Q', 'smbchk': '_TR','key': 'key','dPL%': 'dPL%'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': 'CM', 'qty': 'Q', 'smbchk': '','key': 'key','dPL%': 'dPL%'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '💼', 'positions': '🎯'})
     # Conditionally replace values in the 'CM' column
     PRINT_df['CM'] = PRINT_df['CM'].replace({'CNC': '⏰', 'MIS': '⌛'})
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
-    PRINT_df['_TR'] = PRINT_df['_TR'].apply(lambda _TR: '🟢' if _TR == 'Bull' else ('🔴' if _TR == 'Bear' else ('🌚' if _TR == 'Sell' else ('🌕' if _TR == 'Buy' else _TR))))
+    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '🟢' if TR == 'Bull' else ('🔴' if TR == 'Bear' else ('🌚' if TR == 'Sell' else ('🌕' if TR == 'Buy' else TR))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
@@ -473,7 +473,7 @@ try:
     PRINT_df_sorted = PRINT_df.copy()
     
     # Apply the lambda function to limit 'chks' to 2 characters
-    PRINT_df_sorted['_TR'] = PRINT_df_sorted['_TR'].apply(lambda _TR: _TR[:2] if isinstance(_TR, str) else _TR)
+    PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
     
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
     PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:4]
