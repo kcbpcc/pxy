@@ -375,7 +375,17 @@ try:
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
-    print(f"Available Funds for buy💰💰💰: {available_cash:.0f}")
+    # Define color codes
+    GREEN = "\033[92m"
+    RED = "\033[91m"
+    RESET = "\033[0m"
+    
+    # Determine color based on available_cash
+    color_code = GREEN if available_cash > 6000 else RED
+    
+    # Print the message with the chosen color
+    print(f"Available Funds 💰💰💰: {color_code}{available_cash:.0f}{RESET}")
+    print(" " * 42)
     mktpxy = get_market_check('^NSEI')
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     print(" " * 42)
