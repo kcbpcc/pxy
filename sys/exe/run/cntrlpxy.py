@@ -386,6 +386,8 @@ try:
     # Print the message with the chosen color
     print(f"Available Funds 💰💰💰: {color_code}{available_cash:.0f}{RESET}")
     print(" " * 42)
+    print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
+    print(" " * 42)
     mktpxy = get_market_check('^NSEI')
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     print(" " * 42)
