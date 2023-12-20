@@ -118,8 +118,7 @@ def order_place(index, row):
 
 def order_place_avg(index, row):
     try:
-        # Remove the import statement for 'rebuypxy' and 'update_reinvest_csv'
-
+       
         exchsym = str(index).split(":")
         
         # Check existing positions
@@ -132,7 +131,7 @@ def order_place_avg(index, row):
             logging.info(f"Position already exists for {exchsym[1]}. Skipping order placement.")
             return True
 
-        if len(exchsym) >= 2 and update_reinvest_csv(exchsym[1]):
+        if len(exchsym) >= 2 :
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
             
             # Calculate quantity based on the value of 5000
