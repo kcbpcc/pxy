@@ -402,7 +402,7 @@ try:
     color_code = GREEN if available_cash > 6000 else RED
     
     # Print the message with the chosen color
-    print(f"Available Funds 💰💰💰: {color_code}{available_cash:.0f}{RESET}")
+    print(f"Available Funds 💰💰💰: {color_code}{available_cash:.0f}{RESET}".rjust(40))
     print("-" * 42)
     print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
     print("-" * 42)
