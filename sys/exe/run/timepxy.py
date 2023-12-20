@@ -25,5 +25,5 @@ def calculate_timpxy():
 
 # Example usage:
 result = calculate_timpxy()
-print(f"PXY® is running on timepxy ⏰ {result} ⏰".rjust(42))
+print(f"PXY® is running on timepxy ⏰ {result} ⏰".rjust(40))
 print("-" * 42)
