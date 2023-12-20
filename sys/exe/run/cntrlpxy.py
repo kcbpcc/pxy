@@ -33,7 +33,6 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 
-
 file_path = 'filePnL.csv'
 
 ###########################################################################################################################################################################################################
@@ -169,9 +168,6 @@ def order_place_avg(index, row):
         logging.error(f"{str(e)} while placing order")
 
     return False
-
-
-
 ###########################################################################################################################################################################################################
 def mis_order_buy(index, row):
     try:
@@ -233,7 +229,6 @@ def mis_order_buy(index, row):
         #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
-
 ###########################################################################################################################################################################################################
 def get_holdingsinfo(resp_list, broker):
     try:
@@ -366,7 +361,7 @@ try:
     cnc_target = round(3 + (nse_power * 3.6), 2)
     cnc_filter = round(cnc_target / 2, 2)
     time_target = round(cnc_filter + trgtpxy, 2)
-    combined_df['tPL%'] = time_target * combined_df[['smb_power']]  
+    combined_df['tPL%'] = time_target * (combined_df['smb_power'] + nse_power)
     def clip_tpl(row):
         if row['source'] == 'holdings':
             return max(row['tPL%'], 3.0)
@@ -375,11 +370,24 @@ try:
         else:
             return row['tPL%']
     combined_df['tPL%'] = combined_df.apply(clip_tpl, axis=1)
-   
+    combined_df['tPL%'] = combined_df['tPL%'].round(2)
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
+    # Define color codes
+    GREEN = "\033[92m"
+    RED = "\033[91m"
+    RESET = "\033[0m"
+    
+    # Determine color based on available_cash
+    color_code = GREEN if available_cash > 6000 else RED
+    
+    # Print the message with the chosen color
+    print(f"Available Funds 💰💰💰: {color_code}{available_cash:.0f}{RESET}")
+    print(" " * 42)
+    print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
+    print(" " * 42)
     mktpxy = get_market_check('^NSEI')
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     print(" " * 42)
@@ -409,10 +417,6 @@ try:
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     # Calculate 'dPL%' column as ('dPnL' / 'Invested') * 100
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
-
-
-  
-
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
     numeric_columns = ['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
@@ -435,8 +439,6 @@ try:
     #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
-
-    
 ###########################################################################################################################################################################################################
     import pandas as pd
     from tabulate import tabulate
@@ -456,16 +458,16 @@ try:
 
     PRINT_df = pxy_df[['source','product','key','dPL%','tPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': '_Q', 'smbchk': '_TR','key': '_key','dPL%': '_dPL%'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smbchk': 'TR','key': 'key','dPL%': 'dPL%'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '💼', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
-    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🗓️', 'MIS': '⌛'})
-    PRINT_df['_Q'] = PRINT_df['_Q'].apply(lambda _Q: '+' if _Q > 0 else ('-' if _Q < 0 else ''))
-    PRINT_df['_TR'] = PRINT_df['_TR'].apply(lambda _TR: '🟢' if _TR == 'Bull' else ('🔴' if _TR == 'Bear' else ('🌚' if _TR == 'Sell' else ('🌕' if _TR == 'Buy' else _TR))))
+    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '⏰', 'MIS': '⌛'}) 
+    PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
+    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '🟢' if TR == 'Bull' else ('🔴' if TR == 'Bear' else ('🌚' if TR == 'Sell' else ('🌕' if TR == 'Buy' else TR))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
-    PRINT_df['_key'] = PRINT_df['_key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
+    PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
     # Sort the DataFrame by 'PL%' in ascending order
     # Assuming you have a DataFrame named PRINT_df
 
@@ -476,10 +478,10 @@ try:
     PRINT_df_sorted = PRINT_df.copy()
     
     # Apply the lambda function to limit 'chks' to 2 characters
-    PRINT_df_sorted['_TR'] = PRINT_df_sorted['_TR'].apply(lambda _TR: _TR[:2] if isinstance(_TR, str) else _TR)
+    PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
     
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
-    PRINT_df_sorted['_key'] = PRINT_df_sorted['_key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:4]
+    PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:4]
     
     # Sort the DataFrame by 'PL%' in ascending order
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
@@ -505,8 +507,8 @@ try:
     # Assuming PRINT_df_sorted_display is your DataFrame
 
    
-    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['_Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '🗓️')]
-    mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['_Q'] == '-') & (PRINT_df_sorted_display['_CM'] == '⌛')]
+    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '⏰')]
+    mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['_CM'] == '⌛')]
 
     
     if not cnc_filtered_df.empty:
@@ -517,7 +519,6 @@ try:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-0))    
     print(" " * 42)
-
   
 ###########################################################################################################################################################################################################
     # Define the CSV file path
@@ -545,11 +546,9 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > (cnc_filter) and
-                         row['smbchk'] != 'Bull or Buy') and  
+                         row['PL%'] > (cnc_filter)) and
                         (
-                            (row['PL%'] > (row['tPL%'])) or
-                            (row['source'] == 'holdings' and row['dPL%'] < 0 and row['oPL%'] < 0)
+                            (row['PL%'] > (row['tPL%']))
                         )
                     ):
                         try:                            
@@ -569,8 +568,7 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['source'] == 'holdings') and
-                        (row['PL%'] < -15)
+                         row['PL%'] < -15)
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
