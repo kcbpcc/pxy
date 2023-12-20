@@ -78,7 +78,7 @@ def process_csv(csv_file_path):
 
     # Print the total profit in INR (₹) format rounded to two decimal places
     total_profit = round(total_profit, 2)
-    print(f"Total Profit: ₹{total_profit:.2f}".rjust(40))
+    print(f"Total Profit: ₹{total_profit:.2f}".rjust(42))
 
     # Return the total_profit value
     return total_profit
