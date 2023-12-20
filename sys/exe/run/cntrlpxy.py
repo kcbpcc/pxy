@@ -375,6 +375,7 @@ try:
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
+    print(f"Funds: {available_cash:.0f}")
     mktpxy = get_market_check('^NSEI')
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     print(" " * 42)
