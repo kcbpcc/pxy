@@ -457,7 +457,7 @@ try:
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '💼', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
-    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🗓️', 'MIS': '⌛'})
+    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '⏰', 'MIS': '⌛'})
     PRINT_df['_Q'] = PRINT_df['_Q'].apply(lambda _Q: '+' if _Q > 0 else ('-' if _Q < 0 else ''))
     PRINT_df['_TR'] = PRINT_df['_TR'].apply(lambda _TR: '🟢' if _TR == 'Bull' else ('🔴' if _TR == 'Bear' else ('🌚' if _TR == 'Sell' else ('🌕' if _TR == 'Buy' else _TR))))
     # Convert the 'PnL' column to integers
