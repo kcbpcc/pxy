@@ -118,9 +118,9 @@ def order_place(index, row):
 
 def order_place_avg(index, row):
     try:
-        #from rebuypxy import update_reinvest_csv
+        from rebuypxy import update_reinvest_csv
         exchsym = str(index).split(":")
-        if len(exchsym) >= 2 :          #and update_reinvest_csv(exchsym[1])
+        if len(exchsym) >= 2 and update_reinvest_csv(exchsym[1]):
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
