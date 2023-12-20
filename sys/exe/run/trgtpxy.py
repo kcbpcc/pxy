@@ -11,7 +11,7 @@ def calculate_trgtpxy(timpxy, nse_action):
         return round(float(timpxy) * 0.50, 2)
     else:
         # Default value when none of the conditions are met
-        return 7
+        return 3
 
 if __name__ == "__main__":
     # Example usage:
