@@ -476,7 +476,7 @@ try:
     PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
     
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
-    PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:4]
+    PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:8]
     
     # Sort the DataFrame by 'PL%' in ascending order
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
@@ -512,7 +512,7 @@ try:
  
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
-        print(mis_filtered_df.to_string(index=False))    
+        print(mis_filtered_df.to_string(index=False, justify='left', col_space=0, line_width=9999, max_colwidth=10, header=False))
     print(" " * 42)
   
 ###########################################################################################################################################################################################################
