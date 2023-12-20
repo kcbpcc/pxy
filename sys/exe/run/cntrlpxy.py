@@ -538,7 +538,8 @@ try:
                     row['low'] > 0 and
                     row['close'] > 0 and
                     row['qty'] != 0 and
-                    row['avg'] != 0
+                    row['avg'] != 0 and
+                    row['ltp'] != 0
                     
                 ):
                             
@@ -569,7 +570,7 @@ try:
                         (row['qty'] > 0 and
                          row['PL%'] < -10)
                     ):
-                        print(row) 
+
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
