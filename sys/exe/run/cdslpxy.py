@@ -1,36 +1,37 @@
-import asyncio
+import time
 import traceback
-from pyppeteer import launch
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 
 TPIN = "303518"
 
-async def main():
+def main():
     try:
-        # Pyppeteer part
-        browser = await launch({'headless': True})
-        page = await browser.newPage()
-        
-        await page.goto('https://kite.zerodha.com/')
-        await page.click('.button-orange')
-        await page.waitForNavigation()
-        
-        # Continue with your pyppeteer script logic...
-
-        kite_url = page.url
-        await browser.close()
-
         # Selenium part
-        option = Options()
-        option.add_argument("user-data-dir=/home/userland/.config/google-chrome")
-        driver = webdriver.Chrome(executable_path="/usr/local/bin/chromedriver", options=option)
+        options = Options()
+        options.add_argument("--headless")
+        options.add_argument("user-data-dir=/home/userland/.config/google-chrome")
+        driver = webdriver.Chrome(executable_path="/usr/local/bin/chromedriver", options=options)
 
-        driver.get(kite_url)
+        # Opening Kite Web app
+        driver.get('https://kite.zerodha.com/')
+
+        # Clicking the login button
+        driver.find_element_by_class_name('button-orange').click()
+        time.sleep(2)  # Add a delay if needed
+
+        # Continue with your Selenium script logic...
+
+        # Navigating to the holdings page
         driver.get("https://kite.zerodha.com/holdings")
 
         # Selecting "Authorisation" option
         driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[2]/div/div/section/div/div/div/span[2]/a[1]").click()
         time.sleep(2)
-        kite_window = driver.window_handles[1]
 
         # Selecting "Continue" in authorization pop up
         try:
@@ -39,10 +40,11 @@ async def main():
             driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div/div/div[3]/div/button[1]").click()
         except TimeoutException:
             print("Page not loaded")
+
         time.sleep(2)
 
         # Switching to CDSL page
-        cdsl_window = driver.window_handles[2]
+        cdsl_window = driver.window_handles[1]
         driver.switch_to.window(cdsl_window)
         driver.implicitly_wait(120)
         time.sleep(3)
@@ -78,7 +80,12 @@ async def main():
         print(f"Error: {e}")
         print("Traceback:")
         print(traceback.format_exc())
+    finally:
+        # Ensure the browser is closed in case of any exceptions
+        if driver:
+            driver.quit()
 
 # Run the main function
-asyncio.get_event_loop().run_until_complete(main())
+main()
+
 
