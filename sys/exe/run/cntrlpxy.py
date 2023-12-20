@@ -541,7 +541,7 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > (cnc_filter)
+                         row['PL%'] > (cnc_filter))
                         (
                             (row['PL%'] > (row['tPL%']))
                         )
