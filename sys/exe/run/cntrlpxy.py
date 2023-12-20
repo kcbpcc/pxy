@@ -508,7 +508,7 @@ try:
     
     if not cnc_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Portfolio base:{cnc_filter}|level:{cnc_target}|target:{time_target}{RESET}")
-        print(cnc_filtered_df.to_string(index=False, justify='left', col_space=0, line_width=9999, max_colwidth=10))
+        print(cnc_filtered_df.to_string(index=False, justify='left', col_space=0, line_width=9999, max_colwidth=10, header=False))
  
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
