@@ -33,7 +33,6 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 
-
 file_path = 'filePnL.csv'
 
 ###########################################################################################################################################################################################################
@@ -169,9 +168,6 @@ def order_place_avg(index, row):
         logging.error(f"{str(e)} while placing order")
 
     return False
-
-
-
 ###########################################################################################################################################################################################################
 def mis_order_buy(index, row):
     try:
@@ -233,7 +229,6 @@ def mis_order_buy(index, row):
         #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
-
 ###########################################################################################################################################################################################################
 def get_holdingsinfo(resp_list, broker):
     try:
@@ -375,7 +370,7 @@ try:
         else:
             return row['tPL%']
     combined_df['tPL%'] = combined_df.apply(clip_tpl, axis=1)
-   
+    combined_df['tPL%'] = combined_df['tPL%'].round(2)
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
@@ -409,10 +404,6 @@ try:
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     # Calculate 'dPL%' column as ('dPnL' / 'Invested') * 100
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
-
-
-  
-
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
     numeric_columns = ['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
@@ -435,8 +426,6 @@ try:
     #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
-
-    
 ###########################################################################################################################################################################################################
     import pandas as pd
     from tabulate import tabulate
@@ -448,12 +437,9 @@ try:
     #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
     pxy_df = filtered_df.copy()[['tPL%','smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
-
-
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
-
     PRINT_df = pxy_df[['source','product','key','dPL%','tPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': '_Q', 'smbchk': '_TR','key': '_key','dPL%': '_dPL%'})
@@ -517,7 +503,6 @@ try:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-0))    
     print(" " * 42)
-
   
 ###########################################################################################################################################################################################################
     # Define the CSV file path
