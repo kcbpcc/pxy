@@ -1,8 +1,6 @@
 import asyncio
 import traceback
 from pyppeteer import launch
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 TPIN = "303518"
 
@@ -83,5 +81,4 @@ async def main():
 
 # Run the main function
 asyncio.get_event_loop().run_until_complete(main())
-
 
