@@ -121,15 +121,15 @@ while True:
             console.print("🌟 [bold]Market on standby![/bold] 🍿💰📊")
 
         return mktpxy        
-    print(" " * 42)  
+    print("-" * 42)  
     # Call the function and store the result in a variable
     mktpxy = get_market_check('^NSEI')
 
     # Print the result (you can remove this if not needed)
     # print(f"mktpxy: {mktpxy}")
-    print(" " * 42)   
+    print("-" * 42)   
     print(random_message)
-    print(" " * 42)   
+    print("-" * 42)   
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
