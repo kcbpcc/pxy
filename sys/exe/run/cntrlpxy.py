@@ -526,7 +526,7 @@ try:
     # Create an empty list to store the rows that meet the condition
     selected_rows = []
     # Loop through the DataFrame and place orders based on conditions
-    if any(item in mktpxy for item in ['Sell', 'Bear', 'Buy', 'Bull', 'None']):  # Check if mktpxy is one of the specified values
+    if 
         try:
             for index, row in EXE_df.iterrows():
                 key = row['key']  # Get the 'key' value
