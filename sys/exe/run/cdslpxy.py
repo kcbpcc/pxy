@@ -2,46 +2,31 @@ import asyncio
 import traceback
 from pyppeteer import launch
 from selenium import webdriver
-import time
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
 TPIN = "303518"
 
 async def main():
     try:
-        browser = await launch({'headless': True})  # Set 'headless' to True for headless mode
+        # Pyppeteer part
+        browser = await launch({'headless': True})
         page = await browser.newPage()
-
-        print("Before launching the browser")
-        # Opening Kite Web app
-        await page.goto('https://kite.zerodha.com/')
         
-        # Clicking the login button
+        await page.goto('https://kite.zerodha.com/')
         await page.click('.button-orange')
         await page.waitForNavigation()
-
+        
         # Continue with your pyppeteer script logic...
 
-        # Get the URL after the initial interactions
         kite_url = page.url
-
-        # Close the browser
         await browser.close()
-        print("After closing the browser")
 
-        # Switch to Selenium for the remaining interactions
+        # Selenium part
         option = Options()
-        option.add_argument("user-data-dir=/home/userland/.config/google-chrome")  # Replace 'userland' with your Linux username
+        option.add_argument("user-data-dir=/home/userland/.config/google-chrome")
         driver = webdriver.Chrome(executable_path="/usr/local/bin/chromedriver", options=option)
 
-        # Continue with your Selenium script logic using the kite_url
         driver.get(kite_url)
-        
-        # Navigating to the holdings page
         driver.get("https://kite.zerodha.com/holdings")
 
         # Selecting "Authorisation" option
@@ -93,6 +78,7 @@ async def main():
 
     except Exception as e:
         print(f"Error: {e}")
+        print("Traceback:")
         print(traceback.format_exc())
 
 # Run the main function
