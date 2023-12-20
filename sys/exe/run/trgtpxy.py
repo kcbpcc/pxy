@@ -2,11 +2,11 @@
 
 def calculate_trgtpxy(timpxy, nse_action):
     if nse_action == "Bullish":
-        return round(float(timpxy) * 1.50, 2)
-    elif nse_action == "Bull":
         return round(float(timpxy) * 1.00, 2)
+    elif nse_action == "Bull":
+        return round(float(timpxy) * 0.90, 2)
     elif nse_action == "Bear":
-        return round(float(timpxy) * 0.75, 2)
+        return round(float(timpxy) * 0.70, 2)
     elif nse_action == "Bearish":
         return round(float(timpxy) * 0.50, 2)
     else:
