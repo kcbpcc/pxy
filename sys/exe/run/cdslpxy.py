@@ -11,8 +11,7 @@ from selenium.common.exceptions import TimeoutException
 TPIN = "303518"
 
 def main():
-    display = Display(visible=0, size=(1920, 1080))
-
+    display = Display(visible=0, size=(800, 600))
     display.start()
 
     try:
@@ -24,30 +23,24 @@ def main():
         # Provide the path to chromedriver executable directly in the webdriver.Chrome() call
         driver = webdriver.Chrome(options=options, executable_path="/usr/local/bin/chromedriver")
 
+        print("Opened Kite Web app")
         # Opening Kite Web app
         driver.get('https://kite.zerodha.com/')
 
+        print("Clicking the login button")
         # Clicking the login button
         driver.find_element_by_class_name('button-orange').click()
         time.sleep(2)  # Add a delay if needed
 
         # Continue with your Selenium script logic...
 
+        print("Navigating to the holdings page")
         # Navigating to the holdings page
         driver.get("https://kite.zerodha.com/holdings")
 
+        print("Selecting 'Authorisation' option")
         # Selecting "Authorisation" option
         driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[2]/div/div/section/div/div/div/span[2]/a[1]").click()
-        time.sleep(2)
-
-        # Selecting "Continue" in authorization pop up
-        try:
-            WebDriverWait(driver, 8).until(
-                EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div/div/div[3]/div/button[1]")))
-            driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div/div/div[3]/div/button[1]").click()
-        except TimeoutException:
-            print("Page not loaded")
-
         time.sleep(2)
 
         # Switching to CDSL page
