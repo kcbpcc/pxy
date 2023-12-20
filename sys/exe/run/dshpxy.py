@@ -66,7 +66,7 @@ def get_holdingsinfo(csv_file_path):
         print(table)
         zero_qty_count = holdings_df[holdings_df['qty'] == 0].shape[0]
         print("-" * 42)
-        print("Number of Stocks Sold 💸💸💸: {}".format(zero_qty_count))
+        print("Number of Stocks Sold 💸💸💸: {}".format(zero_qty_count).rjust(40))
         print("-" * 42)
     except Exception as e:
         print(f"An error occurred: {e}")
