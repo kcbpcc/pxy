@@ -118,20 +118,38 @@ def order_place(index, row):
 
 def order_place_avg(index, row):
     try:
-        from rebuypxy import update_reinvest_csv
+        # Remove the import statement for 'rebuypxy' and 'update_reinvest_csv'
+
         exchsym = str(index).split(":")
+        
+        # Check existing positions
+        positions_response = broker.kite.positions()
+        open_positions = positions_response.get('net', [])
+
+        existing_position = next((position for position in open_positions if position['tradingsymbol'] == exchsym[1]), None)
+
+        if existing_position:
+            logging.info(f"Position already exists for {exchsym[1]}. Skipping order placement.")
+            return True
+
         if len(exchsym) >= 2 and update_reinvest_csv(exchsym[1]):
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
+            
+            # Calculate quantity based on the value of 5000
+            qty = 5000 // row['ltp']
+            qty = int(qty)  # Remove decimals
+            
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
                 exchange=exchsym[0],
                 transaction_type='BUY',
-                quantity=int(row['qty']),
+                quantity=qty,
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
                 price=round_to_paise(row['ltp'], +0.3)
             )
+            
             if order_id:
                 logging.info(f"BUY {order_id} placed for {exchsym[1]} successfully")
                 
@@ -168,6 +186,7 @@ def order_place_avg(index, row):
         logging.error(f"{str(e)} while placing order")
 
     return False
+
 ###########################################################################################################################################################################################################
 def mis_order_buy(index, row):
     try:
