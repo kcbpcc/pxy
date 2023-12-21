@@ -368,7 +368,7 @@ try:
     }), axis=1
     )
     from nftpxy import nse_action, nse_power   
-    combined_df['fPL%'] = combined_df.apply(lambda row: round(1.4 + (row['smb_power'] + nse_power), 2), axis=1)
+    combined_df['fPL%'] = combined_df.apply(lambda row: round(0.4 + (row['smb_power'] + nse_power), 2), axis=1)
     cnc_target = round(3 + (nse_power * 3.6), 2)
     combined_df['tPL%'] = combined_df.apply(lambda row: round(trgtpxy * (row['smb_power'] + nse_power), 2), axis=1)
 
