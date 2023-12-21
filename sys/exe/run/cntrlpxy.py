@@ -410,9 +410,10 @@ try:
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
     print(random_message)
-    
+    print("-" * 42)
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
+    #combined_df['smb_power'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS") if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS") is not None else mktpxy, axis=1)
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
@@ -457,6 +458,7 @@ try:
 ###########################################################################################################################################################################################################
     import pandas as pd
     from tabulate import tabulate
+    
     # Define the file path for the CSV file
     lstchk_file = "fileHPdf.csv"
     # Dump the DataFrame to the CSV file, overwriting any existing file
@@ -464,9 +466,12 @@ try:
     #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
     pxy_df = filtered_df.copy()[['tPL%','smb_power','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
+
+
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['tPL%','smb_power','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
+
     PRINT_df = pxy_df[['source','product','key','dPL%','tPL%','PL%','PnL','qty','smb_power']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smb_power': 'TR','key': 'key','dPL%': 'dPL%'})
@@ -475,12 +480,14 @@ try:
     # Conditionally replace values in the '_CM' column
     PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '⏰', 'MIS': '⌛'}) 
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
-    
+    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '🟢' if TR > 0.8 else ('🟡' if 0.5 < TR <= 0.8 else ('⚫️' if 0.3 < TR <= 0.5 else ('🔴' if TR <= 0.3 else TR)))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'BSE:|NSE:', '', regex=True)
+  
     # Sort the DataFrame by 'PL%' in ascending order
     # Assuming you have a DataFrame named PRINT_df
+
 ###########################################################################################################################################################################################################    
     import pandas as pd
     
@@ -528,7 +535,7 @@ try:
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-0))    
-        print("-" * 42)
+    print("-" * 42)
   
 ###########################################################################################################################################################################################################
     # Define the CSV file path
