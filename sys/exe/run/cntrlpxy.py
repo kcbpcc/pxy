@@ -408,7 +408,6 @@ try:
     print("-" * 42)
     mktpxy = get_market_check('^NSEI')
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
-    print("-" * 42)
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
     print(random_message)
