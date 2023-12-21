@@ -1,7 +1,6 @@
 while True:
     import subprocess
     subprocess.run(['python3', 'cpritepxy.py'])
-    from colorama import Fore, Style
     import time
     import subprocess
     from nftpxy import nse_action, nse_power
@@ -130,24 +129,7 @@ while True:
     
     # Call the function and store the result in a variable
     mktpxy = get_market_check('^NSEI')
-    BRIGHT_YELLOW = "\033[93m"
-    SILVER = "\033[97m"
-    UNDERLINE = "\033[4m"
-    RESET = "\033[0m"
-    print(f'{BRIGHT_YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
-    print(f"{BRIGHT_YELLOW}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{RESET}💥⚡")
 
-
-    print("\033[93m🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛\033[0m")
-    print("\033[93mMarket is Bullish⚡💥 - Power⚡💥0.89\033[0m💥⚡")
-
-    print(f"{Fore.YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{Style.RESET_ALL}")
-    print(f"{Fore.YELLOW}Market is Bullish⚡💥 - Power⚡💥0.89{Style.RESET_ALL}💥⚡")
-
-    print("-" * 42)
-    
-    # Print the result (you can remove this if not needed)
-    # print(f"mktpxy: {mktpxy}")
     print("-" * 42)   
     print(random_message)
     print("-" * 42)   
