@@ -536,7 +536,7 @@ try:
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-0))    
-    print("-" * 42)
+        print("-" * 42)
   
 ###########################################################################################################################################################################################################
     # Define the CSV file path
