@@ -517,7 +517,7 @@ try:
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
 
-    print("-" * 42)
+    #print("-" * 42)
     # Always print "Table" in bright yellow
     
     
