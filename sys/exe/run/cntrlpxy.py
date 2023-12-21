@@ -631,8 +631,6 @@ try:
     print(right_aligned_format.format(f"Delivery:{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{total_PnL_cnc_buy}{RESET}"))
     print(left_aligned_format.format(f"Switch:{BRIGHT_YELLOW}{switch}{RESET}"), end="")
     print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
-    print(left_aligned_format.format(f"Base:{BRIGHT_YELLOW}{trgtpxy}{RESET}"), end="")
-    print(right_aligned_format.format(f"Level:{BRIGHT_GREEN if trgtpxy > 2 else BRIGHT_YELLOW}{trgtpxy}{RESET}"))
     print(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if Day_Change >= 0 else BRIGHT_RED}{round(Day_Change, 2)}{RESET}"), end="")
     print(right_aligned_format.format(f"Target:{BRIGHT_GREEN if trgtpxy >= 5 else BRIGHT_RED}{trgtpxy}{RESET}"))
     print(left_aligned_format.format(f"Status:{BRIGHT_GREEN if nse_action in ('Bullish', 'Bull') else BRIGHT_RED}{nse_action}{RESET}"), end="")
