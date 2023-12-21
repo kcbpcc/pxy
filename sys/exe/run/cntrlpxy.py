@@ -631,8 +631,9 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
-    print(" " * 42) 
+    #print("-" * 42)
     print(f"{BRIGHT_YELLOW}📉🔀Trades Overview & Market Dynamics 📈🔄 {RESET}")
+    #print("-" * 42)
     # ANSI escape codes for text coloring
     RESET = "\033[0m"
     BRIGHT_YELLOW = "\033[93m"
