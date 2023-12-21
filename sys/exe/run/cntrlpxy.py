@@ -535,7 +535,8 @@ try:
     if not cnc_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Portfolio base:{cnc_filter}|level:{cnc_target}|target:{time_target}{RESET}")
         print("-" * 42)
-        print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
+        print(cnc_filtered_df.style.apply(lambda x: ['background-color: green' if x['PL%'] > x['tPL%'] else '' for _ in x], axis=1).to_string(index=False, justify='left', col_space=-0, header=False))
+
     
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
