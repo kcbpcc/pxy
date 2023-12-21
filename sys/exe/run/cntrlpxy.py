@@ -125,7 +125,6 @@ def order_place_avg(index, row):
         open_positions = positions_response.get('net', [])
 
         existing_position = next((position for position in open_positions if position['tradingsymbol'] == exchsym[1]), None)
-        print(f"existing_position: {existing_position}")
         if existing_position:
             logging.info(f"Position already exists for {exchsym[1]}. Skipping order placement.")
             return True
