@@ -640,8 +640,6 @@ try:
     print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
     print("-" * 42)
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
-    #mktpxy = get_market_check('^NSEI')    
-    print("-" * 42)
     print(f"{BRIGHT_YELLOW}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{RESET}💥⚡")
     print("-" * 42)
     
