@@ -408,8 +408,8 @@ try:
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     print(" " * 42)
     from selfpxy import get_random_spiritual_message
-    random_message = get_random_spiritual_message()
-    print(random_message)
+    #random_message = get_random_spiritual_message()
+    #print(random_message)
     print("-" * 42)
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
