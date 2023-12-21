@@ -658,8 +658,8 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")
 
-print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
-#mktpxy = get_market_check('^NSEI')    
+    print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
+    #mktpxy = get_market_check('^NSEI')    
 
 
 except Exception as e:
