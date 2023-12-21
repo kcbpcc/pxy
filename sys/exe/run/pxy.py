@@ -1,6 +1,7 @@
 while True:
     import subprocess
     subprocess.run(['python3', 'cpritepxy.py'])
+    from colorama import Fore, Style
     import time
     import subprocess
     from nftpxy import nse_action, nse_power
@@ -139,6 +140,9 @@ while True:
 
     print("\033[93m🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛\033[0m")
     print("\033[93mMarket is Bullish⚡💥 - Power⚡💥0.89\033[0m💥⚡")
+
+    print(f"{Fore.YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}Market is Bullish⚡💥 - Power⚡💥0.89{Style.RESET_ALL}💥⚡")
 
     print("-" * 42)
     
