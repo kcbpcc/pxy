@@ -78,7 +78,7 @@ def order_place(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
+                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -210,7 +210,7 @@ def mis_order_buy(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
+                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -291,7 +291,6 @@ try:
     from swchpxy import analyze_stock
     import telegram
     import asyncio
-    from smbpxy import get_smbpxy_check
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
     switch = analyze_stock('^NSEI')
@@ -387,6 +386,7 @@ try:
             return row['tPL%']
     combined_df['tPL%'] = combined_df.apply(clip_tpl, axis=1)
     combined_df['tPL%'] = combined_df['tPL%'].round(2)
+   
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
@@ -413,7 +413,7 @@ try:
     print("-" * 42)
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
-    combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS") if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS") is not None else mktpxy, axis=1)
+    #combined_df['smb_power'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS") if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS") is not None else mktpxy, axis=1)
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
@@ -435,7 +435,7 @@ try:
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
-    numeric_columns = ['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
+    numeric_columns = ['tPL%','smb_power','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)        # Filter combined_df
     filtered_df = combined_df[combined_df['qty'] != 0]
     # Filter combined_df for rows where 'qty' is greater than 0
@@ -465,16 +465,16 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['tPL%','smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
+    pxy_df = filtered_df.copy()[['tPL%','smb_power','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
 
 
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
-    EXE_df = pxy_df[['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
+    EXE_df = pxy_df[['tPL%','smb_power','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','key','dPL%','tPL%','PL%','PnL','qty','smbchk']]
+    PRINT_df = pxy_df[['source','product','key','dPL%','tPL%','PL%','PnL','qty','smb_power']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smbchk': 'TR','key': 'key','dPL%': 'dPL%'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smb_power': 'TR','key': 'key','dPL%': 'dPL%'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '💼', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
