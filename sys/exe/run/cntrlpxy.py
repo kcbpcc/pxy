@@ -388,7 +388,7 @@ try:
     combined_df['tPL%'] = combined_df['tPL%'].round(2)
    
 ###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'cpritepxy.py'])
+    
     subprocess.run(['python3', 'prftpxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
     # Define color codes
