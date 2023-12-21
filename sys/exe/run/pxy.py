@@ -122,7 +122,7 @@ while True:
             console.print("🌟 [bold]Market on standby![/bold] 🍿💰📊")
 
         return mktpxy        
-    print("-" * 42)  
+    
     # Call the function and store the result in a variable
     mktpxy = get_market_check('^NSEI')
 
