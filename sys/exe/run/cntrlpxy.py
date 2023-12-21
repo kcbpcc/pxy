@@ -521,7 +521,7 @@ try:
                     ):
 
                         try:                            
-                            from dfavgpxy import order_place_avg
+                            import dfavgpxy
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
