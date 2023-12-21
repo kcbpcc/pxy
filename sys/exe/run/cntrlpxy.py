@@ -296,10 +296,7 @@ try:
     switch = analyze_stock('^NSEI')
     print("-" * 42)
     #from ordpxy import get_open_order_status
-    yellow_color_code = "\033[93m"  # Replace with your actual ANSI color code for yellow
-    reset_color_code = "\033[0m"    # Replace with your actual ANSI color code for resetting color
-    print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
-    print("-" * 42)
+
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
@@ -391,9 +388,7 @@ try:
     
     subprocess.run(['python3', 'prftpxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
-    print("-" * 42)
-    print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
-    print("-" * 42)
+
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
     # Calculate 'Invested' column
@@ -646,6 +641,9 @@ try:
     print("-" * 42)
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     #mktpxy = get_market_check('^NSEI')    
+    print("-" * 42)
+    print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
+    print("-" * 42)
     
 
 except Exception as e:
