@@ -65,7 +65,7 @@ while true; do
             ;;
 
         "")
-            echo "......Lets have fun with PXY®  🔥💫🚀🔥"
+            echo "........Lets have fun with PXY®  🔥💫🚀🔥"
             pxypxy
             ;;
         *)
