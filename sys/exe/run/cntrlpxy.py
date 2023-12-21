@@ -369,18 +369,21 @@ try:
     )
     from nftpxy import nse_action, nse_power   
     combined_df['fPL%'] = combined_df.apply(lambda row: max(1.4, round(0.4 + (row['smb_power'] + nse_power), 2)), axis=1)
-    combined_df['tPL%'] = combined_df.apply(lambda row: max(combined_df['fPL%'], round(trgtpxy * (row['smb_power'] + nse_power), 2)), axis=1)
-
-
+    combined_df['tPL%'] = combined_df.apply(lambda row: max(2 * row['fPL%'], round(trgtpxy * (row['smb_power'] + nse_power), 2)), axis=1)
     def clip_tpl(row):
         if row['source'] == 'holdings':
             return max(row['tPL%'], 3.0)
+            return max(row['fPL%'], 2.0)
         elif row['source'] == 'positions':
             return max(row['tPL%'], 3.0) / 2
+            return max(row['fPL%'], 2.0) / 2
         else:
             return row['tPL%']
+            return row['fPL%']
     combined_df['tPL%'] = combined_df.apply(clip_tpl, axis=1)
     combined_df['tPL%'] = combined_df['tPL%'].round(2)
+    combined_df['fPL%'] = combined_df.apply(clip_tpl, axis=1)
+    combined_df['fPL%'] = combined_df['tPL%'].round(2)
    
 ###########################################################################################################################################################################################################
     
