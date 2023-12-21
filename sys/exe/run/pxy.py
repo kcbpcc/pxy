@@ -1,4 +1,6 @@
 while True:
+    import subprocess
+    subprocess.run(['python3', 'cpritepxy.py'])
     import time
     import subprocess
     from nftpxy import nse_action, nse_power
@@ -7,7 +9,6 @@ while True:
     from rich.console import Console
     from rich.style import Style
     import sys
-    import subprocess
     from rich import print
     from looppxy import loop_duration
     from swchpxy import analyze_stock
