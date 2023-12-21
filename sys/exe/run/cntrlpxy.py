@@ -368,10 +368,13 @@ try:
     }), axis=1
     )
     from nftpxy import nse_action, nse_power   
+    combined_df['fPL%'] = combined_df.apply(lambda row: round(1.4 + (row['smb_power'] + row['nse_power']), 2), axis=1)
     cnc_target = round(3 + (nse_power * 3.6), 2)
-    cnc_filter = round(cnc_target / 2, 2)
-    time_target = round(cnc_filter + trgtpxy, 2)
-    combined_df['tPL%'] = time_target * ((combined_df['smb_power'] + nse_power) / 2)
+    
+    time_target = round(fPL% + trgtpxy, 2)
+    combined_df['tPL%'] = combined_df.apply(lambda row: round(time_target * (row['smb_power'] + row['nse_power']), 2), axis=1)
+
+
     def clip_tpl(row):
         if row['source'] == 'holdings':
             return max(row['tPL%'], 3.0)
@@ -501,7 +504,7 @@ try:
     # Assuming PRINT_df_sorted_display is your DataFrame
 
    
-    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > cnc_filter ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '⏰')]
+    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > fPL% ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '⏰')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['_CM'] == '⌛')]
 
 
@@ -509,7 +512,7 @@ try:
 ###########################################################################################################################################################################################################
 
     if not cnc_filtered_df.empty:
-        print(f"{BRIGHT_YELLOW}Portfolio| base:{cnc_filter}| level:{cnc_target}| target:{time_target}{RESET}")
+        print(f"{BRIGHT_YELLOW}Portfolio| base:{fPL%}| level:{cnc_target}| target:{time_target}{RESET}")
         print("-" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
     
@@ -547,7 +550,7 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > (cnc_filter)) and
+                         row['PL%'] > (fPL%)) and
                         (
                             (row['PL%'] > (row['tPL%']))
                         )
