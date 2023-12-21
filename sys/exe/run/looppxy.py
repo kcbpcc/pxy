@@ -34,6 +34,5 @@ current_utc_time = datetime.utcnow().time()
 
 # Calculate loop duration based on current time
 loop_duration = calculate_loop_duration(current_utc_time)
-print("-" * 42)
 print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}".rjust(40))
 print(f"Loop Duration : {loop_duration} seconds".rjust(40))
