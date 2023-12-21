@@ -78,7 +78,7 @@ def order_place(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -115,6 +115,7 @@ def order_place(index, row):
     return False
 
 ###########################################################################################################################################################################################################
+
 def order_place_avg(index, row):
     try:
        
@@ -125,6 +126,7 @@ def order_place_avg(index, row):
         open_positions = positions_response.get('net', [])
 
         existing_position = next((position for position in open_positions if position['tradingsymbol'] == exchsym[1]), None)
+        print(f"existing_position: {existing_position}")
         if existing_position:
             logging.info(f"Position already exists for {exchsym[1]}. Skipping order placement.")
             return True
@@ -210,7 +212,7 @@ def mis_order_buy(index, row):
                         import telegram
                         import asyncio
                     
-                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
+                        columns_to_drop = ['smbchk', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
                     
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -291,6 +293,7 @@ try:
     from swchpxy import analyze_stock
     import telegram
     import asyncio
+    from smbpxy import get_smbpxy_check
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
     switch = analyze_stock('^NSEI')
@@ -376,7 +379,7 @@ try:
     cnc_target = round(3 + (nse_power * 3.6), 2)
     cnc_filter = round(cnc_target / 2, 2)
     time_target = round(cnc_filter + trgtpxy, 2)
-    combined_df['tPL%'] = time_target * ((combined_df['smb_power'] + nse_power) / 2)
+    combined_df['tPL%'] = time_target * (combined_df['smb_power'] + nse_power)
     def clip_tpl(row):
         if row['source'] == 'holdings':
             return max(row['tPL%'], 3.0)
@@ -386,7 +389,6 @@ try:
             return row['tPL%']
     combined_df['tPL%'] = combined_df.apply(clip_tpl, axis=1)
     combined_df['tPL%'] = combined_df['tPL%'].round(2)
-   
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'prftpxy.py'])
@@ -400,20 +402,20 @@ try:
     color_code = GREEN if available_cash > 6000 else RED
     
     # Print the message with the chosen color
-    print(f"Available Funds💰💰💰💰: {available_cash:.0f}".rjust(33))
+    print(f"Available Funds 💰💰💰: {color_code}{available_cash:.0f}{RESET}".rjust(40))
     print("-" * 42)
     print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
     print("-" * 42)
     mktpxy = get_market_check('^NSEI')
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
-    print(" " * 42)
+    print("-" * 42)
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
     print(random_message)
     print("-" * 42)
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
-    #combined_df['smb_power'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS") if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS") is not None else mktpxy, axis=1)
+    combined_df['smbchk'] = combined_df.apply(lambda row: get_smbpxy_check(row['tradingsymbol'] + ".NS") if row['qty'] != 0 and row['tradingsymbol'] in smb500_list and get_smbpxy_check(row['tradingsymbol'] + ".NS") is not None else mktpxy, axis=1)
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
@@ -435,7 +437,7 @@ try:
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
-    numeric_columns = ['tPL%','smb_power','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
+    numeric_columns = ['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)        # Filter combined_df
     filtered_df = combined_df[combined_df['qty'] != 0]
     # Filter combined_df for rows where 'qty' is greater than 0
@@ -465,34 +467,25 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['tPL%','smb_power','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
+    pxy_df = filtered_df.copy()[['tPL%','smbchk','oPL%','pstp','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
 
 
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
-    EXE_df = pxy_df[['tPL%','smb_power','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
+    EXE_df = pxy_df[['tPL%','smbchk','oPL%','pstp','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]
 
-    PRINT_df = pxy_df[['source','product','key','dPL%','tPL%','PL%','PnL','qty','smb_power']]
+    PRINT_df = pxy_df[['source','product','key','dPL%','tPL%','PL%','PnL','qty','smbchk']]
     # Rename columns for display
-    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smb_power': 'TR','key': 'key','dPL%': 'dPL%'})
+    PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smbchk': 'TR','key': 'key','dPL%': 'dPL%'})
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '💼', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
     PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '⏰', 'MIS': '⌛'}) 
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
-    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: 
-        '🟢' if TR > 0.8 else (
-            '🟡' if 0.5 < TR <= 0.8 else (
-                '⚫️' if 0.3 < TR <= 0.5 else (
-                    '🔴' if TR <= 0.3 else TR
-                )
-            )
-        )
-    )
+    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '🟢' if TR == 'Bull' else ('🔴' if TR == 'Bear' else ('🌚' if TR == 'Sell' else ('🌕' if TR == 'Buy' else TR))))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
-    PRINT_df['key'] = PRINT_df['key'].str.replace(r'BSE:|NSE:', '', regex=True)
-  
+    PRINT_df['key'] = PRINT_df['key'].str.replace(r'(BSE:|NSE:)', '', regex=True)    
     # Sort the DataFrame by 'PL%' in ascending order
     # Assuming you have a DataFrame named PRINT_df
 
@@ -551,7 +544,7 @@ try:
     # Create an empty list to store the rows that meet the condition
     selected_rows = []
     # Loop through the DataFrame and place orders based on conditions
-    if nse_power < 0.9:
+    if nse_power < 0.7:
         try:
             for index, row in EXE_df.iterrows():
                 key = row['key']  # Get the 'key' value
@@ -593,9 +586,9 @@ try:
 ###########################################################################################################################################################################################################                    
                     elif (
                         (row['qty'] > 0 and
-                         row['PL%'] < -1 and
-                         nse_power < 0.1)
+                         row['PL%'] < -19)
                     ):
+
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
@@ -662,9 +655,10 @@ try:
         print(left_aligned_format.format(f"Status:{BRIGHT_GREEN if nse_action in ('Bullish', 'Bull') else BRIGHT_RED}{nse_action}{RESET}"), end="")
         print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
         print("-" * 42)
+
 ###########################################################################################################################################################################################################
         print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
-        
+        #mktpxy = get_market_check('^NSEI')
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
