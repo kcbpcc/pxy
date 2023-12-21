@@ -129,7 +129,7 @@ while True:
     
     # Call the function and store the result in a variable
     mktpxy = get_market_check('^NSEI')
-
+    subprocess.run(['python3', 'cntrlpxy.py'])
     print("-" * 42)   
     print(random_message)
     print("-" * 42)   
