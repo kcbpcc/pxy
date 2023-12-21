@@ -483,7 +483,7 @@ try:
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '🟢' if TR > 0.8 else ('🟡' if 0.5 < TR <= 0.8 else ('⚫️' if 0.3 < TR <= 0.5 else ('🔴' if TR <= 0.3 else TR)))
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
-    PRINT_df['key'] = PRINT_df['key'].str.replace(r'BSE:|NSE:', '', regex=True)
+    #PRINT_df['key'] = PRINT_df['key'].str.replace(r'BSE:|NSE:', '', regex=True)
   
     # Sort the DataFrame by 'PL%' in ascending order
     # Assuming you have a DataFrame named PRINT_df
