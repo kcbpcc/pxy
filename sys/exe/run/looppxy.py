@@ -2,14 +2,14 @@ from datetime import datetime, timedelta
 
 def calculate_loop_duration(current_time):
     # Define time intervals
-    interval_1_start = datetime.strptime("03:41", "%H:%M").time()
-    interval_1_end = datetime.strptime("04:15", "%H:%M").time()
+    interval_1_start = datetime.strptime("03:30", "%H:%M").time()
+    interval_1_end = datetime.strptime("04:00", "%H:%M").time()
     
-    interval_2_start = datetime.strptime("09:14", "%H:%M").time()
+    interval_2_start = datetime.strptime("09:15", "%H:%M").time()
     interval_2_end = datetime.strptime("10:00", "%H:%M").time()
 
-    interval_3_start = datetime.strptime("10:01", "%H:%M").time()
-    interval_3_end = datetime.strptime("03:40", "%H:%M").time()
+    interval_3_start = datetime.strptime("10:00", "%H:%M").time()
+    interval_3_end = datetime.strptime("03:30", "%H:%M").time()
 
     # Convert current time to datetime object with today's date
     current_datetime = datetime.combine(datetime.today(), current_time)
