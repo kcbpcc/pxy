@@ -185,66 +185,7 @@ def order_place_avg(index, row):
     return False
 
 ###########################################################################################################################################################################################################
-def mis_order_buy(index, row):
-    try:
-        exchsym = str(index).split(":")
-        if len(exchsym) >= 2:
-            logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
-            order_id = broker.order_place(
-                tradingsymbol=exchsym[1],
-                exchange=exchsym[0],
-                transaction_type='BUY',
-                quantity=int(-1*row['qty']),
-                order_type='LIMIT',
-                product='MIS',
-                variety='regular',
-                price=round_to_paise(row['ltp'], +0.1)
-            )
-            if order_id:
-                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
-                # Write the row to the CSV file here
-                with open(csv_file_path, 'a', newline='') as csvfile:
-                    csvwriter = csv.writer(csvfile)
-                    csvwriter.writerow(row.tolist())  # Write the selected row to the CSV file
-                    try:
-                        import telegram
-                        import asyncio
-                    
-                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
-                    
-                        # Dropping specified columns from the row
-                        for column in columns_to_drop:
-                            if column in row:
-                                del row[column]
-                    
-                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-                        
-                        # Define the bot token and your Telegram username or ID
-                        bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
-                        user_usernames = ('-4022487175')  # Replace with your Telegram username or ID
-                        
-                        # Function to send a message to Telegram
-                        async def send_telegram_message(message_text):
-                            bot = telegram.Bot(token=bot_token)
-                            await bot.send_message(chat_id=user_usernames, text=message_text)
-                    
-                    except Exception as e:
-                        # Handle the exception (e.g., log it) and continue with your code
-                        print(f"Error sending message to Telegram: {e}")
-                    
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
-                    loop = asyncio.get_event_loop()
-                    loop.run_until_complete(send_telegram_message(message_text))
-                
-                return True                
-            else:
-                logging.error("Order placement failed")       
-        else:
-            logging.error("Invalid format for 'index'")    
-    except Exception as e:
-        #print(traceback.format_exc())
-        logging.error(f"{str(e)} while placing order")
-    return False
+
 ###########################################################################################################################################################################################################
 def get_holdingsinfo(resp_list, broker):
     try:
@@ -515,7 +456,7 @@ try:
     # Create an empty list to store the rows that meet the condition
     selected_rows = []
     # Loop through the DataFrame and place orders based on conditions
-    if nse_power < 0.9:
+    if nse_power < 0.8:
         try:
             for index, row in EXE_df.iterrows():
                 key = row['key']  # Get the 'key' value
@@ -557,8 +498,7 @@ try:
 ###########################################################################################################################################################################################################                    
                     elif (
                         (row['qty'] > 0 and
-                         row['PL%'] < -1 and
-                         nse_power < 0.1)
+                         row['PL%'] < -15 )
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -571,31 +511,12 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-
-###########################################################################################################################################################################################################
-                    elif (
-                        row['qty'] < 0 and
-                        row['product'] == 'MIS' and
-                        ((row['PL%']) < -1) 
-                    ):
-
-                        try:
-                            is_placed = mis_order_buy(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                # Print the row before placing the order
-                                print(row)
-
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
-                        except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-       
+      
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
+
     print("-" * 42)
     print(f"{BRIGHT_YELLOW}📉🔀Trades Overview & Market Dynamics 📈🔄 {RESET}")
     # ANSI escape codes for text coloring
