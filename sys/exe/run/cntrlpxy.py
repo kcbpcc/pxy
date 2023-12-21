@@ -642,7 +642,7 @@ try:
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     #mktpxy = get_market_check('^NSEI')    
     print("-" * 42)
-    print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
+    print(f"{BRIGHT_YELLOW}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{RESET}💥⚡")
     print("-" * 42)
     
 
