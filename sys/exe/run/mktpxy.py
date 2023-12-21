@@ -7,7 +7,7 @@ from rich.style import Style
 import sys
 import yfinance as yf
 import os
-from mktpxy import nse_power
+from nftpxy import nse_power
 
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
@@ -67,7 +67,7 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
         last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
 
-    print(f'Nifty 50 > : Last:{"🔴🔴🔴🔴" if last_closed_color == "Bear" else "🟢🟢🟢🟢"}|now:{"🐻🔴🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🟢🛫⤴️"}')
+    print(f'Nifty {nse_power} > : Last:{"🔴🔴🔴🔴" if last_closed_color == "Bear" else "🟢🟢🟢🟢"}|now:{"🐻🔴🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🟢🛫⤴️"}')
     return current_color, last_closed_color
 
 # Function to determine the market check based on candle colors
