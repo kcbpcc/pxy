@@ -410,7 +410,7 @@ try:
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
     print(random_message)
-    
+    print("-" * 42)
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
     # Calculate 'Invested' column
@@ -475,7 +475,15 @@ try:
     # Conditionally replace values in the '_CM' column
     PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '⏰', 'MIS': '⌛'}) 
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
-    
+    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: 
+        '🟢' if TR > 0.8 else (
+            '🟡' if 0.5 < TR <= 0.8 else (
+                '⚫️' if 0.3 < TR <= 0.5 else (
+                    '🔴' if TR <= 0.3 else TR
+                )
+            )
+        )
+    )
     # Convert the 'PnL' column to integers
     # Remove 'BSE:' or 'NSE:' from the 'key' column
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'BSE:|NSE:', '', regex=True)
@@ -528,7 +536,7 @@ try:
     if not mis_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-0))    
-        print("-" * 42)
+    print("-" * 42)
   
 ###########################################################################################################################################################################################################
     # Define the CSV file path
