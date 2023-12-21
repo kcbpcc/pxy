@@ -410,7 +410,7 @@ try:
     from selfpxy import get_random_spiritual_message
     random_message = get_random_spiritual_message()
     print(random_message)
-    print("-" * 42)
+    
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
     # Calculate 'Invested' column
