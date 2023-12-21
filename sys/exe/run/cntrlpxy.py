@@ -1,4 +1,4 @@
-print(f'🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛')
+
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from login_get_kite import get_kite, remove_token
@@ -391,16 +391,6 @@ try:
     
     subprocess.run(['python3', 'prftpxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
-    # Define color codes
-    GREEN = "\033[92m"
-    RED = "\033[91m"
-    RESET = "\033[0m"
-    
-    # Determine color based on available_cash
-    color_code = GREEN if available_cash > 6000 else RED
-    
-    # Print the message with the chosen color
-    print(f"Available Funds💰💰💰💰: {available_cash:.0f}".rjust(33))
     print("-" * 42)
     print(f"{yellow_color_code}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{reset_color_code}💥⚡")
     print("-" * 42)
