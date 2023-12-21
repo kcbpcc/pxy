@@ -662,6 +662,7 @@ try:
     print(right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
     print("-" * 42)
     from dshpxy import get_holdingsinfo
+    zero_qty_count = holdings_df[holdings_df['qty'] == 0].shape[0]
     print("Number of Stocks Sold 💸💸💸: {}".format(zero_qty_count).rjust(38))
     print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     #mktpxy = get_market_check('^NSEI')    
