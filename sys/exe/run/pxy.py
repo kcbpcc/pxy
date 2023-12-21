@@ -129,8 +129,8 @@ while True:
     
     # Call the function and store the result in a variable
     mktpxy = get_market_check('^NSEI')
-
-    print(f'{SILVER}{UNDERLINE}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
+    BRIGHT_YELLOW = "\033[93m"
+    print(f'{BRIGHT_YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     print(f"{BRIGHT_YELLOW}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{RESET}💥⚡")
     print("-" * 42)
     
