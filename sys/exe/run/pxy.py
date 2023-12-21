@@ -135,6 +135,11 @@ while True:
     RESET = "\033[0m"
     print(f'{BRIGHT_YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     print(f"{BRIGHT_YELLOW}Market is {nse_action}⚡💥 - Power⚡💥{nse_power}{RESET}💥⚡")
+
+
+    print("\033[93m🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛\033[0m")
+    print("\033[93mMarket is Bullish⚡💥 - Power⚡💥0.89\033[0m💥⚡")
+
     print("-" * 42)
     
     # Print the result (you can remove this if not needed)
