@@ -115,7 +115,7 @@ def order_place(index, row):
     return False
 
 ###########################################################################################################################################################################################################
-from dfavgpxy import order_place_avg
+
 
 ###########################################################################################################################################################################################################
 def mis_order_buy(index, row):
@@ -521,6 +521,7 @@ try:
                     ):
 
                         try:                            
+                            from dfavgpxy import order_place_avg
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
