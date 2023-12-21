@@ -369,7 +369,7 @@ try:
     )
     from nftpxy import nse_action, nse_power   
     combined_df['fPL%'] = combined_df.apply(lambda row: max(1.4, round(0.4 + (row['smb_power'] + nse_power), 2)), axis=1)
-    combined_df['tPL%'] = combined_df.apply(lambda row: max(2.4, round(trgtpxy * (row['smb_power'] + nse_power), 2)), axis=1)
+    combined_df['tPL%'] = combined_df.apply(lambda row: max(combined_df['fPL%'], round(trgtpxy * (row['smb_power'] + nse_power), 2)), axis=1)
 
 
     def clip_tpl(row):
