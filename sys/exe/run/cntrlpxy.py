@@ -509,7 +509,7 @@ try:
 ###########################################################################################################################################################################################################
 
     if not cnc_filtered_df.empty:
-        print(f"{BRIGHT_YELLOW}Portfolio base:{cnc_filter}|level:{cnc_target}|target:{time_target}{RESET}")
+        print(f"{BRIGHT_YELLOW}Portfolio| base:{cnc_filter}| level:{cnc_target}| target:{time_target}{RESET}")
         print("-" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
     
