@@ -308,16 +308,16 @@ try:
     }), axis=1
     )
     def calculate_mktweight(nse_power):
-        if nse_power > 0.75:
+        if 0.75 <= nse_power <= 1.0:
             return 7.5
-        elif nse_power > 0.5:
-            return 5
-        elif nse_power > 0.25:
+        elif 0.5 <= nse_power < 0.75:
+            return 5.0
+        elif 0.25 <= nse_power < 0.5:
             return 2.5
-        elif nse_power > 0.1:
-            return 1
+        elif 0.1 <= nse_power < 0.25:
+            return 1.0
         else:
-            return 1  # Default value if none of the conditions are met
+            return 5.0  # Default value if none of the conditions are met
     
     # Example usage:
     nse_power_value = 0.8  # Replace this with your actual nse_power value
