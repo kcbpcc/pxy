@@ -1,5 +1,6 @@
 while True:
     import subprocess
+    from looppxy import loop_duration
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
     import time
@@ -11,7 +12,6 @@ while True:
     from rich.style import Style
     import sys
     from rich import print
-    from looppxy import loop_duration
     from swchpxy import analyze_stock
     import yfinance as yf
     import os
