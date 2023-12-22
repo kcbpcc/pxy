@@ -385,7 +385,7 @@ try:
 ###########################################################################################################################################################################################################
     from utcpxy import peak_time
     utct = peak_time()
-    print(utct)
+    #print(utct)
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
     # Create an empty list to store the rows that meet the condition
