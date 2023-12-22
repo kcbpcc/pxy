@@ -184,7 +184,6 @@ try:
     from mktpxy import get_market_check
     import importlib
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change
-    from timepxy import calculate_timpxy
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
     from swchpxy import analyze_stock
@@ -198,7 +197,6 @@ try:
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
     #from telpxy import send_telegram_message
-    timpxy = calculate_timpxy()
     #csv_file_path = "filePnL.csv"
     #total_profit_main = process_csv(csv_file_path)
     mktpxy = get_market_check('^NSEI')
