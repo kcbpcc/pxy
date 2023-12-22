@@ -38,14 +38,15 @@ def get_market_check(symbol):
     current_color, last_closed_color = calculate_last_two_heikin_ashi_colors(symbol, intervals[0])
     return current_color
 
-# Read symbols from the CSV file and list them first
+import csv
+
 symbols_list = []
 
 with open('intradaypxy.txt', 'r') as file:
     csv_reader = csv.reader(file)
     for row in csv_reader:
-        if len(row) > 1:  # Check if there is at least one symbol in the second column
-            symbol = row[0].strip('"') + suffix  # Assuming symbols are in the second column
+        if row:  # Check if the row is not empty
+            symbol = row[0].strip('"')  # Assuming symbols are in the first (and only) column
             symbols_list.append(symbol)
 
 # Perform the market check for each symbol and print the result
