@@ -294,8 +294,7 @@ try:
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01) 
     ###########################################################################################################################################################################################################
-    from trgtpxy import calculate_trgtpxy
-    trgtpxy = calculate_trgtpxy(timpxy, nse_action)
+
     epsilon = 1e-10
     combined_df[['smb_power']] = combined_df.apply(
     lambda row: pd.Series({
@@ -307,23 +306,11 @@ try:
         ),
     }), axis=1
     )
-    def calculate_mktweight(nse_power):
-        if 0.75 <= nse_power <= 1.0:
-            return 7.5
-        elif 0.5 <= nse_power < 0.75:
-            return 5.0
-        elif 0.25 <= nse_power < 0.5:
-            return 2.5
-        elif 0.0 <= nse_power < 0.25:
-            return 1.0
-        else:
-            return 5.0  # Default value if none of the conditions are met
-    
-    # Example usage:
-    mktweight = calculate_mktweight(nse_power)
+    from trgtpxy import calculate_trgtpxy
+    trgtpxy = calculate_trgtpxy(nse_power)
     from nftpxy import nse_action, nse_power   
     combined_df['fPL%'] = combined_df.apply(lambda row: max(1.4, round(0.4 + (row['smb_power'] + nse_power), 2)), axis=1)
-    combined_df['tPL%'] = combined_df.apply(lambda row: max(((1 + nse_power) * row['fPL%']), round(mktweight * (row['smb_power'] + nse_power), 2)), axis=1)
+    combined_df['tPL%'] = combined_df.apply(lambda row: max(((1 + nse_power) * row['fPL%']), round(trgtpxy * (row['smb_power'] + nse_power), 2)), axis=1)
  
 ###########################################################################################################################################################################################################
     
@@ -556,7 +543,7 @@ try:
     print(left_aligned_format.format(f"Switch:{BRIGHT_YELLOW}{switch}{RESET}"), end="")
     print(right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
     print(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if Open_Change >= 0 else BRIGHT_RED}{round(Open_Change, 2)}{RESET}"), end="")
-    print(right_aligned_format.format(f"Target:{BRIGHT_GREEN if mktweight >= 5 else BRIGHT_RED}{mktweight}{RESET}"))
+    print(right_aligned_format.format(f"Target:{BRIGHT_GREEN if trgtpxy >= 5 else BRIGHT_RED}{trgtpxy}{RESET}"))
     print(left_aligned_format.format(f"Status:{BRIGHT_GREEN if nse_action in ('Bullish', 'Bull') else BRIGHT_RED}{nse_action}{RESET}"), end="")
     print(right_aligned_format.format(f"Power:{BRIGHT_GREEN if nse_power > 0.5 else BRIGHT_RED}{nse_power}{RESET}"))
     print("-" * 42)
