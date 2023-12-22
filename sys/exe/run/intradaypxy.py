@@ -45,7 +45,7 @@ with open('intradaypxy.txt', 'r') as file:
     csv_reader = csv.reader(file)
     for row in csv_reader:
         if len(row) > 1:  # Check if there is at least one symbol in the second column
-            symbol = row[1].strip('"') + suffix  # Assuming symbols are in the second column
+            symbol = row[0].strip('"') + suffix  # Assuming symbols are in the second column
             symbols_list.append(symbol)
 
 # Perform the market check for each symbol and print the result
