@@ -427,7 +427,7 @@ try:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
 ###########################################################################################################################################################################################################                    
-                    from utcpxy
+                    from utcpxy import peak_time
                     utc = peak_time()
                     elif (
                         (row['qty'] > 0 and
