@@ -1,8 +1,10 @@
 # trgtpxy.py
 
 def calculate_trgtpxy(nse_power):
-    if 0.75 <= nse_power <= 1.0:
-        return 7.5
+    if 0.90 <= nse_power <= 1.0:
+        return 10.0
+    elif 0.75 <= nse_power < 0.90:
+        return 5.0
     elif 0.5 <= nse_power < 0.75:
         return 5.0
     elif 0.25 <= nse_power < 0.5:
