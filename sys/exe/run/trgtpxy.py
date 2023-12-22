@@ -7,7 +7,7 @@ def calculate_trgtpxy(nse_power):
         return 7.0
     elif 0.5 <= nse_power < 0.75:
         return 5.0
-    elif 0.3 <= nse_power < 0.5:
+    elif 0.3 <= nse_power < 0.50:
         return 3.0
     elif 0.0 <= nse_power < 0.25:
         return 1.0
