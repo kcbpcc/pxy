@@ -42,7 +42,7 @@ import csv
 
 symbols_list = []
 
-with open('intradaypxy.txt', 'r') as file:
+with open('mispxy.txt', 'r') as file:
     csv_reader = csv.reader(file)
     for row in csv_reader:
         if row:  # Check if the row is not empty
