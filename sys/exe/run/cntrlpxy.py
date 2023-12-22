@@ -52,6 +52,7 @@ def get_open_order_status(symbol):
     return "NO"  # No open orders found for the symbol
 
 ###########################################################################################################################################################################################################
+import logging
 from exitordpxy import order_place
 logging.basicConfig(level=logging.INFO)  # Change the log level as needed
 success = order_place(index, row, broker, csv_file_path, key, result)
