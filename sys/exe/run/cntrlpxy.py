@@ -320,7 +320,6 @@ try:
             return 5.0  # Default value if none of the conditions are met
     
     # Example usage:
-    nse_power_value = 0.8  # Replace this with your actual nse_power value
     mktweight = calculate_mktweight(nse_power_value)
     from nftpxy import nse_action, nse_power   
     combined_df['fPL%'] = combined_df.apply(lambda row: max(1.4, round(0.4 + (row['smb_power'] + nse_power), 2)), axis=1)
