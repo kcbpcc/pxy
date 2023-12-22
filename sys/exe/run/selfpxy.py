@@ -126,9 +126,10 @@ def get_random_spiritual_message():
         "🔮 The best way to predict the future is to create it. 🔮 🌟💡 Envision the future you desire, and let every action be a brushstroke on the canvas of time. 💡🌟",
         "🌉 You have the power to turn obstacles into stepping stones. 🌉 🌟💪 Transform challenges into opportunities, and pave your path with resilience. 💪🌟",
         "🎵 Life is a symphony; don't forget to dance to your own tune. 🎵 💃🌟 Let the rhythm of your heart guide your dance, and compose a melody that resonates with joy. 🌟💃"
+    ]
 
     # Choose a random message
-    random_message = get_random_spiritual_message()
+    random_message = random.choice(spiritual_messages)
 
     # Split the message into lines with a maximum of 40 characters per line
     words = random_message.split()
@@ -153,4 +154,5 @@ def get_random_spiritual_message():
 # Example usage:
 random_message = get_random_spiritual_message()
 #print(random_message)
+
 
