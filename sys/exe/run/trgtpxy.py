@@ -13,5 +13,3 @@ def calculate_trgtpxy(nse_power):
         return 1.0
     else:
         return 5.0  # Default value if none of the conditions are met
-
-
