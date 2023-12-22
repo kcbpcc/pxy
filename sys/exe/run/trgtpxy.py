@@ -1,21 +1,15 @@
 # trgtpxy.py
 
-def calculate_trgtpxy(timpxy, nse_action):
-    if nse_action == "Bullish":
-        return round(float(timpxy) * 1.00, 2)
-    elif nse_action == "Bull":
-        return round(float(timpxy) * 0.90, 2)
-    elif nse_action == "Bear":
-        return round(float(timpxy) * 0.70, 2)
-    elif nse_action == "Bearish":
-        return round(float(timpxy) * 0.50, 2)
+def calculate_trgtpxy(nse_power):
+    if 0.75 <= nse_power <= 1.0:
+        return 7.5
+    elif 0.5 <= nse_power < 0.75:
+        return 5.0
+    elif 0.25 <= nse_power < 0.5:
+        return 2.5
+    elif 0.0 <= nse_power < 0.25:
+        return 1.0
     else:
-        # Default value when none of the conditions are met
-        return 3
+        return 5.0  # Default value if none of the conditions are met
 
-if __name__ == "__main__":
-    # Example usage:
-    timpxy_value = 10.0  # Replace with your actual value
-    nse_action_value = "Bullish"  # Replace with your actual value
-    trgtpxy_result = calculate_trgtpxy(timpxy_value, nse_action_value)
-    print("trgtpxy Result:", trgtpxy_result)
+
