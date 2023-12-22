@@ -12,17 +12,14 @@ import csv
 import telegram
 import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
-
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
 result = sum_last_numerical_value_in_each_row(file_path)  
 ###########################################################################################################################################################################################################
-
 SILVER = "\033[97m"
 UNDERLINE = "\033[4m"
 RESET = "\033[0m"
 logging = Logger(30, dir_path + "main.log")
-
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
@@ -31,23 +28,18 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
-
 file_path = 'filePnL.csv'
 ###########################################################################################################################################################################################################
-
 def get_open_order_status(symbol):
     try:
         orders = broker.kite.orders()
-
         for order in orders:
             if order['status'] == 'OPEN' and order['tradingsymbol'] == symbol:
                 return "YES"  # There is at least one open order for the symbol
-
     except Exception as e:
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get orders")
         sys.exit(1)
-
     return "NO"  # No open orders found for the symbol
 ###########################################################################################################################################################################################################
 def order_place(index, row):
@@ -74,33 +66,25 @@ def order_place(index, row):
                     try:
                         import telegram
                         import asyncio
-                    
                         columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
-                    
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
-                                
                         message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-                        
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
                         user_usernames = ('-4022487175')  # Replace with your Telegram username or ID
-                        
                         # Function to send a message to Telegram
                         async def send_telegram_message(message_text):
                             bot = telegram.Bot(token=bot_token)
                             await bot.send_message(chat_id=user_usernames, text=message_text)
-                    
                     except Exception as e:
                         # Handle the exception (e.g., log it) and continue with your code
                         print(f"Error sending message to Telegram: {e}")
-                    
                     # Send the 'row' content as a message to Telegram immediately after printing the row
                     loop = asyncio.get_event_loop()
                     loop.run_until_complete(send_telegram_message(message_text))
-                
                 return True                
             else:
                 logging.error("Order placement failed")       
@@ -113,25 +97,19 @@ def order_place(index, row):
 ###########################################################################################################################################################################################################
 def order_place_avg(index, row):
     try:
-       
         exchsym = str(index).split(":")
-        
         # Check existing positions
         positions_response = broker.kite.positions()
         open_positions = positions_response.get('net', [])
-
         existing_position = next((position for position in open_positions if position['tradingsymbol'] == exchsym[1]), None)
         if existing_position:
             logging.info(f"Position already exists for {exchsym[1]}. Skipping order placement.")
             return True
-
         if len(exchsym) >= 2 :
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
-            
             # Calculate quantity based on the value of 5000
             qty = 5000 // row['ltp']
             qty = int(qty)  # Remove decimals
-            
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
                 exchange=exchsym[0],
@@ -142,42 +120,31 @@ def order_place_avg(index, row):
                 variety='regular',
                 price=round_to_paise(row['ltp'], +0.3)
             )
-            
             if order_id:
                 logging.info(f"BUY {order_id} placed for {exchsym[1]} successfully")
-                
-                # No need to calculate remaining available cash in this case
 
+                # No need to calculate remaining available cash in this case
                 try:
                     message_text = f"{row['ltp']} \nhttps://www.tradingview.com/chart/?symbol={exchsym[1]}"
-
                     # Define the bot token and your Telegram username or ID
                     bot_token = '6704281753:AAEed33wBCxEN81n-NUfajo8pm9gcCVxeZg'  # Replace with your actual bot token
                     user_id = '-4093430309'  # Replace with your Telegram user ID
-
                     # Function to send a message to Telegram
                     async def send_telegram_message(message_text):
                         bot = telegram.Bot(token=bot_token)
                         await bot.send_message(chat_id=user_id, text=message_text)
-
                     # Send the 'row' content as a message to Telegram immediately after printing the row
                     asyncio.run(send_telegram_message(message_text))
-
                 except Exception as e:
                     # Handle the exception (e.g., log it) and continue with your code
                     print(f"Error sending message to Telegram: {e}")
-
                 return exchsym[1], remaining_cash  # Define remaining_cash appropriately
-
             return True
-
         else:
             logging.error("Order placement failed")
-
     except Exception as e:
         # print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
-
     return False
 ###########################################################################################################################################################################################################
 def get_holdingsinfo(resp_list, broker):
@@ -227,7 +194,6 @@ try:
     random_message = get_random_spiritual_message()
     switch = analyze_stock('^NSEI')
     #from ordpxy import get_open_order_status
-
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
@@ -245,7 +211,6 @@ try:
     holdings_df = get_holdingsinfo(holdings_response, broker)
     positions_df = get_positionsinfo(positions_response, broker)
     ###########################################################################################################################################################################################################
- 
     try:
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
@@ -286,7 +251,6 @@ try:
     combined_df['pstp'] = (combined_df['average_price'] *0.99)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01) 
     ###########################################################################################################################################################################################################
-
     epsilon = 1e-10
     combined_df[['smb_power']] = combined_df.apply(
     lambda row: pd.Series({
@@ -303,12 +267,9 @@ try:
     from nftpxy import nse_action, nse_power   
     combined_df['fPL%'] = combined_df.apply(lambda row: max(1.4, round(0.4 + (row['smb_power'] + nse_power), 2)), axis=1)
     combined_df['tPL%'] = combined_df.apply(lambda row: max(((1 + nse_power) * row['fPL%']), round(trgtpxy * (row['smb_power'] + nse_power), 2)), axis=1)
- 
 ###########################################################################################################################################################################################################
-    
     subprocess.run(['python3', 'prftpxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
-
 ###########################################################################################################################################################################################################
     smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
     # Calculate 'Invested' column
@@ -389,44 +350,30 @@ try:
     # Assuming you have a DataFrame named PRINT_df
 ###########################################################################################################################################################################################################    
     import pandas as pd
-    
     # Assuming PRINT_df_sorted is your DataFrame
     PRINT_df_sorted = PRINT_df.copy()
-    
     # Apply the lambda function to limit 'chks' to 2 characters
     PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
-    
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
     PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:12].str.ljust(11, ' ')
-    
     # Sort the DataFrame by 'PL%' in ascending order
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
-    
     # Convert the 'PL%' column to integers
     #PRINT_df_sorted.loc[:, 'PL%'] = PRINT_df_sorted['PL%'].astype(int)
-    
     # ANSI escape codes for text coloring
     RESET = "\033[0m"
     BRIGHT_YELLOW = "\033[93m"
-    
     # Set the maximum width for all columns
     pd.set_option('display.max_colwidth', 1)  # Adjust the value for your desired width
-    
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-
     #print("-" * 42)
     # Always print "Table" in bright yellow
-    
-    
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
-
-   
     cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > PRINT_df_sorted_display['fPL%'] ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '⏰')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['_CM'] == '⌛')]
 ###########################################################################################################################################################################################################
-
     if not cnc_filtered_df.empty:
         print(f"{BRIGHT_YELLOW}HP|CM|STOCK       |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         print("-" * 42)
@@ -437,7 +384,6 @@ try:
         print("-" * 42)
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
         print("-" * 42)
- 
 ###########################################################################################################################################################################################################
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
@@ -482,8 +428,6 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-
-
 ###########################################################################################################################################################################################################                    
                     elif (
                         (row['qty'] > 0 and
@@ -501,7 +445,6 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-      
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")
@@ -511,7 +454,6 @@ try:
              total_PnL_percentage_mis_sell, total_PnL_cnc_buy, switch, available_cash, Open_Change,
              trgtpxy, nse_action, nse_power)
 ###########################################################################################################################################################################################################
-
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
