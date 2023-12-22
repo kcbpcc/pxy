@@ -128,7 +128,7 @@ def get_random_spiritual_message():
         "🎵 Life is a symphony; don't forget to dance to your own tune. 🎵 💃🌟 Let the rhythm of your heart guide your dance, and compose a melody that resonates with joy. 🌟💃"
 
     # Choose a random message
-    random_message = random.choice(spiritual_messages)
+    random_message = get_random_spiritual_message()
 
     # Split the message into lines with a maximum of 40 characters per line
     words = random_message.split()
