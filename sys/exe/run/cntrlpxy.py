@@ -33,7 +33,6 @@ except Exception as e:
     sys.exit(1)
 
 file_path = 'filePnL.csv'
-
 ###########################################################################################################################################################################################################
 
 def get_open_order_status(symbol):
@@ -50,7 +49,6 @@ def get_open_order_status(symbol):
         sys.exit(1)
 
     return "NO"  # No open orders found for the symbol
-
 ###########################################################################################################################################################################################################
 def order_place(index, row):
     try:
@@ -112,7 +110,6 @@ def order_place(index, row):
         #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
-
 ###########################################################################################################################################################################################################
 def order_place_avg(index, row):
     try:
@@ -182,9 +179,6 @@ def order_place_avg(index, row):
         logging.error(f"{str(e)} while placing order")
 
     return False
-
-###########################################################################################################################################################################################################
-
 ###########################################################################################################################################################################################################
 def get_holdingsinfo(resp_list, broker):
     try:
@@ -217,14 +211,12 @@ try:
     from cnstpxy import sellbuff, secs, perc_col_name
     from time import sleep
     import subprocess
-    #from prftpxy import process_csv
     import random
     import os
     import numpy as np
     from mktpxy import get_market_check
     import importlib
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change
-    
     from timepxy import calculate_timpxy
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
@@ -433,9 +425,6 @@ try:
    
     cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > PRINT_df_sorted_display['fPL%'] ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '⏰')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['_CM'] == '⌛')]
-
-
-
 ###########################################################################################################################################################################################################
 
     if not cnc_filtered_df.empty:
@@ -448,8 +437,7 @@ try:
         print("-" * 42)
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
         print("-" * 42)
-
-  
+ 
 ###########################################################################################################################################################################################################
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
