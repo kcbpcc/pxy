@@ -518,7 +518,15 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
+    from bordpxy import printbord
+    printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
+             total_PnL_percentage_mis_sell, total_PnL_cnc_buy, switch, available_cash, Open_Change,
+             mktweight, nse_action, nse_power)
 
+
+
+
+    
     print("-" * 42)
     print(f"{BRIGHT_YELLOW}📉🔀Trades Overview & Market Dynamics 📈🔄 {RESET}")
     # ANSI escape codes for text coloring
