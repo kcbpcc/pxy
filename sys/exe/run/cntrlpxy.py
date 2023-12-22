@@ -476,6 +476,7 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
+                         row['PL%'] > 1 and
                          row['PL%'] > row['fPL%']) and
                         (
                             (row['PL%'] > (row['tPL%']))
