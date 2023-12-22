@@ -12,13 +12,8 @@ def peak_time():
     peak_time_2_end = datetime.strptime("10:00", "%H:%M").replace(tzinfo=timezone.utc)
 
     # Check if the current time is within the peak time ranges
-    peak = (peak_time_1_start <= utc_time <= peak_time_1_end) or \
-              (peak_time_2_start <= utc_time <= peak_time_2_end)
-
-    return peak
-
-if __name__ == "__main__":
-    if peak_time():
-        print("It's peak time!")
+    if (peak_time_1_start <= utc_time <= peak_time_1_end) or \
+       (peak_time_2_start <= utc_time <= peak_time_2_end):
+        return "peak"
     else:
-        print("It's not peak time.")
+        return "nonpeak"
