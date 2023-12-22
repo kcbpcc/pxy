@@ -383,6 +383,8 @@ try:
         print(mis_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
         print("-" * 42)
 ###########################################################################################################################################################################################################
+    from untcpxy import peak_time
+    utct = peak_time()
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
     # Create an empty list to store the rows that meet the condition
@@ -429,7 +431,7 @@ try:
 ###########################################################################################################################################################################################################                    
                     elif (
                         (row['qty'] > 0 and
-                         (nse_power < 0.1 or utc == peak) and 
+                         (nse_power < 0.1 or utct == peak) and 
                          row['PL%'] < -15 )
                     ):
                         try:                            
