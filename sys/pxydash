@@ -6,8 +6,8 @@ BOT_TOKEN="6396096532:AAG5adz_SeUwV8WLn7miteljk_pRrpt8mO0"
 # Replace 'YOUR_CHAT_ID' with your chat ID
 CHAT_ID="-4067167377"
 
-# Replace 'path/to/your/file.txt' with the actual path to your file
-FILE_PATH="path/to/your/file.txt"
+# Replace '/home/userland/pxy/sys/exe/run/bordpxy.txt' with the actual path to your file
+FILE_PATH="/home/userland/pxy/sys/exe/run/bordpxy.txt"
 
 # Telegram API endpoint for sending files
 API_ENDPOINT="https://api.telegram.org/bot$BOT_TOKEN/sendDocument"
