@@ -67,7 +67,7 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
         last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
 
-    print(f'Nifty {nse_power} > : Last:{"🔴🔴🔴🔴" if last_closed_color == "Bear" else "🟢🟢🟢🟢"}|now:{"🐻🔴🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🟢🛫⤴️"}')
+    print(f'Nifty {nse_power} > :Last:{"🔴🔴🔴🔴" if last_closed_color == "Bear" else "🟢🟢🟢🟢"}|now:{"🐻🔴🔴🛬⤵️" if current_color == "Bear" else "🐂🟢🟢🛫⤴️"}')
     return current_color, last_closed_color
 
 # Function to determine the market check based on candle colors
