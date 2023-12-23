@@ -2,23 +2,28 @@
 
 # Install dependencies
 sudo apt-get update
-sudo apt-get install -y git cmake build-essential libgcrypt20-dev libyajl-dev libboost-all-dev libcurl4-openssl-dev libexpat1-dev libcppunit-dev binutils-dev
+sudo apt-get install -y opam m4
 
-# Clone Grive repository
-git clone https://github.com/vitalif/grive2.git
+# Initialize opam
+opam init --disable-sandboxing
 
-# Build and install Grive
-cd grive2
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
+# Install opam dependencies
+opam install -y depext
+opam depext -y google-drive-ocamlfuse
+opam install -y google-drive-ocamlfuse
 
-# Authenticate Grive with Google Drive
-grive -a
+# Authenticate Google Drive
+google-drive-ocamlfuse
 
-# Sync with Google Drive
-grive
+# Create a mount point
+mkdir ~/gdrive
 
-echo "Grive installation and setup completed."
+# Mount Google Drive
+google-drive-ocamlfuse ~/gdrive
+
+echo "Google Drive has been mounted at ~/gdrive."
+
+# Optional: Add an entry to /etc/fstab for automatic mounting on boot
+echo "google-drive-ocamlfuse#$(realpath ~/gdrive) $(realpath ~/gdrive) fuse user,auto 0 0" | sudo tee -a /etc/fstab
+
+echo "Setup complete. You can access your Google Drive at ~/gdrive."
