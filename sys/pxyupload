@@ -1,5 +1,0 @@
-cd /home/userland/pxy/sys/exe/run
-
-git add bordpxy.txt
-git commit -m "Add bordpxy.txt"
-git push
