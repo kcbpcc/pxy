@@ -15,10 +15,10 @@ async def send_file(chat_id, file_path, bot_token):
     api_endpoint = f"https://api.telegram.org/bot{bot_token}/sendDocument"
 
     async with aiohttp.ClientSession() as session:
-        file = FormData()
-        file.add_field("document", open(file_path, "rb"))
-        params = {"chat_id": chat_id}
-        async with session.post(api_endpoint, data=params, data=file) as response:
+        form_data = FormData()
+        form_data.add_field("document", open(file_path, "rb"))
+        params = {"chat_id": str(chat_id)}  # Ensure chat_id is a string
+        async with session.post(api_endpoint, data=params, data=form_data) as response:
             return await response.text()
 
 async def main():
