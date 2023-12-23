@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DRIVE_FOLDER_ID='1iEBvg-uH1bRUTAmR2GjiEc_D7fAaxL5R'  # Replace with your folder ID
+LOCAL_FILE_PATH='/path/to/your/bordpxy.txt'  # Replace with the actual path to your file
+
+curl -L -F "file=@${LOCAL_FILE_PATH}" "https://drive.google.com/upload/drive/folders/${DRIVE_FOLDER_ID}?usp=drive_open"
