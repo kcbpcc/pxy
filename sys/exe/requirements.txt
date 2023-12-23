@@ -18,3 +18,4 @@ rich
 python-telegram-bot
 textblob
 colorama
+aiohttp
