@@ -269,7 +269,6 @@ try:
     subprocess.run(['python3', 'prftpxy.py'])
     subprocess.run(['python3', 'dshpxy.py'])
 ###########################################################################################################################################################################################################
-    smb500_list = pd.read_csv('smb500.csv')['tradingsymbol'].tolist()
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
     # Calculate 'value' column as 'qty' * 'ltp'
