@@ -1,21 +1,11 @@
-from pydrive.drive import GoogleDrive
+import gdown
 
-def authenticate_drive():
-    drive = GoogleDrive()
-    return drive
-
-def upload_file(drive, local_file_path, drive_folder_id):
-    file_metadata = {
-        'title': local_file_path,
-        'parents': [{'id': drive_folder_id}]
-    }
-    file_drive = drive.CreateFile(file_metadata)
-    file_drive.Upload()
-    print(f'File ID: {file_drive.get("id")}')
+def upload_file(file_id, local_file_path):
+    url = f'https://drive.google.com/uc?id={file_id}'
+    gdown.upload(url, local_file_path, quiet=False)
 
 if __name__ == '__main__':
-    LOCAL_FILE_PATH = 'bordpxy.txt'
-    DRIVE_FOLDER_ID = '1iEBvg-uH1bRUTAmR2GjiEc_D7fAaxL5R'
+    DRIVE_FOLDER_ID = '1iEBvg-uH1bRUTAmR2GjiEc_D7fAaxL5R'  # Replace with your folder ID
+    LOCAL_FILE_PATH = 'bordpxy.txt'  # Replace with your local file path
 
-    drive = authenticate_drive()
-    upload_file(drive, LOCAL_FILE_PATH, DRIVE_FOLDER_ID)
+    upload_file(DRIVE_FOLDER_ID, LOCAL_FILE_PATH)
