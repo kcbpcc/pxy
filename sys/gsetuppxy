@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Install dependencies
+sudo apt-get update
+sudo apt-get install -y git cmake build-essential libgcrypt20-dev libyajl-dev libboost-all-dev libcurl4-openssl-dev libexpat1-dev libcppunit-dev binutils-dev
+
+# Clone Grive repository
+git clone https://github.com/vitalif/grive2.git
+
+# Build and install Grive
+cd grive2
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+
+# Authenticate Grive with Google Drive
+grive -a
+
+# Sync with Google Drive
+grive
+
+echo "Grive installation and setup completed."
