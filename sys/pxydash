@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Replace 'YOUR_BOT_TOKEN' with your actual Telegram bot token
+BOT_TOKEN="6396096532:AAG5adz_SeUwV8WLn7miteljk_pRrpt8mO0"
+
+# Replace 'YOUR_CHAT_ID' with your chat ID
+CHAT_ID="-4067167377"
+
+# Replace 'path/to/your/file.txt' with the actual path to your file
+FILE_PATH="path/to/your/file.txt"
+
+# Telegram API endpoint for sending files
+API_ENDPOINT="https://api.telegram.org/bot$BOT_TOKEN/sendDocument"
+
+# Send the file using curl
+curl -F chat_id=$CHAT_ID -F document=@$FILE_PATH $API_ENDPOINT
