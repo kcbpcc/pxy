@@ -2,7 +2,7 @@
 cd $HOME/pxy
 mv $HOME/pxy/sys/exe/run/filePnL.csv $HOME/pxy/sys/exe/run/_filePnL.csv 
 echo '                                 '
-echo "       *****GET UPDATES**********"
+echo "       ********GET UPDATES*******"
 echo '                                 '
 git fetch --all
 echo '                                 '
