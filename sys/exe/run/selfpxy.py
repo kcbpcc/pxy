@@ -36,7 +36,7 @@ def get_random_spiritual_message():
         "🎨 You are the artist of your life; paint it with love and kindness. 🎨 🖌️💖 With strokes of love and kindness, your life's canvas becomes a masterpiece. 💖🖌️",
         "🛤️ Success is not about the destination; it's about the journey. 🛤️ 🚂🌟 The journey itself is the destination; enjoy every scenic stop. 🌟🚂",
         "🎁 Kindness is a gift you can give every day. 🎁 🎀💖 Unwrap the gift of kindness daily; it's a treasure for the heart. 💖🎀",
-        "⌛ The greatest gift you can give someone is your time and attention. ⌛ ⏳💖 Time is a priceless gift; share it with love and undivided attention. 💖⏳",
+        "⌛ The greatest gift you can give someone is your time and attention.💖 Time is a priceless gift; share it with love and undivided attention. 💖⏳",
         "🌈 When you believe in yourself, anything is possible. 🌈 🎈💪 With self-belief, you hold the key to unlocking boundless possibilities. 💪🎈",
         "💪 The harder you work for something, the greater you'll feel when you achieve it. 💪 🏋️‍♂️💫 Every effort is a stepping stone; greatness awaits at the summit. 💫🏋️‍♂️",
         "🎶 In the dance of life, your heart is the rhythm, and your dreams are the melody. 🎶 💃🌌 Dance to the beat of your heart; let dreams compose the melody. 🌌💃",
