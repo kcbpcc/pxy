@@ -2,17 +2,17 @@
 cd $HOME/pxy
 mv $HOME/pxy/sys/exe/run/filePnL.csv $HOME/pxy/sys/exe/run/_filePnL.csv 
 echo '                                 '
-echo "       ********GET UPDATES*******"
+echo "       ******** GET UPDATES *******"
 echo '                                 '
 git fetch --all
 echo '                                 '
-echo "       *****RESET SOFTWERE*******"
+echo "       ***** RESET SOFTWERE *******"
 echo '                                 '
 git reset --hard origin/main
 sudo cp ~/pxy/sys/* /usr/local/bin/ &> /dev/null
 sudo chmod +x /usr/local/bin/*
 echo '                                 '
-echo "       *****UPDATE COMPLETED*****"
+echo "       ***** UPDATE COMPLETED *****"
 echo '                                 '
 #rm $HOME/pxy/sys/exe/run/filePnL.csv
 mv $HOME/pxy/sys/exe/run/_filePnL.csv $HOME/pxy/sys/exe/run/filePnL.csv 
