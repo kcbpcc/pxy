@@ -11,6 +11,7 @@ from colorama import Fore, Style
 import csv
 import telegram
 import asyncio
+import dashpxy red_Stocks_count,green_Stocks_count,all_Stocks_capital,all_Stocks_worth
 from bukdpxy import sum_last_numerical_value_in_each_row
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
