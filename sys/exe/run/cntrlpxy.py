@@ -450,6 +450,7 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
+    from dshpxy get_holdingsinfo
     result = get_holdingsinfo('fileHPdf.csv')
     from bordpxy import printbord
 
