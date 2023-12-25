@@ -1,6 +1,7 @@
 while True:
     import subprocess
     from looppxy import loop_duration
+    subprocess.run(['python3', 'tist.py'])
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
     import time
@@ -127,10 +128,10 @@ while True:
     # Call the function and store the result in a variable
     mktpxy = get_market_check('^NSEI')
     subprocess.run(['python3', 'cntrlpxy.py'])
-    subprocess.run(['python3', 'tist.py'])
     print("-" * 42)   
     print(random_message)
     print("-" * 42)   
+    subprocess.run(['python3', 'tist.py'])
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
