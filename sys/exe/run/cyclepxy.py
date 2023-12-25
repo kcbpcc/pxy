@@ -35,4 +35,4 @@ current_utc_time = datetime.utcnow().time()
 # Calculate loop duration based on current time
 cycle = calculate_cycle(current_utc_time)
 print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}".rjust(40))
-print(f"cycle : {cycle} seconds".rjust(40))
+print(f"Cycle 🚲 : {cycle} seconds".rjust(40))
