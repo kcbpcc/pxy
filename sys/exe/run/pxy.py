@@ -1,6 +1,6 @@
 while True:
     import subprocess
-    from looppxy import loop_duration
+    from looppxy import cycle
     subprocess.run(['python3', 'tist.py'])
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
@@ -137,6 +137,6 @@ while True:
             time.sleep(1)
             print("✨.", end='', flush=True)
         print("\nLets see what happens next!")
-    # Make sure loop_duration is defined before calling the function
-    progress_bar(loop_duration)
+    # Make sure cycle is defined before calling the function
+    progress_bar(cycle)
 
