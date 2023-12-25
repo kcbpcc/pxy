@@ -453,7 +453,7 @@ try:
             print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
     from dshpxy import get_holdingsinfo
-    red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count = get_holdingsinfo('fileHPdf.csv')    
+    red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, table = get_holdingsinfo('fileHPdf.csv')    
     from bordpxy import printbord
     
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
