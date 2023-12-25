@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-def calculate_loop_duration(current_time):
+def calculate_cycle(current_time):
     # Define time intervals
     interval_1_start = datetime.strptime("03:30", "%H:%M").time()
     interval_1_end = datetime.strptime("04:00", "%H:%M").time()
@@ -33,6 +33,6 @@ def calculate_loop_duration(current_time):
 current_utc_time = datetime.utcnow().time()
 
 # Calculate loop duration based on current time
-loop_duration = calculate_loop_duration(current_utc_time)
+cycle = calculate_cycle(current_utc_time)
 print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}".rjust(40))
-print(f"Loop Duration : {loop_duration} seconds".rjust(40))
+print(f"Loop Duration : {cycle} seconds".rjust(40))
