@@ -1,5 +1,4 @@
 ## bordpxy.py
-from dshpxy import red_Stocks_count,green_Stocks_count,all_Stocks_capital,all_Stocks_worth
 
 def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
               total_PnL_percentage_mis_sell, total_PnL_cnc_buy, switch, available_cash, Open_Change,
