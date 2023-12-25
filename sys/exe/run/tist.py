@@ -15,7 +15,7 @@ def print_current_datetime_in_ist():
 
     # Format the date and time with emojis
     formatted_datetime = (
-        f" 🗓️{ist_now.strftime('%d')} "  # Different calendar emoji
+        f"🗓️{ist_now.strftime('%d')} "  # Different calendar emoji
         f"{ist_now.strftime('%B')} {ist_now.strftime('%Y')} |"  # Month, year
         f" 🕛{ist_now.strftime('%A')} |"   # Day
         f" ⏰{ist_now.strftime('%I:%M%p')}"  # Time
