@@ -268,9 +268,6 @@ try:
     combined_df['tPL%'] = combined_df.apply(lambda row: max(((1 + nse_power) * row['fPL%']), round(trgtpxy * (row['smb_power'] + nse_power), 2)), axis=1)
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
-    from dshpxy import get_holdingsinfo
-    table = get_holdingsinfo('fileHPdf.csv')   
-    print(table)
 ###########################################################################################################################################################################################################
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
@@ -453,7 +450,7 @@ try:
             print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
     from dshpxy import get_holdingsinfo
-    red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, table = get_holdingsinfo('fileHPdf.csv')    
+    red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count = get_holdingsinfo('fileHPdf.csv')    
     from bordpxy import printbord
     
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
