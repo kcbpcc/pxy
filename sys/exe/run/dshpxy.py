@@ -69,7 +69,7 @@ def get_holdingsinfo(csv_file_path):
         #print("Number of Stocks Sold 💸💸💸: {}".format(zero_qty_count).rjust(38))
         all_Stocks_capital_lacks = all_Stocks_capital/100000
         all_Stocks_worth_lacks = all_Stocks_worth/100000
-        return red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count
+        return red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
