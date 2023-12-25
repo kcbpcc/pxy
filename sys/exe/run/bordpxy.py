@@ -2,7 +2,7 @@
 
 def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              total_PnL_percentage_mis_sell, total_PnL_cnc_buy, switch, available_cash, Open_Change,
-             trgtpxy, nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks):                
+             trgtpxy, nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count):                
     RESET = "\033[0m"
     BRIGHT_YELLOW = "\033[93m"
     BRIGHT_RED = "\033[91m"
@@ -28,7 +28,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                         right_aligned_format.format(f"Value:{BRIGHT_YELLOW }{round(all_Stocks_worth_lacks, 2)}{RESET}"))             
     output_lines.append(left_aligned_format.format(f"Losers:{BRIGHT_RED }{red_Stocks_count}{RESET}") +
                         right_aligned_format.format(f"Gainers:{BRIGHT_GREEN }{green_Stocks_count}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Switch:{BRIGHT_YELLOW}{switch}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Winners:{BRIGHT_YELLOW}{zero_qty_count}{RESET}") +
                         right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Open%:{BRIGHT_GREEN if Open_Change >= 0 else BRIGHT_RED}{round(Open_Change, 2)}{RESET}") +
                         right_aligned_format.format(f"Target:{BRIGHT_GREEN if trgtpxy >= 5 else BRIGHT_RED}{trgtpxy}{RESET}"))
