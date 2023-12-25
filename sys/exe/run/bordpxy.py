@@ -26,8 +26,8 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                         right_aligned_format.format(f"DayPnL%:{BRIGHT_GREEN if total_dPnL_percentage > 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Intraday:{BRIGHT_GREEN if total_PnL_percentage_mis_sell >= 0 else BRIGHT_RED}{total_PnL_percentage_mis_sell}{RESET}") +
                         right_aligned_format.format(f"Delivery:{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{total_PnL_cnc_buy}{RESET}"))                
-    output_lines.append(left_aligned_format.format(f"Capital:{round((all_Stocks_capital)/100000, 2)}{RESET}") +
-                        right_aligned_format.format(f"Value:{round((all_Stocks_worth)/100000, 2)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Capital:{round((all_Stocks_capital_lacks), 2)}{RESET}") +
+                        right_aligned_format.format(f"Value:{round((all_Stocks_worth_lacks), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Losers:{BRIGHT_RED }{red_Stocks_count}{RESET}") +
                         right_aligned_format.format(f"Gainers:{BRIGHT_GREEN }{green_Stocks_count}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Switch:{BRIGHT_YELLOW}{switch}{RESET}") +
