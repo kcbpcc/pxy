@@ -1,6 +1,6 @@
 while True:
     import subprocess
-    from looppxy import cycle
+    from cyclepxy import cycle
     subprocess.run(['python3', 'tist.py'])
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
