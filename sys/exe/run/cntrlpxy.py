@@ -268,6 +268,9 @@ try:
     combined_df['tPL%'] = combined_df.apply(lambda row: max(((1 + nse_power) * row['fPL%']), round(trgtpxy * (row['smb_power'] + nse_power), 2)), axis=1)
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
+    from dshpxy import get_holdingsinfo
+    table = get_holdingsinfo('fileHPdf.csv')   
+    print(table)
 ###########################################################################################################################################################################################################
     # Calculate 'Invested' column
     combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
