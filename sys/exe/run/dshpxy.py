@@ -38,7 +38,7 @@ def get_holdingsinfo(csv_file_path):
         green_Stocks_capital = green_Stocks_df['cap'].sum()
         green_Stocks_worth = green_Stocks_df['ltp'].dot(green_Stocks_df['qty']).round(4)
         green_Stocks_profit_loss = (green_Stocks_worth - green_Stocks_capital).round(4)
-        green_Stocks_capital_rercentage = ((green_Stocks_worth - green_Stocks_capital)/green_Stocks_capital))*100
+        green_Stocks_capital_rercentage = ((green_Stocks_worth - green_Stocks_capital)/green_Stocks_capital)*100
 
         red_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] < 0]
         red_Stocks_count = len(red_Stocks_df)
