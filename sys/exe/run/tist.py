@@ -18,7 +18,7 @@ def print_current_datetime_in_ist():
         f"\033[95m🗓️ {ist_now.strftime('%d')} "  # Different calendar emoji
         f"{ist_now.strftime('%B')} {ist_now.strftime('%Y')} |"  # Month, year
         f"🕛 {ist_now.strftime('%A')} |"   # Day
-        f"⏰ {ist_now.strftime('%I:%M%p')}\033[0m"  # Time (reset color)
+        f"⏰ {ist_now.strftime('%I:%M%p')}\034[0m"  # Time (reset color)
     )
 
     # Print the formatted date and time
