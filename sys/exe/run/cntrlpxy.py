@@ -450,12 +450,12 @@ try:
             print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
     from dshpxy import get_holdingsinfo
-    red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count = get_holdingsinfo('fileHPdf.csv')    
+    red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage = get_holdingsinfo('fileHPdf.csv')    
     from bordpxy import printbord
     
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              total_PnL_percentage_mis_sell, total_PnL_cnc_buy, switch, available_cash, Open_Change,
-             trgtpxy, nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count)
+             trgtpxy, nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage)
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
