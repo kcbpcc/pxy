@@ -63,7 +63,7 @@ def get_holdingsinfo(csv_file_path):
         else:
             table.add_row(['💰₹💰P&L', f'{format_value(all_Stocks_profit_loss)}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
         table.align = 'r'
-        print(table)
+        #print(table)
         zero_qty_count = holdings_df[holdings_df['qty'] == 0].shape[0]
         print("Number of Stocks Sold 💸💸💸: {}".format(zero_qty_count).rjust(38))
         print("-" * 42)
