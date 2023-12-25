@@ -71,7 +71,9 @@ def get_holdingsinfo(csv_file_path):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-    return red_Stocks_count, green_Stocks_count, all_Stocks_capital, all_Stocks_worth
+    all_Stocks_capital_lacks = all_Stocks_capital/100000
+    all_Stocks_worth_lacks = all_Stocks_worth_lacks/100000
+    return red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks
 
 # Call the function with the path to your CSV file
 get_holdingsinfo('fileHPdf.csv')
