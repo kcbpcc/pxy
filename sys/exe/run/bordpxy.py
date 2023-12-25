@@ -28,7 +28,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                         right_aligned_format.format(f"Delivery:{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{total_PnL_cnc_buy}{RESET}"))   
 
 
-    output_lines.append(left_aligned_format.format(f"Capital:{BRIGHT_RED }{all_Stocks_capital_lacks}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Capital:{all_Stocks_capital_lacks}{RESET}") +
                         right_aligned_format.format(f"Value:{BRIGHT_GREEN }{all_Stocks_worth_lacks}{RESET}"))
                
     output_lines.append(left_aligned_format.format(f"Losers:{BRIGHT_RED }{red_Stocks_count}{RESET}") +
