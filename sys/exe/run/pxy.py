@@ -1,7 +1,7 @@
 while True:
     import subprocess
     from cyclepxy import cycle
-    subprocess.run(['python3', 'tist.py'])
+    subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
     import time
@@ -131,7 +131,7 @@ while True:
     print("-" * 42)   
     print(random_message)
     print("-" * 42)   
-    subprocess.run(['python3', 'tist.py'])
+    subprocess.run(['python3', 'tistpxy.py'])
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
