@@ -2,7 +2,7 @@
 
 def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              total_PnL_percentage_mis_sell, total_PnL_cnc_buy, switch, available_cash, Open_Change,
-             , nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage):                
+             nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage):                
     RESET = "\033[0m"
     BRIGHT_YELLOW = "\033[93m"
     BRIGHT_RED = "\033[91m"
