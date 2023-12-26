@@ -265,7 +265,8 @@ try:
     trgtpxy = calculate_trgtpxy(nse_power)
     from nftpxy import nse_action, nse_power   
     combined_df['fPL%'] = combined_df.apply(lambda row: max(1.4, round((1 + row['smb_power'] ), 2)), axis=1)
-    combined_df['tPL%'] = combined_df.apply(lambda row: max(row['fPL%'], round(trgtpxy * (row['smb_power'] * row['fPL%']), 2)), axis=1)
+    combined_df['tPL%'] = combined_df.apply(lambda row: max(row['fPL%'], row['fPL%'] + round(10 * (row['smb_power'] * row['fPL%']), 2)), axis=1)
+
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
 ###########################################################################################################################################################################################################
