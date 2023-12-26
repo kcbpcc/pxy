@@ -261,8 +261,6 @@ try:
         ),
     }), axis=1
     )
-    from trgtpxy import calculate_trgtpxy
-    trgtpxy = calculate_trgtpxy(nse_power)
     from nftpxy import nse_action, nse_power   
     
     combined_df['fPL%'] = combined_df.apply(lambda row: max(1.4, round((1 + row['smb_power'] ), 2)), axis=1)
