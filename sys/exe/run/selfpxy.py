@@ -2,8 +2,12 @@ import random
 
 def get_random_spiritual_message():
     spiritual_messages = [
-        "🌅 Every moment is a fresh beginning. 🌅 🌟✨ Embrace each sunrise as an opportunity for new possibilities. ✨🌟",
-        "🚀 Trust the journey; you are exactly where you need to be. 🚀 💫✨ Your path unfolds with purpose and promise. ✨💫",
+        "🌅 Every moment is a fresh beginning. 🌅 🌟✨ 
+            Embrace each sunrise as an opportunity 
+                for new possibilities. ✨🌟",
+        "🚀 Trust the journey; you are exactly where
+            you need to be. 🚀 💫✨ Your path unfolds
+                with purpose and promise. ✨💫",
         "🌬️ Breathe deeply and find the serenity within. 🌬️ 🍃💆‍♂️ Let the calmness of each breath bring peace to your soul. 💆‍♂️🍃",
         "✨ You are a radiant being of light and love. ✨ 💖✨ Let your inner light shine, and love will guide your way. ✨💖",
         "🧘 In stillness, you will discover your true self. 🧘 🌌✨ Find the quiet within, where your essence speaks with clarity. ✨🌌",
