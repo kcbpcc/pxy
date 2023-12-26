@@ -132,6 +132,7 @@ while True:
     print(random_message)
     print("-" * 42)   
     subprocess.run(['python3', 'tistpxy.py'])
+    print("-" * 42)
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
