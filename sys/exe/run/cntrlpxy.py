@@ -414,7 +414,7 @@ try:
                          row['PL%'] > 1 and
                          row['PL%'] > row['fPL%']) and
                         (
-                            (row['PL%'] > (row['tPL%']))
+                            ((row['PL%'] > row['tPL%']) or (row['PL%'] > row['fPL%'] and total_dPnL < 0))
                         )
                     ):
                         try:                            
