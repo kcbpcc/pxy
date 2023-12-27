@@ -4,15 +4,13 @@ import textwrap
 
 # Copyright Notice
 copyright_notice = (
-    "PXY® Tool is protected by copyright laws."
-
+    "The PXY® trading tool and its content are protected by copyright laws and international treaties."
+    " All rights reserved by PXY® and Unauthorized use, reproduction, and distribution are strictly prohibited."
+    " Infringement may lead to legal action and financial penalties. PXY® is committed to protecting its intellectual property."
 )
-   # " All rights reserved by PXY® and Unauthorized use, reproduction, and distribution are strictly prohibited."
-   # " Infringement may lead to legal action and financial penalties. PXY® is committed to protecting its intellectual property."
-
 
 # Set the desired width
-width = 42
+width = 38
 
 # Use textwrap to format the text with a fixed width
 wrapped_notice = textwrap.fill(copyright_notice, width, break_long_words=False)
@@ -28,6 +26,7 @@ table.add_row(wrapped_notice)
 
 # Display the table without extra space
 print(table)
+
 
 
 
