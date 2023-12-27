@@ -410,10 +410,10 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 0 and
+                         row['PL%'] > 1.4 and
                          row['PL%'] > row['fPL%']) and
                         (
-                            (row['PL%'] > row['tPL%'])
+                            (row['source'] = 'holdings' and row['PL%'] > row['tPL%']) or (row['source'] = 'positions' and row['PL%'] > row['fPL%'])
                         )
                     ):
                         try:                            
