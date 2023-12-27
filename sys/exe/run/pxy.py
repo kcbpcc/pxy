@@ -1,5 +1,10 @@
 import subprocess
+from selfpxy import get_random_spiritual_message
+random_message = get_random_spiritual_message()
 subprocess.run(['python3', 'cpritepxy.py'])
+print("-" * 42)   
+print(random_message)
+print("-" * 42)   
 while True:
     import subprocess
     from cyclepxy import cycle
@@ -18,8 +23,7 @@ while True:
     import yfinance as yf
     import os
     import sys
-    from selfpxy import get_random_spiritual_message
-    random_message = get_random_spiritual_message()
+
 
     switch = analyze_stock('^NSEI')
 
@@ -129,9 +133,7 @@ while True:
     # Call the function and store the result in a variable
     mktpxy = get_market_check('^NSEI')
     subprocess.run(['python3', 'cntrlpxy.py'])
-    print("-" * 42)   
-    print(random_message)
-    print("-" * 42)   
+
     subprocess.run(['python3', 'tistpxy.py'])
     print("-" * 42)
     def progress_bar(duration):
