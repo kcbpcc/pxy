@@ -1,8 +1,8 @@
+subprocess.run(['python3', 'cpritepxy.py'])
 while True:
     import subprocess
     from cyclepxy import cycle
     subprocess.run(['python3', 'tistpxy.py'])
-    #subprocess.run(['python3', 'cpritepxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
     import time
     import subprocess
