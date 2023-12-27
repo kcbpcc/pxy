@@ -139,7 +139,7 @@ while True:
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
-            print("✨.", end='', flush=True)
+            print("💫.", end='', flush=True)
         print("\nLets see what happens next!")
     # Make sure cycle is defined before calling the function
     progress_bar(cycle)
