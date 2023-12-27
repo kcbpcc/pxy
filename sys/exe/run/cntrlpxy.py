@@ -264,7 +264,7 @@ try:
     from nftpxy import nse_action, nse_power   
     
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(x), 2))
-    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: round(np.exp(x * nse_power**3), 2))
+    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: max(np.exp(x * nse_power**3), 1.7))
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
 ###########################################################################################################################################################################################################
@@ -410,10 +410,10 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 1 and
+                         row['PL%'] > 0 and
                          row['PL%'] > row['fPL%']) and
                         (
-                            ((row['PL%'] > row['tPL%']) or (row['PL%'] > row['fPL%'] and nse_power < 0.5))
+                            (row['PL%'] > row['tPL%'])
                         )
                     ):
                         try:                            
