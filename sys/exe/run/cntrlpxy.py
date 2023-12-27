@@ -264,7 +264,7 @@ try:
     from nftpxy import nse_action, nse_power   
     
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(x), 2))
-    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: round(np.exp(x * nse_power * nse_power * nse_power), 2))
+    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: round(np.exp(x * nse_power**3), 2))
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
 ###########################################################################################################################################################################################################
