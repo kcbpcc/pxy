@@ -352,7 +352,7 @@ try:
     # Apply the lambda function to limit 'chks' to 2 characters
     PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
-    PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:10].str.ljust(10, ' ')
+    PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:11].str.ljust(11, ' ')
     # Sort the DataFrame by 'PL%' in ascending order
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
     # Convert the 'PL%' column to integers
