@@ -4,7 +4,7 @@ import textwrap
 
 # Copyright Notice
 copyright_notice = (
-    "PXY® Tool is ®️protected by ©️copyright ™️laws."
+    "PXY® Tool is protected by copyright laws."
 
 )
    # " All rights reserved by PXY® and Unauthorized use, reproduction, and distribution are strictly prohibited."
