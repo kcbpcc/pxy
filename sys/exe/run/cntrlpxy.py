@@ -328,7 +328,7 @@ try:
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '📇', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
-    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🗓️', 'MIS': '⌛'}) 
+    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🌙', 'MIS': '⌛'}) 
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: 
         '🟢' if TR > 0.8 else (
@@ -367,7 +367,7 @@ try:
     # Always print "Table" in bright yellow
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
-    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > PRINT_df_sorted_display['fPL%'] ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '🗓️')]
+    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > PRINT_df_sorted_display['fPL%'] ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '🌙')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['_CM'] == '⌛')]
 ###########################################################################################################################################################################################################
     if not cnc_filtered_df.empty:
