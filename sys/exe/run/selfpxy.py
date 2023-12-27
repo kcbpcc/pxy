@@ -137,7 +137,7 @@ def get_random_spiritual_message():
     current_line = words[0]
 
     for word in words[1:]:
-        if len(current_line) + len(word) + 1 <= 38:
+        if len(current_line) + len(word) + 1 <= 39:
             current_line += " " + word
         else:
             lines.append(current_line)
