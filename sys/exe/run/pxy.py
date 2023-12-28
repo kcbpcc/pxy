@@ -8,6 +8,8 @@ print(random_message)
 print("-" * 42)   
 subprocess.run(['python3', 'worldpxy.py'])
 while True:
+    import sys
+    import importlib
     import subprocess
     from cyclepxy import cycle
     importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
