@@ -10,13 +10,13 @@ subprocess.run(['python3', 'worldpxy.py'])
 while True:
     import subprocess
     from cyclepxy import cycle
-    importlib.reload(cyclepxy)
+    importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
     import time
     import subprocess
     from nftpxy import nse_action, nse_power
-    importlib.reload(nftpxy)
+    importlib.reload(sys.modules['nftpxy'])  # Correct the usage
     import warnings
     from rich import print
     from rich.console import Console
@@ -140,7 +140,7 @@ while True:
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
-            importlib.reload(cyclepxy)
+            importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
             print("💫.", end='', flush=True)
         print("\nLets see what happens next!")
     # Make sure cycle is defined before calling the function
