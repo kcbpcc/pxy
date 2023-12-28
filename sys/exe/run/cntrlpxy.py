@@ -334,7 +334,7 @@ try:
         '⚪' if TR > 0.8 else (
             '🟢' if 0.5 < TR <= 0.8 else (
                 '🔴' if 0.3 < TR <= 0.5 else (
-                    '🟤' if TR <= 0.3 else TR
+                    '🔥' if TR <= 0.3 else TR
                 )
             )
         )
