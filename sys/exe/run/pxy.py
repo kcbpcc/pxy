@@ -1,3 +1,4 @@
+import importlib
 import subprocess
 from selfpxy import get_random_spiritual_message
 random_message = get_random_spiritual_message()
@@ -9,24 +10,23 @@ subprocess.run(['python3', 'worldpxy.py'])
 while True:
     import subprocess
     from cyclepxy import cycle
+    importlib.reload(cyclepxy)
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
     import time
     import subprocess
     from nftpxy import nse_action, nse_power
+    importlib.reload(nftpxy)
     import warnings
     from rich import print
     from rich.console import Console
     from rich.style import Style
     import sys
     from rich import print
-    from swchpxy import analyze_stock
     import yfinance as yf
     import os
     import sys
 
-
-    switch = analyze_stock('^NSEI')
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
