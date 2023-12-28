@@ -411,8 +411,8 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 0 and
-                         #row['PL%'] > row['fPL%']) and
+                         #row['PL%'] > row['fPL%'] and
+                         row['PL%'] > 0 and )
                         (
                             #(row['source'] == 'holdings' and row['PL%'] > row['tPL%']) or (row['source'] == 'positions' and row['PL%'] > row['fPL%'])
                         )
