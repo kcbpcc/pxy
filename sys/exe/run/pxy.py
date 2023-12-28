@@ -13,6 +13,7 @@ while True:
     import subprocess
     from cyclepxy import cycle
     importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
+    print(f"Cycle 🎡 : {cycle} seconds".rjust(40))
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
     import time
