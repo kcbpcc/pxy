@@ -6,7 +6,7 @@ subprocess.run(['python3', 'cpritepxy.py'])
 print("-" * 42)   
 print(random_message)
 print("-" * 42)   
-subprocess.run(['python3', 'worldpxy.py'])
+#subprocess.run(['python3', 'worldpxy.py'])
 while True:
     import sys
     import importlib
