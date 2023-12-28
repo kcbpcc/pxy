@@ -12,6 +12,9 @@ while True:
     import importlib
     import subprocess
     from cyclepxy import cycle
+    cycle = calculate_cycle(current_utc_time)
+    print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}".rjust(40))
+    print(f"Cycle 🎡 : {cycle} seconds".rjust(40))
     importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
     cycle = calculate_cycle(current_utc_time)
     print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}".rjust(40))
