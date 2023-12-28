@@ -432,7 +432,7 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          nse_power < 0.1 and
-                         row['PL%'] < -15 )
+                         row['PL%'] < -10 )
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
