@@ -264,7 +264,7 @@ try:
     from nftpxy import nse_action, nse_power   
     
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: max(round(np.exp(x), 2), 1.4))
-    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: max(np.exp(x * nse_power**3), 1.9))
+    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: max(np.exp(x * (nse_power**2)), 1.9))
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
 ###########################################################################################################################################################################################################
@@ -331,10 +331,10 @@ try:
     PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '📚', 'MIS': '⌛'}) 
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: 
-        '🟢' if TR > 0.8 else (
-            '🟡' if 0.5 < TR <= 0.8 else (
+        '⚪' if TR > 0.8 else (
+            '🟢' if 0.5 < TR <= 0.8 else (
                 '🔴' if 0.3 < TR <= 0.5 else (
-                    '🌚' if TR <= 0.3 else TR
+                    '🌑' if TR <= 0.3 else TR
                 )
             )
         )
@@ -408,10 +408,12 @@ try:
                 ):
                             
 ###########################################################################################################################################################################################################                    
+                    user_input = float(input("Enter the threshold value: "))
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 0)
+                         row['PL%'] > user_input)
+
                     ):
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -428,7 +430,7 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          nse_power < 0.1 and
-                         row['PL%'] < -15 )
+                         row['PL%'] < -10 )
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
