@@ -1,0 +1,18 @@
+#!/bin/bash
+
+read -p "Do you want to run the script? (Y/N, default N): " answer
+
+# Default to 'N' if the user presses Enter without input
+answer=${answer:-N}
+
+if [ "$answer" == "089608" ] || [ "$answer" == "089608" ]; then
+    source ~/env/bin/activate
+
+    # Change to the script's directory
+    cd ~/pxy/sys/exe/run
+
+    # Run the Python script
+    python3 flushpxy.py
+else
+    echo "Script execution aborted."
+fi
