@@ -331,10 +331,10 @@ try:
     PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '📚', 'MIS': '⌛'}) 
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: 
-        '⚪' if TR > 0.8 else (
-            '🟢' if 0.5 < TR <= 0.8 else (
-                '🔴' if 0.3 < TR <= 0.5 else (
-                    '🔥' if TR <= 0.3 else TR
+        '🌕' if TR > 0.8 else (
+            '🌔' if 0.5 < TR <= 0.8 else (
+                '🌒' if 0.3 < TR <= 0.5 else (
+                    '🌑' if TR <= 0.3 else TR
                 )
             )
         )
