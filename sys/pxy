@@ -17,8 +17,8 @@ while true; do
     echo "   -pxyflush              💨        fl"    
     echo "   -pxycheck              🧪        ck"
     echo "   -pxysetup              🐍        st"
-    echo "   -pxyupdate             💾        up"
-    echo "   -pxydashboard          📊        ds"
+    echo "   -pxyupdate             🔄        up"
+    echo "   -pxydashboard          🎨        ds"
     echo "******************************************"
     echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 
