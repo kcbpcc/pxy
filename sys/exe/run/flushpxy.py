@@ -383,7 +383,6 @@ try:
         print("-" * 42)
 ###########################################################################################################################################################################################################
     from utcpxy import peak_time
-    user_input = float(input("Enter the threshold value: "))
     utct = peak_time()
     #print(utct)
     # Define the CSV file path
@@ -409,12 +408,10 @@ try:
                 ):
                             
 ###########################################################################################################################################################################################################                    
-
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > user_input)
-
+                         row['PL%'] > 1.4 )
                     ):
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
