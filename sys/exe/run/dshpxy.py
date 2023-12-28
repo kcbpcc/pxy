@@ -33,14 +33,6 @@ def get_holdingsinfo(csv_file_path):
         selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
         selected_holdings_df['perc'] = ((selected_holdings_df['unrealized'] / selected_holdings_df['cap']) * 100).where(selected_holdings_df['cap'] > 0)
 
-        
-        flush_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] > 1]
-        flush_Stocks_count = len(flush_Stocks_df)
-        flush_Stocks_capital = flush_Stocks_df['cap'].sum()
-        flush_Stocks_worth = flush_Stocks_df['ltp'].dot(flush_Stocks_df['qty']).round(4)
-        flush_Stocks_profit_loss = (flush_Stocks_worth - flush_Stocks_capital).round(4)
-        flush_Stocks_capital_rercentage  = round(((flush_Stocks_worth - flush_Stocks_capital) / flush_Stocks_capital) * 100, 2)      
-                
         green_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] > 0]
         green_Stocks_count = len(green_Stocks_df)
         green_Stocks_capital = green_Stocks_df['cap'].sum()
@@ -77,7 +69,7 @@ def get_holdingsinfo(csv_file_path):
         #print("Number of Stocks Sold 💸💸💸: {}".format(zero_qty_count).rjust(38))
         all_Stocks_capital_lacks = all_Stocks_capital/100000
         all_Stocks_worth_lacks = all_Stocks_worth/100000
-        return red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage ,flush_Stocks_profit_loss, flush_Stocks_capital_rercentage
+        return red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
