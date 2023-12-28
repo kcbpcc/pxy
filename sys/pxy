@@ -27,7 +27,7 @@ while true; do
 
     # Perform actions based on user input
     case $choice in
-        ds)
+        fl)
             echo "...............flush put💨💨💨"
             pxyflush
             ;;    
