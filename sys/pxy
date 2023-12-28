@@ -14,6 +14,7 @@ while true; do
     echo "   -pxysell               🔴        sl"    
     echo "   -pxykill               ❌        ka"
     echo "   -pxyclean              🚿        cl"
+    echo "   -pxyflush              💨        fl"    
     echo "   -pxycheck              🧪        ck"
     echo "   -pxysetup              🐍        st"
     echo "   -pxyupdate             🧰        up"
@@ -26,7 +27,10 @@ while true; do
 
     # Perform actions based on user input
     case $choice in
-
+        ds)
+            echo "...............flush put💨💨💨"
+            pxyflush
+            ;;    
         ds)
             echo "...................Dash Board"
             pxydashboard
