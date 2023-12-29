@@ -10,11 +10,12 @@ import sys
 import os
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
+from smbpxy import get_smbpxy_check
 import asyncio
 
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
-
+smbchk = get_smbpxy_check(symbolpxy)
 
 black_file = dir_path + "blacklist.txt"
 
@@ -125,7 +126,7 @@ if decision == "YES":
                     return dct['tradingsymbol'], remaining_cash
     
             # Check if available cash is greater than 5116
-            if available_cash > 5116:
+            if available_cash > 5116 and smbchk == 'Buy':
                 # Place the order on the exchange where LTP is available
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
