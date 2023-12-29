@@ -8,8 +8,6 @@ import sys
 import yfinance as yf
 import os
 
-############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -76,19 +74,35 @@ def get_smbpxy_check(symbol):
         # Loop through all intervals and periods
         for interval in intervals:
             for period in periods:
-                current_color, last_closed_color, second_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
+                # Check conditions for 5-minute candle
+                current_color_5min, last_closed_color_5min, second_closed_color_5min = calculate_last_three_heikin_ashi_colors(symbol, interval)
 
-                if current_color and last_closed_color:
-                    if second_closed_color == 'Bear' and last_closed_color == 'Bear' and current_color == 'Bear' :
-                        return 'Bear'
-                    elif second_closed_color == 'Bull' and last_closed_color == 'Bull' and current_color == 'Bull':
-                        return 'Bull'
-                    elif second_closed_color == 'Bull' and last_closed_color == 'Bear' and current_color == 'Bear':
-                        return 'Sell'
-                    elif second_closed_color == 'Bear' and last_closed_color == 'Bull' and current_color == 'Bull':
-                        return 'Buy'
-                    else:
-                        return 'None'
+                # Check conditions for 1-day candle
+                current_color_1day, last_closed_color_1day, second_closed_color_1day = calculate_last_three_heikin_ashi_colors(symbol, 1440)  # 1440 minutes in a day
+
+                # Logic for trading signals based on both 5-minute and 1-day candles
+                if (
+                    second_closed_color_5min == 'Bear' and last_closed_color_5min == 'Bear' and current_color_5min == 'Bear' and
+                    second_closed_color_1day == 'Bear' and last_closed_color_1day == 'Bear' and current_color_1day == 'Bear'
+                ):
+                    return 'Bear'
+                elif (
+                    second_closed_color_5min == 'Bull' and last_closed_color_5min == 'Bull' and current_color_5min == 'Bull' and
+                    second_closed_color_1day == 'Bull' and last_closed_color_1day == 'Bull' and current_color_1day == 'Bull'
+                ):
+                    return 'Bull'
+                elif (
+                    second_closed_color_5min == 'Bull' and last_closed_color_5min == 'Bear' and current_color_5min == 'Bear' and
+                    second_closed_color_1day == 'Bull' and last_closed_color_1day == 'Bear' and current_color_1day == 'Bear'
+                ):
+                    return 'Sell'
+                elif (
+                    second_closed_color_5min == 'Bear' and last_closed_color_5min == 'Bull' and current_color_5min == 'Bull' and
+                    second_closed_color_1day == 'Bear' and last_closed_color_1day == 'Bull' and current_color_1day == 'Bull'
+                ):
+                    return 'Buy'
+                else:
+                    return 'None'
 
         return 'None'
 
@@ -96,7 +110,3 @@ def get_smbpxy_check(symbol):
         console.print(f"[red]Error determining smbpxy check: {e}[/red]")
         return 'None'
 
-
-    except Exception as e:
-        console.print(f"[red]Error determining smbpxy check: {e}[/red]")
-        return 'None'
