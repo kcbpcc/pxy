@@ -15,8 +15,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-# Specify the stock symbol (NIFTY 50)
-symbol = '^NSEI'
+# Specify the stock symbolpxy (NIFTY 50)
+symbolpxy = '^NSEI'
 
 # Intervals
 intervals = [5, 4, 3, 2, 1]
@@ -26,7 +26,7 @@ periods = [1, 2, 3, 4, 5]
 console = Console()
 
 # Function to calculate the Heikin-Ashi candle colors for the last three closed candles
-def calculate_last_three_heikin_ashi_colors(symbol, interval):
+def calculate_last_three_heikin_ashi_colors(symbolpxy, interval):
     # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
@@ -69,16 +69,16 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         second_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
     return current_color, last_closed_color, second_closed_color
 
-def get_smbpxy_check(symbol):
+def get_smbpxy_check(symbolpxy):
     try:
         # Loop through all intervals and periods
         for interval in intervals:
             for period in periods:
                 # Check conditions for 5-minute candle
-                current_color_5min, last_closed_color_5min, second_closed_color_5min = calculate_last_three_heikin_ashi_colors(symbol, interval)
+                current_color_5min, last_closed_color_5min, second_closed_color_5min = calculate_last_three_heikin_ashi_colors(symbolpxy, interval)
 
                 # Check conditions for 1-day candle
-                current_color_1day, last_closed_color_1day, second_closed_color_1day = calculate_last_three_heikin_ashi_colors(symbol, 1440)  # 1440 minutes in a day
+                current_color_1day, last_closed_color_1day, second_closed_color_1day = calculate_last_three_heikin_ashi_colors(symbolpxy, 1440)  # 1440 minutes in a day
 
                 # Logic for trading signals based on both 5-minute and 1-day candles
                 if (
