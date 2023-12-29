@@ -126,7 +126,7 @@ if decision == "YES":
     
             # Check if available cash is greater than 5116
             
-            if available_cash > 5116 and get_smbpxy_check( dct['tradingsymbol']) == 'Buy':
+            if available_cash > 5116 and get_smbpxy_check( dct['tradingsymbol']+.NS) == 'Buy':
                 # Place the order on the exchange where LTP is available
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
