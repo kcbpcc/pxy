@@ -166,7 +166,7 @@ if decision == "YES":
     
             else:
                 logging.warning(
-                    f"Skipping for {dct['tradingsymbol']}:as {get_smbpxy_check( dct['tradingsymbol'])} and Remaining Cash: {int(remaining_cash)} ")
+                    f"Skipping for {dct['tradingsymbol']} as smbpxy is {get_smbpxy_check( dct['tradingsymbol'])} and Remaining Cash: {int(remaining_cash)} ")
             return dct['tradingsymbol'], remaining_cash
     
         except Exception as e:
