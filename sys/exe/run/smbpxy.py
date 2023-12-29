@@ -8,6 +8,8 @@ import sys
 import yfinance as yf
 import os
 
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
+
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -15,8 +17,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-# Specify the stock symbolpxy (NIFTY 50)
-symbolpxy = '^NSEI'
+# Specify the stock symbol (NIFTY 50)
+symbol = '^NSEI'
 
 # Intervals
 intervals = [5, 4, 3, 2, 1]
@@ -26,7 +28,7 @@ periods = [1, 2, 3, 4, 5]
 console = Console()
 
 # Function to calculate the Heikin-Ashi candle colors for the last three closed candles
-def calculate_last_three_heikin_ashi_colors(symbolpxy, interval):
+def calculate_last_three_heikin_ashi_colors(symbol, interval):
     # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
@@ -53,7 +55,6 @@ def calculate_last_three_heikin_ashi_colors(symbolpxy, interval):
     
         current_color = 'Bear' if day_open > ltp else 'Bull'
         last_closed_color = 'Bear' if day_open > ltp else 'Bull'
-        second_closed_color = 'Bear' if day_open > ltp else 'Bull'
 
     else:
         # Fetch real-time data for the specified interval
@@ -66,43 +67,27 @@ def calculate_last_three_heikin_ashi_colors(symbolpxy, interval):
         # Calculate the colors of the last three closed candles
         current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
         last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-        second_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
-    return current_color, last_closed_color, second_closed_color
 
-def get_smbpxy_check(symbolpxy):
+    return current_color, last_closed_color
+
+def get_smbpxy_check(symbol):
     try:
         # Loop through all intervals and periods
         for interval in intervals:
             for period in periods:
-                # Check conditions for 5-minute candle
-                current_color_5min, last_closed_color_5min, second_closed_color_5min = calculate_last_three_heikin_ashi_colors(symbolpxy, interval)
+                current_color, last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
 
-                # Check conditions for 1-day candle
-                current_color_1day, last_closed_color_1day, second_closed_color_1day = calculate_last_three_heikin_ashi_colors(symbolpxy, 1440)  # 1440 minutes in a day
-
-                # Logic for trading signals based on both 5-minute and 1-day candles
-                if (
-                    second_closed_color_5min == 'Bear' and last_closed_color_5min == 'Bear' and current_color_5min == 'Bear' and
-                    second_closed_color_1day == 'Bear' and last_closed_color_1day == 'Bear' and current_color_1day == 'Bear'
-                ):
-                    return 'Bear'
-                elif (
-                    second_closed_color_5min == 'Bull' and last_closed_color_5min == 'Bull' and current_color_5min == 'Bull' and
-                    second_closed_color_1day == 'Bull' and last_closed_color_1day == 'Bull' and current_color_1day == 'Bull'
-                ):
-                    return 'Bull'
-                elif (
-                    second_closed_color_5min == 'Bull' and last_closed_color_5min == 'Bear' and current_color_5min == 'Bear' and
-                    second_closed_color_1day == 'Bull' and last_closed_color_1day == 'Bear' and current_color_1day == 'Bear'
-                ):
-                    return 'Sell'
-                elif (
-                    second_closed_color_5min == 'Bear' and last_closed_color_5min == 'Bull' and current_color_5min == 'Bull' and
-                    second_closed_color_1day == 'Bear' and last_closed_color_1day == 'Bull' and current_color_1day == 'Bull'
-                ):
-                    return 'Buy'
-                else:
-                    return 'None'
+                if current_color and last_closed_color:
+                    if current_color == 'Bear' and last_closed_color == 'Bear':
+                        return 'Bear'
+                    elif current_color == 'Bull' and last_closed_color == 'Bull':
+                        return 'Bull'
+                    elif current_color == 'Bear' and last_closed_color == 'Bull':
+                        return 'Sell'
+                    elif current_color == 'Bull' and last_closed_color == 'Bear':
+                        return 'Buy'
+                    else:
+                        return 'None'
 
         return 'None'
 
@@ -110,3 +95,7 @@ def get_smbpxy_check(symbolpxy):
         console.print(f"[red]Error determining smbpxy check: {e}[/red]")
         return 'None'
 
+
+    except Exception as e:
+        console.print(f"[red]Error determining smbpxy check: {e}[/red]")
+        return 'None'
