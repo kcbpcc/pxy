@@ -55,6 +55,7 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
     
         current_color = 'Bear' if day_open > ltp else 'Bull'
         last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        second_closed_color = 'Bear' if day_open > ltp else 'Bull'
 
     else:
         # Fetch real-time data for the specified interval
@@ -67,24 +68,24 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         # Calculate the colors of the last three closed candles
         current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
         last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-
-    return current_color, last_closed_color
+        second_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+    return current_color, last_closed_color, second_closed_color
 
 def get_smbpxy_check(symbol):
     try:
         # Loop through all intervals and periods
         for interval in intervals:
             for period in periods:
-                current_color, last_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
+                current_color, last_closed_color, second_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
 
                 if current_color and last_closed_color:
-                    if current_color == 'Bear' and last_closed_color == 'Bear':
+                    if second_closed_color == 'Bear' and last_closed_color == 'Bear' and current_color == 'Bear' :
                         return 'Bear'
-                    elif current_color == 'Bull' and last_closed_color == 'Bull':
+                    elif second_closed_color == 'Bull' and last_closed_color == 'Bull' and current_color == 'Bull':
                         return 'Bull'
-                    elif current_color == 'Bear' and last_closed_color == 'Bull':
+                    elif second_closed_color == 'Bull' and last_closed_color == 'Bear' and current_color == 'Bear':
                         return 'Sell'
-                    elif current_color == 'Bull' and last_closed_color == 'Bear':
+                    elif second_closed_color == 'Bear' and last_closed_color == 'Bull' and current_color == 'Bull':
                         return 'Buy'
                     else:
                         return 'None'
