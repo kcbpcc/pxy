@@ -128,7 +128,7 @@ while True:
         elif current_color == 'Bull' and last_closed_color == 'Bear':
             mktpxy = 'Buy'
             print("It's a ⤴️Buy⤴️ time,investing now........")
-            subprocess.run(['python3', 'buypxy.py']) if nse_action in ['Bull', 'Bullish'] else None
+            subprocess.run(['python3', 'buypxy.py'])
             console.print("🚀🟢🛫⤴️ [bold]Time to buy![/bold] 🌠💰", style=buy_style)
         else:
             mktpxy = 'None'
