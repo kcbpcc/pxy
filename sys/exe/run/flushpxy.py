@@ -411,7 +411,7 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 1.4 )
+                         row['PL%'] > 0 )
                     ):
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
