@@ -90,13 +90,13 @@ def get_smbpxy_check(symbol):
                     else:
                         return 'pxy can not be concluded'
 
-        return 'pxy can not be concluded'
+        return 'NONE'
 
     except Exception as e:
         console.print(f"[red]Error determining smbpxy check: {e}[/red]")
-        return 'pxy can not be concluded'
+        return 'NONE'
 
 
     except Exception as e:
         console.print(f"[red]Error determining smbpxy check: {e}[/red]")
-        return 'pxy can not be concluded'
+        return 'NONE'
