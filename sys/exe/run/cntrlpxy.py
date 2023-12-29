@@ -262,8 +262,15 @@ try:
     }), axis=1
     )
     from nftpxy import nse_action, nse_power   
-   
-    combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: max(round(np.exp(x), 2), 1.4))
+    def calculate_fPL(x):
+        try:
+            result = round(np.exp(x), 2)
+            return max(result, 1.4)
+        except OverflowError:
+            # Handle overflow, set a default value
+            return 1.4
+    
+    combined_df['fPL%'] = combined_df['smb_power'].apply(calculate_fPL)
     combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: max(np.exp(x * nse_power**2), 1.9))
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
