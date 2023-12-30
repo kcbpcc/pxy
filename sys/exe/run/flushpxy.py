@@ -262,9 +262,9 @@ try:
     }), axis=1
     )
     from nftpxy import nse_action, nse_power   
-    
-    combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: max(round(np.exp(x), 2), 1.4))
-    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: max(np.exp(x * (nse_power**2)), 1.9))
+    threshold = 3
+    combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: max(round(np.exp(np.clip(x, -threshold, threshold)), 2), 1.4))
+    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: max(np.exp(x * nse_power), x))
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
 ###########################################################################################################################################################################################################
@@ -326,7 +326,7 @@ try:
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smb_power': 'TR','key': 'key','dPL%': 'dPL%'})
     # Conditionally replace values in the 'HP' column
-    PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '📇', 'positions': '🎯'})
+    PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '📌', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
     PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '📚', 'MIS': '⌛'}) 
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
@@ -372,7 +372,7 @@ try:
 ###########################################################################################################################################################################################################
     if not cnc_filtered_df.empty:
         print("-" * 42)
-        print(f"{BRIGHT_YELLOW}HP|CM|STOCK      |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
+        print(f"{BRIGHT_YELLOW}HP|CM|STOCK       |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         print("-" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
     
@@ -411,7 +411,7 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 0 )
+                         row['PL%'] > 1.4)
                     ):
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -428,7 +428,7 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          nse_power < 0.1 and
-                         row['PL%'] < -10 )
+                         row['PL%'] < -15 )
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
