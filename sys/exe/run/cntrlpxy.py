@@ -109,7 +109,7 @@ def order_place_avg(index, row):
         if len(exchsym) >= 2 :
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
             # Calculate quantity based on the value of 5000
-            qty = 5000 // row['ltp']
+            qty = 2000 // row['ltp']
             qty = int(qty)  # Remove decimals
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
@@ -432,7 +432,7 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          nse_power < 0.1 and
-                         row['PL%'] < -15 )
+                         row['PL%'] < -10 )
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
