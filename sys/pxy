@@ -10,7 +10,6 @@ while true; do
     echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
     echo "******************************************"
     echo "   -pxypy                 🔥        py"
-    echo "   -pxybuy                🟢        by"    
     echo "   -pxysell               🔴        sl"    
     echo "   -pxykill               ❌        ka"
     echo "   -pxyclean              🚿        cl"
@@ -35,10 +34,6 @@ while true; do
             echo "...................Dash Board"
             pxydashboard
             ;;        
-        by)
-            echo "    🟢🟢🟢 Buying...🟢🟢🟢"
-            pxybuy
-            ;;    
         sl)
             echo "    🔴🔴🔴 Selling...🔴🔴🔴"
             pxysell
