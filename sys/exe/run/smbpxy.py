@@ -88,7 +88,7 @@ def get_smbpxy_check(symbol):
                     elif current_color == 'Bull' and last_closed_color == 'Bull' and second_closed_color == 'Bear':
                         return 'Buy'
                     else:
-                        return 'pxy can not be concluded'
+                        return 'NONE'
 
         return 'NONE'
 
