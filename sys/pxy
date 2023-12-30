@@ -9,11 +9,12 @@ while true; do
     # Display menu
     echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
     echo "******************************************"
-    echo "   -pxypy                 🔥        py"
+    echo "   -pxy                   🔥        en"
+    echo "   -pxypy                 🐍        py"
     echo "   -pxyclean              🚿        cl"
     echo "   -pxyflush              💨        fl"    
     echo "   -pxycheck              🧪        ck"
-    echo "   -pxysetup              🐍        st"
+    echo "   -pxysetup              🖥️        st"
     echo "   -pxyupdate             📥        up"
     echo "   -pxysell-MIS           🔴        sl"    
     echo "   -pxykill-MIS           ❌        ka"
@@ -59,6 +60,10 @@ while true; do
             ;;
 
         "")
+            echo "........Lets have fun with PXY®  🔥💫🚀🔥"
+            pxypxy
+            ;;
+        en)
             echo "........Lets have fun with PXY®  🔥💫🚀🔥"
             pxypxy
             ;;
