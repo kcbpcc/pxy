@@ -33,9 +33,9 @@ if decision == "YES":
     try:
         # Read the fileHPdf.csv directly
         df_fileHPdf = pd.read_csv('fileHPdf.csv')
-
+        df_positions = df_fileHPdf[df_fileHPdf['source'] == 'positions']
         # Extract tradingsymbols from df_fileHPdf
-        lst = df_fileHPdf['tradingsymbol'].to_list()
+        lst = df_positions['tradingsymbol'].to_list()
 
         # get list from Trendlyne
         lst_tlyne = []
