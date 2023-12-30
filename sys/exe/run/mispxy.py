@@ -32,17 +32,22 @@ def calculate_last_two_heikin_ashi_colors(symbol, interval):
 
 # Function to determine the market check based on candle colors
 def get_market_check(symbol):
-    if not symbol.endswith(".NS") and not symbol.endswith(".BO"):
-        # Check conditions and add the appropriate suffix
-        if some_condition:
-            symbol_with_suffix = symbol + ".NS"
-        else:
-            symbol_with_suffix = symbol + ".BO"
-    else:
-        symbol_with_suffix = symbol
+    # Check for ".NS" version
+    symbol_ns = symbol + ".NS"
+    current_color_ns, _ = calculate_last_two_heikin_ashi_colors(symbol_ns, intervals[0])
 
-    current_color, last_closed_color = calculate_last_two_heikin_ashi_colors(symbol_with_suffix, intervals[0])
-    return current_color
+    if current_color_ns:
+        return f"{symbol_ns}: {current_color_ns}"
+
+    # Check for ".BO" version if ".NS" is not found
+    symbol_bo = symbol + ".BO"
+    current_color_bo, _ = calculate_last_two_heikin_ashi_colors(symbol_bo, intervals[0])
+
+    if current_color_bo:
+        return f"{symbol_bo}: {current_color_bo}"
+
+    console.print(f"{symbol}: No data found for both .NS and .BO versions. Skipping to the next one.")
+    return None
 
 symbols_list = []
 
@@ -57,4 +62,5 @@ with open('mispxy.txt', 'r') as file:
 for symbol in symbols_list:
     market_sentiment = get_market_check(symbol)
     if market_sentiment is not None:
-        console.print(f"{symbol}: {market_sentiment}")
+        console.print(market_sentiment)
+
