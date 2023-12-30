@@ -36,6 +36,7 @@ if decision == "YES":
         df_positions = df_fileHPdf[df_fileHPdf['source'] == 'positions']
         # Extract tradingsymbols from df_fileHPdf
         lst = df_positions['tradingsymbol'].to_list()
+        print(lst)
 
         # get list from Trendlyne
         lst_tlyne = []
