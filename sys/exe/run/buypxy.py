@@ -166,11 +166,14 @@ if decision == "YES":
                     return dct['tradingsymbol'], remaining_cash
     
             else:
+
+                yellow_text = "\033[93m"  # ANSI escape code for yellow text
+                reset_color = "\033[0m"  # ANSI escape code to reset color to default
+                
                 logging.warning(
-                    yellow_text = "\033[93m"  # ANSI escape code for yellow text
-                    reset_color = "\033[0m"  # ANSI escape code to reset color to default
-                    print(f"{yellow_text}Skipping for {dct['tradingsymbol']} as smbpxy is {get_smbpxy_check(dct['tradingsymbol'])} and Remaining Cash: {int(remaining_cash)}{reset_color}")
-            return dct['tradingsymbol'], remaining_cash
+                    f"{yellow_text}Skipping for {dct['tradingsymbol']} as smbpxy is {get_smbpxy_check(dct['tradingsymbol'])} and Remaining Cash: {int(remaining_cash)}{reset_color}"
+                )
+                return dct['tradingsymbol'], remaining_cash
     
         except Exception as e:
             logging.error(f"Error while placing order: {str(e)}")
