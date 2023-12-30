@@ -265,7 +265,6 @@ try:
     threshold = 3
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: max(round(np.exp(np.clip(x, -threshold, threshold)), 2), 1.4))
     combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: max(np.exp(x * nse_power), x))
-
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
 ###########################################################################################################################################################################################################
@@ -413,7 +412,10 @@ try:
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.4 and
-                         row['PL%'] > row['tPL%'])
+                         row['PL%'] > row['fPL%']) and
+                        (
+                            (row['source'] == 'holdings' and row['PL%'] > row['tPL%']) or (row['source'] == 'positions' and row['PL%'] > row['fPL%'])
+                        )
                     ):
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
