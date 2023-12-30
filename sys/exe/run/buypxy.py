@@ -10,11 +10,11 @@ import sys
 import os
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
-from smbpxy import get_smbpxy_check
 import asyncio
 
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
+
 
 black_file = dir_path + "blacklist.txt"
 
@@ -125,9 +125,7 @@ if decision == "YES":
                     return dct['tradingsymbol'], remaining_cash
     
             # Check if available cash is greater than 5116
-            
-            if available_cash > 5116 and (get_smbpxy_check(dct['tradingsymbol'] + '.NS') == 'Buy' or
-                             get_smbpxy_check(dct['tradingsymbol'] + '.BO') == 'Buy'):
+            if available_cash > 5116:
                 # Place the order on the exchange where LTP is available
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
@@ -166,17 +164,12 @@ if decision == "YES":
                     return dct['tradingsymbol'], remaining_cash
     
             else:
-
-                yellow_text = "\033[93m"  # ANSI escape code for yellow text
-                reset_color = "\033[0m"  # ANSI escape code to reset color to default
-                
                 logging.warning(
-                    f"{yellow_text}Skipping for {dct['tradingsymbol']} as smbpxy is {get_smbpxy_check(dct['tradingsymbol'])} and Remaining Cash: {int(remaining_cash)}{reset_color}"
-                )
-                return dct['tradingsymbol'], remaining_cash
+                    f"Skipping {dct['tradingsymbol']}: Remaining Cash: {int(remaining_cash)}")
+            return dct['tradingsymbol'], remaining_cash
     
         except Exception as e:
-            logging.error(f"Error while placing order for {dct['tradingsymbol']}: {str(e)}")
+            logging.error(f"Error while placing order: {str(e)}")
             return dct['tradingsymbol'], remaining_cash
 
         
