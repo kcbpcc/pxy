@@ -14,9 +14,6 @@ warnings.filterwarnings("ignore", category=UserWarning)
 # Specify the intervals in minutes
 intervals = [5]
 
-# Suffix to be added to each symbol
-suffix = ".NS"
-
 # Create a Console instance for rich print formatting
 console = Console()
 
@@ -35,10 +32,17 @@ def calculate_last_two_heikin_ashi_colors(symbol, interval):
 
 # Function to determine the market check based on candle colors
 def get_market_check(symbol):
-    current_color, last_closed_color = calculate_last_two_heikin_ashi_colors(symbol, intervals[0])
-    return current_color
+    if not symbol.endswith(".NS") and not symbol.endswith(".BO"):
+        # Check conditions and add the appropriate suffix
+        if some_condition:
+            symbol_with_suffix = symbol + ".NS"
+        else:
+            symbol_with_suffix = symbol + ".BO"
+    else:
+        symbol_with_suffix = symbol
 
-import csv
+    current_color, last_closed_color = calculate_last_two_heikin_ashi_colors(symbol_with_suffix, intervals[0])
+    return current_color
 
 symbols_list = []
 
@@ -54,5 +58,3 @@ for symbol in symbols_list:
     market_sentiment = get_market_check(symbol)
     if market_sentiment is not None:
         console.print(f"{symbol}: {market_sentiment}")
-
-
