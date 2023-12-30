@@ -17,7 +17,6 @@ while true; do
     echo "   -pxyupdate             📥        up"
     echo "   -pxysell-MIS           🔴        sl"    
     echo "   -pxykill-MIS           ❌        ka"
-    echo "   -pxydashboard          🌍        ds"
     echo "******************************************"
     echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 
@@ -30,16 +29,12 @@ while true; do
             echo "...............flush put💨💨💨"
             pxyflush
             ;;    
-        ds)
-            echo "...................Dash Board"
-            pxydashboard
-            ;;        
         sl)
             echo "    🔴🔴🔴 Selling...🔴🔴🔴"
             pxysell
             ;;   
         st)
-            echo "    🔴🔴🔴 Selling...🔴🔴🔴"
+            echo "    🐍🐍🐍 Setup.... 🐍🐍🐍"
             pxysetup
             ;;   
         ka)
