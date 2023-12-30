@@ -176,7 +176,7 @@ if decision == "YES":
                 return dct['tradingsymbol'], remaining_cash
     
         except Exception as e:
-            logging.error(f"Error while placing order: {str(e)}")
+            logging.error(f"Error while placing order for {dct['tradingsymbol']}: {str(e)}")
             return dct['tradingsymbol'], remaining_cash
 
         
