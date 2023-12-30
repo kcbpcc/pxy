@@ -33,12 +33,10 @@ if decision == "YES":
     try:
         # Read the fileHPdf.csv directly
         df_fileHPdf = pd.read_csv('fileHPdf.csv')
-        df_positions = df_fileHPdf[df_fileHPdf['source'] == 'positions']
+
         # Extract tradingsymbols from df_fileHPdf
-        lst = df_positions['tradingsymbol'].to_list()
-        print("lst")
-        print(lst)
-        print("lst")
+        lst = df_fileHPdf['tradingsymbol'].to_list()
+
         # get list from Trendlyne
         lst_tlyne = []
         lst_dct_tlyne = Trendlyne().entry()
@@ -169,7 +167,9 @@ if decision == "YES":
     
             else:
                 logging.warning(
-                    f"Skipping for {dct['tradingsymbol']} as smbpxy is {get_smbpxy_check( dct['tradingsymbol'])} and Remaining Cash: {int(remaining_cash)} ")
+                    yellow_text = "\033[93m"  # ANSI escape code for yellow text
+                    reset_color = "\033[0m"  # ANSI escape code to reset color to default
+                    print(f"{yellow_text}Skipping for {dct['tradingsymbol']} as smbpxy is {get_smbpxy_check(dct['tradingsymbol'])} and Remaining Cash: {int(remaining_cash)}{reset_color}")
             return dct['tradingsymbol'], remaining_cash
     
         except Exception as e:
