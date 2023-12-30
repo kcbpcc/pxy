@@ -372,7 +372,7 @@ try:
 ###########################################################################################################################################################################################################
     if not cnc_filtered_df.empty:
         print("-" * 42)
-        print(f"{BRIGHT_YELLOW}HP|CM|STOCK      |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
+        print(f"{BRIGHT_YELLOW}HP|CM|STOCK       |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         print("-" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
     
@@ -432,7 +432,7 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          nse_power < 0.1 and
-                         row['PL%'] < -10 )
+                         row['PL%'] < -15 )
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
