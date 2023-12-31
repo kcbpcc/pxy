@@ -2,7 +2,7 @@ import pandas as pd
 import yfinance as yf
 
 
-period = 2  # 2 days
+period = 1  # 2 days
 interval = 5  # 5 minutes
 
 def analyze_stock(symbol):
