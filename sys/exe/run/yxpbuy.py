@@ -1,6 +1,7 @@
 import pandas as pd
 import yfinance as yf
 from nftpxy import nse_action
+from mktpxy import mktpxy 
 
 
 def analyze_stock(symbol):
