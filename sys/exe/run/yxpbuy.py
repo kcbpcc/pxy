@@ -1,5 +1,6 @@
 import pandas as pd
 import yfinance as yf
+from nftpxy import nse_power
 
 
 def analyze_stock(symbol):
