@@ -17,7 +17,7 @@ while true; do
     echo "   -pxysetup              📀        st"
     echo "   -pxyupdate             📥        up"
     echo "   -pxysell-MIS           🔴        sl"    
-    echo "   -pxykill-MIS           ❌        ka"
+    echo "   -pxykill-MIS           ❌        kl"
     echo "******************************************"
     echo -e " ${YELLOW}🏛🏛PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 
@@ -38,7 +38,7 @@ while true; do
             echo "    🐍🐍🐍 Setup.... 🐍🐍🐍"
             pxysetup
             ;;   
-        ka)
+        kl)
             echo "    ❌❌❌ SquireOff all Positions...❌❌❌"
             pxykill
             ;;
