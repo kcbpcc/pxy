@@ -1,9 +1,13 @@
+import pandas as pd
 import yfinance as yf
 
 def analyze_stock(symbol):
     try:
+        # Append ".NS" to the symbol to specify the NSE exchange
+        symbol_with_exchange = symbol + ".NS"
+
         # Download historical data for the last 2 days with 1-minute intervals
-        data = yf.download(symbol, period="2d", interval="1m")
+        data = yf.download(symbol_with_exchange, period="2d", interval="1m")
 
         # Calculate Heikin-Ashi candles
         data['HA_Close'] = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
@@ -32,11 +36,15 @@ def analyze_stock(symbol):
             return 'Hold'
 
     except Exception as e:
-        print(f"Error during data download: {e}")
+        print(f"Error during data download for {symbol}: {e}")
         return 'Error'
 
-# Example of how to use the function
-symbol = 'AAPL'
-decision = analyze_stock(symbol)
-print(f"Decision for {symbol}: {decision}")
+# Read symbols from CSV file
+symbol_list = pd.read_csv('yxp500.csv')['Symbol'].tolist()
+
+# Analyze each symbol
+for symbol in symbol_list:
+    decision = analyze_stock(symbol)
+    print(f"Decision for {symbol}: {decision}")
+
 
