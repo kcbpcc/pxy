@@ -21,10 +21,10 @@ def analyze_stock(symbol):
         yesterday_open = data['Open'].iloc[-2]
         today_close = data['Close'].iloc[-1]
         today_open = data['Open'].iloc[-1]
-
-        if daybeforeyesterday_ha_close < daybeforeyesterday_ha_open and yesterday_ha_close > yesterday_ha_open and today_ha_close > today_ha_open:
+        
+        if daybeforeyesterday_close < daybeforeyesterday_open and yesterday_close > yesterday_open and today_close > today_open:
             return 'Buy'
-        elif daybeforeyesterday_ha_close > daybeforeyesterday_ha_open and yesterday_ha_close < yesterday_ha_open and today_ha_close < today_ha_open:
+        elif daybeforeyesterday_close > daybeforeyesterday_open and yesterday_close < yesterday_open and today_close < today_open:
             return 'Sell'
         else:
             return 'None'
