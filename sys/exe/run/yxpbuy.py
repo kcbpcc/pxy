@@ -1,13 +1,20 @@
 import pandas as pd
 import yfinance as yf
 
+
+# Intervals
+intervals = [5, 4, 3, 2, 1]
+periods = [1, 2, 3, 4, 5]
+
 def analyze_stock(symbol):
     try:
         # Append ".NS" to the symbol to specify the NSE exchange
         symbol_with_exchange = symbol + ".NS"
+        
+        sys.stdout = open(os.devnull, 'w')
 
-        # Download historical data for the last 2 days with 1-minute intervals
-        data = yf.Ticker(symbol).history(period=f'{periods[7]}d', interval=f'{1}m')
+        # Download data for the specified number of days (fixed to 5 days)
+        data = yf.download(symbol, period="5d")
 
         # Calculate Heikin-Ashi candles
         data['HA_Close'] = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
