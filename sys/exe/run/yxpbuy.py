@@ -11,7 +11,7 @@ def analyze_stock(symbol):
         # Append ".NS" to the symbol to specify the NSE exchange
         symbol_with_exchange = symbol + ".NS"
 
-        data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
+        data = yf.Ticker(symbol).history(period=f'{period[0]}d', interval=f'{interval}m')
 
         # Calculate Heikin-Ashi candles
         data['HA_Close'] = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
