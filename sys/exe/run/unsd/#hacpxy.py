@@ -3,32 +3,35 @@ import os
 import sys
 
 def analyze_stock(symbol):
-    for days in range(1, 8):
-        try:
-            # Redirect standard output to os.devnull to suppress messages
-            sys.stdout = open(os.devnull, 'w')
+    try:
+        # Download historical data for the last 2 days
+        data = yf.download(symbol, period="2d")
 
-            # Download data for the specified number of days
-            data = yf.download(symbol, period=f"{days}d")
+        # Calculate Heikin-Ashi candles
+        data['HA_Close'] = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
+        data['HA_Open'] = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+        data['HA_High'] = data[['High', 'HA_Open', 'HA_Close']].max(axis=1)
+        data['HA_Low'] = data[['Low', 'HA_Open', 'HA_Close']].min(axis=1)
 
-            # Extract today's open, yesterday's close, and current price
-            today_open = data['Open'].iloc[-1]
-            today_high = data['High'].iloc[-1]
-            today_low = data['Low'].iloc[-1]
-            yesterday_close = data['Close'].iloc[-2]
-            current_price = data['Close'].iloc[-1]
+        # Extract yesterday's and today's Heikin-Ashi values
+        yesterday_ha_open = data['HA_Open'].iloc[-2]
+        yesterday_ha_close = data['HA_Close'].iloc[-2]
+        today_ha_open = data['HA_Open'].iloc[-1]
+        today_ha_close = data['HA_Close'].iloc[-1]
 
-            # Check if the conditions are met
-            below_open_high_above_open = (today_low < today_open) & (today_high > today_open)
-            above_open_low_below_open = (today_high > today_open) & (today_low < today_open)
+        # Implement your conditions for buying or selling
+        if today_ha_open > today_ha_close > yesterday_ha_open and today_ha_open > yesterday_ha_open:
+            return 'Buy'
+        elif today_ha_open < today_ha_close < yesterday_ha_open and today_ha_open < yesterday_ha_open:
+            return 'Sell'
+        else:
+            return 'Hold'
 
-            if below_open_high_above_open.any() or above_open_low_below_open.any():
-                return 'yes'
-        except Exception as e:
-            print(f"Error during data download for {days} days: {e}")
-        finally:
-            # Restore standard output
-            sys.stdout.close()
-            sys.stdout = sys.__stdout__
+    except Exception as e:
+        print(f"Error during data download: {e}")
+        return 'Error'
 
-    return 'no'
+# Example of how to use the function
+symbol = 'AAPL'
+decision = analyze_stock(symbol)
+print(f"Decision for {symbol}: {decision}")
