@@ -24,8 +24,10 @@ def analyze_stock(symbol):
 
         if daybeforeyesterday_ha_close < daybeforeyesterday_ha_open and yesterday_ha_close > yesterday_ha_open and today_ha_close > today_ha_open:
             return 'Buy'
-        else:
-            return 'Hold'
+        else daybeforeyesterday_ha_close > daybeforeyesterday_ha_open and yesterday_ha_close < yesterday_ha_open and today_ha_close < today_ha_open:
+            return 'Sell'
+        else :
+            return 'None'
 
     except Exception as e:
         print(f"Error during data download for {symbol}: {e}")
