@@ -41,13 +41,13 @@ def analyze_stock(symbol):
 
 # Read symbols from CSV file
 df_yxp500 = pd.read_csv('yxp500.csv')
-df_test = pd.read_csv('fileHPdf.csv')
+df_HPdf = pd.read_csv('fileHPdf.csv')
 
 # Use 'tradingsymbol' as the column name
 symbol_list_yxp500 = df_yxp500['tradingsymbol'].tolist()
 
 # Exclude symbols from fileHPdf.csv
-symbol_list_to_analyze = [symbol for symbol in symbol_list_yxp500 if symbol not in df_test['tradingsymbol'].tolist()]
+symbol_list_to_analyze = [symbol for symbol in symbol_list_yxp500 if symbol not in df_HPdf['tradingsymbol'].tolist()]
 
 # Analyze each symbol
 for symbol in symbol_list_to_analyze:
