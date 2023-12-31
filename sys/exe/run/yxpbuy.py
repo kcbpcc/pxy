@@ -13,7 +13,6 @@ def analyze_stock(symbol):
         data['HA_Close'] = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
         data['HA_Open'] = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
-
         # Check if yesterday's candle is red and today's candle is green
         yesterday_ha_close = data['HA_Close'].iloc[-2]
         yesterday_ha_open = data['HA_Open'].iloc[-2]
