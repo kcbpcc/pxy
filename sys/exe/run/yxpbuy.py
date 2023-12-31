@@ -23,10 +23,11 @@ def analyze_stock(symbol):
         yesterday_open = data['Open'].iloc[-2]
         today_close = data['Close'].iloc[-1]
         today_open = data['Open'].iloc[-1]
+        mktpxy = get_market_check(symbol)
         
-        if daybeforeyesterday_close < daybeforeyesterday_open and yesterday_close > yesterday_open and today_close > today_open and (nse_action == 'Bull' or nse_action == 'Bullish'):
+        if daybeforeyesterday_close < daybeforeyesterday_open and yesterday_close > yesterday_open and today_close > today_open and (nse_action == 'Bull' or nse_action == 'Bullish') and mktpxy == 'Buy':
             return 'Buy'
-        elif daybeforeyesterday_close > daybeforeyesterday_open and yesterday_close < yesterday_open and today_close < today_open and (nse_action == 'Bear' or nse_action == 'Bearish'):
+        elif daybeforeyesterday_close > daybeforeyesterday_open and yesterday_close < yesterday_open and today_close < today_open and (nse_action == 'Bear' or nse_action == 'Bearish') and mktpxy == 'Sell':
             return 'Sell'
         else:
             return 'None'
