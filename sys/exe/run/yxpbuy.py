@@ -11,16 +11,16 @@ def analyze_stock(symbol):
         data = yf.download(symbol_with_exchange, period="7d", interval="1d")
         
         # Calculate Heikin-Ashi candles for daily data
-        data['HA_Close'] = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
-        data['HA_Open'] = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+        data['Close'] = data['Close']
+        data['Open'] = data['Open']
 
         # Check if yesterday's candle is red and today's candle is green
-        daybeforeyesterday_ha_close = data['HA_Close'].iloc[-3]
-        daybeforeyesterday_ha_open = data['HA_Open'].iloc[-3]
-        yesterday_ha_close = data['HA_Close'].iloc[-2]
-        yesterday_ha_open = data['HA_Open'].iloc[-2]
-        today_ha_close = data['HA_Close'].iloc[-1]
-        today_ha_open = data['HA_Open'].iloc[-1]
+        daybeforeyesterday_close = data['Close'].iloc[-3]
+        daybeforeyesterday_open = data['Open'].iloc[-3]
+        yesterday_close = data['Close'].iloc[-2]
+        yesterday_open = data['Open'].iloc[-2]
+        today_close = data['Close'].iloc[-1]
+        today_open = data['Open'].iloc[-1]
 
         if daybeforeyesterday_ha_close < daybeforeyesterday_ha_open and yesterday_ha_close > yesterday_ha_open and today_ha_close > today_ha_open:
             return 'Buy'
