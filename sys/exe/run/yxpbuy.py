@@ -12,8 +12,7 @@ def analyze_stock(symbol):
         # Calculate Heikin-Ashi candles
         data['HA_Close'] = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
         data['HA_Open'] = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
-        data['HA_High'] = data[['High', 'HA_Open', 'HA_Close']].max(axis=1)
-        data['HA_Low'] = data[['Low', 'HA_Open', 'HA_Close']].min(axis=1)
+
 
         # Check if yesterday's candle is red and today's candle is green
         yesterday_ha_close = data['HA_Close'].iloc[-2]
