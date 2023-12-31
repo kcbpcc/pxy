@@ -42,11 +42,8 @@ def analyze_stock(symbol):
 # Read symbols from CSV file
 df = pd.read_csv('yxp500.csv')
 
-# Check the actual column names in your CSV file
-print(df.columns)
-
-# Adjust the column name accordingly
-symbol_list = df['YourColumnName'].tolist()  # Replace 'YourColumnName' with the actual column name
+# Use 'tradingsymbol' as the column name
+symbol_list = df['tradingsymbol'].tolist()
 
 # Analyze each symbol
 for symbol in symbol_list:
