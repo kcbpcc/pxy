@@ -4,7 +4,7 @@ import yfinance as yf
 
 # Intervals
 intervals = [5, 4, 3, 2, 1]
-periods = [1, 2, 3, 4, 5]
+periods = [2, 3, 4, 5]
 
 def analyze_stock(symbol):
     try:
