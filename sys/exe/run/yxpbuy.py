@@ -1,13 +1,12 @@
 import pandas as pd
 import yfinance as yf
-import telegram  # Add missing import
-
+import telegram
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from login_get_kite import get_kite
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from buypluspxy import Trendlyne
-from fundpxy import calculate_decision  # Check if this is needed
+from fundpxy import calculate_decision
 from mktpxy import get_market_check
 from nftpxy import nse_action
 import traceback
@@ -126,12 +125,16 @@ def analyze_stock(symbol):
         today_open = data['Open'].iloc[-1]
         mktpxy = get_market_check(symbol_with_exchange)
         
-        if daybeforeyesterday_close < daybeforeyesterday_open and yesterday_close > yesterday_open and today_close > today_open and (nse_action == 'Bull' or nse_action == 'Bullish') and mktpxy == 'Buy':
-            return 'Buy'
-        elif daybeforeyesterday_close > daybeforeyesterday_open and yesterday_close < yesterday_open and today_close < today_open and (nse_action == 'Bear' or nse_action == 'Bearish') and mktpxy == 'Sell':
-            return transact(dct, remaining_cash)  # Call the transact function
-        else:
-            return 'None'
+        if (your_condition_for_sell) and mktpxy == 'Sell':
+            response = broker.kite.margins()
+            remaining_cash = response["equity"]["available"]["live_balance"]
+            
+            transact_result, remaining_cash = transact(dct, remaining_cash)
+            if transact_result == 'Sell':
+                return 'Sell'
+            # Handle other cases or add more logic based on the result if needed
+
+        return 'None'
 
     except Exception as e:
         print(f"Error during data download for {symbol}: {e}")
@@ -144,11 +147,8 @@ df_HPdf = pd.read_csv('fileHPdf.csv')
 # Use 'tradingsymbol' as the column name
 symbol_list_yxp500 = df_yxp500['tradingsymbol'].tolist()
 
-# Exclude symbols from fileHPdf.csv
-symbol_list_to_analyze = [symbol for symbol in symbol_list_yxp500 if symbol not in df_HPdf['tradingsymbol'].tolist()]
-
 # Analyze each symbol
-for symbol in symbol_list_to_analyze:
+for symbol in symbol_list_yxp500:
     decision = analyze_stock(symbol)
     print(f"Decision for {symbol}: {decision}")
 
