@@ -24,9 +24,9 @@ def analyze_stock(symbol):
         today_close = data['Close'].iloc[-1]
         today_open = data['Open'].iloc[-1]
         
-        if daybeforeyesterday_close < daybeforeyesterday_open and yesterday_close > yesterday_open and today_close > today_open and (nse_action == 'Bull' or nse_action == 'Bullish') and get_market_check(symbol) == Buy:
+        if daybeforeyesterday_close < daybeforeyesterday_open and yesterday_close > yesterday_open and today_close > today_open and (nse_action == 'Bull' or nse_action == 'Bullish'):
             return 'Buy'
-        elif daybeforeyesterday_close > daybeforeyesterday_open and yesterday_close < yesterday_open and today_close < today_open and (nse_action == 'Bear' or nse_action == 'Bearish') and get_market_check(symbol) == Sell:
+        elif daybeforeyesterday_close > daybeforeyesterday_open and yesterday_close < yesterday_open and today_close < today_open and (nse_action == 'Bear' or nse_action == 'Bearish'):
             return 'Sell'
         else:
             return 'None'
