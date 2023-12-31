@@ -1,8 +1,7 @@
 import pandas as pd
 import yfinance as yf
 from nftpxy import nse_action
-from mktpxy import get_market_check 
-
+from mktpxy import get_market_check
 
 def analyze_stock(symbol):
     try:
@@ -25,9 +24,21 @@ def analyze_stock(symbol):
         today_open = data['Open'].iloc[-1]
         mktpxy = get_market_check(symbol_with_exchange)
         
-        if daybeforeyesterday_close < daybeforeyesterday_open and yesterday_close > yesterday_open and today_close > today_open and (nse_action == 'Bull' or nse_action == 'Bullish') and mktpxy == 'Buy':
+        if (
+            daybeforeyesterday_close < daybeforeyesterday_open
+            and yesterday_close > yesterday_open
+            and today_close > today_open
+            and (nse_action == 'Bull' or nse_action == 'Bullish')
+            and mktpxy == 'Buy'
+        ):
             return 'Buy'
-        elif daybeforeyesterday_close > daybeforeyesterday_open and yesterday_close < yesterday_open and today_close < today_open and (nse_action == 'Bear' or nse_action == 'Bearish') and mktpxy == 'Sell':
+        elif (
+            daybeforeyesterday_close > daybeforeyesterday_open
+            and yesterday_close < yesterday_open
+            and today_close < today_open
+            and (nse_action == 'Bear' or nse_action == 'Bearish')
+            and mktpxy == 'Sell'
+        ):
             return 'Sell'
         else:
             return 'None'
@@ -46,8 +57,19 @@ symbol_list_yxp500 = df_yxp500['tradingsymbol'].tolist()
 # Exclude symbols from fileHPdf.csv
 symbol_list_to_analyze = [symbol for symbol in symbol_list_yxp500 if symbol not in df_HPdf['tradingsymbol'].tolist()]
 
+# Initialize an empty list to store symbols to sell
+symbols_to_sell = []
+
 # Analyze each symbol
 for symbol in symbol_list_to_analyze:
     decision = analyze_stock(symbol)
     print(f"Decision for {symbol}: {decision}")
+    
+    # Check if the decision is 'Sell' and append the symbol to the list
+    if decision == 'Sell':
+        symbols_to_sell.append(symbol)
+
+# Print the list of symbols to sell
+print("Symbols to Sell:", symbols_to_sell)
+
 
