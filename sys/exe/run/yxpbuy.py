@@ -1,4 +1,4 @@
-iimport pandas as pd
+import pandas as pd
 import yfinance as yf
 import telegram  # Add missing import
 
