@@ -7,7 +7,7 @@ def analyze_stock(symbol):
         symbol_with_exchange = symbol + ".NS"
 
         # Download historical data for the last 2 days with 1-minute intervals
-        data = yf.download(symbol_with_exchange, period="2d", interval="5m")
+        data = yf.Ticker(symbol).history(period=f'{periods[7]}d', interval=f'{1}m')
 
         # Calculate Heikin-Ashi candles
         data['HA_Close'] = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
