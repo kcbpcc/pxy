@@ -24,9 +24,9 @@ def analyze_stock(symbol):
 
         if daybeforeyesterday_ha_close < daybeforeyesterday_ha_open and yesterday_ha_close > yesterday_ha_open and today_ha_close > today_ha_open:
             return 'Buy'
-        else daybeforeyesterday_ha_close > daybeforeyesterday_ha_open and yesterday_ha_close < yesterday_ha_open and today_ha_close < today_ha_open:
+        elif daybeforeyesterday_ha_close > daybeforeyesterday_ha_open and yesterday_ha_close < yesterday_ha_open and today_ha_close < today_ha_open:
             return 'Sell'
-        else :
+        else:
             return 'None'
 
     except Exception as e:
