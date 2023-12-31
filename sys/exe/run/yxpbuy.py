@@ -126,7 +126,7 @@ import yfinance as yf
 from nftpxy import nse_action
 from mktpxy import get_market_check
 
-def analyze_stock(symbol):
+def analyze_stock(symbol, nse_action):  # Add nse_action as an argument
     try:
         # Append ".NS" to the symbol to specify the NSE exchange
         symbol_with_exchange = symbol + ".NS"
@@ -171,31 +171,32 @@ def analyze_stock(symbol):
         return 'Error'
 
 df_yxp500 = pd.read_csv('yxp500.csv')
-    df_HPdf = pd.read_csv('fileHPdf.csv')
+df_HPdf = pd.read_csv('fileHPdf.csv')
 
-    # Use 'tradingsymbol' as the column name
-    symbol_list_yxp500 = df_yxp500['tradingsymbol'].tolist()
+# Use 'tradingsymbol' as the column name
+symbol_list_yxp500 = df_yxp500['tradingsymbol'].tolist()
 
-    # Exclude symbols from fileHPdf.csv
-    symbol_list_to_analyze = [symbol for symbol in symbol_list_yxp500 if symbol not in df_HPdf['tradingsymbol'].tolist()]
+# Exclude symbols from fileHPdf.csv
+symbol_list_to_analyze = [symbol for symbol in symbol_list_yxp500 if symbol not in df_HPdf['tradingsymbol'].tolist()]
 
-    # Initialize an empty list to store symbols to sell
-    symbols_to_sell = []
+# Initialize an empty list to store symbols to sell
+symbols_to_sell = []
 
-    # Analyze each symbol
-    for symbol in symbol_list_to_analyze:
-        decision = analyze_stock(symbol, nse_action)  # Pass nse_action as an argument
-        print(f"Decision for {symbol}: {decision}")
+# Analyze each symbol
+for symbol in symbol_list_to_analyze:
+    decision = analyze_stock(symbol, nse_action)  # Pass nse_action as an argument
+    print(f"Decision for {symbol}: {decision}")
 
-        # Check if the decision is 'Sell' and append the symbol to the list
-        if decision == 'Sell':
-            symbols_to_sell.append(symbol)
+    # Check if the decision is 'Sell' and append the symbol to the list
+    if decision == 'Sell':
+        symbols_to_sell.append(symbol)
 
-    # Print the list of symbols to sell
-    print("Symbols to Sell:", symbols_to_sell)
+# Print the list of symbols to sell
+print("Symbols to Sell:", symbols_to_sell)
 
 elif decision == "NO":
     # Perform actions for "NO"
     print("\033[91mNo Funds Avalable \033[0m")
+
 
 
