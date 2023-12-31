@@ -14,7 +14,7 @@ while true; do
     echo "   -pxyclean              🚿        cl"
     echo "   -pxyflush              💨        fl"    
     echo "   -pxycheck              🧪        ck"
-    echo "   -pxysetup              ⭕️        st"
+    echo "   -pxysetup              📀        st"
     echo "   -pxyupdate             📥        up"
     echo "   -pxysell-MIS           🔴        sl"    
     echo "   -pxykill-MIS           ❌        ka"
