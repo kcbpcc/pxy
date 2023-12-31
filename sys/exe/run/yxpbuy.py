@@ -3,7 +3,6 @@ import yfinance as yf
 from nftpxy import nse_action
 from mktpxy import get_market_check 
 
-mktpxy = get_market_check
 
 def analyze_stock(symbol):
     try:
@@ -25,9 +24,9 @@ def analyze_stock(symbol):
         today_close = data['Close'].iloc[-1]
         today_open = data['Open'].iloc[-1]
         
-        if daybeforeyesterday_close < daybeforeyesterday_open and yesterday_close > yesterday_open and today_close > today_open and (nse_action == 'Bull' or nse_action == 'Bullish') and mktpxy == Buy:
+        if daybeforeyesterday_close < daybeforeyesterday_open and yesterday_close > yesterday_open and today_close > today_open and (nse_action == 'Bull' or nse_action == 'Bullish') and get_market_check(symbol) == Buy:
             return 'Buy'
-        elif daybeforeyesterday_close > daybeforeyesterday_open and yesterday_close < yesterday_open and today_close < today_open and (nse_action == 'Bear' or nse_action == 'Bearish') and mktpxy == Sell:
+        elif daybeforeyesterday_close > daybeforeyesterday_open and yesterday_close < yesterday_open and today_close < today_open and (nse_action == 'Bear' or nse_action == 'Bearish') and get_market_check(symbol) == Sell:
             return 'Sell'
         else:
             return 'None'
