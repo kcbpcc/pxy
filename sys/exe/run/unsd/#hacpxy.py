@@ -2,7 +2,7 @@ import yfinance as yf
 import os
 import sys
 
-def analyze_stock(symbol):
+def day_ha_check(symbol):
     try:
         # Download historical data for the last 2 days
         data = yf.download(symbol, period="2d")
@@ -33,5 +33,5 @@ def analyze_stock(symbol):
 
 # Example of how to use the function
 symbol = 'AAPL'
-decision = analyze_stock(symbol)
+decision = day_ha_check(symbol)
 print(f"Decision for {symbol}: {decision}")
