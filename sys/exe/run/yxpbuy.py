@@ -1,19 +1,18 @@
 import pandas as pd
 import yfinance as yf
-from nftpxy import nse_action
-from mktpxy import get_market_check 
-rom toolkit.logger import Logger
+import telegram  # Add missing import
+
+from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
-from toolkit.utilities import Utilities
 from login_get_kite import get_kite
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from buypluspxy import Trendlyne
-import pandas as pd
+from fundpxy import calculate_decision  # Check if this is needed
+from mktpxy import get_market_check
+from nftpxy import nse_action
 import traceback
 import sys
 import os
-from fundpxy import calculate_decision
-from mktpxy import get_market_check
 import asyncio
 
 logging = Logger(10)
@@ -25,6 +24,15 @@ try:
 except Exception as e:
     print(traceback.format_exc())
     sys.exit(1)
+
+# ... (rest of your code)
+
+# Ensure the following imports are present if needed:
+# from toolkit.currency import round_to_paise
+# from toolkit.utilities import Utilities
+
+# ... (rest of your code)
+
 
 def transact(dct, remaining_cash):
         response = broker.kite.margins()
