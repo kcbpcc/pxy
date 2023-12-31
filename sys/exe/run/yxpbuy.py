@@ -2,6 +2,7 @@ import pandas as pd
 import yfinance as yf
 from nftpxy import nse_action
 from mktpxy import get_market_check 
+
 mktpxy = get_market_check(symbol) 
 
 def analyze_stock(symbol):
