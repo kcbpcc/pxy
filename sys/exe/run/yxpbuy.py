@@ -12,6 +12,7 @@ import asyncio
 import logging
 import telegram
 import yfinance as yf
+from smbpxy import get_smbpxy_check(symbol)
 
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
@@ -125,6 +126,7 @@ if decision == "YES":
     import yfinance as yf
     from nftpxy import nse_action
     from mktpxy import get_market_check
+    smbchk = get_smbpxy_check(symbol)
 
     def analyze_stock(symbol, nse_action):  # Add nse_action as an argument
         try:
@@ -152,7 +154,8 @@ if decision == "YES":
                 and yesterday_close > yesterday_open
                 and today_close > today_open
                 and (nse_action == 'Bull' or nse_action == 'Bullish')
-                and mktpxy == 'Buy'
+                and mktchk == 'Buy'
+                and smbchk == 'Buy'
             ):
                 return 'Buy'
             elif (
@@ -160,7 +163,8 @@ if decision == "YES":
                 and yesterday_close < yesterday_open
                 and today_close < today_open
                 and (nse_action == 'Bear' or nse_action == 'Bearish')
-                and mktpxy == 'Sell'
+                and mktchk == 'Sell'
+                and smbchk == 'Sell'
             ):
                 return 'Sell'
             else:
