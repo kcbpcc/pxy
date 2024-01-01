@@ -126,12 +126,13 @@ if decision == "YES":
     import yfinance as yf
     from nftpxy import nse_action
     from mktpxy import get_market_check
-    smbchk = get_smbpxy_check(symbol)
+    
 
     def analyze_stock(symbol, nse_action):  # Add nse_action as an argument
         try:
             # Append ".NS" to the symbol to specify the NSE exchange
             symbol_with_exchange = symbol + ".NS"
+            smbchk = get_smbpxy_check(symbol_with_exchange)
 
             # Download historical stock data for the last 2 days with a daily interval
             data = yf.download(symbol_with_exchange, period="7d", interval="1d")
