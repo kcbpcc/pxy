@@ -432,7 +432,7 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          available_cash > 20000 and
-                         nse_power < 0.1 and
+                         nse_power < 0.5 and
                          row['PL%'] < -10 )
                     ):
                         try:                            
