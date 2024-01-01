@@ -11,6 +11,7 @@ from mktpxy import get_market_check
 import logging
 import yfinance as yf
 from smbpxy import get_smbpxy_check
+from nftpxy import nse_action
 
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
