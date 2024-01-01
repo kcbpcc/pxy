@@ -1,3 +1,4 @@
+# Import necessary libraries and modules
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
@@ -13,15 +14,15 @@ import yfinance as yf
 from smbpxy import get_smbpxy_check
 from nftpxy import nse_action
 
+# Set up logging and load necessary data
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
-
 black_file = dir_path + "blacklist.txt"
 
+# Attempt to create a Kite instance
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
-
 except Exception as e:
     print(traceback.format_exc())
     sys.exit(1)
@@ -29,6 +30,7 @@ except Exception as e:
 # Call the calculate_decision function to get the decision
 decision = calculate_decision()
 
+# Define a function to analyze stock data
 def analyze_stock(symbol):  # Add nse_action as an argument
     try:
         # Append ".NS" to the symbol to specify the NSE exchange
@@ -42,7 +44,7 @@ def analyze_stock(symbol):  # Add nse_action as an argument
         data['Close'] = data['Close']
         data['Open'] = data['Open']
 
-        # Check if yesterday's candle is red and today's candle is green
+        # Check candlestick patterns and market conditions
         daybeforeyesterday_close = data['Close'].iloc[-3]
         daybeforeyesterday_open = data['Open'].iloc[-3]
         yesterday_close = data['Close'].iloc[-2]
@@ -76,6 +78,7 @@ def analyze_stock(symbol):  # Add nse_action as an argument
         print(f"Error during data download for {symbol}: {e}")
         return 'Error'
 
+# Read data from CSV files
 df_yxp500 = pd.read_csv('yxp500.csv')
 df_HPdf = pd.read_csv('fileHPdf.csv')
 
