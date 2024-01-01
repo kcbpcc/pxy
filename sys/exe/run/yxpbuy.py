@@ -31,7 +31,7 @@ except Exception as e:
 decision = calculate_decision()
 
 # Define a function to analyze stock data
-def analyze_stock(symbol):  # Add nse_action as an argument
+def analyze_stock(symbol_with_exchange):  # Add nse_action as an argument
     try:
         # Append ".NS" to the symbol to specify the NSE exchange
         symbol_with_exchange = symbol + ".NS"
