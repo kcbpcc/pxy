@@ -109,7 +109,7 @@ def order_place_avg(index, row):
         if len(exchsym) >= 2 :
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
             # Calculate quantity based on the value of 5000
-            qty = 2000 // row['ltp']
+            qty = 5000 // row['ltp']
             qty = int(qty)  # Remove decimals
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
