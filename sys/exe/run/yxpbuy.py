@@ -29,14 +29,7 @@ except Exception as e:
 # Call the calculate_decision function to get the decision
 decision = calculate_decision()
 
-# Rest of the code remains unchanged
-
-def calc_target(ltp, perc):
-    resistance = round_to_paise(ltp, perc)
-    target = round_to_paise(ltp, max_target)
-    return max(resistance, target)
-
-def analyze_stock(symbol, nse_action):  # Add nse_action as an argument
+def analyze_stock(symbol):  # Add nse_action as an argument
     try:
         # Append ".NS" to the symbol to specify the NSE exchange
         symbol_with_exchange = symbol + ".NS"
@@ -97,7 +90,7 @@ symbols_to_sell = []
 
 # Analyze each symbol
 for symbol in symbol_list_to_analyze:
-    decision = analyze_stock(symbol, nse_action)  # Pass nse_action as an argument
+    decision = analyze_stock(symbol)  # Pass nse_action as an argument
     print(f"Decision for {symbol}: {decision}")
 
     # Check if the decision is 'Sell' and append the symbol to the list
