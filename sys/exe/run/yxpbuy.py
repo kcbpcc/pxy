@@ -203,9 +203,5 @@ elif decision == "NO":
     # Perform actions for "NO"
     print("\033[91mNo Funds Avalable \033[0m")
 
-elif decision == "NO":
-    # Perform actions for "NO"
-    print("\033[91mNo Funds Avalable \033[0m")
-
 
 
