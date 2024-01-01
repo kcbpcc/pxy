@@ -12,7 +12,7 @@ import asyncio
 import logging
 import telegram
 import yfinance as yf
-from smbpxy import get_smbpxy_check(symbol)
+from smbpxy import get_smbpxy_check
 
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
