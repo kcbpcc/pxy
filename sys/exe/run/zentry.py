@@ -1,115 +1,48 @@
-from toolkit.logger import Logger as CustomLogger
-from toolkit.currency import round_to_paise
-from toolkit.utilities import Utilities
-from login_get_kite import get_kite
-from cnstpxy import dir_path, fileutils, buybuff, max_target
 import pandas as pd
-import traceback
-import sys
-from fundpxy import calculate_decision
-from mktpxy import get_market_check
-import logging
-import yfinance as yf
-from smbpxy import get_smbpxy_check
-from nftpxy import nse_action
+import requests
 
-# Read data from CSV files
-df_list = pd.read_csv('zlist.csv')
-df_HPdf = pd.read_csv('fileHPdf.csv')
+def get_candlestick_pattern(symbol):
+    exchange_code = ".NS"  # Replace with the appropriate exchange code for your symbols
 
-# Set up logging and load necessary data
-mktchk = get_market_check('^NSEI')
-custom_logger = CustomLogger(10)  # Renamed to avoid conflict
-black_file = dir_path + "blacklist.txt"
+    # Append the exchange code to the symbol
+    full_symbol = f"{symbol}{exchange_code}"
 
-# Attempt to create a Kite instance
-try:
-    sys.stdout = open('output.txt', 'w')
-    broker = get_kite(api="bypass", sec_dir=dir_path)
-except Exception as e:
-    print(traceback.format_exc())
-    sys.exit(1)
+    # Replace this URL with the appropriate Yahoo Finance API URL for historical data
+    url = f'https://query1.finance.yahoo.com/v8/finance/chart/{full_symbol}?interval=1d'
 
-symbol = df_list['tradingsymbol']
-
-# Append ".NS" to the symbol to specify the NSE exchange
-symbol_with_exchange = symbol + ".NS"
-
-# Define a function to analyze stock data
-def analyze_stock(symbol_with_exchange, nse_action):  # Add nse_action as an argument
     try:
-        smbchk = get_smbpxy_check(symbol_with_exchange)
+        response = requests.get(url)
+        data = response.json()
 
-        # Download historical stock data for the last 2 days with a daily interval
-        data = yf.download(symbol_with_exchange, period="7d", interval="1d")
+        # Extract candlestick pattern from the response data
+        # You may need to adjust this based on the actual structure of the Yahoo Finance API response
+        # For simplicity, let's assume that a "bearish" candlestick pattern is when the close is lower than the open
+        close = data['chart']['result'][0]['indicators']['quote'][0]['close']
+        open_ = data['chart']['result'][0]['indicators']['quote'][0]['open']
 
-        # Calculate Heikin-Ashi candles for daily data
-        data['Close'] = data['Close']
-        data['Open'] = data['Open']
-
-        # Check candlestick patterns and market conditions
-        daybeforeyesterday_close = data['Close'].iloc[-3]
-        daybeforeyesterday_open = data['Open'].iloc[-3]
-        yesterday_close = data['Close'].iloc[-2]
-        yesterday_open = data['Open'].iloc[-2]
-        today_close = data['Close'].iloc[-1]
-        today_open = data['Open'].iloc[-1]
-        mktpxy = get_market_check(symbol_with_exchange)
-
-        if (
-            daybeforeyesterday_close < daybeforeyesterday_open
-            and yesterday_close > yesterday_open
-            and today_close > today_open
-            and (nse_action == 'Bull' or nse_action == 'Bullish')
-            and mktchk == 'Buy'
-            and smbchk == 'Buy'
-        ):
-            return 'Buy'
-        elif (
-            daybeforeyesterday_close > daybeforeyesterday_open
-            and yesterday_close < yesterday_open
-            and today_close < today_open
-            and (nse_action == 'Bear' or nse_action == 'Bearish')
-            and mktchk == 'Sell'
-            and smbchk == 'Sell'
-        ):
-            return 'Sell'
+        if close[-1] < open_[-1]:
+            return "Bearish"
         else:
-            return 'None'
+            return "Bullish"
 
     except Exception as e:
-        print(f"Error during data download for {symbol}: {e}")
-        return 'Error'
+        print(f"Error fetching data for {full_symbol}: {e}")
+        return None
 
-# Use 'tradingsymbol' as the column name
-symbol_list_list = df_list['tradingsymbol'].tolist()
+def main():
+    # Load the CSV file into a pandas DataFrame
+    df = pd.read_csv('yxplist.csv')
 
-# Exclude symbols from fileHPdf.csv
-symbol_list_to_analyze = [symbol for symbol in symbol_list_list if symbol not in df_HPdf['tradingsymbol'].tolist()]
+    # Iterate over each row in the DataFrame
+    for index, row in df.iterrows():
+        symbol = row['tradingsymbol']
+        candlestick_pattern = get_candlestick_pattern(symbol)
 
-# Set up logging
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+        if candlestick_pattern:
+            print(f"{symbol}: {candlestick_pattern} trend")
 
-# Initialize an empty list to store symbols to sell
-symbols_to_sell = []
-
-# Analyze each symbol
-for symbol in symbol_list_to_analyze:
-    try:
-        nse_action = nse_action  # Replace this with the actual value of nse_action
-        decision = analyze_stock(symbol, nse_action)
-        logger.info(f"Decision for {symbol}: {decision}")
-
-        # Check if the decision is 'Sell' and append the symbol to the list
-        if decision == 'Sell':
-            symbols_to_sell.append(symbol)
-
-    except Exception as e:
-        logger.error(f"Error during analysis for {symbol}: {e}")
-
-# Print the list of symbols to sell
-logger.info("Symbols to Sell: %s", symbols_to_sell)
+if __name__ == "__main__":
+    main()
 
 
 
