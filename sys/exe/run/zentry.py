@@ -101,7 +101,11 @@ try:
     # Append ".NS" to each symbol
     symbols_df['Symbol'] = symbols_df['Symbol'].astype(str) + '.NS'
     
-    symbols_list = symbols_df['Symbol'].tolist()
+    # Use 'Symbol' as the column name
+    symbol_list_list = df_list['Symbol'].tolist()
+    
+    # Append ".NS" to the symbol to specify the NSE exchange
+    symbol_with_exchange_list = [symbol + ".NS" for symbol in symbol_list_list]
 
     for symbol in symbols_list:
         smbpxy_result = get_smbpxy_check(symbol)
