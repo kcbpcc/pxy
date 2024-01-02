@@ -75,5 +75,3 @@ except Exception as e:
     console.print(f"[red]Error reading symbols from CSV file: {e}[/red]")
 
 
-
-
