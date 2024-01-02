@@ -1,4 +1,4 @@
-from toolkit.logger import Logger
+from toolkit.logger import Logger as CustomLogger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
 from login_get_kite import get_kite
@@ -19,7 +19,7 @@ df_HPdf = pd.read_csv('fileHPdf.csv')
 
 # Set up logging and load necessary data
 mktchk = get_market_check('^NSEI')
-logging = Logger(10)
+custom_logger = CustomLogger(10)  # Renamed to avoid conflict
 black_file = dir_path + "blacklist.txt"
 
 # Attempt to create a Kite instance
@@ -110,6 +110,7 @@ for symbol in symbol_list_to_analyze:
 
 # Print the list of symbols to sell
 logger.info("Symbols to Sell: %s", symbols_to_sell)
+
 
 
 
