@@ -1,3 +1,4 @@
+#PXY®
 import yfinance as yf
 import os
 import sys
