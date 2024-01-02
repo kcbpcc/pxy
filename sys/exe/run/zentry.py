@@ -94,16 +94,14 @@ def get_smbpxy_check(symbol):
         return 'NONE'
 
 # Read symbols from CSV file
-csv_file_path = 'yxplist.csv'  # Replace with the actual path
+csv_file_path = 'symbols.csv'  # Replace with the actual path
 try:
     symbols_df = pd.read_csv(csv_file_path)
     
-    # Append ".NS" to each symbol
-    symbols_df['Symbol'] = symbols_df['Symbol'].astype(str) + '.NS'
+    # Use the only column in the CSV file
+    symbol_list = symbols_df['tradingsymbol'].tolist()
     
-    symbol_list_list = symbols_df['tradingsymbol'].tolist()
-    
-    for symbol in symbol_list_list:
+    for symbol in symbol_list:
         smbpxy_result = get_smbpxy_check(symbol)
         console.print(f"SMBPXY check for {symbol}: {smbpxy_result}")
 
@@ -113,5 +111,6 @@ except pd.errors.EmptyDataError:
     console.print("[red]CSV file is empty[/red]")
 except Exception as e:
     console.print(f"[red]Error reading symbols from CSV file: {e}[/red]")
+
 
 
