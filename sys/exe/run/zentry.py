@@ -93,13 +93,20 @@ def get_smbpxy_check(symbol):
         return 'NONE'
 
     except Exception as e:
-        console.print(f"[red]Error determining smbpxy check: {e}[/red]")
+        console.print(f"[red]Error determining smbpxy check for symbol {symbol}: {e}[/red]")
         return 'NONE'
 
+# Read symbols from CSV file
+try:
+    symbols_df = pd.read_csv(csv_file_path)
+    symbols_list = symbols_df['Symbol'].tolist()
 
-    except Exception as e:
-        console.print(f"[red]Error determining smbpxy check: {e}[/red]")
-        return 'NONE'
+    for symbol in symbols_list:
+        smbpxy_result = get_smbpxy_check(symbol)
+        console.print(f"SMBPXY check for {symbol}: {smbpxy_result}")
+
+except Exception as e:
+    console.print(f"[red]Error reading symbols from CSV file: {e}[/red]")
 
 
 
