@@ -1,4 +1,3 @@
-#PXY®
 import time
 import subprocess
 import warnings
@@ -8,6 +7,7 @@ from rich.style import Style
 import sys
 import yfinance as yf
 import os
+import pandas as pd
 
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
@@ -17,9 +17,6 @@ sys.stdout.reconfigure(encoding='utf-8')
 # Suppress yfinance warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
-
-# Specify the stock symbol (NIFTY 50)
-symbol = '^NSEI'
 
 # Intervals
 intervals = [5, 4, 3, 2, 1]
@@ -38,22 +35,22 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
 
         # Download data for the specified number of days (fixed to 5 days)
         data = yf.download(symbol, period="5d")
-        
+
         # Extract today's open, yesterday's close, and current price
         today_open = data['Open'].iloc[-1]
         today_high = data['High'].iloc[-1]
         today_low = data['Low'].iloc[-1]
         current_price = data['Close'].iloc[-1]
-        
+
         yesterday_close = data['Close'].iloc[-2]
         yesterday_open = data['Open'].iloc[-2]
-        
+
         sys.stdout.close()
         sys.stdout = sys.__stdout__
 
         day_open = today_open  # Open of the day
         ltp = current_price  # Last traded price
-    
+
         current_color = 'Bear' if day_open > ltp else 'Bull'
         last_closed_color = 'Bear' if day_open > ltp else 'Bull'
         second_closed_color = 'Bear' if day_open > ltp else 'Bull'
@@ -94,10 +91,16 @@ def get_smbpxy_check(symbol):
         return 'NONE'
 
     except Exception as e:
-        console.print(f"[red]Error determining smbpxy check: {e}[/red]")
+        console.print(f"[red]Error determining smbpxy check for {symbol}: {e}[/red]")
         return 'NONE'
 
+# Read symbols from the CSV file
+csv_file_path = 'zlistpxy.csv'
+symbol_df = pd.read_csv(csv_file_path)
 
-    except Exception as e:
-        console.print(f"[red]Error determining smbpxy check: {e}[/red]")
-        return 'NONE'
+# Process each symbol
+for symbol_row in symbol_df.itertuples(index=False):
+    symbol = symbol_row.SYMBOL
+    smbpxy_check = get_smbpxy_check(symbol)
+    console.print(f"[bold]Symbol:[/bold] {symbol}, [bold]SMBPXY Check:[/bold] {smbpxy_check}")
+
