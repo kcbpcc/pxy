@@ -14,13 +14,13 @@ from smbpxy import get_smbpxy_check
 from nftpxy import nse_action
 
 # Read data from CSV files
-df_list = pd.read_csv('list.csv')
+df_zlist = pd.read_csv('zlist.csv')
 df_HPdf = pd.read_csv('fileHPdf.csv')
 
 # Set up logging and load necessary data
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
-black_file = dir_path + "blacklist.txt"
+black_file = dir_path + "blackzlist.txt"
 
 # Attempt to create a Kite instance
 try:
@@ -30,7 +30,7 @@ except Exception as e:
     print(traceback.format_exc())
     sys.exit(1)
 
-symbol = df_list['tradingsymbol']
+symbol = df_zlist['tradingsymbol']
 
 # Append ".NS" to the symbol to specify the NSE exchange
 symbol_with_exchange = symbol + ".NS"
@@ -82,33 +82,33 @@ def analyze_stock(symbol_with_exchange, nse_action):  # Add nse_action as an arg
         return 'Error'
 
 # Use 'tradingsymbol' as the column name
-symbol_list_list = df_list['tradingsymbol'].tolist()
+symbol_zlist_zlist = df_zlist['tradingsymbol'].tozlist()
 
 # Exclude symbols from fileHPdf.csv
-symbol_list_to_analyze = [symbol for symbol in symbol_list_list if symbol not in df_HPdf['tradingsymbol'].tolist()]
+symbol_zlist_to_analyze = [symbol for symbol in symbol_zlist_zlist if symbol not in df_HPdf['tradingsymbol'].tozlist()]
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-# Initialize an empty list to store symbols to sell
+# Initialize an empty zlist to store symbols to sell
 symbols_to_sell = []
 
 # Analyze each symbol
-for symbol in symbol_list_to_analyze:
+for symbol in symbol_zlist_to_analyze:
     try:
         nse_action = nse_action  # Replace this with the actual value of nse_action
         decision = analyze_stock(symbol, nse_action)
         logger.info(f"Decision for {symbol}: {decision}")
 
-        # Check if the decision is 'Sell' and append the symbol to the list
+        # Check if the decision is 'Sell' and append the symbol to the zlist
         if decision == 'Sell':
             symbols_to_sell.append(symbol)
 
     except Exception as e:
         logger.error(f"Error during analysis for {symbol}: {e}")
 
-# Print the list of symbols to sell
+# Print the zlist of symbols to sell
 logger.info("Symbols to Sell: %s", symbols_to_sell)
 
 
