@@ -27,6 +27,7 @@ except Exception as e:
     print(traceback.format_exc())
     sys.exit(1)
 
+symbol = df_list['tradingsymbol']
 
 
         # Append ".NS" to the symbol to specify the NSE exchange
@@ -82,7 +83,6 @@ df_list = pd.read_csv('list.csv')
 df_HPdf = pd.read_csv('fileHPdf.csv')
 
 # Use 'tradingsymbol' as the column name
-symbol = df_list['tradingsymbol']
 symbol_list_list = df_list['tradingsymbol'].tolist()
 
 # Exclude symbols from fileHPdf.csv
