@@ -1,4 +1,3 @@
-
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
@@ -13,6 +12,10 @@ import logging
 import yfinance as yf
 from smbpxy import get_smbpxy_check
 from nftpxy import nse_action
+
+# Read data from CSV files
+df_list = pd.read_csv('list.csv')
+df_HPdf = pd.read_csv('fileHPdf.csv')
 
 # Set up logging and load necessary data
 mktchk = get_market_check('^NSEI')
@@ -29,12 +32,12 @@ except Exception as e:
 
 symbol = df_list['tradingsymbol']
 
+# Append ".NS" to the symbol to specify the NSE exchange
+symbol_with_exchange = symbol + ".NS"
 
-        # Append ".NS" to the symbol to specify the NSE exchange
-symbol_with_exchange = symbol + ".NS"# Define a function to analyze stock data
-def analyze_stock(symbol_with_exchange):  # Add nse_action as an argument
+# Define a function to analyze stock data
+def analyze_stock(symbol_with_exchange, nse_action):  # Add nse_action as an argument
     try:
-
         smbchk = get_smbpxy_check(symbol_with_exchange)
 
         # Download historical stock data for the last 2 days with a daily interval
@@ -78,10 +81,6 @@ def analyze_stock(symbol_with_exchange):  # Add nse_action as an argument
         print(f"Error during data download for {symbol}: {e}")
         return 'Error'
 
-# Read data from CSV files
-df_list = pd.read_csv('list.csv')
-df_HPdf = pd.read_csv('fileHPdf.csv')
-
 # Use 'tradingsymbol' as the column name
 symbol_list_list = df_list['tradingsymbol'].tolist()
 
@@ -98,7 +97,8 @@ symbols_to_sell = []
 # Analyze each symbol
 for symbol in symbol_list_to_analyze:
     try:
-        decision = analyze_stock(symbol)
+        nse_action = nse_action  # Replace this with the actual value of nse_action
+        decision = analyze_stock(symbol, nse_action)
         logger.info(f"Decision for {symbol}: {decision}")
 
         # Check if the decision is 'Sell' and append the symbol to the list
@@ -110,7 +110,6 @@ for symbol in symbol_list_to_analyze:
 
 # Print the list of symbols to sell
 logger.info("Symbols to Sell: %s", symbols_to_sell)
-
 
 
 
