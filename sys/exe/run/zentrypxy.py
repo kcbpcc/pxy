@@ -99,8 +99,7 @@ csv_file_path = 'zlistpxy.csv'
 symbol_df = pd.read_csv(csv_file_path)
 
 # Process each symbol
-for symbol_row in symbol_df.itertuples(index=False):
-    symbol = symbol_row.SYMBOL
+for symbol_row in symbol_df['SYMBOL']:
+    symbol = symbol_row
     smbpxy_check = get_smbpxy_check(symbol)
     console.print(f"[bold]Symbol:[/bold] {symbol}, [bold]SMBPXY Check:[/bold] {smbpxy_check}")
-
