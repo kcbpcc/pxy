@@ -94,7 +94,7 @@ def get_smbpxy_check(symbol):
         return 'NONE'
 
 # Read symbols from CSV file
-csv_file_path = 'yxplist.csv'  # Replace with the actual path
+csv_file_path = 'yxplist.txt'  # Replace with the actual path
 try:
     symbols_df = pd.read_csv(csv_file_path)
     
