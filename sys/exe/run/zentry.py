@@ -88,20 +88,28 @@ symbol_list_list = df_list['tradingsymbol'].tolist()
 # Exclude symbols from fileHPdf.csv
 symbol_list_to_analyze = [symbol for symbol in symbol_list_list if symbol not in df_HPdf['tradingsymbol'].tolist()]
 
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
 # Initialize an empty list to store symbols to sell
 symbols_to_sell = []
 
 # Analyze each symbol
 for symbol in symbol_list_to_analyze:
-    decision = analyze_stock(symbol)  # Pass nse_action as an argument
-    print(f"Decision for {symbol}: {decision}")
+    try:
+        decision = analyze_stock(symbol)
+        logger.info(f"Decision for {symbol}: {decision}")
 
-    # Check if the decision is 'Sell' and append the symbol to the list
-    if decision == 'Sell':
-        symbols_to_sell.append(symbol)
+        # Check if the decision is 'Sell' and append the symbol to the list
+        if decision == 'Sell':
+            symbols_to_sell.append(symbol)
+
+    except Exception as e:
+        logger.error(f"Error during analysis for {symbol}: {e}")
 
 # Print the list of symbols to sell
-print("Symbols to Sell:", symbols_to_sell)
+logger.info("Symbols to Sell: %s", symbols_to_sell)
 
 
 
