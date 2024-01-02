@@ -1,8 +1,1 @@
-trying login BYPASS ..
-reading credentials from ../bypass.yaml
-False: 2023-11-12 == 2023-11-12
-../MM9168.txt modified today ... reading None
-enctoken to broker IjYu2W5C8DUt/dRdoRPsMYJXyLNue4indHGz6BCMktcT2gKC6jhWSLtMlk41D76iPohXdz1POb7vNHi5ux16cCiLmUy3eL+Vz8CGZAvLypkZfLYvRtM0tA==
-trying to set headers with IjYu2W5C8DUt/dRdoRPsMYJXyLNue4indHGz6BCMktcT2gKC6jhWSLtMlk41D76iPohXdz1POb7vNHi5ux16cCiLmUy3eL+Vz8CGZAvLypkZfLYvRtM0tA==
-N50 -->:2nd:🟢🟢🟢|1st:🟢🟢🟢|now:🐂🟢🛫⤴️
-🐂🟢🟢🟢 Bullish sentiment! 💪💰
+
