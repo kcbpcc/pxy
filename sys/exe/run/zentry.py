@@ -78,14 +78,14 @@ def analyze_stock(symbol_with_exchange):  # Add nse_action as an argument
         return 'Error'
 
 # Read data from CSV files
-df_yxp500 = pd.read_csv('yxp500.csv')
+df_list = pd.read_csv('list.csv')
 df_HPdf = pd.read_csv('fileHPdf.csv')
 
 # Use 'tradingsymbol' as the column name
-symbol_list_yxp500 = df_yxp500['tradingsymbol'].tolist()
+symbol_list_list = df_list['tradingsymbol'].tolist()
 
 # Exclude symbols from fileHPdf.csv
-symbol_list_to_analyze = [symbol for symbol in symbol_list_yxp500 if symbol not in df_HPdf['tradingsymbol'].tolist()]
+symbol_list_to_analyze = [symbol for symbol in symbol_list_list if symbol not in df_HPdf['tradingsymbol'].tolist()]
 
 # Initialize an empty list to store symbols to sell
 symbols_to_sell = []
