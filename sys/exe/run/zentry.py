@@ -1,50 +1,105 @@
-import pandas as pd
-import requests
+import time
+import subprocess
+import warnings
+from rich import print
+from rich.console import Console
+from rich.style import Style
+import sys
+import yfinance as yf
+import os
 
-def get_candlestick_pattern(symbol):
-    exchange_code = ".NS"  # Replace with the appropriate exchange code for your symbols
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
-    # Append the exchange code to the symbol
-    full_symbol = f"{symbol}{exchange_code}"
+# Set the python3IOENCODING environment variable to 'utf-8'
+sys.stdout.reconfigure(encoding='utf-8')
 
-    # Replace this URL with the appropriate Yahoo Finance API URL for historical data
-    url = f'https://query1.finance.yahoo.com/v8/finance/chart/{full_symbol}?interval=1d'
+# Suppress yfinance warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
 
+# Specify the stock symbol (NIFTY 50)
+symbol = '^NSEI'
+
+# Intervals
+intervals = [5, 4, 3, 2, 1]
+periods = [1, 2, 3, 4, 5]
+
+# Create a Console instance for rich print formatting
+console = Console()
+
+# Function to calculate the Heikin-Ashi candle colors for the last three closed candles
+def calculate_last_three_heikin_ashi_colors(symbol, interval):
+    # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
+    current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
+
+    if 222 <= current_utc_time < 233:
+        sys.stdout = open(os.devnull, 'w')
+
+        # Download data for the specified number of days (fixed to 5 days)
+        data = yf.download(symbol, period="5d")
+        
+        # Extract today's open, yesterday's close, and current price
+        today_open = data['Open'].iloc[-1]
+        today_high = data['High'].iloc[-1]
+        today_low = data['Low'].iloc[-1]
+        current_price = data['Close'].iloc[-1]
+        
+        yesterday_close = data['Close'].iloc[-2]
+        yesterday_open = data['Open'].iloc[-2]
+        
+        sys.stdout.close()
+        sys.stdout = sys.__stdout__
+
+        day_open = today_open  # Open of the day
+        ltp = current_price  # Last traded price
+    
+        current_color = 'Bear' if day_open > ltp else 'Bull'
+        last_closed_color = 'Bear' if day_open > ltp else 'Bull'
+        second_closed_color = 'Bear' if day_open > ltp else 'Bull'
+    else:
+        # Fetch real-time data for the specified interval
+        data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval=f'{interval}m')
+
+        # Calculate Heikin-Ashi candles
+        ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
+        ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+
+        # Calculate the colors of the last three closed candles
+        current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
+        last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
+        second_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+
+    return current_color, last_closed_color, second_closed_color
+
+def get_smbpxy_check(symbol):
     try:
-        response = requests.get(url)
-        data = response.json()
+        # Loop through all intervals and periods
+        for interval in intervals:
+            for period in periods:
+                current_color, last_closed_color, second_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
 
-        # Extract candlestick pattern from the response data
-        # You may need to adjust this based on the actual structure of the Yahoo Finance API response
-        # For simplicity, let's assume that a "bearish" candlestick pattern is when the close is lower than the open
-        close = data['chart']['result'][0]['indicators']['quote'][0]['close']
-        open_ = data['chart']['result'][0]['indicators']['quote'][0]['open']
+                if current_color and last_closed_color:
+                    if current_color == 'Bear' and last_closed_color == 'Bear' and second_closed_color == 'Bear':
+                        return 'Bear'
+                    elif current_color == 'Bull' and last_closed_color == 'Bull' and second_closed_color == 'Bull':
+                        return 'Bull'
+                    elif current_color == 'Bear' and last_closed_color == 'Bear' and second_closed_color == 'Bull':
+                        return 'Sell'
+                    elif current_color == 'Bull' and last_closed_color == 'Bull' and second_closed_color == 'Bear':
+                        return 'Buy'
+                    else:
+                        return 'NONE'
 
-        if close[-1] < open_[-1]:
-            return "Bearish"
-        else:
-            return "Bullish"
+        return 'NONE'
 
     except Exception as e:
-        print(f"Error fetching data for {full_symbol}: {e}")
-        return None
-
-def main():
-    # Load the CSV file into a pandas DataFrame
-    df = pd.read_csv('yxplist.csv')
-
-    # Iterate over each row in the DataFrame
-    for index, row in df.iterrows():
-        symbol = row['tradingsymbol']
-        candlestick_pattern = get_candlestick_pattern(symbol)
-
-        if candlestick_pattern:
-            print(f"{symbol}: {candlestick_pattern} trend")
-
-if __name__ == "__main__":
-    main()
+        console.print(f"[red]Error determining smbpxy check: {e}[/red]")
+        return 'NONE'
 
 
+    except Exception as e:
+        console.print(f"[red]Error determining smbpxy check: {e}[/red]")
+        return 'NONE'
 
 
 
