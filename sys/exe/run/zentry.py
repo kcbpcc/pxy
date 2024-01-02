@@ -102,11 +102,11 @@ try:
     symbols_df['Symbol'] = symbols_df['Symbol'].astype(str) + '.NS'
     
     # Use the only column in the CSV file
-    symbol_list_list = df_list.iloc[:, 0].tolist()
+    symbol_list_list = symbols_df.iloc[:, 0].tolist()
     
     # Append ".NS" to the symbol to specify the NSE exchange
     symbol_with_exchange_list = [symbol + ".NS" for symbol in symbol_list_list]
-    for symbol in symbols_list:
+    for symbol in symbol_with_exchange_list:
         smbpxy_result = get_smbpxy_check(symbol)
         console.print(f"SMBPXY check for {symbol}: {smbpxy_result}")
 
