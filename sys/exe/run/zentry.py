@@ -1,14 +1,11 @@
 import time
-import subprocess
 import warnings
 from rich import print
 from rich.console import Console
-from rich.style import Style
 import sys
 import yfinance as yf
 import os
-
-############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
+import pandas as pd
 
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
@@ -33,8 +30,6 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
     if 222 <= current_utc_time < 233:
-        sys.stdout = open(os.devnull, 'w')
-
         # Download data for the specified number of days (fixed to 5 days)
         data = yf.download(symbol, period="5d")
         
@@ -46,9 +41,6 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
         
         yesterday_close = data['Close'].iloc[-2]
         yesterday_open = data['Open'].iloc[-2]
-        
-        sys.stdout.close()
-        sys.stdout = sys.__stdout__
 
         day_open = today_open  # Open of the day
         ltp = current_price  # Last traded price
@@ -92,11 +84,15 @@ def get_smbpxy_check(symbol):
 
         return 'NONE'
 
+    except yf.errors.YfinanceError as yfe:
+        console.print(f"[red]Yfinance error determining smbpxy check for symbol {symbol}: {yfe}[/red]")
+        return 'NONE'
     except Exception as e:
         console.print(f"[red]Error determining smbpxy check for symbol {symbol}: {e}[/red]")
         return 'NONE'
 
 # Read symbols from CSV file
+csv_file_path = 'yxplist.csv'  # Replace with the actual path
 try:
     symbols_df = pd.read_csv(csv_file_path)
     symbols_list = symbols_df['Symbol'].tolist()
@@ -105,6 +101,10 @@ try:
         smbpxy_result = get_smbpxy_check(symbol)
         console.print(f"SMBPXY check for {symbol}: {smbpxy_result}")
 
+except FileNotFoundError as fnfe:
+    console.print(f"[red]CSV file not found: {fnfe}[/red]")
+except pd.errors.EmptyDataError:
+    console.print("[red]CSV file is empty[/red]")
 except Exception as e:
     console.print(f"[red]Error reading symbols from CSV file: {e}[/red]")
 
