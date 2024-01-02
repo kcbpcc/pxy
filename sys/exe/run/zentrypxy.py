@@ -99,11 +99,7 @@ csv_file_path = 'zlistpxy.csv'
 symbol_df = pd.read_csv(csv_file_path)
 
 # Process each symbol
-if 'SYMBOL' in symbol_df.columns:
-    for symbol_row in symbol_df['SYMBOL']:
-        symbol = symbol_row
-        smbpxy_check = get_smbpxy_check(symbol)
-        console.print(f"[bold]Symbol:[/bold] {symbol}, [bold]SMBPXY Check:[/bold] {smbpxy_check}")
-else:
-    console.print("[red]Error: 'SYMBOL' column not found in the CSV file.[/red]")
-
+for symbol_row in symbol_df.iloc[:, 0]:
+    symbol = symbol_row
+    smbpxy_check = get_smbpxy_check(symbol)
+    console.print(f"[bold]Symbol:[/bold] {symbol}, [bold]SMBPXY Check:[/bold] {smbpxy_check}")
