@@ -26,6 +26,94 @@ console = Console()
 # Function to calculate the Heikin-Ashi candle colors for the last three closed candles (1-day interval)
 def calculate_last_three_heikin_ashi_colors_day(symbol):
     # Fetch real-time data for the specified interval
+    data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval='def get_smbpxy_check(symbol):
+    try:
+        # Loop through all intervals and periods
+        for interval in intervals:
+            # Check 1-day interval
+            current_color_day, last_closed_color_day, second_closed_color_day = calculate_last_three_heikin_ashi_colors_day(symbol)
+
+            # Check 5-minute interval
+            current_color_min, last_closed_color_min, second_closed_color_min = calculate_last_three_heikin_ashi_colors_min(symbol)
+
+            # Print statements for debugging
+            print(f"Symbol: {symbol}, 1-day interval: {current_color_day}, {last_closed_color_day}, {second_closed_color_day}")
+            print(f"Symbol: {symbol}, 5-minute interval: {current_color_min}, {last_closed_color_min}, {second_closed_color_min}")
+
+            # Determine the overall condition based on both intervals
+            if (
+                (current_color_day == 'Bear' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bear') or
+                (current_color_min == 'Bear' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bear')
+            ):
+                return 'Bear'
+            elif (
+                (current_color_day == 'Bull' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bull') or
+                (current_color_min == 'Bull' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bull')
+            ):
+                return 'Bull'
+            elif (
+                (current_color_day == 'Bear' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bull') or
+                (current_color_min == 'Bear' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bull')
+            ):
+                return 'Sell'
+            elif (
+                (current_color_day == 'Bull' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bear') or
+                (current_color_min == 'Bull' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bear')
+            ):
+                return 'Buy'
+            else:
+                return 'NONE'
+
+        return 'NONE'
+
+    except Exception as e:
+        console.print(f"[red]Error determining smbpxy check for {symbol}: {e}[/red]")
+        return 'NONE'def get_smbpxy_check(symbol):
+    try:
+        # Loop through all intervals and periods
+        for interval in intervals:
+            # Check 1-day interval
+            current_color_day, last_closed_color_day, second_closed_color_day = calculate_last_three_heikin_ashi_colors_day(symbol)
+
+            # Check 5-minute interval
+            current_color_min, last_closed_color_min, second_closed_color_min = calculate_last_three_heikin_ashi_colors_min(symbol)
+
+            # Print statements for debugging
+            print(f"Symbol: {symbol}, 1-day interval: {current_color_day}, {last_closed_color_day}, {second_closed_color_day}")
+            print(f"Symbol: {symbol}, 5-minute interval: {current_color_min}, {last_closed_color_min}, {second_closed_color_min}")
+
+            # Determine the overall condition based on both intervals
+            if (
+                (current_color_day == 'Bear' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bear') or
+                (current_color_min == 'Bear' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bear')
+            ):
+                return 'Bear'
+            elif (
+                (current_color_day == 'Bull' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bull') or
+                (current_color_min == 'Bull' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bull')
+            ):
+                return 'Bull'
+            elif (
+                (current_color_day == 'Bear' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bull') or
+                (current_color_min == 'Bear' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bull')
+            ):
+                return 'Sell'
+            elif (
+                (current_color_day == 'Bull' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bear') or
+                (current_color_min == 'Bull' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bear')
+            ):
+                return 'Buy'
+            else:
+                return 'NONE'
+
+        return 'NONE'
+
+    except Exception as e:
+        console.print(f"[red]Error determining smbpxy check for {symbol}: {e}[/red]")
+        return 'NONE'')
+
+def calculate_last_three_heikin_ashi_colors_day(symbol):
+    # Fetch real-time data for the specified interval
     data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval='1d')
 
     # Calculate Heikin-Ashi candles
@@ -38,8 +126,7 @@ def calculate_last_three_heikin_ashi_colors_day(symbol):
     second_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
 
     return current_color, last_closed_color, second_closed_color
-
-# Function to calculate the Heikin-Ashi candle colors for the last three closed candles (5-minute interval)
+    
 def calculate_last_three_heikin_ashi_colors_min(symbol):
     # Fetch real-time data for the specified interval
     data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval='5m')
