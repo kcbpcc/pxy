@@ -20,6 +20,7 @@ from buypluspxy import Trendlyne
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
 
+
 def transact(dct, remaining_cash):
     response = broker.kite.margins()
     available_cash = response["equity"]["available"]["live_balance"]
@@ -52,18 +53,21 @@ def transact(dct, remaining_cash):
                 # Neither NSE nor BSE LTP is available, return with remaining_cash
                 return dct['tradingsymbol'], remaining_cash
 
-        # Check if available cash is greater than 5116
-        if available_cash > 10000:
+        # Calculate quantity based on the formula 10000 / ltp
+        quantity = int(10000 / ltp)
+
+        # Place the order only if the calculated quantity is positive
+        if quantity > 0:
             # Place the order on the exchange where LTP is available
             order_id = broker.order_place(
                 tradingsymbol=dct['tradingsymbol'],
                 exchange='NSE' if ltp_nse > 0 else 'BSE',
                 transaction_type='BUY',
-                quantity=int(float(dct['QTY'].replace(',', ''))), 
+                quantity=quantity, 
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
-                price=round_to_paise(ltp, 0.2)
+                price=round_to_paise(ltp, 0)
             )
             if order_id:
                 logging.info(
@@ -93,12 +97,13 @@ def transact(dct, remaining_cash):
 
         else:
             logging.warning(
-                f"Skipping {dct['tradingsymbol']}: Remaining Cash: {int(remaining_cash)}")
+                f"Skipping {dct['tradingsymbol']}: Calculated quantity is not positive")
         return dct['tradingsymbol'], remaining_cash
 
     except Exception as e:
         logging.error(f"Error while placing order: {str(e)}")
         return dct['tradingsymbol'], remaining_cash
+
 
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
