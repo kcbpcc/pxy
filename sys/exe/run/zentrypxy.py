@@ -105,12 +105,15 @@ for symbol_row in symbol_df.iloc[:, 0]:
     symbol_with_ns = f"{symbol_row}.NS"  # Append ".NS" to each symbol
     symbol_without_ns = symbol_row  # Symbol without ".NS" suffix
 
-    # Check if the symbol with ".NS" suffix or without is in the exclusion list
-    if symbol_with_ns not in exclude_symbols_set and symbol_without_ns not in exclude_symbols_set:
+    if symbol_with_ns not in exclude_symbols_set and symbol_without_ns not in exclude_symbols_set and mbpxy_check is not None:
         smbpxy_check = get_smbpxy_check(symbol_with_ns)
-        console.print(f"[bold]Symbol:[/bold] {symbol_with_ns}, [bold]SMBPXY Check:[/bold] {smbpxy_check}")
+        
+        if smbpxy_check is not None:
+            console.print(f"[bold]Symbol:[/bold] {symbol_with_ns}, [bold]SMBPXY Check:[/bold] {smbpxy_check}")
+        else:
+            console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (SMBPXY check returned None)[/yellow]")
     else:
         console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (present in fileHPdf.csv)[/yellow]")
-
+    
 
 
