@@ -98,9 +98,22 @@ def get_smbpxy_check(symbol):
 csv_file_path = 'zlistpxy.csv'
 symbol_df = pd.read_csv(csv_file_path)
 
+# Read symbols from fileHPdf.csv
+exclude_symbols_path = 'fileHPdf.csv'
+exclude_symbols_df = pd.read_csv(exclude_symbols_path, header=None)  # Assuming no header in fileHPdf.csv
+
+# Create a set of symbols to exclude
+exclude_symbols_set = set(exclude_symbols_df.iloc[:, 0])
+
 # Process each symbol
 for symbol_row in symbol_df.iloc[:, 0]:
     symbol = f"{symbol_row}.NS"  # Append ".NS" to each symbol
-    smbpxy_check = get_smbpxy_check(symbol)
-    console.print(f"[bold]Symbol:[/bold] {symbol}, [bold]SMBPXY Check:[/bold] {smbpxy_check}")
+
+    # Check if the symbol is in the exclusion list
+    if symbol not in exclude_symbols_set:
+        smbpxy_check = get_smbpxy_check(symbol)
+        console.print(f"[bold]Symbol:[/bold] {symbol}, [bold]SMBPXY Check:[/bold] {smbpxy_check}")
+    else:
+        console.print(f"[italic]Symbol:[/italic] {symbol} [yellow]skipped (present in fileHPdf.csv)[/yellow]")
+
 
