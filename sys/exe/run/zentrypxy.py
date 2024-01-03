@@ -105,7 +105,7 @@ for symbol_row in symbol_df.iloc[:, 0]:
     symbol_with_ns = f"{symbol_row}.NS"  # Append ".NS" to each symbol
     symbol_without_ns = symbol_row  # Symbol without ".NS" suffix
 
-    if symbol_with_ns not in exclude_symbols_set and symbol_without_ns not in exclude_symbols_set and mbpxy_check is not None:
+    if symbol_with_ns not in exclude_symbols_set and symbol_without_ns not in exclude_symbols_set:
         smbpxy_check = get_smbpxy_check(symbol_with_ns)
         
         if smbpxy_check is not None:
