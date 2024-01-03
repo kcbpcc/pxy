@@ -41,7 +41,7 @@ def calculate_last_three_heikin_ashi_colors_day(symbol):
 # Function to calculate the Heikin-Ashi candle colors for the last three closed candles (5-minute interval)
 def calculate_last_three_heikin_ashi_colors_min(symbol):
     # Fetch real-time data for the specified interval
-    data = yf.Ticker(symbol).history(period=f'{periods[0]}d', interval='5m')
+    data = yf.Ticker(symbol).history(period='1d', interval='5m')
 
     # Calculate Heikin-Ashi candles
     ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
