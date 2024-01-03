@@ -108,7 +108,7 @@ for symbol_row in symbol_df.iloc[:, 0]:
     if symbol_with_ns not in exclude_symbols_set and symbol_without_ns not in exclude_symbols_set:
         smbpxy_check = get_smbpxy_check(symbol_with_ns)
         
-        if smbpxy_check is not None:
+        if smbpxy_check is not NONE:
             console.print(f"[bold]Symbol:[/bold] {symbol_with_ns}, [bold]SMBPXY Check:[/bold] {smbpxy_check}")
         else:
             console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (SMBPXY check returned None)[/yellow]")
