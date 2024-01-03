@@ -157,8 +157,8 @@ def get_smbpxy_check(symbol):
             current_color_min, last_closed_color_min, second_closed_color_min = calculate_last_three_heikin_ashi_colors_min(symbol)
 
             # Print statements for debugging
-            #print(f"Symbol: {symbol}, 1-day interval: {current_color_day}, {last_closed_color_day}, {second_closed_color_day}")
-            #print(f"Symbol: {symbol}, 5-minute interval: {current_color_min}, {last_closed_color_min}, {second_closed_color_min}")
+            # print(f"Symbol: {symbol}, 1-day interval: {current_color_day}, {last_closed_color_day}, {second_closed_color_day}")
+            # print(f"Symbol: {symbol}, 5-minute interval: {current_color_min}, {last_closed_color_min}, {second_closed_color_min}")
 
             # Determine the overall condition based on both intervals
             if (
@@ -171,7 +171,12 @@ def get_smbpxy_check(symbol):
                 (current_color_min == 'Bull' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bear')
             ):
                 return 'Buy'
+
+                # Place order if condition is "Buy"
                 symbol, remaining_cash = transact(symbol, remaining_cash)
+
+                # Log the Buy action
+                logging.info(f"Buy order placed for {symbol}")
                 
             else:
                 return 'NONE'
