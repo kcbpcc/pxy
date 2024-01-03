@@ -113,7 +113,7 @@ for symbol_row in symbol_df.iloc[:, 0]:
         else:
             console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (SMBPXY check returned None)[/yellow]")
     else:
-        #console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (present in fileHPdf.csv)[/yellow]")
+        console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (present in fileHPdf.csv)[/yellow]")
     
 
 
