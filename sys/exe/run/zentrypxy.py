@@ -70,22 +70,22 @@ def get_smbpxy_check(symbol):
 
             # Determine the overall condition based on both intervals
             if (
-                (current_color_day == 'Bear' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bear') or
+                (current_color_day == 'Bear' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bear') and
                 (current_color_min == 'Bear' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bear')
             ):
                 return 'Bear'
             elif (
-                (current_color_day == 'Bull' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bull') or
+                (current_color_day == 'Bull' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bull') and
                 (current_color_min == 'Bull' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bull')
             ):
                 return 'Bull'
             elif (
-                (current_color_day == 'Bear' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bull') or
+                (current_color_day == 'Bear' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bull') and
                 (current_color_min == 'Bear' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bull')
             ):
                 return 'Sell'
             elif (
-                (current_color_day == 'Bull' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bear') or
+                (current_color_day == 'Bull' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bear') and
                 (current_color_min == 'Bull' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bear')
             ):
                 return 'Buy'
