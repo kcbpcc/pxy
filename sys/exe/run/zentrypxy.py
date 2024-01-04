@@ -24,7 +24,7 @@ from mktpxy import get_market_check
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='your_log_file.log'
+    filename='zentrypxy.log'
 )
 
 try:
