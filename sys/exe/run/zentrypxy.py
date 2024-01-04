@@ -191,7 +191,15 @@ for symbol_row in symbol_df.iloc[:, 0]:
 
     if symbol_with_ns not in exclude_symbols_set and symbol_without_ns not in exclude_symbols_set:
         smbpxy_check_result = get_smbpxy_check(symbol_with_ns)
+        
+        # Print smbpxy_check result
         console.print(smbpxy_check_result)
+
+        # Check if an order was placed and print the result
+        if "Buy order placed" in smbpxy_check_result or "Sell order placed" in smbpxy_check_result:
+            console.print(f"[green]Order placed for {symbol_with_ns}[/green]")
+        else:
+            console.print(f"[yellow]No order placed for {symbol_with_ns}[/yellow]")
     else:
         console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (present in fileHPdf.csv)[/yellow]")
 
