@@ -44,8 +44,69 @@ except Exception as e:
 # Call the calculate_decision function to get the decision
 decision = calculate_decision()
 
+# Intervals
+intervals = [5, 4, 3, 2, 1]
+
+# Function to calculate the Heikin-Ashi candle colors for the last three closed candles (1-day interval)
+def calculate_last_three_heikin_ashi_colors_day(symbol):
+    data = yf.Ticker(symbol).history(period='5d', interval='1d')
+    ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
+    ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+
+    current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
+    last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
+    second_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+
+    return current_color, last_closed_color, second_closed_color
+
+# Function to calculate the Heikin-Ashi candle colors for the last three closed candles (5-minute interval)
+def calculate_last_three_heikin_ashi_colors_min(symbol):
+    data = yf.Ticker(symbol).history(period='1d', interval='5m')
+    ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
+    ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+
+    current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
+    last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
+    second_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+
+    return current_color, last_closed_color, second_closed_color
+
+# Function to check SMBPXY for a symbol
+def get_smbpxy_check(symbol):
+    try:
+        for interval in intervals:
+            current_color_day, last_closed_color_day, second_closed_color_day = calculate_last_three_heikin_ashi_colors_day(symbol)
+            current_color_min, last_closed_color_min, second_closed_color_min = calculate_last_three_heikin_ashi_colors_min(symbol)
+
+            if (
+                (current_color_day == 'Bear' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bull') and
+                (current_color_min == 'Bear' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bull')
+            ):
+                action = 'Sell'
+                status = transact(symbol)
+                logging.info(f"Sell order placed for {symbol}")
+                return f"Symbol: {symbol}, SMBPXY Check: {action}, {status}"
+
+            elif (
+                (current_color_day == 'Bull' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bear') and
+                (current_color_min == 'Bull' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bear')
+            ):
+                action = 'Buy'
+                status = transact(symbol)
+                logging.info(f"Buy order placed for {symbol}")
+                return f"Symbol: {symbol}, SMBPXY Check: {action}, {status}"
+
+            else:
+                action = 'NONE'
+
+        return f"Symbol: {symbol}, SMBPXY Check: {action}, Status: No action"
+
+    except Exception as e:
+        console.print(f"[red]Error determining smbpxy check for {symbol}: {e}[/red]")
+        return f"Symbol: {symbol}, SMBPXY Check: NONE, Status: Error determining smbpxy check"
+
 # Function to place an order
-def transact(symbol, remaining_cash):
+def transact(symbol):
     response = broker.kite.margins()
     available_cash = response["equity"]["available"]["live_balance"]
 
@@ -126,6 +187,9 @@ def transact(symbol, remaining_cash):
         return symbol, remaining_cash
 
         print(f"Available Cash: {remaining_cash}")
+    elif decision == "NO":
+        # Perform actions for "NO"
+        print("\033[91mNo Funds Available \033[0m")
 
 # Read symbols from the CSV file
 symbol_df = pd.read_csv(CSV_FILE_PATH)
