@@ -170,27 +170,31 @@ def get_smbpxy_check(symbol):
                 (current_color_day == 'Bear' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bull') and
                 (current_color_min == 'Bear' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bull')
             ):
-                return 'Sell'
+                action = 'Sell'
             elif (
                 (current_color_day == 'Bull' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bear') and
                 (current_color_min == 'Bull' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bear')
             ):
-                return 'Buy'
+                action = 'Buy'
 
                 # Place order if condition is "Buy"
                 symbol, remaining_cash = transact(symbol, remaining_cash)
 
                 # Log the Buy action
                 logging.info(f"Buy order placed for {symbol}")
-                
-            else:
-                return 'NONE'
 
-        return 'NONE'
+                # Return the action after placing the order
+                return action
+
+            else:
+                action = 'NONE'
+
+        return action
 
     except Exception as e:
         console.print(f"[red]Error determining smbpxy check for {symbol}: {e}[/red]")
         return 'NONE'
+
 
 # Read symbols from the CSV file
 csv_file_path = 'zlistpxy.csv'
