@@ -126,9 +126,6 @@ def transact(symbol, remaining_cash):
         return symbol, remaining_cash
 
         print(f"Available Cash: {remaining_cash}")
-    elif decision == "NO":
-        # Perform actions for "NO"
-        print("\033[91mNo Funds Available \033[0m")
 
 # Read symbols from the CSV file
 symbol_df = pd.read_csv(CSV_FILE_PATH)
