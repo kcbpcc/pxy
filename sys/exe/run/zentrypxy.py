@@ -9,7 +9,6 @@ import os
 import pandas as pd
 import traceback
 import logging
-import telegram
 import asyncio
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
@@ -35,10 +34,6 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
-
-def send_telegram_message(message_text):
-    bot = telegram.Bot(token=bot_token)
-    bot.send_message(chat_id=user_id, text=message_text)
 
 def transact(dct, remaining_cash):
     try:
@@ -80,11 +75,6 @@ def transact(dct, remaining_cash):
             if order_id:
                 logging.info(
                     f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
-                try:
-                    message_text = f"{ltp} \nhttps://www.tradingview.com/chart/?symbol={dct['tradingsymbol']}"
-                    asyncio.run(send_telegram_message(message_text))
-                except Exception as e:
-                    print(f"Error sending message to Telegram: {e}")
                 return f"Status: Buy order placed for {dct['tradingsymbol']}", remaining_cash
             else:
                 reason = f"Failed to place order for {dct['tradingsymbol']}: Order placement API did not return an order ID"
@@ -198,16 +188,10 @@ for symbol_row in symbol_df.iloc[:, 0]:
         # Check if an order was placed and print the result
         if "Buy order placed" in smbpxy_check_result or "Sell order placed" in smbpxy_check_result:
             console.print(f"[green]Order placed for {symbol_with_ns}[/green]")
-
-            # Try sending a Telegram message
-            try:
-                message_text = f"{symbol_with_ns} - {smbpxy_check_result}"
-                asyncio.run(send_telegram_message(message_text))
-            except Exception as e:
-                console.print(f"Error sending message to Telegram: {e}")
         else:
             console.print(f"[yellow]No order placed for {symbol_with_ns}[/yellow]")
     else:
         console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (present in fileHPdf.csv)[/yellow]")
+
 
 
