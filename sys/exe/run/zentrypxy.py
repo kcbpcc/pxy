@@ -86,6 +86,40 @@ def transact(symbol):
         logging.error(f"Error while placing order: {str(e)}")
         return f"Status: Error while placing order for {symbol}"
 
+# Function to check SMBPXY for a symbol
+def get_smbpxy_check(symbol):
+    try:
+        for interval in intervals:
+            current_color_day, last_closed_color_day, second_closed_color_day = calculate_last_three_heikin_ashi_colors_day(symbol)
+            current_color_min, last_closed_color_min, second_closed_color_min = calculate_last_three_heikin_ashi_colors_min(symbol)
+
+            if (
+                (current_color_day == 'Bear' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bull') and
+                (current_color_min == 'Bear' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bull')
+            ):
+                action = 'Sell'
+                status = transact(symbol)
+                logging.info(f"Sell order placed for {symbol}")
+                return f"Symbol: {symbol}, SMBPXY Check: {action}, {status}"
+
+            elif (
+                (current_color_day == 'Bull' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bear') and
+                (current_color_min == 'Bull' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bear')
+            ):
+                action = 'Buy'
+                status = transact(symbol)
+                logging.info(f"Buy order placed for {symbol}")
+                return f"Symbol: {symbol}, SMBPXY Check: {action}, {status}"
+
+            else:
+                action = 'NONE'
+
+        return f"Symbol: {symbol}, SMBPXY Check: {action}, Status: No action"
+
+    except Exception as e:
+        console.print(f"[red]Error determining smbpxy check for {symbol}: {e}[/red]")
+        return f"Symbol: {symbol}, SMBPXY Check: NONE, Status: Error determining smbpxy check"
+
 # Read symbols from the CSV file
 csv_file_path = 'zlistpxy.csv'
 symbol_df = pd.read_csv(csv_file_path)
@@ -105,6 +139,7 @@ for symbol_row in symbol_df.iloc[:, 0]:
         console.print(f"[green]Order placed for {symbol_with_ns}[/green]")
     else:
         console.print(f"[yellow]No order placed for {symbol_with_ns}[/yellow]")
+
 
 
 
