@@ -126,10 +126,8 @@ symbol_df = pd.read_csv(csv_file_path)
 
 # Process each symbol
 for symbol_row in symbol_df.iloc[:, 0]:
-    symbol_with_ns = f"{symbol_row}.NS"
-
     # Check SMBPXY and place order
-    smbpxy_check_result = get_smbpxy_check(symbol_with_ns)
+    smbpxy_check_result = get_smbpxy_check(symbol_row)
 
     # Print smbpxy_check result
     console.print(smbpxy_check_result)
@@ -139,3 +137,4 @@ for symbol_row in symbol_df.iloc[:, 0]:
         console.print(f"[green]Order placed for {symbol_row}[/green]")
     else:
         console.print(f"[yellow]No order placed for {symbol_row}[/yellow]")
+
