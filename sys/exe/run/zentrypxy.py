@@ -187,17 +187,17 @@ csv_file_path = 'zlistpxy.csv'
 symbol_df = pd.read_csv(csv_file_path)
 
 # Process each symbol
-for symbol_row in symbol_df.iloc[:, 0]:
+for tradingsymbol in symbol_df.iloc[:, 0]:
     # Check SMBPXY and place order
-    smbpxy_check_result = get_smbpxy_check(symbol_row+".NS")
+    smbpxy_check_result = get_smbpxy_check(tradingsymbol+".NS")
 
     # Print smbpxy_check result
     console.print(smbpxy_check_result)
 
     # Check if an order was placed
     if "Buy order placed" in smbpxy_check_result or "Sell order placed" in smbpxy_check_result:
-        console.print(f"[green]Order placed for {symbol_row}[/green]")
+        console.print(f"[green]Order placed for {tradingsymbol}[/green]")
     else:
-        console.print(f"[yellow]No order placed for {symbol_row}[/yellow]")
+        console.print(f"[yellow]No order placed for {tradingsymbol}[/yellow]")
 
 
