@@ -87,12 +87,13 @@ def transact(dct, remaining_cash):
                     print(f"Error sending message to Telegram: {e}")
                 return f"Status: Buy order placed for {dct['tradingsymbol']}", remaining_cash
             else:
-                logging.error(f"Failed to place order for {dct['tradingsymbol']}")
-                return f"Status: Failed to place order for {dct['tradingsymbol']}", remaining_cash
+                reason = f"Failed to place order for {dct['tradingsymbol']}: Order placement API did not return an order ID"
+                logging.error(reason)
+                return f"Status: {reason}", remaining_cash
         else:
-            logging.warning(
-                f"Status: Skipping {dct['tradingsymbol']}: Calculated quantity is not positive")
-            return f"Status: Skipping {dct['tradingsymbol']}: Calculated quantity is not positive", remaining_cash
+            reason = f"Skipping {dct['tradingsymbol']}: Calculated quantity is not positive"
+            logging.warning(f"Status: {reason}")
+            return f"Status: {reason}", remaining_cash
 
     except Exception as e:
         logging.error(f"Error while placing order: {str(e)}")
@@ -193,4 +194,5 @@ for symbol_row in symbol_df.iloc[:, 0]:
         console.print(smbpxy_check_result)
     else:
         console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (present in fileHPdf.csv)[/yellow]")
+
 
