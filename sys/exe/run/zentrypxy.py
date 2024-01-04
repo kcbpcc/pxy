@@ -62,7 +62,7 @@ def transact(dct, remaining_cash):
             if ltp_bse > 0:
                 ltp = ltp_bse
             else:
-                return dct['tradingsymbol'], remaining_cash
+                return f"Status: No LTP available for {dct['tradingsymbol']}", remaining_cash
 
         quantity = int(10000 / ltp)
 
@@ -85,17 +85,18 @@ def transact(dct, remaining_cash):
                     asyncio.run(send_telegram_message(message_text))
                 except Exception as e:
                     print(f"Error sending message to Telegram: {e}")
-                return dct['tradingsymbol'], remaining_cash
+                return f"Status: Buy order placed for {dct['tradingsymbol']}", remaining_cash
             else:
                 logging.error(f"Failed to place order for {dct['tradingsymbol']}")
+                return f"Status: Failed to place order for {dct['tradingsymbol']}", remaining_cash
         else:
             logging.warning(
-                f"Skipping {dct['tradingsymbol']}: Calculated quantity is not positive")
-        return dct['tradingsymbol'], remaining_cash
+                f"Status: Skipping {dct['tradingsymbol']}: Calculated quantity is not positive")
+            return f"Status: Skipping {dct['tradingsymbol']}: Calculated quantity is not positive", remaining_cash
 
     except Exception as e:
         logging.error(f"Error while placing order: {str(e)}")
-        return dct['tradingsymbol'], remaining_cash
+        return f"Status: Error while placing order for {dct['tradingsymbol']}", remaining_cash
 
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
@@ -146,27 +147,27 @@ def get_smbpxy_check(symbol):
                 (current_color_min == 'Bear' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bull')
             ):
                 action = 'Sell'
-                symbol, remaining_cash = transact(symbol, remaining_cash)
+                status, remaining_cash = transact(symbol, remaining_cash)
                 logging.info(f"Sell order placed for {symbol}")
-                return action
+                return f"Symbol: {symbol}, SMBPXY Check: {action}, {status}"
 
             elif (
                 (current_color_day == 'Bull' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bear') and
                 (current_color_min == 'Bull' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bear')
             ):
                 action = 'Buy'
-                symbol, remaining_cash = transact(symbol, remaining_cash)
+                status, remaining_cash = transact(symbol, remaining_cash)
                 logging.info(f"Buy order placed for {symbol}")
-                return action
+                return f"Symbol: {symbol}, SMBPXY Check: {action}, {status}"
 
             else:
                 action = 'NONE'
 
-        return action
+        return f"Symbol: {symbol}, SMBPXY Check: {action}, Status: No action"
 
     except Exception as e:
         console.print(f"[red]Error determining smbpxy check for {symbol}: {e}[/red]")
-        return 'NONE'
+        return f"Symbol: {symbol}, SMBPXY Check: NONE, Status: Error determining smbpxy check"
 
 # Read symbols from the CSV file
 csv_file_path = 'zlistpxy.csv'
@@ -177,7 +178,7 @@ exclude_symbols_path = 'fileHPdf.csv'
 exclude_symbols_df = pd.read_csv(exclude_symbols_path, header=None)
 
 response = broker.kite.margins()
-available_cash = response["equity"]["available"]["live_balance"]
+remaining_cash = response["equity"]["available"]["live_balance"]
 
 # Create a set of symbols to exclude
 exclude_symbols_set = set(exclude_symbols_df.iloc[:, 0])
@@ -188,12 +189,8 @@ for symbol_row in symbol_df.iloc[:, 0]:
     symbol_without_ns = symbol_row
 
     if symbol_with_ns not in exclude_symbols_set and symbol_without_ns not in exclude_symbols_set:
-        smbpxy_check = get_smbpxy_check(symbol_with_ns)
-
-        if smbpxy_check == 'Buy' or smbpxy_check == 'Sell':
-            console.print(f"[bold]Symbol:[/bold] {symbol_with_ns}, [bold]SMBPXY Check:[/bold] {smbpxy_check}")
-        else:
-            console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (SMBPXY check returned None)[/yellow]")
+        smbpxy_check_result = get_smbpxy_check(symbol_with_ns)
+        console.print(smbpxy_check_result)
     else:
         console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (present in fileHPdf.csv)[/yellow]")
 
