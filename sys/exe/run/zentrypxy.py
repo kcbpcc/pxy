@@ -22,6 +22,16 @@ import pandas as pd
 import yfinance as yf
 from rich.console import Console
 
+
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filename='your_log_file.log'
+)
+
+
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
 
@@ -39,13 +49,6 @@ except Exception as e:
 # Call the calculate_decision function to get the decision
 decision = calculate_decision()
 
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='your_log_file.log'
-)
 
 # Suppress yfinance warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
