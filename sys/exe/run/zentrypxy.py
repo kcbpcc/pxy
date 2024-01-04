@@ -39,6 +39,9 @@ except Exception as e:
 async def send_telegram_message(message_text):
     bot = telegram.Bot(token=bot_token)
     await bot.send_message(chat_id=user_id, text=message_text)
+    
+response = broker.kite.margins()
+available_cash = response["equity"]["available"]["live_balance"]
 
 def transact(dct, remaining_cash):
     try:
