@@ -1,8 +1,26 @@
-import warnings
-import logging
+from toolkit.logger import Logger
+from toolkit.currency import round_to_paise
+from toolkit.utilities import Utilities
+from login_get_kite import get_kite
+from cnstpxy import dir_path, fileutils, buybuff, max_target
+from buypluspxy import Trendlyne
 import pandas as pd
-import yfinance as yf
-from rich.console import Console
+import traceback
+import sys
+import os
+from fundpxy import calculate_decision
+from mktpxy import get_market_check
+import asyncio
+
+mktchk = get_market_check('^NSEI')
+logging = Logger(10)
+try:
+    sys.stdout = open('output.txt', 'w')
+    broker = get_kite(api="bypass", sec_dir=dir_path)
+
+except Exception as e:
+    print(traceback.format_exc())
+    sys.exit(1)
 
 # Configure logging
 logging.basicConfig(
