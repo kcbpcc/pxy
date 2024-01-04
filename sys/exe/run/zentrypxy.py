@@ -1,16 +1,3 @@
-from toolkit.logger import Logger
-from toolkit.currency import round_to_paise
-from toolkit.utilities import Utilities
-from login_get_kite import get_kite
-from cnstpxy import dir_path, fileutils, buybuff, max_target
-from buypluspxy import Trendlyne
-import pandas as pd
-import traceback
-import sys
-import os
-from fundpxy import calculate_decision
-from mktpxy import get_market_check
-import asyncio
 import warnings
 import logging
 import pandas as pd
@@ -23,16 +10,6 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     filename='your_log_file.log'
 )
-
-mktchk = get_market_check('^NSEI')
-logging = Logger(10)
-try:
-    sys.stdout = open('output.txt', 'w')
-    broker = get_kite(api="bypass", sec_dir=dir_path)
-
-except Exception as e:
-    print(traceback.format_exc())
-    sys.exit(1)
 
 # Suppress yfinance warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -68,85 +45,46 @@ def calculate_last_three_heikin_ashi_colors_min(symbol):
 
     return current_color, last_closed_color, second_closed_color
 
-def transact(dct, remaining_cash):
-    response = broker.kite.margins()
-    available_cash = response["equity"]["available"]["live_balance"]
-
-    # Define ltp before the try block
-    ltp = -1
-
+def transact(symbol):
     try:
+        ltp = -1
+
         def get_ltp(exchange):
-            nonlocal ltp  # Use nonlocal to reference the outer ltp variable
-            key = f"{exchange}:{dct['tradingsymbol']}"
-            resp = broker.kite.ltp(key)
-            if resp and isinstance(resp, dict):
-                ltp = resp[key]['last_price']
+            nonlocal ltp
+            key = f"{exchange}:{symbol}"
+            resp = yf.Ticker(symbol).info
+            if 'last_price' in resp:
+                ltp = resp['last_price']
             return ltp
 
-        # Try getting LTP from NSE
         ltp_nse = get_ltp('NSE')
-        logging.info(f"LTP for {dct['tradingsymbol']} on NSE is {ltp_nse}")
+        logging.info(f"LTP for {symbol} on NSE is {ltp_nse}")
 
-        # If LTP from NSE is not available or <= 0, try getting LTP from BSE
         if ltp_nse <= 0:
             ltp_bse = get_ltp('BSE')
-            logging.info(f"LTP for {dct['tradingsymbol']} on BSE is {ltp_bse}")
+            logging.info(f"LTP for {symbol} on BSE is {ltp_bse}")
 
-            # If LTP from BSE is available, use it
             if ltp_bse > 0:
                 ltp = ltp_bse
             else:
-                # Neither NSE nor BSE LTP is available, return with remaining_cash
-                return dct['tradingsymbol'], remaining_cash
+                console.print(f"Status: No LTP available for {symbol}")
+                return f"Status: No LTP available for {symbol}"
 
-        # Check if available cash is greater than 5116
-        if available_cash > 10000:
-            # Place the order on the exchange where LTP is available
-            order_id = broker.order_place(
-                tradingsymbol=dct['tradingsymbol'],
-                exchange='NSE' if ltp_nse > 0 else 'BSE',
-                transaction_type='BUY',
-                quantity=int(float(dct['QTY'].replace(',', ''))), 
-                order_type='LIMIT',
-                product='CNC',
-                variety='regular',
-                price=round_to_paise(ltp, 0.2)
-            )
-            if order_id:
-                logging.info(
-                    f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
-                # No need to calculate remaining available cash in this case
+        quantity = int(10000 / ltp)
 
-                try:
-                    message_text = f"{ltp} \nhttps://www.tradingview.com/chart/?symbol={dct['tradingsymbol']}"
-
-                    # Define the bot token and your Telegram username or ID
-                    bot_token = '6603707685:AAFhWgPpliYjDqeBY24UyDipBbuBavcb4Bo'  # Replace with your actual bot token
-                    user_id = '-4080532935'  # Replace with your Telegram user ID
-
-                    # Function to send a message to Telegram
-                    async def send_telegram_message(message_text):
-                        bot = telegram.Bot(token=bot_token)
-                        await bot.send_message(chat_id=user_id, text=message_text)
-
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
-                    asyncio.run(send_telegram_message(message_text))
-                    
-                except Exception as e:
-                    # Handle the exception (e.g., log it) and continue with your code
-                    print(f"Error sending message to Telegram: {e}")
-
-                return dct['tradingsymbol'], remaining_cash
-
+        if quantity > 0:
+            # Place your order logic here
+            # For demonstration, print the order status
+            logging.info(f"Order placed for {symbol}")
+            return f"Status: Buy order placed for {symbol}"
         else:
-            logging.warning(
-                f"Skipping {dct['tradingsymbol']}: Remaining Cash: {int(remaining_cash)}")
-        return dct['tradingsymbol'], remaining_cash
+            reason = f"Skipping {symbol}: Calculated quantity is not positive"
+            logging.warning(f"Status: {reason}")
+            return f"Status: {reason}"
 
     except Exception as e:
         logging.error(f"Error while placing order: {str(e)}")
-        return dct['tradingsymbol'], remaining_cash
+        return f"Status: Error while placing order for {symbol}"
 
 # Function to check SMBPXY for a symbol
 def get_smbpxy_check(symbol):
@@ -187,17 +125,15 @@ csv_file_path = 'zlistpxy.csv'
 symbol_df = pd.read_csv(csv_file_path)
 
 # Process each symbol
-for tradingsymbol in symbol_df.iloc[:, 0]:
+for symbol_row in symbol_df.iloc[:, 0]:
     # Check SMBPXY and place order
-    smbpxy_check_result = get_smbpxy_check(tradingsymbol+".NS")
+    smbpxy_check_result = get_smbpxy_check(symbol_row)
 
     # Print smbpxy_check result
     console.print(smbpxy_check_result)
 
     # Check if an order was placed
     if "Buy order placed" in smbpxy_check_result or "Sell order placed" in smbpxy_check_result:
-        console.print(f"[green]Order placed for {tradingsymbol}[/green]")
+        console.print(f"[green]Order placed for {symbol_row}[/green]")
     else:
-        console.print(f"[yellow]No order placed for {tradingsymbol}[/yellow]")
-
-
+        console.print(f"[yellow]No order placed for {symbol_row}[/yellow]")
