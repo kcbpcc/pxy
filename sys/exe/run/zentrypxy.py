@@ -138,3 +138,4 @@ for symbol_row in symbol_df.iloc[:, 0]:
     else:
         console.print(f"[yellow]No order placed for {symbol_row}[/yellow]")
 
+
