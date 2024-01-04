@@ -16,6 +16,11 @@ import os
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
 import asyncio
+import warnings
+import logging
+import pandas as pd
+import yfinance as yf
+from rich.console import Console
 
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
