@@ -22,21 +22,14 @@ import pandas as pd
 import yfinance as yf
 from rich.console import Console
 
-
-
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     filename='your_log_file.log'
 )
-
-
 mktchk = get_market_check('^NSEI')
 logging = Logger(10)
-
-
-black_file = dir_path + "blacklist.txt"
 
 try:
     sys.stdout = open('output.txt', 'w')
@@ -48,7 +41,6 @@ except Exception as e:
     
 # Call the calculate_decision function to get the decision
 decision = calculate_decision()
-
 
 # Suppress yfinance warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -84,47 +76,32 @@ def calculate_last_three_heikin_ashi_colors_min(symbol):
 
     return current_color, last_closed_color, second_closed_color
 
-def transact(symbol):
+def order_place():
     try:
-        ltp = -1
-
-        def get_ltp(exchange):
-            nonlocal ltp
-            key = f"{exchange}:{symbol}"
-            resp = yf.Ticker(symbol).info
-            if 'last_price' in resp:
-                ltp = resp['last_price']
-            return ltp
-
-        ltp_nse = get_ltp('NSE')
-        logging.info(f"LTP for {symbol} on NSE is {ltp_nse}")
-
-        if ltp_nse <= 0:
-            ltp_bse = get_ltp('BSE')
-            logging.info(f"LTP for {symbol} on BSE is {ltp_bse}")
-
-            if ltp_bse > 0:
-                ltp = ltp_bse
+        exchsym = str(symbol)
+        if len(exchsym) >= 2:
+            logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
+            order_id = broker.order_place(
+                tradingsymbol=exchsym[1],
+                exchange=exchsym[0],
+                transaction_type='SELL',
+                quantity=int(row['qty']),
+                order_type='LIMIT',
+                product='CNC',
+                variety='regular',
+                price=round_to_paise(row['ltp'], -0.3)
+            )
+            if order_id:
+                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
+                return True                
             else:
-                console.print(f"Status: No LTP available for {symbol}")
-                return f"Status: No LTP available for {symbol}"
-
-        quantity = int(10000 / ltp)
-
-        if quantity > 0:
-            # Place your order logic here
-            # For demonstration, print the order status
-            logging.info(f"Order placed for {symbol}")
-            return f"Status: Buy order placed for {symbol}"
+                logging.error("Order placement failed")       
         else:
-            reason = f"Skipping {symbol}: Calculated quantity is not positive"
-            logging.warning(f"Status: {reason}")
-            return f"Status: {reason}"
-
+            logging.error("Invalid format for 'index'")    
     except Exception as e:
-        logging.error(f"Error while placing order: {str(e)}")
-        return f"Status: Error while placing order for {symbol}"
-
+        logging.error(f"{str(e)} while placing order")
+    return False
+    
 # Function to check SMBPXY for a symbol
 def get_smbpxy_check(symbol):
     try:
@@ -137,7 +114,7 @@ def get_smbpxy_check(symbol):
                 (current_color_min == 'Bear' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bull')
             ):
                 action = 'Sell'
-                status = transact(symbol)
+                status = order_place()
                 logging.info(f"Sell order placed for {symbol}")
                 return f"Symbol: {symbol}, SMBPXY Check: {action}, {status}"
 
@@ -146,7 +123,7 @@ def get_smbpxy_check(symbol):
                 (current_color_min == 'Bull' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bear')
             ):
                 action = 'Buy'
-                status = transact(symbol)
+                status = order_place()
                 logging.info(f"Buy order placed for {symbol}")
                 return f"Symbol: {symbol}, SMBPXY Check: {action}, {status}"
 
