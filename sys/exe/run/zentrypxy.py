@@ -171,6 +171,17 @@ def get_smbpxy_check(symbol):
                 (current_color_min == 'Bear' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bull')
             ):
                 action = 'Sell'
+                
+                # Place order if condition is "Buy"
+                symbol, remaining_cash = transact(symbol, remaining_cash)
+
+                # Log the Buy action
+                logging.info(f"Buy order placed for {symbol}")
+
+                # Return the action after placing the order
+                return action
+
+            
             elif (
                 (current_color_day == 'Bull' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bear') and
                 (current_color_min == 'Bull' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bear')
