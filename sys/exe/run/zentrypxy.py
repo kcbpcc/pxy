@@ -127,7 +127,7 @@ symbol_df = pd.read_csv(csv_file_path)
 # Process each symbol
 for symbol_row in symbol_df.iloc[:, 0]:
     # Check SMBPXY and place order
-    smbpxy_check_result = get_smbpxy_check(symbol_row)
+    smbpxy_check_result = get_smbpxy_check(symbol_row+".NS")
 
     # Print smbpxy_check result
     console.print(smbpxy_check_result)
