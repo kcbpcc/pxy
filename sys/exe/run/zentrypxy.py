@@ -22,12 +22,6 @@ except Exception as e:
     print(traceback.format_exc())
     sys.exit(1)
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='your_log_file.log'
-)
 
 # Suppress yfinance warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
