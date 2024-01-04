@@ -36,9 +36,9 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 
-async def send_telegram_message(message_text):
+def send_telegram_message(message_text):
     bot = telegram.Bot(token=bot_token)
-    await bot.send_message(chat_id=user_id, text=message_text)
+    bot.send_message(chat_id=user_id, text=message_text)
 
 def transact(dct, remaining_cash):
     try:
@@ -191,13 +191,20 @@ for symbol_row in symbol_df.iloc[:, 0]:
 
     if symbol_with_ns not in exclude_symbols_set and symbol_without_ns not in exclude_symbols_set:
         smbpxy_check_result = get_smbpxy_check(symbol_with_ns)
-        
+
         # Print smbpxy_check result
         console.print(smbpxy_check_result)
 
         # Check if an order was placed and print the result
         if "Buy order placed" in smbpxy_check_result or "Sell order placed" in smbpxy_check_result:
             console.print(f"[green]Order placed for {symbol_with_ns}[/green]")
+
+            # Try sending a Telegram message
+            try:
+                message_text = f"{symbol_with_ns} - {smbpxy_check_result}"
+                asyncio.run(send_telegram_message(message_text))
+            except Exception as e:
+                console.print(f"Error sending message to Telegram: {e}")
         else:
             console.print(f"[yellow]No order placed for {symbol_with_ns}[/yellow]")
     else:
