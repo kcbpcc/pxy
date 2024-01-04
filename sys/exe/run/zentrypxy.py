@@ -21,9 +21,16 @@ from fundpxy import calculate_decision
 from mktpxy import get_market_check
 
 
+try:
+    sys.stdout = open('output.txt', 'w')
+    broker = get_kite(api="bypass", sec_dir=dir_path)
+except Exception as e:
+    remove_token(dir_path)
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} unable to get holdings")
+    sys.exit(1)
+
 def transact(dct, remaining_cash):
-    response = broker.kite.margins()
-    available_cash = response["equity"]["available"]["live_balance"]
 
     # Define ltp before the try block
     ltp = -1
@@ -214,6 +221,10 @@ symbol_df = pd.read_csv(csv_file_path)
 # Read symbols from fileHPdf.csv
 exclude_symbols_path = 'fileHPdf.csv'
 exclude_symbols_df = pd.read_csv(exclude_symbols_path, header=None)  # Assuming no header in fileHPdf.csv
+
+response = broker.kite.margins()
+available_cash = response["equity"]["available"]["live_balance"]
+
 
 # Create a set of symbols to exclude
 exclude_symbols_set = set(exclude_symbols_df.iloc[:, 0])
