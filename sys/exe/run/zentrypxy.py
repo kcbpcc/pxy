@@ -24,7 +24,7 @@ from mktpxy import get_market_check
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='zentrypxy.log'
+    filename='your_log_file.log'
 )
 
 try:
@@ -39,9 +39,6 @@ except Exception as e:
 async def send_telegram_message(message_text):
     bot = telegram.Bot(token=bot_token)
     await bot.send_message(chat_id=user_id, text=message_text)
-    
-response = broker.kite.margins()
-available_cash = response["equity"]["available"]["live_balance"]
 
 def transact(dct, remaining_cash):
     try:
@@ -199,3 +196,4 @@ for symbol_row in symbol_df.iloc[:, 0]:
             console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (SMBPXY check returned None)[/yellow]")
     else:
         console.print(f"[italic]Symbol:[/italic] {symbol_with_ns} [yellow]skipped (present in fileHPdf.csv)[/yellow]")
+
