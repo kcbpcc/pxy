@@ -127,20 +127,15 @@ symbol_df = pd.read_csv(csv_file_path)
 # Process each symbol
 for symbol_row in symbol_df.iloc[:, 0]:
     symbol_with_ns = f"{symbol_row}.NS"
-    symbol_without_ns = symbol_row
 
+    # Check SMBPXY and place order
     smbpxy_check_result = get_smbpxy_check(symbol_with_ns)
 
     # Print smbpxy_check result
     console.print(smbpxy_check_result)
 
-    # Check if an order was placed and print the result
-    if "Buy order placed" in smbpxy_check_result:
-        console.print(f"[green]Order placed for {symbol_with_ns}[/green]")
+    # Check if an order was placed
+    if "Buy order placed" in smbpxy_check_result or "Sell order placed" in smbpxy_check_result:
+        console.print(f"[green]Order placed for {symbol_row}[/green]")
     else:
-        console.print(f"[yellow]No order placed for {symbol_with_ns}[/yellow]")
-
-
-
-
-
+        console.print(f"[yellow]No order placed for {symbol_row}[/yellow]")
