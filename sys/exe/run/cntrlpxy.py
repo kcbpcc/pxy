@@ -264,8 +264,8 @@ try:
     from nftpxy import nse_action, nse_power   
     threshold = 3
 ###########################################################################################################################################################################################################
-    combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(x, -threshold, threshold)), 2))
-    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: max(round(np.exp(nse_power), 2), 1.4))
+    combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
+    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: max(round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2), 1.4))
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
 ###########################################################################################################################################################################################################
