@@ -71,28 +71,40 @@ def calculate_last_three_heikin_ashi_colors(symbol, interval):
 
 def get_smbpxy_check(symbol):
     try:
-        # Loop through all intervals and periods
         for interval in intervals:
-            for period in periods:
-                current_color, last_closed_color, second_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
+            current_color_day, last_closed_color_day, second_closed_color_day = calculate_last_three_heikin_ashi_colors_day(symbol)
+            current_color_min, last_closed_color_min, second_closed_color_min = calculate_last_three_heikin_ashi_colors_min(symbol)
 
-                if current_color and last_closed_color:
-                    if current_color == 'Bear' and last_closed_color == 'Bear' and second_closed_color == 'Bear':
-                        return 'Bear'
-                    elif current_color == 'Bull' and last_closed_color == 'Bull' and second_closed_color == 'Bull':
-                        return 'Bull'
-                    elif current_color == 'Bear' and last_closed_color == 'Bear' and second_closed_color == 'Bull':
-                        return 'Sell'
-                    elif current_color == 'Bull' and last_closed_color == 'Bull' and second_closed_color == 'Bear':
-                        return 'Buy'
-                    else:
-                        return 'NONE'
+            if (
+                (current_color_day == 'Bear' and last_closed_color_day == 'Bull' and second_closed_color_day == 'Bull') and
+                (current_color_min == 'Bear' and last_closed_color_min == 'Bull' and second_closed_color_min == 'Bull')
+            ):
+                action = 'Sell'
+                status = transact(symbol)
+                logging.info(f"Sell order placed for {symbol}")
+                console.print(f"[bold]Symbol:[/bold] {symbol}, [bold]SMBPXY Check:[/bold] [red]{action}[/red], [bold]Status:[/bold] {status}")
+                return f"Symbol: {symbol}, SMBPXY Check: {action}, {status}"
 
-        return 'NONE'
+            elif (
+                (current_color_day == 'Bull' and last_closed_color_day == 'Bear' and second_closed_color_day == 'Bear') and
+                (current_color_min == 'Bull' and last_closed_color_min == 'Bear' and second_closed_color_min == 'Bear')
+            ):
+                action = 'Buy'
+                status = transact(symbol)
+                logging.info(f"Buy order placed for {symbol}")
+                console.print(f"[bold]Symbol:[/bold] {symbol}, [bold]SMBPXY Check:[/bold] [green]{action}[/green], [bold]Status:[/bold] {status}")
+                return f"Symbol: {symbol}, SMBPXY Check: {action}, {status}"
+
+            else:
+                action = 'NONE'
+
+        console.print(f"[bold]Symbol:[/bold] {symbol}, [bold]SMBPXY Check:[/bold] {action}, [bold]Status:[/bold] No action")
+        return f"Symbol: {symbol}, SMBPXY Check: {action}, Status: No action"
 
     except Exception as e:
-        console.print(f"[red]Error determining smbpxy check for {symbol}: {e}[/red]")
-        return 'NONE'
+        error_message = f"[red]Error determining smbpxy check for {symbol}: {e}[/red]"
+        console.print(error_message)
+        return f"Symbol: {symbol}, SMBPXY Check: NONE, Status: Error determining smbpxy check"
 
 # Read symbols from the CSV file
 csv_file_path = 'zlistpxy.csv'
