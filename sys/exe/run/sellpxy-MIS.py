@@ -61,7 +61,7 @@ for symbol_row in symbol_df['STOCK']:
     symbol = f"{symbol_row}.NS"  # Append ".NS" to each symbol
     smbpxy_check = get_smbpxy_check(symbol)
     console = Console()
-    console.print(f"[bold]{symbol} is:[/bold] ", end="")
+    console.print(f"[bold]{symbol}:[/bold] ", end="")
     
     if "Buy" in smbpxy_check:
         console.print(f"[green]{smbpxy_check}[/green] 🔴🟢🟢")
