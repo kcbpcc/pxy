@@ -3,13 +3,10 @@ import subprocess
 import warnings
 from rich import print
 from rich.console import Console
-from rich.style import Style
 import sys
 import yfinance as yf
 import os
 import pandas as pd
-
-############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
@@ -56,14 +53,14 @@ def get_smbpxy_check(symbol):
     else:
         return "No Action"
 
-
 csv_file_path = 'zlistpxy.csv'
-symbol_df = pd.read_csv(csv_file_path)
+symbol_df = pd.read_csv(csv_file_path, header=0)  # Assuming the header is in the first row
 
 # Process each symbol
-for symbol_row in symbol_df['Symbol']:
+for symbol_row in symbol_df['STOCK']:
     symbol = f"{symbol_row}.NS"  # Append ".NS" to each symbol
     smbpxy_check = get_smbpxy_check(symbol)
+    console = Console()
     console.print(f"[bold]{symbol} is:[/bold] ", end="")
 
     if "Bull" in smbpxy_check:
@@ -78,3 +75,4 @@ for symbol_row in symbol_df['Symbol']:
         console.print(f"[red]{smbpxy_check}[/red] 🌑")
     else:
         console.print(smbpxy_check)
+
