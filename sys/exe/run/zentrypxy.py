@@ -1,16 +1,16 @@
 import os
 import logging
+import pandas as pd
 from rich.console import Console
 import yfinance as yf
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from login_get_kite import get_kite
-from cnstpxy import dir_path, fileutils, buybuff, max_target
+from cnstpxy import dir_path, fileutils, buybuff
 from buypluspxy import Trendlyne
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
 import sys
-import pandas as pd
 
 # Constants
 BLACK_FILE = os.path.join(dir_path, "blacklist.txt")
@@ -123,64 +123,63 @@ def transact(symbol):
         ltp = get_ltp()
         logging.info(f"ltp for {symbol} is {ltp}")
         if ltp <= 0:
-            return f"No valid LTP for {symbol}"
+            return symbol
 
-        # Assuming 'calculated' column needs to be set to 1 for all rows
-        quantity = 1  # You might need to adjust this based on your requirements
         order_id = broker.order_place(
             tradingsymbol=symbol,
             exchange='NSE',
             transaction_type='BUY',
-            quantity=quantity,
+            quantity=int(float(symbol['calculated'])),
             order_type='LIMIT',
             product='CNC',
             variety='regular',
             price=round_to_paise(ltp, buybuff)
         )
         if order_id:
-            logging.info(f"BUY {order_id} placed for {symbol} successfully")
+            logging.info(
+                f"BUY {order_id} placed for {symbol} successfully")
             order_id = broker.order_place(
                 tradingsymbol=symbol,
                 exchange='NSE',
                 transaction_type='SELL',
-                quantity=quantity,
+                quantity=int(float(symbol['calculated'])),
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
-                price=calc_target(ltp, buybuff)  # Assuming calc_target is a valid function
+                price=calc_target(ltp, symbol['res_3'])
             )
             if order_id:
-                logging.info(f"SELL {order_id} placed for {symbol} successfully")
+                logging.info(
+                    f"SELL {order_id} placed for {symbol} successfully")
     except Exception as e:
         logging.error(f"{str(e)} while placing order")
-        return f"Error placing order for {symbol}: {str(e)}"
+        return symbol
 
-# Assuming 'calculated' column needs to be set to 1 for all rows
-calculated = 1
+# Execute the main logic
+if __name__ == "__main__":
+    # Assuming 'calculated' column needs to be set to 1 for all rows
+    calculated = 1
 
-try:
-    symbol_df = pd.read_csv(CSV_FILE_PATH)
-except FileNotFoundError as e:
-    logging.error(f"CSV file '{CSV_FILE_PATH}' not found: {e}")
-    sys.exit(1)
-except Exception as e:
-    logging.error(f"Error reading CSV file: {e}")
-    sys.exit(1)
+    try:
+        symbol_df = pd.read_csv(CSV_FILE_PATH)
+    except FileNotFoundError:
+        logging.error(f"CSV file '{CSV_FILE_PATH}' not found.")
+        sys.exit(1)
 
-for _, row in symbol_df.iterrows():
-    symbol_row = row['STOCK']
+    for _, row in symbol_df.iterrows():
+        symbol_row = row['STOCK']
 
-    # Check SMBPXY and place order
-    smbpxy_check_result = check_and_place_order(symbol_row + ".NS")
+        # Check SMBPXY and place order
+        smbpxy_check_result = check_and_place_order(symbol_row + ".NS")
 
-    # Print smbpxy_check result
-    console.print(smbpxy_check_result)
+        # Print smbpxy_check result
+        console.print(smbpxy_check_result)
 
-    # Check if an order was placed
-    if "Buy order placed" in smbpxy_check_result or "Sell order placed" in smbpxy_check_result:
-        console.print(f"[green]Order placed for {symbol_row}[/green]")
-    else:
-        console.print(f"[yellow]No order placed for {symbol_row}[/yellow]")
+        # Check if an order was placed
+        if "Buy order placed" in smbpxy_check_result or "Sell order placed" in smbpxy_check_result:
+            console.print(f"[green]Order placed for {symbol_row}[/green]")
+        else:
+            console.print(f"[yellow]No order placed for {symbol_row}[/yellow]")
 
 
 
