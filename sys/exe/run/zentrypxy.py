@@ -123,52 +123,55 @@ def transact(symbol):
         ltp = get_ltp()
         logging.info(f"ltp for {symbol} is {ltp}")
         if ltp <= 0:
-            return symbol
+            return f"No valid LTP for {symbol}"
 
+        # Assuming 'calculated' column needs to be set to 1 for all rows
+        quantity = 1  # You might need to adjust this based on your requirements
         order_id = broker.order_place(
             tradingsymbol=symbol,
             exchange='NSE',
             transaction_type='BUY',
-            quantity=int(float(symbol['calculated'])),
+            quantity=quantity,
             order_type='LIMIT',
             product='CNC',
             variety='regular',
             price=round_to_paise(ltp, buybuff)
         )
         if order_id:
-            logging.info(
-                f"BUY {order_id} placed for {symbol} successfully")
+            logging.info(f"BUY {order_id} placed for {symbol} successfully")
             order_id = broker.order_place(
                 tradingsymbol=symbol,
                 exchange='NSE',
                 transaction_type='SELL',
-                quantity=int(float(symbol['calculated'])),
+                quantity=quantity,
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
-                price=calc_target(ltp, symbol['res_3'])
+                price=calc_target(ltp, buybuff)  # Assuming calc_target is a valid function
             )
             if order_id:
-                logging.info(
-                    f"SELL {order_id} placed for {symbol} successfully")
+                logging.info(f"SELL {order_id} placed for {symbol} successfully")
     except Exception as e:
         logging.error(f"{str(e)} while placing order")
-        return symbol
+        return f"Error placing order for {symbol}: {str(e)}"
 
 # Assuming 'calculated' column needs to be set to 1 for all rows
 calculated = 1
 
 try:
     symbol_df = pd.read_csv(CSV_FILE_PATH)
-except FileNotFoundError:
-    logging.error(f"CSV file '{CSV_FILE_PATH}' not found.")
+except FileNotFoundError as e:
+    logging.error(f"CSV file '{CSV_FILE_PATH}' not found: {e}")
+    sys.exit(1)
+except Exception as e:
+    logging.error(f"Error reading CSV file: {e}")
     sys.exit(1)
 
 for _, row in symbol_df.iterrows():
     symbol_row = row['Symbol']
 
     # Check SMBPXY and place order
-    smbpxy_check_result = get_smbpxy_check(symbol_row+".NS")
+    smbpxy_check_result = get_smbpxy_check(symbol_row + ".NS")
 
     # Print smbpxy_check result
     console.print(smbpxy_check_result)
@@ -178,4 +181,5 @@ for _, row in symbol_df.iterrows():
         console.print(f"[green]Order placed for {symbol_row}[/green]")
     else:
         console.print(f"[yellow]No order placed for {symbol_row}[/yellow]")
+
 
