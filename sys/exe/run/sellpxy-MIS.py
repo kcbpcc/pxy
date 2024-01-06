@@ -62,15 +62,11 @@ for symbol_row in symbol_df['STOCK']:
     smbpxy_check = get_smbpxy_check(symbol)
     console = Console()
     console.print(f"[bold]{symbol} is:[/bold] ", end="")
-
-    if "Bull" in smbpxy_check:
-        console.print(f"[green]{smbpxy_check}[/green] ⚪")
-    elif "Buy" in smbpxy_check:
-        console.print(f"[green]{smbpxy_check}[/green] 🟢")
+    
+    if "Buy" in smbpxy_check:
+        console.print(f"[green]{smbpxy_check}[/green] 🔴🟢🟢")
     elif "Sell" in smbpxy_check:
-        console.print(f"[red]{smbpxy_check}[/red] 🔴")
-    elif "Bear" in smbpxy_check:
-        console.print(f"[red]{smbpxy_check}[/red] 🌑")
+        console.print(f"[red]{smbpxy_check}[/red] 🟢🔴🔴")
     else:
         console.print(smbpxy_check)
 
