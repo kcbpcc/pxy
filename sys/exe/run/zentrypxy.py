@@ -9,6 +9,7 @@ from cnstpxy import dir_path, fileutils, buybuff, max_target
 from buypluspxy import Trendlyne
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
+import sys
 
 # Constants
 BLACK_FILE = os.path.join(dir_path, "blacklist.txt")
