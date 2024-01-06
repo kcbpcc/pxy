@@ -32,7 +32,7 @@ while true; do
             ;;    
         sl)
             echo "    🔴🔴🔴 Selling...🔴🔴🔴"
-            pxysell
+            pxysell-MIS
             ;;   
         st)
             echo "    🐍🐍🐍 Setup.... 🐍🐍🐍"
