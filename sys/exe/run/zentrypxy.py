@@ -168,7 +168,7 @@ except Exception as e:
     sys.exit(1)
 
 for _, row in symbol_df.iterrows():
-    symbol_row = row['Symbol']
+    symbol_row = row['STOCK']
 
     # Check SMBPXY and place order
     smbpxy_check_result = get_smbpxy_check(symbol_row + ".NS")
