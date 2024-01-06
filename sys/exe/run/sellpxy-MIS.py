@@ -42,8 +42,8 @@ def get_smbpxy_check(symbol):
     current_color_5min, last_closed_color_5min, second_closed_color_5min = calculate_ha_candles(periods_5min, interval_5min)
 
     # Check conditions for BUY and SELL signals based on your criteria for both daily and 5-minute intervals
-    buy_condition = second_closed_color_daily == 'Bear' and last_closed_color_daily == 'Bull' and current_color_daily == 'Bull' and second_closed_color_5min == 'Bear' and last_closed_color_5min == 'Bull' and current_color_5min == 'Bull'
-    sell_condition = second_closed_color_daily == 'Bull' and last_closed_color_daily == 'Bear' and current_color_daily == 'Bear' and second_closed_color_5min == 'Bull' and last_closed_color_5min == 'Bear' and current_color_5min == 'Bear'
+    buy_condition = second_closed_color_daily == 'Bear' and last_closed_color_daily == 'Bear' and current_color_daily == 'Bull' and second_closed_color_5min == 'Bear' and last_closed_color_5min == 'Bear' and current_color_5min == 'Bull'
+    sell_condition = second_closed_color_daily == 'Bull' and last_closed_color_daily == 'Bull' and current_color_daily == 'Bear' and second_closed_color_5min == 'Bull' and last_closed_color_5min == 'Bull' and current_color_5min == 'Bear'
 
     # Return signals
     if buy_condition:
