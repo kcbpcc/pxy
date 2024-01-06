@@ -112,16 +112,16 @@ for _, row in symbol_df.iterrows():
     symbol_row = row['STOCK']
 
     # Check SMBPXY and print result
+    print(f"Checking {symbol_row}...")
     smbpxy_check_result = get_smbpxy_check(symbol_row + ".NS")
 
     # Print smbpxy_check result
-    console.print(smbpxy_check_result)
+    print(smbpxy_check_result)
 
     # Check if an order was placed
     if "Buy signal" in smbpxy_check_result or "Sell signal" in smbpxy_check_result:
-        console.print(f"[green]Signal detected for {symbol_row}[/green]")
+        print(f"[green]Signal detected for {symbol_row}[/green]")
     else:
-        console.print(f"[yellow]No signal detected for {symbol_row}[/yellow]")
-
+        print(f"[yellow]No signal detected for {symbol_row}[/yellow]")
 
 
