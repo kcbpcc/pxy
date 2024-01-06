@@ -156,6 +156,7 @@ def transact(symbol):
 
 # Assuming symbol_df is defined elsewhere in your code
 # Process each symbol
+import pandas as pd
 symbol_df = pd.DataFrame(data)
 for symbol_row in symbol_df.iloc[:, 0]:
     # Check SMBPXY and place order
