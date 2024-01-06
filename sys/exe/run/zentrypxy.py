@@ -168,7 +168,7 @@ for _, row in symbol_df.iterrows():
     symbol_row = row['Symbol']
 
     # Check SMBPXY and place order
-    smbpxy_check_result = get_smbpxy_check(symbol_row)
+    smbpxy_check_result = get_smbpxy_check(symbol_row+".NS")
 
     # Print smbpxy_check result
     console.print(smbpxy_check_result)
