@@ -102,6 +102,20 @@ symbol_df = pd.read_csv(csv_file_path)
 for symbol_row in symbol_df.iloc[:, 0]:
     symbol = f"{symbol_row}.NS"  # Append ".NS" to each symbol
     smbpxy_check = get_smbpxy_check(symbol)
-    console.print(f"[bold]{symbol} is in:[/bold] [green]{smbpxy_check}[/green]")
+    console.print(f"[bold]{symbol} is in:[/bold] ", end="")
+
+    if "Bull" in smbpxy_check:
+        console.print(f"[green]{smbpxy_check}[/green]")
+    elif "Buy" in smbpxy_check:
+        console.print(f"[green]{smbpxy_check}[/green]")
+    elif "None" in smbpxy_check:
+        console.print(f"[yellow]{smbpxy_check}[/yellow]")
+    elif "Sell" in smbpxy_check:
+        console.print(f"[red]{smbpxy_check}[/red]")
+    elif "Bear" in smbpxy_check:
+        console.print(f"[red]{smbpxy_check}[/red]")
+    else:
+        console.print(smbpxy_check)
+
 
 
