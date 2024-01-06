@@ -158,6 +158,12 @@ def transact(symbol):
 # Assuming 'calculated' column needs to be set to 1 for all rows
 calculated = 1
 
+try:
+    symbol_df = pd.read_csv(CSV_FILE_PATH)
+except FileNotFoundError:
+    logging.error(f"CSV file '{CSV_FILE_PATH}' not found.")
+    sys.exit(1)
+
 for _, row in symbol_df.iterrows():
     symbol_row = row['Symbol']
 
