@@ -156,7 +156,7 @@ def transact(symbol):
         return symbol
 
 # Assuming 'calculated' column needs to be set to 1 for all rows
-symbol_df['calculated'] = 1
+calculated = 1
 
 for _, row in symbol_df.iterrows():
     symbol_row = row['Symbol']
