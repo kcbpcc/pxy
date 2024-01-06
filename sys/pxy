@@ -31,7 +31,7 @@ while true; do
             pxyflush
             ;;    
         sl)
-            echo "    🔴🔴🔴 Selling...🔴🔴🔴"
+            echo "    🔴🔴🔴.....MIS Selling.....🔴🔴🔴"
             pxysell-MIS
             ;;   
         st)
@@ -39,7 +39,7 @@ while true; do
             pxysetup
             ;;   
         kl)
-            echo "    ❌❌❌ SquireOff all Positions...❌❌❌"
+            echo "    ❌❌❌.....MIS Selling.....❌❌❌"
             pxykill
             ;;
         up)
