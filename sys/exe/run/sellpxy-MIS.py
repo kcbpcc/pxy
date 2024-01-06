@@ -47,11 +47,11 @@ def get_smbpxy_check(symbol):
 
     # Return signals
     if buy_condition:
-        return "BUY"
+        return "Buy"
     elif sell_condition:
-        return "SELL"
+        return "Sell"
     else:
-        return "No Action"
+        return "NONE"
 
 csv_file_path = 'zlistpxy.csv'
 symbol_df = pd.read_csv(csv_file_path, header=0)  # Assuming the header is in the first row
