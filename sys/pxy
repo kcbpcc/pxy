@@ -33,6 +33,7 @@ while true; do
         sl)
             echo "    🔴🔴🔴.....MIS Selling.....🔴🔴🔴"
             pxysell-MIS
+            echo "    🔴🔴🔴.....MIS Selling.....🔴🔴🔴"
             ;;   
         st)
             echo "    🐍🐍🐍 Setup.... 🐍🐍🐍"
@@ -41,6 +42,7 @@ while true; do
         kl)
             echo "    ❌❌❌.....MIS Selling.....❌❌❌"
             pxykill
+            echo "    ❌❌❌.....MIS Selling.....❌❌❌"
             ;;
         up)
             echo "     🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
