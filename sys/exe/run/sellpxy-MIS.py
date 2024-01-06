@@ -105,15 +105,15 @@ for symbol_row in symbol_df.iloc[:, 0]:
     console.print(f"[bold]{symbol} is:[/bold] ", end="")
 
     if "Bull" in smbpxy_check:
-        console.print(f"[green]{smbpxy_check}[/green]" 🟢)
+        console.print(f"[green]{smbpxy_check}[/green] 🟢" )
     elif "Buy" in smbpxy_check:
-        console.print(f"[green]{smbpxy_check}[/green]"🟢)
+        console.print(f"[green]{smbpxy_check}[/green] 🟢")
     elif "NONE" in smbpxy_check:
-        console.print(f"[yellow]{smbpxy_check}[/yellow]"⚪)
+        console.print(f"[yellow]{smbpxy_check}[/yellow] ⚪")
     elif "Sell" in smbpxy_check:
-        console.print(f"[red]{smbpxy_check}[/red]"🔴)
+        console.print(f"[red]{smbpxy_check}[/red] 🔴")
     elif "Bear" in smbpxy_check:
-        console.print(f"[red]{smbpxy_check}[/red]"🔴)
+        console.print(f"[red]{smbpxy_check}[/red] 🔴")
     else:
         console.print(smbpxy_check)
 
