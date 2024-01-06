@@ -10,6 +10,7 @@ from buypluspxy import Trendlyne
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
 import sys
+import pandas as pd
 
 # Constants
 BLACK_FILE = os.path.join(dir_path, "blacklist.txt")
@@ -154,11 +155,8 @@ def transact(symbol):
         logging.error(f"{str(e)} while placing order")
         return symbol
 
-try:
-    symbol_df = pd.read_csv(CSV_FILE_PATH)
-except FileNotFoundError:
-    logging.error(f"CSV file '{CSV_FILE_PATH}' not found.")
-    sys.exit(1)
+# Assuming 'calculated' column needs to be set to 1 for all rows
+symbol_df['calculated'] = 1
 
 for _, row in symbol_df.iterrows():
     symbol_row = row['Symbol']
@@ -174,3 +172,4 @@ for _, row in symbol_df.iterrows():
         console.print(f"[green]Order placed for {symbol_row}[/green]")
     else:
         console.print(f"[yellow]No order placed for {symbol_row}[/yellow]")
+
