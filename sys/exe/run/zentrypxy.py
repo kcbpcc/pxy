@@ -102,5 +102,5 @@ symbol_df = pd.read_csv(csv_file_path)
 for symbol_row in symbol_df.iloc[:, 0]:
     symbol = f"{symbol_row}.NS"  # Append ".NS" to each symbol
     smbpxy_check = get_smbpxy_check(symbol)
-    console.print(f"[bold]Symbol:[/bold] {symbol}, [bold]SMBPXY Check:[/bold] {smbpxy_check}")
+    console.print(f"[/bold] {symbol} is in :[/bold] {smbpxy_check}")
 
