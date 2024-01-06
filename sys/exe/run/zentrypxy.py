@@ -76,8 +76,8 @@ def calculate_last_three_heikin_ashi_colors_min(symbol):
         logging.error(f"Error calculating Heikin-Ashi colors for {symbol} (5-minute): {str(e)}")
         raise
 
-# Function to check SMBPXY for a symbol
-def get_smbpxy_check(symbol):
+# Function to check SMBPXY for a symbol and place an order if conditions are met
+def check_and_place_order(symbol):
     try:
         for interval in intervals:
             current_color_day, last_closed_color_day, second_closed_color_day = calculate_last_three_heikin_ashi_colors_day(symbol)
@@ -171,7 +171,7 @@ for _, row in symbol_df.iterrows():
     symbol_row = row['STOCK']
 
     # Check SMBPXY and place order
-    smbpxy_check_result = get_smbpxy_check(symbol_row + ".NS")
+    smbpxy_check_result = check_and_place_order(symbol_row + ".NS")
 
     # Print smbpxy_check result
     console.print(smbpxy_check_result)
@@ -181,5 +181,6 @@ for _, row in symbol_df.iterrows():
         console.print(f"[green]Order placed for {symbol_row}[/green]")
     else:
         console.print(f"[yellow]No order placed for {symbol_row}[/yellow]")
+
 
 
