@@ -156,6 +156,7 @@ def transact(symbol):
 
 # Assuming symbol_df is defined elsewhere in your code
 # Process each symbol
+symbol_df = pd.DataFrame(data)
 for symbol_row in symbol_df.iloc[:, 0]:
     # Check SMBPXY and place order
     smbpxy_check_result = get_smbpxy_check(symbol_row + ".NS")
