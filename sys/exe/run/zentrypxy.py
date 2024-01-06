@@ -154,13 +154,17 @@ def transact(symbol):
         logging.error(f"{str(e)} while placing order")
         return symbol
 
-# Assuming symbol_df is defined elsewhere in your code
-# Process each symbol
-import pandas as pd
-symbol_df = pd.DataFrame(data)
-for symbol_row in symbol_df.iloc[:, 0]:
+try:
+    symbol_df = pd.read_csv(CSV_FILE_PATH)
+except FileNotFoundError:
+    logging.error(f"CSV file '{CSV_FILE_PATH}' not found.")
+    sys.exit(1)
+
+for _, row in symbol_df.iterrows():
+    symbol_row = row['Symbol']
+
     # Check SMBPXY and place order
-    smbpxy_check_result = get_smbpxy_check(symbol_row + ".NS")
+    smbpxy_check_result = get_smbpxy_check(symbol_row)
 
     # Print smbpxy_check result
     console.print(smbpxy_check_result)
