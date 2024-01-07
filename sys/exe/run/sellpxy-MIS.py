@@ -163,6 +163,10 @@ for symbol_row in symbol_df['STOCK']:
     if "Buy" in smbpxy_check:
         console.print(f"[green]{smbpxy_check}[/green] 🟢🟢🟢")
         success = mis_sell_order_place(STOCK)
+        if success:
+            print(f"Order for {stock_symbol} placed successfully!")
+        else:
+            print(f"Failed to place order for {stock_symbol}. Check logs for details.")
         
     elif "Sell" in smbpxy_check:
         console.print(f"[green]{smbpxy_check}[/green] 🔴🔴🔴")
