@@ -45,7 +45,7 @@ while true; do
             ;;   
         kl)
             echo "    ❌❌❌.....MIS Selling.....❌❌❌"
-            killpxy-MIS
+            pxykill-MIS
             ;;
         up)
             echo "     🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
