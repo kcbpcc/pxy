@@ -11,6 +11,7 @@ while true; do
     echo "******************************************"
     echo "   -pxy                   🔥        en"
     echo "   -pxypy                 🐍        py"
+    echo "   -pxytail               📜        ta"
     echo "   -pxyclean              🚿        cl"
     echo "   -pxyflush              💨        fl"    
     echo "   -pxycheck              🧪        ck"
@@ -26,6 +27,10 @@ while true; do
 
     # Perform actions based on user input
     case $choice in
+        ta)
+            echo "...............main.lg📜📜📜"
+            pxytail
+            ;;    
         fl)
             echo "...............flush put💨💨💨"
             pxyflush
