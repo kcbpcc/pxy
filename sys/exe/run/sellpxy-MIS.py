@@ -180,7 +180,7 @@ for symbol_row in symbol_df['STOCK']:
     console.print(f"[bold]{symbol}:[/bold] ", end="")
 
     try:
-        if "Sell" in smbpxy_check and mktpxy == "Buy":
+        if "Sell" in smbpxy_check and mktpxy == "Sell":
             console.print(f"[red]{smbpxy_check}[/red] 🔴🔴🔴")
             success = mis_sell_order_place(symbol)
             if success:
