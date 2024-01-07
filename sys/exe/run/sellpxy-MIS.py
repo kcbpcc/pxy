@@ -28,7 +28,16 @@ from swchpxy import analyze_stock
 from selfpxy import get_random_spiritual_message
 import logging
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™###########################################
-
+logging = Logger(30, dir_path + "main.log")
+try:
+    sys.stdout = open('output.txt', 'w')
+    broker = get_kite(api="bypass", sec_dir=dir_path)
+except Exception as e:
+    remove_token(dir_path)
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} unable to get holdings")
+    sys.exit(1)
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™###########################################
 def mis_sell_order_place(STOCK):
     try:
         # Extract stock symbol from the format "TCS.NS"
