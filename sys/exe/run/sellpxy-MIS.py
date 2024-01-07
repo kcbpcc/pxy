@@ -81,10 +81,16 @@ def get_smbpxy_check(symbol):
                 current_color, last_closed_color, second_closed_color = calculate_last_three_heikin_ashi_colors(symbol, interval)
 
                 if current_color and last_closed_color:
-                    if current_color == 'Bear' and last_closed_color == 'Bear' and second_closed_color == 'Bull':
+                    if current_color == 'Bear' and last_closed_color == 'Bear' and second_closed_color == 'Bear':
+                        return 'Bear'
+                    elif current_color == 'Bull' and last_closed_color == 'Bull' and second_closed_color == 'Bull':
+                        return 'Bull'
+                    elif current_color == 'Bear' and last_closed_color == 'Bear' and second_closed_color == 'Bull':
                         return 'Sell'
                     elif current_color == 'Bull' and last_closed_color == 'Bull' and second_closed_color == 'Bear':
                         return 'Buy'
+                    else:
+                        return 'NONE'
 
         return 'NONE'
 
