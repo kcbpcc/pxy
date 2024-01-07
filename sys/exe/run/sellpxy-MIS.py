@@ -35,7 +35,7 @@ def mis_sell_order_place(STOCK):
         symbol = STOCK.split(".")[0]
 
         # Assume STOCK has a key 'ltp' representing the last traded price
-        ltp = STOCK.get('ltp', 0)
+        ltp = symbol.get('ltp', 0)
 
         if ltp > 0:
             calculated_quantity = round(50000 / ltp)
