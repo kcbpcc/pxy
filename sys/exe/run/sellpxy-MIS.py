@@ -29,13 +29,14 @@ from selfpxy import get_random_spiritual_message
 import logging
 mktpxy = get_market_check('^NSEI')
 from fundpxy import calculate_decision
-decision = calculate_decision()
+
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™###########################################
 sys.stdout = open('output.txt', 'w')
 logging = Logger(30, dir_path + "main.log")
 try:
 
     broker = get_kite(api="bypass", sec_dir=dir_path)
+    decision = calculate_decision()
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
