@@ -83,8 +83,8 @@ def get_smbpxy_check(symbol):
                 if current_color and last_closed_color:
                     if current_color == 'Bear' and last_closed_color == 'Bear' and second_closed_color == 'Bull':
                         return 'Sell'
-                    else:
-                        return 'NONE'
+                    else current_color == 'Bull' and last_closed_color == 'Bull' and second_closed_color == 'Bear'::
+                        return 'Buy'
 
         return 'NONE'
 
@@ -104,7 +104,7 @@ for symbol_row in symbol_df['STOCK']:
     console.print(f"[bold]{symbol}:[/bold] ", end="")
     
     if "Buy" in smbpxy_check:
-        console.print(f"[green]{smbpxy_check}[/green] 🔴🔴🟢")
+        console.print(f"[green]{smbpxy_check}[/green] 🟢🟢🟢")
     elif "Sell" in smbpxy_check:
-        return 'NONE'
+        console.print(f"[green]{smbpxy_check}[/green] 🔴🔴🔴")
 
