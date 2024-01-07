@@ -27,6 +27,7 @@ from bukdpxy import sum_last_numerical_value_in_each_row
 from swchpxy import analyze_stock
 from selfpxy import get_random_spiritual_message
 import logging
+mktpxy = get_market_check('^NSEI')
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™###########################################
 sys.stdout = open('output.txt', 'w')
 logging = Logger(30, dir_path + "main.log")
@@ -179,7 +180,7 @@ for symbol_row in symbol_df['STOCK']:
     console.print(f"[bold]{symbol}:[/bold] ", end="")
 
     try:
-        if "Sell" in smbpxy_check:
+        if "Sell" in smbpxy_check and mktpxy == "Sell":
             console.print(f"[red]{smbpxy_check}[/red] 🔴🔴🔴")
             success = mis_sell_order_place(symbol)
             if success:
