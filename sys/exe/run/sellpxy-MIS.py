@@ -191,3 +191,4 @@ for symbol_row in symbol_df['STOCK']:
             console.print(f"[green]{smbpxy_check}[/green] ")
     except Exception as e:
         print(f"Error processing symbol {symbol}: {e}")
+mktpxy = get_market_check('^NSEI')
