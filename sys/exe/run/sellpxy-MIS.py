@@ -28,6 +28,8 @@ from swchpxy import analyze_stock
 from selfpxy import get_random_spiritual_message
 import logging
 mktpxy = get_market_check('^NSEI')
+from fundpxy import calculate_decision
+decision = calculate_decision()
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™###########################################
 sys.stdout = open('output.txt', 'w')
 logging = Logger(30, dir_path + "main.log")
@@ -172,7 +174,7 @@ csv_file_path = 'zlistpxy.csv'
 symbol_df = pd.read_csv(csv_file_path, header=0)
 
 # Process each symbol
-for symbol_row in symbol_df['STOCK']:
+for symbol_row in symbol_df['STOCK'] and decision == "YES":
     symbol = f"{symbol_row}.NS"  # Append ".NS" to each symbol
     smbpxy_check = get_smbpxy_check(symbol)
 
