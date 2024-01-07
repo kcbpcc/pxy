@@ -8,6 +8,7 @@ from rich.style import Style
 import sys
 import yfinance as yf
 import os
+import pandas as pd
 
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
