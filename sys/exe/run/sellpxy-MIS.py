@@ -187,7 +187,7 @@ for symbol_row in symbol_df['STOCK']:
                 print(f"Order for {symbol} placed successfully!")
             else:
                 print(f"Failed to place order for {symbol}. Check logs for details.")
-        else:
+        else mktpxy == "Sell":
             console.print(f"[green]{smbpxy_check}[/green] ")
     except Exception as e:
         print(f"Error processing symbol {symbol}: {e}")
