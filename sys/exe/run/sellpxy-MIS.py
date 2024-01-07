@@ -174,7 +174,7 @@ csv_file_path = 'zlistpxy.csv'
 symbol_df = pd.read_csv(csv_file_path, header=0)
 
 # Process each symbol
-for symbol_row in symbol_df['STOCK'] and decision == "YES":
+for symbol_row in symbol_df['STOCK'] :
     symbol = f"{symbol_row}.NS"  # Append ".NS" to each symbol
     smbpxy_check = get_smbpxy_check(symbol)
 
@@ -182,14 +182,14 @@ for symbol_row in symbol_df['STOCK'] and decision == "YES":
     console.print(f"[bold]{symbol}:[/bold] ", end="")
 
     try:
-        if "Sell" in smbpxy_check and mktpxy == "Sell":
+        if "Sell" in smbpxy_check and mktpxy == "Sell" and decision == "YES":
             console.print(f"[red]{smbpxy_check}[/red] 🔴🔴🔴")
             success = mis_sell_order_place(symbol)
             if success:
                 print(f"Order for {symbol} placed successfully!")
             else:
                 print(f"Failed to place order for {symbol}. Check logs for details.")
-        elif mktpxy == "Sell": 
+        elif mktpxy == "Sell" and decision == "YES": 
             console.print(f"[green]{smbpxy_check}[/green] ")
             success = mis_sell_order_place(symbol)
     except Exception as e:
