@@ -31,15 +31,19 @@ import logging
 
 def mis_sell_order_place(STOCK):
     try:
+        # Extract stock symbol from the format "TCS.NS"
+        symbol = STOCK.split(".")[0]
+
         # Assume STOCK has a key 'ltp' representing the last traded price
         ltp = STOCK.get('ltp', 0)
 
         if ltp > 0:
             calculated_quantity = round(50000 / ltp)
-            logging.info(f"Placing order for {STOCK} with calculated quantity: {calculated_quantity}")
+            logging.info(f"Placing order for {symbol} with calculated quantity: {calculated_quantity}")
 
+            # Use the extracted symbol for order placement
             order_id = broker.order_place(
-                tradingsymbol=STOCK,
+                tradingsymbol=symbol,
                 exchange='NSE',
                 transaction_type='SELL',
                 quantity=calculated_quantity,
@@ -59,7 +63,6 @@ def mis_sell_order_place(STOCK):
     except Exception as e:
         logging.error(f"{str(e)} while placing order")
     return False
-
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
 # Set the python3IOENCODING environment variable to 'utf-8'
