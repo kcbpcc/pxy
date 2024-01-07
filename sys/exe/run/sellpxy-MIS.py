@@ -40,13 +40,14 @@ except Exception as e:
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™###########################################
 def mis_sell_order_place(STOCK):
     try:
-        # Extract stock symbol from the format "TCS.NS"
+        # Specify the stock symbol without '.NS' or any exchange suffix
         symbol = STOCK.split(".")[0]
 
-        # Assume STOCK has a key 'ltp' representing the last traded price
-        ltp = symbol.get('ltp', 0)
+        # Fetch stock information using yfinance
+        stock_info = yf.Ticker(symbol)
+        ltp = stock_info.history(period='1d')['Close'].iloc[-1]
 
-        if ltp > 0:
+        if not np.isnan(ltp) and ltp > 0:
             calculated_quantity = round(50000 / ltp)
             logging.info(f"Placing order for {symbol} with calculated quantity: {calculated_quantity}")
 
@@ -72,6 +73,7 @@ def mis_sell_order_place(STOCK):
     except Exception as e:
         logging.error(f"{str(e)} while placing order")
     return False
+
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
 # Set the python3IOENCODING environment variable to 'utf-8'
