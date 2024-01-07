@@ -45,7 +45,7 @@ while true; do
             ;;   
         kl)
             echo "    ❌❌❌.....MIS Selling.....❌❌❌"
-            killpxy-MIS.py
+            killpxy-MIS
             ;;
         up)
             echo "     🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
