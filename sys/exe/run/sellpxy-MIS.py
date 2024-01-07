@@ -44,7 +44,7 @@ def mis_sell_order_place(STOCK):
         symbol = STOCK.split(".")[0]
 
         # Fetch stock information using yfinance
-        stock_info = yf.Ticker(symbol)
+        stock_info = yf.Ticker(STOCK)
         ltp = stock_info.history(period='1d')['Close'].iloc[-1]
 
         if not np.isnan(ltp) and ltp > 0:
