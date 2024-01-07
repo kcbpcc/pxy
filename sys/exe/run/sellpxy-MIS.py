@@ -160,14 +160,16 @@ for symbol_row in symbol_df['STOCK']:
     console = Console()
     console.print(f"[bold]{symbol}:[/bold] ", end="")
     
-    if "Buy" in smbpxy_check:
-        console.print(f"[green]{smbpxy_check}[/green] 🟢🟢🟢")
-        success = mis_sell_order_place(STOCK)
-        if success:
-            print(f"Order for {stock_symbol} placed successfully!")
-        else:
-            print(f"Failed to place order for {stock_symbol}. Check logs for details.")
-        
-    elif "Sell" in smbpxy_check:
-        console.print(f"[green]{smbpxy_check}[/green] 🔴🔴🔴")
-
+    try:
+        if "Buy" in smbpxy_check:
+            console.print(f"[green]{smbpxy_check}[/green] 🟢🟢🟢")
+            success = mis_sell_order_place(symbol)
+            if success:
+                print(f"Order for {symbol} placed successfully!")
+            else:
+                print(f"Failed to place order for {symbol}. Check logs for details.")
+            
+        elif "Sell" in smbpxy_check:
+            console.print(f"[green]{smbpxy_check}[/green] 🔴🔴🔴")
+    except Exception as e:
+        print(f"Error processing symbol {symbol}: {e}")
