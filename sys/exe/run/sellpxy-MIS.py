@@ -83,7 +83,7 @@ def get_smbpxy_check(symbol):
                 if current_color and last_closed_color:
                     if current_color == 'Bear' and last_closed_color == 'Bear' and second_closed_color == 'Bull':
                         return 'Sell'
-                    else current_color == 'Bull' and last_closed_color == 'Bull' and second_closed_color == 'Bear':
+                    elif current_color == 'Bull' and last_closed_color == 'Bull' and second_closed_color == 'Bear':
                         return 'Buy'
 
         return 'NONE'
