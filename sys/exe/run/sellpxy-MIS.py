@@ -35,7 +35,7 @@ try:
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
+    logging.error(f"{str(e)} Unable to get holdings")
     sys.exit(1)
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™###########################################
 def mis_sell_order_place(STOCK):
@@ -163,27 +163,27 @@ def get_smbpxy_check(symbol):
         return 'NONE'
 
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-
+# Read symbols from a CSV file
 csv_file_path = 'zlistpxy.csv'
-symbol_df = pd.read_csv(csv_file_path, header=0)  # Assuming the header is in the first row
+symbol_df = pd.read_csv(csv_file_path, header=0)
 
 # Process each symbol
 for symbol_row in symbol_df['STOCK']:
     symbol = f"{symbol_row}.NS"  # Append ".NS" to each symbol
     smbpxy_check = get_smbpxy_check(symbol)
+
     console = Console()
     console.print(f"[bold]{symbol}:[/bold] ", end="")
-    
+
     try:
-        if "Buy" in smbpxy_check:
-            console.print(f"[green]{smbpxy_check}[/green] 🟢🟢🟢")
+        if "Sell" in smbpxy_check:
+            console.print(f"[red]{smbpxy_check}[/red] 🔴🔴🔴")
             success = mis_sell_order_place(symbol)
             if success:
                 print(f"Order for {symbol} placed successfully!")
             else:
                 print(f"Failed to place order for {symbol}. Check logs for details.")
-            
-        elif "Sell" in smbpxy_check:
-            console.print(f"[green]{smbpxy_check}[/green] 🔴🔴🔴")
+        else:
+            console.print(f"[green]{smbpxy_check}[/green] 🟢🟢🟢")
     except Exception as e:
         print(f"Error processing symbol {symbol}: {e}")
