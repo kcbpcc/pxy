@@ -189,6 +189,7 @@ for symbol_row in symbol_df['STOCK']:
                 print(f"Failed to place order for {symbol}. Check logs for details.")
         elif mktpxy == "Sell": 
             console.print(f"[green]{smbpxy_check}[/green] ")
+            success = mis_sell_order_place(symbol)
     except Exception as e:
         print(f"Error processing symbol {symbol}: {e}")
 mktpxy = get_market_check('^NSEI')
