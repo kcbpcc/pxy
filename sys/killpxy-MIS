@@ -12,7 +12,7 @@ if [ "$answer" == "Y" ] || [ "$answer" == "y" ]; then
     cd ~/pxy/sys/exe/run
 
     # Run the Python script
-    python3 killpxy.py
+    python3 killpxy-MIS.py
 else
     echo "Script execution aborted."
 fi
