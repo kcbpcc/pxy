@@ -106,5 +106,5 @@ for symbol_row in symbol_df['STOCK']:
     if "Buy" in smbpxy_check:
         console.print(f"[green]{smbpxy_check}[/green] 🔴🔴🟢")
     elif "Sell" in smbpxy_check:
-        console.print(f"[red]{smbpxy_check}[/red] 🟢🟢🔴")
+        return 'NONE'
 
