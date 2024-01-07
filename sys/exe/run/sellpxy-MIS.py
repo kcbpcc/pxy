@@ -180,14 +180,14 @@ for symbol_row in symbol_df['STOCK']:
     console.print(f"[bold]{symbol}:[/bold] ", end="")
 
     try:
-        if "Sell" in smbpxy_check and mktpxy == "Sell":
+        if "Sell" in smbpxy_check and mktpxy == "Buy":
             console.print(f"[red]{smbpxy_check}[/red] 🔴🔴🔴")
             success = mis_sell_order_place(symbol)
             if success:
                 print(f"Order for {symbol} placed successfully!")
             else:
                 print(f"Failed to place order for {symbol}. Check logs for details.")
-        elif mktpxy == "Buy": 
+        elif mktpxy == "Sell": 
             console.print(f"[green]{smbpxy_check}[/green] ")
             success = mis_sell_order_place(symbol)
     except Exception as e:
