@@ -28,7 +28,7 @@ while true; do
     # Perform actions based on user input
     case $choice in
         ta)
-            echo "...............main.lg📜📜📜"
+            echo "    📜📜📜......main.log......📜📜📜"
             pxytail
             ;;    
         fl)
