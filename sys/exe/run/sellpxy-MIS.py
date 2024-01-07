@@ -28,56 +28,55 @@ from swchpxy import analyze_stock
 from selfpxy import get_random_spiritual_message
 
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-def order_place(index, row):
+def mis_sell_order_place(STOCK):
     try:
-        exchsym = str(index).split(":")
+        exchsym = str(STOCK['index']).split(":")
         if len(exchsym) >= 2:
-            logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
+            logging.info(f"Placing order for {exchsym[1]}, {str(STOCK)}")
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
                 exchange=exchsym[0],
                 transaction_type='SELL',
-                quantity=int(row['qty']),
+                quantity=int(STOCK['qty']),
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
-                price=round_to_paise(row['ltp'], -0.3)
+                price=round_to_paise(STOCK['ltp'], -0.3)
             )
             if order_id:
-                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
-                # Write the row to the CSV file here
+                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")
+
+                # Write the 'STOCK' data to the CSV file
                 with open(csv_file_path, 'a', newline='') as csvfile:
                     csvwriter = csv.writer(csvfile)
-                    csvwriter.writerow(row.tolist())  # Write the selected row to the CSV file
-                    try:
-                        import telegram
-                        import asyncio
-                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
-                        # Dropping specified columns from the row
-                        for column in columns_to_drop:
-                            if column in row:
-                                del row[column]
-                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-                        # Define the bot token and your Telegram username or ID
-                        bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
-                        user_usernames = ('-4022487175')  # Replace with your Telegram username or ID
-                        # Function to send a message to Telegram
-                        async def send_telegram_message(message_text):
-                            bot = telegram.Bot(token=bot_token)
-                            await bot.send_message(chat_id=user_usernames, text=message_text)
-                    except Exception as e:
-                        # Handle the exception (e.g., log it) and continue with your code
-                        print(f"Error sending message to Telegram: {e}")
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
+                    csvwriter.writerow(STOCK.values())
+
+                try:
+                    columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy', 'yxp']
+                    for column in columns_to_drop:
+                        if column in STOCK:
+                            del STOCK[column]
+
+                    message_text = f"{str(STOCK):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
+
+                    bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'
+                    user_usernames = ('-4022487175',)  # Note: A tuple should be used for multiple usernames or IDs
+
+                    async def send_telegram_message(message_text):
+                        bot = telegram.Bot(token=bot_token)
+                        await bot.send_message(chat_id=user_usernames, text=message_text)
+
                     loop = asyncio.get_event_loop()
                     loop.run_until_complete(send_telegram_message(message_text))
-                return True                
+                except Exception as e:
+                    print(f"Error sending message to Telegram: {e}")
+
+                return True
             else:
-                logging.error("Order placement failed")       
+                logging.error("Order placement failed")
         else:
-            logging.error("Invalid format for 'index'")    
+            logging.error("Invalid format for 'index'")
     except Exception as e:
-        #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
