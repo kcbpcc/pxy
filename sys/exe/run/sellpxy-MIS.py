@@ -28,6 +28,7 @@ from swchpxy import analyze_stock
 from selfpxy import get_random_spiritual_message
 import logging
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™###########################################
+sys.stdout = open('output.txt', 'w')
 logging = Logger(30, dir_path + "main.log")
 try:
 
@@ -37,6 +38,8 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} Unable to get holdings")
     sys.exit(1)
+sys.stdout.close()
+sys.stdout = sys.__stdout__
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™###########################################
 def mis_sell_order_place(STOCK):
     try:
