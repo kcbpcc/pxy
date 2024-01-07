@@ -171,7 +171,7 @@ def get_smbpxy_check(symbol):
 
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 # Read symbols from a CSV file
-csv_file_path = 'zlistpxy.csv'
+csv_file_path = 'listpxy-MIS.csv'
 symbol_df = pd.read_csv(csv_file_path, header=0)
 
 # Process each symbol
