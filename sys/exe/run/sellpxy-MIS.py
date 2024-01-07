@@ -26,59 +26,40 @@ from nftpxy import nse_action, nse_power, Day_Change, Open_Change
 from bukdpxy import sum_last_numerical_value_in_each_row
 from swchpxy import analyze_stock
 from selfpxy import get_random_spiritual_message
+import logging
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™###########################################
 
-############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 def mis_sell_order_place(STOCK):
     try:
-        exchsym = str(STOCK['index']).split(":")
-        if len(exchsym) >= 2:
-            logging.info(f"Placing order for {exchsym[1]}, {str(STOCK)}")
+        # Assume STOCK has a key 'ltp' representing the last traded price
+        ltp = STOCK.get('ltp', 0)
+
+        if ltp > 0:
+            calculated_quantity = round(50000 / ltp)
+            logging.info(f"Placing order for {STOCK} with calculated quantity: {calculated_quantity}")
+
             order_id = broker.order_place(
-                tradingsymbol=exchsym[1],
-                exchange=exchsym[0],
+                tradingsymbol=STOCK,
+                exchange='NSE',
                 transaction_type='SELL',
-                quantity=int(STOCK['qty']),
-                order_type='LIMIT',
+                quantity=calculated_quantity,
+                order_type='MARKET',
                 product='CNC',
                 variety='regular',
-                price=round_to_paise(STOCK['ltp'], -0.3)
+                price=None
             )
+
             if order_id:
-                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")
-
-                # Write the 'STOCK' data to the CSV file
-                with open(csv_file_path, 'a', newline='') as csvfile:
-                    csvwriter = csv.writer(csvfile)
-                    csvwriter.writerow(STOCK.values())
-
-                try:
-                    columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy', 'yxp']
-                    for column in columns_to_drop:
-                        if column in STOCK:
-                            del STOCK[column]
-
-                    message_text = f"{str(STOCK):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-
-                    bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'
-                    user_usernames = ('-4022487175',)  # Note: A tuple should be used for multiple usernames or IDs
-
-                    async def send_telegram_message(message_text):
-                        bot = telegram.Bot(token=bot_token)
-                        await bot.send_message(chat_id=user_usernames, text=message_text)
-
-                    loop = asyncio.get_event_loop()
-                    loop.run_until_complete(send_telegram_message(message_text))
-                except Exception as e:
-                    print(f"Error sending message to Telegram: {e}")
-
+                logging.info(f"Order {order_id} placed successfully")
                 return True
             else:
                 logging.error("Order placement failed")
         else:
-            logging.error("Invalid format for 'index'")
+            logging.error("Invalid last traded price (ltp)")
     except Exception as e:
         logging.error(f"{str(e)} while placing order")
     return False
+
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
 # Set the python3IOENCODING environment variable to 'utf-8'
@@ -181,6 +162,8 @@ for symbol_row in symbol_df['STOCK']:
     
     if "Buy" in smbpxy_check:
         console.print(f"[green]{smbpxy_check}[/green] 🟢🟢🟢")
+        success = mis_sell_order_place(STOCK)
+        
     elif "Sell" in smbpxy_check:
         console.print(f"[green]{smbpxy_check}[/green] 🔴🔴🔴")
 
