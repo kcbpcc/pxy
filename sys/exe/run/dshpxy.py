@@ -33,7 +33,7 @@ def get_holdingsinfo(csv_file_path):
         selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
         selected_holdings_df['perc'] = ((selected_holdings_df['unrealized'] / selected_holdings_df['cap']) * 100).where(selected_holdings_df['cap'] > 0)
 
-        green_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] > 0]
+        green_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] > 1.4]
         green_Stocks_count = len(green_Stocks_df)
         green_Stocks_capital = green_Stocks_df['cap'].sum()
         green_Stocks_worth = green_Stocks_df['ltp'].dot(green_Stocks_df['qty']).round(4)
