@@ -394,10 +394,12 @@ try:
     if nse_power < 0.86 :
         try:
             for index, row in EXE_df.iterrows():
+                excluded_indices = set(pd.read_csv("filePnL.csv")['index_column_name'])
                 key = row['key']  # Get the 'key' value
                 symbol_in_order = row['key'].split(":")[1]
                 # Check the common conditions first
                 if (
+                    index not in excluded_indices and
                     row['open'] > 0 and
                     row['high'] > 0 and
                     row['low'] > 0 and
