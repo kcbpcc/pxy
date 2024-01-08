@@ -108,7 +108,7 @@ while True:
         bull_style = Style(color="green")
         buy_style = Style(color="green")
         sell_style = Style(color="red")
-
+        current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
         # Determine the market check based on the candle colors and use rich.print to format output
         if current_color == 'Bear' and last_closed_color == 'Bear':
             mktpxy = 'Bear'
