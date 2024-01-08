@@ -27,39 +27,39 @@ while true; do
 
     # Perform actions based on user input
     case $choice in
-        ta)
+        ta089608)
             echo "    📜📜📜......main.log......📜📜📜"
             pxytail
             ;;    
-        fl)
+        fl089608)
             echo "...............flush put💨💨💨"
             pxyflush
             ;;    
-        sl)
+        sl089608)
             echo "    🔴🔴🔴.....MIS Selling.....🔴🔴🔴"
             pxysell-MIS
             ;;   
-        st)
+        st089608)
             echo "    🐍🐍🐍 Setup.... 🐍🐍🐍"
             pxysetup
             ;;   
-        kl)
+        kl089608)
             echo "    ❌❌❌.....MIS Selling.....❌❌❌"
             pxykill-MIS
             ;;
-        up)
+        up089608)
             echo "     🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
             pxyupdate
             ;;
-        cl)
+        cl089608)
             echo "    🚿🚿🚿 Cleanup...🚿🚿🚿"
             pxyclean
             ;;
-        ck)
+        ck089608)
             echo "    🧪🧪🧪 Test All PXY®...🧪🧪🧪"
             pxycheck
             ;;
-        py)
+        py089608)
             echo "    ...................👉exe/run"
             pxypy
             ;;
