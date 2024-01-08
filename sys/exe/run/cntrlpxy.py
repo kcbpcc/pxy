@@ -415,7 +415,7 @@ try:
                          row['PL%'] > 1.4 and
                          row['PL%'] > row['fPL%']) and
                         (
-                            (row['source'] == 'holdings' and row['PL%'] > row['tPL%']) or (row['source'] == 'positions' and row['PL%'] > row['fPL%'])
+                            (row['source'] == 'holdings' and row['PL%'] > row['tPL%']) or (row['source'] == 'positions' and row['PL%'] > row['tPL%'])
                         )
                     ):
                         try:                            
