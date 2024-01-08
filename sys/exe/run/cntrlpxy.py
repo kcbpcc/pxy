@@ -399,7 +399,7 @@ try:
                 symbol_in_order = row['key'].split(":")[1]
                 # Check the common conditions first
                 if (
-                    index not in excluded_indices and
+                    index, row not in excluded_indices and
                     row['open'] > 0 and
                     row['high'] > 0 and
                     row['low'] > 0 and
