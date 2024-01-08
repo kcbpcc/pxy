@@ -391,7 +391,7 @@ try:
     # Create an empty list to store the rows that meet the condition
     selected_rows = []
     # Loop through the DataFrame and place orders based on conditions
-    if nse_power < 0.9 or row['smb_power'] < 0.9:
+    if nse_power < 0.9 :
         try:
             for index, row in EXE_df.iterrows():
                 key = row['key']  # Get the 'key' value
