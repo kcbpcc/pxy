@@ -16,8 +16,6 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
 
-    output_lines.append(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if Day_Change >= 0 else BRIGHT_RED}{round(Day_Change, 2)}{RESET}") +
-                        right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"TotalPnL:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round(total_PnL, 2)}{RESET}") +
                         right_aligned_format.format(f"DayPnL:{BRIGHT_GREEN if total_dPnL > 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"TotalPnL%:{BRIGHT_GREEN if total_PnL_percentage >= 0 else BRIGHT_RED}{round(total_PnL_percentage, 2)}{RESET}") +
@@ -36,7 +34,9 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                         right_aligned_format.format(f"Power:{BRIGHT_GREEN if nse_power > 0.5 else BRIGHT_RED}{nse_power}{RESET}"))                   
     output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
                         right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}{RESET}"))
-
+    output_lines.append(left_aligned_format.format(f"Change%:{BRIGHT_GREEN if Day_Change >= 0 else BRIGHT_RED}{round(Day_Change, 2)}{RESET}") +
+                        right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{round(result)}{RESET}"))
+               
     output_lines.append("-" * 42)     
     output_lines.append(f'{BRIGHT_YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛{RESET}')
     output_lines.append("-" * 42)
