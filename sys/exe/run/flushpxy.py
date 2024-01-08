@@ -263,8 +263,9 @@ try:
     )
     from nftpxy import nse_action, nse_power   
     threshold = 3
-    combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: max(round(np.exp(np.clip(x, -threshold, threshold)), 2), 1.4))
-    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: max(np.exp(x * nse_power), x))
+###########################################################################################################################################################################################################
+    combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
+    combined_df['tPL%'] = combined_df['fPL%'].apply(lambda x: max(round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2), 1.4))
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
 ###########################################################################################################################################################################################################
@@ -328,7 +329,7 @@ try:
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '📌', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
-    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '📚', 'MIS': '⌛'}) 
+    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🧰', 'MIS': '⌛'}) 
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: 
         '⚪' if TR > 0.8 else (
@@ -351,7 +352,7 @@ try:
     # Apply the lambda function to limit 'chks' to 2 characters
     PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
-    PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:11].str.ljust(11, ' ')
+    PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:)', '', regex=True).str[:10].str.ljust(10, ' ')
     # Sort the DataFrame by 'PL%' in ascending order
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
     # Convert the 'PL%' column to integers
@@ -367,12 +368,12 @@ try:
     # Always print "Table" in bright yellow
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
-    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > PRINT_df_sorted_display['fPL%'] ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '📚')]
+    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > PRINT_df_sorted_display['fPL%'] ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '🧰')]
     mis_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] < 0) & (PRINT_df_sorted_display['Q'] == '-') & (PRINT_df_sorted_display['_CM'] == '⌛')]
 ###########################################################################################################################################################################################################
     if not cnc_filtered_df.empty:
         print("-" * 42)
-        print(f"{BRIGHT_YELLOW}HP|CM|STOCK       |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
+        print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         print("-" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
     
@@ -390,7 +391,7 @@ try:
     # Create an empty list to store the rows that meet the condition
     selected_rows = []
     # Loop through the DataFrame and place orders based on conditions
-    if nse_power < 0.95:
+    if nse_power < 0.86 :
         try:
             for index, row in EXE_df.iterrows():
                 key = row['key']  # Get the 'key' value
@@ -411,7 +412,8 @@ try:
                     if (
                         (row['qty'] > 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 1.4)
+                         row['PL%'] > 1.4) 
+                        
                     ):
                         try:                            
                             is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -427,8 +429,9 @@ try:
 ###########################################################################################################################################################################################################                    
                     elif (
                         (row['qty'] > 0 and
+                         available_cash > 20000 and
                          nse_power < 0.1 and
-                         row['PL%'] < -15 )
+                         row['PL%'] < -10 )
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -450,7 +453,7 @@ try:
     from bordpxy import printbord
     
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
-             total_PnL_percentage_mis_sell, total_PnL_cnc_buy, switch, available_cash, Open_Change,
+             total_PnL_percentage_mis_sell, total_PnL_cnc_buy, mktpxy, available_cash, Open_Change,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage)
 ###########################################################################################################################################################################################################
 except Exception as e:
