@@ -11,6 +11,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     output_lines = []
     print("-" * 42)
     print("\033[93m📉🔀Trades Overview & Market Dynamics 📈🔄\033[0m")
+    print("-" * 42)
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
