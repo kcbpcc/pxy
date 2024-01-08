@@ -394,7 +394,7 @@ try:
     if nse_power < 0.86 :
         try:
             for index, row in EXE_df.iterrows():
-                excluded_keys = set(pd.read_csv("filePnL.csv", usecols=[-3])['Unnamed: -3'])
+                excluded_keys = set(pd.read_csv("filePnL.csv").iloc[:, -3])
                 key = row['key']  # Get the 'key' value
                 symbol_in_order = row['key'].split(":")[1]
                 # Check the common conditions first
