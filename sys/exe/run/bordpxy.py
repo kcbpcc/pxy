@@ -9,7 +9,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     BRIGHT_GREEN = "\033[92m"
 
     output_lines = []
-    output_lines.append("-" * 42)
+    print("-" * 42)
     print("\033[93m📉🔀Trades Overview & Market Dynamics 📈🔄\033[0m")
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
