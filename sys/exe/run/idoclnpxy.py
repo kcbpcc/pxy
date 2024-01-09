@@ -12,6 +12,6 @@ with open(file_path_pnl, 'w', newline='') as csvfile_pnl:
     csv_writer_pnl.writerow([])
 
     # Write 18 zeros separated by commas as the first row
-    csv_writer_pnl.writerow(['0'] * 18)
+    csv_writer_pnl.writerow(['0'] * 20)
 
 
