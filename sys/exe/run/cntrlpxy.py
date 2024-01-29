@@ -627,6 +627,7 @@ try:
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
     if not nrml_filtered_df.empty:
+        width = 42 
         print(''.rjust(width) + '\n' + '\n'.join(line.rjust(width) for line in nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')))
         #print("🧮....averaging and booking profits... 💸")
     print("-" * 42)        
