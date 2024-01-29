@@ -49,8 +49,11 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     output_lines.append(left_aligned_format.format(f"A/C Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{round(ydaypnl_to_print, 2)}{RESET}") +
                         right_aligned_format.format(f"Day PnL:{BRIGHT_GREEN if total_dPnL > 0 else BRIGHT_RED}{int(round(total_dPnL, 2))}{RESET}"))   
     
+    max_auto_value_length = len(max(auto_value, key=len))
+    print(f"Length of 'auto_value': {max_auto_value_length}")
+      
     output_lines.append(left_aligned_format.format(f"Drive:{auto_value}{RESET}") +
-                        right_aligned_format.format(f"My Day%:{BRIGHT_GREEN if total_dPnL_percentage >= 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2):>6}{RESET}"))
+                          right_aligned_format.format(f"My Day%:{BRIGHT_GREEN if total_dPnL_percentage >= 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2):>{max_auto_value_length}}{RESET}"))
 
 
     
