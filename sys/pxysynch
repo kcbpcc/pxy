@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # Run rclone bisync
-rclone bisync --resync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/filePnL_nrml.csv pxycloud:/csv
+rclone bisync --resync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy pxycloud:/pxy
