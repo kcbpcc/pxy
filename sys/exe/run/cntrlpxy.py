@@ -627,11 +627,11 @@ try:
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
     if not nrml_filtered_df.empty:
-        #print(f"{BRIGHT_YELLOW}Chronicles of My Intraday Destiny {RESET}") 
+        print(f'{BRIGHT_YELLOW}optpxy sets options to drive ::{RESET} 🕹️{auto_value}🕹️')
         print(nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL','smb_power']].to_string(index=False, header=False))
         
         #print("🧮....averaging and booking profits... 💸")
-    print(f'{BRIGHT_YELLOW}optpxy sets options to drive ::{RESET} 🕹️{auto_value}🕹️')
+    
     print("-" * 42)        
 ###########################################################################################################################################################################################################
 except Exception as e:
