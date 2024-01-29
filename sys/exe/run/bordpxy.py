@@ -16,7 +16,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     print("-" * 42)
     print("\033[93m📉🔀Trades Overview & Market Dynamics 📈🔄\033[0m")
     print("-" * 42)
-    auto_value_status = "Yes" if "AUTO" in auto_value else "No"
+      auto_value_status = "1" if "AUTO" in auto_value else "0"
     acvalue = (all_Stocks_capital_lacks + (available_cash/100000))  
     process_acvalue(acvalue)
     acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
