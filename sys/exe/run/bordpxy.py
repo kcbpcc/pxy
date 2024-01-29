@@ -30,8 +30,8 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                         right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW }{round(acvalue_to_print, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Total Profit:{BRIGHT_GREEN if profit > 0 else BRIGHT_RED}{round(profit, 2)}{RESET}") +
                         right_aligned_format.format(f"Total Loss:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}"))
-    #output_lines.append(left_aligned_format.format(f"NSE Day%:{BRIGHT_GREEN if Day_Change >= 0 else BRIGHT_RED}{round(Day_Change, 2)}{RESET}") +
-                        #right_aligned_format.format(f"NSE Open%:{BRIGHT_GREEN if Open_Change >= 0 else BRIGHT_RED}{round(Open_Change, 2)}{RESET}")) 
+    output_lines.append(left_aligned_format.format(f"NSE Day%:{BRIGHT_GREEN if Day_Change >= 0 else BRIGHT_RED}{round(Day_Change, 2)}{RESET}") +
+                        right_aligned_format.format(f"My Day%:{BRIGHT_GREEN if total_dPnL_percentage >= 0 else BRIGHT_RED}{round(Open_Change, 2)}{RESET}")) 
     output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
                             right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}{RESET}"))                                  
     output_lines.append(
