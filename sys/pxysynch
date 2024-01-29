@@ -1,5 +1,3 @@
 #!/bin/bash
 
-# Run rclone bisync
-unison ~/pxy/sys/exe/run/*.csv ~/pxy/sys/exe/run/pxycloud/
-rclone bisync --resync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/pxycloud pxycloud:/pxycloud
+rclone bisync --resync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/*.csv pxycloud:/pxycloud/
