@@ -16,7 +16,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     print("-" * 42)
     print("\033[93m📉🔀Trades Overview & Market Dynamics 📈🔄\033[0m")
     print("-" * 42)
-    auto_value_status = "1" if "AUTO" in auto_value else "0"
+    auto_value_status = "Yes" if "AUTO" in auto_value else "No"
     acvalue = (all_Stocks_capital_lacks + (available_cash/100000))  
     process_acvalue(acvalue)
     acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
@@ -49,12 +49,12 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     output_lines.append(left_aligned_format.format(f"A/C Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{round(ydaypnl_to_print, 2)}{RESET}") +
                         right_aligned_format.format(f"Day PnL:{BRIGHT_GREEN if total_dPnL > 0 else BRIGHT_RED}{int(round(total_dPnL, 2))}{RESET}"))   
     
-    output_lines.append(left_aligned_format.format(f"Drive:{auto_value_status}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Drive:{BRIGHT_GREEN if total_dPnL_percentage >= 0 else BRIGHT_RED}{RESET}") +
                         right_aligned_format.format(f"My Day:{BRIGHT_GREEN if total_dPnL_percentage >= 0 else BRIGHT_RED}{round(total_dPnL_percentage, 2)}{RESET}"))
 
 
     
-    output_lines.append(left_aligned_format.format(f"Options:{BRIGHT_GREEN if total_PnL_nrml_buy >= 0 else BRIGHT_RED}{int(total_PnL_nrml_buy)}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Options:{BRIGHT_GREEN if auto_value_status == 'Yes' else BRIGHT_RED}{auto_value_status}{RESET}") +
                         right_aligned_format.format(f"Stocks:{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{int(total_PnL_cnc_buy)}{RESET}")) 
     
     output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if result_nrml >= 0 else BRIGHT_RED}{str(int(result_nrml)).zfill(5)}{RESET}") +
