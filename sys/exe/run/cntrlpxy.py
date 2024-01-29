@@ -628,7 +628,8 @@ try:
 ###########################################################################################################################################################################################################
     if not nrml_filtered_df.empty:
         width = 42 
-        print('\n'.join(line.rjust(width) for line in nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')))
+        nrml_filtered_df['dr'] = auto_value
+        print('\n'.join(line.rjust(width) for line in nrml_filtered_df[['dr','key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')))
         #print("🧮....averaging and booking profits... 💸")
     print("-" * 42)        
 ###########################################################################################################################################################################################################
