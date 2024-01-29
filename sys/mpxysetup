@@ -1,0 +1,182 @@
+#!/bin/bash
+
+# Initialize variables for summary
+success_count=0
+fail_count=0
+
+# Penguin Setup
+read -p "Are you sure you want to remove ~/pxy? (y/n): " confirm
+if [ "$confirm" == "y" ]; then
+    if [ -d ~/pxy ]; then
+        sudo rm -rf ~/pxy
+        if [ $? -eq 0 ]; then
+            echo -e "\e[32mRemoved ~/pxy: Success\e[0m"
+            ((success_count++))
+        else
+            echo -e "\e[31mFailed to remove ~/pxy\e[0m"
+            ((fail_count++))
+            exit 1
+        fi
+    else
+        echo "Directory ~/pxy not found, moving on."
+    fi
+
+    sudo rm -rf /usr/local/bin/pxy*
+    if [ $? -eq 0 ]; then
+        echo -e "\e[32mRemoved files in /usr/local/bin/: Success\e[0m"
+        ((success_count++))
+    else
+        echo -e "\e[31mFailed to remove files in /usr/local/bin/\e[0m"
+        ((fail_count++))
+        exit 1
+    fi
+fi
+
+
+sudo usermod -aG sudo userland 
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mUser modified successfully\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mFailed to modify user\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+sudo apt update
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mApt upgrade successful\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mApt upgrade failed\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+sudo apt install git
+
+# Generate SSH key
+ssh-keygen -t rsa -b 4096 -C "pxy.kcbpcc@gmail.com"
+cat ~/.ssh/id_rsa.pub
+
+# Check if Git installation was successful
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mGit installation successful\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mGit installation failed\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+# Prompt for confirmation to proceed
+read -p "Do you want to proceed? (y/n): " confirm
+if [ "$confirm" != "y" ]; then
+    echo "Exiting script."
+    exit 0
+fi
+
+#git clone https://github.com/kcbpcc/pxy.git
+git clone git@github.com:kcbpcc/pxy.git
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mCloned pxy repository successfully\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mFailed to clone pxy repository\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+sudo chmod -R 777 pxy
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mChanged permissions on pxy directory: Success\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mFailed to change permissions on pxy directory\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+sudo cp ~/pxy/sys/pxy* /usr/local/bin/
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mCopied pxy executables to /usr/local/bin/: Success\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mFailed to copy pxy executables to /usr/local/bin/\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+sudo chmod +x /usr/local/bin/pxy*
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mChanged permissions on pxy executables: Success\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mFailed to change permissions on pxy executables\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+sudo apt install python3-venv
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mPython virtual environment installation successful\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mPython virtual environment installation failed\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+python3 -m venv env
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mPython virtual environment creation successful\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mFailed to create Python virtual environment\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+sudo chmod -R 777 env
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mChanged permissions on env directory: Success\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mFailed to change permissions on env directory\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+source ~/env/bin/activate
+sudo apt-get update
+sudo apt-get install python3-pip
+
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mUpgraded pip in virtual environment: Success\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mFailed to upgrade pip in virtual environment\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+cd ~/pxy/sys/exe
+source ~/env/bin/activate
+sudo pip install -r requirements.txt
+pxyclean
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mInstalled Python dependencies: Success\e[0m"
+    ((success_count++))
+else
+    echo -e "\e[31mFailed to install Python dependencies\e[0m"
+    ((fail_count++))
+    exit 1
+fi
+
+cd ~/pxy/sys/exe/run
+# ... (continue checking and printing messages for each command)
+
+# Display summary at the end
+echo -e "\nSummary:"
+echo -e "\e[32mSuccesses: $success_count\e[0m"
+echo -e "\e[31mFailures: $fail_count\e[0m"
