@@ -627,17 +627,7 @@ try:
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
     if not nrml_filtered_df.empty:
-        # Your print statements with right-aligned output
-        width = 42
-        
-        # First print statement
-        message = f'optpxy sets options to drive :: {auto_value}'
-        print(message.rjust(width, ' ') + BRIGHT_YELLOW + RESET)
-        
-        # Second print statement with right-aligned DataFrame output
-        df_output = nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL', 'smb_power']].to_string(index=False, header=False)
-        for line in df_output.split('\n'):
-            print(line.rjust(width))
+        print(''.rjust(width) + '\n' + '\n'.join(line.rjust(width) for line in nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')))
         #print("🧮....averaging and booking profits... 💸")
     print("-" * 42)        
 ###########################################################################################################################################################################################################
