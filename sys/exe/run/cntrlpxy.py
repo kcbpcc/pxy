@@ -628,10 +628,15 @@ try:
 ###########################################################################################################################################################################################################
     if not nrml_filtered_df.empty:
         print(f'{BRIGHT_YELLOW}optpxy sets options to drive ::{RESET} 🕹️{auto_value}🕹️')
-        print(nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL','smb_power']].to_string(index=False, header=False))
-        
+        print(nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL', 'smb_power']]
+              .to_string(index=False, header=False)
+              .split('\n')
+        )
+        # Adjust the width to 42 characters
+        width = 42
+        for line in nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL', 'smb_power']].to_string(index=False, header=False).split('\n'):
+            print(line.rjust(width))
         #print("🧮....averaging and booking profits... 💸")
-    
     print("-" * 42)        
 ###########################################################################################################################################################################################################
 except Exception as e:
