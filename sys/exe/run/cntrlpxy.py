@@ -623,13 +623,12 @@ try:
     red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage = get_holdingsinfo('fileHPdf.csv')    
     from bordpxy import printbord
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
-             result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, Open_Change,
+             result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
     if not nrml_filtered_df.empty:
         width = 42 
-        nrml_filtered_df['dr'] = auto_value
-        print('\n'.join(line.rjust(width) for line in nrml_filtered_df[['dr','key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')))
+        print('\n'.join(line.rjust(width) for line in nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')))
         #print("🧮....averaging and booking profits... 💸")
     print("-" * 42)        
 ###########################################################################################################################################################################################################
