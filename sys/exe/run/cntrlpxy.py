@@ -631,7 +631,7 @@ try:
         width = 42
         
         # First print statement
-        message = f'optpxy sets options to drive :: 🕹️{auto_value}🕹️'
+        message = f'optpxy sets options to drive :: {auto_value}'
         print(message.rjust(width, ' ') + BRIGHT_YELLOW + RESET)
         
         # Second print statement with right-aligned DataFrame output
