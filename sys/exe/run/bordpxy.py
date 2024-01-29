@@ -1,5 +1,7 @@
 ## bordpxy.py
 from acvalue import process_acvalue, get_current_acvalue
+from optpxy get_optpxy
+optpxy = get_optpxy()
 def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, Open_Change,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy):                
@@ -36,11 +38,11 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
         left_aligned_format.format(
             f"Losers:{BRIGHT_RED}{str(red_Stocks_count).zfill(3)}{RESET}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
-            f"         {BOLD}{UNDERLINE}PX{RESET}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
+            f"         {BOLD}{UNDERLINE}PXY{RESET}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
         ) +
         right_aligned_format.format(
-            f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
-            f"{BOLD}{UNDERLINE}Y®{RESET}        Gainers:{BRIGHT_GREEN}{str(green_Stocks_count).zfill(3)}{RESET}"
+            f"{BRIGHT_GREEN if optpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
+            f"{BOLD}{UNDERLINE}®{RESET}        Gainers:{BRIGHT_GREEN}{str(green_Stocks_count).zfill(3)}{RESET}"
         )
     )    
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
