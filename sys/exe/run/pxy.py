@@ -41,23 +41,23 @@ while True:
     if mktpxy == 'Bear':
         print("It's a 🔴-Bear-🔴 time, selling now.....")
         subprocess.run(['python3', 'cntrlpxy.py'])
-        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]..Bearish sentiment![/bold]", style=bear_style)
+        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]Bearish sentiment![/bold]", style=bear_style)
     elif mktpxy == 'Bull':
         print("It's a 🟢-Bull-🟢 time, Buying now......")
         #subprocess.run(['python3', 'buypxy.py']) if nse_action in ["Bull", "Bullish"] and mktpxy in ["Bull", "Buy"] else None
         #subprocess.run(['python3', 'buypxy.py']) if nse_power < 0.28 and mktpxy in ["Bull", "Buy"] else None
         subprocess.run(['python3', 'cntrlpxy.py'])
-        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]..Bullish sentiment![/bold]", style=bull_style)
+        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]Bullish sentiment![/bold]", style=bull_style)
     elif mktpxy == 'Sell':
         print("It's a ⤵️-Sell-⤵️ time, selling now.....")
         subprocess.run(['python3', 'cntrlpxy.py'])
-        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold].......Time to sell![/bold]", style=sell_style)
+        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold].....Time to sell![/bold]", style=sell_style)
     elif mktpxy == 'Buy':
         print("It's a ⤴️-Buy-⤴️ time, Buying now.......")
         #subprocess.run(['python3', 'buypxy.py']) if nse_action in ["Bull", "Bullish"] and mktpxy in ["Bull", "Buy"] else None
         subprocess.run(['python3', 'buypxy.py']) if nse_power < 0.14 and mktpxy in ["Bull", "Buy"] else None
         subprocess.run(['python3', 'cntrlpxy.py'])
-        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]........Time to buy![/bold]", style=buy_style)
+        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]......Time to buy![/bold]", style=buy_style)
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
         console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]..Market on standby![/bold]")
