@@ -65,7 +65,6 @@ while True:
     #subprocess.run(['python3', 'tistpxy.py'])  # Run 'tistpxy.py' using subprocess
     subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess
     # console.print("|", style=green_style if mktpxy in ["Buy", "Bull"] else red_style)  # Commented out line
-    print("-" * 42)  # Print a line of 42 dashes
     if optpxy == "Bull":
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=green_style)
     elif optpxy == "Buy":
@@ -77,7 +76,7 @@ while True:
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
     console.print(onemincandlesequance)  # Print the content of 'onemincandlesequance' using the 'console.print' method
-    print("-" * 42)  # Print another line of 42 dashes
+    print("━" * 42)  # Print another line of 42 dashes
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
