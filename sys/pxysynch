@@ -1,2 +1,2 @@
 #!/bin/bash
-rclone sync --resync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/*.csv pxycloud:/csv
+rclone sync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/*.csv pxycloud:/csv
