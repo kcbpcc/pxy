@@ -1,4 +1,5 @@
 #!/bin/bash
 
-rclone sync --progress --verbose --config=.config/rclone/rclone.conf /home/userland/pxy/sys/exe/run/fileHPdf.csv pxycloud:/csv
-# /home/userland/pxy/sys/exe/run/filePnL.csv /home/userland/pxy/sys/exe/run/filePnL_nrml.csv /home/userland/pxy/sys/exe/run/mempxy.csv pxycloud:/csvrclone sync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/*.csv 
+rclone sync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/filePnL.csv pxycloud:/csv
+rclone sync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/filePnL_nrml.csv pxycloud:/csv
+rclone sync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/mempxy.csv pxycloud:/csv
