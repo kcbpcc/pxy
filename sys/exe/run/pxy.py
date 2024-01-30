@@ -51,7 +51,7 @@ while True:
     elif mktpxy == 'Sell':
         print("It's a ⤵️-Sell-⤵️ time, selling now.....")
         subprocess.run(['python3', 'cntrlpxy.py'])
-        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]......Time to sell![/bold]", style=sell_style)
+        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold].....Time to sell![/bold]", style=sell_style)
     elif mktpxy == 'Buy':
         print("It's a ⤴️-Buy-⤴️ time, Buying now.......")
         #subprocess.run(['python3', 'buypxy.py']) if nse_action in ["Bull", "Bullish"] and mktpxy in ["Bull", "Buy"] else None
