@@ -7,7 +7,7 @@ def process_acvalue(acvalue):
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
     # Define the time range in minutes since midnight (223 to 245)
-    START_TIME = 219
+    START_TIME = 210
     END_TIME = 224
 
     # Assuming you have the date of the current record in the variable 'current_date'
