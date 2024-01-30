@@ -54,7 +54,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
 
 
     
-    output_lines.append(left_aligned_format.format(f"Options:{BRIGHT_GREEN if auto_value_status == 'Yes' else BRIGHT_RED}{auto_value}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Options:{BRIGHT_GREEN if total_PnL_nrml_buy >= 0 else BRIGHT_RED}{int(total_PnL_nrml_buy)}{RESET}") +
                         right_aligned_format.format(f"Stocks:{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{int(total_PnL_cnc_buy)}{RESET}")) 
     
     output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if result_nrml >= 0 else BRIGHT_RED}{str(int(result_nrml)).zfill(5)}{RESET}") +
