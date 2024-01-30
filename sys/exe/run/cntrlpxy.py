@@ -634,7 +634,7 @@ try:
     for line in formatted_lines:
         values = line.split()
         pnl_value = float(values[-1])
-        
+        max_width = 42
         # Set color based on PnL value
         if pnl_value > 0:
             color_code = GREEN  # Using GREEN for green text
