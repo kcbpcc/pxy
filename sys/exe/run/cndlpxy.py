@@ -61,12 +61,12 @@ def dayprinter(o, h, l, c, prev_close):
     print(f"Yesterday:{int(prev_close)} {arrow} Today-Now:{int(c)}")
     
     # Print the colored bar graph with red and green emojis
-    print(Fore.LIGHTWHITE_EX + '==' * int((n / 100) * total_length), end='')
+    print(Fore.LIGHTWHITE_EX + '🔴' * int((n / 100) * total_length), end='')
     if c > o:
         print(Fore.RED + '🟩' * int((x / 100) * total_length), end='')
     if o > c:
         print(Fore.GREEN + '🟥' * int((x / 100) * total_length), end='')
-    print(Fore.LIGHTWHITE_EX + '==' * int((m / 100) * total_length))
+    print(Fore.LIGHTWHITE_EX + '🟢' * int((m / 100) * total_length))
 
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
