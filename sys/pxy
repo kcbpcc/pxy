@@ -13,6 +13,7 @@ while true; do
     echo "   -pxy                   🔥        en"
     echo "   -pyp                   🎉        pp"
     echo "   -pxypy                 💻        ex"
+    echo "   -pxytp                 🔄        tp"
     echo "   -pxybuy                🌱        by"
     echo "   -pxytail               📜        ta"
     echo "   -pxyauto               🤖        at"
@@ -20,7 +21,6 @@ while true; do
     echo "   -pxyclean              🚿        cl"
     echo "   -pxyflush              💨        fl"    
     echo "   -pxycheck              🧪        ck"
-    echo "   -pxysynch              🔄        sy"
     echo "   -pxyupdate             📥        up"
     echo "******************************************"
     echo -e "${YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
@@ -35,9 +35,9 @@ while true; do
             echo "    🎉🎉🎉....pip install....🎉🎉🎉"
             pyp
             ;;   
-        sy)
+        tp)
             echo "    🔄🔄🔄...pxycloudsynch...🔄🔄🔄"
-            pxysynch
+            pxytp
             ;;           
         by)
             echo "    🌱🌱🌱......Buy Now......🌱🌱🌱"
