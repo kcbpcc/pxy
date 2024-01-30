@@ -561,7 +561,7 @@ try:
                     elif (
                         row['qty'] > 0 and
                         row['avg'] != 0 and
-                        row['product'] == 'NRML' and
+                        row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO'and
                         optpxy in ['Bull'] and
                         row['PL%'] > row['otPL%']
@@ -584,7 +584,7 @@ try:
                         optpxy in ['Bear'] and
                         available_cash > 10000 and
                         auto_value == 'AUTO'and
-                        row['product'] == 'NRML'
+                        row['product'] in ['NRML', 'MIS']
                     ):
                         try:                            
                             is_placed = nrml_AVARAGE_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
