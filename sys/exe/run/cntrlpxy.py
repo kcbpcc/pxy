@@ -628,8 +628,42 @@ try:
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
-    width = 42
-    print('\n'.join(line.rjust(width) for line in nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')))
+    # Your existing code
+    formatted_lines = nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+    
+    # Set max_width to 42
+    max_width = 42
+    
+    # Check if DataFrame is empty
+    if not formatted_lines:
+        print("No data to display.")
+    else:
+        # Iterate over each line and format it with color based on PnL value
+        for line in formatted_lines:
+            values = line.split()
+            pnl_value_str = values[-1]
+    
+            # Check if PnL value is a valid float
+            try:
+                pnl_value = float(pnl_value_str)
+            except ValueError:
+                pnl_value = None  # PnL value is not a valid float
+    
+            # Set color based on PnL value
+            if pnl_value is not None:
+                if pnl_value > 0:
+                    color_code = GREEN  # Using GREEN for green text
+                elif pnl_value < 0:
+                    color_code = RED  # Using RED for red text
+                else:
+                    color_code = RESET  # Reset color for PnL value of 0
+            else:
+                color_code = RESET  # Reset color for invalid PnL values
+    
+            # Right-align the text, apply color, and reset color after the line
+            print(color_code + line.rjust(max_width) + RESET)
+    
+        print("━" * max_width)
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
