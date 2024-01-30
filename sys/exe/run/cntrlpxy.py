@@ -634,33 +634,36 @@ try:
     # Set max_width to 42
     max_width = 42
     
-    # Iterate over each line and format it with color based on PnL value
-    for line in formatted_lines:
-        values = line.split()
-        pnl_value_str = values[-1]
-        
-        # Check if PnL value is a valid float
-        try:
-            pnl_value = float(pnl_value_str)
-        except ValueError:
-            pnl_value = None  # PnL value is not a valid float
-        
-        # Set color based on PnL value
-        if pnl_value is not None:
-            if pnl_value > 0:
-                color_code = GREEN  # Using GREEN for green text
-            elif pnl_value < 0:
-                color_code = RED  # Using RED for red text
-            else:
-                color_code = RESET  # Reset color for PnL value of 0
-        else:
-            color_code = RESET  # Reset color for invalid PnL values
-        
-        # Right-align the text, apply color, and reset color after the line
-        print(color_code + line.rjust(max_width) + RESET)
+    # Check if DataFrame is empty
+    if not formatted_lines:
+        print("No data to display.")
+    else:
+        # Iterate over each line and format it with color based on PnL value
+        for line in formatted_lines:
+            values = line.split()
+            pnl_value_str = values[-1]
     
-    print("━" * max_width)
-
+            # Check if PnL value is a valid float
+            try:
+                pnl_value = float(pnl_value_str)
+            except ValueError:
+                pnl_value = None  # PnL value is not a valid float
+    
+            # Set color based on PnL value
+            if pnl_value is not None:
+                if pnl_value > 0:
+                    color_code = GREEN  # Using GREEN for green text
+                elif pnl_value < 0:
+                    color_code = RED  # Using RED for red text
+                else:
+                    color_code = RESET  # Reset color for PnL value of 0
+            else:
+                color_code = RESET  # Reset color for invalid PnL values
+    
+            # Right-align the text, apply color, and reset color after the line
+            print(color_code + line.rjust(max_width) + RESET)
+    
+        print("━" * max_width)
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
