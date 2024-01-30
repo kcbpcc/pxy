@@ -642,7 +642,7 @@ try:
             color_code = RED  # Using RED for red text
         
         # Print the formatted line with the selected color and reset color after the line
-        print(color_code + ' '.join(values) + RESET)
+        print(color_code + line.rjust(max_width) + RESET)
     print("━" * 42)        
 ###########################################################################################################################################################################################################
 except Exception as e:
