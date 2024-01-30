@@ -111,7 +111,7 @@ def nrml_order_place(index, row):
                 transaction_type='SELL',
                 quantity=int(row['qty']),
                 order_type='MARKET',
-                product='NRML',
+                product=row['product'],
                 variety='regular',
                 price=round_to_paise(row['ltp'], -0.3)
             )
@@ -164,7 +164,7 @@ def nrml_AVARAGE_order_place(index, row):
                 transaction_type='BUY',
                 quantity=50,
                 order_type='MARKET',
-                product='NRML',
+                product=row['product'],
                 variety='regular',
                 price=round_to_paise(row['ltp'], -0.3)
             )
