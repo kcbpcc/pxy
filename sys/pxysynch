@@ -12,6 +12,8 @@ case $option in
         rclone sync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/filePnL.csv pxycloud:/csv
         rclone sync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/filePnL_nrml.csv pxycloud:/csv
         rclone sync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/mempxy.csv pxycloud:/csv
+        rclone sync --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/bordpxy.csv pxycloud:/csv
+
         ;;
     2)
         # Import
@@ -19,6 +21,8 @@ case $option in
         rclone sync --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/filePnL.csv ~/pxy/sys/exe/run/
         rclone sync --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/filePnL_nrml.csv ~/pxy/sys/exe/run/
         rclone sync --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/mempxy.csv ~/pxy/sys/exe/run/
+        rclone sync --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/bordpxy.csv ~/pxy/sys/exe/run/
+
         ;;
     *)
         echo "Invalid option. Please choose 1 or 2."
