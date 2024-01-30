@@ -645,12 +645,8 @@ try:
         else:
             color_code = RED  # Using RED for red text
         
-        # Extract and print only the PnL value with the selected color and reset color after the line
-        pnl_str = values[-1].rjust(max_width)
-        print(f'{color_code}{line.replace(values[-1], pnl_str)}{RESET}')
-    
-    # Print the separator line
-    print("━" * max_width)
+        # Right-align the text, apply color, and reset color after the line
+        print(color_code + line.rjust(max_width) + RESET)
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
