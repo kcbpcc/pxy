@@ -479,7 +479,7 @@ try:
     pd.set_option('display.max_colwidth', 1)  # Adjust the value for your desired width
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-    #print("-" * 42)
+    #print("━" * 42)
     # Always print "Table" in bright yellow
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
@@ -489,9 +489,9 @@ try:
     nrml_filtered_df['key'] = nrml_filtered_df['key'].str.replace('NFO:NIFTY', '')
 ###########################################################################################################################################################################################################
     if not cnc_filtered_df.empty:
-        print("-" * 42)
+        print("━" * 42)
         print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
-        print("-" * 42)
+        print("━" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
 ###########################################################################################################################################################################################################
     import csv
@@ -630,7 +630,7 @@ try:
         width = 42 
         print('\n'.join(line.rjust(width) for line in nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')))
         #print("🧮....averaging and booking profits... 💸")
-    print("-" * 42)        
+    print("━" * 42)        
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
