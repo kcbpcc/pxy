@@ -63,9 +63,9 @@ def dayprinter(o, h, l, c, prev_close):
     print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
 
     if c > o:
-        print(Fore.GREEN + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
+        print(Fore.GREEN + '\u258C' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
     elif o > c:
-        print(Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
+        print(Fore.RED + '\u258C' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
     
     print(Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length))
     
