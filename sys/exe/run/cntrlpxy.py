@@ -628,25 +628,29 @@ try:
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
+    # Your existing code
     formatted_lines = nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+    
+    # Set max_width to 42
+    max_width = 42
     
     # Iterate over each line and format it with color based on PnL value
     for line in formatted_lines:
         values = line.split()
         pnl_value = float(values[-1])
-        max_width = 42
+        
         # Set color based on PnL value
         if pnl_value > 0:
             color_code = GREEN  # Using GREEN for green text
         else:
             color_code = RED  # Using RED for red text
         
-        # Print only the PnL value with the selected color and reset color after the line
+        # Extract and print only the PnL value with the selected color and reset color after the line
         pnl_str = values[-1].rjust(max_width)
-        print(f'{color_code}{pnl_str}{RESET}')
+        print(f'{color_code}{line.replace(values[-1], pnl_str)}{RESET}')
     
     # Print the separator line
-    print("━" * max_width) 
+    print("━" * max_width)
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
