@@ -57,7 +57,7 @@ while True:
         #subprocess.run(['python3', 'buypxy.py']) if nse_action in ["Bull", "Bullish"] and mktpxy in ["Bull", "Buy"] else None
         subprocess.run(['python3', 'buypxy.py']) if nse_power < 0.14 and mktpxy in ["Bull", "Buy"] else None
         subprocess.run(['python3', 'cntrlpxy.py'])
-        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold].......Time to buy![/bold]", style=buy_style)
+        console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]......Time to buy![/bold]", style=buy_style)
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
         console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]..Market on standby![/bold]")
