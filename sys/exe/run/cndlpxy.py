@@ -68,7 +68,7 @@ def dayprinter(o, h, l, c, prev_close):
         print(Fore.GREEN + '🟥' * int((x / 100) * total_length), end='')
     
     remaining_length = total_length - (int((n / 100) * total_length) + int((x / 100) * total_length))
-    print('|' + '==' * int((m / 100) * remaining_length) + '|')
+    print('==' * int((m / 100) * remaining_length) + '|')
 
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
