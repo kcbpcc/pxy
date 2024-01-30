@@ -2,7 +2,7 @@ import warnings
 import yfinance as yf
 import pandas as pd
 import colorama
-from colorama import Fore
+from colorama import Fore, Style  # Add Style to the imports
 
 colorama.init(autoreset=True)
 
@@ -44,7 +44,7 @@ def get_today_close():
         return None  # Handle the case when data is not available
 
 def dayprinter(o, h, l, c, prev_close):
-    total_length = 22
+    total_length = 40
     
     # Calculate the lengths of different segments as percentages
     if c > o:
