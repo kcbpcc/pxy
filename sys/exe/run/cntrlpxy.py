@@ -663,7 +663,7 @@ try:
             # Right-align the text, apply color, and reset color after the line
             print(color_code + line.rjust(max_width) + RESET)
     
-    print("━" * max_width)
+    print("━" * 43)
 
 ###########################################################################################################################################################################################################
 except Exception as e:
