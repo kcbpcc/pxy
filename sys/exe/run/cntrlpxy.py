@@ -541,7 +541,7 @@ try:
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.4 and
                          row['PL%'] > row['fPL%'] and
-                         mktpxy in ['Sell', 'Bear']) and
+                         optpxy in ['Sell', 'Bear']) and
                         (
                             (row['source'] == 'holdings' and row['PL%'] > row['tPL%']) or (row['source'] == 'positions' and row['PL%'] > row['tPL%'])
                         )
@@ -603,7 +603,7 @@ try:
                          row['avg'] != 0 and
                          available_cash > 20000 and
                          nse_power < 0.1 and
-                         mktpxy in ['Buy', 'Bull'] and
+                         optpxy in ['Buy', 'Bull'] and
                          row['PL%'] < -14)
                     ):
                         try:                            
