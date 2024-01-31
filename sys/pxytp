@@ -7,31 +7,33 @@ case $option in
     export)
         # Export
         echo "Exporting files to pxycloud:/csv"
-        read -p "Are you sure you want to export? (y/n): " confirm_export
-        if [ "$confirm_export" == "y" ]; then
-            rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/filePnL.csv pxycloud:/csv
-            rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/filePnL_nrml.csv pxycloud:/csv
-            rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/mempxy.csv pxycloud:/csv
-            rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/bordpxy.csv pxycloud:/csv
-            echo "Export completed."
-        else
-            echo "Export canceled."
-        fi
+        for file in filePnL.csv filePnL_nrml.csv mempxy.csv bordpxy.csv
+        do
+            read -p "Do you want to export $file? (y/n): " confirm_export
+            if [ "$confirm_export" == "y" ]; then
+                rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/$file pxycloud:/csv/
+                echo "Exported $file"
+            else
+                echo "Skipped $file"
+            fi
+        done
+        echo "Export completed."
         ;;
 
     import)
         # Import
         echo "Importing files from pxycloud:/csv"
-        read -p "Are you sure you want to import? (y/n): " confirm_import
-        if [ "$confirm_import" == "y" ]; then
-            rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/filePnL.csv ~/pxy/sys/exe/run/
-            rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/filePnL_nrml.csv ~/pxy/sys/exe/run/
-            rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/mempxy.csv ~/pxy/sys/exe/run/
-            rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/bordpxy.csv ~/pxy/sys/exe/run/
-            echo "Import completed."
-        else
-            echo "Import canceled."
-        fi
+        for file in filePnL.csv filePnL_nrml.csv mempxy.csv bordpxy.csv
+        do
+            read -p "Do you want to import $file? (y/n): " confirm_import
+            if [ "$confirm_import" == "y" ]; then
+                rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/$file ~/pxy/sys/exe/run/
+                echo "Imported $file"
+            else
+                echo "Skipped $file"
+            fi
+        done
+        echo "Import completed."
         ;;
 
     *)
