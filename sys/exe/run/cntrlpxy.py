@@ -661,7 +661,7 @@ try:
                 color_code = RESET  # Reset color for invalid PnL values
     
             # Right-align the text, apply color, and reset color after the line
-            print(color_code + line.rjust(max_width) + RESET)
+            #print(color_code + line.rjust(max_width) + RESET)
     
         print("━" * max_width)
 
