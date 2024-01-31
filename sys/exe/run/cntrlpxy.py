@@ -630,7 +630,7 @@ try:
 ###########################################################################################################################################################################################################
     # Check if DataFrame is empty
     if nrml_filtered_df.empty:
-        print("optpxy says: options not yet activated")
+        print("optpxy: options not yet activated, lets wait!")
 
     else:
         formatted_lines = nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
