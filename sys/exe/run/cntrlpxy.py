@@ -629,7 +629,7 @@ try:
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
     from cndlpxy import option_to_trade
-    option_to_trade() = option_value
+    option_value = option_to_trade()
     print(f"PE and CE Buy optins both@: {option_value}")
     # Check if DataFrame is empty
     if nrml_filtered_df.empty:
