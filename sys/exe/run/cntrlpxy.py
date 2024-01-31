@@ -630,7 +630,7 @@ try:
 ###########################################################################################################################################################################################################
     # Check if DataFrame is empty
     if nrml_filtered_df.empty:
-        print("Risk assessment pending; options not yet active.")
+        print("Risk assessment-options not yet active.")
 
     else:
         formatted_lines = nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
