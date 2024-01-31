@@ -541,7 +541,7 @@ try:
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.4 and
                          row['PL%'] > row['fPL%'] and
-                         mkttpxy in ['Sell', 'Bear']) and
+                         mktpxy in ['Sell', 'Bear']) and
                         (
                             (row['source'] == 'holdings' and row['PL%'] > row['tPL%']) or (row['source'] == 'positions' and row['PL%'] > row['tPL%'])
                         )
