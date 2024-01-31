@@ -1,31 +1,13 @@
 #!/bin/bash
-
-dir=$HOME/pxy/sys/exe/run
-
-# Check if the script is in a Git repository
-if [ ! -d "$dir/.git" ]; then
-    echo "Error: This script must be run from within a Git repository."
-    exit 1
-fi
-
-# Move back to the home directory
-cd $HOME
-
-# Move all CSV files to their temporary versions
-for file in $dir/*.csv; do
-    mv "$file" "$dir/$(basename "$file" .csv)_temp.csv"
-done
-
+cd $HOME/pxy
+mv $HOME/pxy/sys/exe/run/filePnL.csv $HOME/pxy/sys/exe/run/_filePnL.csv 
+mv $HOME/pxy/sys/exe/run/filePnL_nrml.csv $HOME/pxy/sys/exe/run/_filePnL_nrml.csv 
 echo '                                 '
 echo "       ******** GET UPDATES *******"
 echo '                                 '
-
-# Move to the Git repository directory
-cd $dir
-
 git fetch --all
 echo '                                 '
-echo "       ****** RESET SOFTWARE ******"
+echo "       ****** RESET SOFTWERE ******"
 echo '                                 '
 git reset --hard origin/main
 sudo cp ~/pxy/sys/pxy ~/pxy/sys/p
@@ -34,11 +16,6 @@ sudo chmod +x /usr/local/bin/*
 echo '                                 '
 echo "       ***** UPDATE COMPLETED *****"
 echo '                                 '
-
-# Move back to the original directory
-cd $HOME
-
-# Move back the temporary versions to their original names
-for file in $dir/*_temp.csv; do
-    mv "$file" "$dir/$(basename "$file" _temp.csv).csv"
-done
+#rm $HOME/pxy/sys/exe/run/filePnL.csv
+mv $HOME/pxy/sys/exe/run/_filePnL.csv $HOME/pxy/sys/exe/run/filePnL.csv 
+mv $HOME/pxy/sys/exe/run/_filePnL_nrml.csv $HOME/pxy/sys/exe/run/filePnL_nrml.csv
