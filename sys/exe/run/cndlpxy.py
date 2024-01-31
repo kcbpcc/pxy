@@ -72,6 +72,13 @@ def dayprinter(o, h, l, c, prev_close):
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
     
+def option_to_trade():
+    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
+    today_open = today_data['Open']
+    today_close = today_data['Close']
+    option_value = round((today_open + today_close) / 2 / 50) * 50  # Round to nearest 50
+    return option_value
+
 # Example usage in the main program
 previous_day_close = get_previous_day_close()
 today_close = get_today_close()
