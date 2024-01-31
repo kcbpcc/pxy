@@ -634,7 +634,7 @@ try:
     max_width = 42
     
     # Check if DataFrame is empty
-    if not formatted_lines:
+    if not formatted_lines or all(line.isspace() for line in formatted_lines):
         print("No data to display.")
     else:
         # Iterate over each line and format it with color based on PnL value
