@@ -7,7 +7,7 @@ case $option in
     export)
         # Export
         echo "Exporting files to pxycloud:/csv"
-        for file in filePnL.csv filePnL_nrml.csv mempxy.csv bordpxy.csv
+        for file in filePnL.csv filePnL_nrml.csv mempxy.csv bordpxy.csv acvalue.csv
         do
             read -p "Do you want to export $file? (y/n): " confirm_export
             if [ "$confirm_export" == "y" ]; then
@@ -24,7 +24,7 @@ case $option in
     import)
         # Import
         echo "Importing files from pxycloud:/csv"
-        for file in filePnL.csv filePnL_nrml.csv mempxy.csv bordpxy.csv
+        for file in filePnL.csv filePnL_nrml.csv mempxy.csv bordpxy.csv acvalue.csv
         do
             read -p "Do you want to import $file? (y/n): " confirm_import
             if [ "$confirm_import" == "y" ]; then
