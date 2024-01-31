@@ -580,7 +580,7 @@ try:
 ########################################################################################################################################################################################################### 
                     elif (
                         row['qty'] == 0 and
-                        mkttpxy in ['Sell', 'Bear']) and
+                        mkttpxy in ['Sell']) and
                         nse_power < 0.5 and
                         available_cash > 10000 and
                         auto_value == 'AUTO'and
@@ -604,7 +604,7 @@ try:
                          available_cash > 20000 and
                          nse_power < 0.1 and
                          optpxy in ['Buy', 'Bull'] and
-                         row['PL%'] < -14)
+                         row['PL%'] < -18)
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -661,7 +661,7 @@ try:
                 color_code = RESET  # Reset color for invalid PnL values
     
             # Right-align the text, apply color, and reset color after the line
-            #print(color_code + line.rjust(max_width) + RESET)
+            print(color_code + line.rjust(max_width) + RESET)
     
         print("━" * max_width)
 
