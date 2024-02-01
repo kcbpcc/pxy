@@ -2,6 +2,7 @@ import importlib
 import subprocess
 import time
 import warnings
+from colorama import init, Fore, Style
 from rich import print
 from rich.console import Console
 from rich.style import Style
