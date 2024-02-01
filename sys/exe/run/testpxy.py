@@ -61,7 +61,7 @@ try:
                 tradingsymbol=dct['tradingsymbol'],
                 exchange='NSE',  # Replace with your specific exchange
                 transaction_type='BUY',
-                quantity=50,  # Replace with your specific quantity
+                quantity=1,  # Replace with your specific quantity
                 order_type='MARKET',
                 product='MIS',
             )
