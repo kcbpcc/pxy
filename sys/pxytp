@@ -29,6 +29,7 @@ case $option in
             read -p "Do you want to import $file? (y/n): " confirm_import
             if [ "$confirm_import" == "y" ]; then
                 rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/$file ~/pxy/sys/exe/run/
+                sudo chmod 777 ~/pxy/sys/exe/run/ -R
                 echo "Imported $file"
             else
                 echo -e "\e[31mSkipped $file\e[0m"
