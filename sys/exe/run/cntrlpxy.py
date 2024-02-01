@@ -566,7 +566,7 @@ try:
                         row['avg'] != 0 and
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO'and
-                        nrml_percentage_return < -97 #row['otPL%']
+                        nrml_percentage_return > row['otPL%']
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
