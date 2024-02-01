@@ -11,6 +11,7 @@ RED='\033[0;31m'
 NC='\033[0m'  # No Color
 
 files_to_process=("filePnL.csv" "filePnL_nrml.csv" "mempxy.csv" "bordpxy.csv" "acvalue.csv")
+
 case $option in
     exp)
         # Export
@@ -37,16 +38,11 @@ case $option in
         read -p "Do you want to import all files? (y/n): " confirm_import_all
         if [ "$confirm_import_all" == "y" ]; then
             for file in "${files_to_process[@]}"; do
-                read -p "Do you want to import $file? (y/n): " confirm_import
-                if [ "$confirm_import" == "y" ]; then
-                    if rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/"$file" ~/pxy/sys/exe/run/; then
-                        sudo chmod 777 ~/pxy/sys/exe/run/ -R
-                        echo -e "${GREEN}Imported $file${NC}"
-                    else
-                        echo -e "${RED}Error importing $file${NC}"
-                    fi
+                if rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/"$file" ~/pxy/sys/exe/run/; then
+                    sudo chmod 777 ~/pxy/sys/exe/run/ -R
+                    echo -e "${GREEN}Imported $file${NC}"
                 else
-                    echo -e "${RED}Skipped $file${NC}"
+                    echo -e "${RED}Error importing $file${NC}"
                 fi
             done
             echo "Import completed."
@@ -60,5 +56,8 @@ case $option in
         exit 1
         ;;
 esac
+
+
+
 
 
