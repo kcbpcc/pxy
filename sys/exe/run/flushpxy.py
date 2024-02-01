@@ -21,6 +21,9 @@ result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
 ###########################################################################################################################################################################################################
 SILVER = "\033[97m"
 UNDERLINE = "\033[4m"
+RED = "\033[91m"
+GREEN = "\033[92m"
+YELLOW = "\033[33m"
 RESET = "\033[0m"
 logging = Logger(30, dir_path + "main.log")
 try:
@@ -109,7 +112,7 @@ def nrml_order_place(index, row):
                 transaction_type='SELL',
                 quantity=int(row['qty']),
                 order_type='MARKET',
-                product='NRML',
+                product=row['product'],
                 variety='regular',
                 price=round_to_paise(row['ltp'], -0.3)
             )
@@ -162,7 +165,7 @@ def nrml_AVARAGE_order_place(index, row):
                 transaction_type='BUY',
                 quantity=50,
                 order_type='MARKET',
-                product='NRML',
+                product=row['product'],
                 variety='regular',
                 price=round_to_paise(row['ltp'], -0.3)
             )
@@ -292,7 +295,7 @@ try:
     from mktpxy import get_market_check
     onemincandlesequance, mktpxy = get_market_check()
     import importlib
-    from nftpxy import nse_action, nse_power, Day_Change, Open_Change
+    from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
     from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
@@ -373,13 +376,13 @@ try:
         ),
     }), axis=1
     )
-    from nftpxy import nse_action, nse_power   
+    from nftpxy import nse_action, nse_power, OPTIONS  
     threshold = 3
 ###########################################################################################################################################################################################################
     nse_factor = {"Bearish": 0.5, "Bear": 1.0, "Bull": 1.5, "Bullish": 2.0}.get(nse_action, 1.0) 
     options_nse_factor = {"Bearish": 2.0, "Bear": 1.5, "Bull": 0.10, "Bullish": 0.5}.get(nse_action, 1.0)  
     exp_nse_factor = math.exp(options_nse_factor)
-    combined_df['otPL%'] = 25 #round(33 * exp_nse_factor, 2) * (1 - ((1+ combined_df['qty'])/500)) 
+    combined_df['otPL%'] = 15 #round(33 * exp_nse_factor, 2) * (1 - ((1+ combined_df['qty'])/500)) 
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
 ###########################################################################################################################################################################################################
@@ -409,7 +412,7 @@ try:
     # Round all numeric columns to 2 decimal places
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)        # Filter combined_df
-    filtered_df = combined_df[((combined_df['product'] == 'NRML') | ((combined_df['product'].isin(['CNC', 'MIS'])) & (combined_df['qty'] != 0)))]
+    filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) & combined_df['key'].str.startswith('NFO')) | ((combined_df['product'].isin(['CNC', 'MIS'])) & (combined_df['qty'] != 0))]
     # Filter combined_df for rows where 'qty' is greater than 0
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
     # Calculate and print the sum of 'PnL' values and its total 'PL%' for rows where 'qty' is greater than 0
@@ -420,6 +423,8 @@ try:
     total_PnL_cnc_buy = round(cnc_buy_df['PnL'].sum()) if not cnc_buy_df.empty else 0    
     nrml_buy_df = combined_df.loc[(combined_df['product'] == "NRML")]
     total_PnL_nrml_buy = round(nrml_buy_df['PnL'].sum()) if not nrml_buy_df.empty else 0
+    total_invested__nrml = nrml_buy_df['Invested'].sum() if not nrml_buy_df.empty else 0
+    nrml_percentage_return = round((total_PnL_nrml_buy / total_invested__nrml) * 100, 0) if total_invested__nrml != 0 else 0
     # Calculate and print the sum of 'dPnL' values and its total 'dPL%' for rows where 'qty' is greater than 0
     #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
@@ -479,7 +484,7 @@ try:
     pd.set_option('display.max_colwidth', 1)  # Adjust the value for your desired width
     # Apply truncation to each cell in the DataFrame
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-    #print("-" * 42)
+    #print("━" * 42)
     # Always print "Table" in bright yellow
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
@@ -489,10 +494,12 @@ try:
     nrml_filtered_df['key'] = nrml_filtered_df['key'].str.replace('NFO:NIFTY', '')
 ###########################################################################################################################################################################################################
     if not cnc_filtered_df.empty:
-        print("-" * 42)
+        print("━" * 42)
         print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
-        print("-" * 42)
+        print("━" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
+    #subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess
+
 ###########################################################################################################################################################################################################
     import csv
     
@@ -541,7 +548,6 @@ try:
                          row['PL%'] > row['fPL%'] and
                          mktpxy in ['Sell', 'Bear']) and
                         (
-                            row['PL%'] > 1.4
                         )
                     ):
                         try:                            
@@ -559,10 +565,9 @@ try:
                     elif (
                         row['qty'] > 0 and
                         row['avg'] != 0 and
-                        row['product'] == 'NRML' and
+                        row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO'and
-                        optpxy in ['Bull'] and
-                        row['PL%'] > row['otPL%']
+                        nrml_percentage_return > row['otPL%']
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -579,10 +584,11 @@ try:
 ########################################################################################################################################################################################################### 
                     elif (
                         row['qty'] == 0 and
-                        optpxy in ['Bear'] and
+                        mktpxy in ['Sell'] and
+                        nse_power < 0.5 and
                         available_cash > 10000 and
-                        auto_value == 'AUTO'and
-                        row['product'] == 'NRML'
+                        auto_value == 'LATER'and
+                        row['product'] in ['NRML', 'MIS']
                     ):
                         try:                            
                             is_placed = nrml_AVARAGE_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -601,8 +607,8 @@ try:
                          row['avg'] != 0 and
                          available_cash > 20000 and
                          nse_power < 0.1 and
-                         mktpxy in ['Buy', 'Bull'] and
-                         row['PL%'] < -14)
+                         optpxy in ['Buy', 'Bull'] and
+                         row['PL%'] < -18)
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -623,23 +629,46 @@ try:
     red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage = get_holdingsinfo('fileHPdf.csv')    
     from bordpxy import printbord
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
-             result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, Open_Change,
+             result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
-    if not nrml_filtered_df.empty:
-        # Your print statements with right-aligned output
-        width = 42
-        
-        # First print statement
-        message = f'optpxy sets options to drive :: {auto_value}'
-        print(message.rjust(width, ' ') + BRIGHT_YELLOW + RESET)
-        
-        # Second print statement with right-aligned DataFrame output
-        df_output = nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL', 'smb_power']].to_string(index=False, header=False)
-        for line in df_output.split('\n'):
-            print(line.rjust(width))
-        #print("🧮....averaging and booking profits... 💸")
-    print("-" * 42)        
+ 
+    
+    if nrml_filtered_df.empty:
+        print("optpxy: options not activated, lets wait!")
+
+    else:
+        formatted_lines = nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+    
+        # Set max_width to 42
+        max_width = 42
+    
+        # Iterate over each line and format it with color based on PnL value
+        for line in formatted_lines:
+            values = line.split()
+            pnl_value_str = values[-1]
+    
+            # Check if PnL value is a valid float
+            try:
+                pnl_value = float(pnl_value_str)
+            except ValueError:
+                pnl_value = None  # PnL value is not a valid float
+    
+            # Set color based on PnL value
+            if pnl_value is not None:
+                if pnl_value > 0:
+                    color_code = GREEN  # Using GREEN for green text
+                elif pnl_value < 0:
+                    color_code = RED  # Using RED for red text
+                else:
+                    color_code = RESET  # Reset color for PnL value of 0
+            else:
+                color_code = RESET  # Reset color for invalid PnL values
+    
+            # Right-align the text, apply color, and reset color after the line
+            print(color_code + line.rjust(max_width) + RESET)
+    print(f"Lets play with {YELLOW}{OPTIONS}{RESET} ||Option P&L%:{SILVER} {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}")
+    print("━" * 42)
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
