@@ -13,7 +13,7 @@ NC='\033[0m'  # No Color
 files_to_process=("filePnL.csv" "filePnL_nrml.csv" "mempxy.csv" "bordpxy.csv" "acvalue.csv")
 
 case $option in
-    export)
+    exp)
         # Export
         echo "Exporting files to pxycloud:/csv"
         read -p "Do you want to export all files? (y/n): " confirm_export_all
@@ -32,7 +32,7 @@ case $option in
         fi
         ;;
 
-    import)
+    imp)
         # Import
         echo "Importing files from pxycloud:/csv"
         read -p "Do you want to import all files? (y/n): " confirm_import_all
