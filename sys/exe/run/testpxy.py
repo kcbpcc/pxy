@@ -12,6 +12,7 @@ import os
 from fundpxy import calculate_decision
 decision = calculate_decision()
 from mktpxy import get_market_check
+from nftpxy import OPTIONS
 
 onemincandlesequance, mktpxy = get_market_check()
 
