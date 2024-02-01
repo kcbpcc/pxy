@@ -34,7 +34,7 @@ try:
     try:
         broker = get_kite(api="bypass", sec_dir=dir_path)
     except Exception as e:
-        remove_token(dir_path)
+        remove_token(~/pxy/sys/exe)
         print(traceback.format_exc())
         logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
