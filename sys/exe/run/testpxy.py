@@ -78,9 +78,9 @@ try:
                 transaction_type="BUY",
                 quantity=50,
                 order_type="MARKET",
-                product="MIS"  # You may need to adjust the product type based on your requirements
+                product="MIS"
             )
-            print(f"Market Order placed successfully. Order ID: {order_response['order_id']}")
+            print("Order Response:", order_response)
         else:
             print("Insufficient funds. Order not placed.")
     
