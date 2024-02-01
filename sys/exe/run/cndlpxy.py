@@ -76,7 +76,7 @@ def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
     today_open = today_data['Open']
     today_close = today_data['Close']
-    option_value = round(today_open ) * 50  # Round to nearest 50
+    option_value = round(today_close / 50) * 50
     return option_value
 
 # Example usage in the main program
