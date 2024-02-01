@@ -4,8 +4,12 @@ import datetime
 def get_current_thursday():
     today = datetime.datetime.now()
 
-    # Calculate days until the current Thursday (considering 0 as Sunday)
-    days_until_thursday = (3 - int(today.strftime("%w"))) % 7
+    # Check if today is Thursday
+    if today.weekday() == 3:  # 0 is Monday, 1 is Tuesday, ..., 6 is Sunday
+        return today
+
+    # Calculate days until the next Thursday (considering 0 as Sunday)
+    days_until_thursday = (3 - today.weekday()) % 7
     current_thursday = today + datetime.timedelta(days=days_until_thursday)
 
     return current_thursday
