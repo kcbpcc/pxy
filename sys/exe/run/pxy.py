@@ -77,18 +77,18 @@ while True:
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=red_style)
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
-from rich.console import Console
-from rich.style import Style
-import time
-
-def progress_bar(duration, optpxy):
-    console = Console()
-    for _ in range(duration):
-        time.sleep(1)
-        if optpxy in ['Bull', 'Buy']:
-            console.print('[green]PXY®', end='', style=Style.RESET_ALL)
-        else:
-            console.print('[red]PXY®', end='', style=Style.RESET_ALL)
-    console.print()  # Move to the next line after the progress bar
-# Call the function with the desired parameters
-progress_bar(cycle, optpxy)
+    from rich.console import Console
+    from rich.style import Style
+    import time
+    
+    def progress_bar(duration, optpxy):
+        console = Console()
+        for _ in range(duration):
+            time.sleep(1)
+            if optpxy in ['Bull', 'Buy']:
+                console.print('[green]PXY®', end='', style=Style.RESET_ALL)
+            else:
+                console.print('[red]PXY®', end='', style=Style.RESET_ALL)
+        console.print()  # Move to the next line after the progress bar
+    # Call the function with the desired parameters
+    progress_bar(cycle, optpxy)
