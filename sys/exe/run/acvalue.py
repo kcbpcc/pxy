@@ -14,7 +14,7 @@ def process_acvalue(acvalue):
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
 
     # Assuming 'csv_file_path' is the path where you want to store your CSV file
-    csv_file_path = '/home/userland/pxy/sys/exe/run/acvalue.csv'
+    csv_file_path = '~/pxy/sys/exe/run/acvalue.csv'
 
     try:
         # Read the last recorded acvalue from the CSV file
@@ -61,7 +61,7 @@ def process_acvalue(acvalue):
 
 def get_current_acvalue():
     # Assuming 'csv_file_path' is the path where your CSV file is stored
-    csv_file_path = '/home/userland/pxy/sys/exe/run/acvalue.csv'
+    csv_file_path = '~/pxy/sys/exe/run/acvalue.csv'
 
     try:
         # Read the last recorded acvalue from the CSV file
