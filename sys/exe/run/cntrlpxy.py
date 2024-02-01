@@ -423,8 +423,7 @@ try:
     nrml_buy_df = combined_df.loc[(combined_df['product'] == "NRML")]
     total_PnL_nrml_buy = round(nrml_buy_df['PnL'].sum()) if not nrml_buy_df.empty else 0
     total_invested__nrml = nrml_buy_df['Invested'].sum() if not nrml_buy_df.empty else 0
-    nrml_percentage_return = (total_PnL_nrml_buy / total_invested__nrml) * 100 if total_invested != 0 else 0
-
+    nrml_percentage_return = (total_PnL_nrml_buy / total_invested__nrml) * 100 if total_invested__nrml != 0 else 0
     # Calculate and print the sum of 'dPnL' values and its total 'dPL%' for rows where 'qty' is greater than 0
     #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
