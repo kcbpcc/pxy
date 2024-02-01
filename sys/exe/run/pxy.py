@@ -85,15 +85,10 @@ def progress_bar(duration, optpxy):
     console = Console()
     for _ in range(duration):
         time.sleep(1)
-        if optpxy in ['BUUL', 'BUY']:
+        if optpxy in ['Bull', 'Buy']:
             console.print('[green]PXY®', end='', style=Style.RESET_ALL)
         else:
             console.print('[red]PXY®', end='', style=Style.RESET_ALL)
     console.print()  # Move to the next line after the progress bar
-
-# Make sure cycle is defined before calling the function
-cycle = 6  # Replace with your desired duration
-optpxy = 'BUUL'  # Replace with 'BUUL', 'BUY', or any other value
-
 # Call the function with the desired parameters
 progress_bar(cycle, optpxy)
