@@ -10,9 +10,10 @@ import traceback
 import sys
 import os
 from fundpxy import calculate_decision
+from nftpxy import OPTIONS
+
 decision = calculate_decision()
 from mktpxy import get_market_check
-from nftpxy import OPTIONS
 
 onemincandlesequance, mktpxy = get_market_check()
 
@@ -22,6 +23,11 @@ except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
+    sys.exit(1)
+
+# Ensure that the 'broker' object has an 'order_place' method
+if not hasattr(broker, 'order_place') or not callable(getattr(broker, 'order_place', None)):
+    print("Error: 'broker' object does not have 'order_place' method.")
     sys.exit(1)
 
 # Calculate the next Thursday date
@@ -36,7 +42,7 @@ expiry_day = expiry_date.strftime("%d")
 
 # Ensure the month is one digit until October
 if int(expiry_month) < 10:
-    expiry_month = expiry_month.zfill(2)
+    expiry_month = expiry_month[1]
 
 # Ensure the date is always two digits
 expiry_day = expiry_day.zfill(2)
@@ -52,7 +58,7 @@ product_type = "NRML"  # For overnight/position trading
 print("Symbol:", symbol)
 
 try:
-    order_id = kite.place_order(
+    order_id = broker.order_place(
         tradingsymbol=symbol,
         quantity=quantity,
         exchange="NFO",
@@ -65,3 +71,4 @@ try:
 
 except Exception as e:
     print("Error placing order:", e)
+
