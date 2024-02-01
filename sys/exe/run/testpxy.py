@@ -14,7 +14,7 @@ def get_current_thursday():
 
     return current_thursday
 
-def format_options_string(options_str):
+def format_options_string(options_str, instrument):
     current_thursday = get_current_thursday()
 
     # Extract components from the given string
@@ -22,12 +22,18 @@ def format_options_string(options_str):
     month = current_thursday.strftime("%m").lstrip('0')  # Remove leading zero
     thursday_date = current_thursday.strftime("%d")
 
-    # Replace placeholders in the string
+    # Replace placeholders in the string based on the instrument
     formatted_str = options_str.replace("{Year}", year).replace("{Month}", month).replace("{THURSDAY_DATE}", thursday_date).replace("{OPTIONS}", str(OPTIONS))
+    
+    # Add the instrument (CE or PE) to the formatted string
+    formatted_str += instrument
 
     return formatted_str
 
 # Example usage
-options_str = "NIFTY{Year}{Month}{THURSDAY_DATE}{OPTIONS}PE"
-result = format_options_string(options_str)
-print(result)
+options_str = "NIFTY{Year}{Month}{THURSDAY_DATE}{OPTIONS}"
+ce_result = format_options_string(options_str, "CE")
+pe_result = format_options_string(options_str, "PE")
+
+print(ce_result)
+print(pe_result)
