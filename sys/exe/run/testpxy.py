@@ -30,9 +30,15 @@ if not hasattr(broker, 'order_place') or not callable(getattr(broker, 'order_pla
     print("Error: 'broker' object does not have 'order_place' method.")
     sys.exit(1)
 
-# Calculate the next Thursday date at least 7 days ahead
+# Calculate the next Thursday date at least 6 days ahead
 current_date = datetime.now()
-next_thursday = current_date + timedelta(days=(7 - current_date.weekday() + 7) % 7)
+days_until_next_thursday = (3 - current_date.weekday() + 7) % 7
+
+# Ensure at least 6 days ahead
+if days_until_next_thursday < 6:
+    days_until_next_thursday += 7
+
+next_thursday = current_date + timedelta(days=days_until_next_thursday)
 
 # Format the date, month, and year
 expiry_year = next_thursday.strftime("%y")
