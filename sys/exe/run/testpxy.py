@@ -11,6 +11,8 @@ from cnstpxy import dir_path
 
 logging = Logger(30, dir_path + "main.log")
 
+black_file = os.path.join(dir_path, "blacklist.txt")
+
 # Import the options string formatting and confirmation functions
 from nftpxy import OPTIONS
 
@@ -35,7 +37,7 @@ try:
     try:
         broker = get_kite(api="bypass", sec_dir=dir_path)
     except Exception as e:
-        remove_token(dir_path)
+        remove_token(os.path.abspath(os.path.join(dir_path, '..')))
         print(traceback.format_exc())
         logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
@@ -50,8 +52,11 @@ try:
         # Your logic to proceed with the generated options string
         print("You chose to proceed.")
 
-        # Check available cash
-        available_cash = broker.get_account_balance()
+        # Use the margins method to get account balance
+        response = broker.kite.margins()
+
+        # Access the available cash from the response
+        available_cash = response["equity"]["available"]["live_balance"]
 
         if available_cash > 11000:
             # Place the market order with your specified parameters
@@ -59,7 +64,7 @@ try:
                 tradingsymbol=dct['tradingsymbol'],
                 exchange='NSE',  # Replace with your specific exchange
                 transaction_type='BUY',
-                quantity=1,  # Replace with your specific quantity
+                quantity=50,  # Replace with your specific quantity
                 order_type='MARKET',
                 product='MIS',
             )
@@ -72,8 +77,6 @@ try:
 
 except Exception as e:
     print(f"An error occurred: {e}")
-
-# Note: Removed the sys.stdout redirection
 
 finally:
     # Include any cleanup or finalization logic here
