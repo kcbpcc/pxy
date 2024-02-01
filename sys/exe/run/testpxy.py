@@ -13,13 +13,13 @@ decision = calculate_decision()
 from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check()    
 import asyncio
-try:
-    broker = get_kite(api_key, api_secret, request_token)
-except Exception as e:
-    remove_token(dir_path)
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} Unable to get holdings")
-    sys.exit(1)
+        try:
+            broker = get_kite(api="bypass", sec_dir=dir_path)
+        except Exception as e:
+            remove_token(dir_path)
+            print(traceback.format_exc())
+            logging.error(f"{str(e)} unable to get holdings")
+            sys.exit(1)
 
 kite = broker['kite']
 
