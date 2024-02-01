@@ -1,3 +1,4 @@
+from nftpxy import OPTIONS
 import datetime
 
 def get_this_thursday():
