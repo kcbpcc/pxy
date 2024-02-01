@@ -498,6 +498,8 @@ try:
         print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         print("━" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
+    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess
+
 ###########################################################################################################################################################################################################
     import csv
     
