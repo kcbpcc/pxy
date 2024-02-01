@@ -14,7 +14,8 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     RESET = "\033[0m"
     output_lines = []
     print("━" * 42)
-    print("\033[93m📉🔀Trades Overview & Market Dynamics 📈🔄\033[0m")
+    #print("\033[93m📉🔀Trades Overview & Market Dynamics 📈🔄\033[0m")
+    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess
     print("━" * 42)
     auto_value_status = "Yes" if "AUTO" in auto_value else "No" if "MANUAL" in auto_value else None
     acvalue = (all_Stocks_capital_lacks + (available_cash/100000))  
