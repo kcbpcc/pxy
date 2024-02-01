@@ -1,7 +1,7 @@
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from login_get_kite import get_kite
-from cnstpxy import dir_path, fileutils, buybuff, max_target
+from cnstpxy import dir_path, remove_token
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
 import traceback
@@ -33,52 +33,50 @@ def user_confirmation():
     user_input = input("Do you want to proceed with the options string and place the order? (y/n): ").lower()
     return user_input == 'y'
 
-# Save the original sys.stdout
-original_stdout = sys.stdout
-
 try:
-    # Redirect sys.stdout to 'output.txt'
-    with open('output.txt', 'w') as file:
-        sys.stdout = file
+    try:
+        broker = get_kite(api="bypass", sec_dir=dir_path)
+    except Exception as e:
+        remove_token(dir_path)
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} unable to get holdings")
+        sys.exit(1)
 
-        try:
-            broker = get_kite(api="bypass", sec_dir=dir_path)
-        except Exception as e:
-            remove_token(dir_path)
-            print(traceback.format_exc())
-            logging.error(f"{str(e)} unable to get holdings")
-            sys.exit(1)
+    # Example usage for generating options string
+    current_thursday = get_current_thursday()
+    options_str = "NIFTY{Year}{Month}{THURSDAY_DATE}{OPTIONS}PE"
+    result = format_options_string(options_str, current_thursday)
+    print("Generated Options String:", result)
 
-        # Example usage for generating options string
-        current_thursday = get_current_thursday()
-        options_str = "NIFTY{Year}{Month}{THURSDAY_DATE}{OPTIONS}PE"
-        result = format_options_string(options_str, current_thursday)
-        print("Generated Options String:", result)
+    if user_confirmation():
+        # Your logic to proceed with the generated options string
+        print("You chose to proceed.")
 
-        if user_confirmation():
-            # Your logic to proceed with the generated options string
-            print("You chose to proceed.")
+        # Check available cash
+        available_cash = broker.get_account_balance()
 
-            # Check available cash
-            available_cash = broker.get_account_balance()
-
-            if available_cash > 11000:
-                # Place the market order with your specified parameters
-                order_id = broker.order_place(
-                    tradingsymbol=dct['tradingsymbol'],
-                    exchange='NSE',  # Replace with your specific exchange
-                    transaction_type='BUY',
-                    quantity=50,  # Replace with your specific quantity
-                    order_type='MARKET',
-                    product='MIS',
-                )
-                print(f"Market Order placed successfully. Order ID: {order_id}")
-            else:
-                print("Insufficient funds. Order not placed.")
-
+        if available_cash > 11000:
+            # Place the market order with your specified parameters
+            order_id = broker.order_place(
+                tradingsymbol=dct['tradingsymbol'],
+                exchange='NSE',  # Replace with your specific exchange
+                transaction_type='BUY',
+                quantity=50,  # Replace with your specific quantity
+                order_type='MARKET',
+                product='MIS',
+            )
+            print(f"Market Order placed successfully. Order ID: {order_id}")
         else:
-            print("You chose not to proceed.")
+            print("Insufficient funds. Order not placed.")
+
+    else:
+        print("You chose not to proceed.")
+
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+# Note: Removed the sys.stdout redirection
 
 finally:
-    # Reset sys.stdout to its original value
-    sys.stdout = original_stdout
+    # Include any cleanup or finalization logic here
+    pass
