@@ -18,9 +18,16 @@ from nftpxy import OPTIONS
 
 def get_current_thursday():
     today = datetime.datetime.now()
-    days_until_thursday = (3 - int(today.strftime("%w"))) % 7
-    current_thursday = today - datetime.timedelta(days=days_until_thursday)
-    return current_thursday
+
+    # If today is Thursday, use today's date
+    if today.weekday() == 3:  # Monday is 0, Sunday is 6
+        return today
+    
+    # Otherwise, calculate the date of the next Thursday
+    days_until_thursday = (3 - today.weekday()) % 7
+    next_thursday = today + datetime.timedelta(days=days_until_thursday)
+    
+    return next_thursday
 
 def user_confirmation():
     user_input = input("Do you want to proceed with the options string and place the order? (y/n): ").lower()
@@ -41,8 +48,8 @@ try:
     
     # Format the options string directly
     year = current_thursday.strftime("%y")
-    month = current_thursday.strftime("%m")
-    thursday_date = current_thursday.strftime("%d")
+    month = current_thursday.strftime("%m") if current_thursday.month != 1 else "12"
+    thursday_date = current_thursday.strftime("%d").zfill(2)
     formatted_str = options_str.replace("{Year}", year).replace("{Month}", month).replace("{THURSDAY_DATE}", thursday_date).replace("{OPTIONS}", str(OPTIONS))
     
     print("Generated Options String:", formatted_str)
@@ -80,3 +87,4 @@ except Exception as e:
 finally:
     # Include any cleanup or finalization logic here
     pass
+
