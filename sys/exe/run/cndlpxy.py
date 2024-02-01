@@ -44,7 +44,7 @@ def get_today_close():
         return None  # Handle the case when data is not available
 
 def dayprinter(o, h, l, c, prev_close):
-    total_length = 20
+    total_length = 43
     
     # Calculate the lengths of different segments as percentages
     if c > o:
@@ -57,24 +57,17 @@ def dayprinter(o, h, l, c, prev_close):
         m = 100 - n - x
 
     # Print both the previous day's close and today's close in a single sentence with color
-    arrow = "━━🟢🟢━━" if c > prev_close else "━━🔴🔴━━"
-    total_width = 43
-    first_line = f"{int(prev_close)}{arrow}{int(c)}"
-    second_line = Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length)
-    
+    arrow = " ━━🟢🟢━━ " if c > prev_close else " ━━🔴🔴━━ "
+    print(f"Yesterday:{int(prev_close)} {arrow} Today-Now:{int(c)}")   
+    print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
+
     if c > o:
-        second_line += Fore.GREEN + '▌' * int((x / 100) * total_length) + Style.RESET_ALL
+        print(Fore.GREEN + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
     elif o > c:
-        second_line += Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL
+        print(Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
     
-    second_line += Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length)
+    print(Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length))
     
-    # Calculate the space available for the second line
-    available_space = total_width - len(first_line)
-    # Combine both lines with appropriate spacing
-    output = f"{first_line:<{available_space}}{second_line}"
-    
-    print(output)
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
     
