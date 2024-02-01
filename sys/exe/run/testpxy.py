@@ -7,6 +7,7 @@ import traceback
 import sys
 import os
 import datetime
+from cnstpxy import dir_path
 
 logging = Logger(30, dir_path + "main.log")
 
@@ -34,7 +35,7 @@ try:
     try:
         broker = get_kite(api="bypass", sec_dir=dir_path)
     except Exception as e:
-        remove_token(~/pxy/sys/exe)
+        remove_token(dir_path)
         print(traceback.format_exc())
         logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
