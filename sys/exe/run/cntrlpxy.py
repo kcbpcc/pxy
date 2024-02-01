@@ -665,7 +665,7 @@ try:
     
             # Right-align the text, apply color, and reset color after the line
             print(color_code + line.rjust(max_width) + RESET)
-    print(f"{OPTIONS} Total Profit & Loss:{SILVER} {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}")
+    print(f"{YELLOW}{OPTIONS}{RESET} Total Profit & Loss:{SILVER} {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}")
     print("━" * 42)
 ###########################################################################################################################################################################################################
 except Exception as e:
