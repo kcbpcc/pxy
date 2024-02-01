@@ -68,7 +68,7 @@ try:
         if available_cash > 11:
             # Place the market order with your specified parameters
             order_id = broker.order_place(
-                tradingsymbol=formatted_str1,
+                tradingsymbol={formatted_str1},
                 exchange='NSE',  # Replace with your specific exchange
                 transaction_type='BUY',
                 quantity=50,  # Replace with your specific quantity
