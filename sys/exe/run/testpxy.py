@@ -1,7 +1,7 @@
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from login_get_kite import get_kite
-rom cnstpxy import dir_path, fileutils, buybuff, max_target
+from cnstpxy import dir_path, fileutils, buybuff, max_target
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
 import traceback
