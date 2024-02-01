@@ -76,18 +76,15 @@ while True:
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=red_style)
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
-    import time
-    from colorama import init, Fore
-    
     def progress_bar(duration, optpxy):
         for i in range(duration):
             time.sleep(1)
-            color_code = '\033[92m' if optpxy in ['BUUL', 'BUY'] else '\033[91m'
-            print(f'{color_code}PXY®', end='', flush=True)
-            print('\033[0m', end='')  # Reset color to default
+            if optpxy in ['BUUL', 'BUY']:
+                print(f'{Style.BRIGHT}{Fore.GREEN}PXY®', end='', flush=True)
+            else:
+                print(f'{Style.BRIGHT}{Fore.RED}PXY®', end='', flush=True)
+            print(f'{Style.RESET_ALL}', end='')  # Reset style to default
         print()  # Move to the next line after the progress bar
-    
-    # Make sure cycle is defined before calling the function
-    cycle = 10  # Replace with your desired duration
-    optpxy = 'BUUL'  # Replace with 'BUUL', 'BUY', or any other value
+
+    init(autoreset=True)  # Automatically reset style settings after each print
     progress_bar(cycle, optpxy)
