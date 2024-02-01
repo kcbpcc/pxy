@@ -88,6 +88,6 @@ while True:
             console.print(f'{style}PXY®', end='', style=style)
         console.print()  # Move to the next line after the progress bar
     # Define the style you want to use for the progress bar
-    progress_bar_style = Style(color="red", blink=True)  # Replace with your desired style
+    progress_bar_style = Style(color="red")  # Replace with your desired style
     
     progress_bar(cycle, optpxy, progress_bar_style)
