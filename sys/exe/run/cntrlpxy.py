@@ -666,7 +666,7 @@ try:
             # Right-align the text, apply color, and reset color after the line
             print(color_code + line.rjust(max_width) + RESET)
     print(f"Options Total Profit & Loss:{nrml_percentage_return}%")    # Check if DataFrame is empty
-    print("━" * 43)
+    print("━" * 42)
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
