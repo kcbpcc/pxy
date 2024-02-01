@@ -28,3 +28,4 @@ def format_options_string(options_str):
 options_str = "NIFTY24201{OPTIONS}PE"
 result = format_options_string(options_str)
 print(result)
+
