@@ -631,7 +631,7 @@ try:
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
  
-    print(f"Options Total Profit & Loss:{nrml_percentage_return}%")    # Check if DataFrame is empty
+    
     if nrml_filtered_df.empty:
         print("optpxy: options not activated, lets wait!")
 
@@ -667,7 +667,7 @@ try:
             print(color_code + line.rjust(max_width) + RESET)
     
         print("━" * max_width)
-
+    print(f"Options Total Profit & Loss:{nrml_percentage_return}%")    # Check if DataFrame is empty
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
