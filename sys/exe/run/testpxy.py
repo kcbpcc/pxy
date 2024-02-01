@@ -15,7 +15,7 @@ def format_options_string(options_str):
 
     # Extract components from the given string
     year = current_thursday.strftime("%y")
-    month = current_thursday.strftime("%m")
+    month = current_thursday.strftime("%m").lstrip('0')  # Remove leading zero
     thursday_date = current_thursday.strftime("%d")
 
     # Replace placeholders in the string
