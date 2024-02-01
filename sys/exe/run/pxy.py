@@ -81,4 +81,4 @@ while True:
             time.sleep(1)
             print(optpxy, end='', flush=True)
     # Make sure cycle is defined before calling the function
-    progress_bar(cycle, optpxy)
+    progress_bar(cycle, {optpxy})
