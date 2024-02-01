@@ -57,7 +57,7 @@ try:
         # Access the available cash from the response
         available_cash = response["equity"]["available"]["live_balance"]
 
-        if available_cash > 11000:
+        if available_cash > 11:
             # Place the market order with your specified parameters
             order_id = broker.order_place(
                 tradingsymbol=formatted_str,
