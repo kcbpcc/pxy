@@ -76,10 +76,9 @@ while True:
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=red_style)
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
-    def progress_bar(duration):
+    def progress_bar(duration, optpxy):
         for i in range(duration):
             time.sleep(1)
-            print({optpxy}, end='', flush=True) #"PXY®"
-        print("\nLets see what happens next!")
+            print(optpxy, end='', flush=True)
     # Make sure cycle is defined before calling the function
     progress_bar(cycle)
