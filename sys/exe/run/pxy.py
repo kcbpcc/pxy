@@ -61,11 +61,9 @@ while True:
         console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]..Market on standby![/bold]")
     # Call the function and store the result in a variable
     #subprocess.run(['python3', 'tistpxy.py'])  # Run 'tistpxy.py' using subprocess
-    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess
     subprocess.run(['python3', 'tistpxy.py'])
     console.print(onemincandlesequance)  # Print the content of 'onemincandlesequance' using the 'console.print' method
     print("━" * 42)  # Print another line of 42 dashes
-
     # console.print("|", style=green_style if mktpxy in ["Buy", "Bull"] else red_style)  # Commented out line
     if optpxy == "Bull":
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=green_style)
@@ -77,14 +75,10 @@ while True:
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=red_style)
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
+    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess    
     from rich.console import Console
     from rich.style import Style
     import time
-    
-    from rich.console import Console
-    from rich.style import Style
-    import time
-    
     def progress_bar(duration, optpxy):
         console = Console()
         for _ in range(duration):
@@ -94,7 +88,5 @@ while True:
             else:
                 console.print('[red]PXY®[/]', end='')
         console.print()  # Move to the next line after the progress bar
-    
-    
     # Call the function with the desired parameters
     progress_bar(cycle, optpxy)
