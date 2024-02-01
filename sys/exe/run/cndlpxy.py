@@ -58,9 +58,7 @@ def dayprinter(o, h, l, c, prev_close):
 
     # Print both the previous day's close and today's close in a single sentence with color
     arrow = " ━━🟢🟢━━ " if c > prev_close else " ━━🔴🔴━━ "
-    colorama.init()
-    print(f"Yesterday:{int(prev_close)} {arrow} Today-Now:{int(c[:-3])}{colorama.Fore.YELLOW}{colorama.Style.BRIGHT}{colorama.Back.RESET}{c[-3:]}{colorama.Style.RESET_ALL}")
-    
+    print(f"Yesterday:{int(prev_close)} {arrow} Today-Now:{int(c)}")....int(c)    
     print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
 
     if c > o:
