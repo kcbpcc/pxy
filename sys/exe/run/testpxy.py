@@ -19,7 +19,7 @@ def format_options_string(options_str):
     thursday_date = current_thursday.strftime("%d")
 
     # Replace placeholders in the string
-    formatted_str = options_str.replace("{Year}", year).replace("{THURSDAY_DATE}.replace("{Month}", month)", thursday_date).replace("{OPTIONS}", str(OPTIONS))
+    formatted_str = options_str.replace("{Year}", year).replace("{Month}", month).replace("{THURSDAY_DATE}", thursday_date).replace("{OPTIONS}", str(OPTIONS))
 
     return formatted_str
 
