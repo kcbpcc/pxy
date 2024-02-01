@@ -11,7 +11,6 @@ RED='\033[0;31m'
 NC='\033[0m'  # No Color
 
 files_to_process=("filePnL.csv" "filePnL_nrml.csv" "mempxy.csv" "bordpxy.csv" "acvalue.csv")
-
 case $option in
     exp)
         # Export
