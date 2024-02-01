@@ -77,18 +77,23 @@ while True:
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=red_style)
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
-    import time
-    from rich.console import Console
-    from rich.style import Style
-    
-    def progress_bar(duration, optpxy, style):
-        console = Console()
-        for i in range(duration):
-            time.sleep(1)
-            console.print(f'{style}PXY®', end='', style=style)
-        console.print()  # Move to the next line after the progress bar
-    
-    # Define the style you want to use for the progress bar
-    progress_bar_style = Style(color="red")  # Replace with your desired style
-    
-    progress_bar(cycle, optpxy, progress_bar_style)
+from rich.console import Console
+from rich.style import Style
+import time
+
+def progress_bar(duration, optpxy):
+    console = Console()
+    for _ in range(duration):
+        time.sleep(1)
+        if optpxy in ['BUUL', 'BUY']:
+            console.print('[green]PXY®', end='', style=Style.RESET_ALL)
+        else:
+            console.print('[red]PXY®', end='', style=Style.RESET_ALL)
+    console.print()  # Move to the next line after the progress bar
+
+# Make sure cycle is defined before calling the function
+cycle = 6  # Replace with your desired duration
+optpxy = 'BUUL'  # Replace with 'BUUL', 'BUY', or any other value
+
+# Call the function with the desired parameters
+progress_bar(cycle, optpxy)
