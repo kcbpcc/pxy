@@ -632,7 +632,7 @@ try:
 ###########################################################################################################################################################################################################
     from cndlpxy import option_to_trade
     option_value = option_to_trade()
-    print(f"PE and CE Buy options both @: {option_value}, {nrml_percentage_return}")
+    print(f"PE and CE Buy options both @: {option_value}, {nrml_percentage_return}%")
     # Check if DataFrame is empty
     if nrml_filtered_df.empty:
         print("optpxy: options not activated, lets wait!")
