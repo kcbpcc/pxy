@@ -22,8 +22,6 @@ def get_nse_action():
         today_high = data['High'].iloc[-1]
         today_low = data['Low'].iloc[-1]
         current_price = data['Close'].iloc[-1]
-        OPTIONS = round(current_price / 50) * 50
-
         
         yesterday_close = data['Close'].iloc[-2]
         yesterday_open = data['Open'].iloc[-2]
@@ -41,15 +39,19 @@ def get_nse_action():
         # Determine the candlestick condition for today
         if yesterday_close < current_price and today_open < current_price:
             nse_action = "Bullish"
+            OPTIONS = round((current_price - 50) / 50) * 50
         elif yesterday_close > current_price and today_open > current_price:
             nse_action = "Bearish"
+            OPTIONS = round((current_price - 200) / 50) * 50
         elif today_open < current_price:
             nse_action = "Bull"  
+            OPTIONS = round((current_price - 100) / 50) * 50
         elif today_open > current_price:
-            nse_action = "Bear"  
+            nse_action = "Bear" 
+            OPTIONS = round((current_price - 150) / 50) * 50
         else:
             nse_action = "Bull"
-
+            OPTIONS = round((current_price - 100) / 50) * 50
         return nse_action, nse_power, Day_Change, Open_Change, OPTIONS 
 
     except Exception as e:
