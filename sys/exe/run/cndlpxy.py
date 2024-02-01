@@ -58,16 +58,23 @@ def dayprinter(o, h, l, c, prev_close):
 
     # Print both the previous day's close and today's close in a single sentence with color
     arrow = "━━🟢🟢━━" if c > prev_close else "━━🔴🔴━━"
-    print(f"{int(prev_close)}{arrow}{int(c)}", end='')
-    print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
+    total_width = 43
+    first_line = f"{int(prev_close)}{arrow}{int(c)}"
+    second_line = Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length)
     
     if c > o:
-        print(Fore.GREEN + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
+        second_line += Fore.GREEN + '▌' * int((x / 100) * total_length) + Style.RESET_ALL
     elif o > c:
-        print(Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
+        second_line += Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL
     
-    print(Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length))
+    second_line += Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length)
     
+    # Calculate the space available for the second line
+    available_space = total_width - len(first_line)
+    # Combine both lines with appropriate spacing
+    output = f"{first_line:<{available_space}}{second_line}"
+    
+    print(output)
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
     
