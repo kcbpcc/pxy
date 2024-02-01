@@ -50,7 +50,7 @@ def get_nse_action():
         else:
             nse_action = "Bull"
 
-        return nse_action, nse_power, Day_Change, Open_Change 
+        return nse_action, nse_power, Day_Change, Open_Change, OPTIONS 
 
     except Exception as e:
         print(f"Error during data download for 5 days: {e}")
