@@ -72,7 +72,7 @@ while True:
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=red_style)
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
-    #console.print(onemincandlesequance)  # Print the content of 'onemincandlesequance' using the 'console.print' method
+    console.print(onemincandlesequance)  # Print the content of 'onemincandlesequance' using the 'console.print' method
     print("━" * 42)  # Print another line of 42 dashes
     def progress_bar(duration):
         for i in range(duration):
