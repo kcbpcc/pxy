@@ -72,8 +72,9 @@ while True:
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
     console.print(onemincandlesequance)  # Print the content of 'onemincandlesequance' using the 'console.print' method
-    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess
     print("━" * 42)  # Print another line of 42 dashes
+
+    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
