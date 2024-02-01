@@ -1,7 +1,14 @@
+#!/bin/bash
+
 echo "Menu:"
 echo "1. Export"
 echo "2. Import"
 read -p "Choose an option (export/import): " option
+
+# ANSI escape codes for colors
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'  # No Color
 
 case $option in
     export)
@@ -10,13 +17,19 @@ case $option in
         for file in filePnL.csv filePnL_nrml.csv mempxy.csv bordpxy.csv acvalue.csv
         do
             read -p "Do you want to export $file? (y/n): " confirm_export
-            if [ "$confirm_export" == "y" ]; then
-                rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/$file pxycloud:/csv/
-                sudo chmod 777 ~/pxy/sys/exe/run/ -R
-                echo "Exported $file"
-            else
-                echo -e "\e[31mSkipped $file\e[0m"
-            fi
+            case $confirm_export in
+                [Yy])
+                    rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf ~/pxy/sys/exe/run/$file pxycloud:/csv/
+                    sudo chmod 777 ~/pxy/sys/exe/run/ -R
+                    echo -e "${GREEN}Exported $file${NC}"
+                    ;;
+                [Nn])
+                    echo -e "${RED}Skipped $file${NC}"
+                    ;;
+                *)
+                    echo "Invalid input. Please enter 'y' or 'n'."
+                    ;;
+            esac
         done
         echo "Export completed."
         ;;
@@ -27,13 +40,19 @@ case $option in
         for file in filePnL.csv filePnL_nrml.csv mempxy.csv bordpxy.csv acvalue.csv
         do
             read -p "Do you want to import $file? (y/n): " confirm_import
-            if [ "$confirm_import" == "y" ]; then
-                rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/$file ~/pxy/sys/exe/run/
-                sudo chmod 777 ~/pxy/sys/exe/run/ -R
-                echo "Imported $file"
-            else
-                echo -e "\e[31mSkipped $file\e[0m"
-            fi
+            case $confirm_import in
+                [Yy])
+                    rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/$file ~/pxy/sys/exe/run/
+                    sudo chmod 777 ~/pxy/sys/exe/run/ -R
+                    echo -e "${GREEN}Imported $file${NC}"
+                    ;;
+                [Nn])
+                    echo -e "${RED}Skipped $file${NC}"
+                    ;;
+                *)
+                    echo "Invalid input. Please enter 'y' or 'n'."
+                    ;;
+            esac
         done
         echo "Import completed."
         ;;
@@ -43,5 +62,4 @@ case $option in
         exit 1
         ;;
 esac
-
 
