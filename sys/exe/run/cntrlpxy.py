@@ -585,7 +585,7 @@ try:
                         mktpxy in ['Sell'] and
                         nse_power < 0.5 and
                         available_cash > 10000 and
-                        auto_value == 'AUTO'and
+                        auto_value == 'LATER'and
                         row['product'] in ['NRML', 'MIS']
                     ):
                         try:                            
