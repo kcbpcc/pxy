@@ -75,6 +75,7 @@ while True:
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=red_style)
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
+    subprocess.run(['python3', 'tistpxy.py'])
     def progress_bar(duration):
         for i in range(duration):
             time.sleep(1)
