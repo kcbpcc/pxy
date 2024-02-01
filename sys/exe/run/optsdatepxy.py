@@ -1,23 +1,23 @@
 from nftpxy import OPTIONS
 import datetime
 
-def get_this_thursday():
+def get_current_thursday():
     today = datetime.datetime.now()
     
-    # Calculate days until next Thursday (considering 0 as Sunday)
+    # Calculate days until current Thursday (considering 0 as Sunday)
     days_until_thursday = (3 - int(today.strftime("%w"))) % 7
-    this_thursday = today + datetime.timedelta(days=days_until_thursday)
+    current_thursday = today - datetime.timedelta(days=days_until_thursday)
     
-    return this_thursday
+    return current_thursday
 
 def format_options_string(options_str):
-    this_thursday = get_this_thursday()
+    current_thursday = get_current_thursday()
     
     # Extract components from the given string
     constant = options_str[:5]
-    year = this_thursday.strftime("%y")
-    month = this_thursday.strftime("%-m")  # Remove leading zero
-    thursday_date = this_thursday.strftime("%d")
+    year = current_thursday.strftime("%y")
+    month = current_thursday.strftime("%-m")  # Remove leading zero
+    thursday_date = current_thursday.strftime("%d")
     
     # Replace placeholders in the string
     formatted_str = options_str.replace("{OPTIONS}", constant).replace("24", year).replace("2", month).replace("01", thursday_date)
@@ -28,4 +28,5 @@ def format_options_string(options_str):
 options_str = "NIFTY24201{OPTIONS}PE"
 result = format_options_string(options_str)
 print(result)
+
 
