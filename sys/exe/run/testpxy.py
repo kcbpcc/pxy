@@ -1,7 +1,6 @@
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from login_get_kite import get_kite
-from cnstpxy import dir_path, remove_token
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
 import traceback
@@ -10,8 +9,6 @@ import os
 import datetime
 
 logging = Logger(30, dir_path + "main.log")
-
-black_file = dir_path + "blacklist.txt"
 
 # Import the options string formatting and confirmation functions
 from nftpxy import OPTIONS
