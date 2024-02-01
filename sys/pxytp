@@ -15,7 +15,7 @@ case $option in
                 sudo chmod 777 ~/pxy/sys/exe/run/ -R
                 echo "Exported $file"
             else
-                echo "Skipped $file"
+                echo -e "\e[31mSkipped $file\e[0m"
             fi
         done
         echo "Export completed."
@@ -31,7 +31,7 @@ case $option in
                 rclone copy --ignore-times --progress --verbose --config=.config/rclone/rclone.conf pxycloud:/csv/$file ~/pxy/sys/exe/run/
                 echo "Imported $file"
             else
-                echo "Skipped $file"
+                echo -e "\e[31mSkipped $file\e[0m"
             fi
         done
         echo "Import completed."
