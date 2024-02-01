@@ -630,10 +630,8 @@ try:
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
-    from cndlpxy import option_to_trade
-    option_value = option_to_trade()
-    print(f"PE and CE Buy options both @: {option_value}, {nrml_percentage_return}%")
-    # Check if DataFrame is empty
+    from cndlpxy import option_value
+    print(f"PE and CE Buy options both @: {option_value}, {nrml_percentage_return}%")    # Check if DataFrame is empty
     if nrml_filtered_df.empty:
         print("optpxy: options not activated, lets wait!")
 
