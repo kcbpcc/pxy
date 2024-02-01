@@ -3,6 +3,8 @@ import subprocess
 from acvalue import process_acvalue, get_current_acvalue
 from optpxy import get_optpxy
 optpxy = get_optpxy()
+from mktpxy import total_PnL_percentage
+onemincandlesequance, mktpxy = get_market_check()
 def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy):                
