@@ -11,10 +11,13 @@ from cnstpxy import dir_path
 
 logging = Logger(30, dir_path + "main.log")
 
-black_file = os.path.join(dir_path, "blacklist.txt")
 
 # Import the options string formatting and confirmation functions
 from nftpxy import OPTIONS
+
+def remove_token(path):
+    # Define your logic to remove token
+    pass
 
 def get_current_thursday():
     today = datetime.datetime.now()
@@ -37,7 +40,7 @@ try:
     try:
         broker = get_kite(api="bypass", sec_dir=dir_path)
     except Exception as e:
-        remove_token(os.path.abspath(os.path.join(dir_path, '..')))
+        remove_token(dir_path)
         print(traceback.format_exc())
         logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
@@ -67,7 +70,7 @@ try:
 
         if available_cash > 11:
             # Place the market order with your specified parameters
-            order_response = kite.place_order(
+            order_response = broker.place_order(
                 tradingsymbol=symbol,
                 exchange="NSE",
                 transaction_type="BUY",
@@ -75,7 +78,7 @@ try:
                 order_type="MARKET",
                 product="MIS"  # You may need to adjust the product type based on your requirements
             )
-            print(f"Market Order placed successfully. Order ID: {order_id}")
+            print(f"Market Order placed successfully. Order ID: {order_response['order_id']}")
         else:
             print("Insufficient funds. Order not placed.")
 
@@ -83,7 +86,7 @@ try:
         print("You chose not to proceed.")
 
 except Exception as e:
-    print(f"An error occurred: {e}")
+    logging.exception(f"An error occurred: {e}")
 
 finally:
     # Include any cleanup or finalization logic here
