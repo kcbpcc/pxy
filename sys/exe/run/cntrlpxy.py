@@ -294,7 +294,7 @@ try:
     from mktpxy import get_market_check
     onemincandlesequance, mktpxy = get_market_check()
     import importlib
-    from nftpxy import nse_action, nse_power, Day_Change, Open_Change
+    from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
     from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
@@ -375,7 +375,7 @@ try:
         ),
     }), axis=1
     )
-    from nftpxy import nse_action, nse_power   
+    from nftpxy import nse_action, nse_power, OPTIONS  
     threshold = 3
 ###########################################################################################################################################################################################################
     nse_factor = {"Bearish": 0.5, "Bear": 1.0, "Bull": 1.5, "Bullish": 2.0}.get(nse_action, 1.0) 
@@ -665,7 +665,7 @@ try:
     
             # Right-align the text, apply color, and reset color after the line
             print(color_code + line.rjust(max_width) + RESET)
-    print(f"Options Total Profit & Loss:{SILVER} {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}")
+    print(f"{OPTIONS} Total Profit & Loss:{SILVER} {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}")
     print("━" * 42)
 ###########################################################################################################################################################################################################
 except Exception as e:
