@@ -23,8 +23,6 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 
-kite = broker['kite']
-
 # Calculate the next Thursday date
 current_date = datetime.now()
 days_until_thursday = (3 - current_date.weekday() + 7) % 7  # Calculate days until next Thursday
