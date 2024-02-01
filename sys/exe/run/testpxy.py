@@ -46,11 +46,12 @@ try:
     current_thursday = get_current_thursday()
     options_str = "NIFTY{Year}{Month}{THURSDAY_DATE}{OPTIONS}PE"
     
-    # Format the options string directly
+    # Format the placeholders
     year = current_thursday.strftime("%y")
-    month = current_thursday.strftime("%m") if current_thursday.month != 1 else "12"
+    month = str(current_thursday.month) if current_thursday.month != 1 else "12"
     thursday_date = current_thursday.strftime("%d").zfill(2)
     formatted_str = options_str.replace("{Year}", year).replace("{Month}", month).replace("{THURSDAY_DATE}", thursday_date).replace("{OPTIONS}", str(OPTIONS))
+
     
     print("Generated Options String:", formatted_str)
 
