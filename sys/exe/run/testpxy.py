@@ -51,7 +51,7 @@ try:
     month = str(current_thursday.month) if current_thursday.month != 1 else "12"
     thursday_date = current_thursday.strftime("%d").zfill(2)
     formatted_str = options_str.replace("{Year}", year).replace("{Month}", month).replace("{THURSDAY_DATE}", thursday_date).replace("{OPTIONS}", str(OPTIONS))
-
+    formatted_str1 = TCS
     
     print("Generated Options String:", formatted_str)
 
@@ -68,7 +68,7 @@ try:
         if available_cash > 11:
             # Place the market order with your specified parameters
             order_id = broker.order_place(
-                tradingsymbol=formatted_str,
+                tradingsymbol=formatted_str1,
                 exchange='NSE',  # Replace with your specific exchange
                 transaction_type='BUY',
                 quantity=50,  # Replace with your specific quantity
