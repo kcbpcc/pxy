@@ -82,12 +82,12 @@ while True:
     def progress_bar(duration, optpxy):
         for i in range(duration):
             time.sleep(1)
-            if optpxy in ['BUUL', 'BUY']:
-                print(Fore.GREEN + 'PXY®', end='', flush=True)
-            else:
-                print(Fore.RED + 'PXY®', end='', flush=True)
-            print(Fore.RESET, end='')  # Reset color to default
+            color_code = '\033[92m' if optpxy in ['BUUL', 'BUY'] else '\033[91m'
+            print(f'{color_code}PXY®', end='', flush=True)
+            print('\033[0m', end='')  # Reset color to default
         print()  # Move to the next line after the progress bar
-
-    init(autoreset=True)  # Automatically reset color settings after each print
+    
+    # Make sure cycle is defined before calling the function
+    cycle = 10  # Replace with your desired duration
+    optpxy = 'BUUL'  # Replace with 'BUUL', 'BUY', or any other value
     progress_bar(cycle, optpxy)
