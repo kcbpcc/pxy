@@ -61,13 +61,15 @@ try:
     if user_confirmation():
         # Your logic to proceed with the generated options string
         print("You chose to proceed.")
-
+    
         # Use the margins method to get account balance
         response = broker.kite.margins()
-
+        print("Margin Response:", response)
+    
         # Access the available cash from the response
         available_cash = response["equity"]["available"]["live_balance"]
-
+        print("Available Cash:", available_cash)
+    
         if available_cash > 11:
             # Place the market order with your specified parameters
             order_response = broker.place_order(
@@ -81,9 +83,10 @@ try:
             print(f"Market Order placed successfully. Order ID: {order_response['order_id']}")
         else:
             print("Insufficient funds. Order not placed.")
-
+    
     else:
         print("You chose not to proceed.")
+
 
 except Exception as e:
     logging.exception(f"An error occurred: {e}")
