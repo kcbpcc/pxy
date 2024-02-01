@@ -1,7 +1,8 @@
+from datetime import datetime, timedelta
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
-from login_get_kite import get_kite
+from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from buypluspxy import Trendlyne
 import pandas as pd
@@ -11,15 +12,16 @@ import os
 from fundpxy import calculate_decision
 decision = calculate_decision()
 from mktpxy import get_market_check
-onemincandlesequance, mktpxy = get_market_check()    
-import asyncio
-        try:
-            broker = get_kite(api="bypass", sec_dir=dir_path)
-        except Exception as e:
-            remove_token(dir_path)
-            print(traceback.format_exc())
-            logging.error(f"{str(e)} unable to get holdings")
-            sys.exit(1)
+
+onemincandlesequance, mktpxy = get_market_check()
+
+try:
+    broker = get_kite(api="bypass", sec_dir=dir_path)
+except Exception as e:
+    remove_token(dir_path)
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} unable to get holdings")
+    sys.exit(1)
 
 kite = broker['kite']
 
@@ -35,7 +37,7 @@ expiry_day = expiry_date.strftime("%d")
 
 # Ensure the month is one digit until October
 if int(expiry_month) < 10:
-    expiry_month = expiry_month[1]
+    expiry_month = expiry_month.zfill(2)
 
 # Ensure the date is always two digits
 expiry_day = expiry_day.zfill(2)
