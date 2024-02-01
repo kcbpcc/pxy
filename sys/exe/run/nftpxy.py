@@ -22,6 +22,8 @@ def get_nse_action():
         today_high = data['High'].iloc[-1]
         today_low = data['Low'].iloc[-1]
         current_price = data['Close'].iloc[-1]
+        OPTIONS = round(current_price / 50) * 50
+
         
         yesterday_close = data['Close'].iloc[-2]
         yesterday_open = data['Open'].iloc[-2]
@@ -31,6 +33,7 @@ def get_nse_action():
         nse_power = round(max(0.1, min(raw_nse_power, 1.0)), 2)
         Day_Change = round(((current_price - yesterday_close) / yesterday_close) * 100, 2)
         Open_Change = round(((current_price - today_open) / today_open) * 100, 2)
+        OPTIONS = round(current_price / 50) * 50
 
         # Initialize Day Action as an empty string
         nse_action = ""
@@ -55,7 +58,7 @@ def get_nse_action():
     return "Error", None
 
 # Call the get_nse_action function
-nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
+nse_action, nse_power, Day_Change, Open_Change, OPTIONS = get_nse_action()
 
 
 
