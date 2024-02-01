@@ -79,6 +79,6 @@ while True:
     def progress_bar(duration, optpxy):
         for i in range(duration):
             time.sleep(1)
-            print({optpxy}, end='', flush=True)
+            print('PXY®', end='', flush=True)
     # Make sure cycle is defined before calling the function
-    progress_bar(cycle, optpxy)
+    progress_bar(cycle, 'PXY®')
