@@ -73,7 +73,7 @@ while time.time() - start_time < 120:
 if not user_confirmation:
     user_confirmation = 'N'
 
-if user_confirmation == 'Y':
+if user_confirmation == 'YYY':
     try:
         order_id = broker.order_place(
             tradingsymbol=symbol,
