@@ -15,7 +15,7 @@ while true; do
     echo "   -pxypy                 💻        ex"
     echo "   -pxytp                 🔄        tp"
     echo "   -pxybuy                🌱        by"
-    echo "   -pxyopt                🚁        op"
+    echo "   -pxyopt                🛸        op"
     echo "   -pxytail               📜        ta"
     echo "   -pxyauto               🤖        at"
     echo "   -pxytest               🧩        ts"
