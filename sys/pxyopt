@@ -1,0 +1,14 @@
+#!/bin/bash
+
+source ~/env/bin/activate
+
+# Change to the script's directory
+cd ~/pxy/sys/exe/run
+
+read -p "Press Enter to run buypluspxy.py..."
+python3 buypluspxy.py
+
+
+# Run the Python scripts sequentially with prompts
+read -p "Press Enter to run chkpxy.py..."
+python3 optpxy.py
