@@ -11,7 +11,7 @@ import sys
 import os
 from fundpxy import calculate_decision
 from nftpxy import OPTIONS
-import time 
+import time
 
 decision = calculate_decision()
 from mktpxy import get_market_check
@@ -66,8 +66,6 @@ print("Symbol:", symbol)
 # Get user confirmation
 user_confirmation = input("Do you want to proceed? (Y/N): ").upper()
 
-user_confirmation = input("Do you want to proceed? (Y/N): ").upper()
-
 if user_confirmation == 'Y':
     try:
         order_id = broker.order_place(
@@ -88,3 +86,4 @@ else:
     print("Waiting for 10 seconds and then exiting...")
     time.sleep(10)  # Sleep for 10 seconds
     sys.exit(0)  # Exit the program
+
