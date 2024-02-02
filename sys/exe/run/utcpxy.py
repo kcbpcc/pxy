@@ -15,7 +15,9 @@ def peak_time():
     in_peak_time_1 = peak_time_1_start <= utc_time <= peak_time_1_end
     in_peak_time_2 = peak_time_2_start <= utc_time <= peak_time_2_end
 
-    if in_peak_time_1 or in_peak_time_2:
-        return "peakstart" if in_peak_time_1 else "nonpeak", "peakend" if in_peak_time_2 else "nonpeak"
+    if in_peak_time_1:
+        return "peakstart"
+    elif in_peak_time_2:
+        return "peakend"
     else:
-        return "nonpeak", "nonpeak"
+        return "nonpeak"
