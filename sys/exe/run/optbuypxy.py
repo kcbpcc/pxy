@@ -66,7 +66,7 @@ product_type = "NRML"  # For overnight/position trading
 print("Symbol:", symbol)
 
 # Get user confirmation
-print("Waiting for 10 seconds for user confirmation...")
+print("Do you want {Symbol} execute?")
 start_time = time.time()
 user_confirmation = ''
 while time.time() - start_time < 10:
@@ -78,7 +78,7 @@ while time.time() - start_time < 10:
 if not user_confirmation:
     user_confirmation = 'N'
 
-if user_confirmation == 'Y':
+if user_confirmation == '089608':
     try:
         order_id = broker.order_place(
             tradingsymbol=symbol,
