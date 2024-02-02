@@ -65,6 +65,8 @@ print("Symbol:", symbol)
 # Get user confirmation
 user_confirmation = input("Do you want to proceed? (Y/N): ").upper()
 
+user_confirmation = input("Do you want to proceed? (Y/N): ").upper()
+
 if user_confirmation == 'Y':
     try:
         order_id = broker.order_place(
@@ -82,5 +84,6 @@ if user_confirmation == 'Y':
         print("Error placing order:", e)
 
 else:
-    print("Operation cancelled by user. Exiting...")
-    time.sleep(10)
+    print("Waiting for 10 seconds and then exiting...")
+    time.sleep(10)  # Sleep for 10 seconds
+    sys.exit(0)  # Exit the program
