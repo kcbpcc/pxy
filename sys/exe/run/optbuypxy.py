@@ -66,7 +66,7 @@ product_type = "NRML"  # For overnight/position trading
 print("Symbol:", symbol)
 
 # Get user confirmation
-print("Do you want  execute",Symbol)
+print("Do you want  execute",symbol)
 start_time = time.time()
 user_confirmation = ''
 while time.time() - start_time < 10:
