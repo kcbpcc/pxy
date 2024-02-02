@@ -12,6 +12,8 @@ import os
 from fundpxy import calculate_decision
 from nftpxy import OPTIONS
 import time
+import select
+
 
 decision = calculate_decision()
 from mktpxy import get_market_check
@@ -64,7 +66,17 @@ product_type = "NRML"  # For overnight/position trading
 print("Symbol:", symbol)
 
 # Get user confirmation
-user_confirmation = input("Do you want to proceed? (Y/N): ").upper()
+print("Waiting for 10 seconds for user confirmation...")
+start_time = time.time()
+user_confirmation = ''
+while time.time() - start_time < 10:
+    rlist, _, _ = select.select([sys.stdin], [], [], 0.1)  # Check for input every 0.1 seconds
+    if rlist:
+        user_confirmation = sys.stdin.read(1).upper()
+        break
+
+if not user_confirmation:
+    user_confirmation = 'N'
 
 if user_confirmation == 'Y':
     try:
@@ -83,7 +95,7 @@ if user_confirmation == 'Y':
         print("Error placing order:", e)
 
 else:
-    print("Waiting for 10 seconds and then exiting...")
+    print("Operation cancelled by user. Exiting...")
     time.sleep(10)  # Sleep for 10 seconds
     sys.exit(0)  # Exit the program
 
