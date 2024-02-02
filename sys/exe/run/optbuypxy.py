@@ -64,7 +64,7 @@ print("Symbol:", symbol)
 print("Do you want  execute",symbol)
 start_time = time.time()
 user_confirmation = ''
-while time.time() - start_time < 10:
+while time.time() - start_time < 120:
     rlist, _, _ = select.select([sys.stdin], [], [], 0.1)  # Check for input every 0.1 seconds
     if rlist:
         user_confirmation = sys.stdin.read(1).upper()
