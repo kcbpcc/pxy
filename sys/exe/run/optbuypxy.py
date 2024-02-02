@@ -81,7 +81,7 @@ if user_confirmation == 'Y':
             exchange="NFO",
             transaction_type='BUY',
             order_type='MARKET',
-            product=MIS
+            product='MIS'
         )
 
         print("Order placed successfully. Order ID:", order_id)
