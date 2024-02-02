@@ -20,27 +20,24 @@ def process_acvalue(acvalue):
         return
 
     if START_TIME <= current_utc_time <= END_TIME:
-        ydaypnl = acvalue - float(rows[-1]['acvalue']) if rows and rows[-1]['date'] == current_date else 0
-
         record_exists = any(row['date'] == current_date for row in rows)
 
         if record_exists:
             for i, row in enumerate(rows):
                 if row['date'] == current_date:
-                    rows[i] = {'date': current_date, 'acvalue': acvalue, 'ydaypnl': ydaypnl}
+                    rows[i] = {'date': current_date, 'acvalue': acvalue}
                     break
         else:
-            rows.append({'date': current_date, 'acvalue': acvalue, 'ydaypnl': ydaypnl})
+            rows.append({'date': current_date, 'acvalue': acvalue})
 
             with open(CSV_FILENAME, mode='w', newline='') as csvfile:
-                fieldnames = ['date', 'acvalue', 'ydaypnl']
+                fieldnames = ['date', 'acvalue']
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
                 writer.writerows(rows)
     else:
         if not any(row['date'] == current_date for row in rows):
             print(f"{datetime.utcnow().strftime('%Y-%m-%d')} A/C Value will be updated @9:15")
-
 
 def get_current_acvalue():
     try:
@@ -57,7 +54,13 @@ def get_current_acvalue():
 
     if record_exists:
         current_acvalue = float([row['acvalue'] for row in rows if row['date'] == current_date][0])
-        ydaypnl = float([row['ydaypnl'] for row in rows if row['date'] == current_date][0])
+
+        # Calculate ydaypnl by finding yesterday's acvalue
+        yesterday_date = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d')
+        yesterday_acvalue = float([row['acvalue'] for row in rows if row['date'] == yesterday_date][0])
+
+        ydaypnl = current_acvalue - yesterday_acvalue
+
         return current_acvalue, ydaypnl
     else:
         # Handle the case when a record for the current date doesn't exist (e.g., log a message)
