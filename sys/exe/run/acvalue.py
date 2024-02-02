@@ -22,12 +22,7 @@ def process_acvalue(acvalue):
     if START_TIME <= current_utc_time <= END_TIME:
         record_exists = any(row['date'] == current_date for row in rows)
 
-        if record_exists:
-            for i, row in enumerate(rows):
-                if row['date'] == current_date:
-                    rows[i] = {'date': current_date, 'acvalue': acvalue}
-                    break
-        else:
+        if not record_exists:
             rows.append({'date': current_date, 'acvalue': acvalue})
 
             with open(CSV_FILENAME, mode='w', newline='') as csvfile:
@@ -35,6 +30,9 @@ def process_acvalue(acvalue):
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
                 writer.writerows(rows)
+        else:
+            print(f"Record for {current_date} already exists. Not updating.")
+
     else:
         if not any(row['date'] == current_date for row in rows):
             print(f"{datetime.utcnow().strftime('%Y-%m-%d')} A/C Value will be updated @9:15")
@@ -66,5 +64,3 @@ def get_current_acvalue():
         # Handle the case when a record for the current date doesn't exist (e.g., log a message)
         print(f"No record found for {current_date} in CSV file")
         return 0, 0
-
-
