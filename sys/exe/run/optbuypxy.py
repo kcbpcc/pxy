@@ -11,6 +11,7 @@ import sys
 import os
 from fundpxy import calculate_decision
 from nftpxy import OPTIONS
+import time 
 
 decision = calculate_decision()
 from mktpxy import get_market_check
