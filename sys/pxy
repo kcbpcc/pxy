@@ -15,6 +15,7 @@ while true; do
     echo "   -pxypy                 💻        ex"
     echo "   -pxytp                 🔄        tp"
     echo "   -pxybuy                🌱        by"
+    echo "   -pxyopy                🌱        op"
     echo "   -pxytail               📜        ta"
     echo "   -pxyauto               🤖        at"
     echo "   -pxytest               🧩        ts"
@@ -43,6 +44,10 @@ while true; do
             echo "    🌱🌱🌱......Buy Now......🌱🌱🌱"
             pxybuy
             ;;   
+        op)
+            echo "    🌱🌱🌱......Buy Now......🌱🌱🌱"
+            pxyopt
+            ;;           
         ts)
             echo "    🧑‍💻🧑‍💻🧑‍💻.....Test txy......🧑‍💻🧑‍💻🧑‍💻"
             pxytest
