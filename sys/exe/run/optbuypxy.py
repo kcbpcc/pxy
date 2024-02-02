@@ -58,11 +58,6 @@ expiry_day = expiry_day.zfill(2)
 # Construct the symbol for the NIFTY Put Option
 symbol = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}PE"
 
-quantity = 50  # Change this to the desired quantity
-transaction_type = "BUY_TO_OPEN"  # For buying a put option to open a new position
-order_type = "MARKET"
-product_type = "NRML"  # For overnight/position trading
-
 print("Symbol:", symbol)
 
 # Get user confirmation
@@ -82,11 +77,11 @@ if user_confirmation == 'Y':
     try:
         order_id = broker.order_place(
             tradingsymbol=symbol,
-            quantity=quantity,
+            quantity=50,
             exchange="NFO",
-            transaction_type=transaction_type,
-            order_type=order_type,
-            product=product_type
+            transaction_type='BUY',
+            order_type='MARKET',
+            product=MIS
         )
 
         print("Order placed successfully. Order ID:", order_id)
