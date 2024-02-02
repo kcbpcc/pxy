@@ -55,16 +55,14 @@ while True:
         console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold].....Time to sell![/bold]", style=sell_style)
     elif mktpxy == 'Buy':
         print("It's a ⤴️-Buy-⤴️ time, Buying now.......")
-        subprocess.run(['python3', 'buypxy.py']) if (peak == nonpeak) and (nse_power < 0.30) else None
-        subprocess.run(['python3', 'buypxy.py']) if (peak == nonpeak) and (nse_power < 0.30) else None
-
+        subprocess.run(['python3', 'buypxy.py']) if (peak == 'nonpeak') and (nse_power < 0.30) else None
         subprocess.run(['python3', 'cntrlpxy.py'])
         console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]......Time to buy![/bold]", style=buy_style)
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
         console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]..Market on standby![/bold]")
     # Call the function and store the result in a variable
-    subprocess.run(['python3', 'buypxy.py']) if peak == peakend else None
+    subprocess.run(['python3', 'buypxy.py']) if peak == 'peakend' else None
     #subprocess.run(['python3', 'tistpxy.py'])  # Run 'tistpxy.py' using subprocess
     subprocess.run(['python3', 'tistpxy.py'])
     console.print(onemincandlesequance)  # Print the content of 'onemincandlesequance' using the 'console.print' method
