@@ -34,11 +34,11 @@ while True:
     importlib.reload(sys.modules['optpxy'])  # Correct the usage 
     from utcpxy import peak_time
     importlib.reload(sys.modules['utcpxy'])  # Correct the usage     optpxy = get_optpxy()
-    peak = peak_time()
     from cyclepxy import cycle
     importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
     print(f"Cycle 🎡 : {cycle} seconds".rjust(40))
     subprocess.run(['python3', 'tistpxy.py'])
+    peak = peak_time()
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
     if mktpxy == 'Bear':
@@ -56,6 +56,8 @@ while True:
     elif mktpxy == 'Buy':
         print("It's a ⤴️-Buy-⤴️ time, Buying now.......")
         subprocess.run(['python3', 'buypxy.py']) if (peak == nonpeak) and (nse_power < 0.30) else None
+        subprocess.run(['python3', 'buypxy.py']) if (peak == nonpeak) and (nse_power < 0.30) else None
+
         subprocess.run(['python3', 'cntrlpxy.py'])
         console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]......Time to buy![/bold]", style=buy_style)
     elif mktpxy == 'None':
