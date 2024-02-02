@@ -62,18 +62,25 @@ product_type = "NRML"  # For overnight/position trading
 
 print("Symbol:", symbol)
 
-try:
-    order_id = broker.order_place(
-        tradingsymbol=symbol,
-        quantity=quantity,
-        exchange="NFO",
-        transaction_type=transaction_type,
-        order_type=order_type,
-        product=product_type
-    )
+# Get user confirmation
+user_confirmation = input("Do you want to proceed? (Y/N): ").upper()
 
-    print("Order placed successfully. Order ID:", order_id)
+if user_confirmation == 'Y':
+    try:
+        order_id = broker.order_place(
+            tradingsymbol=symbol,
+            quantity=quantity,
+            exchange="NFO",
+            transaction_type=transaction_type,
+            order_type=order_type,
+            product=product_type
+        )
 
-except Exception as e:
-    print("Error placing order:", e)
+        print("Order placed successfully. Order ID:", order_id)
 
+    except Exception as e:
+        print("Error placing order:", e)
+
+else:
+    print("Operation cancelled by user. Exiting...")
+    time.sleep(10)
