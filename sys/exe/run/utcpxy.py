@@ -8,12 +8,14 @@ def peak_time():
     peak_time_1_start = datetime.strptime("03:45", "%H:%M").replace(tzinfo=timezone.utc)
     peak_time_1_end = datetime.strptime("04:00", "%H:%M").replace(tzinfo=timezone.utc)
     
-    peak_time_2_start = datetime.strptime("09:45", "%H:%M").replace(tzinfo=timezone.utc)
+    peak_time_2_start = datetime.strptime("09:52", "%H:%M").replace(tzinfo=timezone.utc)
     peak_time_2_end = datetime.strptime("10:00", "%H:%M").replace(tzinfo=timezone.utc)
 
     # Check if the current time is within the peak time ranges
-    if (peak_time_1_start <= utc_time <= peak_time_1_end) or \
-       (peak_time_2_start <= utc_time <= peak_time_2_end):
-        return "peak"
+    in_peak_time_1 = peak_time_1_start <= utc_time <= peak_time_1_end
+    in_peak_time_2 = peak_time_2_start <= utc_time <= peak_time_2_end
+
+    if in_peak_time_1 or in_peak_time_2:
+        return "peakstart" if in_peak_time_1 else "nonpeak", "peakend" if in_peak_time_2 else "nonpeak"
     else:
-        return "nonpeak"
+        return "nonpeak", "nonpeak"
