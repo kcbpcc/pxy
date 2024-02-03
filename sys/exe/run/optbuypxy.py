@@ -56,12 +56,13 @@ if int(expiry_month) < 10:
 expiry_day = expiry_day.zfill(2)
 
 # Construct the symbol for the NIFTY Put Option
-symbol = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}PE"
-
-print("Symbol:", symbol)
+# Construct the symbol for the NIFTY Put Option
+symbol_PE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}PE"
+symbol_CE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
+print("Options:", symbol_CE, symbol_PE)
 
 # Get user confirmation
-print("Do you want  execute",symbol)
+print("Do you want to execute", symbol_CE, symbol_PE)
 start_time = time.time()
 user_confirmation = ''
 while time.time() - start_time < 120:
@@ -75,8 +76,16 @@ if not user_confirmation:
 
 if user_confirmation == 'Y':
     try:
-        order_id = broker.order_place(
-            tradingsymbol=symbol,
+        order_id_PE = broker.order_place(
+            tradingsymbol=symbol_PE,
+            quantity=50,
+            exchange="NFO",
+            transaction_type='BUY',
+            order_type='MARKET',
+            product='MIS'
+        )
+        order_id_CE = broker.order_place(
+            tradingsymbol=symbol_CE,
             quantity=50,
             exchange="NFO",
             transaction_type='BUY',
@@ -84,7 +93,7 @@ if user_confirmation == 'Y':
             product='MIS'
         )
 
-        print("Order placed successfully. Order ID:", order_id)
+        print("Orders placed successfully. Order IDs:", order_id_PE, order_id_CE)
 
     except Exception as e:
         print("Error placing order:", e)
