@@ -53,12 +53,23 @@ if int(expiry_month) < 10:
 # Ensure the date is always two digits
 expiry_day = expiry_day.zfill(2)
 
+def get_ltp(exchange, symbol):
+    key = f"{exchange}:{symbol}"
+    resp = broker.kite.ltp([key])
+    
+    if resp and isinstance(resp, dict) and key in resp:
+        return resp[key]['last_price']
+    else:
+        return None  # Return None if the ltp is not available or if there is an issue
+
 # Construct the symbol for the NIFTY Put Option
 symbol_PE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}PE"
 symbol_CE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
+ltp_PE = get_ltp("NFO", symbol_PE)
+ltp_CE = get_ltp("NFO", symbol_CE)
 
 # Get user confirmation
-print("Do you want to execute", symbol_CE, symbol_PE)
+print("Do you want to execute", symbol_CE,l tp_CE, symbol_PE, ltp_PE )
 start_time = time.time()
 user_confirmation = ''
 while time.time() - start_time < 120:
