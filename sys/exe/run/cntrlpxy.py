@@ -509,13 +509,14 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-###########################################################################################################################################################################################################                    
+####################1#######################################################################################################################################################################################                    
                     elif (
+                        'CE' in row['key'] and
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] in ['NRML', 'MIS'] and
-                        auto_value == 'AUTO'and
-                        row['PL%'] >  300 #row['otPL%']
+                        auto_value == 'AUTO' and
+                        row['PL%'] > 110  #row['otPL%']
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
