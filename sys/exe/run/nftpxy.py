@@ -31,7 +31,7 @@ def get_nse_action():
         nse_power = round(max(0.1, min(raw_nse_power, 1.0)), 2)
         Day_Change = round(((current_price - yesterday_close) / yesterday_close) * 100, 2)
         Open_Change = round(((current_price - today_open) / today_open) * 100, 2)
-        OPTIONS = round(current_price / 50) * 50
+        OPTIONS = round(current_price / 100) * 100
 
         # Initialize Day Action as an empty string
         nse_action = ""
@@ -39,19 +39,19 @@ def get_nse_action():
         # Determine the candlestick condition for today
         if yesterday_close < current_price and today_open < current_price:
             nse_action = "Bullish"
-            OPTIONS = round((current_price - 50) / 50) * 50
+            OPTIONS = round((current_price) / 100) * 100
         elif yesterday_close > current_price and today_open > current_price:
             nse_action = "Bearish"
-            OPTIONS = round((current_price - 200) / 50) * 50
+            OPTIONS = round((current_price) / 100) * 100
         elif today_open < current_price:
             nse_action = "Bull"  
-            OPTIONS = round((current_price - 100) / 50) * 50
+            OPTIONS = round((current_price) / 100) * 100
         elif today_open > current_price:
             nse_action = "Bear" 
-            OPTIONS = round((current_price - 150) / 50) * 50
+            OPTIONS = round((current_price) / 100) * 100
         else:
             nse_action = "Bull"
-            OPTIONS = round((current_price - 100) / 50) * 50
+            OPTIONS = round((current_price - 100) / 100) * 100
         return nse_action, nse_power, Day_Change, Open_Change, OPTIONS 
 
     except Exception as e:
