@@ -14,9 +14,6 @@ from fundpxy import calculate_decision
 from nftpxy import OPTIONS
 import pandas as pd
 decision = calculate_decision()
-from mktpxy import get_market_check
-
-onemincandlesequance, mktpxy = get_market_check()
 
 try:
     broker = get_kite(api="bypass", sec_dir=dir_path)
@@ -62,80 +59,90 @@ def get_ltp(exchange, symbol):
     else:
         return None  # Return None if the ltp is not available or if there is an issue
 
+# Function to calculate funds needed for a given symbol and quantity
+def calculate_funds_needed(exchange, symbol, quantity):
+    ltp = get_ltp(exchange, symbol)
+    if ltp is not None:
+        return ltp * quantity
+    else:
+        return None
+
 # Construct the symbol for the NIFTY Put Option
 symbol_PE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}PE"
 symbol_CE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
-ltp_PE = get_ltp("NFO", symbol_PE)
-ltp_CE = get_ltp("NFO", symbol_CE)
 
-# Get user confirmation
-print(symbol_CE, ltp_CE )
-print(symbol_PE, ltp_PE)
-print("Do you want to execute")
-start_time = time.time()
-user_confirmation = ''
-while time.time() - start_time < 120:
-    rlist, _, _ = select.select([sys.stdin], [], [], 0.1)  # Check for input every 0.1 seconds
-    if rlist:
-        user_confirmation = sys.stdin.read(1).upper()
-        break
+# Calculate funds needed for each symbol with quantity 50
+quantity = 50
+funds_needed_PE = calculate_funds_needed("NFO", symbol_PE, quantity)
+funds_needed_CE = calculate_funds_needed("NFO", symbol_CE, quantity)
 
-if not user_confirmation:
-    user_confirmation = 'N'
+# Check against available cash with a buffer of 10%
+response = broker.kite.margins()
+available_cash = response["equity"]["available"]["live_balance"]
 
-# Read the CSV file to check if symbols exist
-try:
-    df = pd.read_csv('fileHPdf.csv')
-    existing_symbols = set(df['tradingsymbol'].tolist())
-except FileNotFoundError:
-    existing_symbols = set()
+# Print results
+if funds_needed_PE is not None and funds_needed_CE is not None:
+    total_funds_needed = funds_needed_PE + funds_needed_CE
+    print(f"Funds needed for {symbol_PE} with quantity {quantity}: {funds_needed_PE}")
+    print(f"Funds needed for {symbol_CE} with quantity {quantity}: {funds_needed_CE}")
+    print(f"Total funds needed: {total_funds_needed}")
 
-# Check if either of the symbols exists in the CSV file
-if symbol_PE in existing_symbols or symbol_CE in existing_symbols:
-    print(f"At least one of the symbols {symbol_PE} or {symbol_CE} already exists in the CSV file. Skipping orders.")
-    sys.exit(0)  # Exit the program
-
-# Proceed to place orders
-if user_confirmation == 'Y':
+    # Read the CSV file to check if symbols exist
     try:
-        order_id_PE = broker.order_place(
-            tradingsymbol=symbol_PE,
-            quantity=50,
-            exchange="NFO",
-            transaction_type='BUY',
-            order_type='MARKET',
-            product='NRML'
-        )
+        df = pd.read_csv('fileHPdf.csv')
+        existing_symbols = set(df['tradingsymbol'].tolist())
+    except FileNotFoundError:
+        existing_symbols = set()
 
-        print("Put Option Order placed successfully. Order ID:", order_id_PE)
+    # Check if either of the symbols exists in the CSV file
+    if symbol_PE in existing_symbols or symbol_CE in existing_symbols:
+        print(f"At least one of the symbols {symbol_PE} or {symbol_CE} already exists in the CSV file. Skipping orders.")
+        sys.exit(0)  # Exit the program
 
-    except Exception as e:
-        print("Error placing Put Option order:", e)
-        order_id_PE = None  # Set order_id_PE to None to indicate failure
+    if available_cash >= 1.1 * total_funds_needed:
+        print("You have sufficient funds. Proceeding with order placement.")
+        
+        # Place orders here
+        try:
+            order_id_PE = broker.order_place(
+                tradingsymbol=symbol_PE,
+                quantity=50,
+                exchange="NFO",
+                transaction_type='BUY',
+                order_type='MARKET',
+                product='NRML'
+            )
 
-    try:
-        order_id_CE = broker.order_place(
-            tradingsymbol=symbol_CE,
-            quantity=50,
-            exchange="NFO",
-            transaction_type='BUY',
-            order_type='MARKET',
-            product='NRML'
-        )
+            print("Put Option Order placed successfully. Order ID:", order_id_PE)
 
-        print("Call Option Order placed successfully. Order ID:", order_id_CE)
+        except Exception as e:
+            print("Error placing Put Option order:", e)
+            order_id_PE = None  # Set order_id_PE to None to indicate failure
 
-    except Exception as e:
-        print("Error placing Call Option order:", e)
-        order_id_CE = None  # Set order_id_CE to None to indicate failure
+        try:
+            order_id_CE = broker.order_place(
+                tradingsymbol=symbol_CE,
+                quantity=50,
+                exchange="NFO",
+                transaction_type='BUY',
+                order_type='MARKET',
+                product='NRML'
+            )
 
-    # Check if both orders were successful
-    if order_id_PE is not None and order_id_CE is not None:
-        print("Both orders placed successfully. Order IDs:", order_id_PE, order_id_CE)
+            print("Call Option Order placed successfully. Order ID:", order_id_CE)
+
+        except Exception as e:
+            print("Error placing Call Option order:", e)
+            order_id_CE = None  # Set order_id_CE to None to indicate failure
+
+        # Check if both orders were successful
+        if order_id_PE is not None and order_id_CE is not None:
+            print("Both orders placed successfully. Order IDs:", order_id_PE, order_id_CE)
+        else:
+            print("At least one order failed. Check error messages.")
+
     else:
-        print("At least one order failed. Check error messages.")
-
+        print("Insufficient funds. Order placement aborted.")
 else:
-    print("Operation cancelled by user. Exiting...")
-    time.sleep(10)  # Sleep for 10 seconds
-    sys.exit(0)  # Exit the program
+    print("Unable to calculate funds needed for one or more symbols.")
+
