@@ -6,11 +6,17 @@ source ~/env/bin/activate
 # Change to the script's directory
 cd ~/pxy/sys/exe/run
 
-# List the files with numbers
+# List the files in two columns
 echo "Available scripts:"
 files=($(ls))
-for i in "${!files[@]}"; do
-    echo "$i. ${files[$i]}"
+columns=2
+rows=$(( (${#files[@]} + columns - 1) / columns ))
+
+for ((i=0; i<rows; i++)); do
+    for ((j=i; j<${#files[@]}; j+=rows)); do
+        printf "%-20s" "${files[j]}"
+    done
+    echo
 done
 
 # Prompt the user for the script's number
