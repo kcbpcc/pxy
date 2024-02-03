@@ -561,29 +561,22 @@ try:
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
- 
-    
     if nrml_filtered_df.empty:
-        #print("optpxy: options not activated, lets wait!")
-        #print(nrml_filtered_df)
-
+        print("optpxy: options not activated, let's wait!")
+        # print(nrml_filtered_df)
     else:
         formatted_lines = nrml_filtered_df[['Invested','key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
-    
         # Set max_width to 42
         max_width = 42
-    
         # Iterate over each line and format it with color based on PnL value
         for line in formatted_lines:
             values = line.split()
             pnl_value_str = values[-1]
-    
             # Check if PnL value is a valid float
             try:
                 pnl_value = float(pnl_value_str)
             except ValueError:
                 pnl_value = None  # PnL value is not a valid float
-    
             # Set color based on PnL value
             if pnl_value is not None:
                 if pnl_value > 0:
@@ -594,11 +587,10 @@ try:
                     color_code = RESET  # Reset color for PnL value of 0
             else:
                 color_code = RESET  # Reset color for invalid PnL values
-    
             # Right-align the text, apply color, and reset color after the line
             print(color_code + line.rjust(max_width) + RESET)
-    print(f"Lets play with {YELLOW}{OPTIONS}{RESET} ||Option P&L%:{SILVER} {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}")
-    print("━" * 42)
+        print(f"Lets play with {YELLOW}{OPTIONS}{RESET} ||Option P&L%:{SILVER} {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}")
+        print("━" * 42)
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
