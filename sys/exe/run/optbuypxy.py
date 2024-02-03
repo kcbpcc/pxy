@@ -14,7 +14,8 @@ from fundpxy import calculate_decision
 from nftpxy import OPTIONS
 import pandas as pd
 decision = calculate_decision()
-
+import telegram
+import asyncio
 try:
     broker = get_kite(api="bypass", sec_dir=dir_path)
 except Exception as e:
@@ -22,6 +23,23 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
+
+# Define the function to send a message to Telegram
+async def send_telegram_message(message_text):
+    try:
+        # Define the bot token and your Telegram username or ID
+        bot_token = '6396096532:AAG5adz_SeUwV8WLn7miteljk_pRrpt8mO0'  # Replace with your actual bot token
+        user_usernames = ('-4067167377')  # Replace with your Telegram username or ID
+
+        # Create a Telegram bot
+        bot = telegram.Bot(token=bot_token)
+
+        # Send the message to Telegram
+        await bot.send_message(chat_id=user_usernames, text=message_text)
+
+    except Exception as e:
+        # Handle the exception (e.g., log it) and continue with your code
+        print(f"Error sending message to Telegram: {e}")
 
 # Ensure that the 'broker' object has an 'order_place' method
 if not hasattr(broker, 'order_place') or not callable(getattr(broker, 'order_place', None)):
@@ -114,6 +132,9 @@ if funds_needed_PE is not None and funds_needed_CE is not None:
             )
 
             print("Put Option Order placed successfully. Order ID:", order_id_PE)
+            message_text_PE = f"Put Option Order placed successfully. Order ID: {order_id_PE}"
+            # Send the message to Telegram
+            asyncio.run(send_telegram_message(message_text_PE))
 
         except Exception as e:
             print("Error placing Put Option order:", e)
@@ -130,6 +151,9 @@ if funds_needed_PE is not None and funds_needed_CE is not None:
             )
 
             print("Call Option Order placed successfully. Order ID:", order_id_CE)
+            message_text_CE = f"Call Option Order placed successfully. Order ID: {order_id_CE}"
+            # Send the message to Telegram
+            asyncio.run(send_telegram_message(message_text_CE))
 
         except Exception as e:
             print("Error placing Call Option order:", e)
