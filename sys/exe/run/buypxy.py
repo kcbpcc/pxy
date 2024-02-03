@@ -129,8 +129,6 @@ if decision == "YES":
                     # Neither NSE nor BSE LTP is available, return with remaining_cash
                     return dct['tradingsymbol'], remaining_cash
 
-            # ... (rest of the existing transact function code)
-
         except Exception as e:
             print(f"Error in transact function: {e}")
             # Handle the exception if needed
