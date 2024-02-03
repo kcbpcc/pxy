@@ -31,13 +31,13 @@ if not hasattr(broker, 'order_place') or not callable(getattr(broker, 'order_pla
     print("Error: 'broker' object does not have 'order_place' method.")
     sys.exit(1)
 
-# Calculate the next Thursday date at least 14 days ahead
+# Calculate the next Thursday date at least 3 days ahead
 current_date = datetime.now()
-days_until_next_thursday = (3 - current_date.weekday() + 14) % 7  # Change 7 to 14
+days_until_next_thursday = (3 - current_date.weekday() + 3) % 7  # Change 7 to 3
 
-# Ensure at least 14 days ahead
-if days_until_next_thursday < 14:  # Change 6 to 14
-    days_until_next_thursday += 7  # Change 7 to 14
+# Ensure at least 3 days ahead
+if days_until_next_thursday < 3:  # Change 6 to 3
+    days_until_next_thursday += 7  # Change 7 to 3
 
 next_thursday = current_date + timedelta(days=days_until_next_thursday)
 
@@ -80,48 +80,49 @@ except FileNotFoundError:
 # Check if either of the symbols exists in the CSV file
 if symbol_PE in existing_symbols or symbol_CE in existing_symbols:
     print(f"At least one of the symbols {symbol_PE} or {symbol_CE} already exists in the CSV file. Skipping orders.")
-else:
-    # Proceed to place orders
-    if user_confirmation == 'Y':
-        try:
-            order_id_PE = broker.order_place(
-                tradingsymbol=symbol_PE,
-                quantity=50,
-                exchange="NFO",
-                transaction_type='BUY',
-                order_type='MARKET',
-                product='MIS'
-            )
+    sys.exit(0)  # Exit the program
 
-            print("Put Option Order placed successfully. Order ID:", order_id_PE)
+# Proceed to place orders
+if user_confirmation == 'Y':
+    try:
+        order_id_PE = broker.order_place(
+            tradingsymbol=symbol_PE,
+            quantity=50,
+            exchange="NFO",
+            transaction_type='BUY',
+            order_type='MARKET',
+            product='MIS'
+        )
 
-        except Exception as e:
-            print("Error placing Put Option order:", e)
-            order_id_PE = None  # Set order_id_PE to None to indicate failure
+        print("Put Option Order placed successfully. Order ID:", order_id_PE)
 
-        try:
-            order_id_CE = broker.order_place(
-                tradingsymbol=symbol_CE,
-                quantity=50,
-                exchange="NFO",
-                transaction_type='BUY',
-                order_type='MARKET',
-                product='MIS'
-            )
+    except Exception as e:
+        print("Error placing Put Option order:", e)
+        order_id_PE = None  # Set order_id_PE to None to indicate failure
 
-            print("Call Option Order placed successfully. Order ID:", order_id_CE)
+    try:
+        order_id_CE = broker.order_place(
+            tradingsymbol=symbol_CE,
+            quantity=50,
+            exchange="NFO",
+            transaction_type='BUY',
+            order_type='MARKET',
+            product='MIS'
+        )
 
-        except Exception as e:
-            print("Error placing Call Option order:", e)
-            order_id_CE = None  # Set order_id_CE to None to indicate failure
+        print("Call Option Order placed successfully. Order ID:", order_id_CE)
 
-        # Check if both orders were successful
-        if order_id_PE is not None and order_id_CE is not None:
-            print("Both orders placed successfully. Order IDs:", order_id_PE, order_id_CE)
-        else:
-            print("At least one order failed. Check error messages.")
+    except Exception as e:
+        print("Error placing Call Option order:", e)
+        order_id_CE = None  # Set order_id_CE to None to indicate failure
 
+    # Check if both orders were successful
+    if order_id_PE is not None and order_id_CE is not None:
+        print("Both orders placed successfully. Order IDs:", order_id_PE, order_id_CE)
     else:
-        print("Operation cancelled by user. Exiting...")
-        time.sleep(10)  # Sleep for 10 seconds
-        sys.exit(0)  # Exit the program
+        print("At least one order failed. Check error messages.")
+
+else:
+    print("Operation cancelled by user. Exiting...")
+    time.sleep(10)  # Sleep for 10 seconds
+    sys.exit(0)  # Exit the program
