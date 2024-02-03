@@ -69,7 +69,7 @@ ltp_PE = get_ltp("NFO", symbol_PE)
 ltp_CE = get_ltp("NFO", symbol_CE)
 
 # Get user confirmation
-print("Do you want to execute", symbol_CE,l tp_CE, symbol_PE, ltp_PE )
+print("Do you want to execute", symbol_CE, ltp_CE, symbol_PE, ltp_PE)
 start_time = time.time()
 user_confirmation = ''
 while time.time() - start_time < 120:
