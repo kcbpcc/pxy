@@ -563,10 +563,10 @@ try:
 ###########################################################################################################################################################################################################
  
     
-    if nrml_filtered_df.empty:
-        print("optpxy: options not activated, lets wait!")
+    #if nrml_filtered_df.empty:
+        #print("optpxy: options not activated, lets wait!")
 
-    else:
+    if:
         formatted_lines = nrml_filtered_df[['Invested','key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
     
         # Set max_width to 42
