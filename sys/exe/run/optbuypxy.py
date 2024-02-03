@@ -69,8 +69,8 @@ ltp_PE = get_ltp("NFO", symbol_PE)
 ltp_CE = get_ltp("NFO", symbol_CE)
 
 # Get user confirmation
-print(symbol_CE, symbol_PE)
-print(ltp_CE, ltp_PE)
+print(symbol_CE, ltp_CE )
+print(symbol_PE, ltp_PE)
 print("Do you want to execute")
 start_time = time.time()
 user_confirmation = ''
