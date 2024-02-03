@@ -63,7 +63,7 @@ while True:
         subprocess.run(['python3', 'cntrlpxy.py'])
         console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|[bold]..Market on standby![/bold]")
     # Call the function and store the result in a variable
-    subprocess.run(['python3', 'optbuypxy.py']) if peak == 'nonpeak' and (nse_power < 0.05 or nse_power > 0.95) else None
+    subprocess.run(['python3', 'optbuypxy.py']) if nse_power < 0.05 or nse_power > 0.95 else None
     subprocess.run(['python3', 'buypxy.py']) if peak == 'peakend' else None
     #subprocess.run(['python3', 'tistpxy.py'])  # Run 'tistpxy.py' using subprocess
     subprocess.run(['python3', 'tistpxy.py'])
