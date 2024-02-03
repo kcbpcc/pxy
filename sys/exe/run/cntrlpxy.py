@@ -565,7 +565,7 @@ try:
     
     if nrml_filtered_df.empty:
         #print("optpxy: options not activated, lets wait!")
-        print(nrml_filtered_df)
+        #print(nrml_filtered_df)
 
     else:
         formatted_lines = nrml_filtered_df[['Invested','key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
