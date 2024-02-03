@@ -1,19 +1,17 @@
 from datetime import datetime, timedelta
+import pandas as pd
+import traceback
+import sys
+import time
+import select
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from buypluspxy import Trendlyne
-import pandas as pd
-import traceback
-import sys
-import os
 from fundpxy import calculate_decision
 from nftpxy import OPTIONS
-import time
-import select
-
 
 decision = calculate_decision()
 from mktpxy import get_market_check
@@ -56,10 +54,9 @@ if int(expiry_month) < 10:
 expiry_day = expiry_day.zfill(2)
 
 # Construct the symbol for the NIFTY Put Option
-# Construct the symbol for the NIFTY Put Option
 symbol_PE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}PE"
 symbol_CE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
-#print("Do you want to execute", symbol_CE, symbol_PE)
+print("Do you want to execute", symbol_CE, symbol_PE)
 
 # Get user confirmation
 print("Do you want to execute", symbol_CE, symbol_PE)
@@ -74,46 +71,58 @@ while time.time() - start_time < 120:
 if not user_confirmation:
     user_confirmation = 'N'
 
-if user_confirmation == 'Y':
-    try:
-        order_id_PE = broker.order_place(
-            tradingsymbol=symbol_PE,
-            quantity=50,
-            exchange="NFO",
-            transaction_type='BUY',
-            order_type='MARKET',
-            product='NRML'
-        )
+# Read the CSV file to check if symbols exist
+try:
+    df = pd.read_csv('fileHPdf.csv')
+    existing_symbols = set(df['tradingsymbol'].tolist())
+except FileNotFoundError:
+    existing_symbols = set()
 
-        print("Put Option Order placed successfully. Order ID:", order_id_PE)
-
-    except Exception as e:
-        print("Error placing Put Option order:", e)
-        order_id_PE = None  # Set order_id_PE to None to indicate failure
-
-    try:
-        order_id_CE = broker.order_place(
-            tradingsymbol=symbol_CE,
-            quantity=50,
-            exchange="NFO",
-            transaction_type='BUY',
-            order_type='MARKET',
-            product='NRML'
-        )
-
-        print("Call Option Order placed successfully. Order ID:", order_id_CE)
-
-    except Exception as e:
-        print("Error placing Call Option order:", e)
-        order_id_CE = None  # Set order_id_CE to None to indicate failure
-
-    # Check if both orders were successful
-    if order_id_PE is not None and order_id_CE is not None:
-        print("Both orders placed successfully. Order IDs:", order_id_PE, order_id_CE)
-    else:
-        print("At least one order failed. Check error messages.")
-
+# Check if either of the symbols exists in the CSV file
+if symbol_PE in existing_symbols or symbol_CE in existing_symbols:
+    print(f"At least one of the symbols {symbol_PE} or {symbol_CE} already exists in the CSV file. Skipping orders.")
 else:
-    print("Operation cancelled by user. Exiting...")
-    time.sleep(10)  # Sleep for 10 seconds
-    sys.exit(0)  # Exit the program
+    # Proceed to place orders
+    if user_confirmation == 'Y':
+        try:
+            order_id_PE = broker.order_place(
+                tradingsymbol=symbol_PE,
+                quantity=50,
+                exchange="NFO",
+                transaction_type='BUY',
+                order_type='MARKET',
+                product='MIS'
+            )
+
+            print("Put Option Order placed successfully. Order ID:", order_id_PE)
+
+        except Exception as e:
+            print("Error placing Put Option order:", e)
+            order_id_PE = None  # Set order_id_PE to None to indicate failure
+
+        try:
+            order_id_CE = broker.order_place(
+                tradingsymbol=symbol_CE,
+                quantity=50,
+                exchange="NFO",
+                transaction_type='BUY',
+                order_type='MARKET',
+                product='MIS'
+            )
+
+            print("Call Option Order placed successfully. Order ID:", order_id_CE)
+
+        except Exception as e:
+            print("Error placing Call Option order:", e)
+            order_id_CE = None  # Set order_id_CE to None to indicate failure
+
+        # Check if both orders were successful
+        if order_id_PE is not None and order_id_CE is not None:
+            print("Both orders placed successfully. Order IDs:", order_id_PE, order_id_CE)
+        else:
+            print("At least one order failed. Check error messages.")
+
+    else:
+        print("Operation cancelled by user. Exiting...")
+        time.sleep(10)  # Sleep for 10 seconds
+        sys.exit(0)  # Exit the program
