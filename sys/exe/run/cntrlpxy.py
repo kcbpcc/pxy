@@ -535,7 +535,7 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
-                         available_cash > 20000 and
+                         available_cash > 10000 and
                          nse_power < 0.1 and
                          optpxy in ['Buy', 'Bull'] and
                          row['PL%'] < -18)
