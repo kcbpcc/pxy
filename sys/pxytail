@@ -1,18 +1,12 @@
-#!/bin/bash
+##!/bin/bash
 
-LOG_FILE1=~/pxy/sys/exe/main.log
-LOG_FILE2=~/pxy/sys/exe/run/output.txt
+LOG_FILE=~/pxy/sys/exe/main.log
 
-# Check if the log files exist
-if [ ! -f "$LOG_FILE1" ]; then
-    echo "Error: Log file $LOG_FILE1 not found."
+# Check if the log file exists
+if [ ! -f "$LOG_FILE" ]; then
+    echo "Error: Log file $LOG_FILE not found."
     exit 1
 fi
 
-if [ ! -f "$LOG_FILE2" ]; then
-    echo "Error: Log file $LOG_FILE2 not found."
-    exit 1
-fi
-
-# Continuously display new log entries using multitail
-multitail -f "$LOG_FILE1" -f "$LOG_FILE2"
+# Continuously display new log entries using multitail for the main log file
+multitail -f "$LOG_FILE"
