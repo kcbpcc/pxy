@@ -60,7 +60,7 @@ def dayprinter(o, h, l, c, prev_close):
     arrow = "🟩🟩" if c > prev_close else "🟥🟥"
     ha_close = (o + h + l + c) / 4
     haarrow = "HA👆" if ha_close > prev_close else "HA👇"
-    print(f"Yesterday:{int(prev_close)}━━{haarrow}━{arrow}━Today-Now:{int(c)}")  
+    print(f"Yesterday:{int(prev_close)}━{haarrow}━━{arrow}━Today-Now:{int(c)}")  
 
     print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
 
