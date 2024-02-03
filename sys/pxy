@@ -82,7 +82,7 @@ while true; do
             pxypy
             ;;
 
-        ..)
+        py)
             echo "    💻💻💻💻..👉exe/run"
             py
             ;;
