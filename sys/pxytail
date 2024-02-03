@@ -1,4 +1,4 @@
-##!/bin/bash
+#!/bin/bash
 
 LOG_FILE=~/pxy/sys/exe/main.log
 
@@ -8,5 +8,5 @@ if [ ! -f "$LOG_FILE" ]; then
     exit 1
 fi
 
-# Continuously display new log entries using multitail for the main log file
-multitail -f "$LOG_FILE"
+# Continuously display the last 10 lines of the main log file
+tail -n 10 -f "$LOG_FILE"
