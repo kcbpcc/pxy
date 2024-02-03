@@ -84,6 +84,14 @@ if user_confirmation == 'Y':
             order_type='MARKET',
             product='MIS'
         )
+
+        print("Put Option Order placed successfully. Order ID:", order_id_PE)
+
+    except Exception as e:
+        print("Error placing Put Option order:", e)
+        order_id_PE = None  # Set order_id_PE to None to indicate failure
+
+    try:
         order_id_CE = broker.order_place(
             tradingsymbol=symbol_CE,
             quantity=50,
@@ -93,13 +101,19 @@ if user_confirmation == 'Y':
             product='MIS'
         )
 
-        print("Orders placed successfully. Order IDs:", order_id_PE, order_id_CE)
+        print("Call Option Order placed successfully. Order ID:", order_id_CE)
 
     except Exception as e:
-        print("Error placing order:", e)
+        print("Error placing Call Option order:", e)
+        order_id_CE = None  # Set order_id_CE to None to indicate failure
+
+    # Check if both orders were successful
+    if order_id_PE is not None and order_id_CE is not None:
+        print("Both orders placed successfully. Order IDs:", order_id_PE, order_id_CE)
+    else:
+        print("At least one order failed. Check error messages.")
 
 else:
     print("Operation cancelled by user. Exiting...")
     time.sleep(10)  # Sleep for 10 seconds
     sys.exit(0)  # Exit the program
-
