@@ -6,9 +6,9 @@ import traceback
 class Trendlyne:
 
     base_url = "https://trendlyne.com/"
-    entry_url = base_url + "fundamentals/stock-screener/432332/buy-plus-pxy/index/NIFTY500/nifty-500/"
-    #https://trendlyne.com/fundamentals/stock-screener/432332/buy-plus-pxy/index/NIFTY500/nifty-500/
-  
+    entry_url = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-pxy/index/NIFTY500/nifty-500/"
+#https://trendlyne.com/fundamentals/v1/stock-screener/432332/buy-plus-pxy/index/NIFTY500/nifty-500/  
+    
     #( ( ( ( Previous Day Open - Prev Day Close Rs ) / Prev Day Close Rs ) * 100 ) < 1.4 ) AND ( ( ( ( Day High Rs - Previous Day Open ) / Previous Day Open ) * 100 ) < 1.4 ) AND ( Day Volume Primary Exch / Week Volume Avg Primary Exch > 1.4 ) AND ( Previous Day Open > Prev Day Close Rs ) AND ( Current Price Rs > Previous Day Open ) AND ( Day Volume Primary Exch >= 10000 ) AND ( Previous Day Open > Day Low Rs ) AND ( Current Price Rs > Day Open Rs ) AND ( MACD > 0 )
     def __init__(self):
         fake_response = requests.get(self.base_url)
