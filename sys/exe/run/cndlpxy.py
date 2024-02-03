@@ -58,7 +58,7 @@ def dayprinter(o, h, l, c, prev_close):
 
     # Print both the previous day's close and today's close in a single sentence with color
 
-    print(f"Yesterday:{int(prev_close)}{arrow}{haarrow}Today-Now:{int(c)}")   
+
     print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
 
     if c > o:
@@ -73,6 +73,7 @@ def dayprinter(o, h, l, c, prev_close):
     arrow = "🟩" if c > prev_close else "🟥"
     ha_close = (o + h + l + c) / 4
     haarrow = "👆" if ha_close > prev_close else "👇"
+    print(f"Yesterday:{int(prev_close)}{arrow}{haarrow}Today-Now:{int(c)}")   
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
     today_open = today_data['Open']
