@@ -59,8 +59,7 @@ def dayprinter(o, h, l, c, prev_close):
     # Print both the previous day's close and today's close in a single sentence with color
     arrow = "🟩🟩" if c > prev_close else "🟥🟥"
     ha_close = (o + h + l + c) / 4
-    #haarrow = "HA👆" if ha_close > prev_close else "HA👇"
-    haarrow = f"{Fore.GREEN}▌👆" if ha_close > prev_close else f"{Fore.RED}▌👇"
+    haarrow = f"{Fore.GREEN}▌👆▌" if ha_close > prev_close else f"{Fore.RED}▌👇▌"
     print(f"Yesterday:{int(prev_close)}━{haarrow}━━{arrow}━Today-Now:{int(c)}")  
 
     print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
