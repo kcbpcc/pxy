@@ -13,7 +13,7 @@ while true; do
     echo "   -pxy                   🔥        en"
     echo "   -pyp                   🎉        pp"
     echo "   -pxypy                 💻        ex"
-    echo "   -pxytp                 🔄        tp"
+    echo "   -pxytp                 🚛        tp"
     echo "   -pxybuy                🌱        by"
     echo "   -pxyopt                🛸        op"
     echo "   -pxytail               📜        ta"
@@ -37,7 +37,7 @@ while true; do
             pyp
             ;;   
         tp)
-            echo "    🔄🔄.pxycloudsynch.🔄🔄"
+            echo "    🚛🚛.pxycloudsynch.🚛🚛"
             pxytp
             ;;           
         by)
