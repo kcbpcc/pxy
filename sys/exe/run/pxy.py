@@ -65,7 +65,7 @@ while True:
     # Call the function and store the result in a variable
     subprocess.run(['python3', 'optbuypxy.py']) if nse_power < 0.05 or nse_power > 0.95 else None
     subprocess.run(['python3', 'buypxy.py']) if peak == 'peakend' else None
-    #subprocess.run(['python3', 'tistpxy.py'])  # Run 'tistpxy.py' using subprocess
+    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess    
     subprocess.run(['python3', 'tistpxy.py'])
     console.print(onemincandlesequance)  # Print the content of 'onemincandlesequance' using the 'console.print' method
     print("━" * 42)  # Print another line of 42 dashes
@@ -80,7 +80,6 @@ while True:
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=red_style)
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
-    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess    
     from rich.console import Console
     from rich.style import Style
     import time
