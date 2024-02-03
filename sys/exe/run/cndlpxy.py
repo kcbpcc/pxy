@@ -57,8 +57,11 @@ def dayprinter(o, h, l, c, prev_close):
         m = 100 - n - x
 
     # Print both the previous day's close and today's close in a single sentence with color
-    arrow = " ━━🟢🟢━━ " if c > prev_close else " ━━🔴🔴━━ "
+    arrow = " ━━🔴🟢━━ " if c > prev_close else " ━━🔴🟢━━ "
     print(f"Yesterday:{int(prev_close)} {arrow} Today-Now:{int(c)}")   
+    ha_close = (o + h + l + c) / 4
+    arrow = " ━━🟥🟩━━ " if ha_close > prev_close else " ━━🟩🟥━━ "
+    print(f"Heikin-Ashi Yesterday:{int(prev_close)} {arrow} Today-Now:{int(ha_close)}")
     print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
 
     if c > o:
