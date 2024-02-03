@@ -43,33 +43,27 @@ def get_today_close():
     else:
         return None  # Handle the case when data is not available
 
-def dayprinter(o, h, l, c, prev_close):
+def dayprinter(o, h, l, c, prev_close, use_heikin_ashi=False):
     total_length = 43
     
+    if use_heikin_ashi:
+        ha_close = (o + h + l + c) / 4
+        arrow = " ━━🟢━━ " if ha_close > prev_close else " ━━🔴━━ "
+        print(f"Heikin-Ashi Yesterday:{int(prev_close)} {arrow} Today-Now:{int(ha_close)}")
+    else:
+        arrow = " ━━🟩━━ " if c > prev_close else " ━━🟥━━ "
+        print(f"Yesterday:{int(prev_close)} {arrow} Today-Now:{int(c)}")
+
     # Calculate the lengths of different segments as percentages
     if c > o:
-        n = round(((o - (l-1)) / ((h+1) - (l-1))) * 100)
-        x = round(((c - o) / ((h+1) - (l-1))) * 100)
-        m = 100 - n - x
-    else:
-        n = round(((c - (l-1)) / ((h+1) - (l-1))) * 100)
-        x = round(((o - c) / ((h+1) - (l-1))) * 100)
-        m = 100 - n - x
-
-    # Print both the previous day's close and today's close in a single sentence with color
-    arrow = " ━━🟢🟢━━ " if c > prev_close else " ━━🔴🔴━━ "
-    print(f"Yesterday:{int(prev_close)} {arrow} Today-Now:{int(c)}")   
-    print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
-
-    if c > o:
-        print(Fore.GREEN + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
+        print(Fore.GREEN + '▌' * int((abs(c - o) / (h - l)) * 100) + Style.RESET_ALL, end='')
     elif o > c:
-        print(Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
-    
-    print(Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length))
+        print(Fore.RED + '▌' * int((abs(c - o) / (h - l)) * 100) + Style.RESET_ALL, end='')
+
+    print(Fore.LIGHTWHITE_EX + '━' * int(((h - l) - abs(c - o)) / (h - l) * total_length))
     
     # Determine the color based on the comparison of today's close with yesterday's close
-    color = Fore.GREEN if c > prev_close else Fore.RED
+    color = Fore.GREEN if (use_heikin_ashi and ha_close > prev_close) else (Fore.GREEN if c > prev_close else Fore.RED)
     
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
