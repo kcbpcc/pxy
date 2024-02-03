@@ -8,14 +8,15 @@ cd ~/pxy/sys/exe/run
 
 # List the files in two columns with numbers
 echo "Available scripts:"
-files=($(ls))
+files=($(ls *pxy.py))
 columns=2
 rows=$(( (${#files[@]} + columns - 1) / columns ))
 
 for ((i=0; i<rows; i++)); do
     for ((j=i; j<${#files[@]}; j+=rows)); do
         script_number=$((j+1))
-        printf "%-4s%-20s" "$script_number." "${files[j]}"
+        script_name="${files[j]%.pxy.py}"
+        printf "%-4s%-20s" "$script_number." "$script_name"
     done
     echo
 done
