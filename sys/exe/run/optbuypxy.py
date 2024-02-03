@@ -82,7 +82,7 @@ if user_confirmation == 'Y':
             exchange="NFO",
             transaction_type='BUY',
             order_type='MARKET',
-            product='MIS'
+            product='NRML'
         )
 
         print("Put Option Order placed successfully. Order ID:", order_id_PE)
@@ -98,7 +98,7 @@ if user_confirmation == 'Y':
             exchange="NFO",
             transaction_type='BUY',
             order_type='MARKET',
-            product='MIS'
+            product='NRML'
         )
 
         print("Call Option Order placed successfully. Order ID:", order_id_CE)
