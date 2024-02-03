@@ -6,7 +6,7 @@ source ~/env/bin/activate
 # Change to the script's directory
 cd ~/pxy/sys/exe/run
 
-# List the files in two columns
+# List the files in two columns with numbers
 echo "Available scripts:"
 files=($(ls))
 columns=2
@@ -14,7 +14,8 @@ rows=$(( (${#files[@]} + columns - 1) / columns ))
 
 for ((i=0; i<rows; i++)); do
     for ((j=i; j<${#files[@]}; j+=rows)); do
-        printf "%-20s" "${files[j]}"
+        script_number=$((j+1))
+        printf "%-5s %-20s" "$script_number." "${files[j]}"
     done
     echo
 done
@@ -29,7 +30,7 @@ if [[ ! $script_number =~ ^[0-9]+$ ]]; then
 fi
 
 # Get the selected script name
-selected_script="${files[$script_number]}"
+selected_script="${files[$script_number - 1]}"
 
 # Check if the selected script exists
 if [ -f "$selected_script" ]; then
