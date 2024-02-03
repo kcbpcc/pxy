@@ -45,7 +45,7 @@ while true; do
             pxybuy
             ;;   
         op)
-            echo "    🌱🌱🌱..Opt Now..🌱🌱🌱"
+            echo "    🛸🛸🛸..Opt Now..🛸🛸🛸"
             pxyopt
             ;;           
         ts)
