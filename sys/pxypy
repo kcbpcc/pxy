@@ -15,7 +15,7 @@ rows=$(( (${#files[@]} + columns - 1) / columns ))
 for ((i=0; i<rows; i++)); do
     for ((j=i; j<${#files[@]}; j+=rows)); do
         script_number=$((j+1))
-        printf "%-5s %-20s" "$script_number." "${files[j]}"
+        printf "%-4s%-20s" "$script_number." "${files[j]}"
     done
     echo
 done
@@ -39,3 +39,4 @@ if [ -f "$selected_script" ]; then
 else
     echo "Error: The specified script does not exist."
 fi
+
