@@ -12,7 +12,7 @@ from cnstpxy import dir_path, fileutils, buybuff, max_target
 from buypluspxy import Trendlyne
 from fundpxy import calculate_decision
 from nftpxy import OPTIONS
-
+import pandas as pd
 decision = calculate_decision()
 from mktpxy import get_market_check
 
@@ -56,7 +56,6 @@ expiry_day = expiry_day.zfill(2)
 # Construct the symbol for the NIFTY Put Option
 symbol_PE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}PE"
 symbol_CE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
-print("Do you want to execute", symbol_CE, symbol_PE)
 
 # Get user confirmation
 print("Do you want to execute", symbol_CE, symbol_PE)
