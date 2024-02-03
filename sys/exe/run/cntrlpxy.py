@@ -329,7 +329,7 @@ try:
     nse_factor = {"Bearish": 0.5, "Bear": 1.0, "Bull": 1.5, "Bullish": 2.0}.get(nse_action, 1.0) 
     options_nse_factor = {"Bearish": 2.0, "Bear": 1.5, "Bull": 0.10, "Bullish": 0.5}.get(nse_action, 1.0)  
     exp_nse_factor = math.exp(options_nse_factor)
-    combined_df['otPL%'] = 10 #round(33 * exp_nse_factor, 2) * (1 - ((1+ combined_df['qty'])/500)) 
+    combined_df['otPL%'] = np.maximum(combined_df['smb_power'] * 133, 100).round(0)
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
 ###########################################################################################################################################################################################################
