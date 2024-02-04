@@ -52,7 +52,7 @@ def calculate_heikin_ashi_colors(nifty50_ohlc):
     
     return ha_close, ha_yclose
     
-def dayprinter(o, h, l, c, prev_close, nifty50_ohlc):
+dayprinter(*today_data, previous_day_close, nifty50_ohlc)
     total_length = 24
 
     # Calculate the lengths of different segments as percentages
