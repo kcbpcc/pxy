@@ -53,7 +53,6 @@ def calculate_heikin_ashi_colors(nifty50_ohlc):
     return ha_close, ha_yclose
     
 dayprinter(*today_data, previous_day_close, nifty50_ohlc)
-    total_length = 24
 
     # Calculate the lengths of different segments as percentages
     if c > o:
@@ -64,6 +63,7 @@ dayprinter(*today_data, previous_day_close, nifty50_ohlc)
         n = round(((c - (l - 1)) / ((h + 1) - (l - 1))) * 100)
         x = round(((o - c) / ((h + 1) - (l - 1))) * 100)
         m = 100 - n - x
+    total_length = 24
     ha_close, ha_yclose = calculate_heikin_ashi_colors(nifty50_ohlc)
     haarrow = f"{Fore.GREEN}👆" if ha_close > ha_yclose else f"{Fore.RED}👇"
     arrow = (f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ") if c > prev_close else ("-", f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ")
