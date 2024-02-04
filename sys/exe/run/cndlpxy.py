@@ -43,6 +43,16 @@ def get_today_close():
     else:
         return None  # Handle the case when data is not available
 
+def calculate_heikin_ashi_colors():
+    nifty50_ohlc = get_nifty50_data(days=2)
+    if not nifty50_ohlc.empty:
+        ha_close = (nifty50_ohlc.iloc[-1]['Close'] + nifty50_ohlc.iloc[-1]['High'] + nifty50_ohlc.iloc[-1]['Low'] + nifty50_ohlc.iloc[-1]['Open']) / 4
+        ha_yclose = (nifty50_ohlc.iloc[-1]['Open'].shift(1) + nifty50_ohlc.iloc[-1]['Close'].shift(1)) / 2
+    else:
+        ha_close, ha_yclose = None, None
+    
+    return ha_close, ha_yclose
+
 def dayprinter(o, h, l, c, prev_close):
     total_length = 24
 
@@ -55,9 +65,7 @@ def dayprinter(o, h, l, c, prev_close):
         n = round(((c - (l - 1)) / ((h + 1) - (l - 1))) * 100)
         x = round(((o - c) / ((h + 1) - (l - 1))) * 100)
         m = 100 - n - x
-    ha_close_yesterday = get_previous_day_close()
-    ha_close_today = get_today_close()
-    haarrow = f"{Fore.GREEN}👆" if ha_close_yesterday > ha_close_today else f"{Fore.RED}👇"
+    haarrow = f"{Fore.GREEN}👆" if ha_close > ha_yclose else f"{Fore.RED}👇"
     arrow = (f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ") if c > prev_close else ("-", f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ")
     print((f"{Fore.GREEN}{'▌' * int((x / 100) * total_length)}" if c > o else f"{Fore.RED}{'▌' * int((x / 100) * total_length)}" if o > c else "") + f"{Style.RESET_ALL}{Fore.LIGHTWHITE_EX}{'=' * int((m / 100) * total_length)}" + f"{Fore.LIGHTWHITE_EX}{int(prev_close)}{arrow}{int(c)}{haarrow}"+f"{'=' * int((n / 100) * total_length)}")
 def option_to_trade():
