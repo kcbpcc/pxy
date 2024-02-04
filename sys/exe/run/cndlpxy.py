@@ -56,23 +56,9 @@ def dayprinter(o, h, l, c, prev_close):
         x = round(((o - c) / ((h+1) - (l-1))) * 100)
         m = 100 - n - x
 
-    # Print both the previous day's close and today's close in a single sentence with color
-    arrow = "🟩🟩" if c > prev_close else "🟥🟥"
-    ha_close = (o + h + l + c) / 4
-    haarrow = f"{Fore.GREEN}▌👆▌" if ha_close > prev_close else f"{Fore.RED}▌👇▌"
-    print(f"Yesterday:{int(prev_close)}━{haarrow}━━{arrow}━Today-Now:{int(c)}")  
+    arrow, haarrow = ("🟩", f"{Fore.GREEN}▌👆▌") if c > prev_close else ("🟥", f"{Fore.RED}▌👇▌")
+    print(f"{int(prev_close)}━{haarrow}━━{arrow}━{int(c)}" + f"{Fore.LIGHTWHITE_EX}{'━' * int((n / 100) * total_length)}" + (f"{Fore.GREEN}{'▌' * int((x / 100) * total_length)}" if c > o else f"{Fore.RED}{'▌' * int((x / 100) * total_length)}" if o > c else "") + f"{Style.RESET_ALL}{Fore.LIGHTWHITE_EX}{'━' * int((m / 100) * total_length)}")
 
-    print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
-
-    if c > o:
-        print(Fore.GREEN + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
-    elif o > c:
-        print(Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
-    
-    print(Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length))
-    
-    # Determine the color based on the comparison of today's close with yesterday's close
-    color = Fore.GREEN if c > prev_close else Fore.RED
  
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
