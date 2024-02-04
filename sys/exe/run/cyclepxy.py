@@ -24,6 +24,8 @@ def calculate_cycle(current_time):
 
         # Calculate the time remaining until the end of interval_3
         remaining_time = (interval_3_end_datetime - current_datetime) if current_datetime <= interval_3_end_datetime else (timedelta(days=1) + interval_3_end_datetime - current_datetime)
+        remaining_time /= 2
+
         # Convert the remaining time to seconds
         return round(remaining_time.total_seconds())
     else:
