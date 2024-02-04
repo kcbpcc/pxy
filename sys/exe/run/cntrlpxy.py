@@ -493,7 +493,6 @@ try:
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.4 and
                          row['PL%'] > row['fPL%'] and
-                         mktpxy in ['Sell', 'Bear']) and
                         (
                             (row['source'] == 'holdings' and row['PL%'] > row['tPL%']) or (row['source'] == 'positions' and row['PL%'] > row['tPL%'])
                         )
@@ -537,8 +536,7 @@ try:
                          row['avg'] != 0 and
                          available_cash > 10000 and
                          nse_power < 0.1 and
-                         optpxy in ['Buy', 'Bull'] and
-                         row['PL%'] < -18)
+                         row['PL%'] < -18) 
                     ):
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
