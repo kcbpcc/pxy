@@ -3,14 +3,11 @@ import yfinance as yf
 import pandas as pd
 import colorama
 from colorama import Fore, Style  # Add Style to the imports
-
 colorama.init(autoreset=True)
 
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
-
 def get_nifty50_data(days=2):
     ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
-
     try:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", category=FutureWarning)
@@ -22,9 +19,7 @@ def get_nifty50_data(days=2):
 
         # Extract OHLC data
         ohlc_data = nifty_data[OHLC_COLUMNS]
-
         return ohlc_data
-
     except Exception as e:
         print(f"Error fetching data: {e}")
         return pd.DataFrame()  # Return an empty DataFrame in case of an error
@@ -55,7 +50,6 @@ def dayprinter(o, h, l, c, prev_close):
         n = round(((c - (l-1)) / ((h+1) - (l-1))) * 100)
         x = round(((o - c) / ((h+1) - (l-1))) * 100)
         m = 100 - n - x
-
     
     ha_close = (o + h + l + c) / 4
     haarrow = f"{Fore.GREEN}👆" if ha_close > prev_close else f"{Fore.RED}👇"
