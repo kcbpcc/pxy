@@ -60,7 +60,10 @@ while True:
     # Call the function and store the result in a variable
     subprocess.run(['python3', 'optbuypxy.py']) if nse_power < 0.05 or nse_power > 0.95 else None
     subprocess.run(['python3', 'buypxy.py']) if peak == 'peakend' else None
-    console.print(f"|📅{Day_Change[:5]}|⌛️{Open_Change[:5]}|⚡{nse_power[:5]}|{onemincandlesequance}")
+    formatted_day_change = f"{Day_Change[:5]}" if isinstance(Day_Change, str) and Day_Change else "     "
+    formatted_open_change = f"{Open_Change[:5]}" if isinstance(Open_Change, str) and Open_Change else "     "
+    formatted_nse_power = f"{nse_power[:5]}" if isinstance(nse_power, str) and nse_power else "     "
+    console.print(f"|📅{formatted_day_change}|⌛️{formatted_open_change}|⚡{formatted_nse_power}|{onemincandlesequance}")    
     subprocess.run(['python3', 'tistpxy.py'])
     print("━" * 42)  # Print another line of 42 dashes
     # console.print("|", style=green_style if mktpxy in ["Buy", "Bull"] else red_style)  # Commented out line
