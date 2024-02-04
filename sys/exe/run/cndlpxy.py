@@ -43,44 +43,38 @@ def get_today_close():
     else:
         return None  # Handle the case when data is not available
 
-def calculate_heikin_ashi_colors(nifty50_ohlc):
-    if not nifty50_ohlc.empty:
-        ha_close = (nifty50_ohlc.iloc[-1]['Close'] + nifty50_ohlc.iloc[-1]['High'] + nifty50_ohlc.iloc[-1]['Low'] + nifty50_ohlc.iloc[-1]['Open']) / 4
-        ha_yclose = (nifty50_ohlc['Open'].shift(1) + nifty50_ohlc['Close'].shift(1)) / 2
-    else:
-        ha_close, ha_yclose = None, None
+def dayprinter(o, h, l, c, prev_close):
+    total_length = 24
     
-    return ha_close, ha_yclose
-    
-dayprinter(*today_data, previous_day_close, nifty50_ohlc)
-
     # Calculate the lengths of different segments as percentages
     if c > o:
-        n = round(((o - (l - 1)) / ((h + 1) - (l - 1))) * 100)
-        x = round(((c - o) / ((h + 1) - (l - 1))) * 100)
+        n = round(((o - (l-1)) / ((h+1) - (l-1))) * 100)
+        x = round(((c - o) / ((h+1) - (l-1))) * 100)
         m = 100 - n - x
     else:
-        n = round(((c - (l - 1)) / ((h + 1) - (l - 1))) * 100)
-        x = round(((o - c) / ((h + 1) - (l - 1))) * 100)
+        n = round(((c - (l-1)) / ((h+1) - (l-1))) * 100)
+        x = round(((o - c) / ((h+1) - (l-1))) * 100)
         m = 100 - n - x
-    total_length = 24
-    ha_close, ha_yclose = calculate_heikin_ashi_colors(nifty50_ohlc)
-    haarrow = f"{Fore.GREEN}👆" if ha_close > ha_yclose else f"{Fore.RED}👇"
-    arrow = (f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ") if c > prev_close else ("-", f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ")
-    print((f"{Fore.GREEN}{'▌' * int((x / 100) * total_length)}" if c > o else f"{Fore.RED}{'▌' * int((x / 100) * total_length)}" if o > c else "") + f"{Style.RESET_ALL}{Fore.LIGHTWHITE_EX}{'=' * int((m / 100) * total_length)}" + f"{Fore.LIGHTWHITE_EX}{int(prev_close)}{arrow}{int(c)}{haarrow}"+f"{'=' * int((n / 100) * total_length)}")
 
-def option_to_trade(today_data):
+    
+    ha_close = (o + h + l + c) / 4
+    haarrow = f"{Fore.GREEN}👆" if ha_close > prev_close else f"{Fore.RED}👇"
+    arrow = (f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ") if c > prev_close else ("-", f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ")
+    print((f"{Fore.GREEN}{'▌' * int((x / 100) * total_length)}" if c > o else f"{Fore.RED}{'▌' * int((x / 100) * total_length)}" if o > c else "") + f"{Style.RESET_ALL}{Fore.LIGHTWHITE_EX}{'━' * int((m / 100) * total_length)}" + f"{int(prev_close)}{arrow}{int(c)}{haarrow}" + f"{Fore.LIGHTWHITE_EX}{'━' * int((n / 100) * total_length)}")
+def option_to_trade():
+    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
     today_open = today_data['Open']
     today_close = today_data['Close']
     option_value = round(today_close / 50) * 50
     return option_value
 
 # Example usage in the main program
-nifty50_ohlc = get_nifty50_data()
 previous_day_close = get_previous_day_close()
 today_close = get_today_close()
 
-if not nifty50_ohlc.empty and previous_day_close is not None and today_close is not None:
-    today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
-    dayprinter(*today_data, previous_day_close
+if previous_day_close is not None and today_close is not None:
+    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
+    dayprinter(*today_data, previous_day_close)
+else:
+    print("Unable to fetch data.")
 
