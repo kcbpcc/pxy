@@ -62,7 +62,7 @@ while True:
     subprocess.run(['python3', 'buypxy.py']) if peak == 'peakend' else None
     subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess    
     console.print(f"|📅{Day_Change}|⌛️{Open_Change}|⚡{nse_power}|{onemincandlesequance}")
-    subprocess.run(['python3', 'tistpxy.py'])
+    #subprocess.run(['python3', 'tistpxy.py'])
     print("━" * 42)  # Print another line of 42 dashes
     # console.print("|", style=green_style if mktpxy in ["Buy", "Bull"] else red_style)  # Commented out line
     if optpxy == "Bull":
