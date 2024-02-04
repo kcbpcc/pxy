@@ -56,8 +56,8 @@ def dayprinter(o, h, l, c, prev_close):
         x = round(((o - c) / ((h+1) - (l-1))) * 100)
         m = 100 - n - x
 
-    arrow, haarrow = ("🟩", f"{Fore.GREEN}▌🫱▌") if c > prev_close else ("🟥", f"{Fore.RED}▌🫲▌")
-    print(f"{int(prev_close)}━{haarrow}━━{arrow}━{int(c)}" + f"||{Fore.LIGHTWHITE_EX}{'━' * int((n / 100) * total_length)}" + (f"||{Fore.GREEN}{'▌' * int((x / 100) * total_length)}" if c > o else f"||{Fore.RED}{'▌' * int((x / 100) * total_length)}" if o > c else "") + f"||{Style.RESET_ALL}{Fore.LIGHTWHITE_EX}{'━' * int((m / 100) * total_length)}")
+    arrow, haarrow = ("🟩", f"{Fore.GREEN}▌👆▌") if c > prev_close else ("🟥", f"{Fore.RED}▌👇▌")
+    print(f"{int(prev_close)}━{haarrow}━━{arrow}━{int(c)} |||" + f"{Fore.LIGHTWHITE_EX}{'━' * int((n / 100) * total_length)}" + (f"{Fore.GREEN}{'▌' * int((x / 100) * total_length)}" if c > o else f"{Fore.RED}{'▌' * int((x / 100) * total_length)}" if o > c else "") + f"{Style.RESET_ALL}{Fore.LIGHTWHITE_EX}{'━' * int((m / 100) * total_length)}")
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
