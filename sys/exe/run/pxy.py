@@ -65,7 +65,7 @@ while True:
     day_change_sign = '+' if Day_Change > 0 else '-' if Day_Change < 0 else ''
     open_change_sign = '+' if Open_Change > 0 else '-' if Open_Change < 0 else ''
     # Format the statement with explicit signs and styles
-    console.print(f"|📅{day_change_sign}[{bull_style if Day_Change > 0 else bear_style if Day_Change < 0 else ''}]{Day_Change}[/]|⌛️{open_change_sign}[{bull_style if Open_Change > 0 else bear_style if Open_Change < 0 else ''}]{Open_Change}[/]|⚡{nse_power}|{onemincandlesequance}")
+    console.print(f"|🔆{day_change_sign}[{bull_style if Day_Change > 0 else bear_style if Day_Change < 0 else ''}]{Day_Change}[/]|⌛️{open_change_sign}[{bull_style if Open_Change > 0 else bear_style if Open_Change < 0 else ''}]{Open_Change}[/]|⚡{nse_power}|{onemincandlesequance}")
     #subprocess.run(['python3', 'tistpxy.py'])
     print("━" * 42)  # Print another line of 42 dashes
     # console.print("|", style=green_style if mktpxy in ["Buy", "Bull"] else red_style)  # Commented out line
