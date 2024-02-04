@@ -56,7 +56,7 @@ def dayprinter(o, h, l, c, prev_close):
         x = round(((o - c) / ((h+1) - (l-1))) * 100)
         m = 100 - n - x
 
-    arrow, haarrow = ("🟩", f"{Fore.GREEN}▌👆▌") if c > prev_close else ("🟥", f"{Fore.RED}▌👇▌")
+    arrow, haarrow = ("-", f"{Fore.GREEN}▌👆▌") if c > prev_close else ("-", f"{Fore.RED}▌👇▌")
     print(f"{str(prev_close)[-3:]}━{haarrow}━━{arrow}━{str(int(c))[-3:]}ﮩ٨ـﮩﮩ٨ـ" + f"{Fore.LIGHTWHITE_EX}{'━' * int((n / 100) * total_length)}" + (f"{Fore.GREEN}{'▌' * int((x / 100) * total_length)}" if c > o else f"{Fore.RED}{'▌' * int((x / 100) * total_length)}" if o > c else "") + f"{Style.RESET_ALL}{Fore.LIGHTWHITE_EX}{'━' * int((m / 100) * total_length)}")
 
 def option_to_trade():
