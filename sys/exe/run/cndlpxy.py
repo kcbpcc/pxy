@@ -47,7 +47,7 @@ def calculate_heikin_ashi_colors():
     nifty50_ohlc = get_nifty50_data(days=2)
     if not nifty50_ohlc.empty:
         ha_close = (nifty50_ohlc.iloc[-1]['Close'] + nifty50_ohlc.iloc[-1]['High'] + nifty50_ohlc.iloc[-1]['Low'] + nifty50_ohlc.iloc[-1]['Open']) / 4
-        ha_yclose = (nifty50_ohlc.iloc[-1]['Open'].shift(1) + nifty50_ohlc.iloc[-1]['Close'].shift(1)) / 2
+        ha_yclose = (nifty50_ohlc['Open'].shift(1) + nifty50_ohlc['Close'].shift(1)) / 2
     else:
         ha_close, ha_yclose = None, None
     
