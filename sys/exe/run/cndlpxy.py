@@ -45,22 +45,20 @@ def get_today_close():
 
 def dayprinter(o, h, l, c, prev_close):
     total_length = 24
-    
+
     # Calculate the lengths of different segments as percentages
     if c > o:
-        n = round(((o - (l-1)) / ((h+1) - (l-1))) * 100)
-        x = round(((c - o) / ((h+1) - (l-1))) * 100)
+        n = round(((o - (l - 1)) / ((h + 1) - (l - 1))) * 100)
+        x = round(((c - o) / ((h + 1) - (l - 1))) * 100)
         m = 100 - n - x
     else:
-        n = round(((c - (l-1)) / ((h+1) - (l-1))) * 100)
-        x = round(((o - c) / ((h+1) - (l-1))) * 100)
+        n = round(((c - (l - 1)) / ((h + 1) - (l - 1))) * 100)
+        x = round(((o - c) / ((h + 1) - (l - 1))) * 100)
         m = 100 - n - x
 
-    
-    #ha_close = (o + h + l + c) / 4
-    haarrow = f"{Fore.GREEN}👆" if (nifty50_ohlc.iloc[-1]['Close'])> (nifty50_ohlc.iloc[-2]['Close']) else f"{Fore.RED}👇🏾"
+    ha_close_yesterday, _ = get_previous_day_and_today_close()
+    haarrow = f"{Fore.GREEN}👆" if ha_close_yesterday > prev_close else f"{Fore.RED}👇🏾"
     arrow = (f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ") if c > prev_close else ("-", f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ")
-    print((f"{Fore.GREEN}{'▌' * int((x / 100) * total_length)}" if c > o else f"{Fore.RED}{'▌' * int((x / 100) * total_length)}" if o > c else "") + f"{Style.RESET_ALL}{Fore.LIGHTWHITE_EX}{'━' * int((m / 100) * total_length)}" + f"{int(prev_close)}{arrow}{int(c)}{haarrow}" + f"{Fore.LIGHTWHITE_EX}{'━' * int((n / 100) * total_length)}")
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
     today_open = today_data['Open']
