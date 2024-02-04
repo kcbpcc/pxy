@@ -52,7 +52,7 @@ def calculate_heikin_ashi_colors():
         ha_close, ha_yclose = None, None
     
     return ha_close, ha_yclose
-    haarrow = f"{Fore.GREEN}👆" if ha_close > ha_yclose else f"{Fore.RED}👇"
+    
 def dayprinter(o, h, l, c, prev_close):
     total_length = 24
 
@@ -65,7 +65,8 @@ def dayprinter(o, h, l, c, prev_close):
         n = round(((c - (l - 1)) / ((h + 1) - (l - 1))) * 100)
         x = round(((o - c) / ((h + 1) - (l - 1))) * 100)
         m = 100 - n - x
-
+    ha_close, ha_yclose = calculate_heikin_ashi_colors()
+    haarrow = f"{Fore.GREEN}👆" if ha_close > ha_yclose else f"{Fore.RED}👇"
     arrow = (f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ") if c > prev_close else ("-", f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ")
     print((f"{Fore.GREEN}{'▌' * int((x / 100) * total_length)}" if c > o else f"{Fore.RED}{'▌' * int((x / 100) * total_length)}" if o > c else "") + f"{Style.RESET_ALL}{Fore.LIGHTWHITE_EX}{'=' * int((m / 100) * total_length)}" + f"{Fore.LIGHTWHITE_EX}{int(prev_close)}{arrow}{int(c)}{haarrow}"+f"{'=' * int((n / 100) * total_length)}")
 def option_to_trade():
