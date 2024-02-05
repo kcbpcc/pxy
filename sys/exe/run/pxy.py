@@ -58,7 +58,7 @@ while True:
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
     # Call the function and store the result in a variable
-    subprocess.run(['python3', 'optbuypxy.py']) if nse_power < 0.05 or nse_power > 0.95 else None
+    subprocess.run(['python3', 'optbuypxy.py']) if nse_power < 0.1 or nse_power > 0.9 else None
     subprocess.run(['python3', 'buypxy.py']) if peak == 'peakend' else None
     subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
     try:
