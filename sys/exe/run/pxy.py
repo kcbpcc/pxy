@@ -63,9 +63,10 @@ while True:
     subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
     # Check if the changes are positive, negative, or zero
     # Format the statement with explicit signs and styles
+    day_change_sign = '+' if Day_Change > 0 else ''
+    open_change_sign = '+' if Open_Change > 0 else ''
+    
     try:
-        day_change_sign = '+' if Day_Change > 0 else ''
-        open_change_sign = '+' if Open_Change > 0 else ''
         # Format the statement with explicit signs and styles
         console.print(f"|🔆{day_change_sign}[{bull_style if Day_Change > 0 else bear_style if Day_Change < 0 else ''}]{Day_Change}[/]|⌛️{open_change_sign}[{bull_style if Open_Change > 0 else bear_style if Open_Change < 0 else ''}]{Open_Change}[/]|⚡{nse_power}|{onemincandlesequance}")
     except Exception as e:
