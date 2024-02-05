@@ -61,17 +61,14 @@ while True:
     subprocess.run(['python3', 'optbuypxy.py']) if nse_power < 0.05 or nse_power > 0.95 else None
     subprocess.run(['python3', 'buypxy.py']) if peak == 'peakend' else None
     subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
-    # Check if the changes are positive, negative, or zero
-    # Format the statement with explicit signs and styles
-    day_change_sign = '+' if Day_Change > 0 else ''
-    open_change_sign = '+' if Open_Change > 0 else ''
-    
     try:
+        day_change_sign = '+' if Day_Change > 0 else ''
+        open_change_sign = '+' if Open_Change > 0 else ''
         # Format the statement with explicit signs and styles
         console.print(f"|🔆{day_change_sign}[{bull_style if Day_Change > 0 else bear_style if Day_Change < 0 else ''}]{Day_Change}[/]|⌛️{open_change_sign}[{bull_style if Open_Change > 0 else bear_style if Open_Change < 0 else ''}]{Open_Change}[/]|⚡{nse_power}|{onemincandlesequance}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        # Add any additional error handling or logging if needed
+    
+    except:
+        pass  # This will catch any exception and do nothing, continuing with the program
     #subprocess.run(['python3', 'tistpxy.py'])
     print("━" * 42)  # Print another line of 42 dashes
     # console.print("|", style=green_style if mktpxy in ["Buy", "Bull"] else red_style)  # Commented out line
