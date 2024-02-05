@@ -35,7 +35,7 @@ def process_acvalue(acvalue):
 
     else:
         if not any(row['date'] == current_date for row in rows):
-            print(f"{datetime.utcnow().strftime('%Y-%m-%d')} A/C Value will be updated @9:15")
+            print(f"{datetime.utcnow().strftime('%Y-%m-%d')} A/C Value will be updated @9:01")
 
 def get_current_acvalue():
     try:
