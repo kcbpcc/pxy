@@ -59,14 +59,14 @@ def dayprinter(o, h, l, c, prev_close):
     # Print both the previous day's close and today's close in a single sentence with color
     arrow = (f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ") if c > prev_close else ("-", f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ")
     print(f"{int(prev_close)}{arrow}{int(c)}", end='')   
-    print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
+    print(Fore.LIGHTWHITE_EX + '=' * int((n / 100) * total_length), end='')
 
     if c > o:
         print(Fore.GREEN + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
     elif o > c:
         print(Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
     
-    print(Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length))
+    print(Fore.LIGHTWHITE_EX + '=' * int((m / 100) * total_length))
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
