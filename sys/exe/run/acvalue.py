@@ -2,7 +2,7 @@ import csv
 from datetime import datetime, timedelta
 import time
 
-START_TIME = 201
+START_TIME = 210
 END_TIME = 214
 CSV_FILENAME = 'acvalue.csv'
 
