@@ -80,7 +80,7 @@ def order_place(index, row):
                         message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
-                        user_usernames = ('-4022487175')  # Replace with your Telegram username or ID
+                        user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
                         # Function to send a message to Telegram
                         async def send_telegram_message(message_text):
                             bot = telegram.Bot(token=bot_token)
@@ -132,8 +132,8 @@ def nrml_order_place(index, row):
                                 del row[column]
                         message_text = f"{str(row):>10} \nhttps://console.zerodha.com/verified/f5f15318\nBooked profit until now: {result_nrml}"
                         # Define the bot token and your Telegram username or ID
-                        bot_token = '6770021671:AAEjsa08fUlr3HCBdWQPq6N1H9CHgvLtpaY'  # Replace with your actual bot token
-                        user_usernames = ('-4067167377')  # Replace with your Telegram username or ID
+                        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+                        user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
                         # Function to send a message to Telegram
                         async def send_telegram_message(message_text):
                             bot = telegram.Bot(token=bot_token)
@@ -185,8 +185,8 @@ def order_place_avg(index, row):
                 try:
                     message_text = f"{row['ltp']} \nhttps://www.tradingview.com/chart/?symbol={exchsym[1]}"
                     # Define the bot token and your Telegram username or ID
-                    bot_token = '6704281753:AAEed33wBCxEN81n-NUfajo8pm9gcCVxeZg'  # Replace with your actual bot token
-                    user_id = '-4093430309'  # Replace with your Telegram user ID
+                    bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+                    user_id = '-4136531362'  # Replace with your Telegram user ID
                     # Function to send a message to Telegram
                     async def send_telegram_message(message_text):
                         bot = telegram.Bot(token=bot_token)
