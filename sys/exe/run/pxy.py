@@ -53,7 +53,7 @@ while True:
         subprocess.run(['python3', 'cntrlpxy.py'])
     elif mktpxy == 'Buy':
         print("It's a ⤴️-Buy-⤴️ time, Buying now.......")
-        subprocess.run(['python3', 'buypxy.py']) if 0.20 < nse_power < 0.70 else None
+        subprocess.run(['python3', 'buypxy.py']) if nse_power < 0.50 else None
         subprocess.run(['python3', 'cntrlpxy.py'])
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
