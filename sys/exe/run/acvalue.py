@@ -66,10 +66,7 @@ def get_current_acvalue():
             # Assuming rows is a list of dictionaries with 'date' and 'acvalue' keys
             latest_row = max(rows, key=lambda row: row['date'])
             latest_acvalue = float(latest_row['acvalue'])
-    
-            # You can log a message here if needed
-            # print(f"No record found for {current_date} in CSV file. Returning latest data.")
-    
+
             return latest_acvalue, 0
         else:
             # Handle the case when the file is empty
