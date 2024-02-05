@@ -57,7 +57,7 @@ def dayprinter(o, h, l, c, prev_close):
         m = 100 - n - x
 
     # Print both the previous day's close and today's close in a single sentence with color
-    arrow = (f"{Fore.GREEN}🟩") if c > prev_close else (f"{Fore.RED}🟥")
+    arrow = (f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ") if c > prev_close else (f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ")
     print(f"{int(prev_close)}{arrow}{int(c)}", end='')   
     print(Fore.LIGHTWHITE_EX + '=' * int((n / 100) * total_length), end='')
 
