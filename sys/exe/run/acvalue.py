@@ -53,9 +53,13 @@ def get_current_acvalue():
     if record_exists:
         current_acvalue = float([row['acvalue'] for row in rows if row['date'] == current_date][0])
 
-        # Calculate ydaypnl by finding yesterday's acvalue
-        yesterday_date = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d')
-        yesterday_acvalue = float([row['acvalue'] for row in rows if row['date'] == yesterday_date][0])
+        # Find the most recent past date
+        past_dates = [row['date'] for row in rows if row['date'] < current_date]
+        if past_dates:
+            latest_past_date = max(past_dates)
+            yesterday_acvalue = float([row['acvalue'] for row in rows if row['date'] == latest_past_date][0])
+        else:
+            yesterday_acvalue = 0  # or handle it according to your logic
 
         ydaypnl = current_acvalue - yesterday_acvalue
 
