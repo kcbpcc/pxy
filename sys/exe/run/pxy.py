@@ -62,8 +62,8 @@ while True:
     subprocess.run(['python3', 'buypxy.py']) if peak == 'peakend' else None
     subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
     # Check if the changes are positive, negative, or zero
-    day_change_sign = '+' if Day_Change > 0 else '-' if Day_Change < 0 else ''
-    open_change_sign = '+' if Open_Change > 0 else '-' if Open_Change < 0 else ''
+    day_change_sign = '+' if Day_Change > 0 else '-' if Day_Change == 0 else None
+    open_change_sign = '+' if Open_Change > 0 else '-' if Open_Change == 0 else None
     # Format the statement with explicit signs and styles
     console.print(f"🔆{day_change_sign}[{bull_style if Day_Change > 0 else bear_style if Day_Change < 0 else ''}]{Day_Change}[/]|⌛️{open_change_sign}[{bull_style if Open_Change > 0 else bear_style if Open_Change < 0 else ''}]{Open_Change}[/]|⚡{nse_power}|{onemincandlesequance}")
     #subprocess.run(['python3', 'tistpxy.py'])
