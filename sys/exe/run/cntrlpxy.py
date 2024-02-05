@@ -79,7 +79,7 @@ def order_place(index, row):
                                 del row[column]
                         message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
                         # Define the bot token and your Telegram username or ID
-                        bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
+                        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
                         user_usernames = ('-4022487175')  # Replace with your Telegram username or ID
                         # Function to send a message to Telegram
                         async def send_telegram_message(message_text):
@@ -132,7 +132,7 @@ def nrml_order_place(index, row):
                                 del row[column]
                         message_text = f"{str(row):>10} \nhttps://console.zerodha.com/verified/f5f15318\nBooked profit until now: {result_nrml}"
                         # Define the bot token and your Telegram username or ID
-                        bot_token = '6396096532:AAG5adz_SeUwV8WLn7miteljk_pRrpt8mO0'  # Replace with your actual bot token
+                        bot_token = '6770021671:AAEjsa08fUlr3HCBdWQPq6N1H9CHgvLtpaY'  # Replace with your actual bot token
                         user_usernames = ('-4067167377')  # Replace with your Telegram username or ID
                         # Function to send a message to Telegram
                         async def send_telegram_message(message_text):
