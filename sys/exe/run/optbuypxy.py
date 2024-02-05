@@ -28,7 +28,7 @@ except Exception as e:
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
-        bot_token = '6770021671:AAEjsa08fUlr3HCBdWQPq6N1H9CHgvLtpaY'  # Replace with your actual bot token
+        bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
         user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
 
         # Create a Telegram bot
