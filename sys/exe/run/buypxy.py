@@ -1,181 +1,171 @@
 # Imports (place at the beginning)
-import pandas as pd
-import traceback
-import sys
-import asyncio
-import logging
-import telegram
-
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from buypluspxy import Trendlyne
+import pandas as pd
+import traceback
+import sys
+import os
 from fundpxy import calculate_decision
+import asyncio
+import logging
+import telegram
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logging = Logger(30, dir_path + "main.log")
 
-# Constants
-NSE = 'NSE'
-BUY = 'BUY'
-
 # Set up black file path
 black_file = dir_path + "blacklist.txt"
 
-def get_ltp(symbol, broker):
-    key = f"{NSE}:{symbol}"
-    resp = broker.kite.ltp(key)
-    if resp and isinstance(resp, dict):
-        return resp[key]['last_price']
-    return -1
+# Save the original sys.stdout
+original_stdout = sys.stdout
 
-def transact(dct, remaining_cash, broker):
-    response = broker.kite.margins()
-    available_cash = response["equity"]["available"]["live_balance"]
+try:
+    # Redirect sys.stdout to 'output.txt'
+    with open('output.txt', 'w') as file:
+        sys.stdout = file
 
+        try:
+            broker = get_kite(api="bypass", sec_dir=dir_path)
+        except Exception as e:
+            remove_token(dir_path)
+            print(traceback.format_exc())
+            logging.error(f"{str(e)} unable to get holdings")
+            sys.exit(1)
+
+finally:
+    # Reset sys.stdout to its original value
+    sys.stdout = original_stdout
+
+# Call the calculate_decision function to get the decision
+decision = calculate_decision()
+
+if decision == "YES":
     try:
-        # Get LTP from NSE
-        ltp = get_ltp(dct['tradingsymbol'], broker)
-        logging.info(f"LTP for {dct['tradingsymbol']} on NSE is {ltp}")
+        # Read the fileHPdf.csv directly
+        df_fileHPdf = pd.read_csv('fileHPdf.csv')
 
-        # Check if LTP is valid (> 0)
-        if ltp <= 0:
-            logging.warning(f"Skipping {dct['tradingsymbol']}: Invalid LTP")
-            return dct['tradingsymbol'], remaining_cash
+        # Extract tradingsymbols from df_fileHPdf
+        lst = df_fileHPdf['tradingsymbol'].to_list()
 
-        # Check if available cash is sufficient
-        if available_cash > 100:
-            # Place the order on NSE
-            order_id = broker.order_place(
-                tradingsymbol=dct['tradingsymbol'],
-                exchange=NSE,
-                transaction_type=BUY,
-                quantity=int(float(dct['QTY'].replace(',', ''))), 
-                order_type='LIMIT',
-                product='CNC',
-                variety='regular',
-                price=round_to_paise(ltp, 0.2)
-            )
-            if order_id:
-                logging.info(
-                    f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
-                # Update remaining cash
-                remaining_cash -= ltp * int(float(dct['QTY'].replace(',', '')))
-
-                try:
-                    message_text = f"{ltp} \nhttps://www.tradingview.com/chart/?symbol={dct['tradingsymbol']}"
-
-                    # Define the bot token and your Telegram username or ID
-                    bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
-                    user_id = '-4136531362'  # Replace with your Telegram user ID
-
-                    # Function to send a message to Telegram
-                    async def send_telegram_message(message_text):
-                        bot = telegram.Bot(token=bot_token)
-                        await bot.send_message(chat_id=user_id, text=message_text)
-
-                    # Send the message to Telegram
-                    asyncio.run(send_telegram_message(message_text))
-                    
-                except Exception as e:
-                    # Handle the exception (e.g., log it) and continue with your code
-                    logging.error(f"Error sending message to Telegram: {e}")
-
-                return dct['tradingsymbol'], remaining_cash
-
-        else:
-            logging.warning(
-                f"Skipping {dct['tradingsymbol']}: Insufficient remaining cash: {int(remaining_cash)}")
-        return dct['tradingsymbol'], remaining_cash
+        # get list from Trendlyne
+        lst_tlyne = []
+        lst_dct_tlyne = Trendlyne().entry()
+        if lst_dct_tlyne and any(lst_dct_tlyne):
+            lst_tlyne = [dct['tradingsymbol'] for dct in lst_dct_tlyne]
 
     except Exception as e:
-        logging.error(f"Error while placing order: {str(e)}")
-        return dct['tradingsymbol'], remaining_cash
-
-
-if __name__ == "__main__":
-    # Save the original sys.stdout
-    original_stdout = sys.stdout
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} unable to read Trendlyne calls")
+        sys.exit(1)
 
     try:
-        # Redirect sys.stdout to 'output.txt'
-        with open('output.txt', 'w') as file:
-            sys.stdout = file
+        if any(lst_tlyne):
+            logging.info(f"reading trendlyne ...{lst_tlyne}")
+            lst_tlyne = [x for x in lst_tlyne if x not in lst]
+            logging.info(f"filtered from holdings and positions: {lst}")
 
-            try:
-                broker = get_kite(api="bypass", sec_dir=dir_path)
-            except Exception as e:
-                remove_token(dir_path)
-                print(traceback.format_exc())
-                logging.error(f"{str(e)} unable to get holdings")
-                sys.exit(1)
+            # get lists from orders
+            lst_dct_orders = broker.orders
 
-    finally:
-        # Reset sys.stdout to its original value
-        sys.stdout = original_stdout
+            if lst_dct_orders and any(lst_dct_orders):
+                symbols_orders = [dct['symbol'] for dct in lst_dct_orders]
+            else:
+                symbols_orders = []
 
-    # Call the calculate_decision function to get the decision
-    decision = calculate_decision()
+            # Combine symbols orders
+            all_symbols = symbols_orders
 
-    if decision == "YES":
+            # Assuming lst_tlyne is defined somewhere before this block
+            lst_tlyne = lst_tlyne if lst_tlyne else []  # Initialize lst_tlyne if not defined
+
+            # Filter lst_tlyne based on combined symbols
+            lst_tlyne = [x for x in lst_tlyne if x not in all_symbols]
+
+            logging.info(f"filtered from orders, these are not in orders ...{lst_tlyne}")
+
+    except Exception as e:
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} unable to read positions")
+        sys.exit(1)
+
+    def calc_target(ltp, perc):
+        resistance = round_to_paise(ltp, perc)
+        target = round_to_paise(ltp, max_target)
+        return max(resistance, target)
+
+    def transact(dct, remaining_cash, broker):
+        response = broker.kite.margins()
+        available_cash = response["equity"]["available"]["live_balance"]
+    
+        # Define ltp before the try block
+        ltp = -1
+    
         try:
-            # Read the fileHPdf.csv directly
-            df_fileHPdf = pd.read_csv('fileHPdf.csv')
-
-            # Extract tradingsymbols from df_fileHPdf
-            holdings = df_fileHPdf['tradingsymbol'].to_list()
-
-            # Get list from Trendlyne
-            trendlyne_symbols = []
-            lst_dct_tlyne = Trendlyne().entry()
-            if lst_dct_tlyne and any(lst_dct_tlyne):
-                trendlyne_symbols = [dct['tradingsymbol'] for dct in lst_dct_tlyne]
-
+            def get_ltp(exchange):
+                nonlocal ltp  # Use nonlocal to reference the outer ltp variable
+                key = f"{exchange}:{dct['tradingsymbol']}"
+                resp = broker.kite.ltp(key)
+                if resp and isinstance(resp, dict):
+                    ltp = resp[key]['last_price']
+                return ltp
+    
+            # Try getting LTP from NSE only
+            ltp_nse = get_ltp('NSE')
+            logging.info(f"LTP for {dct['tradingsymbol']} on NSE is {ltp_nse}")
+    
+            # If LTP from NSE is available and greater than 0, proceed with the order
+            if ltp_nse > 0 and available_cash > 10000:
+                # Place the order on NSE
+                order_id = broker.order_place(
+                    tradingsymbol=dct['tradingsymbol'],
+                    exchange='NSE',
+                    transaction_type='BUY',
+                    quantity=int(float(dct['QTY'].replace(',', ''))), 
+                    order_type='LIMIT',
+                    product='CNC',
+                    variety='regular',
+                    price=round_to_paise(ltp_nse, 0.2)  # Use the NSE LTP for price calculation
+                )
+                if order_id:
+                    logging.info(f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
+                    # Update remaining cash if the order is successful
+                    remaining_cash -= int(float(dct['QTY'].replace(',', ''))) * ltp_nse
+                    return dct['tradingsymbol'], remaining_cash
+    
+            else:
+                logging.warning(f"Skipping {dct['tradingsymbol']}: LTP not available on NSE or insufficient cash")
+                return dct['tradingsymbol'], remaining_cash
+    
         except Exception as e:
-            print(traceback.format_exc())
-            logging.error(f"{str(e)} unable to read Trendlyne calls")
-            sys.exit(1)
+            logging.error(f"Error while placing order: {str(e)}")
+            return dct['tradingsymbol'], remaining_cash
 
-        try:
-            if any(trendlyne_symbols):
-                logging.info(f"Reading Trendlyne: {trendlyne_symbols}")
-                trendlyne_symbols = [x for x in trendlyne_symbols if x not in holdings]
-                logging.info(f"Filtered from holdings and positions: {holdings}")
 
-                # Get lists from orders
-                lst_dct_orders = broker.orders
-
-                if lst_dct_orders and any(lst_dct_orders):
-                    symbols_orders = [dct['symbol'] for dct in lst_dct_orders]
-                else:
-                    symbols_orders = []
-
-                # Combine symbols orders
-                all_symbols = symbols_orders
-
-                # Filter trendlyne_symbols based on combined symbols
-                trendlyne_symbols = [x for x in trendlyne_symbols if x not in all_symbols]
-
-                logging.info(f"Filtered from orders, these are not in orders: {trendlyne_symbols}")
-
-        except Exception as e:
-            print(traceback.format_exc())
-            logging.error(f"{str(e)} unable to read positions")
-            sys.exit(1)
-
-        # Remaining cash initialization
-        remaining_cash = 0
+    if any(lst_tlyne):
         new_list = []
-        for symbol in trendlyne_symbols:
-            # Assuming dct is the dictionary containing trading symbol and other details
-            dct = {'tradingsymbol': symbol, 'QTY': '...', 'other_key': 'other_value'}  # Include other relevant key-value pairs
-            symbol, remaining_cash = transact(dct, remaining_cash, broker)
+
+        # Filter the original list based on the subset of 'tradingsymbol' values
+        lst_all_orders = [d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
+
+        # Read the list of previously failed symbols from the file
+        with open(black_file, 'r') as file:
+            lst_failed_symbols = [line.strip() for line in file.readlines()]
+        logging.info(f"ignored symbols: {lst_failed_symbols}")
+        lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
+
+        response = broker.kite.margins()
+        remaining_cash = response["equity"]["available"]["live_balance"]
+
+        for d in lst_orders:
+            symbol, remaining_cash = transact(d, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
 
-        # Write the failed symbols to file, so we don't repeat them again
+        # write the failed symbols to file, so we don't repeat them again
         if any(new_list):
             with open(black_file, 'w') as file:
                 for symbol in new_list:
@@ -183,9 +173,9 @@ if __name__ == "__main__":
 
         print(f"Remaining Cash💰: {round(remaining_cash, 0)}")
 
-    elif decision == "NO":
-        # Perform actions for "NO"
-        print("\033[91mNo sufficient funds available \033[0m")
-        print("-" * 42)
+elif decision == "NO":
+    # Perform actions for "NO"
+    print("\033[91mNo sufficient funds available \033[0m")
+    print("-" * 42)
 
 
