@@ -16,6 +16,9 @@ import pandas as pd
 decision = calculate_decision()
 import telegram
 import asyncio
+# Store the original stdout
+original_stdout = sys.stdout
+
 try:
     # Redirect sys.stdout to 'output.txt'
     with open('output.txt', 'w') as file:
