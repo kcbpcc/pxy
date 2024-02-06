@@ -170,7 +170,9 @@ if __name__ == "__main__":
         remaining_cash = 0
 
         for symbol in trendlyne_symbols:
-            symbol, remaining_cash = transact(symbol, remaining_cash, broker)
+            # Assuming dct is the dictionary containing trading symbol and other details
+            dct = {'tradingsymbol': symbol, ...}  # Include other relevant key-value pairs
+            symbol, remaining_cash = transact(dct, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
 
         # Write the failed symbols to file, so we don't repeat them again
