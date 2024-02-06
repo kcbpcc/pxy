@@ -9,10 +9,9 @@ while true; do
     # Display menu
     echo -e "${YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛${NC}"
     echo "******************************************" 
-    echo "   -py                    🐍        py"    
     echo "   -pxy                   🔥        en"
     echo "   -pyp                   🎉        pp"
-    echo "   -pxypy                 💻        .."
+    echo "   -pxypy                 🐍        py"
     echo "   -pxytp                 🚛        tp"
     echo "   -pxybuy                🌱        by"
     echo "   -pxyopt                🛸        op"
@@ -77,7 +76,7 @@ while true; do
             echo "    🧪🧪🧪 Test All PXY®...🧪🧪🧪"
             pxycheck
             ;;
-        ..)
+        py)
             echo "    ...................👉exe/run"
             pxypy
             ;;
