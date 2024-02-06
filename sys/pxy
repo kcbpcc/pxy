@@ -9,7 +9,7 @@ while true; do
     # Display menu
     echo -e "${YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛${NC}"
     echo "******************************************" 
-    echo "   -pxy                   🔥        🔘"
+    echo "   -pxy                   🔘        🔥"
     echo "   -pyp                   🎉        pp"
     echo "   -pxypy                 🐍        py"
     echo "   -pxytp                 🚛        tp"
