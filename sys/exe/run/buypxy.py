@@ -47,7 +47,7 @@ def transact(dct, remaining_cash, broker):
             return dct['tradingsymbol'], remaining_cash
 
         # Check if available cash is sufficient
-        if available_cash > 10000:
+        if available_cash > 100:
             # Place the order on NSE
             order_id = broker.order_place(
                 tradingsymbol=dct['tradingsymbol'],
@@ -167,7 +167,7 @@ if __name__ == "__main__":
             sys.exit(1)
 
         # Remaining cash initialization
-        remaining_cash = available_cash
+        remaining_cash = 0
         new_list = []
         for symbol in trendlyne_symbols:
             # Assuming dct is the dictionary containing trading symbol and other details
