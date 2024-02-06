@@ -47,6 +47,6 @@ elif previous_macd_histogram > 0 and current_macd_histogram < 0 and current_macd
     macd = Sell
 else:
     print("No such crossing occurred")
-
+    macd = None
 # Now you can use the values of macdbuy and macdsell as needed.
 
