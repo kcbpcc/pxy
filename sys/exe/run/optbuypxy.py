@@ -17,12 +17,21 @@ decision = calculate_decision()
 import telegram
 import asyncio
 try:
-    broker = get_kite(api="bypass", sec_dir=dir_path)
-except Exception as e:
-    remove_token(dir_path)
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
-    sys.exit(1)
+    # Redirect sys.stdout to 'output.txt'
+    with open('output.txt', 'w') as file:
+        sys.stdout = file
+
+        try:
+            broker = get_kite(api="bypass", sec_dir=dir_path)
+        except Exception as e:
+            remove_token(dir_path)
+            print(traceback.format_exc())
+            logging.error(f"{str(e)} unable to get holdings")
+            sys.exit(1)
+
+finally:
+    # Reset sys.stdout to its original value
+    sys.stdout = original_stdout
 
 # Define the function to send a message to Telegram
 async def send_telegram_message(message_text):
