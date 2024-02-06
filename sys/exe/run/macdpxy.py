@@ -38,3 +38,7 @@ macd_line, signal_line, macd_histogram = calculate_macd(data)
 # Print MACD values for the current minute
 current_minute_macd = macd_histogram.iloc[-1]
 print("MACD Histogram for the current minute:", current_minute_macd)
+# Print MACD line, signal line, and MACD histogram
+print("MACD Line:", macd_line.iloc[-1])
+print("Signal Line:", signal_line.iloc[-1])
+print("MACD Histogram:", macd_histogram.iloc[-1])
