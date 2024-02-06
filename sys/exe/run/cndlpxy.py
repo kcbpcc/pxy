@@ -45,7 +45,7 @@ def get_today_close():
         return None, None  # Handle the case when data is not available
 
 def dayprinter(o, h, l, c, prev_close):
-    total_length = 26
+    total_length = 25
     
     # Calculate the lengths of different segments as percentages
     if c > o:
