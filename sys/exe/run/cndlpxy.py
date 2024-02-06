@@ -29,9 +29,9 @@ def get_nifty50_data(days=2):
         print(f"Error fetching data: {e}")
         return pd.DataFrame()  # Return an empty DataFrame in case of an error
 
-def get_previous_day_close():
-    if len(nifty50_ohlc) >= 2:
-        return nifty50_ohlc.iloc[-2]['Close']
+def get_previous_day_close(df):
+    if len(df) >= 2:
+        return df.iloc[-2]['Close']
     else:
         # Handle the case when there are not enough rows in the DataFrame
         return None  # Or any default value or error handling you prefer
@@ -39,9 +39,10 @@ def get_previous_day_close():
 def get_today_close():
     nifty50_ohlc = get_nifty50_data(days=1)
     if not nifty50_ohlc.empty:
-        return nifty50_ohlc.iloc[-1]['Close']
+        prev_close = get_previous_day_close(nifty50_ohlc)
+        return nifty50_ohlc.iloc[-1]['Close'], prev_close
     else:
-        return None  # Handle the case when data is not available
+        return None, None  # Handle the case when data is not available
 
 def dayprinter(o, h, l, c, prev_close):
     total_length = 26
@@ -70,6 +71,7 @@ def dayprinter(o, h, l, c, prev_close):
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
+
     
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
