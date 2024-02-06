@@ -171,7 +171,7 @@ if __name__ == "__main__":
 
         for symbol in trendlyne_symbols:
             # Assuming dct is the dictionary containing trading symbol and other details
-            dct = {'tradingsymbol': symbol, ...}  # Include other relevant key-value pairs
+            dct = {'tradingsymbol': symbol, 'QTY': '...', ...}  # Include other relevant key-value pairs
             symbol, remaining_cash = transact(dct, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
 
