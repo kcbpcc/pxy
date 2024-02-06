@@ -119,7 +119,7 @@ if decision == "YES":
             logging.info(f"LTP for {dct['tradingsymbol']} on NSE is {ltp_nse}")
     
             # If LTP from NSE is available and greater than 0, proceed with the order
-            if ltp_nse > 0 and available_cash > 10000:
+            if ltp_nse > 0 and available_cash > 1000:
                 # Place the order on NSE
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
