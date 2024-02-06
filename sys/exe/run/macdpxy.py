@@ -37,7 +37,7 @@ def calculate_macd_signal(ticker_symbol):
     elif previous_macd_histogram > 0 and current_macd_histogram < 0 and current_macd_line < 0:
         macd_signal = "👇"
     else:
-        macd_signal = "🖐"
+        macd_signal = "🤚"
 
     return macd_signal
 
