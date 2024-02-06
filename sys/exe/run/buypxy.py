@@ -135,7 +135,7 @@ if decision == "YES":
                 # Place the order on the exchange where LTP is available
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
-                    exchange='NSE' if ltp_nse > 0 else None
+                    exchange='NSE' if ltp_nse > 0 else None,
                     transaction_type='BUY',
                     quantity=int(float(dct['QTY'].replace(',', ''))), 
                     order_type='LIMIT',
