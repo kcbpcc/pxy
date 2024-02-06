@@ -1,3 +1,9 @@
+import warnings
+
+# Suppress FutureWarnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
+# Rest of your code here
 import yfinance as yf
 import pandas as pd
 import colorama
