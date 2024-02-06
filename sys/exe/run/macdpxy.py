@@ -33,11 +33,11 @@ def calculate_macd_signal(ticker_symbol):
     current_macd_line = macd_line.iloc[-1]
 
     if previous_macd_histogram < 0 and current_macd_histogram > 0 and current_macd_line > 0:
-        macd_signal = "Buy"
+        macd_signal = "⤴"
     elif previous_macd_histogram > 0 and current_macd_histogram < 0 and current_macd_line < 0:
-        macd_signal = "Sell"
+        macd_signal = "⤵"
     else:
-        macd_signal = None
+        macd_signal = "-"
 
     return macd_signal
 
