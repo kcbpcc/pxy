@@ -8,6 +8,9 @@ colorama.init(autoreset=True)
 
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
 
+import pandas as pd
+
+# Inside the get_nifty50_data function
 def get_nifty50_data(period="5d"):
     ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
 
@@ -16,6 +19,10 @@ def get_nifty50_data(period="5d"):
             warnings.simplefilter("ignore", category=RuntimeWarning)
             # Fetch historical data for the specified period
             nifty_data = yf.download(ticker_symbol, period=period)
+
+        # Convert the index to datetime and handle timezone conversion
+        nifty_data.index = pd.to_datetime(nifty_data.index)
+        nifty_data.index += pd.to_timedelta(dst_error_hours, unit='h')
 
         # Extract OHLC data
         ohlc_data = nifty_data[OHLC_COLUMNS]
