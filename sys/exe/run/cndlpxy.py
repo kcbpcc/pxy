@@ -13,7 +13,7 @@ def get_nifty50_data(days=2):
 
     try:
         with warnings.catch_warnings():
-            warnings.simplefilter("ignore", category=FutureWarning)
+            warnings.simplefilter("ignore", category=RuntimeWarning)
             # Create a Ticker object
             nifty_ticker = yf.Ticker(ticker_symbol)
 
@@ -72,21 +72,17 @@ def dayprinter(o, h, l, c, prev_close):
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
 
-    
 def option_to_trade():
-    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
-    today_open = today_data['Open']
-    today_close = today_data['Close']
+    today_close = get_nifty50_data().iloc[-1]['Close']
     option_value = round(today_close / 50) * 50
     return option_value
 
 # Example usage in the main program
-previous_day_close = get_previous_day_close()
-today_close = get_today_close()
+previous_day_close = get_previous_day_close(get_nifty50_data())
+today_close, prev_close = get_today_close()
 
-if previous_day_close is not None and today_close is not None:
+if today_close is not None and prev_close is not None:
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
-    dayprinter(*today_data, previous_day_close)
+    dayprinter(*today_data, prev_close)
 else:
     print("Unable to fetch data.")
-
