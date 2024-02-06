@@ -8,11 +8,11 @@ def peak_time():
     peak_time_1_start = datetime.strptime("03:45", "%H:%M").replace(tzinfo=timezone.utc)
     peak_time_1_end = datetime.strptime("04:00", "%H:%M").replace(tzinfo=timezone.utc)
     
-    peak_time_2_start = datetime.strptime("09:52", "%H:%M").replace(tzinfo=timezone.utc)
+    peak_time_2_start = datetime.strptime("09:45", "%H:%M").replace(tzinfo=timezone.utc)
     peak_time_2_end = datetime.strptime("10:00", "%H:%M").replace(tzinfo=timezone.utc)
 
     peak_time_3_start = datetime.strptime("04:01", "%H:%M").replace(tzinfo=timezone.utc)
-    peak_time_3_end = datetime.strptime("09:51", "%H:%M").replace(tzinfo=timezone.utc)
+    peak_time_3_end = datetime.strptime("09:44", "%H:%M").replace(tzinfo=timezone.utc)
 
     # Check if the current time is within the peak time ranges
     in_peak_time_1 = peak_time_1_start <= utc_time <= peak_time_1_end
