@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 def calculate_cycle(current_time):
     # Define time intervals
-    interval_1_start = datetime.strptime("03:40", "%H:%M").time()
+    interval_1_start = datetime.strptime("03:30", "%H:%M").time()
     interval_1_end = datetime.strptime("04:15", "%H:%M").time()
     
     interval_2_start = datetime.strptime("09:15", "%H:%M").time()
