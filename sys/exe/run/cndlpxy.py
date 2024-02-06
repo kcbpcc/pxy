@@ -8,7 +8,7 @@ colorama.init(autoreset=True)
 
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
 
-def get_nifty50_data(days=2):
+def get_nifty50_data(days=5):
     ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
 
     try:
