@@ -30,11 +30,11 @@ def get_nifty50_data(days=2):
         return pd.DataFrame()  # Return an empty DataFrame in case of an error
 
 def get_previous_day_close():
-    nifty50_ohlc = get_nifty50_data(days=2)
-    if not nifty50_ohlc.empty:
+    if len(nifty50_ohlc) >= 2:
         return nifty50_ohlc.iloc[-2]['Close']
     else:
-        return None  # Handle the case when data is not available
+        # Handle the case when there are not enough rows in the DataFrame
+        return None  # Or any default value or error handling you prefer
 
 def get_today_close():
     nifty50_ohlc = get_nifty50_data(days=1)
