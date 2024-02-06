@@ -12,7 +12,7 @@ while true; do
     echo "   -py                    🐍        py"    
     echo "   -pxy                   🔥        en"
     echo "   -pyp                   🎉        pp"
-    echo "   -pxypy                 💻        ex"
+    echo "   -pxypy                 💻        .."
     echo "   -pxytp                 🚛        tp"
     echo "   -pxybuy                🌱        by"
     echo "   -pxyopt                🛸        op"
@@ -77,7 +77,7 @@ while true; do
             echo "    🧪🧪🧪 Test All PXY®...🧪🧪🧪"
             pxycheck
             ;;
-        ex)
+        ..)
             echo "    ...................👉exe/run"
             pxypy
             ;;
