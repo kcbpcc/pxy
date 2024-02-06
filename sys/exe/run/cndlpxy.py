@@ -13,7 +13,7 @@ def get_nifty50_data(days=5):
 
     try:
         with warnings.catch_warnings():
-            warnings.simplefilter("ignore", category=FutureWarning)
+            warnings.simplefilter("ignore", category=RuntimeWarning)
             # Create a Ticker object
             nifty_ticker = yf.Ticker(ticker_symbol)
 
@@ -27,21 +27,24 @@ def get_nifty50_data(days=5):
 
     except Exception as e:
         print(f"Error fetching data: {e}")
+        import traceback
+        traceback.print_exc()
         return pd.DataFrame()  # Return an empty DataFrame in case of an error
 
-def get_previous_day_close():
-    nifty50_ohlc = get_nifty50_data(days=2)
-    if not nifty50_ohlc.empty:
-        return nifty50_ohlc.iloc[-2]['Close']
+def get_previous_day_close(df):
+    if len(df) >= 2:
+        return df.iloc[-2]['Close']
     else:
-        return None  # Handle the case when data is not available
+        # Handle the case when there are not enough rows in the DataFrame
+        return None  # Or any default value or error handling you prefer
 
 def get_today_close():
     nifty50_ohlc = get_nifty50_data(days=1)
     if not nifty50_ohlc.empty:
-        return nifty50_ohlc.iloc[-1]['Close']
+        prev_close = get_previous_day_close(nifty50_ohlc)
+        return nifty50_ohlc.iloc[-1]['Close'], prev_close
     else:
-        return None  # Handle the case when data is not available
+        return None, None  # Handle the case when data is not available
 
 def dayprinter(o, h, l, c, prev_close):
     total_length = 26
@@ -70,20 +73,18 @@ def dayprinter(o, h, l, c, prev_close):
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
-    
+
 def option_to_trade():
-    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
-    today_open = today_data['Open']
-    today_close = today_data['Close']
+    today_close = get_nifty50_data().iloc[-1]['Close']
     option_value = round(today_close / 50) * 50
     return option_value
 
 # Example usage in the main program
-previous_day_close = get_previous_day_close()
-today_close = get_today_close()
+previous_day_close = get_previous_day_close(get_nifty50_data())
+today_close, prev_close = get_today_close()
 
-if previous_day_close is not None and today_close is not None:
+if today_close is not None and prev_close is not None:
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
-    dayprinter(*today_data, previous_day_close)
+    dayprinter(*today_data, prev_close)
 else:
     print("Unable to fetch data.")
