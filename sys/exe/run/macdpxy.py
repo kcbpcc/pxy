@@ -41,8 +41,5 @@ def calculate_macd_signal(ticker_symbol):
 
     return macd_signal
 
-# Usage example:
-ticker_symbol = "^NSEI"  # Ticker symbol for Nifty 50 index
-macd = calculate_macd_signal(ticker_symbol)
-print("MACD Signal:", macd)
+
 
