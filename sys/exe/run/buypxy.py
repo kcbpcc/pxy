@@ -167,8 +167,8 @@ if __name__ == "__main__":
             sys.exit(1)
 
         # Remaining cash initialization
-        remaining_cash = 0
-
+        remaining_cash = available_cash
+        new_list = []
         for symbol in trendlyne_symbols:
             # Assuming dct is the dictionary containing trading symbol and other details
             dct = {'tradingsymbol': symbol, 'QTY': '...', 'other_key': 'other_value'}  # Include other relevant key-value pairs
