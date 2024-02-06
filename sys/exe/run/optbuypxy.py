@@ -126,7 +126,7 @@ if funds_needed_PE is not None and funds_needed_CE is not None:
 
     # Check if either of the symbols exists in the CSV file
     if symbol_PE in existing_symbols or symbol_CE in existing_symbols:
-        print(f"Have {symbol_PE} or {symbol_CE} Skipping orders.")
+        print(f"Have {symbol_PE} or {symbol_CE}")
         sys.exit(0)  # Exit the program
 
     if available_cash >= 1.1 * total_funds_needed:
