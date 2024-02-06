@@ -1,17 +1,14 @@
 import yfinance as yf
 import pandas as pd
 
-# Define the ticker symbol for Nifty 50
-ticker_symbol = "^NSEI"  # Ticker symbol for Nifty 50 index
+def calculate_macd_signal(ticker_symbol):
+    # Create a Ticker object
+    nifty_ticker = yf.Ticker(ticker_symbol)
 
-# Create a Ticker object
-nifty_ticker = yf.Ticker(ticker_symbol)
+    # Fetch one-minute intraday data for the current day
+    data = nifty_ticker.history(period='1d', interval='1m')
 
-# Fetch one-minute intraday data for the current day
-data = nifty_ticker.history(period='1d', interval='1m')
-
-# Calculate MACD
-def calculate_macd(data):
+    # Calculate MACD
     short_window = 12
     long_window = 26
 
@@ -30,23 +27,22 @@ def calculate_macd(data):
     # Calculate MACD histogram
     macd_histogram = macd_line - signal_line
 
-    return macd_histogram, macd_line
+    # Determine if MACD crossed above or below signal line
+    current_macd_histogram = macd_histogram.iloc[-1]
+    previous_macd_histogram = macd_histogram.iloc[-2]
+    current_macd_line = macd_line.iloc[-1]
 
-macd_histogram, macd_line = calculate_macd(data)
+    if previous_macd_histogram < 0 and current_macd_histogram > 0 and current_macd_line > 0:
+        macd_signal = "Buy"
+    elif previous_macd_histogram > 0 and current_macd_histogram < 0 and current_macd_line < 0:
+        macd_signal = "Sell"
+    else:
+        macd_signal = None
 
-# Determine if MACD crossed above or below signal line
-current_macd_histogram = macd_histogram.iloc[-1]
-previous_macd_histogram = macd_histogram.iloc[-2]
-current_macd_line = macd_line.iloc[-1]
+    return macd_signal
 
-if previous_macd_histogram < 0 and current_macd_histogram > 0 and current_macd_line > 0:
-    print("MACD crossed above signal line while MACD > 0")
-    macd = Buy
-elif previous_macd_histogram > 0 and current_macd_histogram < 0 and current_macd_line < 0:
-    print("MACD crossed below signal line while MACD < 0")
-    macd = Sell
-else:
-    print("No such crossing occurred")
-    macd = None
-# Now you can use the values of macdbuy and macdsell as needed.
+# Usage example:
+ticker_symbol = "^NSEI"  # Ticker symbol for Nifty 50 index
+macd = calculate_macd_signal(ticker_symbol)
+print("MACD Signal:", macd)
 
