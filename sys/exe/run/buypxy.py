@@ -120,12 +120,12 @@ if decision == "YES":
 
             # If LTP from NSE is not available or <= 0, try getting LTP from BSE
             if ltp_nse <= 0:
-                ltp_bse = get_ltp('BSE')
-                logging.info(f"LTP for {dct['tradingsymbol']} on BSE is {ltp_bse}")
+                ltp_nse = get_ltp('NSE')
+                logging.info(f"LTP for {dct['tradingsymbol']} on NSE is {ltp_nse}")
 
                 # If LTP from BSE is available, use it
-                if ltp_bse > 0:
-                    ltp = ltp_bse
+                if ltp_nse > 0:
+                    ltp = ltp_nse
                 else:
                     # Neither NSE nor BSE LTP is available, return with remaining_cash
                     return dct['tradingsymbol'], remaining_cash
@@ -135,7 +135,7 @@ if decision == "YES":
                 # Place the order on the exchange where LTP is available
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
-                    exchange='NSE' if ltp_nse > 0 else 'BSE',
+                    exchange='NSE' if ltp_nse > 0 else None
                     transaction_type='BUY',
                     quantity=int(float(dct['QTY'].replace(',', ''))), 
                     order_type='LIMIT',
