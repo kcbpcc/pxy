@@ -113,9 +113,9 @@ available_cash = response["equity"]["available"]["live_balance"]
 # Print results
 if funds_needed_PE is not None and funds_needed_CE is not None:
     total_funds_needed = funds_needed_PE + funds_needed_CE
-    print(f"Funds needed for {symbol_PE} with quantity {quantity}: {funds_needed_PE}")
-    print(f"Funds needed for {symbol_CE} with quantity {quantity}: {funds_needed_CE}")
-    print(f"Total funds needed: {total_funds_needed}")
+    #print(f"Funds needed for {symbol_PE} with quantity {quantity}: {funds_needed_PE}")
+    #print(f"Funds needed for {symbol_CE} with quantity {quantity}: {funds_needed_CE}")
+    #print(f"Total funds needed: {total_funds_needed}")
 
     # Read the CSV file to check if symbols exist
     try:
@@ -126,7 +126,7 @@ if funds_needed_PE is not None and funds_needed_CE is not None:
 
     # Check if either of the symbols exists in the CSV file
     if symbol_PE in existing_symbols or symbol_CE in existing_symbols:
-        print(f"At least one of the symbols {symbol_PE} or {symbol_CE} already exists in the CSV file. Skipping orders.")
+        print(f"At least one of the symbols {symbol_PE} or {symbol_CE} Skipping orders.")
         sys.exit(0)  # Exit the program
 
     if available_cash >= 1.1 * total_funds_needed:
