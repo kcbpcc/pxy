@@ -1,6 +1,5 @@
 import yfinance as yf
 import pandas as pd
-import numpy as np
 
 # Define the ticker symbol for Nifty 50
 ticker_symbol = "^NSEI"  # Ticker symbol for Nifty 50 index
@@ -31,14 +30,23 @@ def calculate_macd(data):
     # Calculate MACD histogram
     macd_histogram = macd_line - signal_line
 
-    return macd_line, signal_line, macd_histogram
+    return macd_histogram, macd_line
 
-macd_line, signal_line, macd_histogram = calculate_macd(data)
+macd_histogram, macd_line = calculate_macd(data)
 
-# Print MACD values for the current minute
-current_minute_macd = macd_histogram.iloc[-1]
-print("MACD Histogram for the current minute:", current_minute_macd)
-# Print MACD line, signal line, and MACD histogram
-print("MACD Line:", macd_line.iloc[-1])
-print("Signal Line:", signal_line.iloc[-1])
-print("MACD Histogram:", macd_histogram.iloc[-1])
+# Determine if MACD crossed above or below signal line
+current_macd_histogram = macd_histogram.iloc[-1]
+previous_macd_histogram = macd_histogram.iloc[-2]
+current_macd_line = macd_line.iloc[-1]
+
+if previous_macd_histogram < 0 and current_macd_histogram > 0 and current_macd_line > 0:
+    print("MACD crossed above signal line while MACD > 0")
+    macd = Buy
+elif previous_macd_histogram > 0 and current_macd_histogram < 0 and current_macd_line < 0:
+    print("MACD crossed below signal line while MACD < 0")
+    macd = Sell
+else:
+    print("No such crossing occurred")
+
+# Now you can use the values of macdbuy and macdsell as needed.
+
