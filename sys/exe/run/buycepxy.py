@@ -28,7 +28,7 @@ try:
             broker = get_kite(api="bypass", sec_dir=dir_path)
         except Exception as e:
             remove_token(dir_path)
-            print(traceback.format_exc())
+            traceback.format_exc())
             logging.error(f"{str(e)} unable to get holdings")
             sys.exit(1)
 
@@ -51,11 +51,11 @@ async def send_telegram_message(message_text):
 
     except Exception as e:
         # Handle the exception (e.g., log it) and continue with your code
-        print(f"Error sending message to Telegram: {e}")
+        f"Error sending message to Telegram: {e}")
 
 # Ensure that the 'broker' object has an 'order_place' method
 if not hasattr(broker, 'order_place') or not callable(getattr(broker, 'order_place', None)):
-    print("Error: 'broker' object does not have 'order_place' method.")
+    "Error: 'broker' object does not have 'order_place' method.")
     sys.exit(1)
 
 # Calculate the next Thursday date at least 6 days ahead
@@ -121,12 +121,12 @@ if funds_needed_CE is not None:
     if symbol_CE in existing_symbols:
         # Check if the quantity is greater than 0
         if df.loc[df['tradingsymbol'] == symbol_CE, 'quantity'].iloc[0] > 0:
-            print(f"{symbol_CE} exists with quantity greater than 0.")
+            print(f"{symbol_CE} exists")
             sys.exit(0)  # Exit the program
 
 
     if available_cash >= 1.1 * funds_needed_CE:
-        print("You have sufficient funds. Proceeding with order placement.")
+        print("Got funds. Proceeding with order")
         
         # Place order here
         try:
@@ -139,7 +139,7 @@ if funds_needed_CE is not None:
                 product='NRML'
             )
 
-            print("Put Option Order placed successfully. Order ID:", order_id_CE)
+            print("{symbol_CE} Ordered")
             message_text_CE = f"Put Option Order placed successfully. Order ID: {order_id_CE}"
             # Send the message to Telegram
             asyncio.run(send_telegram_message(message_text_CE))
@@ -150,11 +150,11 @@ if funds_needed_CE is not None:
 
         # Check if the order was successful
         if order_id_CE is not None:
-            print("Order placed successfully. Order ID:", order_id_CE)
+            print("{symbol_CE} Ordered")
         else:
             print("Order failed. Check error messages.")
 
     else:
-        print("Insufficient funds. Order placement aborted.")
+        print("No funds. Order aborted.")
 else:
     print("Unable to calculate funds needed for the symbol.")
