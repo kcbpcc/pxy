@@ -16,6 +16,7 @@ import pandas as pd
 decision = calculate_decision()
 import telegram
 import asyncio
+
 # Store the original stdout
 original_stdout = sys.stdout
 
@@ -99,24 +100,17 @@ def calculate_funds_needed(exchange, symbol, quantity):
 
 # Construct the symbol for the NIFTY Put Option
 symbol_PE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}PE"
-symbol_CE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
 
-# Calculate funds needed for each symbol with quantity 50
+# Calculate funds needed for the PE symbol with quantity 50
 quantity = 50
 funds_needed_PE = calculate_funds_needed("NFO", symbol_PE, quantity)
-funds_needed_CE = calculate_funds_needed("NFO", symbol_CE, quantity)
 
 # Check against available cash with a buffer of 10%
 response = broker.kite.margins()
 available_cash = response["equity"]["available"]["live_balance"]
 
 # Print results
-if funds_needed_PE is not None and funds_needed_CE is not None:
-    total_funds_needed = funds_needed_PE + funds_needed_CE
-    #print(f"Funds needed for {symbol_PE} with quantity {quantity}: {funds_needed_PE}")
-    #print(f"Funds needed for {symbol_CE} with quantity {quantity}: {funds_needed_CE}")
-    #print(f"Total funds needed: {total_funds_needed}")
-
+if funds_needed_PE is not None:
     # Read the CSV file to check if symbols exist
     try:
         df = pd.read_csv('fileHPdf.csv')
@@ -124,15 +118,18 @@ if funds_needed_PE is not None and funds_needed_CE is not None:
     except FileNotFoundError:
         existing_symbols = set()
 
-    # Check if either of the symbols exists in the CSV file
-    if symbol_PE in existing_symbols or symbol_CE in existing_symbols:
-        print(f"I got {symbol_PE} or {symbol_CE}")
-        sys.exit(0)  # Exit the program
+    # Check if the symbol exists in the CSV file
+    if symbol_PE in existing_symbols:
+        # Check if the quantity is greater than 0
+        if df.loc[df['tradingsymbol'] == symbol_PE, 'quantity'].iloc[0] > 0:
+            print(f"{symbol_PE} exists with quantity greater than 0.")
+            sys.exit(0)  # Exit the program
 
-    if available_cash >= 1.1 * total_funds_needed:
+
+    if available_cash >= 1.1 * funds_needed_PE:
         print("You have sufficient funds. Proceeding with order placement.")
         
-        # Place orders here
+        # Place order here
         try:
             order_id_PE = broker.order_place(
                 tradingsymbol=symbol_PE,
@@ -152,32 +149,14 @@ if funds_needed_PE is not None and funds_needed_CE is not None:
             print("Error placing Put Option order:", e)
             order_id_PE = None  # Set order_id_PE to None to indicate failure
 
-        try:
-            order_id_CE = broker.order_place(
-                tradingsymbol=symbol_CE,
-                quantity=50,
-                exchange="NFO",
-                transaction_type='BUY',
-                order_type='MARKET',
-                product='NRML'
-            )
-
-            print("Call Option Order placed successfully. Order ID:", order_id_CE)
-            message_text_CE = f"Call Option Order placed successfully. Order ID: {order_id_CE}"
-            # Send the message to Telegram
-            asyncio.run(send_telegram_message(message_text_CE))
-
-        except Exception as e:
-            print("Error placing Call Option order:", e)
-            order_id_CE = None  # Set order_id_CE to None to indicate failure
-
-        # Check if both orders were successful
-        if order_id_PE is not None and order_id_CE is not None:
-            print("Both orders placed successfully. Order IDs:", order_id_PE, order_id_CE)
+        # Check if the order was successful
+        if order_id_PE is not None:
+            print("Order placed successfully. Order ID:", order_id_PE)
         else:
-            print("At least one order failed. Check error messages.")
+            print("Order failed. Check error messages.")
 
     else:
         print("Insufficient funds. Order placement aborted.")
 else:
-    print("Unable to calculate funds needed for one or more symbols.")
+    print("Unable to calculate funds needed for the symbol.")
+
