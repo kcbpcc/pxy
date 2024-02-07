@@ -27,4 +27,4 @@ def peak_time():
         return "nonpeak"
     else:
         return "nonmkt"
-
+print(peak_time())
