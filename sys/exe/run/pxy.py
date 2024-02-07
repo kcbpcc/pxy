@@ -45,7 +45,7 @@ while True:
     macd = calculate_macd_signal("^NSEI")
     from smaftypxy import check_nifty_status
     importlib.reload(sys.modules['smaftypxy'])  # Correct the usage
-    50SMA = check_nifty_status()
+    SMAfty = check_nifty_status()
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
     if mktpxy == 'Bear':
@@ -59,7 +59,7 @@ while True:
         subprocess.run(['python3', 'cntrlpxy.py'])
     elif mktpxy == 'Buy':
         print("It's a ⤴️-Buy-⤴️ time, Buying now.......")
-        subprocess.run(['python3', 'buypxy.py']) if nse_power < 0.50 and 50SMA == 'NIFTYBULL' else None
+        subprocess.run(['python3', 'buypxy.py']) if nse_power < 0.50 and SMAfty == 'NIFTYBULL' else None
         subprocess.run(['python3', 'cntrlpxy.py'])
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
