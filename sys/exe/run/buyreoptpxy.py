@@ -86,7 +86,7 @@ def execute_program(symbol):
     if symbol in existing_symbols:
         # Check if the quantity is greater than 0
         if df.loc[df['tradingsymbol'] == symbol, 'quantity'].iloc[0] > 0:
-            print(f"{symbol} exists with quantity greater than 0 in the CSV file.")
+            print(f"{symbol} exists ")
             sys.exit(0)  # Exit the program
 
     # Calculate the next Thursday date at least 6 days ahead
@@ -124,7 +124,7 @@ def execute_program(symbol):
     # Print results
     if funds_needed_OPTIONS is not None:
         if available_cash >= 1.1 * funds_needed_OPTIONS:
-            print("You have sufficient funds. Proceeding with order placement.")
+            print("got funds.order placed.")
 
             # Place order here
             try:
@@ -137,7 +137,7 @@ def execute_program(symbol):
                     product='NRML'
                 )
 
-                print("Put Option Order placed successfully. Order ID:", order_id_OPTIONS)
+                print("Ordered {symbol_OPTIONS}.)
                 message_text_OPTIONS = f"Put Option Order placed successfully. Order ID: {order_id_OPTIONS}"
                 # Send the message to Telegram
                 asyncio.run(send_telegram_message(message_text_OPTIONS))
@@ -146,7 +146,7 @@ def execute_program(symbol):
                 print("Error placing Put Option order:", e)
 
         else:
-            print("Insufficient funds. Order placement aborted.")
+            print("nonfunds.aborted.")
     else:
         print("Unable to calculate funds needed for the symbol.")
 
