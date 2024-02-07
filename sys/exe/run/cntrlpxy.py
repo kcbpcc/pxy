@@ -251,6 +251,8 @@ try:
     import asyncio
     from selfpxy import get_random_spiritual_message
     from optpxy import get_optpxy
+    from macdpxy import calculate_macd_signal
+    macd = calculate_macd_signal("^NSEI")
     optpxy = get_optpxy()
     random_message = get_random_spiritual_message()
     switch = analyze_stock()
