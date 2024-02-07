@@ -4,6 +4,7 @@ import traceback
 import sys
 import asyncio
 import telegram
+
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
@@ -93,40 +94,49 @@ def execute_program(symbol):
     # Ensure the date is always two digits
     expiry_day = expiry_day.zfill(2)
 
+    # Construct the symbol for the NIFTY Put Option
+    symbol_OPTIONS = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
+
     # Check against available cash with a buffer of 10%
     response = broker.kite.margins()
     available_cash = response["equity"]["available"]["live_balance"]
 
+    # Calculate funds needed for the options symbol with quantity 50
+    quantity = 50
+    ltp = get_ltp("NFO", symbol_OPTIONS)
+    funds_needed_OPTIONS = ltp * quantity if ltp is not None else None
+
     # Print results
-    if available_cash >= 1.1 * funds_needed_OPTIONS:
-        print("You have sufficient funds. Proceeding with order placement.")
+    if funds_needed_OPTIONS is not None:
+        if available_cash >= 1.1 * funds_needed_OPTIONS:
+            print("You have sufficient funds. Proceeding with order placement.")
 
-        # Place order here
-        try:
-            order_id_OPTIONS = broker.order_place(
-                tradingsymbol=symbol,
-                quantity=50,
-                exchange="NFO",
-                transaction_type='BUY',
-                order_type='MARKET',
-                product='NRML'
-            )
+            # Place order here
+            try:
+                order_id_OPTIONS = broker.order_place(
+                    tradingsymbol=symbol_OPTIONS,
+                    quantity=50,
+                    exchange="NFO",
+                    transaction_type='BUY',
+                    order_type='MARKET',
+                    product='NRML'
+                )
 
-            print("Put Option Order placed successfully. Order ID:", order_id_OPTIONS)
-            message_text_OPTIONS = f"Put Option Order placed successfully. Order ID: {order_id_OPTIONS}"
-            # Send the message to Telegram
-            asyncio.run(send_telegram_message(message_text_OPTIONS))
+                print("Put Option Order placed successfully. Order ID:", order_id_OPTIONS)
+                message_text_OPTIONS = f"Put Option Order placed successfully. Order ID: {order_id_OPTIONS}"
+                # Send the message to Telegram
+                asyncio.run(send_telegram_message(message_text_OPTIONS))
 
-        except Exception as e:
-            print("Error placing Put Option order:", e)
-            order_id_OPTIONS = None  # Set order_id_CE to None to indicate failure
+            except Exception as e:
+                print("Error placing Put Option order:", e)
 
-        # Check if the order was successful
-        if order_id_OPTIONS is not None:
-            print("Order placed successfully. Order ID:", order_id_OPTIONS)
         else:
-            print("Order failed. Check error messages.")
-
+            print("Insufficient funds. Order placement aborted.")
     else:
-        print("Insufficient funds. Order placement aborted.")
+        print("Unable to calculate funds needed for the symbol.")
+
+# Example usage:
+symbol = "NIFTY2202CE"  # Provide your desired symbol
+execute_program(symbol)
+
 
