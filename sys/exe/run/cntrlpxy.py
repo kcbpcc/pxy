@@ -514,8 +514,8 @@ try:
                         row['avg'] != 0 and
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
-                        (('CE' in row['key'] and row['PL%'] > 5 and mktpxy == "Sell") or
-                         ('PE' in row['key'] and row['PL%'] > 5 and mktpxy == "Buy"))
+                        (('CE' in row['key'] and row['PL%'] > 10 and mktpxy == "Sell") or
+                         ('PE' in row['key'] and row['PL%'] > 10 and mktpxy == "Buy"))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -536,11 +536,11 @@ try:
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO'
                     ):
-                        if 'CE' in row['key'] and row['PL%'] < -15 and mktpxy == "Sell":
+                        if 'CE' in row['key'] and row['PL%'] < 0 and mktpxy == "Sell":
                             # Fetch details for the corresponding 'PE' option
                             pe_key = row['key'].replace('CE', 'PE')
                             execute_program(pe_key)
-                        elif 'PE' in row['key'] and row['PL%'] < -15 and mktpxy == "Buy":
+                        elif 'PE' in row['key'] and row['PL%'] < 0 and mktpxy == "Buy":
                             # Fetch details for the corresponding 'CE' option
                             ce_key = row['key'].replace('PE', 'CE')
                             execute_program(ce_key)
