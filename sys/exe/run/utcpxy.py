@@ -44,7 +44,7 @@ def peak_time():
     return "UNKNOWN"
 
 # Test the function
-print("Peak Time Label:", peak_time())
+#print("Peak Time Label:", peak_time())
 
 
 
