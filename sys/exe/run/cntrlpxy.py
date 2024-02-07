@@ -592,7 +592,7 @@ try:
                 color_code = RESET  # Reset color for invalid PnL values
             # Right-align the text, apply color, and reset color after the line
             print(color_code + line.rjust(max_width) + RESET)
-        print(f"||{SMAfty}||{OPTIONS}||MACD🚦{macd}||P&L%: {nrml_percentage_return}%||")
+        print(f"|{SMAfty}||{OPTIONS}||MACD🚦{macd}||P&L%: {nrml_percentage_return}%|")
         print("━" * 42)
 ###########################################################################################################################################################################################################
 except Exception as e:
