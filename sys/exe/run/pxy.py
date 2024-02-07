@@ -35,9 +35,9 @@ while True:
     optpxy = get_optpxy()
     from cyclepxy import cycle
     importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
-    #from utcpxy import peak_time
-    #importlib.reload(sys.modules['utcpxy'])  # Correct the usage
-    #peak = peak_time()
+    from utcpxy import peak_time
+    importlib.reload(sys.modules['utcpxy'])  # Correct the usage
+    peak = peak_time()
     print(f"Cycle 🎡 : {cycle} seconds".rjust(40))
     subprocess.run(['python3', 'tistpxy.py'])
     from macdpxy import calculate_macd_signal
@@ -59,13 +59,13 @@ while True:
         subprocess.run(['python3', 'cntrlpxy.py'])
     elif mktpxy == 'Buy':
         print("It's a ⤴️-Buy-⤴️ time, Buying now.......")
-        subprocess.run(['python3', 'buypxy.py']) if nse_power < 0.50 and SMAfty == 'BULLNIFTY' else None
+        subprocess.run(['python3', 'buypxy.py']) if SMAfty == 'BULLNIFTY' and peak == 'NONPEAK' else None
         subprocess.run(['python3', 'cntrlpxy.py'])
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
     # Call the function and store the result in a variable
     subprocess.run(['python3', 'optbuypxy.py']) if nse_power < 0.1 or nse_power > 0.9 else None
-    #subprocess.run(['python3', 'buypxy.py']) if peak == 'peakend' else None
+    subprocess.run(['python3', 'buypxy.py']) if peak == 'PEAKEND' else None
     subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
     try:
         day_change_sign = '+' if Day_Change > 0 else ''
