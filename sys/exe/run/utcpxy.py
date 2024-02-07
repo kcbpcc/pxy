@@ -30,7 +30,7 @@ def peak_time():
     elif peak_time_3_start <= utc_time <= peak_time_3_end:
         return "PEAKEND"
     else:
-        # This covers the time range from 10:02 to 23:59
+        peak_time_4_start <= utc_time <= peak_time_4_end:
         return "NONMKT"  # This covers the time range from 10:02 to 23:59
 
 # Test the function
