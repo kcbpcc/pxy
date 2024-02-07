@@ -463,7 +463,7 @@ try:
     
     # Now, you can use the 'auto_value' variable in your program
 ###########################################################################################################################################################################################################   
-    #print(utct)
+    from buyreoptpxy import execute_program
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
     csv_file_path_nrml = 'filePnL_nrml.csv'
@@ -537,11 +537,13 @@ try:
                         auto_value == 'AUTO'
                     ):
                         if 'CE' in row['key'] and row['PL%'] < -15 and mktpxy == "Sell":
-                            # Execute xxx.py
-                            subprocess.run(["python", "xxx.py"])
+                            # Fetch details for the corresponding 'PE' option
+                            pe_key = row['key'].replace('CE', 'PE')
+                            execute_program(pe_key)
                         elif 'PE' in row['key'] and row['PL%'] < -15 and mktpxy == "Buy":
-                            # Execute xyzzy.py
-                            subprocess.run(["python", "xyzzy.py"])
+                            # Fetch details for the corresponding 'CE' option
+                            ce_key = row['key'].replace('PE', 'CE')
+                            execute_program(ce_key)
 ###########################################################################################################################################################################################################     
                     elif (
                         (row['qty'] > 0 and
