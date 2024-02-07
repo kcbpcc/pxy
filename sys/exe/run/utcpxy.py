@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 
 def peak_time():
     # Get the current UTC time
-    utc_time = datetime.utcnow().replace(tzinfo=timezone.utc)
+    utc_time = datetime.now(timezone.utc)
 
     # Define the peak time ranges
     peak_time_0_start = datetime.strptime("00:00", "%H:%M").replace(tzinfo=timezone.utc)
