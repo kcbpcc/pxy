@@ -35,9 +35,9 @@ while True:
     optpxy = get_optpxy()
     from cyclepxy import cycle
     importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
-    from utcpxy import peak_time
-    importlib.reload(sys.modules['utcpxy'])  # Correct the usage
-    peak = peak_time()
+    #from utcpxy import peak_time
+    #importlib.reload(sys.modules['utcpxy'])  # Correct the usage
+    #peak = peak_time()
     print(f"Cycle 🎡 : {cycle} seconds".rjust(40))
     subprocess.run(['python3', 'tistpxy.py'])
     from macdpxy import calculate_macd_signal
