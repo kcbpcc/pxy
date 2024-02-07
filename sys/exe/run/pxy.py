@@ -91,7 +91,7 @@ while True:
     from rich.console import Console
     from rich.style import Style
     import time
-    subprocess.run(['python3', 'smaftypxy.py'])  # Run 'cndlpxy.py' using subprocess 
+    #subprocess.run(['python3', 'smaftypxy.py'])  # Run 'cndlpxy.py' using subprocess 
 
     def progress_bar(duration, optpxy):
         console = Console()
