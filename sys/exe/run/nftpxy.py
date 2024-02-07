@@ -51,7 +51,7 @@ def get_nse_action():
             OPTIONS = round((current_price) / 50) * 50
         else:
             nse_action = "Bull"
-            OPTIONS = round((current_price - 100) / 50) * 50
+            OPTIONS = round((current_price) / 50) * 50
         return nse_action, nse_power, Day_Change, Open_Change, OPTIONS 
 
     except Exception as e:
