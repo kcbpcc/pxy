@@ -8,8 +8,8 @@ def peak_time():
     peak_time_1_start = datetime.strptime("03:45", "%H:%M").replace(tzinfo=timezone.utc)
     peak_time_1_end = datetime.strptime("04:00", "%H:%M").replace(tzinfo=timezone.utc)
     
-    peak_time_2_start = datetime.strptime("09:45", "%H:%M").replace(tzinfo=timezone.utc)
-    peak_time_2_end = datetime.strptime("14:00", "%H:%M").replace(tzinfo=timezone.utc)
+    peak_time_2_start = datetime.strptime("14:45", "%H:%M").replace(tzinfo=timezone.utc)
+    peak_time_2_end = datetime.strptime("24:00", "%H:%M").replace(tzinfo=timezone.utc)
 
     peak_time_3_start = peak_time_1_end
     peak_time_3_end = peak_time_2_start
