@@ -5,28 +5,35 @@ def peak_time():
     utc_time = datetime.utcnow().replace(tzinfo=timezone.utc)
 
     # Define the peak time ranges
+    peak_time_0_start = datetime.strptime("00:00", "%H:%M").replace(tzinfo=timezone.utc)
+    peak_time_0_end = datetime.strptime("03:44", "%H:%M").replace(tzinfo=timezone.utc)
+
     peak_time_1_start = datetime.strptime("03:45", "%H:%M").replace(tzinfo=timezone.utc)
-    peak_time_1_end = datetime.strptime("04:00", "%H:%M").replace(tzinfo=timezone.utc)
-    
-    peak_time_2_start = datetime.strptime("23:59", "%H:%M").replace(tzinfo=timezone.utc)
-    peak_time_2_end = datetime.strptime("23:59", "%H:%M").replace(tzinfo=timezone.utc)
+    peak_time_1_end = datetime.strptime("03:59", "%H:%M").replace(tzinfo=timezone.utc)
 
-    peak_time_3_start = peak_time_1_end
-    peak_time_3_end = peak_time_2_start
+    peak_time_2_start = datetime.strptime("04:00", "%H:%M").replace(tzinfo=timezone.utc)
+    peak_time_2_end = datetime.strptime("09:50", "%H:%M").replace(tzinfo=timezone.utc)
 
-    if peak_time_1_start <= utc_time <= peak_time_1_end:
-        print("Within peak time 1")
-        return "peakstart"
+    peak_time_3_start = datetime.strptime("09:51", "%H:%M").replace(tzinfo=timezone.utc)
+    peak_time_3_end = datetime.strptime("10:01", "%H:%M").replace(tzinfo=timezone.utc)
+
+    peak_time_4_start = datetime.strptime("10:02", "%H:%M").replace(tzinfo=timezone.utc)
+    peak_time_4_end = datetime.strptime("23:59", "%H:%M").replace(tzinfo=timezone.utc)
+
+    # Check current time against defined ranges
+    if peak_time_0_start <= utc_time <= peak_time_0_end:
+        return "NONMKT"
+    elif peak_time_1_start <= utc_time <= peak_time_1_end:
+        return "PEAKSTART"
     elif peak_time_2_start <= utc_time <= peak_time_2_end:
-        print("Within peak time 2")
-        return "peakend"
+        return "NONPEAK"
     elif peak_time_3_start <= utc_time <= peak_time_3_end:
-        print("Within peak time 3")
-        return "nonpeak"
+        return "PEAKEND"
     else:
-        print("Outside of peak times")
-        return "nonmkt"
+        # This covers the time range from 10:02 to 23:59
+        return "NONMKT"  # This covers the time range from 10:02 to 23:59
 
-# Print the value returned by the peak_time() function
+# Test the function
 print(peak_time())
 
+  
