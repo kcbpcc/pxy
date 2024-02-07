@@ -463,8 +463,6 @@ try:
     
     # Now, you can use the 'auto_value' variable in your program
 ###########################################################################################################################################################################################################   
-    from utcpxy import peak_time
-    utct = peak_time()
     #print(utct)
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
