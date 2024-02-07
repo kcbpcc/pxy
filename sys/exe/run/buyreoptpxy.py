@@ -155,6 +155,5 @@ def execute_program(symbol_OPTIONS):
     else:
         print("Unable to calculate funds needed for the symbol.")
 
-# Execute the program with the desired symbol_OPTIONS
 symbol_OPTIONS = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"  # Assuming you have access to expiry_year, expiry_month, and expiry_day
-execute_program(symbol_OPTIONS)
+
