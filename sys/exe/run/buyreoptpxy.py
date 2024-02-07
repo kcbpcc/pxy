@@ -146,7 +146,7 @@ def execute_program(symbol):
                 print("Error placing Put Option order:", e)
 
         else:
-            print("nonfunds.aborted.")
+            print("No funds.aborted.")
     else:
         print("Unable to calculate funds needed for the symbol.")
 
