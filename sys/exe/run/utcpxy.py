@@ -21,10 +21,10 @@ def peak_time():
     print("Peak Time 2 Range:", peak_time_2_start, "-", peak_time_2_end)
 
     peak_time_3_start = datetime.strptime("09:51", "%H:%M").time()
-    peak_time_3_end = datetime.strptime("17:01", "%H:%M").time()
+    peak_time_3_end = datetime.strptime("10:01", "%H:%M").time()
     print("Peak Time 3 Range:", peak_time_3_start, "-", peak_time_3_end)
 
-    peak_time_4_start = datetime.strptime("17:02", "%H:%M").time()
+    peak_time_4_start = datetime.strptime("10:02", "%H:%M").time()
     peak_time_4_end = datetime.strptime("23:59", "%H:%M").time()
     print("Peak Time 4 Range:", peak_time_4_start, "-", peak_time_4_end)
 
