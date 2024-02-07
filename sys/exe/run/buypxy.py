@@ -135,6 +135,7 @@ if decision == "YES":
                     logging.info(f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
                     # Update remaining cash if the order is successful
                     remaining_cash -= int(float(dct['QTY'].replace(',', ''))) * ltp_nse
+                    print(f"Order placed successfully for {dct['tradingsymbol']} and cash remained {remaining_cash}")
                     return dct['tradingsymbol'], remaining_cash
     
             else:
