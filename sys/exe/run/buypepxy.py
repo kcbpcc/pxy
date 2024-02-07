@@ -9,7 +9,6 @@ from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path, fileutils, buybuff, max_target
-from buypluspxy import Trendlyne
 from fundpxy import calculate_decision
 from nftpxy import OPTIONS
 import pandas as pd
