@@ -529,7 +529,19 @@ try:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
                             #mktpxy in ['Sell-opts'] and
-
+###########################################################################################################################################################################################################                    
+                    elif (
+                        row['qty'] > 0 and
+                        row['avg'] != 0 and
+                        row['product'] in ['NRML', 'MIS'] and
+                        auto_value == 'AUTO'
+                    ):
+                        if 'CE' in row['key'] and row['PL%'] < -15 and mktpxy == "Sell":
+                            # Execute xxx.py
+                            subprocess.run(["python", "xxx.py"])
+                        elif 'PE' in row['key'] and row['PL%'] < -15 and mktpxy == "Buy":
+                            # Execute xyzzy.py
+                            subprocess.run(["python", "xyzzy.py"])
 ###########################################################################################################################################################################################################     
                     elif (
                         (row['qty'] > 0 and
