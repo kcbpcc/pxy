@@ -18,7 +18,7 @@ from nftpxy import OPTIONS
 original_stdout = sys.stdout
 
 # Define a function to encapsulate the main logic
-def execute_program(symbol_OPTIONS):
+def execute_program(symbol):
     try:
         # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
@@ -58,6 +58,20 @@ def execute_program(symbol_OPTIONS):
         print("Error: 'broker' object does not have 'order_place' method.")
         sys.exit(1)
 
+    # Read the CSV file to check if symbols exist
+    try:
+        df = pd.read_csv('fileHPdf.csv')
+        existing_symbols = set(df['tradingsymbol'].tolist())
+    except FileNotFoundError:
+        existing_symbols = set()
+
+    # Check if the symbol exists in the CSV file
+    if symbol in existing_symbols:
+        # Check if the quantity is greater than 0
+        if df.loc[df['tradingsymbol'] == symbol, 'quantity'].iloc[0] > 0:
+            print(f"{symbol} exists with quantity greater than 0 in the CSV file.")
+            sys.exit(0)  # Exit the program
+
     # Calculate the next Thursday date at least 6 days ahead
     current_date = datetime.now()
     days_until_next_thursday = (3 - current_date.weekday() + 7) % 7
@@ -80,80 +94,41 @@ def execute_program(symbol_OPTIONS):
     # Ensure the date is always two digits
     expiry_day = expiry_day.zfill(2)
 
-    def get_ltp(exchange, symbol):
-        key = f"{exchange}:{symbol}"
-        resp = broker.kite.ltp([key])
-
-        if resp and isinstance(resp, dict) and key in resp:
-            return resp[key]['last_price']
-        else:
-            return None  # Return None if the ltp is not available or if there is an issue
-
-    # Function to calculate funds needed for a given symbol and quantity
-    def calculate_funds_needed(exchange, symbol, quantity):
-        ltp = get_ltp(exchange, symbol)
-        if ltp is not None:
-            return ltp * quantity
-        else:
-            return None
-
-    # Calculate funds needed for the CE symbol with quantity 50
-    quantity = 50
-    funds_needed_OPTIONS = calculate_funds_needed("NFO", symbol_OPTIONS, quantity)
-
     # Check against available cash with a buffer of 10%
     response = broker.kite.margins()
     available_cash = response["equity"]["available"]["live_balance"]
 
     # Print results
-    if funds_needed_OPTIONS is not None:
-        # Read the CSV file to check if symbols exist
+    if available_cash >= 1.1 * funds_needed_OPTIONS:
+        print("You have sufficient funds. Proceeding with order placement.")
+
+        # Place order here
         try:
-            df = pd.read_csv('fileHPdf.csv')
-            existing_symbols = set(df['tradingsymbol'].tolist())
-        except FileNotFoundError:
-            existing_symbols = set()
+            order_id_OPTIONS = broker.order_place(
+                tradingsymbol=symbol,
+                quantity=50,
+                exchange="NFO",
+                transaction_type='BUY',
+                order_type='MARKET',
+                product='NRML'
+            )
 
-        # Check if the symbol exists in the CSV file
-        if symbol_OPTIONS in existing_symbols:
-            # Check if the quantity is greater than 0
-            if df.loc[df['tradingsymbol'] == symbol_OPTIONS, 'quantity'].iloc[0] > 0:
-                print(f"{symbol_OPTIONS} exists with quantity greater than 0.")
-                sys.exit(0)  # Exit the program
+            print("Put Option Order placed successfully. Order ID:", order_id_OPTIONS)
+            message_text_OPTIONS = f"Put Option Order placed successfully. Order ID: {order_id_OPTIONS}"
+            # Send the message to Telegram
+            asyncio.run(send_telegram_message(message_text_OPTIONS))
 
-        if available_cash >= 1.1 * funds_needed_OPTIONS:
-            print("You have sufficient funds. Proceeding with order placement.")
+        except Exception as e:
+            print("Error placing Put Option order:", e)
+            order_id_OPTIONS = None  # Set order_id_CE to None to indicate failure
 
-            # Place order here
-            try:
-                order_id_OPTIONS = broker.order_place(
-                    tradingsymbol=symbol_OPTIONS,
-                    quantity=50,
-                    exchange="NFO",
-                    transaction_type='BUY',
-                    order_type='MARKET',
-                    product='NRML'
-                )
-
-                print("Put Option Order placed successfully. Order ID:", order_id_OPTIONS)
-                message_text_OPTIONS = f"Put Option Order placed successfully. Order ID: {order_id_OPTIONS}"
-                # Send the message to Telegram
-                asyncio.run(send_telegram_message(message_text_OPTIONS))
-
-            except Exception as e:
-                print("Error placing Put Option order:", e)
-                order_id_OPTIONS = None  # Set order_id_CE to None to indicate failure
-
-            # Check if the order was successful
-            if order_id_OPTIONS is not None:
-                print("Order placed successfully. Order ID:", order_id_OPTIONS)
-            else:
-                print("Order failed. Check error messages.")
-
+        # Check if the order was successful
+        if order_id_OPTIONS is not None:
+            print("Order placed successfully. Order ID:", order_id_OPTIONS)
         else:
-            print("Insufficient funds. Order placement aborted.")
-    else:
-        print("Unable to calculate funds needed for the symbol.")
+            print("Order failed. Check error messages.")
 
-symbol_OPTIONS = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"  # Assuming you have access to expiry_year, expiry_month, and expiry_day
+    else:
+        print("Insufficient funds. Order placement aborted.")
+
 
