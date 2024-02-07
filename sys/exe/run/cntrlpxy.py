@@ -568,7 +568,8 @@ try:
         print("optpxy: options not activated, let's wait!")
         # print(nrml_filtered_df)
     else:
-        formatted_lines = nrml_filtered_df[['Invested','key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+        filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0]
+        formatted_lines = filtered_df[['Invested', 'key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
         # Set max_width to 42
         max_width = 42
         # Iterate over each line and format it with color based on PnL value
