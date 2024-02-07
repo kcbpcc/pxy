@@ -4,6 +4,9 @@ def peak_time():
     # Get the current UTC time
     utc_time = datetime.now(timezone.utc)
 
+    # Print current time
+    print("Current UTC Time:", utc_time.strftime("%Y-%m-%d %H:%M:%S"))
+
     # Define the peak time ranges
     peak_time_0_start = datetime.strptime("00:00", "%H:%M").replace(tzinfo=timezone.utc)
     peak_time_0_end = datetime.strptime("03:44", "%H:%M").replace(tzinfo=timezone.utc)
@@ -36,7 +39,8 @@ def peak_time():
     return "UNKNOWN"
 
 # Test the function
-print(peak_time())
+print("Peak Time Label:", peak_time())
+
 
 
   
