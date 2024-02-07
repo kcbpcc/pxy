@@ -13,6 +13,24 @@ from buypluspxy import Trendlyne
 from fundpxy import calculate_decision
 from nftpxy import OPTIONS
 
+# Define the get_ltp function
+def get_ltp(exchange, symbol, broker):
+    key = f"{exchange}:{symbol}"
+    resp = broker.kite.ltp([key])
+    
+    if resp and isinstance(resp, dict) and key in resp:
+        return resp[key]['last_price']
+    else:
+        return None  # Return None if the ltp is not available or if there is an issue
+
+# Define the calculate_funds_needed function
+def calculate_funds_needed(exchange, symbol, broker):
+    ltp = get_ltp(exchange, symbol, broker)
+    if ltp is not None:
+        return ltp * 50
+    else:
+        return None
+
 # Store the original stdout
 original_stdout = sys.stdout
 
@@ -101,9 +119,7 @@ def execute_program(symbol):
     available_cash = response["equity"]["available"]["live_balance"]
 
     # Calculate funds needed for the options symbol with quantity 50
-    quantity = 50
-    ltp = get_ltp("NFO", symbol_OPTIONS)
-    funds_needed_OPTIONS = ltp * quantity if ltp is not None else None
+    funds_needed_OPTIONS = calculate_funds_needed("NFO", symbol_OPTIONS, broker)
 
     # Print results
     if funds_needed_OPTIONS is not None:
@@ -133,6 +149,8 @@ def execute_program(symbol):
             print("Insufficient funds. Order placement aborted.")
     else:
         print("Unable to calculate funds needed for the symbol.")
+
+
 
 
 
