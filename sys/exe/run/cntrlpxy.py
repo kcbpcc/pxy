@@ -560,6 +560,10 @@ try:
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
+    from smaftypxy import check_nifty_status
+    SMAfty = check_nifty_status()
+    from macdpxy import calculate_macd_signal
+    macd = calculate_macd_signal("^NSEI")
     if nrml_filtered_df.empty:
         print("optpxy: options not activated, let's wait!")
         # print(nrml_filtered_df)
@@ -588,7 +592,7 @@ try:
                 color_code = RESET  # Reset color for invalid PnL values
             # Right-align the text, apply color, and reset color after the line
             print(color_code + line.rjust(max_width) + RESET)
-        print(f"Lets play with {YELLOW}{OPTIONS}{RESET} ||Option P&L%:{SILVER} {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}")
+        print(f"{YELLOW}SMAfifty:{SMAfty}|{OPTIONS}{RESET}|MACD🚦{macd}|P&L%:{SILVER} {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}")
         print("━" * 42)
 ###########################################################################################################################################################################################################
 except Exception as e:
