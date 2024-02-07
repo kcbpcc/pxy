@@ -4,7 +4,6 @@ import traceback
 import sys
 import asyncio
 import telegram
-
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
@@ -65,7 +64,7 @@ def execute_program(symbol):
     except FileNotFoundError:
         existing_symbols = set()
 
-    # Check if the symbol exists in the CSV file
+    # Check if the symbol exists in the CSV file (as is)
     if symbol in existing_symbols:
         # Check if the quantity is greater than 0
         if df.loc[df['tradingsymbol'] == symbol, 'quantity'].iloc[0] > 0:
@@ -130,5 +129,4 @@ def execute_program(symbol):
 
     else:
         print("Insufficient funds. Order placement aborted.")
-
 
