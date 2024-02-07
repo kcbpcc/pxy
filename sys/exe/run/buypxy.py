@@ -139,7 +139,7 @@ if decision == "YES":
                     return dct['tradingsymbol'], remaining_cash
     
             else:
-                logging.warning(f"Skipping {dct['tradingsymbol']}: LTP not available on NSE or insufficient cash")
+                logging.warning(f"Skipping {dct['tradingsymbol']}:no LTP or no cash")
                 return dct['tradingsymbol'], remaining_cash
     
         except Exception as e:
