@@ -99,18 +99,18 @@ def calculate_funds_needed(exchange, symbol, quantity):
         return None
 
 # Construct the symbol for the NIFTY Put Option
-symbol_PE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}PE"
+symbol_CE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
 
-# Calculate funds needed for the PE symbol with quantity 50
+# Calculate funds needed for the CE symbol with quantity 50
 quantity = 50
-funds_needed_PE = calculate_funds_needed("NFO", symbol_PE, quantity)
+funds_needed_CE = calculate_funds_needed("NFO", symbol_CE, quantity)
 
 # Check against available cash with a buffer of 10%
 response = broker.kite.margins()
 available_cash = response["equity"]["available"]["live_balance"]
 
 # Print results
-if funds_needed_PE is not None:
+if funds_needed_CE is not None:
     # Read the CSV file to check if symbols exist
     try:
         df = pd.read_csv('fileHPdf.csv')
@@ -119,20 +119,20 @@ if funds_needed_PE is not None:
         existing_symbols = set()
 
     # Check if the symbol exists in the CSV file
-    if symbol_PE in existing_symbols:
+    if symbol_CE in existing_symbols:
         # Check if the quantity is greater than 0
-        if df.loc[df['tradingsymbol'] == symbol_PE, 'quantity'].iloc[0] > 0:
-            print(f"{symbol_PE} exists with quantity greater than 0.")
+        if df.loc[df['tradingsymbol'] == symbol_CE, 'quantity'].iloc[0] > 0:
+            print(f"{symbol_CE} exists with quantity greater than 0.")
             sys.exit(0)  # Exit the program
 
 
-    if available_cash >= 1.1 * funds_needed_PE:
+    if available_cash >= 1.1 * funds_needed_CE:
         print("You have sufficient funds. Proceeding with order placement.")
         
         # Place order here
         try:
-            order_id_PE = broker.order_place(
-                tradingsymbol=symbol_PE,
+            order_id_CE = broker.order_place(
+                tradingsymbol=symbol_CE,
                 quantity=50,
                 exchange="NFO",
                 transaction_type='BUY',
@@ -140,18 +140,18 @@ if funds_needed_PE is not None:
                 product='NRML'
             )
 
-            print("Put Option Order placed successfully. Order ID:", order_id_PE)
-            message_text_PE = f"Put Option Order placed successfully. Order ID: {order_id_PE}"
+            print("Put Option Order placed successfully. Order ID:", order_id_CE)
+            message_text_CE = f"Put Option Order placed successfully. Order ID: {order_id_CE}"
             # Send the message to Telegram
-            asyncio.run(send_telegram_message(message_text_PE))
+            asyncio.run(send_telegram_message(message_text_CE))
 
         except Exception as e:
             print("Error placing Put Option order:", e)
-            order_id_PE = None  # Set order_id_PE to None to indicate failure
+            order_id_CE = None  # Set order_id_CE to None to indicate failure
 
         # Check if the order was successful
-        if order_id_PE is not None:
-            print("Order placed successfully. Order ID:", order_id_PE)
+        if order_id_CE is not None:
+            print("Order placed successfully. Order ID:", order_id_CE)
         else:
             print("Order failed. Check error messages.")
 
