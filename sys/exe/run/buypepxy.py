@@ -121,12 +121,12 @@ if funds_needed_PE is not None:
     if symbol_PE in existing_symbols:
         # Check if the quantity is greater than 0
         if df.loc[df['tradingsymbol'] == symbol_PE, 'quantity'].iloc[0] > 0:
-            print(f"{symbol_PE} exists with quantity greater than 0.")
+            print(f"{symbol_PE} exists")
             sys.exit(0)  # Exit the program
 
 
     if available_cash >= 1.1 * funds_needed_PE:
-        print("You have sufficient funds. Proceeding with order placement.")
+        print("No Funds")
         
         # Place order here
         try:
@@ -139,7 +139,7 @@ if funds_needed_PE is not None:
                 product='NRML'
             )
 
-            print("Put Option Order placed successfully. Order ID:", order_id_PE)
+            print("{symbol_PE} Ordered")
             message_text_PE = f"Put Option Order placed successfully. Order ID: {order_id_PE}"
             # Send the message to Telegram
             asyncio.run(send_telegram_message(message_text_PE))
@@ -150,12 +150,12 @@ if funds_needed_PE is not None:
 
         # Check if the order was successful
         if order_id_PE is not None:
-            print("Order placed successfully. Order ID:", order_id_PE)
+            print("{symbol_PE} Ordered")
         else:
-            print("Order failed. Check error messages.")
+            print("Order failed")
 
     else:
-        print("Insufficient funds. Order placement aborted.")
+        print("No funds. No Order")
 else:
     print("Unable to calculate funds needed for the symbol.")
 
