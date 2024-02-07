@@ -3,7 +3,7 @@ import warnings
 
 def check_nifty_status():
     # Retrieve historical price data for Nifty50
-    data = yf.Ticker('^NSEI').history(period="5d", interval="5m")
+    data = yf.Ticker('^NSEI').history(period="5d", interval="1m")
 
     # Calculate the 50-day SMA of Nifty50
     sma_50_nifty = data['Close'].rolling(window=50).mean()
