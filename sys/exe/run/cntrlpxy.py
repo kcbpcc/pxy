@@ -516,7 +516,8 @@ try:
                         row['avg'] != 0 and
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
-                        row['PL%'] > row['otPL%']
+                         row['otPL%'] and
+                        ('CE' in row['key'] and row['PL%'] > 14 and macd == "👇") or  ('PE' in row['key'] and row['PL%'] > 14 and macd == "👆")
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
