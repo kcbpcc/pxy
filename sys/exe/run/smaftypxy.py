@@ -22,4 +22,4 @@ def check_nifty_status():
             return "BEARNIFTY"
 
 # Example usage
-print(check_nifty_status())
+#print(check_nifty_status())
