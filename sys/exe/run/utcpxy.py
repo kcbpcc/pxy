@@ -17,8 +17,12 @@ def calculate_cycle(current_time):
     elif interval_2_start <= current_time <= interval_2_end:
         return "peakend"
     else:
-        # If current time is not within peak intervals, it's non-peak time
-        return "nonmkt"
+        # Check for non-peak time spanning midnight
+        if interval_2_end < interval_2_start:  # Check if interval spans midnight
+            if interval_2_end <= current_time or current_time <= interval_2_start:
+                return "nonmkt"
+        else:
+            return "nonmkt"
 
 # Get the current UTC time
 current_utc_time = datetime.utcnow().time()
