@@ -1,4 +1,8 @@
 import yfinance as yf
+import warnings
+
+# Suppress FutureWarning
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # Step 1: Retrieve historical price data for Nifty50
 nifty_ticker = yf.Ticker("^NSEI")
