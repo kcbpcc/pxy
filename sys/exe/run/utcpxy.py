@@ -1,28 +1,28 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta
 
-def peak_time(utc_time):
-    # Define the peak time ranges
-    peak_start_1 = datetime.strptime("03:45", "%H:%M").replace(tzinfo=timezone.utc).time()
-    peak_end_1 = datetime.strptime("04:00", "%H:%M").replace(tzinfo=timezone.utc).time()
+def calculate_cycle(current_time):
+    # Define time intervals
+    interval_1_start = datetime.strptime("03:45", "%H:%M").time()
+    interval_1_end = datetime.strptime("04:00", "%H:%M").time()
     
-    non_peak_start = datetime.strptime("04:00", "%H:%M").replace(tzinfo=timezone.utc).time()
-    non_peak_end = datetime.strptime("09:45", "%H:%M").replace(tzinfo=timezone.utc).time()
+    interval_2_start = datetime.strptime("09:45", "%H:%M").time()
+    interval_2_end = datetime.strptime("10:00", "%H:%M").time()
 
-    peak_start_2 = datetime.strptime("09:45", "%H:%M").replace(tzinfo=timezone.utc).time()
-    peak_end_2 = datetime.strptime("10:00", "%H:%M").replace(tzinfo=timezone.utc).time()
+    # Convert current time to datetime object with today's date
+    current_datetime = datetime.combine(datetime.today(), current_time)
 
-    # Check if the current time is within the peak time ranges
-    if peak_start_1 <= utc_time < peak_end_1:
+    # Check if current time is within the defined intervals
+    if interval_1_start <= current_time <= interval_1_end:
         return "peakstart"
-    elif non_peak_start <= utc_time < non_peak_end:
-        return "nonpeak"
-    elif peak_start_2 <= utc_time < peak_end_2:
+    elif interval_2_start <= current_time <= interval_2_end:
         return "peakend"
     else:
+        # If current time is not within peak intervals, it's non-peak time
         return "nonmkt"
 
 # Get the current UTC time
-current_utc_time = datetime.utcnow().replace(tzinfo=timezone.utc).time()
+current_utc_time = datetime.utcnow().time()
 
-print(peak_time(current_utc_time))
-
+# Calculate status based on current time
+status = calculate_cycle(current_utc_time)
+print(status)
