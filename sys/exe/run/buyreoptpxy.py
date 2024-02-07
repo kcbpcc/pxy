@@ -4,7 +4,6 @@ import traceback
 import sys
 import asyncio
 import telegram
-
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
@@ -135,8 +134,5 @@ def execute_program(symbol):
     else:
         print("Unable to calculate funds needed for the symbol.")
 
-# Example usage:
-symbol = "NIFTY2202CE"  # Provide your desired symbol
-execute_program(symbol)
 
 
