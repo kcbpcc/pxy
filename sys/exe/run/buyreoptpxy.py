@@ -69,8 +69,18 @@ def execute_program(symbol):
             # Handle the exception (e.g., log it) and continue with your code
             print(f"Error sending message to Telegram: {e}")
 
-    # Fetch positions from the broker
-    positions = broker.positions()
+    # Ensure broker.positions() returns a list and handle it appropriately
+    positions = []
+    try:
+        positions = broker.positions()
+        if not isinstance(positions, list):
+            raise TypeError("positions() method did not return a list")
+    except Exception as e:
+        print("Error fetching positions:", e)
+        # Handle the error appropriately, such as logging or raising further exceptions
+        # You might also consider exiting the program or taking other corrective actions
+    
+    # Iterate over positions to check if any symbol to be processed exists with quantity more than 0
 
     # Iterate over positions to check if any symbol to be processed exists with quantity more than 0
     for position in positions:
