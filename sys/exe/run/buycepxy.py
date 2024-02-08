@@ -139,7 +139,7 @@ if funds_needed_CE is not None:
                 product='NRML'
             )
 
-            print("{symbol} Ordered")
+            print("{symbol_CE} Ordered")
             message_text_CE = f"{symbol} placed successfully"
             # Send the message to Telegram
             asyncio.run(send_telegram_message(message_text_CE))
