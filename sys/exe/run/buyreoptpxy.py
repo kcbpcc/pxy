@@ -11,6 +11,7 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from fundpxy import calculate_decision
 from nftpxy import OPTIONS
+import csv
 # Define the get_ltp function
 def get_ltp(exchange, symbol, broker):
     key = f"{exchange}:{symbol}"
