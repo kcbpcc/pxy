@@ -121,7 +121,7 @@ if funds_needed_CE is not None:
     if symbol_CE in existing_symbols:
         # Check if the quantity is greater than 0
         if df.loc[df['tradingsymbol'] == symbol_CE, 'quantity'].iloc[0] > 0:
-            print(f"{symbol_CE} exists")
+            print(f"{symbol} exists")
             sys.exit(0)  # Exit the program
 
 
@@ -139,7 +139,7 @@ if funds_needed_CE is not None:
                 product='NRML'
             )
 
-            print("{symbol_CE} Ordered")
+            print("{symbol} Ordered")
             message_text_CE = f"{symbol} placed successfully"
             # Send the message to Telegram
             asyncio.run(send_telegram_message(message_text_CE))
@@ -150,7 +150,7 @@ if funds_needed_CE is not None:
 
         # Check if the order was successful
         if order_id_CE is not None:
-            print("{symbol_CE} Ordered")
+            print("{symbol} Ordered")
         else:
             print("Order failed. Check error messages.")
 
