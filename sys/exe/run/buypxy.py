@@ -136,6 +136,23 @@ if decision == "YES":
                     # Update remaining cash if the order is successful
                     remaining_cash -= int(float(dct['QTY'].replace(',', ''))) * ltp_nse
                     print(f"Order placed successfully for {dct['tradingsymbol']} and cash remained {remaining_cash}")
+                    try:
+                        message_text = f"{ltp} \nhttps://www.tradingview.com/chart/?symbol={dct['tradingsymbol']}"
+    
+                        # Define the bot token and your Telegram username or ID
+                        bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
+                        user_id = '-4135910842'  # Replace with your Telegram user ID
+                        # Function to send a message to Telegram
+                        async def send_telegram_message(message_text):
+                            bot = telegram.Bot(token=bot_token)
+                            await bot.send_message(chat_id=user_id, text=message_text)
+    
+                        # Send the 'row' content as a message to Telegram immediately after printing the row
+                        asyncio.run(send_telegram_message(message_text))
+                        
+                    except Exception as e:
+                        # Handle the exception (e.g., log it) and continue with your code
+                        print(f"Error sending message to Telegram: {e}")
                     return dct['tradingsymbol'], remaining_cash
     
             else:
