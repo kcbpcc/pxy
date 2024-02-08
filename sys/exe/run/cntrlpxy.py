@@ -609,7 +609,13 @@ try:
                 color_code = RESET  # Reset color for invalid PnL values
             # Right-align the text, apply color, and reset color after the line
             print(color_code + line.rjust(max_width) + RESET)
-        print(f"|{'\033[92m' if SMAfty == 'SMA50⬆' else '\033[91m'}{SMAfty}\033[0m||{OPTIONS}||MACD🚦{macd}||P&L%: {'\033[92m' if nrml_percentage_return >= 0 else '\033[91m'}{nrml_percentage_return}%\033[0m|")
+        # Define ANSI escape codes
+        GREEN = '\033[92m'
+        RED = '\033[91m'
+        RESET = '\033[0m'
+        
+        # Print statement with color formatting
+        print(f"|{GREEN if SMAfty == 'SMA50⬆' else RED}{SMAfty}{RESET}||{OPTIONS}||MACD🚦{macd}||P&L%: {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}|")
         print("━" * 42)
 ###########################################################################################################################################################################################################
 except Exception as e:
