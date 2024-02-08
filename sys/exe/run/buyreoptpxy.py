@@ -69,24 +69,14 @@ def execute_program(symbol):
             # Handle the exception (e.g., log it) and continue with your code
             print(f"Error sending message to Telegram: {e}")
 
-    # Ensure that the 'broker' object has an 'order_place' method
-    if not hasattr(broker, 'order_place') or not callable(getattr(broker, 'order_place', None)):
-        print("Error: 'broker' object does not have 'order_place' method.")
-        sys.exit(1)
+    # Fetch positions from the broker
+    positions = broker.positions()
 
-    # Read the CSV file to check if symbols exist
-    try:
-        df = pd.read_csv('fileHPdf.csv')
-        existing_symbols = set(df['tradingsymbol'].tolist())
-    except FileNotFoundError:
-        existing_symbols = set()
-
-    # Check if the symbol exists in the CSV file (as is)
-    if symbol in existing_symbols:
-        # Check if the quantity is greater than 0
-        if df.loc[df['tradingsymbol'] == symbol, 'quantity'].iloc[0] > 0:
-            print(f"{symbol} exists ")
-            sys.exit(0)  # Exit the program
+    # Iterate over positions to check if any symbol to be processed exists with quantity more than 0
+    for position in positions:
+        if position['tradingsymbol'] == symbol and position['quantity'] > 0:
+            print(f"{symbol} exists with quantity {position['quantity']}. Skipping order placement.")
+            sys.exit(0)  # Exit the program if the symbol exists with quantity > 0
 
     # Calculate the next Thursday date at least 6 days ahead
     current_date = datetime.now()
@@ -110,8 +100,19 @@ def execute_program(symbol):
     # Ensure the date is always two digits
     expiry_day = expiry_day.zfill(2)
 
-    # Construct the symbol for the NIFTY Put Option
-    symbol_OPTIONS = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
+    # Extract strike price from the symbol if it contains one
+    def extract_strike_price(symbol):
+        for i in range(len(symbol)):
+            if symbol[i:].isdigit():
+                return symbol[i:]
+        return None
+
+    # Use the extracted strike price when constructing the symbol for the NIFTY Put Option
+    strike_price = extract_strike_price(symbol)
+    if strike_price:
+        symbol_OPTIONS = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}{OPTIONS}CE"
+    else:
+        symbol_OPTIONS = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
 
     # Check against available cash with a buffer of 10%
     response = broker.kite.margins()
@@ -136,7 +137,7 @@ def execute_program(symbol):
                     product='NRML'
                 )
 
-                print("Ordered {symbol_OPTIONS}")
+                print(f"Ordered {symbol_OPTIONS}")
                 message_text_OPTIONS = f"Put Option Order placed successfully. Order ID: {order_id_OPTIONS}"
                 # Send the message to Telegram
                 asyncio.run(send_telegram_message(message_text_OPTIONS))
@@ -145,11 +146,9 @@ def execute_program(symbol):
                 print("Error placing Put Option order:", e)
 
         else:
-            print("No funds for {symbol_OPTIONS}.aborted.")
+            print(f"No funds for {symbol_OPTIONS}. Aborted.")
     else:
         print("Unable to calculate funds needed for the symbol.")
-
-
 
 
 
