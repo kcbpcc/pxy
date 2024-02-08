@@ -461,6 +461,9 @@ try:
     if isinstance(auto_value, list):
         # If auto_value is a list, take the first element as the value
         auto_value = auto_value[0]
+    
+    # Now, you can use the 'auto_value' variable in your program
+
 ###########################################################################################################################################################################################################   
     from buyreoptpxy import execute_program
     # Define the CSV file path
