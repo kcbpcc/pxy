@@ -140,7 +140,7 @@ if funds_needed_PE is not None:
             )
 
             print("{symbol_PE} Ordered")
-            message_text_CE = f"{symbol} placed successfully"
+            message_text_PE = f"{symbol} placed successfully"
             # Send the message to Telegram
             asyncio.run(send_telegram_message(message_text_PE))
 
