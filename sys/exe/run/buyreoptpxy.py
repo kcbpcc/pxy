@@ -138,7 +138,7 @@ def execute_program(symbol):
                 )
 
                 print(f"Ordered {tradingsymbol}")
-                message_text_OPTIONS = f"Put Option Order placed successfully. Order ID: {order_id_OPTIONS}"
+                message_text_OPTIONS = f"Option Order placed successfully. Order ID: {tradingsymbol}"
                 # Send the message to Telegram
                 asyncio.run(send_telegram_message(message_text_OPTIONS))
 
