@@ -33,11 +33,25 @@ def calculate_macd_signal(ticker_symbol):
     current_macd_line = macd_line.iloc[-1]
 
     if previous_macd_histogram < 0 and current_macd_histogram > 0:
-        macd_signal = "👆"
+        # Scenario 1: Previous MACD histogram was negative, and current MACD histogram is positive
+        macd_signal = "👆"  # MACD histogram is rising
+    
     elif previous_macd_histogram > 0 and current_macd_histogram < 0:
-        macd_signal = "👇"
+        # Scenario 2: Previous MACD histogram was positive, and current MACD histogram is negative
+        macd_signal = "👇"  # MACD histogram is falling
+    
+    elif previous_macd_histogram > 0 and current_macd_histogram > 0:
+        # Scenario 3: Previous MACD histogram was positive, and current MACD histogram is also positive
+        macd_signal = "👉"  # MACD histogram is steady or increasing
+    
+    elif previous_macd_histogram < 0 and current_macd_histogram < 0:
+        # Scenario 4: Previous MACD histogram was negative, and current MACD histogram is also negative
+        macd_signal = "👈"  # MACD histogram is steady or decreasing
+    
     else:
-        macd_signal = "👊"
+        # Default scenario if none of the above conditions are met
+        macd_signal = "🫵"  # No significant change in MACD histogram
+
 
     return macd_signal
 
