@@ -11,7 +11,6 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from fundpxy import calculate_decision
 from nftpxy import OPTIONS
-
 # Define the get_ltp function
 def get_ltp(exchange, symbol, broker):
     key = f"{exchange}:{symbol}"
@@ -150,5 +149,42 @@ def execute_program(symbol):
     else:
         print("Unable to calculate funds needed for the symbol.")
 
+# Read data from the CSV file
+file_name = 'mempxy.csv'
+auto_value = None  # Initialize auto_value
+with open(file_name, 'r') as csv_file:
+    reader = csv.DictReader(csv_file)
+    for row in reader:
+        auto_value = row.get('AUTO', None)  # Safely get 'AUTO' value, defaulting to None if not found
+
+# Ensure auto_value is a string
+if isinstance(auto_value, list):
+    auto_value = auto_value[0]  # Take the first element if auto_value is a list
+
+# Now, you can use the 'auto_value' variable in your program
+
+# Use asyncio.run() to call send_telegram_message asynchronously
+asyncio.run(send_telegram_message(message_text))
+
+# Ensure broker.positions() returns a list and handle it appropriately
+positions = broker.positions() if isinstance(broker.positions(), list) else []
+
+# Ensure broker.order_place() returns a valid result and handle it appropriately
+order_id_OPTIONS = None
+try:
+    order_id_OPTIONS = broker.order_place(
+        tradingsymbol=symbol_OPTIONS,
+        quantity=50,
+        exchange="NFO",
+        transaction_type='BUY',
+        order_type='MARKET',
+        product='NRML'
+    )
+    print(f"Ordered {tradingsymbol}")
+    message_text_OPTIONS = f"Option Order placed successfully. Order ID: {tradingsymbol}"
+    # Send the message to Telegram
+    asyncio.run(send_telegram_message(message_text_OPTIONS))
+except Exception as e:
+    print("Error placing Put Option order:", e)
 
 
