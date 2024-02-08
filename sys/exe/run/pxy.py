@@ -68,13 +68,7 @@ while True:
     # Call the function and store the result in a variable
     subprocess.run(['python3', 'buypxy.py']) if peak == 'PEAKEND' else None
     subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
-    try:
-        day_change_sign = '+' if Day_Change > 0 else ''
-        open_change_sign = '+' if Open_Change > 0 else ''
-        # Format the statement with explicit signs and styles
-        console.print(f"|🔆{day_change_sign}[{bull_style if Day_Change > 0 else bear_style if Day_Change < 0 else ''}]{Day_Change}[/]|⌛️{open_change_sign}[{bull_style if Open_Change > 0 else bear_style if Open_Change < 0 else ''}]{Open_Change}[/]|⚡{nse_power}|{onemincandlesequance}")    
-    except:
-        pass  # This will catch any exception and do nothing, continuing with the program
+
     #subprocess.run(['python3', 'tistpxy.py'])
     print("━" * 42)  # Print another line of 42 dashes
     # console.print("|", style=green_style if mktpxy in ["Buy", "Bull"] else red_style)  # Commented out line
