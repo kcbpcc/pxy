@@ -583,8 +583,7 @@ try:
         print("optpxy: options not activated, let's wait!")
         # print(nrml_filtered_df)
     else:
-        filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0].copy()
-        filtered_df.loc[:, ['Invested', 'PL%']] = filtered_df[['Invested', 'PL%']].round(0).astype(int)
+        filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0]
         formatted_lines = filtered_df[['Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
         formatted_lines_sorted = sorted(formatted_lines, key=lambda x: x.split()[1][:-2])
         # Set max_width to 42
