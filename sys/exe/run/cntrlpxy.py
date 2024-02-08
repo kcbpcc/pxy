@@ -450,18 +450,16 @@ try:
     #subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess
 
 ###########################################################################################################################################################################################################
-    import csv
-    
-    # Specify the CSV file name
-    file_name = 'mempxy.csv'
-    
     # Read data from the CSV file
     with open(file_name, 'r') as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
             auto_value = row['AUTO']
     
-    # Now, you can use the 'auto_value' variable in your program
+    # Ensure auto_value is a string
+    if isinstance(auto_value, list):
+        # If auto_value is a list, take the first element as the value
+        auto_value = auto_value[0]
 ###########################################################################################################################################################################################################   
     from buyreoptpxy import execute_program
     # Define the CSV file path
