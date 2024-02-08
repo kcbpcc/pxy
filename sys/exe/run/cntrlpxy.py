@@ -615,7 +615,7 @@ try:
         RESET = '\033[0m'
         
         # Print statement with color formatting
-        print(f"||{GREEN if SMAfty == '⬆SMA50⬆' else RED}{SMAfty}{RESET}||{OPTIONS}||MACD🚦{macd}||P&L%: {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}||")
+        print(f"||P&L%: {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}||{OPTIONS}||MACD🚦{macd}||{GREEN if SMAfty == '⬆SMA50⬆' else RED}{SMAfty}{RESET}||")
         print("━" * 42)
 ###########################################################################################################################################################################################################
 except Exception as e:
