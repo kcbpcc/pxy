@@ -121,7 +121,7 @@ if funds_needed_CE is not None:
     if symbol_CE in existing_symbols:
         # Check if the quantity is greater than 0
         if df.loc[df['tradingsymbol'] == symbol_CE, 'quantity'].iloc[0] > 0:
-            print(f"{symbol} exists")
+            print(f"{symbol_CE} exists")
             sys.exit(0)  # Exit the program
 
 
