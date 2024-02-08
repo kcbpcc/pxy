@@ -5,8 +5,8 @@ source ~/env/bin/activate
 # Change to the script's directory
 cd ~/pxy/sys/exe/run
 
-read -p "Press Enter to run buypluspxy.py..."
-python3 buypluspxy.py
+read -p "Press Enter to run pluspxy.py..."
+python3 pluspxy.py
 
 
 # Run the Python scripts sequentially with prompts
