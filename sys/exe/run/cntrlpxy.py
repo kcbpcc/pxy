@@ -584,8 +584,10 @@ try:
         # print(nrml_filtered_df)
     else:
         filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0]
+        filtered_df[['Invested', 'key', 'qty', 'PL%', 'PnL']] = filtered_df[['Invested', 'key', 'qty', 'PL%', 'PnL']].astype(int)
         formatted_lines = filtered_df[['Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
-        formatted_lines_sorted = sorted(formatted_lines, key=lambda x: x.split()[1][:-2])
+        formatted_lines_sorted = sorted(formatted_lines, key=lambda x: int(x.split()[1]))
+
         # Set max_width to 42
         max_width = 42
         # Iterate over each line and format it with color based on PnL value
