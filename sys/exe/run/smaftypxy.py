@@ -17,9 +17,9 @@ def check_nifty_status():
 
         # Compare present Nifty close with 50-day SMA of Nifty50
         if present_nifty_close > sma_50_nifty.iloc[-1]:
-            return "⬆SMA50⬆"
+            return "SMA50🟩"
         else:
-            return "⬇SMA50⬇"
+            return "SMA50🟥"
 
 # Example usage
 #print(check_nifty_status())
