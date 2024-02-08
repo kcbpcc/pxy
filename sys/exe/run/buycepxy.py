@@ -51,7 +51,7 @@ async def send_telegram_message(message_text):
 
     except Exception as e:
         # Handle the exception (e.g., log it) and continue with your code
-        f"Error sending message to Telegram: {e}")
+        print(f"Error sending message to Telegram: {e}")
 
 # Ensure that the 'broker' object has an 'order_place' method
 if not hasattr(broker, 'order_place') or not callable(getattr(broker, 'order_place', None)):
