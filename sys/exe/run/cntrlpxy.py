@@ -451,6 +451,7 @@ try:
 
 ###########################################################################################################################################################################################################
     # Read data from the CSV file
+    file_name = 'mempxy.csv'
     with open(file_name, 'r') as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
