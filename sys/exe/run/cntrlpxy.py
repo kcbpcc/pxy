@@ -534,7 +534,7 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] in ['NRML', 'MIS'] and
-                        auto_value == 'AUTO' and
+                        auto_value == 'AUTO'
                     ):
                         if 'CE' in row['key'] and row['PL%'] < 0 and mktpxy == "Sell":
                             # Fetch details for the corresponding 'PE' option
