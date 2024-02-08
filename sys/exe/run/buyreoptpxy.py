@@ -147,7 +147,7 @@ def execute_program(symbol):
                     product='NRML'
                 )
 
-                print(f"Ordered {tradingsymbol}")
+                print(f"Ordered {symbol}")
                 message_text_OPTIONS = f"Option Order placed successfully. Order ID: {tradingsymbol}"
                 # Send the message to Telegram
                 asyncio.run(send_telegram_message(message_text_OPTIONS))
@@ -156,7 +156,7 @@ def execute_program(symbol):
                 print("Error placing Put Option order:", e)
 
         else:
-            print(f"No funds for {symbol_OPTIONS}. Aborted.")
+            print(f"No funds for {symbol}. Aborted.")
     else:
         print("Unable to calculate funds needed for the symbol.")
 
