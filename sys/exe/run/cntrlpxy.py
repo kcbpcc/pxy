@@ -339,7 +339,7 @@ try:
     subprocess.run(['python3', 'nrmlprftpxy.py'])
 ###########################################################################################################################################################################################################
     # Calculate 'Invested' column
-    combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
+    combined_df['Invested'] = (combined_df['qty'] * combined_df['average_price']).round(0).astype(int)
     # Calculate 'value' column as 'qty' * 'ltp'
     combined_df['value'] = combined_df['qty'] * combined_df['ltp']
     combined_df['value_H'] = combined_df['qty'] * combined_df['high']
