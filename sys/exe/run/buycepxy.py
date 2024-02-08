@@ -55,7 +55,7 @@ async def send_telegram_message(message_text):
 
 # Ensure that the 'broker' object has an 'order_place' method
 if not hasattr(broker, 'order_place') or not callable(getattr(broker, 'order_place', None)):
-    "Error: 'broker' object does not have 'order_place' method.")
+    print("Error: 'broker' object does not have 'order_place' method.")
     sys.exit(1)
 
 # Calculate the next Thursday date at least 6 days ahead
