@@ -565,7 +565,6 @@ try:
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
-    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
 ###########################################################################################################################################################################################################
     from smaftypxy import check_nifty_status
     SMAfty = check_nifty_status()
@@ -608,7 +607,6 @@ try:
         
         # Print statement with color formatting
         #print(f"||P&L%: {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}||{OPTIONS}||MACD🚦{macd}||{GREEN if SMAfty == 'SMA50🟩' else RED}{SMAfty}{RESET}||")
-        subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
         print("━" * 42)
 ###########################################################################################################################################################################################################
 except Exception as e:
