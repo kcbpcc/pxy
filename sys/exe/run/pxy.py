@@ -67,7 +67,6 @@ while True:
         subprocess.run(['python3', 'cntrlpxy.py'])
     # Call the function and store the result in a variable
     subprocess.run(['python3', 'buypxy.py']) if peak == 'PEAKEND' else None
-    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
 
     #subprocess.run(['python3', 'tistpxy.py'])
     print("━" * 42)  # Print another line of 42 dashes
