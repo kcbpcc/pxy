@@ -1,6 +1,7 @@
 # bordpxy.py
 from acvalue import process_acvalue, get_current_acvalue
 from optpxy import get_optpxy
+import subprocess
 optpxy = get_optpxy()
 def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
@@ -59,6 +60,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     full_output = '\n'.join(output_lines)
     # Print to console
     print(full_output)
+    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
     print("━" * 42)
     # Write to file
     with open("bordpxy.csv", "w") as file:
