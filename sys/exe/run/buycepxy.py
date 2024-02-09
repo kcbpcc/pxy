@@ -125,7 +125,8 @@ if funds_needed_CE is not None:
             'tradingsymbol': position['tradingsymbol'],
             'quantity': position['quantity']
         })
-    
+    print(positions_data)
+
     # Check if the symbol exists in the CSV file
     if symbol_CE in existing_symbols:
         # Check if the quantity is greater than or equal to 50 in the CSV file
