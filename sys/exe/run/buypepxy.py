@@ -17,6 +17,9 @@ from nftpxy import OPTIONS
 # Store the original stdout
 original_stdout = sys.stdout
 
+# Define broker variable
+broker = None
+
 try:
     # Redirect sys.stdout to 'output.txt'
     with open('output.txt', 'w') as file:
@@ -34,6 +37,11 @@ finally:
     # Reset sys.stdout to its original value
     sys.stdout = original_stdout
 
+# Ensure broker object is properly initialized
+if broker is None:
+    print("Error: Unable to initialize broker.")
+    sys.exit(1)
+
 # Define the function to send a message to Telegram
 async def send_telegram_message(message_text):
     try:
@@ -50,11 +58,6 @@ async def send_telegram_message(message_text):
     except Exception as e:
         # Handle the exception (e.g., log it) and continue with your code
         print(f"Error sending message to Telegram: {e}")
-
-# Ensure that the 'broker' object has an 'order_place' method
-if not hasattr(broker, 'order_place') or not callable(getattr(broker, 'order_place', None)):
-    print("Error: 'broker' object does not have 'order_place' method.")
-    sys.exit(1)
 
 # Calculate the next Thursday date at least 6 days ahead
 current_date = datetime.now()
@@ -98,82 +101,29 @@ def calculate_funds_needed(exchange, symbol, quantity):
 # Construct the symbol for the NIFTY Put Option
 symbol_PE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}PE"
 
-# Calculate funds needed for the PE symbol with quantity 50
-quantity = 50
-funds_needed_PE = calculate_funds_needed("NFO", symbol_PE, quantity)
+# Place order directly
+try:
+    order_id_PE = broker.order_place(
+        tradingsymbol=symbol_PE,
+        quantity=50,
+        exchange="NFO",
+        transaction_type='BUY',
+        order_type='MARKET',
+        product='NRML'
+    )
 
-# Check against available cash with a buffer of 10%
-response = broker.kite.margins()
-available_cash = response["equity"]["available"]["live_balance"]
+    print(f"{symbol_PE} Ordered") 
+    message_text_PE = f"{symbol_PE} placed successfully"
+    # Send the message to Telegram
+    asyncio.run(send_telegram_message(message_text_PE))
 
-# Print results
-if funds_needed_PE is not None:
-    # Read the CSV file to check if symbols exist
-    try:
-        df = pd.read_csv('fileHPdf.csv')
-        existing_symbols = set(df['tradingsymbol'].tolist())
-    except FileNotFoundError:
-        existing_symbols = set()
+except Exception as e:
+    print("Error placing Put Option order:", e)
+    order_id_PE = None  # Set order_id_PE to None to indicate failure
 
-    # Retrieve positions data
-    positions_response = broker.kite.positions()
-    
-    # Access the 'net' key to get positions information
-    positions_net = positions_response['net']
-    
-    # Create a list to store positions info
-    positions_info = []
-    
-    # Store positions information in the list
-    for position in positions_net:
-        positions_info.append({
-            'tradingsymbol': position['tradingsymbol'],
-            'quantity': position['quantity']
-        })
-
-    # Check if the symbol exists in the CSV file
-    if symbol_PE in existing_symbols:
-        # Check if the quantity is greater than or equal to 50 in the CSV file
-        if df.loc[df['tradingsymbol'] == symbol_PE, 'quantity'].iloc[0] >= 50:
-            print(f"You already have 50 of {symbol_PE}. Cannot buy more. Skipping order placement.")
-            sys.exit(0)  # Exit the program
-
-        # Check if the quantity is greater than 50 in the positions
-        for position in positions_info:
-            if position['tradingsymbol'] == symbol_PE and position['quantity'] > 50:
-                print(f"You already have more than 50 of {symbol_PE}. Cannot buy more. Skipping order placement.")
-                sys.exit(0)  # Exit the program
-
-    if available_cash >= 1.1 * funds_needed_PE:
-        print("No Funds")
-
-        # Place order here
-        try:
-            order_id_PE = broker.order_place(
-                tradingsymbol=symbol_PE,
-                quantity=50,
-                exchange="NFO",
-                transaction_type='BUY',
-                order_type='MARKET',
-                product='NRML'
-            )
-
-            print(f"{symbol_PE} Ordered") 
-            message_text_PE = f"{symbol_PE} placed successfully"
-            # Send the message to Telegram
-            asyncio.run(send_telegram_message(message_text_PE))
-
-        except Exception as e:
-            print("Error placing Put Option order:", e)
-            order_id_PE = None  # Set order_id_PE to None to indicate failure
-
-        # Check if the order was successful
-        if order_id_PE is not None:
-            print(f"{symbol_PE} Ordered") 
-        else:
-            print("Order failed")
-
-    else:
-        print("No funds. Order aborted")
+# Check if the order was successful
+if order_id_PE is not None:
+    print(f"{symbol_PE} Ordered") 
 else:
-    print("Unable to calculate funds needed for the symbol.")
+    print("Order failed")
+
