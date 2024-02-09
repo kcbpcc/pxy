@@ -117,12 +117,21 @@ if funds_needed_CE is not None:
     except FileNotFoundError:
         existing_symbols = set()
 
+    # Retrieve existing positions
+    positions = broker.positions()
+    
     # Check if the symbol exists in the CSV file
     if symbol_CE in existing_symbols:
-        # Check if the quantity is greater than or equal to 50
+        # Check if the quantity is greater than or equal to 50 in the CSV file
         if df.loc[df['tradingsymbol'] == symbol_CE, 'quantity'].iloc[0] >= 50:
             print(f"You already have 50 of {symbol_CE}. Cannot buy more. Skipping order placement.")
             sys.exit(0)  # Exit the program
+    
+        # Check if the quantity is greater than 50 in the positions
+        for position in positions:
+            if position['tradingsymbol'] == symbol_CE and position['quantity'] > 50:
+                print(f"You already have more than 50 of {symbol_CE}. Cannot buy more. Skipping order placement.")
+                sys.exit(0)  # Exit the program
 
 
     if available_cash >= 1.1 * funds_needed_CE:
