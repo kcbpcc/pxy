@@ -119,9 +119,9 @@ if funds_needed_CE is not None:
 
     # Check if the symbol exists in the CSV file
     if symbol_CE in existing_symbols:
-        # Check if the quantity is greater than 0
-        if df.loc[df['tradingsymbol'] == symbol_CE, 'quantity'].iloc[0] > 0:
-            print(f"{symbol_CE} exists")
+        # Check if the quantity is greater than or equal to 50
+        if df.loc[df['tradingsymbol'] == symbol_CE, 'quantity'].iloc[0] >= 50:
+            print(f"You already have 50 of {symbol_CE}. Cannot buy more. Skipping order placement.")
             sys.exit(0)  # Exit the program
 
 
