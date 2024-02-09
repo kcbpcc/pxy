@@ -115,18 +115,21 @@ if funds_needed_PE is not None:
     except FileNotFoundError:
         existing_symbols = set()
 
-    def get_positionsinfo(resp_list, broker):
-        try:
-            df = pd.DataFrame(resp_list)
-            df['source'] = 'positions'
-            return df
-        except Exception as e:
-            print(f"An error occurred in positions: {e}")
-            return None
-
-    # After retrieving positions
-    positions = broker.positions()  # Ensure positions are retrieved before calling get_positionsinfo()
-    positions_info = get_positionsinfo(positions, broker)
+    # Retrieve positions data
+    positions_response = broker.kite.positions()
+    
+    # Access the 'net' key to get positions information
+    positions_net = positions_response['net']
+    
+    # Create a list to store positions info
+    positions_info = []
+    
+    # Store positions information in the list
+    for position in positions_net:
+        positions_info.append({
+            'tradingsymbol': position['tradingsymbol'],
+            'quantity': position['quantity']
+        })
 
     # Check if the symbol exists in the CSV file
     if symbol_PE in existing_symbols:
