@@ -143,10 +143,13 @@ async def main():
                 traceback.format_exc()
                 logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
-        finally:
-            # Reset sys.stdout to its original value
-            sys.stdout = original_stdout
+    finally:
+        # Reset sys.stdout to its original value
+        sys.stdout = original_stdout
 
         next_thursday = get_next_thursday()
         expiry_year, expiry_month, expiry_day = get_symbol_expiry_date(next_thursday)
@@ -156,7 +159,7 @@ async def main():
             option_type = 'CE'  # Call Option
         else:
             option_type = 'PE'  # Put Option
-
+            
         symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
         if not check_existing_positions(broker, symbol):
@@ -164,16 +167,13 @@ async def main():
             available_cash = broker.kite.margins()["equity"]["available"]["live_balance"]
 
             if funds_needed is not None and available_cash >= 1.1 * funds_needed:
+                #print("Got funds. Proceeding with order")
                 order_placed = await place_order(broker, symbol)
                 if not order_placed:
-                    print(f"Order failed for {symbol}. Check error messages.")
+                    print("Order failed. Check error messages.")
             else:
-                print(f"No sufficient funds for {symbol}. Order aborted.")
+                print("No funds. Order aborted.")
         else:
-            print(f"Skipping order placement as positions already exist for {symbol}.")
-
-    except Exception as e:
-        print(f"Error: {e}")
-        sys.exit(1)
+            print(f"Skip {symbol}.")
 
 
