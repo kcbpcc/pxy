@@ -109,6 +109,8 @@ response = broker.kite.margins()
 available_cash = response["equity"]["available"]["live_balance"]
 
 # Print results
+
+
 if funds_needed_PE is not None:
     # Read the CSV file to check if symbols exist
     try:
@@ -117,12 +119,21 @@ if funds_needed_PE is not None:
     except FileNotFoundError:
         existing_symbols = set()
 
+    # Retrieve existing positions
+    positions = broker.positions()
+    
     # Check if the symbol exists in the CSV file
     if symbol_PE in existing_symbols:
-        # Check if the quantity is greater than 0
-        if df.loc[df['tradingsymbol'] == symbol_PE, 'quantity'].iloc[0] > 0:
-            print(f"{symbol_PE} exists")
+        # Check if the quantity is greater than or equal to 50 in the CSV file
+        if df.loc[df['tradingsymbol'] == symbol_PE, 'quantity'].iloc[0] >= 50:
+            print(f"You already have 50 of {symbol_PE}. Cannot buy more. Skipping order placement.")
             sys.exit(0)  # Exit the program
+    
+        # Check if the quantity is greater than 50 in the positions
+        for position in positions:
+            if position['tradingsymbol'] == symbol_PE and position['quantity'] > 50:
+                print(f"You already have more than 50 of {symbol_PE}. Cannot buy more. Skipping order placement.")
+                sys.exit(0)  # Exit the program
 
 
     if available_cash >= 1.1 * funds_needed_PE:
@@ -155,7 +166,7 @@ if funds_needed_PE is not None:
             print("Order failed")
 
     else:
-        print("No funds. No Order")
+        print("No funds. Order aborted")
 else:
     print("Unable to calculate funds needed for the symbol.")
 
