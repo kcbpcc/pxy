@@ -607,6 +607,7 @@ try:
         
         # Print statement with color formatting
         #print(f"||P&L%: {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}||{OPTIONS}||MACD🚦{macd}||{GREEN if SMAfty == 'SMA50🟩' else RED}{SMAfty}{RESET}||")
+        subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
         print("━" * 42)
 ###########################################################################################################################################################################################################
 except Exception as e:
