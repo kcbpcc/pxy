@@ -3,14 +3,12 @@ import pandas as pd
 import traceback
 import sys
 import logging
-from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path
-from fundpxy import calculate_decision
-from nftpxy import OPTIONS
 import telegram
 import asyncio
+from login_get_kite import get_kite, remove_token
+from cnstpxy import dir_path
 from mktpxy import get_market_check
-from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
+from nftpxy import OPTIONS
 from optpxy import get_optpxy
 from cyclepxy import cycle
 from utcpxy import peak_time
@@ -26,7 +24,7 @@ peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
 
-# Define the function to send a message to Telegram
+# Define function to send a message to Telegram
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
