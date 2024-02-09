@@ -167,7 +167,7 @@ async def main():
             available_cash = broker.kite.margins()["equity"]["available"]["live_balance"]
 
             if funds_needed is not None and available_cash >= 1.1 * funds_needed:
-                #print("Got funds. Proceeding with order")
+                print("Got funds. Proceeding with order")
                 order_placed = await place_order(broker, symbol)
                 if not order_placed:
                     print("Order failed. Check error messages.")
