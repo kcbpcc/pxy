@@ -531,6 +531,52 @@ try:
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
                             #mktpxy in ['Sell-opts'] and
 ###########################################################################################################################################################################################################                    
+                    elif "":
+                        from smaftypxy import check_nifty_status
+                        SMAfty = check_nifty_status()
+                        from macdpxy import calculate_macd_signal
+                        macd = calculate_macd_signal("^NSEI")
+                        if nrml_filtered_df.empty:
+                            print("optpxy: options not activated, let's wait!")
+                            # print(nrml_filtered_df)
+                        else:
+                            filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0]
+                            formatted_lines = filtered_df[['Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+                            formatted_lines_sorted = sorted(formatted_lines, key=lambda x: x.split()[1][:-2])
+                            # Set max_width to 42
+                            max_width = 42
+                            # Iterate over each line and format it with color based on PnL value
+                            for line in formatted_lines:
+                                values = line.split()
+                                pnl_value_str = values[-1]
+                                # Check if PnL value is a valid float
+                                try:
+                                    pnl_value = float(pnl_value_str)
+                                except ValueError:
+                                    pnl_value = None  # PnL value is not a valid float
+                                # Set color based on PnL value
+                                if pnl_value is not None:
+                                    if pnl_value > 0:
+                                        color_code = GREEN  # Using GREEN for green text
+                                    elif pnl_value < 0:
+                                        color_code = RED  # Using RED for red text
+                                    else:
+                                        color_code = RESET  # Reset color for PnL value of 0
+                                else:
+                                    color_code = RESET  # Reset color for invalid PnL values
+                                # Right-align the text, apply color, and reset color after the line
+                                print(color_code + line.rjust(max_width) + RESET)
+                            # Define ANSI escape codes
+                            GREEN = '\033[92m'
+                            RED = '\033[91m'
+                            RESET = '\033[0m'
+                            
+                            # Print statement with color formatting
+                            #print(f"||P&L%: {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}||{OPTIONS}||MACD🚦{macd}||{GREEN if SMAfty == 'SMA50🟩' else RED}{SMAfty}{RESET}||")
+                            print("━" * 42)
+                    
+###########################################################################################################################################################################################################                    
+
                     elif (
                         row['qty'] > 0 and
                         row['avg'] != 0 and
