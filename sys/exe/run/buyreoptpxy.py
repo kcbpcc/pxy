@@ -71,17 +71,29 @@ def execute_program(symbol):
 
     funds_needed = calculate_funds_needed("NFO", symbol, broker)
 
-    if funds_needed is not None:
+    if funds_needed_CE is not None:
         # Read the CSV file to check if symbols exist
         try:
             df = pd.read_csv('fileHPdf.csv')
             existing_symbols = set(df['tradingsymbol'].tolist())
         except FileNotFoundError:
             existing_symbols = set()
-
-        # Retrieve existing positions
-        positions = broker.positions()
-        positions_info = get_positionsinfo(positions, broker)  # Ensure positions are retrieved before calling get_positionsinfo()
+    
+        # Retrieve positions data
+        positions_response = broker.kite.positions()
+        
+        # Access the 'net' key to get positions information
+        positions_net = positions_response['net']
+        
+        # Create a list to store positions info
+        positions_info = []
+        
+        # Store positions information in the list
+        for position in positions_net:
+            positions_info.append({
+                'tradingsymbol': position['tradingsymbol'],
+                'quantity': position['quantity']
+            })
         
         # Check if the symbol exists in the CSV file
         if symbol in existing_symbols:
