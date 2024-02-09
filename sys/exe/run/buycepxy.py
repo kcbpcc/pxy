@@ -111,11 +111,11 @@ if funds_needed_CE is not None:
     except FileNotFoundError:
         existing_symbols = set()
 
-    # Retrieve existing positions
-    positions = broker.positions()
+    # Retrieve existing positions using broker.kite.positions()
+    positions = broker.kite.positions()
 
     # After retrieving positions, get positions info
-    positions_info = get_positionsinfo(positions, broker)
+    positions_info = get_positionsinfo(positions, broker.kite)
     
     # Check if the symbol exists in the CSV file
     if symbol_CE in existing_symbols:
@@ -129,7 +129,6 @@ if funds_needed_CE is not None:
             if position['tradingsymbol'] == symbol_CE and position['quantity'] > 50:
                 print(f"You already have more than 50 of {symbol_CE}. Cannot buy more. Skipping order placement.")
                 sys.exit(0)  # Exit the program
-
 
     if available_cash >= 1.1 * funds_needed_CE:
         print("Got funds. Proceeding with order")
