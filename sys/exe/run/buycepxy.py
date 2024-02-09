@@ -2,19 +2,13 @@ from datetime import datetime, timedelta
 import pandas as pd
 import traceback
 import sys
-import time
-import select
-from toolkit.logger import Logger
-from toolkit.currency import round_to_paise
-from toolkit.utilities import Utilities
-from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path, fileutils, buybuff, max_target
-from fundpxy import calculate_decision
-from nftpxy import OPTIONS
-import pandas as pd
-decision = calculate_decision()
+import logging
 import telegram
 import asyncio
+from login_get_kite import get_kite, remove_token
+from nftpxy import OPTIONS
+from cnstpxy import dir_path
+from fundpxy import calculate_decision
 
 # Store the original stdout
 original_stdout = sys.stdout
@@ -28,7 +22,7 @@ try:
             broker = get_kite(api="bypass", sec_dir=dir_path)
         except Exception as e:
             remove_token(dir_path)
-            traceback.format_exc()
+            traceback.print_exc()
             logging.error(f"{str(e)} unable to get holdings")
             sys.exit(1)
 
@@ -41,7 +35,7 @@ async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
         bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
-        user_usernames = ('-4135910842')  # Replace with your Telegram username or ID
+        user_usernames = ('-4135910842',)  # Replace with your Telegram username or ID
 
         # Create a Telegram bot
         bot = telegram.Bot(token=bot_token)
@@ -119,6 +113,9 @@ if funds_needed_CE is not None:
 
     # Retrieve existing positions
     positions = broker.positions()
+
+    # After retrieving positions, get positions info
+    positions_info = get_positionsinfo(positions, broker)
     
     # Check if the symbol exists in the CSV file
     if symbol_CE in existing_symbols:
@@ -128,7 +125,7 @@ if funds_needed_CE is not None:
             sys.exit(0)  # Exit the program
     
         # Check if the quantity is greater than 50 in the positions
-        for position in positions:
+        for position in positions_info:
             if position['tradingsymbol'] == symbol_CE and position['quantity'] > 50:
                 print(f"You already have more than 50 of {symbol_CE}. Cannot buy more. Skipping order placement.")
                 sys.exit(0)  # Exit the program
@@ -154,12 +151,12 @@ if funds_needed_CE is not None:
             asyncio.run(send_telegram_message(message_text_CE))
 
         except Exception as e:
-            print("Error placing Put Option order:", e)
+            print("Error placing Call Option order:", e)
             order_id_CE = None  # Set order_id_CE to None to indicate failure
 
         # Check if the order was successful
         if order_id_CE is not None:
-            print("{symbol} Ordered")
+            print("{symbol_CE} Ordered")
         else:
             print("Order failed. Check error messages.")
 
