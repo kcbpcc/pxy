@@ -546,27 +546,7 @@ try:
                             ce_key = row['key'].replace('PE', 'CE')
                             execute_program(ce_key)
 ###########################################################################################################################################################################################################     
-                    elif (
-                        (row['qty'] > 0 and
-                         row['avg'] != 0 and
-                         available_cash > 10000 and
-                         nse_power < 0.1 and
-                         row['PL%'] < -18) 
-                    ):
-                        try:                            
-                            is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                # Print the row before placing the order
-                                print(row['key'])                                
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
-                        except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-        except Exception as e:
-            # Handle any other exceptions that may occur during the loop
-            print(f"An unexpected error occurred: {e}")        
+
 ###########################################################################################################################################################################################################
     from dshpxy import get_holdingsinfo
     red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage = get_holdingsinfo('fileHPdf.csv')    
