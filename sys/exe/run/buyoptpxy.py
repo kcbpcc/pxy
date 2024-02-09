@@ -119,13 +119,13 @@ async def place_order(broker, symbol):
             product='NRML'
         )
 
-        print(f"{symbol} Ordered")
+        print(f"DEBUG: {symbol} Ordered")
         message_text = f"Option Order placed successfully. Order ID: {order_id}"
         # Send the message to Telegram
         await send_telegram_message(message_text)
         return True  # Order successful
     except Exception as e:
-        print(f"Error placing Option order for {symbol}: {e}")
+        print(f"DEBUG: Error placing Option order for {symbol}: {e}")
         return False  # Order failed
 
 
@@ -138,13 +138,15 @@ async def main():
 
             try:
                 broker = get_kite(api="bypass", sec_dir=dir_path)
+                print("DEBUG: Broker initialized successfully.")
             except Exception as e:
                 remove_token(dir_path)
                 traceback.format_exc()
                 logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
+                print("DEBUG: Broker initialization failed.")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"DEBUG: Error: {e}")
         sys.exit(1)
 
     finally:
@@ -157,14 +159,19 @@ async def main():
         # Determine option type based on mktpxy
         if mktpxy in ['Buy', 'Bull']:
             option_type = 'CE'  # Call Option
+            print(f"DEBUG: Option type determined: Call Option (CE) for {symbol}")
         elif mktpxy in ['Sell', 'Bear']:
             option_type = 'PE'  # Put Option
-            
+            print(f"DEBUG: Option type determined: Put Option (PE) for {symbol}")
+
         symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
         if not check_existing_positions(broker, symbol):
             funds_needed = calculate_required_funds(broker, symbol, 50)
             available_cash = broker.kite.margins()["equity"]["available"]["live_balance"]
+
+            print(f"DEBUG: Funds needed for {symbol}: {funds_needed}")
+            print(f"DEBUG: Available cash: {available_cash}")
 
             if funds_needed is not None and available_cash >= 1.1 * funds_needed:
                 print("Got funds. Proceeding with order")
@@ -174,6 +181,10 @@ async def main():
             else:
                 print("No funds. Order aborted.")
         else:
-            print(f"Skip {symbol}.")
+            print(f"DEBUG: Skipping order placement as positions already exist for {symbol}.")
+
+
+# Run the main asynchronous function
+asyncio.run(main())
 
 
