@@ -155,9 +155,9 @@ async def main():
         expiry_year, expiry_month, expiry_day = get_symbol_expiry_date(next_thursday)
 
         # Determine option type based on mktpxy
-        if mktpxy == 'Buy':
+        if mktpxy in ['Buy', 'Bull']:
             option_type = 'CE'  # Call Option
-        else:
+        elif mktpxy in ['Sell', 'Bear']:
             option_type = 'PE'  # Put Option
             
         symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
