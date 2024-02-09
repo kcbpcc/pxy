@@ -69,9 +69,9 @@ def execute_program(symbol):
             # Handle the exception (e.g., log it) and continue with your code
             print(f"Error sending message to Telegram: {e}")
 
-    funds_needed_CE = calculate_funds_needed("NFO", symbol, broker)
+    funds_needed = calculate_funds_needed("NFO", symbol, broker)
 
-    if funds_needed_CE is not None:
+    if funds_needed is not None:
         # Read the CSV file to check if symbols exist
         try:
             df = pd.read_csv('fileHPdf.csv')
@@ -81,6 +81,7 @@ def execute_program(symbol):
 
         # Retrieve existing positions
         positions = broker.positions()
+        positions_info = get_positionsinfo(positions, broker)  # Ensure positions are retrieved before calling get_positionsinfo()
         
         # Check if the symbol exists in the CSV file
         if symbol in existing_symbols:
@@ -167,6 +168,4 @@ def execute_program(symbol):
         else:
             print("Unable to calculate funds needed for the symbol.")
 
-# Call the execute_program function with your symbol
-execute_program("your_symbol_here")
 
