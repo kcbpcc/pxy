@@ -84,9 +84,18 @@ def execute_program(symbol):
 
     # Iterate over positions to check if any symbol to be processed exists with quantity more than 0
     for position in positions:
-        if position['tradingsymbol'] == symbol and position['quantity'] > 0:
-            print(f"{symbol} exists with quantity {position['quantity']}. Skipping order placement.")
-            sys.exit(0)  # Exit the program if the symbol exists with quantity > 0
+        if position['tradingsymbol'] == symbol:
+            total_quantity = position['quantity'] + 50
+            if total_quantity > 50:
+                print(f"You already have {position['quantity']} of {symbol}. Cannot buy more. Skipping order placement.")
+                sys.exit(0)  # Exit the program if the total quantity exceeds 50
+    
+    # Alternatively, if you want to enforce exactly 50 as the maximum, you can modify the logic to:
+    for position in positions:
+        if position['tradingsymbol'] == symbol:
+            if position['quantity'] >= 50:
+                print(f"You already have 50 of {symbol}. Cannot buy more. Skipping order placement.")
+                sys.exit(0)  # Exit the program if the quantity is already 50
 
     # Calculate the next Thursday date at least 6 days ahead
     current_date = datetime.now()
@@ -159,5 +168,3 @@ def execute_program(symbol):
             print(f"No funds for {symbol}. Aborted.")
     else:
         print("Unable to calculate funds needed for the symbol.")
-
-
