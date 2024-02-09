@@ -74,7 +74,7 @@ def dayprinter(o, h, l, c, prev_close):
 
     # Print both the previous day's close and today's close in a single sentence with color
     arrow = (f"{Fore.GREEN}ﮩ٨") if c > prev_close else (f"{Fore.RED}ﮩ٨")
-    print(f"{int(prev_close)}{arrow}{int(c)}▌", end='')   
+    print(f"|🔆{day_change_sign}|⌛️{open_change_sign}|⚡{nse_power}|", end='')   
     print(Fore.LIGHTWHITE_EX + '=' * int((n / 100) * total_length), end='')
 
     if c > o:
@@ -84,7 +84,7 @@ def dayprinter(o, h, l, c, prev_close):
     
     print(Fore.LIGHTWHITE_EX + '=' * int((m / 100) * total_length), end='')
 
-    print (f"⚡{nse_power}|{onemincandlesequance}")
+    print (f"|{onemincandlesequance}")
     
     
     # Determine the color based on the comparison of today's close with yesterday's close
@@ -111,6 +111,6 @@ else:
         day_change_sign = '+' if Day_Change > 0 else ''
         open_change_sign = '+' if Open_Change > 0 else ''
         # Format the statement with explicit signs and styles
-        console.print(f"|🔆{day_change_sign}[{bull_style if Day_Change > 0 else bear_style if Day_Change < 0 else ''}]{Day_Change}[/]|⌛️{open_change_sign}[{bull_style if Open_Change > 0 else bear_style if Open_Change < 0 else ''}]{Open_Change}[/]|⚡{nse_power}|{onemincandlesequance}")    
+        console.print(f"|🔆{day_change_sign}|⌛️{open_change_sign}|⚡{nse_power}|{onemincandlesequance}")    
     except:
         pass  # This will catch any exception and do nothing, continuing with the program
