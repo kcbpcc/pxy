@@ -2,8 +2,10 @@ from datetime import datetime, timedelta
 import pandas as pd
 import traceback
 import sys
-import time
-import select
+import telegram
+import asyncio
+
+# Import your custom modules here
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
@@ -11,10 +13,6 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path, fileutils, buybuff, max_target
 from fundpxy import calculate_decision
 from nftpxy import OPTIONS
-import pandas as pd
-decision = calculate_decision()
-import telegram
-import asyncio
 
 # Store the original stdout
 original_stdout = sys.stdout
@@ -75,7 +73,7 @@ expiry_day = next_thursday.strftime("%d")
 
 # Ensure the month is one digit until October
 if int(expiry_month) < 10:
-    expiry_month = expiry_month[1]
+    expiry_month = expiry_month.zfill(2)
 
 # Ensure the date is always two digits
 expiry_day = expiry_day.zfill(2)
@@ -109,8 +107,6 @@ response = broker.kite.margins()
 available_cash = response["equity"]["available"]["live_balance"]
 
 # Print results
-
-
 if funds_needed_PE is not None:
     # Read the CSV file to check if symbols exist
     try:
@@ -119,26 +115,35 @@ if funds_needed_PE is not None:
     except FileNotFoundError:
         existing_symbols = set()
 
-    # Retrieve existing positions
-    positions = broker.positions()
-    
+    def get_positionsinfo(resp_list, broker):
+        try:
+            df = pd.DataFrame(resp_list)
+            df['source'] = 'positions'
+            return df
+        except Exception as e:
+            print(f"An error occurred in positions: {e}")
+            return None
+
+    # After retrieving positions
+    positions = broker.positions()  # Ensure positions are retrieved before calling get_positionsinfo()
+    positions_info = get_positionsinfo(positions, broker)
+
     # Check if the symbol exists in the CSV file
     if symbol_PE in existing_symbols:
         # Check if the quantity is greater than or equal to 50 in the CSV file
         if df.loc[df['tradingsymbol'] == symbol_PE, 'quantity'].iloc[0] >= 50:
             print(f"You already have 50 of {symbol_PE}. Cannot buy more. Skipping order placement.")
             sys.exit(0)  # Exit the program
-    
+
         # Check if the quantity is greater than 50 in the positions
-        for position in positions:
+        for position in positions_info:
             if position['tradingsymbol'] == symbol_PE and position['quantity'] > 50:
                 print(f"You already have more than 50 of {symbol_PE}. Cannot buy more. Skipping order placement.")
                 sys.exit(0)  # Exit the program
 
-
     if available_cash >= 1.1 * funds_needed_PE:
         print("No Funds")
-        
+
         # Place order here
         try:
             order_id_PE = broker.order_place(
@@ -150,8 +155,8 @@ if funds_needed_PE is not None:
                 product='NRML'
             )
 
-            print("{symbol_PE} Ordered")
-            message_text_PE = f"{symbol} placed successfully"
+            print(f"{symbol_PE} Ordered")
+            message_text_PE = f"{symbol_PE} placed successfully"
             # Send the message to Telegram
             asyncio.run(send_telegram_message(message_text_PE))
 
@@ -161,7 +166,7 @@ if funds_needed_PE is not None:
 
         # Check if the order was successful
         if order_id_PE is not None:
-            print("{symbol_PE} Ordered")
+            print(f"{symbol_PE} Ordered")
         else:
             print("Order failed")
 
@@ -169,4 +174,3 @@ if funds_needed_PE is not None:
         print("No funds. Order aborted")
 else:
     print("Unable to calculate funds needed for the symbol.")
-
