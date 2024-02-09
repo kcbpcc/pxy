@@ -132,6 +132,7 @@ async def place_order(broker, symbol):
 # Main function to orchestrate the workflow
 async def main():
     try:
+        original_stdout = sys.stdout
         # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
