@@ -75,8 +75,8 @@ def dayprinter(o, h, l, c, prev_close):
         m = 100 - n - x
 
     # Print both the previous day's close and today's close in a single sentence with color
-    smaarrow = (f"{Fore.GREEN}ﮩﮩ٨⤴") if macd == 'up' else (f"{Fore.RED}ﮩﮩ٨⤵")
-    print(f"{arrow}🔆{day_change_sign}{Day_Change}⌛️{open_change_sign}{Open_Change}⚡{nse_power}|", end='')   
+    SMAftywave = (f"{Fore.GREEN}ﮩﮩ٨⤴") if SMAfty == 'up' else (f"{Fore.RED}ﮩﮩ٨⤵")
+    print(f"🔆{day_change_sign}{Day_Change}⌛️{open_change_sign}{Open_Change}⚡{nse_power}|", end='')   
     print(Fore.LIGHTWHITE_EX + '=' * int((n / 100) * total_length), end='')
 
     if c > o:
@@ -86,7 +86,7 @@ def dayprinter(o, h, l, c, prev_close):
     
     print(Fore.LIGHTWHITE_EX + '=' * int((m / 100) * total_length), end='')
 
-    print (f"{onemincandlesequance}🚦{macd}")
+    print (f"{onemincandlesequance}{SMAftywave}🚦{macd}")
     
     
     # Determine the color based on the comparison of today's close with yesterday's close
