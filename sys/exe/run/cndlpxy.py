@@ -80,7 +80,10 @@ def dayprinter(o, h, l, c, prev_close):
     elif o > c:
         print(Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
     
-    print(Fore.LIGHTWHITE_EX + '=' * int((m / 100) * total_length))
+    print(Fore.LIGHTWHITE_EX + '=' * int((m / 100) * total_length, end=''))
+
+    print (f"⚡{nse_power}|{onemincandlesequance}")
+    
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
