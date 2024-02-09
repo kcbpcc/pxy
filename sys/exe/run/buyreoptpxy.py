@@ -57,116 +57,116 @@ def execute_program(symbol):
         try:
             # Define the bot token and your Telegram username or ID
             bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
-            user_usernames = ('-4135910842')  # Replace with your Telegram username or ID
+            user_usernames = ['-4135910842']  # Replace with your Telegram username or ID
 
             # Create a Telegram bot
             bot = telegram.Bot(token=bot_token)
 
             # Send the message to Telegram
-            await bot.send_message(chat_id=user_usernames, text=message_text)
+            await bot.send_message(chat_id=user_usernames[0], text=message_text)
 
         except Exception as e:
             # Handle the exception (e.g., log it) and continue with your code
             print(f"Error sending message to Telegram: {e}")
 
-    # Ensure broker.positions() returns a list and handle it appropriately
-    positions = []
-    try:
+    funds_needed_CE = calculate_funds_needed("NFO", symbol, broker)
+
+    if funds_needed_CE is not None:
+        # Read the CSV file to check if symbols exist
+        try:
+            df = pd.read_csv('fileHPdf.csv')
+            existing_symbols = set(df['tradingsymbol'].tolist())
+        except FileNotFoundError:
+            existing_symbols = set()
+
+        # Retrieve existing positions
         positions = broker.positions()
-        if not isinstance(positions, list):
-            raise TypeError("positions() method did not return a list")
-    except Exception as e:
-        print("Error fetching positions:", e)
-        # Handle the error appropriately, such as logging or raising further exceptions
-        # You might also consider exiting the program or taking other corrective actions
-    
-    # Iterate over positions to check if any symbol to be processed exists with quantity more than 0
-
-    # Iterate over positions to check if any symbol to be processed exists with quantity more than 0
-    # Retrieve existing positions
-    positions = broker.positions()
-    
-    # Check if the symbol exists in the CSV file
-    if symbol_CE in existing_symbols:
-        # Check if the quantity is greater than or equal to 50 in the CSV file
-        if df.loc[df['tradingsymbol'] == symbol_CE, 'quantity'].iloc[0] >= 50:
-            print(f"You already have 50 of {symbol_CE}. Cannot buy more. Skipping order placement.")
-            sys.exit(0)  # Exit the program
-    
-        # Check if the quantity is greater than 50 in the positions
-        for position in positions:
-            if position['tradingsymbol'] == symbol_CE and position['quantity'] > 50:
-                print(f"You already have more than 50 of {symbol_CE}. Cannot buy more. Skipping order placement.")
+        
+        # Check if the symbol exists in the CSV file
+        if symbol in existing_symbols:
+            # Check if the quantity is greater than or equal to 50 in the CSV file
+            if df.loc[df['tradingsymbol'] == symbol, 'quantity'].iloc[0] >= 50:
+                print(f"You already have 50 of {symbol}. Cannot buy more. Skipping order placement.")
                 sys.exit(0)  # Exit the program
+        
+            # Check if the quantity is greater than 50 in the positions
+            for position in positions:
+                if position['tradingsymbol'] == symbol and position['quantity'] > 50:
+                    print(f"You already have more than 50 of {symbol}. Cannot buy more. Skipping order placement.")
+                    sys.exit(0)  # Exit the program
 
-    # Calculate the next Thursday date at least 6 days ahead
-    current_date = datetime.now()
-    days_until_next_thursday = (3 - current_date.weekday() + 7) % 7
+        # Calculate the next Thursday date at least 6 days ahead
+        current_date = datetime.now()
+        days_until_next_thursday = (3 - current_date.weekday() + 7) % 7
 
-    # Ensure at least 6 days ahead
-    if days_until_next_thursday < 6:
-        days_until_next_thursday += 7
+        # Ensure at least 6 days ahead
+        if days_until_next_thursday < 6:
+            days_until_next_thursday += 7
 
-    next_thursday = current_date + timedelta(days=days_until_next_thursday)
+        next_thursday = current_date + timedelta(days=days_until_next_thursday)
 
-    # Format the date, month, and year
-    expiry_year = next_thursday.strftime("%y")
-    expiry_month = next_thursday.strftime("%m")
-    expiry_day = next_thursday.strftime("%d")
+        # Format the date, month, and year
+        expiry_year = next_thursday.strftime("%y")
+        expiry_month = next_thursday.strftime("%m")
+        expiry_day = next_thursday.strftime("%d")
 
-    # Ensure the month is one digit until October
-    if int(expiry_month) < 10:
-        expiry_month = expiry_month[1]
+        # Ensure the month is one digit until October
+        if int(expiry_month) < 10:
+            expiry_month = expiry_month.zfill(2)
 
-    # Ensure the date is always two digits
-    expiry_day = expiry_day.zfill(2)
+        # Ensure the date is always two digits
+        expiry_day = expiry_day.zfill(2)
 
-    # Extract strike price from the symbol if it contains one
-    def extract_strike_price(symbol):
-        for i in range(len(symbol)):
-            if symbol[i:].isdigit():
-                return symbol[i:]
-        return None
+        # Extract strike price from the symbol if it contains one
+        def extract_strike_price(symbol):
+            for i in range(len(symbol)):
+                if symbol[i:].isdigit():
+                    return symbol[i:]
+            return None
 
-    # Use the extracted strike price when constructing the symbol for the NIFTY Put Option
-    strike_price = extract_strike_price(symbol)
-    if strike_price:
-        symbol_OPTIONS = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}{OPTIONS}CE"
-    else:
-        symbol_OPTIONS = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
-
-    # Check against available cash with a buffer of 10%
-    response = broker.kite.margins()
-    available_cash = response["equity"]["available"]["live_balance"]
-
-    # Calculate funds needed for the options symbol with quantity 50
-    funds_needed_OPTIONS = calculate_funds_needed("NFO", symbol_OPTIONS, broker)
-
-    # Print results
-    if funds_needed_OPTIONS is not None:
-        if available_cash >= 1.1 * funds_needed_OPTIONS:
-            print("got funds.order placed.")
-
-            # Place order here
-            try:
-                order_id_OPTIONS = broker.order_place(
-                    tradingsymbol=symbol_OPTIONS,
-                    quantity=50,
-                    exchange="NFO",
-                    transaction_type='BUY',
-                    order_type='MARKET',
-                    product='NRML'
-                )
-
-                print(f"Ordered {symbol}")
-                message_text_OPTIONS = f"REOPT - {symbol} placed successfully"
-                # Send the message to Telegram
-                asyncio.run(send_telegram_message(message_text_OPTIONS))
-
-            except Exception as e:
-                print("Error placing Put Option order:", e)
-
+        # Use the extracted strike price when constructing the symbol for the NIFTY Put Option
+        strike_price = extract_strike_price(symbol)
+        if strike_price:
+            symbol_OPTIONS = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}{OPTIONS}CE"
         else:
-            print(f"No funds for {symbol}. Aborted.")
-    else:
-        print("Unable to calculate funds needed for the symbol.")
+            symbol_OPTIONS = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
+
+        # Check against available cash with a buffer of 10%
+        response = broker.kite.margins()
+        available_cash = response["equity"]["available"]["live_balance"]
+
+        # Calculate funds needed for the options symbol with quantity 50
+        funds_needed_OPTIONS = calculate_funds_needed("NFO", symbol_OPTIONS, broker)
+
+        # Print results
+        if funds_needed_OPTIONS is not None:
+            if available_cash >= 1.1 * funds_needed_OPTIONS:
+                print("got funds.order placed.")
+
+                # Place order here
+                try:
+                    order_id_OPTIONS = broker.order_place(
+                        tradingsymbol=symbol_OPTIONS,
+                        quantity=50,
+                        exchange="NFO",
+                        transaction_type='BUY',
+                        order_type='MARKET',
+                        product='NRML'
+                    )
+
+                    print(f"Ordered {symbol}")
+                    message_text_OPTIONS = f"REOPT - {symbol} placed successfully"
+                    # Send the message to Telegram
+                    asyncio.run(send_telegram_message(message_text_OPTIONS))
+
+                except Exception as e:
+                    print("Error placing Put Option order:", e)
+
+            else:
+                print(f"No funds for {symbol}. Aborted.")
+        else:
+            print("Unable to calculate funds needed for the symbol.")
+
+# Call the execute_program function with your symbol
+execute_program("your_symbol_here")
+
