@@ -155,7 +155,7 @@ if funds_needed_PE is not None:
                 product='NRML'
             )
 
-            print(f"{symbol_PE} Ordered")
+            print(f"{symbol_PE} Ordered") 
             message_text_PE = f"{symbol_PE} placed successfully"
             # Send the message to Telegram
             asyncio.run(send_telegram_message(message_text_PE))
@@ -166,7 +166,7 @@ if funds_needed_PE is not None:
 
         # Check if the order was successful
         if order_id_PE is not None:
-            print(f"{symbol_PE} Ordered")
+            print(f"{symbol_PE} Ordered") 
         else:
             print("Order failed")
 
