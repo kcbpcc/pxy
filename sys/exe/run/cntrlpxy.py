@@ -531,7 +531,20 @@ try:
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
                             #mktpxy in ['Sell-opts'] and
 ###########################################################################################################################################################################################################                    
-
+                    elif (
+                        row['qty'] > 0 and
+                        row['avg'] != 0 and
+                        row['product'] in ['NRML', 'MIS'] and
+                        auto_value == 'AUTO'
+                    ):
+                        if 'CE' in row['key'] and row['PL%'] < 0 and mktpxy == "Sell":
+                            # Fetch details for the corresponding 'PE' option
+                            pe_key = row['key'].replace('CE', 'PE')
+                            execute_program(pe_key)
+                        elif 'PE' in row['key'] and row['PL%'] < 0 and mktpxy == "Buy":
+                            # Fetch details for the corresponding 'CE' option
+                            ce_key = row['key'].replace('PE', 'CE')
+                            execute_program(ce_key)
 ###########################################################################################################################################################################################################     
                     elif (
                         (row['qty'] > 0 and
