@@ -110,22 +110,21 @@ if funds_needed_CE is not None:
     except FileNotFoundError:
         existing_symbols = set()
 
-    # Retrieve existing positions using broker.kite.positions()
-    positions_data = broker.kite.positions()
-
-    # Access the 'net' list under the 'data' key
-    positions_net = positions_data['data']['net']
-
+    # Retrieve positions data
+    positions_response = broker.kite.positions()
+    
+    # Access the 'net' key to get positions information
+    positions_net = positions_response['net']
+    
     # Create a list to store positions info
     positions_info = []
-
+    
     # Store positions information in the list
     for position in positions_net:
         positions_info.append({
             'tradingsymbol': position['tradingsymbol'],
             'quantity': position['quantity']
         })
-    print(positions_data)
 
     # Check if the symbol exists in the CSV file
     if symbol_CE in existing_symbols:
