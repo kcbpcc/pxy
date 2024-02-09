@@ -1,5 +1,3 @@
-from datetime import datetime, timedelta
-import pandas as pd
 import traceback
 import sys
 import logging
@@ -8,10 +6,12 @@ import asyncio
 from login_get_kite import get_kite, remove_token
 from nftpxy import OPTIONS
 from cnstpxy import dir_path
-from fundpxy import calculate_decision
 
 # Store the original stdout
 original_stdout = sys.stdout
+
+# Define broker variable
+broker = None
 
 try:
     # Redirect sys.stdout to 'output.txt'
@@ -48,8 +48,8 @@ async def send_telegram_message(message_text):
         print(f"Error sending message to Telegram: {e}")
 
 # Ensure that the 'broker' object has an 'order_place' method
-if not hasattr(broker, 'order_place') or not callable(getattr(broker, 'order_place', None)):
-    print("Error: 'broker' object does not have 'order_place' method.")
+if not broker or not hasattr(broker, 'order_place') or not callable(getattr(broker, 'order_place', None)):
+    print("Error: 'broker' object is not properly initialized or does not have 'order_place' method.")
     sys.exit(1)
 
 # Calculate the next Thursday date at least 6 days ahead
@@ -75,100 +75,49 @@ if int(expiry_month) < 10:
 expiry_day = expiry_day.zfill(2)
 
 def get_ltp(exchange, symbol):
-    key = f"{exchange}:{symbol}"
-    resp = broker.kite.ltp([key])
-    
-    if resp and isinstance(resp, dict) and key in resp:
-        return resp[key]['last_price']
-    else:
-        return None  # Return None if the ltp is not available or if there is an issue
+    try:
+        key = f"{exchange}:{symbol}"
+        resp = broker.kite.ltp([key])
+        if resp and isinstance(resp, dict) and key in resp:
+            return resp[key]['last_price']
+    except Exception as e:
+        print(f"Error getting LTP for {symbol}: {e}")
+    return None
 
 # Function to calculate funds needed for a given symbol and quantity
 def calculate_funds_needed(exchange, symbol, quantity):
     ltp = get_ltp(exchange, symbol)
     if ltp is not None:
         return ltp * quantity
-    else:
-        return None
+
+    print(f"Failed to calculate funds needed for {symbol}.")
+    return None
 
 # Construct the symbol for the NIFTY Put Option
 symbol_CE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
 
-# Calculate funds needed for the CE symbol with quantity 50
-quantity = 50
-funds_needed_CE = calculate_funds_needed("NFO", symbol_CE, quantity)
+# Place order directly
+try:
+    order_id_CE = broker.order_place(
+        tradingsymbol=symbol_CE,
+        quantity=50,
+        exchange="NFO",
+        transaction_type='BUY',
+        order_type='MARKET',
+        product='NRML'
+    )
 
-# Check against available cash with a buffer of 10%
-response = broker.kite.margins()
-available_cash = response["equity"]["available"]["live_balance"]
+    print(f"{symbol_CE} Ordered") 
+    message_text_CE = f"{symbol_CE} placed successfully"
+    # Send the message to Telegram
+    asyncio.run(send_telegram_message(message_text_CE))
 
-if funds_needed_CE is not None:
-    # Read the CSV file to check if symbols exist
-    try:
-        df = pd.read_csv('fileHPdf.csv')
-        existing_symbols = set(df['tradingsymbol'].tolist())
-    except FileNotFoundError:
-        existing_symbols = set()
+except Exception as e:
+    print("Error placing Call Option order:", e)
+    order_id_CE = None  # Set order_id_CE to None to indicate failure
 
-    # Retrieve positions data
-    positions_response = broker.kite.positions()
-    
-    # Access the 'net' key to get positions information
-    positions_net = positions_response['net']
-    
-    # Create a list to store positions info
-    positions_info = []
-    
-    # Store positions information in the list
-    for position in positions_net:
-        positions_info.append({
-            'tradingsymbol': position['tradingsymbol'],
-            'quantity': position['quantity']
-        })
-
-    # Check if the symbol exists in the CSV file
-    if symbol_CE in existing_symbols:
-        # Check if the quantity is greater than or equal to 50 in the CSV file
-        if df.loc[df['tradingsymbol'] == symbol_CE, 'quantity'].iloc[0] >= 50:
-            print(f"You already have 50 of {symbol_CE}. Cannot buy more. Skipping order placement.")
-            sys.exit(0)  # Exit the program
-    
-        # Check if the quantity is greater than 50 in the positions
-        for position in positions_info:
-            if position['tradingsymbol'] == symbol_CE and position['quantity'] > 50:
-                print(f"You already have more than 50 of {symbol_CE}. Cannot buy more. Skipping order placement.")
-                sys.exit(0)  # Exit the program
-
-    if available_cash >= 1.1 * funds_needed_CE:
-        print("Got funds. Proceeding with order")
-        
-        # Place order here
-        try:
-            order_id_CE = broker.order_place(
-                tradingsymbol=symbol_CE,
-                quantity=50,
-                exchange="NFO",
-                transaction_type='BUY',
-                order_type='MARKET',
-                product='NRML'
-            )
-
-            print(f"{symbol_CE} Ordered")
-            message_text_CE = f"{symbol_CE} placed successfully"
-            # Send the message to Telegram
-            asyncio.run(send_telegram_message(message_text_CE))
-
-        except Exception as e:
-            print("Error placing Call Option order:", e)
-            order_id_CE = None  # Set order_id_CE to None to indicate failure
-
-        # Check if the order was successful
-        if order_id_CE is not None:
-            print("{symbol_CE} Ordered")
-        else:
-            print("Order failed. Check error messages.")
-
-    else:
-        print("No funds. Order aborted.")
+# Check if the order was successful
+if order_id_CE is not None:
+    print(f"{symbol_CE} Ordered") 
 else:
-    print("Unable to calculate funds needed for the symbol.")
+    print("Order failed")
