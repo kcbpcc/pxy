@@ -59,7 +59,7 @@ def get_today_close():
 
 from colorama import Fore, Style
 
-def dayprinter(o, h, l, c, prev_close):
+def dayprinter(o, h, l, c, prev_close, day_change_sign, open_change_sign, nse_power, onemincandlesequance):
     total_length = 10
     
     # Calculate the lengths of different segments as percentages
@@ -74,7 +74,7 @@ def dayprinter(o, h, l, c, prev_close):
 
     # Print both the previous day's close and today's close in a single sentence with color
     arrow = (f"{Fore.GREEN}ﮩ٨") if c > prev_close else (f"{Fore.RED}ﮩ٨")
-    print(f"|🔆{day_change_sign}|⌛️{open_change_sign}|⚡{nse_power}|", end='')   
+    print(f"{arrow}|🔆{day_change_sign}|⌛️{open_change_sign}|⚡{nse_power}|", end='')   
     print(Fore.LIGHTWHITE_EX + '=' * int((n / 100) * total_length), end='')
 
     if c > o:
