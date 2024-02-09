@@ -57,12 +57,12 @@ while True:
     elif mktpxy == 'Sell':
         print("It's a ⤵️-Sell-⤵️ time, selling now.....")
         subprocess.run(['python3', 'cntrlpxy.py'])
-        subprocess.run(['python3', 'buypepxy.py'])
+        #subprocess.run(['python3', 'buypepxy.py'])
     elif mktpxy == 'Buy':
         print("It's a ⤴️-Buy-⤴️ time, Buying now.......")
         subprocess.run(['python3', 'buypxy.py']) if SMAfty == 'BULLNIFTY' and peak == 'NONPEAK' else None
         subprocess.run(['python3', 'cntrlpxy.py'])
-        subprocess.run(['python3', 'buycepxy.py'])
+        #subprocess.run(['python3', 'buycepxy.py'])
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
     # Call the function and store the result in a variable
