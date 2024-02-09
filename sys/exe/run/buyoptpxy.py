@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 import traceback
 import sys
+import logging
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from fundpxy import calculate_decision
@@ -9,21 +10,23 @@ from nftpxy import OPTIONS
 import telegram
 import asyncio
 from mktpxy import get_market_check
+
 onemincandlesequance, mktpxy = get_market_check()
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
 from optpxy import get_optpxy
+
 optpxy = get_optpxy()
 from cyclepxy import cycle
 from utcpxy import peak_time
+
 peak = peak_time()
 from macdpxy import calculate_macd_signal
+
 macd = calculate_macd_signal("^NSEI")
 from smaftypxy import check_nifty_status
+
 SMAfty = check_nifty_status()
 
-
-# Define the original stdout
-original_stdout = sys.stdout
 
 # Define the function to send a message to Telegram
 async def send_telegram_message(message_text):
@@ -42,6 +45,7 @@ async def send_telegram_message(message_text):
         # Handle the exception (e.g., log it) and continue with your code
         print(f"Error sending message to Telegram: {e}")
 
+
 # Define function to get next Thursday date
 def get_next_thursday():
     current_date = datetime.now()
@@ -52,6 +56,7 @@ def get_next_thursday():
         days_until_next_thursday += 7
 
     return current_date + timedelta(days=days_until_next_thursday)
+
 
 # Define function to calculate expiry date for the symbol
 def get_symbol_expiry_date(expiry_date):
@@ -68,9 +73,11 @@ def get_symbol_expiry_date(expiry_date):
 
     return expiry_year, expiry_month, expiry_day
 
+
 # Define function to construct symbol for the NIFTY Put Option
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}{option_type}"
+
 
 # Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
@@ -89,6 +96,7 @@ def check_existing_positions(broker, symbol):
 
     return symbol in existing_symbols
 
+
 # Define function to calculate funds needed for the symbol with a given quantity
 def calculate_required_funds(broker, symbol, quantity):
     resp = broker.kite.ltp([f"NFO:{symbol}"])
@@ -97,6 +105,7 @@ def calculate_required_funds(broker, symbol, quantity):
         return ltp * quantity
     else:
         return None
+
 
 # Define function to place order for the symbol
 async def place_order(broker, symbol):
@@ -119,6 +128,7 @@ async def place_order(broker, symbol):
         print(f"Error placing Option order for {symbol}: {e}")
         return False  # Order failed
 
+
 # Main function to orchestrate the workflow
 async def main():
     try:
@@ -127,47 +137,43 @@ async def main():
             sys.stdout = file
 
             try:
-                # Initialize broker
                 broker = get_kite(api="bypass", sec_dir=dir_path)
             except Exception as e:
                 remove_token(dir_path)
                 traceback.format_exc()
-                print(f"{str(e)} unable to get holdings")
+                logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
 
-            next_thursday = get_next_thursday()
-            expiry_year, expiry_month, expiry_day = get_symbol_expiry_date(next_thursday)
+        finally:
+            # Reset sys.stdout to its original value
+            sys.stdout = original_stdout
 
-            # Determine option type based on mktpxy
-            if mktpxy == 'Buy':
-                option_type = 'CE'  # Call Option
+        next_thursday = get_next_thursday()
+        expiry_year, expiry_month, expiry_day = get_symbol_expiry_date(next_thursday)
+
+        # Determine option type based on mktpxy
+        if mktpxy == 'Buy':
+            option_type = 'CE'  # Call Option
+        else:
+            option_type = 'PE'  # Put Option
+
+        symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
+
+        if not check_existing_positions(broker, symbol):
+            funds_needed = calculate_required_funds(broker, symbol, 50)
+            available_cash = broker.kite.margins()["equity"]["available"]["live_balance"]
+
+            if funds_needed is not None and available_cash >= 1.1 * funds_needed:
+                order_placed = await place_order(broker, symbol)
+                if not order_placed:
+                    print(f"Order failed for {symbol}. Check error messages.")
             else:
-                option_type = 'PE'  # Put Option
-            
-            symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
-            
-
-            if not check_existing_positions(broker, symbol):
-                funds_needed = calculate_required_funds(broker, symbol, 50)
-                available_cash = broker.kite.margins()["equity"]["available"]["live_balance"]
-
-                if funds_needed is not None and available_cash >= 1.1 * funds_needed:
-                    #print("Got funds. Proceeding with order")
-                    order_placed = await place_order(broker, symbol)
-                    if not order_placed:
-                        print("Order failed. Check error messages.")
-                else:
-                    print("No funds. Order aborted.")
-            else:
-                print(f"Skip {symbol}.")
+                print(f"No sufficient funds for {symbol}. Order aborted.")
+        else:
+            print(f"Skipping order placement as positions already exist for {symbol}.")
 
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)
 
-    finally:
-        # Reset stdout to its original value
-        sys.stdout = original_stdout
 
-# Run the main asynchronous function
-asyncio.run(main())
