@@ -64,29 +64,32 @@ open_change_sign = '+' if Open_Change > 0 else ''
 def dayprinter(o, h, l, c, prev_close):
     total_length = 10
     
-    # Calculate the lengths of different segments as percentages
-    if c > o:
-        n = round(((o - (l-1)) / ((h+1) - (l-1))) * 100)
-        x = round(((c - o) / ((h+1) - (l-1))) * 100)
-        m = 100 - n - x
-    else:
-        n = round(((c - (l-1)) / ((h+1) - (l-1))) * 100)
-        x = round(((o - c) / ((h+1) - (l-1))) * 100)
-        m = 100 - n - x
-
-    # Print both the previous day's close and today's close in a single sentence with color
-    SMAftywave = (f"{Fore.GREEN}ﮩﮩ٨") if SMAfty == 'up' else (f"{Fore.RED}ﮩﮩ٨")
-    print(f"🔆{day_change_sign}{Day_Change}⌛️{open_change_sign}{Open_Change}⚡{nse_power}|", end='')   
-    print(Fore.LIGHTWHITE_EX + '=' * int((n / 100) * total_length), end='')
-
-    if c > o:
-        print(Fore.GREEN + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
-    elif o > c:
-        print(Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
+    try:
+        # Calculate the lengths of different segments as percentages
+        if c > o:
+            n = round(((o - (l-1)) / ((h+1) - (l-1))) * 100)
+            x = round(((c - o) / ((h+1) - (l-1))) * 100)
+            m = 100 - n - x
+        else:
+            n = round(((c - (l-1)) / ((h+1) - (l-1))) * 100)
+            x = round(((o - c) / ((h+1) - (l-1))) * 100)
+            m = 100 - n - x
     
-    print(Fore.LIGHTWHITE_EX + '=' * int((m / 100) * total_length), end='')
-
-    print (f"{SMAftywave}{onemincandlesequance}🚦{macd}")
+        # Print both the previous day's close and today's close in a single sentence with color
+        SMAftywave = (f"{Fore.GREEN}ﮩﮩ٨") if SMAfty == 'up' else (f"{Fore.RED}ﮩﮩ٨")
+        print(f"🔆{day_change_sign}{Day_Change}⌛️{open_change_sign}{Open_Change}⚡{nse_power}|", end='')   
+        print(Fore.LIGHTWHITE_EX + '=' * int((n / 100) * total_length), end='')
+    
+        if c > o:
+            print(Fore.GREEN + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
+        elif o > c:
+            print(Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
+        
+        print(Fore.LIGHTWHITE_EX + '=' * int((m / 100) * total_length), end='')
+    
+        print (f"{SMAftywave}{onemincandlesequance}🚦{macd}")
+    except Exception as e:
+        pass
     
     
     # Determine the color based on the comparison of today's close with yesterday's close
@@ -109,10 +112,4 @@ if previous_day_close is not None and today_close is not None:
 else:
     print("Unable to fetch data.")
 
-    try:
-        day_change_sign = '+' if Day_Change > 0 else ''
-        open_change_sign = '+' if Open_Change > 0 else ''
-        # Format the statement with explicit signs and styles
-        console.print(f"|🔆{day_change_sign}|⌛️{open_change_sign}|⚡{nse_power}|{onemincandlesequance}")    
-    except:
-        pass  # This will catch any exception and do nothing, continuing with the program
+
