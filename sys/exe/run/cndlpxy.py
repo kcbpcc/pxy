@@ -59,7 +59,7 @@ def get_today_close():
 
 from colorama import Fore, Style
 
-def dayprinter(o, h, l, c, prev_close, day_change_sign, open_change_sign, nse_power, onemincandlesequance):
+def dayprinter(o, h, l, c, prev_close):
     total_length = 10
     
     # Calculate the lengths of different segments as percentages
