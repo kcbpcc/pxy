@@ -102,7 +102,6 @@ funds_needed_CE = calculate_funds_needed("NFO", symbol_CE, quantity)
 response = broker.kite.margins()
 available_cash = response["equity"]["available"]["live_balance"]
 
-# Print results
 if funds_needed_CE is not None:
     # Read the CSV file to check if symbols exist
     try:
@@ -112,13 +111,16 @@ if funds_needed_CE is not None:
         existing_symbols = set()
 
     # Retrieve existing positions using broker.kite.positions()
-    positions = broker.kite.positions()
+    positions_data = broker.kite.positions()
+
+    # Access the 'net' list under the 'data' key
+    positions_net = positions_data['data']['net']
 
     # Create a list to store positions info
     positions_info = []
 
     # Store positions information in the list
-    for position in positions:
+    for position in positions_net:
         positions_info.append({
             'tradingsymbol': position['tradingsymbol'],
             'quantity': position['quantity']
