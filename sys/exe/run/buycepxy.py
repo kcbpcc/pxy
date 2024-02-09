@@ -89,9 +89,8 @@ def calculate_funds_needed(exchange, symbol, quantity):
     ltp = get_ltp(exchange, symbol)
     if ltp is not None:
         return ltp * quantity
-
-    print(f"Failed to calculate funds needed for {symbol}.")
-    return None
+    else:
+        return None
 
 # Construct the symbol for the NIFTY Put Option
 symbol_CE = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}CE"
