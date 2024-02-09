@@ -57,6 +57,8 @@ def get_today_close():
     else:
         return None, None  # Handle the case when data is not available
 
+from colorama import Fore, Style
+
 def dayprinter(o, h, l, c, prev_close):
     total_length = 10
     
@@ -80,7 +82,7 @@ def dayprinter(o, h, l, c, prev_close):
     elif o > c:
         print(Fore.RED + '▌' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
     
-    print(Fore.LIGHTWHITE_EX + '=' * int((m / 100) * total_length, end=''))
+    print(Fore.LIGHTWHITE_EX + '=' * int((m / 100) * total_length), end='')
 
     print (f"⚡{nse_power}|{onemincandlesequance}")
     
