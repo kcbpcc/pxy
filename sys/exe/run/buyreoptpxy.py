@@ -71,7 +71,7 @@ def execute_program(symbol):
 
     funds_needed = calculate_funds_needed("NFO", symbol, broker)
 
-    if funds_needed_CE is not None:
+    if funds_needed is not None:
         # Read the CSV file to check if symbols exist
         try:
             df = pd.read_csv('fileHPdf.csv')
@@ -103,7 +103,7 @@ def execute_program(symbol):
                 sys.exit(0)  # Exit the program
         
             # Check if the quantity is greater than 50 in the positions
-            for position in positions:
+            for position in positions_info:
                 if position['tradingsymbol'] == symbol and position['quantity'] > 50:
                     print(f"You already have more than 50 of {symbol}. Cannot buy more. Skipping order placement.")
                     sys.exit(0)  # Exit the program
@@ -179,5 +179,3 @@ def execute_program(symbol):
                 print(f"No funds for {symbol}. Aborted.")
         else:
             print("Unable to calculate funds needed for the symbol.")
-
-
