@@ -16,6 +16,7 @@ from macdpxy import calculate_macd_signal
 from smaftypxy import check_nifty_status
 import subprocess
 import sys
+
 onemincandlesequance, mktpxy = get_market_check()
 optpxy = get_optpxy()
 peak = peak_time()
@@ -85,7 +86,7 @@ def dayprinter(o, h, l, c, prev_close):
     
     print(Fore.LIGHTWHITE_EX + '=' * int((m / 100) * total_length), end='')
 
-    print (f"{onemincandlesequance}")
+    print (f"{onemincandlesequance}🚦{macd}")
     
     
     # Determine the color based on the comparison of today's close with yesterday's close
