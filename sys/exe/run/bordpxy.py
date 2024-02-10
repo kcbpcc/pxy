@@ -61,7 +61,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     # Print to console
     print(full_output)
     subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
-    print("━" * 42)
+
     # Write to file
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
