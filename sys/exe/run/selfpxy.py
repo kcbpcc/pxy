@@ -92,9 +92,6 @@ def get_random_spiritual_message():
     
     return message
 
-# Test the function
-for _ in range(5):
-    print(get_random_spiritual_message())
 
 
 
