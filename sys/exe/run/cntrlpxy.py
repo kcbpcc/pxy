@@ -464,7 +464,6 @@ try:
     
         # Now, you can use the 'auto_value' variable in your program
 ###########################################################################################################################################################################################################   
-    from buyreoptpxy import execute_program
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
     csv_file_path_nrml = 'filePnL_nrml.csv'
