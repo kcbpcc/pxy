@@ -57,10 +57,7 @@ def get_random_spiritual_message():
     
     message = random.choice(spiritual_messages)
     
-    if len(message) < 40:
-        symbols = ['🌟', '✨', '🌈', '💫', '🌺', '💖', '🌻', '🌹', '🍃', '🌿', '🌸', '🌞', '🌟', '🌠', '🌊', '🌄', '🎨', '🌻', '📖']
-        symbol = random.choice(symbols)
-        message += f" {symbol}"
+
     
     return message
 
