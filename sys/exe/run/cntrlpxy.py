@@ -464,6 +464,12 @@ try:
     
         # Now, you can use the 'auto_value' variable in your program
 ###########################################################################################################################################################################################################   
+    from optpxy import get_optpxy
+    importlib.reload(sys.modules['optpxy'])  # Correct the usage 
+    optpxy = get_optpxy()
+    from mktpxy import mktpxymktpxy
+    importlib.reload(sys.modules['mktpxy'])  # Correct the usage
+    mktpxy = get_market_check()
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
     csv_file_path_nrml = 'filePnL_nrml.csv'
@@ -514,8 +520,8 @@ try:
                         row['avg'] != 0 and
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
-                        (('CE' in row['key'] and row['PL%'] > 1.4 and mktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 1.4 and mktpxy in ["Buy", "Bull"]))
+                        (('CE' in row['key'] and row['PL%'] > 1.4 and (oktpxy in ["Buy", "Bull"] and mktpxy in ["Sell", "Bear"])) or
+                         ('PE' in row['key'] and row['PL%'] > 1.4 and (oktpxy in ["Sell", "Bear"] and mktpxy in ["Buy", "Bull"])))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
