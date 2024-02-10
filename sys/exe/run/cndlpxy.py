@@ -86,7 +86,7 @@ def dayprinter(o, h, l, c, prev_close):
         elif o > c:
             print(Fore.RED + '━' * int((x / 100) * total_length) + Style.RESET_ALL, end='')
         
-        print(Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length){SMAftywave})
+        print(Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length) + SMAftywave)
     except Exception as e:
         pass
     
