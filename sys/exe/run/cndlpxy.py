@@ -87,7 +87,7 @@ def dayprinter(o, h, l, c, prev_close):
         
         print(Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length), end='')
     
-        print (f"{SMAftywave}{onemincandlesequance}🚦━{macd}")
+        print (f"{onemincandlesequance}🚦{macd}{SMAftywave}")
     except Exception as e:
         pass
     
