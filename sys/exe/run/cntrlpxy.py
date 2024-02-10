@@ -569,15 +569,28 @@ try:
 ###########################################################################################################################################################################################################
     print("━" * 42)
     from smaftypxy import check_nifty_status
-    SMAfty = check_nifty_status()
     from macdpxy import calculate_macd_signal
+    
+    SMAfty = check_nifty_status()
     macd = calculate_macd_signal("^NSEI")
+    
     if nrml_filtered_df.empty:
         print("optpxy: options not activated, let's wait!")
-        # print(nrml_filtered_df)
     else:
         filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0]
-        formatted_lines = filtered_df[['Invested', 'key', 'qty', 'PL%', 'PnL','TR']].to_string(index=False, header=False).split('\n')
+        
+        filtered_df['option_power'] = filtered_df['smb_power'].apply(lambda smb_power: 
+            '⚪' if smb_power > 0.8 else (
+                '🟢' if 0.5 < smb_power <= 0.8 else (
+                    '🟠' if 0.3 < smb_power <= 0.5 else (
+                        '🔴' if smb_power <= 0.3 else smb_power
+                    )
+                )
+            )
+        )
+    
+        formatted_lines = filtered_df[['Invested', 'key', 'qty', 'PL%', 'PnL', 'option_power']].to_string(index=False, header=False).split('\n')
+
         formatted_lines_sorted = sorted(formatted_lines, key=lambda x: x.split()[1][:-2])
         # Set max_width to 42
         max_width = 42
