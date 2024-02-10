@@ -467,9 +467,9 @@ try:
     from optpxy import get_optpxy
     importlib.reload(sys.modules['optpxy'])  # Correct the usage 
     optpxy = get_optpxy()
-    from mktpxy import mktpxy
+    from mktpxy import get_market_check
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
-    mktpxy = get_market_check()
+    onemincandlesequance, mktpxy = get_market_check()
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
     csv_file_path_nrml = 'filePnL_nrml.csv'
