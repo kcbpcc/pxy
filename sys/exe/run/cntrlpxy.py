@@ -529,7 +529,6 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-                            #mktpxy in ['Sell-opts'] and
 ###########################################################################################################################################################################################################                    
                     elif (
                         not row['key'].endswith(('PE', 'CE')) and
@@ -540,7 +539,6 @@ try:
                         nse_power < 0.1 and
                         row['PL%'] < -18
                     ):
-
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
@@ -552,9 +550,7 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-                            
 ###########################################################################################################################################################################################################     
-
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
