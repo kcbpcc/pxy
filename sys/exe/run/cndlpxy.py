@@ -77,7 +77,7 @@ def dayprinter(o, h, l, c, prev_close):
     
         # Print both the previous day's close and today's close in a single sentence with color
         SMAftywave = (f"{Fore.GREEN}ﮩﮩ٨") if SMAfty == 'up' else (f"{Fore.RED}ﮩﮩ٨")
-        print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}", end='') 
+        print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}", end='') 
         print(Fore.LIGHTWHITE_EX + '━' * int((n / 100) * total_length), end='')
     
         if c > o:
@@ -87,7 +87,7 @@ def dayprinter(o, h, l, c, prev_close):
         
         print(Fore.LIGHTWHITE_EX + '━' * int((m / 100) * total_length), end='')
     
-        print (f"{onemincandlesequance}🚦{macd}{SMAftywave}")
+        print (f"⚡{nse_power:.2f}{onemincandlesequance}🚦{macd}{SMAftywave}")
     except Exception as e:
         pass
     
