@@ -14,7 +14,7 @@ from selfpxy import get_random_spiritual_message
 random_message = get_random_spiritual_message()
 subprocess.run(['python3', 'cpritepxy.py'])
 print("━" * 42)
-print(random_message)
+#print(random_message)
 print("━" * 42)
 console = Console()
 bear_style = Style(color="red")
