@@ -175,7 +175,7 @@ async def main():
         else:
             print("No funds. Order aborted.")
     else:
-        print(f"Skip {symbol}.")
+        print(f"Got {symbol} skip.")
 
 # Run the main asynchronous function
 asyncio.run(main())
