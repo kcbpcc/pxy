@@ -173,7 +173,7 @@ async def main():
             if not order_placed:
                 print("Order failed. Check error messages.")
         else:
-            print("No funds. Order aborted.")
+            print(f"No funds {symbol} skip.")
     else:
         print(f"Got {symbol} skip.")
 
