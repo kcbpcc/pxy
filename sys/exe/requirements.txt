@@ -1,8 +1,8 @@
 wheel
 setuptools==58.2.0
-git+https://github.com/kcbpcc/depx.git
-git+https://github.com/kcbpcc/depy.git
-git+https://github.com/kcbpcc/depz.git
+git+https://github.com/kcbpcc/kcbpccx.git
+git+https://github.com/kcbpcc/kcbpccy.git
+git+https://github.com/kcbpcc/kcbpccz.git
 kiteconnect
 pandas
 pyotp
