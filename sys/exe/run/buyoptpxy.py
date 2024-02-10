@@ -119,7 +119,7 @@ async def place_order(broker, symbol):
         )
 
         print(f"{symbol} Ordered")
-        message_text = f"Option Order placed successfully. Order ID: {order_id}"
+        message_text = f"Option Order {symbol} placed successfully."
         # Send the message to Telegram
         await send_telegram_message(message_text)
         return True  # Order successful
@@ -168,7 +168,7 @@ async def main():
         available_cash = broker.kite.margins()["equity"]["available"]["live_balance"]
 
         if funds_needed is not None and available_cash >= 1.1 * funds_needed:
-            print("Got funds. Proceeding with order")
+            #print("Got funds. Proceeding with order")
             order_placed = await place_order(broker, symbol)
             if not order_placed:
                 print("Order failed. Check error messages.")
