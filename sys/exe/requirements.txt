@@ -1,8 +1,8 @@
 wheel
 setuptools==58.2.0
-git+https://github.com/kcbpcc/kcbpccx.git
-git+https://github.com/kcbpcc/kcbpccy.git
-git+https://github.com/kcbpcc/kcbpccz.git
+git+https://github.com/pannet1/omspy-brokers
+git+https://github.com/pannet1/toolkit
+git+https://github.com/pannet1/kiteext
 kiteconnect
 pandas
 pyotp
