@@ -612,7 +612,7 @@ try:
             else:
                 color_code = RESET  # Reset color for invalid PnL values
             # Right-align the text, apply color, and reset color after the line
-        print(color_code + (line[:-3] + ("\033[91m" if float(line[-3:]) < 0 else "\033[92m") + line[-3:].rjust(3)) + RESET)
+        print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
         # Define ANSI escape codes
         GREEN = '\033[92m'
         RED = '\033[91m'
