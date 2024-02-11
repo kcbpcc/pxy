@@ -30,7 +30,12 @@ exchanges = {
     "DJI": {"name": "Dow Jones", "weight": 0.35},
     "IXIC": {"name": "Nasdaq", "weight": 0.30},
     "INX": {"name": "S&P 500", "weight": 0.35},
-
+    "FTSE": {"name": "FTSE 100", "weight": 0.20},
+    "GDAXI": {"name": "DAX", "weight": 0.15},
+    "FCHI": {"name": "CAC 40", "weight": 0.15},
+    "N225": {"name": "Nikkei 225", "weight": 0.20},
+    "HSI": {"name": "Hang Seng Index", "weight": 0.20},
+    "000001.SS": {"name": "Shanghai Composite", "weight": 0.20}
 }
 
 # Create a console object for rich text output
@@ -41,12 +46,10 @@ closing_prices_today = {}
 closing_prices_yesterday = {}
 
 for exchange, name_weight in exchanges.items():
-    closing_price = fetch_closing_price(exchange)
-    if closing_price is not None:
-        closing_prices_today[name_weight['name']] = closing_price
-        # Assuming yesterday's close is not available, you can manually input the value
-        # Or you can fetch it from an external source if available
-        closing_prices_yesterday[name_weight['name']] = 0  # Update this with yesterday's closing prices
+    closing_prices_today[name_weight['name']] = fetch_closing_price(exchange)
+    # Assuming yesterday's close is not available, you can manually input the value
+    # Or you can fetch it from an external source if available
+    closing_prices_yesterday[name_weight['name']] = 0  # Update this with yesterday's closing prices
 
 # Print index names in one row with sentiment color
 index_info = ""
@@ -58,5 +61,6 @@ for name, price_today in closing_prices_today.items():
 
 # Print all index names in one row with sentiment color
 console.print(index_info)
+
 
 
