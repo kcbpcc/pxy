@@ -16,17 +16,17 @@ def check_smapower_status(symbol):
             warnings.simplefilter(action='ignore', category=FutureWarning)
             cepower = (((present_close) - (sma_50.iloc[-1]))/ (sma_50.iloc[-1]))*10000
             pepower = (((sma_50.iloc[-1]) - (present_close))/ (sma_50.iloc[-1]))*10000
-            return cepower
-            return pepower
+            return cepower, pepower  # Return both cepower and pepower as a tuple
     except Exception as e:
         print(f"Error: {e}")
-        return None  # Return None if an error occurs
+        return None, None  # Return None for both cepower and pepower if an error occurs
 
 # Call the function with a symbol
 symbol = "^NSEI"
-pepower, cepower = check_smapower_status(symbol)
-if smapower is not None:
+cepower, pepower = check_smapower_status(symbol)
+if cepower is not None and pepower is not None:
     print("cepower:", cepower)
     print("pepower:", pepower)
+
     
 
