@@ -335,12 +335,12 @@ try:
     from smapowerpxy import check_smapower_status 
     cepower, pepower = check_smapower_status('^NSEI')
     def assign_otpl(row):
-    if 'CE' in row['key']:
-        return cepower
-    elif 'PE' in row['key']:
-        return pepower
-    else:
-        return None  # Or any default value you prefer
+        if 'CE' in row['key']:
+            return cepower
+        elif 'PE' in row['key']:
+            return pepower
+        else:
+            return None  # Or any default value you prefer
     # Apply the function to create/update the otPL% column
     combined_df['otPL%'] = combined_df.apply(assign_otpl, axis=1)
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
