@@ -1,31 +1,61 @@
 import yfinance as yf
 from rich.console import Console
-from rich.text import Text
 import warnings
 
 # Suppress warnings
 warnings.filterwarnings("ignore")
 
-# Dictionary of major stock exchanges with weights based on their significance and color codes
+# Function to determine sentiment based on closing prices
+def calculate_sentiment(today_close, yesterday_close):
+    if today_close is not None and yesterday_close is not None:
+        if today_close > yesterday_close:
+            return "Bullish"
+        elif today_close < yesterday_close:
+            return "Bearish"
+        else:
+            return "Neutral"
+    else:
+        return "Data Unavailable"
+
+# Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
-    "^DJI": {"name": "D&J", "color": "blue"},
-    "^IXIC": {"name": "Nsdq", "color": "cyan"},
-    "^GSPC": {"name": "S&P", "color": "magenta"},
-    "^FTSE": {"name": "UK", "color": "yellow"},
-    "^GDAXI": {"name": "DE", "color": "green"},
-    "^FCHI": {"name": "FR", "color": "red"},
-    "^N225": {"name": "JP", "color": "blue"},
-    "^HSI": {"name": "HK", "color": "cyan"},
-    "000001.SS": {"name": "CN", "color": "magenta"},
-    "^NSEI": {"name": "NIFTY", "color": "yellow"}  
+    "^DJI": {"name": "D&J", "weight": 0.35},
+    "^IXIC": {"name": "Nsdq", "weight": 0.30},
+    "^GSPC": {"name": "S&P", "weight": 0.35},
+    "^FTSE": {"name": "UK", "weight": 0.20},
+    "^GDAXI": {"name": "DE", "weight": 0.15},
+    "^FCHI": {"name": "FR", "weight": 0.15},
+    "^N225": {"name": "JP", "weight": 0.20},
+    "^HSI": {"name": "HK", "weight": 0.20},
+    "000001.SS": {"name": "CN", "weight": 0.20},
+    "^NSEI": {"name": "NIFTY", "weight": 0.25}  
 }
 
 # Create a console object for rich text output
 console = Console()
 
-# Print names of other markets with color codes in one line
-other_markets = "|".join([f"[{name_weight['color']}]{name_weight['name']}[/]" for exchange, name_weight in exchanges.items() if name_weight['name'] != "NIFTY"])
-console.print(other_markets, f"NIFTY: {nifty_close_today}")
+# Fetch historical closing prices for each exchange
+closing_prices_today = {}
+closing_prices_yesterday = {}
+
+for exchange, name_weight in exchanges.items():
+    ticker = yf.Ticker(exchange)
+    hist_data = ticker.history(period="2d")
+    if len(hist_data) >= 2:
+        closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
+        closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
+
+# Print index names in one row with sentiment color
+index_info = ""
+for name, price_today in closing_prices_today.items():
+    if name in closing_prices_yesterday:
+        price_yesterday = closing_prices_yesterday[name]
+        sentiment = calculate_sentiment(price_today, price_yesterday)
+        sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
+        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]|"
+
+# Print all index names in one row with sentiment color
+console.print(index_info)
 
 
 
