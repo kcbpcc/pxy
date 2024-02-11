@@ -14,7 +14,7 @@ def check_smapower_status(symbol):
         # Suppress FutureWarning temporarily for this section
         with warnings.catch_warnings():
             warnings.simplefilter(action='ignore', category=FutureWarning)
-            smapower = (((22000) - (sma_50.iloc[-1]))/ (sma_50.iloc[-1]))*10000
+            smapower = (((present_close) - (sma_50.iloc[-1]))/ (sma_50.iloc[-1]))*10000
             print("Present Close Price:", present_close)
             print("50-day SMA:", sma_50.iloc[-1])
             return smapower
