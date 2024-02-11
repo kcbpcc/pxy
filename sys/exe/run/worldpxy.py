@@ -28,7 +28,7 @@ def calculate_sentiment(today_close, yesterday_close):
         "^N225": {"name": "JP", "weight": 0.20},
         "^HSI": {"name": "HK", "weight": 0.20},
         "000001.SS": {"name": "CN", "weight": 0.20},
-        "^NSEI": {"name": "Nifty", "weight": 0.25}  
+        "^NSEI": {"name": "NIFTY", "weight": 0.25}  
     }
 
 # Create a console object for rich text output
