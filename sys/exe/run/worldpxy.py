@@ -30,12 +30,7 @@ exchanges = {
     "DJI": {"name": "Dow Jones", "weight": 0.35},
     "IXIC": {"name": "Nasdaq", "weight": 0.30},
     "INX": {"name": "S&P 500", "weight": 0.35},
-    "FTSE": {"name": "FTSE 100", "weight": 0.20},
-    "GDAXI": {"name": "DAX", "weight": 0.15},
-    "FCHI": {"name": "CAC 40", "weight": 0.15},
-    "N225": {"name": "Nikkei 225", "weight": 0.20},
-    "HSI": {"name": "Hang Seng Index", "weight": 0.20},
-    "000001.SS": {"name": "Shanghai Composite", "weight": 0.20}
+
 }
 
 # Create a console object for rich text output
