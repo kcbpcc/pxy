@@ -14,8 +14,10 @@ def check_smapower_status(symbol):
         # Suppress FutureWarning temporarily for this section
         with warnings.catch_warnings():
             warnings.simplefilter(action='ignore', category=FutureWarning)
-            cepower = (((present_close) - (sma_50.iloc[-1]))/ (sma_50.iloc[-1]))*10000
-            pepower = (((sma_50.iloc[-1]) - (present_close))/ (sma_50.iloc[-1]))*10000
+        # Calculate cepower with a maximum of 5
+        cepower = min((((present_close) - (sma_50)) / (sma_50)) * 10000, 5)
+        # Calculate pepower with a maximum of 5
+        pepower = min((((sma_50) - (present_close)) / (sma_50)) * 10000, 5)
             return cepower, pepower  # Return both cepower and pepower as a tuple
     except Exception as e:
         print(f"Error: {e}")
