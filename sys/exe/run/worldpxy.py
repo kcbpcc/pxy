@@ -19,17 +19,16 @@ def calculate_sentiment(today_close, yesterday_close):
 
 # Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
-    "^DJI": {"US-D&J", "weight": 0.35},
-    "^IXIC": {"US-Nasdaq", "weight": 0.30},
-    "^GSPC": {"US-S&p", "weight": 0.35},
-    "^FTSE": {"UK", "weight": 0.20},
-    "^GDAXI": {"Germany", "weight": 0.15},
-    "^FCHI": {"France", "weight": 0.15},
-    "^N225": {"Japan", "weight": 0.20},
-    "^HSI": {"HongKong", "weight": 0.20},
-    "000001.SS": {"China", "weight": 0.20}
+    "^DJI": {"name": "US-D&J", "weight": 0.35},
+    "^IXIC": {"name": "US-Nasdaq", "weight": 0.30},
+    "^GSPC": {"name": "US-S&p", "weight": 0.35},
+    "^FTSE": {"name": "UK", "weight": 0.20},
+    "^GDAXI": {"name": "Germany", "weight": 0.15},
+    "^FCHI": {"name": "France", "weight": 0.15},
+    "^N225": {"name": "Japan", "weight": 0.20},
+    "^HSI": {"name": "HongKong", "weight": 0.20},
+    "000001.SS": {"name": "China", "weight": 0.20}
 }
-
 
 # Create a console object for rich text output
 console = Console()
@@ -55,4 +54,5 @@ for name, price_today in closing_prices_today.items():
 
 # Print all index names in one row with sentiment color
 console.print(index_info)
+
 
