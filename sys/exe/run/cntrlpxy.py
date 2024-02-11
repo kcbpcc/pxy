@@ -445,7 +445,7 @@ try:
     if not cnc_filtered_df.empty:
         print("━" * 42)
         print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
-        #print("━" * 42)
+        print("━" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
     #subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess
 
@@ -464,12 +464,7 @@ try:
     
         # Now, you can use the 'auto_value' variable in your program
 ###########################################################################################################################################################################################################   
-    from optpxy import get_optpxy
-    importlib.reload(sys.modules['optpxy'])  # Correct the usage 
-    optpxy = get_optpxy()
-    from mktpxy import get_market_check
-    importlib.reload(sys.modules['mktpxy'])  # Correct the usage
-    onemincandlesequance, mktpxy = get_market_check()
+    from buyreoptpxy import execute_program
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
     csv_file_path_nrml = 'filePnL_nrml.csv'
@@ -534,6 +529,7 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+                            #mktpxy in ['Sell-opts'] and
 ###########################################################################################################################################################################################################                    
                     elif (
                         not row['key'].endswith(('PE', 'CE')) and
@@ -544,6 +540,7 @@ try:
                         nse_power < 0.1 and
                         row['PL%'] < -18
                     ):
+
                         try:                            
                             is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
@@ -555,7 +552,9 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+                            
 ###########################################################################################################################################################################################################     
+
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
@@ -567,28 +566,16 @@ try:
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
-    print("━" * 42)
     from smaftypxy import check_nifty_status
-    from macdpxy import calculate_macd_signal
-    
     SMAfty = check_nifty_status()
+    from macdpxy import calculate_macd_signal
     macd = calculate_macd_signal("^NSEI")
-    
     if nrml_filtered_df.empty:
         print("optpxy: options not activated, let's wait!")
+        # print(nrml_filtered_df)
     else:
         filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0]
-        filtered_df['option_power'] = filtered_df['smb_power'].apply(lambda smb_power: 
-            '⬜' if smb_power > 0.8 else (
-                '🟩' if 0.5 < smb_power <= 0.8 else (
-                    '🟨' if 0.3 < smb_power <= 0.5 else (
-                        '🟥' if smb_power <= 0.3 else smb_power
-                    )
-                )
-            )
-        )
-        filtered_df['PL%'] = filtered_df['PL%'].astype(int)
-        formatted_lines = filtered_df[['Invested', 'key', 'qty', 'PL%', 'PnL', 'option_power']].to_string(index=False, header=False).split('\n')
+        formatted_lines = filtered_df[['Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
         formatted_lines_sorted = sorted(formatted_lines, key=lambda x: x.split()[1][:-2])
         # Set max_width to 42
         max_width = 42
@@ -612,7 +599,7 @@ try:
             else:
                 color_code = RESET  # Reset color for invalid PnL values
             # Right-align the text, apply color, and reset color after the line
-        print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
+            print(color_code + line.rjust(max_width) + RESET)
         # Define ANSI escape codes
         GREEN = '\033[92m'
         RED = '\033[91m'
