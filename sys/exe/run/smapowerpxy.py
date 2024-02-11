@@ -15,6 +15,8 @@ def check_smapower_status(symbol):
         with warnings.catch_warnings():
             warnings.simplefilter(action='ignore', category=FutureWarning)
             smapower = (((present_close) - (sma_50.iloc[-1]))/ (sma_50.iloc[-1]))*100
+            print("Present Close Price:", present_close)
+            print("50-day SMA:", sma_50.iloc[-1])
             return smapower
     except Exception as e:
         print(f"Error: {e}")
@@ -22,6 +24,7 @@ def check_smapower_status(symbol):
 
 # Call the function with a symbol
 symbol = "^NSEI"
-print("Present Close Price:", present_close)
-print("50-day SMA:", sma_50.iloc[-1])
-print(check_smapower_status(symbol))
+smapower = check_smapower_status(symbol)
+if smapower is not None:
+    print("SMA Power:", smapower)
+
