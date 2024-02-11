@@ -45,16 +45,16 @@ for exchange, name_weight in exchanges.items():
         closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
         closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
 
-# Print index names in one row with sentiment color
-index_info = ""
+# Generate the formatted string
+formatted_string = ""
 for name, price_today in closing_prices_today.items():
-    if name in closing_prices_yesterday:
-        price_yesterday = closing_prices_yesterday[name]
-        sentiment = calculate_sentiment(price_today, price_yesterday)
-        sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
-        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]|"
+    formatted_string += f"{name}|"
 
-# Print all index names in one row with sentiment color
-console.print(index_info)
+# Append the closing price of NIFTY
+nifty_close_today = closing_prices_today.get("NIFTY", "Data Unavailable")
+formatted_string += f"NIFTY-{nifty_close_today}"
+
+# Print the formatted string
+console.print(formatted_string)
 
 
