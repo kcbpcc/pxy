@@ -19,16 +19,17 @@ def calculate_sentiment(today_close, yesterday_close):
 
 # Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
-    "^DJI": {"name": "Dow Jones", "weight": 0.35},
-    "^IXIC": {"name": "Nasdaq", "weight": 0.30},
-    "^GSPC": {"name": "S&P 500", "weight": 0.35},
-    "^FTSE": {"name": "FTSE 100", "weight": 0.20},
-    "^GDAXI": {"name": "DAX", "weight": 0.15},
-    "^FCHI": {"name": "CAC 40", "weight": 0.15},
-    "^N225": {"name": "Nikkei 225", "weight": 0.20},
-    "^HSI": {"name": "Hang Seng Index", "weight": 0.20},
-    "000001.SS": {"name": "Shanghai Composite", "weight": 0.20}
+    "^DJI": {"US-D&J", "weight": 0.35},
+    "^IXIC": {"US-Nasdaq", "weight": 0.30},
+    "^GSPC": {"US-S&p", "weight": 0.35},
+    "^FTSE": {"UK", "weight": 0.20},
+    "^GDAXI": {"Germany", "weight": 0.15},
+    "^FCHI": {"France", "weight": 0.15},
+    "^N225": {"Japan", "weight": 0.20},
+    "^HSI": {"HongKong", "weight": 0.20},
+    "000001.SS": {"China", "weight": 0.20}
 }
+
 
 # Create a console object for rich text output
 console = Console()
