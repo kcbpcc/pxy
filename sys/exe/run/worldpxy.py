@@ -18,17 +18,18 @@ def calculate_sentiment(today_close, yesterday_close):
         return "Data Unavailable"
 
 # Dictionary of major stock exchanges with weights based on their significance
-exchanges = {
-    "^DJI": {"name": "US|D&J", "weight": 0.35},
-    "^IXIC": {"name": "Nsdq", "weight": 0.30},
-    "^GSPC": {"name": "S&P", "weight": 0.35},
-    "^FTSE": {"name": "UK", "weight": 0.20},
-    "^GDAXI": {"name": "DE", "weight": 0.15},
-    "^FCHI": {"name": "FR", "weight": 0.15},
-    "^N225": {"name": "JP", "weight": 0.20},
-    "^HSI": {"name": "HK", "weight": 0.20},
-    "000001.SS": {"name": "CN", "weight": 0.20}
-}
+    exchanges = {
+        "^DJI": {"name": "US|D&J", "weight": 0.35},
+        "^IXIC": {"name": "Nsdq", "weight": 0.30},
+        "^GSPC": {"name": "S&P", "weight": 0.35},
+        "^FTSE": {"name": "UK", "weight": 0.20},
+        "^GDAXI": {"name": "DE", "weight": 0.15},
+        "^FCHI": {"name": "FR", "weight": 0.15},
+        "^N225": {"name": "JP", "weight": 0.20},
+        "^HSI": {"name": "HK", "weight": 0.20},
+        "000001.SS": {"name": "CN", "weight": 0.20},
+        "^NSEI": {"name": "Nifty", "weight": 0.25}  
+    }
 
 # Create a console object for rich text output
 console = Console()
