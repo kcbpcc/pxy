@@ -22,4 +22,6 @@ def check_smapower_status(symbol):
 
 # Call the function with a symbol
 symbol = "^NSEI"
+print("Present Close Price:", present_close)
+print("50-day SMA:", sma_50.iloc[-1])
 print(check_smapower_status(symbol))
