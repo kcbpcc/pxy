@@ -21,12 +21,6 @@ def check_smapower_status(symbol):
         print(f"Error: {e}")
         return None, None  # Return None for both cepower and pepower if an error occurs
 
-# Call the function with a symbol
-symbol = "^NSEI"
-cepower, pepower = check_smapower_status(symbol)
-if cepower is not None and pepower is not None:
-    print("cepower:", cepower)
-    print("pepower:", pepower)
 
 
     
