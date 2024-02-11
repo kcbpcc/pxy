@@ -3,12 +3,15 @@ from rich.console import Console
 
 # Function to determine sentiment based on closing prices
 def calculate_sentiment(today_close, yesterday_close):
-    if today_close > yesterday_close:
-        return "Bullish"
-    elif today_close < yesterday_close:
-        return "Bearish"
+    if today_close is not None and yesterday_close is not None:
+        if today_close > yesterday_close:
+            return "Bullish"
+        elif today_close < yesterday_close:
+            return "Bearish"
+        else:
+            return "Neutral"
     else:
-        return "Neutral"
+        return "Data Unavailable"
 
 # Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
@@ -33,8 +36,9 @@ closing_prices_yesterday = {}
 for exchange, name_weight in exchanges.items():
     ticker = yf.Ticker(exchange)
     hist_data = ticker.history(period="2d")
-    closing_prices_today[name_weight['name']] = hist_data['Close'][0]
-    closing_prices_yesterday[name_weight['name']] = hist_data['Close'][1]
+    if len(hist_data) >= 2:
+        closing_prices_today[name_weight['name']] = hist_data['Close'][0]
+        closing_prices_yesterday[name_weight['name']] = hist_data['Close'][1]
 
 # Print index names in one row with sentiment color
 index_info = ""
@@ -42,11 +46,7 @@ for name, price_today in closing_prices_today.items():
     price_yesterday = closing_prices_yesterday[name]
     sentiment = calculate_sentiment(price_today, price_yesterday)
     sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
-    index_info += f"[color({sentiment_style})]{name}[/{sentiment_style}]  "
+    index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]  "
 
 # Print all index names in one row with sentiment color
 console.print(index_info)
-
-
-
-
