@@ -1,25 +1,27 @@
 import yfinance as yf
 import warnings
 
-def check_nifty_status():
-    # Retrieve historical price data for Nifty50
-    data = yf.Ticker('^NSEI').history(period="5d", interval="1m")
+def check_smapower_status(symbol):
+    try:
+        # Retrieve historical price data for the given symbol
+        data = yf.Ticker(symbol).history(period="5d", interval="1m")
 
-    # Calculate the 50-day SMA of Nifty50
-    sma_50_nifty = data['Close'].rolling(window=50).mean()
+        # Calculate the 50-day SMA of the given symbol
+        sma_50 = data['Close'].rolling(window=50).mean()
 
-    # Get the present Nifty close
-    present_nifty_close = data['Close'].iloc[-1]
+        # Get the present close price of the given symbol
+        present_close = data['Close'].iloc[-1]
 
-    # Suppress FutureWarning temporarily for this section
-    with warnings.catch_warnings():
-        warnings.simplefilter(action='ignore', category=FutureWarning)
+        # Suppress FutureWarning temporarily for this section
+        with warnings.catch_warnings():
+            warnings.simplefilter(action='ignore', category=FutureWarning)
 
-        # Compare present Nifty close with 50-day SMA of Nifty50
-        if present_nifty_close > sma_50_nifty.iloc[-1]:
-            return "up"
-        else:
-            return "down"
+            smapower = (((present_close) - (sma_50.iloc[-1]))/ (sma_50.iloc[-1]))*100
 
-# Example usage
-#print(check_nifty_status())
+            return smapower
+
+    except Exception as e:
+        return f"Error: {e}"
+
+
+
