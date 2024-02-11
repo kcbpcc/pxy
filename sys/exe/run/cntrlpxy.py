@@ -567,7 +567,7 @@ try:
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
 ###########################################################################################################################################################################################################
-    print("━" * 40)
+    print("━" * 43)
     from smaftypxy import check_nifty_status
     from macdpxy import calculate_macd_signal
     
