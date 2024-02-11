@@ -1,6 +1,6 @@
 import yfinance as yf
 import warnings
-symbol = "tcs.ns"
+
 def check_smapower_status(symbol):
     try:
         # Retrieve historical price data for the given symbol
@@ -25,5 +25,6 @@ def check_smapower_status(symbol):
         print(f"Error: {e}")
         return None  # Return None if an error occurs
 
-
-
+# Call the function with a symbol
+symbol = "tcs.ns"
+print(check_smapower_status(symbol))
