@@ -14,17 +14,19 @@ def check_smapower_status(symbol):
         # Suppress FutureWarning temporarily for this section
         with warnings.catch_warnings():
             warnings.simplefilter(action='ignore', category=FutureWarning)
-            smapower = (((present_close) - (sma_50.iloc[-1]))/ (sma_50.iloc[-1]))*10000
-            print("Present Close Price:", present_close)
-            print("50-day SMA:", sma_50.iloc[-1])
-            return smapower
+            cepower = (((present_close) - (sma_50.iloc[-1]))/ (sma_50.iloc[-1]))*10000
+            pepower = (((sma_50.iloc[-1]) - (present_close))/ (sma_50.iloc[-1]))*10000
+            return cepower
+            return cepower
     except Exception as e:
         print(f"Error: {e}")
         return None  # Return None if an error occurs
 
 # Call the function with a symbol
 symbol = "^NSEI"
-smapower = check_smapower_status(symbol)
+cepower = check_smapower_status(symbol)
 if smapower is not None:
-    print("SMA Power:", smapower)
+    print("cepower:", cepower)
+    print("pepower:", pepower)
+    
 
