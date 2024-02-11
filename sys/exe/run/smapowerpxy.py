@@ -15,7 +15,7 @@ def check_smapower_status(symbol):
         cepower = (((present_close) - (sma_50)) / (sma_50)) * 10000
         
         # Calculate pepower with a maximum of 5
-        pepower = (((sma_50) - (present_close)) / (sma_50)) * 10000)
+        pepower = (((sma_50) - (present_close)) / (sma_50)) * 10000
         
         cepower = max(cepower, 1.4)
         pepower = max(pepower, 1.4)
