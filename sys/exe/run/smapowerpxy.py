@@ -17,14 +17,14 @@ def check_smapower_status(symbol):
             cepower = (((present_close) - (sma_50.iloc[-1]))/ (sma_50.iloc[-1]))*10000
             pepower = (((sma_50.iloc[-1]) - (present_close))/ (sma_50.iloc[-1]))*10000
             return cepower
-            return cepower
+            return pepower
     except Exception as e:
         print(f"Error: {e}")
         return None  # Return None if an error occurs
 
 # Call the function with a symbol
 symbol = "^NSEI"
-cepower = check_smapower_status(symbol)
+pepower, cepower = check_smapower_status(symbol)
 if smapower is not None:
     print("cepower:", cepower)
     print("pepower:", pepower)
