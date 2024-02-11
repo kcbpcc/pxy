@@ -1,30 +1,29 @@
 import requests
 from bs4 import BeautifulSoup
-from textblob import TextBlob
 from rich.console import Console
 from rich.style import Style
 
-# Function to fetch sentiment for a given exchange
-def fetch_sentiment(exchange):
+# Function to fetch closing price for a given exchange
+def fetch_closing_price(exchange):
     url = f"https://finance.yahoo.com/quote/%5E{exchange}/"
     response = requests.get(url)
-    sentiment = None
+    closing_price = None
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, "html.parser")
-        sentiment_element = soup.find("span", {"data-reactid": "50"})
-        if sentiment_element:
-            sentiment = sentiment_element.text.strip()
-    return sentiment
+        closing_price_element = soup.find("span", {"data-reactid": "50"})
+        if closing_price_element:
+            closing_price = float(closing_price_element.text.strip().replace(",", ""))
+    return closing_price
 
-# Function to determine sentiment color
-def sentiment_color(sentiment):
-    if sentiment == "Bullish":
-        return Style(color="green")
-    elif sentiment == "Bearish":
-        return Style(color="red")
+# Function to determine sentiment based on closing prices
+def calculate_sentiment(today_close, yesterday_close):
+    if today_close > yesterday_close:
+        return "Bullish"
+    elif today_close < yesterday_close:
+        return "Bearish"
     else:
-        return Style(color="default")
+        return "Neutral"
 
 # Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
@@ -42,28 +41,26 @@ exchanges = {
 # Create a console object for rich text output
 console = Console()
 
-# Initialize variables for calculating overall sentiment
-total_weighted_sentiment = 0
-total_weight = 0
+# Fetch closing prices for each exchange
+closing_prices_today = {}
+closing_prices_yesterday = {}
 
-# Fetch sentiment for each exchange and print individual market sentiment
-for exchange, details in exchanges.items():
-    sentiment = fetch_sentiment(exchange)
-    if sentiment:
-        sentiment_style = sentiment_color(sentiment)
-        console.print(f"{details['name']}: [{sentiment_style}]{sentiment}[/{sentiment_style}]")
-        
-        # Calculate weighted sentiment
-        if sentiment == "Bullish":
-            total_weighted_sentiment += details["weight"]
-        elif sentiment == "Bearish":
-            total_weighted_sentiment -= details["weight"]
-        total_weight += details["weight"]
+for exchange, name_weight in exchanges.items():
+    closing_prices_today[name_weight['name']] = fetch_closing_price(exchange)
+    # Assuming yesterday's close is not available, you can manually input the value
+    # Or you can fetch it from an external source if available
+    closing_prices_yesterday[name_weight['name']] = 0  # Update this with yesterday's closing prices
 
-# Calculate overall sentiment if there's any sentiment available
-if total_weight > 0:
-    overall_sentiment = "Bullish" if total_weighted_sentiment > 0 else "Bearish" if total_weighted_sentiment < 0 else "Neutral"
-    console.print(f"\nOverall Market Sentiment: {overall_sentiment}")
-else:
-    console.print("\nNo sentiment data available.")
+# Print index names in one row with sentiment color
+index_info = ""
+for name, price_today in closing_prices_today.items():
+    price_yesterday = closing_prices_yesterday[name]
+    if price_yesterday != 0:
+        sentiment = calculate_sentiment(price_today, price_yesterday)
+        sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
+        index_info += f"[color({sentiment_style})]{name}[/{sentiment_style}]  "
+
+# Print all index names in one row with sentiment color
+console.print(index_info)
+
 
