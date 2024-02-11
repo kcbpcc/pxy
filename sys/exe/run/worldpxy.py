@@ -1,5 +1,6 @@
 import yfinance as yf
 from rich.console import Console
+from rich.text import Text
 import warnings
 
 # Suppress warnings
@@ -45,16 +46,34 @@ for exchange, name_weight in exchanges.items():
         closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
         closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
 
-# Generate the formatted string
-formatted_string = ""
+# Generate the formatted string with color formatting based on sentiment
+formatted_string = Text()
 for name, price_today in closing_prices_today.items():
-    formatted_string += f"{name}|"
-
-# Append the closing price of NIFTY
-nifty_close_today = closing_prices_today.get("NIFTY", "Data Unavailable")
-formatted_string += f"NIFTY-{nifty_close_today}"
+    if name != "NIFTY":
+        sentiment = calculate_sentiment(price_today, closing_prices_yesterday[name])
+        if sentiment == "Bullish":
+            color = "bold green"
+        elif sentiment == "Bearish":
+            color = "bold red"
+        else:
+            color = "bold"
+        
+        formatted_string.append(f"{name}: ", style=color)
+        formatted_string.append(f"{price_today} | ", style=color)
+    else:
+        sentiment = calculate_sentiment(price_today, closing_prices_yesterday[name])
+        if sentiment == "Bullish":
+            color = "bold green"
+        elif sentiment == "Bearish":
+            color = "bold red"
+        else:
+            color = "bold"
+        
+        formatted_string.append(f"NIFTY: ", style=color)
+        formatted_string.append(f"{price_today}", style=color)
 
 # Print the formatted string
 console.print(formatted_string)
+
 
 
