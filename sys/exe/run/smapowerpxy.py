@@ -22,7 +22,8 @@ def check_smapower_status(symbol):
             return smapower
 
     except Exception as e:
-        return f"Error: {e}"
+        print(f"Error: {e}")
+        return None  # Return None if an error occurs
 
 
 
