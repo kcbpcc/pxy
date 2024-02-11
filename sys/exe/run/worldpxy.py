@@ -44,25 +44,15 @@ for exchange, name_weight in exchanges.items():
         closing_prices_today[name_weight['name']] = hist_data['Close'][0]
         closing_prices_yesterday[name_weight['name']] = hist_data['Close'][1]
 
-# Calculate overall sentiment
-overall_sentiment = sum(
-    weight * (1 if calculate_sentiment(closing_prices_today[name], closing_prices_yesterday[name]) == "Bullish" else -1)
-    for name, weight in exchanges.items()
-)
-
 # Print index names in one row with sentiment color
 index_info = ""
 for name, price_today in closing_prices_today.items():
     price_yesterday = closing_prices_yesterday[name]
     sentiment = calculate_sentiment(price_today, price_yesterday)
     sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
-    index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]  "
-
-# Print overall sentiment
-overall_sentiment_text = "Bullish" if overall_sentiment > 0 else "Bearish" if overall_sentiment < 0 else "Neutral"
-overall_sentiment_color = "green" if overall_sentiment > 0 else "red" if overall_sentiment < 0 else "default"
-index_info += f"\nOverall Sentiment: [{overall_sentiment_color}]{overall_sentiment_text}[/{overall_sentiment_color}]"
+    index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]|"
 
 # Print all index names in one row with sentiment color
 console.print(index_info)
+
 
