@@ -54,8 +54,20 @@ for name, price_today in closing_prices_today.items():
         sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
         index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]|"
 
-# Print all index names in one row with sentiment color
-console.print(index_info)
+price_today = None
+
+for exchange, name_weight in exchanges.items():
+    ticker = yf.Ticker(exchange)
+    if exchange == "^NSEI":  # Check if the exchange is NIFTY
+        price_today = ticker.history(period="1d")['Close'].iloc[-1]  # Fetch today's last trade price
+        break  # Exit loop once NIFTY price is found
+
+# Concatenate index_info and price_today into a single string
+output = index_info + f"{price_today}"
+
+# Print the concatenated string using console.print()
+console.print(output)
+
 
 
 
