@@ -17,6 +17,9 @@ def check_smapower_status(symbol):
         # Calculate pepower with a maximum of 5
         pepower = min((((sma_50) - (present_close)) / (sma_50)) * 10000, 5)
 
+        cepower = max(cepower, 5)
+        pepower = max(pepower, 5)
+        
         return cepower, pepower
     except Exception as e:
         print(f"Error: {e}")
