@@ -333,7 +333,7 @@ try:
     options_nse_factor = {"Bearish": 2.0, "Bear": 1.5, "Bull": 0.10, "Bullish": 0.5}.get(nse_action, 1.0)  
     exp_nse_factor = math.exp(options_nse_factor)
     from smapowerpxy import check_smapower_status 
-    cepower, pepower = check_smapower_status(^NSEI)
+    cepower, pepower = check_smapower_status('^NSEI')
     def assign_otpl(row):
     if 'CE' in row['key']:
         return cepower
