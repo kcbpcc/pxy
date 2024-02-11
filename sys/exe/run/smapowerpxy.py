@@ -12,11 +12,11 @@ def check_smapower_status(symbol):
         sma_50 = data['Close'].rolling(window=50).mean().iloc[-1]
 
         # Calculate cepower with a maximum of 5
-        cepower = min((((present_close) - (sma_50)) / (sma_50)) * 10000, 5)
-
+        cepower = (((present_close) - (sma_50)) / (sma_50)) * 10000
+        
         # Calculate pepower with a maximum of 5
-        pepower = min((((sma_50) - (present_close)) / (sma_50)) * 10000, 5)
-
+        pepower = (((sma_50) - (present_close)) / (sma_50)) * 10000)
+        
         cepower = max(cepower, 5)
         pepower = max(pepower, 5)
         
