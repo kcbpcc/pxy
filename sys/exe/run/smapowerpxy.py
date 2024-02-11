@@ -11,7 +11,8 @@ def check_smapower_status(symbol):
 
         # Get the present close price of the given symbol
         present_close = data['Close'].iloc[-1]
-
+        print("Present Close Price:", present_close)
+        print("50-day SMA:", sma_50.iloc[-1])
         # Suppress FutureWarning temporarily for this section
         with warnings.catch_warnings():
             warnings.simplefilter(action='ignore', category=FutureWarning)
