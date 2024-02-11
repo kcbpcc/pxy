@@ -1,5 +1,9 @@
 import yfinance as yf
 from rich.console import Console
+import warnings
+
+# Suppress warnings
+warnings.filterwarnings("ignore")
 
 # Function to determine sentiment based on closing prices
 def calculate_sentiment(today_close, yesterday_close):
@@ -50,3 +54,4 @@ for name, price_today in closing_prices_today.items():
 
 # Print all index names in one row with sentiment color
 console.print(index_info)
+
