@@ -328,13 +328,21 @@ try:
     from nftpxy import nse_action, nse_power, OPTIONS  
     threshold = 3
 ###########################################################################################################################################################################################################
-    from smapowerpxy import check_smapower_status 
-    cepower, pepower = check_smapower_status(^NSEI)
+
     nse_factor = {"Bearish": 0.5, "Bear": 1.0, "Bull": 1.5, "Bullish": 2.0}.get(nse_action, 1.0) 
     options_nse_factor = {"Bearish": 2.0, "Bear": 1.5, "Bull": 0.10, "Bullish": 0.5}.get(nse_action, 1.0)  
     exp_nse_factor = math.exp(options_nse_factor)
-    combined_df['opePL%'] = pepower
-    combined_df['ocePL%'] = cepower
+    from smapowerpxy import check_smapower_status 
+    cepower, pepower = check_smapower_status(^NSEI)
+    def assign_otpl(row):
+    if 'CE' in row['key']:
+        return cepower
+    elif 'PE' in row['key']:
+        return pepower
+    else:
+        return None  # Or any default value you prefer
+    # Apply the function to create/update the otPL% column
+    combined_df['otPL%'] = combined_df.apply(assign_otpl, axis=1)
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
 ###########################################################################################################################################################################################################
