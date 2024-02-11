@@ -21,5 +21,5 @@ def check_smapower_status(symbol):
         return None  # Return None if an error occurs
 
 # Call the function with a symbol
-symbol = "NIFTY2421521750PE.nfo"
+symbol = "NIFTY2421521750PE"
 print(check_smapower_status(symbol))
