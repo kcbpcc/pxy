@@ -1,6 +1,6 @@
 import yfinance as yf
 import warnings
-symbol = "NIFTY2421521750PE.NFO"
+symbol = "tcs.ns"
 def check_smapower_status(symbol):
     try:
         # Retrieve historical price data for the given symbol
