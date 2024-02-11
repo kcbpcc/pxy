@@ -59,7 +59,9 @@ price_today = None
 for exchange, name_weight in exchanges.items():
     ticker = yf.Ticker(exchange)
     if exchange == "^NSEI":  # Check if the exchange is NIFTY
-        price_today = ticker.history(period="1d")['Close'].iloc[-1]  # Fetch today's last trade price
+        price_today_float = ticker.history(period="1d")['Close'].iloc[-1]  # Fetch today's last trade price
+        # Extract the last four digits of the integer part
+        price_today = int(str(int(price_today_float))[-4:])
         break  # Exit loop once NIFTY price is found
 
 # Concatenate index_info and price_today into a single string
