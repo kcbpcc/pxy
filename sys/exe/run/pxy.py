@@ -72,8 +72,8 @@ while True:
     # Call the function and store the result in a variable
     subprocess.run(['python3', 'buypxy.py']) if peak == 'PEAKEND' else None
     print("━" * 42)  # Print another line of 42 dashes 
-    subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess 
     subprocess.run(['python3', 'worldpxy.py'])
+    subprocess.run(['python3', 'cndlpxy.py']) 
     # console.print("|", style=green_style if mktpxy in ["Buy", "Bull"] else red_style)  # Commented out line
     if optpxy == "Bull":
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=green_style)
