@@ -157,9 +157,9 @@ async def main():
     option_type = None  # Default value
     
     # Determine option type based on mktpxy
-    if mktpxy in ['Buy'] and nse_action in ['Bullish']:
+    if mktpxy == 'Buy' and nse_action == 'Bullish':
         option_type = 'CE'  # Call Option
-    elif mktpxy in ['Sell'] and nse_action in ['Bearish']:
+    elif mktpxy == 'Sell' and nse_action == 'Bearish':
         option_type = 'PE'  # Put Option
     else:
         # Handle the case where mktpxy doesn't match any condition
