@@ -1,4 +1,6 @@
 import requests
+import urllib.request
+import json
 
 # Your authentication credentials for the Upstock API
 API_KEY = "d55a84b5-4234-4402-b2dd-400013d69fdb"
