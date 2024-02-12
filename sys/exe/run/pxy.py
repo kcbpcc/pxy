@@ -47,14 +47,14 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
     if mktpxy == 'Bear':
-        print("It's a 🔴-Bear-🔴 time, selling now........")
+        print("It's a 🔴-Bear-🔴 time,selling now........")
     elif mktpxy == 'Bull':
-        print("It's a 🟢-Bull-🟢 time, Buying now.........")
+        print("It's a 🟢-Bull-🟢 time,Buying now.........")
     elif mktpxy == 'Sell':
-        print("It's a ⤵️-Sell-⤵️ time, selling now........")
+        print("It's a ⤵️-Sell-⤵️ time,Selling now........")
         subprocess.run(['python3', 'buyoptpxy.py']) #if SMAfty == 'down' and peak == 'NONPEAK' and optpxy == 'Sell' else print(f"No buyoptpxy as SMAfty={SMAfty} and peak={peak}")
     elif mktpxy == 'Buy':
-        print("It's a ⤴️-Buy-⤴️ time, Buying now..........")
+        print("It's a ⤴️-Buy-⤴️ time,Buying now..........")
         subprocess.run(['python3', 'buypxy.py']) if SMAfty == 'up' and peak == 'NONPEAK' else print(f"No buypxy as SMAfty={SMAfty} and peak={peak}")
         subprocess.run(['python3', 'buyoptpxy.py']) #if SMAfty == 'up' and peak == 'NONPEAK' and optpxy == 'Buy' else print(f"No buyoptpxy as SMAfty={SMAfty} and peak={peak}")
     elif mktpxy == 'None':
