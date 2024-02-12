@@ -52,11 +52,11 @@ while True:
         print("It's a 🟢-Bull-🟢 time,Buying now.........")
     elif mktpxy == 'Sell':
         print("It's a ⤵️-Sell-⤵️ time,Selling now........")
-        subprocess.run(['python3', 'buyoptpxy.py']) #if SMAfty == 'down' and peak == 'NONPEAK' and optpxy == 'Sell' else print(f"No buyoptpxy as SMAfty={SMAfty} and peak={peak}")
+        #subprocess.run(['python3', 'buyoptpxy.py']) #if SMAfty == 'down' and peak == 'NONPEAK' and optpxy == 'Sell' else print(f"No buyoptpxy as SMAfty={SMAfty} and peak={peak}")
     elif mktpxy == 'Buy':
         print("It's a ⤴️-Buy-⤴️ time,Buying now..........")
         subprocess.run(['python3', 'buypxy.py']) if SMAfty == 'up' and peak == 'NONPEAK' else print(f"No buypxy as SMAfty={SMAfty} and peak={peak}")
-        subprocess.run(['python3', 'buyoptpxy.py']) #if SMAfty == 'up' and peak == 'NONPEAK' and optpxy == 'Buy' else print(f"No buyoptpxy as SMAfty={SMAfty} and peak={peak}")
+        #subprocess.run(['python3', 'buyoptpxy.py']) #if SMAfty == 'up' and peak == 'NONPEAK' and optpxy == 'Buy' else print(f"No buyoptpxy as SMAfty={SMAfty} and peak={peak}")
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
     # Call the function and store the result in a variable
