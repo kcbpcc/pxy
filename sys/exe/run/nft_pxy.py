@@ -56,8 +56,5 @@ def get_nse_action():
 # Call the get_nse_action function
 nse_action, nse_power, Day_Change, Open_Change, OPTIONS = get_nse_action()
 if nse_action is not None:
-    print("NSE Action:", nse_action)
-    print("NSE Power:", nse_power)
-    print("Day Change:", Day_Change)
-    print("Open Change:", Open_Change)
-    print("OPTIONS:", OPTIONS)
+    print("NSE Action:", nse_action, "\nNSE Power:", nse_power, "\nDay Change:", Day_Change, "\nOpen Change:", Open_Change, "\nOPTIONS:", OPTIONS)
+
