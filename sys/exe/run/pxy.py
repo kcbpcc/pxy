@@ -54,8 +54,7 @@ while True:
         print("It's a ⤵️-Sell-⤵️ time, selling now........")
         subprocess.run(['python3', 'buyoptpxy.py']) if SMAfty == 'down' and peak == 'NONPEAK' else print(f"No buyoptpxy as SMAfty={SMAfty} and peak={peak}")
     elif mktpxy == 'Buy':
-        print("It's a ⤴️-Buy-⤴️ time, Buying now ", end='') 
-        print(f"{SMAfty}SMA|{peak}")
+        print("It's a ⤴️-Buy-⤴️ time, Buying now..........")
         subprocess.run(['python3', 'buypxy.py']) if SMAfty == 'up' and peak == 'NONPEAK' else print(f"No buypxy as SMAfty={SMAfty} and peak={peak}")
         subprocess.run(['python3', 'buyoptpxy.py']) if SMAfty == 'up' and peak == 'NONPEAK' else print(f"No buyoptpxy as SMAfty={SMAfty} and peak={peak}")
     elif mktpxy == 'None':
