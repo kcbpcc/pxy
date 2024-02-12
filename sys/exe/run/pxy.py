@@ -43,35 +43,26 @@ while True:
     from smaftypxy import check_nifty_status
     importlib.reload(sys.modules['smaftypxy'])  # Correct the usage
     SMAfty = check_nifty_status()
+    subprocess.run(['python3', 'cntrlpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
     if mktpxy == 'Bear':
         print("It's a 🔴-Bear-🔴 time, selling now........")
-        subprocess.run(['python3', 'cntrlpxy.py'])
-        subprocess.run(['python3', 'buyoptpxy.py'])
-        subprocess.run(['python3', 'cntrlpxy.py'])
     elif mktpxy == 'Bull':
         print("It's a 🟢-Bull-🟢 time, Buying now.........")
-        subprocess.run(['python3', 'cntrlpxy.py'])
-        subprocess.run(['python3', 'buyoptpxy.py'])
-        subprocess.run(['python3', 'cntrlpxy.py'])
     elif mktpxy == 'Sell':
         print("It's a ⤵️-Sell-⤵️ time, selling now........")
-        subprocess.run(['python3', 'cntrlpxy.py'])
-        subprocess.run(['python3', 'buyoptpxy.py'])
-        subprocess.run(['python3', 'cntrlpxy.py'])
+        subprocess.run(['python3', 'buyoptpxy.py']) if SMAfty == 'down' and peak == 'NONPEAK' else None
     elif mktpxy == 'Buy':
         print("It's a ⤴️-Buy-⤴️ time, Buying now..........")
         subprocess.run(['python3', 'buypxy.py']) if SMAfty == 'up' and peak == 'NONPEAK' else None
-        subprocess.run(['python3', 'cntrlpxy.py'])
-        subprocess.run(['python3', 'buyoptpxy.py'])
+        subprocess.run(['python3', 'buyoptpxy.py']) if SMAfty == 'up' and peak == 'NONPEAK' else None
     elif mktpxy == 'None':
-        subprocess.run(['python3', 'cntrlpxy.py'])
-        subprocess.run(['python3', 'buyoptpxy.py'])
         subprocess.run(['python3', 'cntrlpxy.py'])
     # Call the function and store the result in a variable
     subprocess.run(['python3', 'buypxy.py']) if peak == 'PEAKEND' else None
     print("━" * 42)  # Print another line of 42 dashes 
+    subprocess.run(['python3', 'cntrlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py'])
     subprocess.run(['python3', 'cndlpxy.py']) 
     # console.print("|", style=green_style if mktpxy in ["Buy", "Bull"] else red_style)  # Commented out line
