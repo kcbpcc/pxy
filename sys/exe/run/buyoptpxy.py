@@ -154,12 +154,19 @@ async def main():
     next_thursday = get_next_thursday()
     expiry_year, expiry_month, expiry_day = get_symbol_expiry_date(next_thursday)
 
+    option_type = None  # Default value
+    
     # Determine option type based on mktpxy
     if mktpxy in ['Buy']:
         option_type = 'CE'  # Call Option
     elif mktpxy in ['Sell']:
         option_type = 'PE'  # Put Option
-
+    else:
+        # Handle the case where mktpxy doesn't match any condition
+        # You can raise an exception, set a default value, or handle it in another way
+        print("Unknown value for mktpxy:", mktpxy)
+        sys.exit(1)  # For example, exit the program with an error status
+    
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
     if not check_existing_positions(broker, symbol):
