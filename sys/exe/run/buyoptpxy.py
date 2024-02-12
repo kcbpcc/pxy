@@ -157,14 +157,14 @@ async def main():
     option_type = None  # Default value
     
     # Determine option type based on mktpxy
-    if mktpxy == 'Buy' and nse_action == 'Bullish':
+    if mktpxy == 'Buy' and nse_action == 'Bullish' and SMAfty == 'down':
         option_type = 'CE'  # Call Option
-    elif mktpxy == 'Sell' and nse_action == 'Bearish':
+    elif mktpxy == 'Sell' and nse_action == 'Bearish' and SMAfty == 'up':
         option_type = 'PE'  # Put Option
     else:
         # Handle the case where mktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
-        print("Unknown value for mktpxy:", mktpxy)
+        #print("Unknown value for mktpxy:", mktpxy)
         sys.exit(1)  # For example, exit the program with an error status
     
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
