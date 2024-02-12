@@ -589,7 +589,7 @@ try:
         print("optpxy: options not activated, let's wait!")
     else:
         filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0]
-        filtered_df['option_power'] = filtered_df['smb_power'].apply(lambda smb_power: 
+        filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: ...)
             '⚪' if smb_power > 0.8 else (
                 '🟢' if 0.5 < smb_power <= 0.8 else (
                     '🟠' if 0.3 < smb_power <= 0.5 else (
