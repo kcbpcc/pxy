@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import time
 
 START_TIME = 200
-END_TIME = 220
+END_TIME = 214
 CSV_FILENAME = 'acvalue.csv'
 
 def process_acvalue(acvalue):
