@@ -76,8 +76,9 @@ def get_current_acvalue():
             # Handle the case when the file is empty
             # print("CSV file is empty. Unable to retrieve latest data.")
             return 0, 0
-from 
-# Example usage
+
+
+from acvalcln import remove_today_entry
 csv_file = 'acvalue.csv'
 remove_today_entry(csv_file)
 print("Today's entry removed from the CSV file.")
