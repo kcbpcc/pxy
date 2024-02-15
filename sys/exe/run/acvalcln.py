@@ -16,4 +16,7 @@ def remove_today_entry(csv_file):
         writer = csv.writer(file)
         writer.writerows(data)
 
-
+# Example usage
+csv_file = 'acvalue.csv'
+remove_today_entry(csv_file)
+print("Today's entry removed from the CSV file.")
