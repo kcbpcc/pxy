@@ -6,4 +6,4 @@ source ~/env/bin/activate
 cd ~/pxy/sys/exe/run
 
 # Run the Python script
-python3 optbuypxy.py
+python3 buyoptpxy.py
