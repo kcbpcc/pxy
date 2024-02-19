@@ -157,9 +157,9 @@ async def main():
     option_type = None  # Default value
     
     # Determine option type based on mktpxy
-    if mktpxy == 'Buy': # and nse_action == 'Bullish' and SMAfty == 'down'
+    if mktpxy == 'Buy'and nse_action == 'Bullish' and SMAfty == 'down':
         option_type = 'CE'  # Call Option
-    elif mktpxy == 'Sell': # and nse_action == 'Bearish' and SMAfty == 'up':
+    elif mkttpxy == 'Sell' and nse_action == 'Bearish' and SMAfty == 'up':
         option_type = 'PE'  # Put Option
     else:
         # Handle the case where mktpxy doesn't match any condition
