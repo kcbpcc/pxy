@@ -55,7 +55,6 @@ while True:
         subprocess.run(['python3', 'buyoptpxy.py'])
     elif mktpxy == 'Buy':
         print("It's a ⤴️-Buy-⤴️ time,Buying now..........")
-        subprocess.run(['python3', 'buypxy.py'])
         subprocess.run(['python3', 'buyoptpxy.py']) 
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
