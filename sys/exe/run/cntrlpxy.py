@@ -591,7 +591,7 @@ try:
         filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0].copy()
         
         if filtered_df.empty:
-            print("No data to process in filtered_df.")
+            print("no options yet in the swing .")
         else:
             # Define ANSI escape codes
             GREEN = '\033[92m'
