@@ -169,19 +169,12 @@ async def main():
     
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
-    if not check_existing_positions(broker, symbol):
-        funds_needed = calculate_required_funds(broker, symbol, 50)
-        available_cash = broker.kite.margins()["equity"]["available"]["live_balance"]
-
-        if funds_needed is not None and available_cash >= funds_needed:
-            #print("Got funds. Proceeding with order")
-            order_placed = await place_order(broker, symbol)
-            if not order_placed:
-                print("Order failed. Check error messages.")
-        else:
-            print(f"No funds {symbol} skip.")
+    if check_existing_positions(broker, symbol):
+        print(f"Existing position already found for {symbol}.")
     else:
-        print(f"Got {symbol} skip.")
+        order_placed = await place_order(broker, symbol)
+        if not order_placed:
+            print("Order failed. Check error messages.")
 
 # Run the main asynchronous function
 asyncio.run(main())
