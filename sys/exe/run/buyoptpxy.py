@@ -65,12 +65,6 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
 
 # Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
-    try:
-        df = pd.read_csv('fileHPdf.csv')
-        existing_symbols = set(df['tradingsymbol'].tolist())
-    except FileNotFoundError:
-        existing_symbols = set()
-
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
 
@@ -78,7 +72,7 @@ def check_existing_positions(broker, symbol):
         if position['tradingsymbol'] == symbol and position['quantity'] >= 50:
             return True  # Existing positions found
 
-    return symbol in existing_symbols
+    return False
 
 # Define function to place order for the symbol
 async def place_order(broker, symbol):
@@ -148,8 +142,9 @@ async def main():
         if not order_placed:
             print("Order failed. Check error messages.")
 
+# Define async function to run main function
+async def run_main():
+    await main()
+
 # Run the main asynchronous function
-asyncio.run(main())
-
-
-
+asyncio.run(run_main())
