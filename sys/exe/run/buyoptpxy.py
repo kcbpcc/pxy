@@ -157,24 +157,31 @@ async def main():
     option_type = None  # Default value
     
     # Determine option type based on mktpxy
-    if mktpxy == 'Buy':
+    if mktpxy in ['Buy']:
         option_type = 'CE'  # Call Option
-    elif mktpxy == 'Sell':
+    elif mktpxy in ['Sell']:
         option_type = 'PE'  # Put Option
     else:
         # Handle the case where mktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
-        print("Check:", "mkt=", mktpxy, "|nse=", nse_action, "|sma=", SMAfty)
-        sys.exit(0)  # For example, exit the program with an error status
+        print("Unknown value for mktpxy:", mktpxy)
+        sys.exit(1)  # For example, exit the program with an error status
     
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
-    if check_existing_positions(broker, symbol):
-        print(f"Existing position already found for {symbol}.")
+    if not check_existing_positions(broker, symbol):
+        funds_needed = calculate_required_funds(broker, symbol, 50)
+        available_cash = broker.kite.margins()["equity"]["available"]["live_balance"]
+
+        if funds_needed is not None and available_cash >= 1.1 * funds_needed:
+            #print("Got funds. Proceeding with order")
+            order_placed = await place_order(broker, symbol)
+            if not order_placed:
+                print("Order failed. Check error messages.")
+        else:
+            print(f"No funds {symbol} skip.")
     else:
-        order_placed = await place_order(broker, symbol)
-        if not order_placed:
-            print("Order failed. Check error messages.")
+        print(f"Got {symbol} skip.")
 
 # Run the main asynchronous function
 asyncio.run(main())
