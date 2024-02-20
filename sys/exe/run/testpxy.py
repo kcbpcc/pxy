@@ -1,8 +1,5 @@
 from datetime import datetime, timedelta
-import numpy as np
-import pandas as pd
-from nsepy import get_expiry_date
-from nsepy.derivatives import get_expiry_date
+from nsepy.derivatives import get_expiry_date, get_strike_prices
 
 # Define the NIFTY index symbol
 index_symbol = 'NIFTY'
