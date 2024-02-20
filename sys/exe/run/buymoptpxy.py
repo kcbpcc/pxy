@@ -47,21 +47,23 @@ from datetime import datetime, timedelta
 
 from datetime import datetime, timedelta
 
-def get_next_tuesday():
+from datetime import datetime, timedelta
+
+def get_next_monday():
     current_date = datetime.now()
-    # Calculate days until the next Tuesday (including today)
-    days_until_next_tuesday = (1 - current_date.weekday() + 7) % 7
+    # Calculate days until the next Monday (including today)
+    days_until_next_monday = (0 - current_date.weekday() + 7) % 7
 
-    # Add 7 days to find the Tuesday after tomorrow
-    days_until_next_tuesday += 7
+    # Add 7 days to find the Monday after tomorrow
+    days_until_next_monday += 7
 
-    # Calculate the date of the next Tuesday
-    next_tuesday = current_date + timedelta(days=days_until_next_tuesday)
+    # Calculate the date of the next Monday
+    next_monday = current_date + timedelta(days=days_until_next_monday)
     
     # Extract year, month, and day components
-    expiry_year = next_tuesday.strftime("%y")
-    expiry_month = next_tuesday.strftime("%m")
-    expiry_day = next_tuesday.strftime("%d")
+    expiry_year = next_monday.strftime("%y")
+    expiry_month = next_monday.strftime("%m")
+    expiry_day = next_monday.strftime("%d")
 
     # Ensure month is represented as single digit if less than October
     if int(expiry_month) < 10:
@@ -73,9 +75,10 @@ def get_next_tuesday():
     return expiry_year, expiry_month, expiry_day
 
 
-# Define function to construct symbol for the FINNIFTY Option
+# Define function to construct symbol for the Madcap Option
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
-    return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{moptions}{option_type}"
+    return f"MADCAP{expiry_year}{expiry_month}{expiry_day}{option_type}"
+
 
 
 # Define function to check existing positions for the symbol
@@ -134,7 +137,7 @@ async def main():
         # Reset sys.stdout to its original value
         sys.stdout = sys.__stdout__
 
-    expiry_year, expiry_month, expiry_day = get_next_wednesday()
+    expiry_year, expiry_month, expiry_day = get_next_monday()
     option_type = None  # Default value
     
     # Determine option type based on bmktpxy
