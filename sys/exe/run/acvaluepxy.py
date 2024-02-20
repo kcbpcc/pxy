@@ -22,14 +22,15 @@ def process_acvalue(acvalue):
 
     if not record_exists:
         rows.append({'date': current_date, 'acvalue': acvalue})
-
+    
         with open(CSV_FILENAME, mode='w', newline='') as csvfile:
             fieldnames = ['date', 'acvalue']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(rows)
     else:
-        #print(f"Record for {current_date} already exists.")
+        pass
+
 
 def get_current_acvalue():
     try:
