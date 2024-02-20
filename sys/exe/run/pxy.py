@@ -46,6 +46,8 @@ while True:
     importlib.reload(sys.modules['smaftypxy'])  # Correct the usage
     SMAfty = check_nifty_status()
     subprocess.run(['python3', 'cntrlpxy.py'])
+    subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
+
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
     if mktpxy == 'Bear':
