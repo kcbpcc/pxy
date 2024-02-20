@@ -58,8 +58,4 @@ def get_market_status_for_symbol(symbol, period="5d", interval="5m"):
     current_color, last_closed_color = calculate_last_twenty_heikin_ashi_colors(symbol, period, interval)
     return get_market_status(current_color, last_closed_color)
 
-# Example usage
-symbol = '^NSEI'
-market_status = get_market_status_for_symbol(symbol)
-print("Market Status:", market_status)
 
