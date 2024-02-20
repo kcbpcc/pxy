@@ -50,22 +50,7 @@ while True:
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
-    if mktpxy == 'Bear':
-        console.print(f"[bold]{random_message}[/bold]", style=standby_style, end="")
-        console.print("🔴Bear🔴")
-    elif mktpxy == 'Bull':
-        console.print(f"[bold]{random_message}[/bold]", style=standby_style, end="")
-        console.print("🔴Bear🔴")
-    elif mktpxy == 'Sell':
-        console.print(f"[bold]{random_message}[/bold]", style=standby_style, end="")
-        console.print("🔴Bear🔴")
-        subprocess.run(['python3', 'buyoptpxy.py'])
-    elif mktpxy == 'Buy':
-        console.print(f"[bold]{random_message}[/bold]", style=standby_style, end="")
-        console.print("🔴Bear🔴")
-        subprocess.run(['python3', 'buyoptpxy.py']) 
-    elif mktpxy == 'None':
-        subprocess.run(['python3', 'cntrlpxy.py'])
+    subprocess.run(['python3', 'buyoptpxy.py']) if mktpxy == "Buy" or mktpxy == "Sell" else None
     # Call the function and store the result in a variable
     subprocess.run(['python3', 'buypxy.py']) if peak == 'PEAKEND' else None
     print("━" * 42)  # Print another line of 42 dashes 
