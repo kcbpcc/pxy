@@ -531,8 +531,10 @@ try:
                         row['avg'] != 0 and
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
-                        (('CE' in row['key'] and row['PL%'] > 4 and mktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 4 and mktpxy in ["Buy", "Bull"]))
+                        (('CE' in row['key'] and row['PL%'] > 1.4 and optpxy in ["Sell", "Bear"]) or
+                         ('PE' in row['key'] and row['PL%'] > 1.4 and optpxy in ["Buy", "Bull"]) or
+                         ('CE' in row['key'] and row['PL%'] > row['otPL%']) or
+                         ('PE' in row['key'] and row['PL%'] > row['otPL%']))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
