@@ -48,17 +48,16 @@ while True:
     subprocess.run(['python3', 'cntrlpxy.py'])
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
-    nftmktpxy = get_market_status_for_symbol('^NSEI')
-    bnkmktpxy = get_market_status_for_symbol('^NSEBANK')
-    finmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
-    midmktpxy = get_market_status_for_symbol('NIFTY_MIDCAP_100.NS')
-    print("(nftmktpxy:", get_market_status_for_symbol('^NSEI') + ")", "(bnkmktpxy:", get_market_status_for_symbol('^NSEBANK') + ")", "(finmktpxy:", get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS') + ")", "(midmktpxy:", get_market_status_for_symbol('NIFTY_MIDCAP_100.NS') + ")")
+    nmktpxy = get_market_status_for_symbol('^NSEI')
+    bmktpxy = get_market_status_for_symbol('^NSEBANK')
+    fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
+    mmktpxy = get_market_status_for_symbol('NIFTY_MIDCAP_100.NS')
 
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
-    subprocess.run(['python3', 'buyoptpxy.py']) if mktpxy == "Buy" or mktpxy == "Sell" else None
+    subprocess.run(['python3', 'buynoptpxy.py']) if nmktpxy == "Buy" or nmktpxy == "Sell" else None
     # Call the function and store the result in a variable
     subprocess.run(['python3', 'buypxy.py']) if peak == 'PEAKEND' else None
     print("━" * 42)  # Print another line of 42 dashes 
