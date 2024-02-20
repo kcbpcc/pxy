@@ -43,24 +43,33 @@ async def send_telegram_message(message_text):
         print(f"Error sending message to Telegram: {e}")
 
 # Define function to get this week's Wednesday date
-def get_this_wednesday():
+from datetime import datetime, timedelta
+
+def get_next_wednesday():
     current_date = datetime.now()
-    days_until_this_wednesday = (2 - current_date.weekday() + 7) % 7
+    # Calculate days until the next Wednesday (including today)
+    days_until_next_wednesday = (2 - current_date.weekday() + 7) % 7
 
-    # Ensure the expiry day is always Wednesday
-    expiry_date = current_date + timedelta(days=days_until_this_wednesday)
-    expiry_year = expiry_date.strftime("%y")
-    expiry_month = expiry_date.strftime("%m")
-    expiry_day = expiry_date.strftime("%d")
+    # Add 7 days to find the Wednesday after tomorrow
+    days_until_next_wednesday += 7
 
-    # Ensure the month is one digit until October
+    # Calculate the date of the next Wednesday
+    next_wednesday = current_date + timedelta(days=days_until_next_wednesday)
+    
+    # Extract year, month, and day components
+    expiry_year = next_wednesday.strftime("%y")
+    expiry_month = next_wednesday.strftime("%m")
+    expiry_day = next_wednesday.strftime("%d")
+
+    # Ensure month is represented as single digit if less than October
     if int(expiry_month) < 10:
         expiry_month = expiry_month[1]
 
-    # Ensure the date is always two digits
+    # Ensure day is represented as two digits
     expiry_day = expiry_day.zfill(2)
 
     return expiry_year, expiry_month, expiry_day
+
 
 # Define function to construct symbol for the Bank Nifty Option
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
