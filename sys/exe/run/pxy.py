@@ -51,14 +51,14 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
     if mktpxy == 'Bear':
-        print("It's a 🔴-Bear-🔴 time,selling now........")
+        print("🔴-Bear-🔴")
     elif mktpxy == 'Bull':
-        print("It's a 🟢-Bull-🟢 time,Buying now.........")
+        print("🟢-Bull-🟢")
     elif mktpxy == 'Sell':
-        print("It's a ⤵️-Sell-⤵️ time,Selling now........")
+        print("⤵️-Sell-⤵️")
         subprocess.run(['python3', 'buyoptpxy.py'])
     elif mktpxy == 'Buy':
-        print("It's a ⤴️-Buy-⤴️ time,Buying now..........")
+        print("⤴️-Buy-⤴️")
         subprocess.run(['python3', 'buyoptpxy.py']) 
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
