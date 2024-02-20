@@ -10,8 +10,7 @@ import sys
 import yfinance as yf
 import os
 from cyclepxy import cycle
-from selfpxy import get_random_spiritual_message
-random_message = get_random_spiritual_message()
+
 subprocess.run(['python3', 'cpritepxy.py'])
 console = Console()
 bear_style = Style(color="red")
@@ -22,6 +21,9 @@ green_style = Style(color="bright_green")
 red_style = Style(color="bright_red")
 standby_style = Style(color="yellow")  
 while True:
+    from selfpxy import get_random_spiritual_message
+    importlib.reload(sys.modules['selfpxy'])  # Correct the usage
+    random_message = get_random_spiritual_message()
     from mktpxy import get_market_check
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
     onemincandlesequance, mktpxy = get_market_check()
@@ -76,6 +78,7 @@ while True:
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
     print("━" * 42)
+    
     console.print("[bold]" + random_message + "[/bold]", style=standby_style)
     from rich.console import Console
     from rich.style import Style
