@@ -4,12 +4,9 @@ import time
 import subprocess
 
 
-START_TIME = 200
-END_TIME = 214
 CSV_FILENAME = 'acvalue.csv'
 
 def process_acvalue(acvalue):
-    current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
 
     try:
@@ -21,23 +18,18 @@ def process_acvalue(acvalue):
         print(f"Error reading CSV file: {e}")
         return
 
-    if START_TIME <= current_utc_time <= END_TIME:
-        record_exists = any(row['date'] == current_date for row in rows)
+    record_exists = any(row['date'] == current_date for row in rows)
 
-        if not record_exists:
-            rows.append({'date': current_date, 'acvalue': acvalue})
+    if not record_exists:
+        rows.append({'date': current_date, 'acvalue': acvalue})
 
-            with open(CSV_FILENAME, mode='w', newline='') as csvfile:
-                fieldnames = ['date', 'acvalue']
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                writer.writeheader()
-                writer.writerows(rows)
-        else:
-            print(f"Record for {current_date} already exists. Not updating.")
-
+        with open(CSV_FILENAME, mode='w', newline='') as csvfile:
+            fieldnames = ['date', 'acvalue']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
     else:
-        if not any(row['date'] == current_date for row in rows):
-            print(f"{datetime.utcnow().strftime('%Y-%m-%d')} A/C Value will be updated @9:09")
+        print(f"Record for {current_date} already exists. Not updating.")
 
 def get_current_acvalue():
     try:
@@ -78,3 +70,4 @@ def get_current_acvalue():
             # Handle the case when the file is empty
             # print("CSV file is empty. Unable to retrieve latest data.")
             return 0, 0
+
