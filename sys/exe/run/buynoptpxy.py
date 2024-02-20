@@ -131,7 +131,8 @@ async def main():
     else:
         # Handle the case where mktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
-        print("Check:", "mkt=", mktpxy, "|nse=", nse_action, "|sma=", SMAfty)
+        symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
+        print("nmktpxy=", nmktpxy, "|symbol=", symbol)
         sys.exit(0)  # For example, exit the program with an error status
     
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
