@@ -145,10 +145,12 @@ async def main():
     else:
         # Handle the case where bmktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
+        symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
+        print("fmktpxy=", fmktpxy, "|symbol=", symbol)
         sys.exit(0)  # For example, exit the program with an error status
     
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
-    print("fmktpxy=", fmktpxy, "|symbol=", symbol)
+
 
     if check_existing_positions(broker, symbol):
         print(f"already there {symbol}.")
