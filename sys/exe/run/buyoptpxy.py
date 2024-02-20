@@ -1,29 +1,23 @@
-from datetime import datetime, timedelta
-import pandas as pd
-import traceback
-import sys
+import asyncio
 import logging
+import sys
+import traceback
+from datetime import datetime, timedelta
+import telegram
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from nftpxy import OPTIONS
-import telegram
-import asyncio
 from mktpxy import get_market_check
-
-onemincandlesequance, mktpxy = get_market_check()
-from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
 from optpxy import get_optpxy
-
-optpxy = get_optpxy()
-from cyclepxy import cycle
 from utcpxy import peak_time
-
-peak = peak_time()
 from macdpxy import calculate_macd_signal
-
-macd = calculate_macd_signal("^NSEI")
 from smaftypxy import check_nifty_status
 
+# Fetching market data and other necessary information
+onemincandlesequance, mktpxy = get_market_check()
+optpxy = get_optpxy()
+peak = peak_time()
+macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
 
 # Define the function to send a message to Telegram
@@ -43,7 +37,6 @@ async def send_telegram_message(message_text):
         # Handle the exception (e.g., log it) and continue with your code
         print(f"Error sending message to Telegram: {e}")
 
-
 # Define function to get next Thursday date
 def get_next_thursday():
     current_date = datetime.now()
@@ -54,7 +47,6 @@ def get_next_thursday():
         days_until_next_thursday += 7
 
     return current_date + timedelta(days=days_until_next_thursday)
-
 
 # Define function to calculate expiry date for the symbol
 def get_symbol_expiry_date(expiry_date):
@@ -71,39 +63,9 @@ def get_symbol_expiry_date(expiry_date):
 
     return expiry_year, expiry_month, expiry_day
 
-
 # Define function to construct symbol for the NIFTY Put Option
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{OPTIONS}{option_type}"
-
-
-# Define function to check existing positions for the symbol
-def check_existing_positions(broker, symbol):
-    try:
-        df = pd.read_csv('fileHPdf.csv')
-        existing_symbols = set(df['tradingsymbol'].tolist())
-    except FileNotFoundError:
-        existing_symbols = set()
-
-    positions_response = broker.kite.positions()
-    positions_net = positions_response['net']
-
-    for position in positions_net:
-        if position['tradingsymbol'] == symbol and position['quantity'] >= 50:
-            return True  # Existing positions found
-
-    return symbol in existing_symbols
-
-
-# Define function to calculate funds needed for the symbol with a given quantity
-def calculate_required_funds(broker, symbol, quantity):
-    resp = broker.kite.ltp([f"NFO:{symbol}"])
-    if resp and isinstance(resp, dict) and f"NFO:{symbol}" in resp:
-        ltp = resp[f"NFO:{symbol}"]['last_price']
-        return ltp * quantity
-    else:
-        return None
-
 
 # Define function to place order for the symbol
 async def place_order(broker, symbol):
@@ -125,7 +87,6 @@ async def place_order(broker, symbol):
     except Exception as e:
         print(f"Error placing Option order for {symbol}: {e}")
         return False  # Order failed
-
 
 # Main function to orchestrate the workflow
 async def main():
@@ -169,23 +130,9 @@ async def main():
     
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
-    if not check_existing_positions(broker, symbol):
-        funds_needed = calculate_required_funds(broker, symbol, 50)
-        available_cash = broker.kite.margins()["equity"]["available"]["live_balance"]
-
-        if funds_needed is not None: #  and available_cash >= 1.1 * funds_needed
-            #print("Got funds. Proceeding with order")
-            order_placed = await place_order(broker, symbol)
-            if not order_placed:
-                print("Order failed. Check error messages.")
-        else:
-            print(f"No funds {symbol} skip.")
-    else:
-        print(f"Got {symbol} skip.")
+    order_placed = await place_order(broker, symbol)
+    if not order_placed:
+        print("Order failed. Check error messages.")
 
 # Run the main asynchronous function
 asyncio.run(main())
-
-
-
-
