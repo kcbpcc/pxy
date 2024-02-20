@@ -29,7 +29,7 @@ def process_acvalue(acvalue):
             writer.writeheader()
             writer.writerows(rows)
     else:
-        print(f"Record for {current_date} already exists.")
+        #print(f"Record for {current_date} already exists.")
 
 def get_current_acvalue():
     try:
