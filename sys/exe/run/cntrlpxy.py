@@ -531,8 +531,8 @@ try:
                         row['avg'] != 0 and
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
-                        (('CE' in row['key'] and row['PL%'] > 1.4 and optpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 1.4 and optpxy in ["Buy", "Bull"]) or
+                        (('CE' in row['key'] and row['PL%'] > 1.4 and mktpxy in ["Sell", "Bear"]) or
+                         ('PE' in row['key'] and row['PL%'] > 1.4 and mktpxy in ["Buy", "Bull"]) or
                          ('CE' in row['key'] and row['PL%'] > row['otPL%']) or
                          ('PE' in row['key'] and row['PL%'] > row['otPL%']))
                     ):
