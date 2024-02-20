@@ -9,7 +9,8 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change
-from strikpxy import noptions
+from strikpxy import import get_prices
+noptions, _, _, _ = get_prices()
 from optpxy import get_optpxy
 from cyclepxy import cycle
 from utcpxy import peak_time
