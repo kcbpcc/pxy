@@ -1,5 +1,5 @@
 # bordpxy.py
-from acvalue import process_acvalue, get_current_acvalue
+from acvaluepxy import process_acvalue, get_current_acvalue
 from optpxy import get_optpxy
 import subprocess
 optpxy = get_optpxy()
