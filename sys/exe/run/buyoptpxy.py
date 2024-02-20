@@ -71,7 +71,7 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
 async def place_order(broker, symbol):
     try:
         order_id = broker.order_place(
-            tradingsymbol=symbol,
+            tradingsymbol=f'NFO:{symbol}',
             quantity=50,
             exchange="NFO",
             transaction_type='BUY',
