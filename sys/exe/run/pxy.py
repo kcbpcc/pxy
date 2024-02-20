@@ -51,18 +51,18 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
     if mktpxy == 'Bear':
-        print(f"\033[1m{random_message}\033[0m", end="")
-        print("🔴Bear🔴")
+        console.print(f"[bold]{random_message}[/bold]", style=standby_style, end="")
+        console.print("🔴Bear🔴")
     elif mktpxy == 'Bull':
-        print(f"\033[1m{random_message}\033[0m", end="")
-        print("🟢Bull🟢")
+        console.print(f"[bold]{random_message}[/bold]", style=standby_style, end="")
+        console.print("🔴Bear🔴")
     elif mktpxy == 'Sell':
-        print(f"\033[1m{random_message}\033[0m", end="")
-        print("🟢Sell🔴")
+        console.print(f"[bold]{random_message}[/bold]", style=standby_style, end="")
+        console.print("🔴Bear🔴")
         subprocess.run(['python3', 'buyoptpxy.py'])
     elif mktpxy == 'Buy':
-        print(f"\033[1m{random_message}\033[0m", end="")
-        print("🔴Buy🟢")
+        console.print(f"[bold]{random_message}[/bold]", style=standby_style, end="")
+        console.print("🔴Bear🔴")
         subprocess.run(['python3', 'buyoptpxy.py']) 
     elif mktpxy == 'None':
         subprocess.run(['python3', 'cntrlpxy.py'])
