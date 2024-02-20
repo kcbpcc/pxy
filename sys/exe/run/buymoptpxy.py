@@ -77,7 +77,7 @@ def get_next_monday():
 
 # Define function to construct symbol for the Madcap Option
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
-    return f"MADCAP{expiry_year}{expiry_month}{expiry_day}{option_type}"
+    return f"MIDCAPNIFTY{expiry_year}{expiry_month}{expiry_day}{option_type}"
 
 
 
