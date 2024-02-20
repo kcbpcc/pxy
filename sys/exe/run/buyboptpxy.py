@@ -16,6 +16,8 @@ from cyclepxy import cycle
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
 from smaftypxy import check_nifty_status
+from mktrndpxy import get_market_status_for_symbol
+bmktpxy = get_market_status_for_symbol('^NSEBANK')
 
 onemincandlesequance, mktpxy = get_market_check()
 optpxy = get_optpxy()
@@ -123,15 +125,15 @@ async def main():
     expiry_year, expiry_month, expiry_day = get_this_wednesday()
     option_type = None  # Default value
     
-    # Determine option type based on mktpxy
-    if mktpxy == 'Buy':
+    # Determine option type based on bmktpxy
+    if bmktpxy == 'Buy':
         option_type = 'CE'  # Call Option
-    elif mktpxy == 'Sell':
+    elif bmktpxy == 'Sell':
         option_type = 'PE'  # Put Option
     else:
-        # Handle the case where mktpxy doesn't match any condition
+        # Handle the case where bmktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
-        print("Check:", "mkt=", mktpxy, "|nse=", nse_action, "|sma=", SMAfty)
+        print("Check:", "mkt=", bmktpxy, "|nse=", nse_action, "|sma=", SMAfty)
         sys.exit(0)  # For example, exit the program with an error status
     
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
