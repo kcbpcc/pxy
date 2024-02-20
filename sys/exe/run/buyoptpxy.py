@@ -136,7 +136,7 @@ async def main():
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
     if check_existing_positions(broker, symbol):
-        print(f"Existing position already found for {symbol}.")
+        print(f"already there {symbol}.")
     else:
         order_placed = await place_order(broker, symbol)
         if not order_placed:
