@@ -46,6 +46,13 @@ while True:
     importlib.reload(sys.modules['smaftypxy'])  # Correct the usage
     SMAfty = check_nifty_status()
     subprocess.run(['python3', 'cntrlpxy.py'])
+    subprocess.run(['python3', 'mktrndpxy.py'])
+    importlib.reload(sys.modules['mktrndpxy'])
+    nftmktpxy = get_market_status_for_symbol('^NSEI')
+    bnkmktpxy = get_market_status_for_symbol('^NSEBANK')
+    finmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
+    midmktpxy = get_market_status_for_symbol('^CRSMID')
+
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
