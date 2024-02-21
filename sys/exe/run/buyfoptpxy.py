@@ -17,8 +17,13 @@ from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
 from smaftypxy import check_nifty_status
 from mktrndpxy import get_market_status_for_symbol
+fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
 
-# Define the function to send a message to Telegram
+onemincandlesequance, mktpxy = get_market_check()
+optpxy = get_optpxy()
+peak = peak_time()
+macd = calculate_macd_signal("^NSEI")
+SMAfty = check_nifty_status()
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
