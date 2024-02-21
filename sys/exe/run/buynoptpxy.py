@@ -53,12 +53,15 @@ def get_next_thursday():
     # Calculate the date of the next Thursday
     next_thursday = current_date + timedelta(days=days_until_next_thursday)
 
-    # Check if next Thursday is the last Thursday of the month
-    last_day_of_month = (current_date.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+    # Ensure next Thursday is at least 5 days away
     if (next_thursday - current_date).days < 5:
-        # Find the subsequent Thursday
         next_thursday += timedelta(days=7)
-        return next_thursday.strftime("%y"), next_thursday.strftime("%b").upper(), None
+
+    # Check if next Thursday is the last Thursday of the month
+    last_day_of_month = (next_thursday.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+    if next_thursday.month != (next_thursday + timedelta(days=7)).month:
+        if next_thursday.day > last_day_of_month.day - 7:
+            return next_thursday.strftime("%y"), next_thursday.strftime("%b").upper(), None
 
     # Extract year, month, and day components
     expiry_year = next_thursday.strftime("%y")  # Represent year with two digits
@@ -71,7 +74,6 @@ def get_next_thursday():
     expiry_day = next_thursday.strftime("%d").zfill(2)  # Ensure date is represented with 2 digits
 
     return expiry_year, expiry_month, expiry_day
-
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     if expiry_day is None:
