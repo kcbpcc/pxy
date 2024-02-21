@@ -47,6 +47,8 @@ from datetime import datetime, timedelta
 
 from datetime import datetime, timedelta
 
+from datetime import datetime, timedelta
+
 def get_next_tuesday():
     current_date = datetime.now()
     # Calculate days until the next Tuesday (including today)
@@ -58,6 +60,12 @@ def get_next_tuesday():
     # Calculate the date of the next Tuesday
     next_tuesday = current_date + timedelta(days=days_until_next_tuesday)
     
+    # Check if next Tuesday is the last Tuesday of the month
+    last_day_of_month = (current_date.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+    if next_tuesday.month != (next_tuesday + timedelta(days=7)).month:
+        if next_tuesday.day > last_day_of_month.day - 7:
+            return next_tuesday.year, next_tuesday.month, None
+
     # Extract year, month, and day components
     expiry_year = next_tuesday.strftime("%y")
     expiry_month = next_tuesday.strftime("%m")
@@ -75,7 +83,11 @@ def get_next_tuesday():
 
 # Define function to construct symbol for the FINNIFTY Option
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
-    return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{foptions}{option_type}"
+    if expiry_day is None:
+        return f"FINNIFTY{expiry_year}{expiry_month}{foptions}{option_type}"
+    else:
+        return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{foptions}{option_type}"
+
 
 
 # Define function to check existing positions for the symbol
