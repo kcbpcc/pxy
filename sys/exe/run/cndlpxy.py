@@ -70,32 +70,27 @@ def dayprinter(o, h, l, c, prev_close):
             n = round(((o - l) / (h - l)) * 100)
             x = round(((c - o) / (h - l)) * 100)
             m = 100 - n - x
+            candle_color = Fore.GREEN  # Set candle color to green for upward movement
         else:
             n = round(((c - l) / (h - l)) * 100)
             x = round(((o - c) / (h - l)) * 100)
             m = 100 - n - x
+            candle_color = Fore.RED  # Set candle color to red for downward movement
     
         # Calculate the actual lengths to be printed
         n_length = min(int((n / 100) * max_total_length), max_total_length)
         x_length = min(int((x / 100) * max_total_length), max_total_length)
         m_length = min(int((m / 100) * max_total_length), max_total_length)
         
-        # Determine the color of the candle based on price movement
-        candle_color = Fore.GREEN if c > o else Fore.RED
-        
         # Print both the previous day's close and today's close in a single sentence with color
         SMAftywave = (f"{Fore.GREEN}ﮩﮩ٨") if SMAfty == 'up' else (f"{Fore.RED}ﮩﮩ٨")
         print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}", end='') 
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
-    
         print(candle_color + '█' * x_length + Style.RESET_ALL, end='')
-        
         print(Fore.LIGHTWHITE_EX + '━' * m_length, end='')
-    
         print (f"⚡{nse_power:.2f}{onemincandlesequance}🚦{macd}{SMAftywave}")
     except Exception as e:
         pass
-
 
 
 def option_to_trade():
