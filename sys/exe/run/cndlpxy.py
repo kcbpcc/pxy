@@ -27,7 +27,7 @@ colorama.init(autoreset=True)
 
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
 
-def get_nifty50_data(period="2d"):
+def get_nifty50_data(period="7d"):
     ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
 
     try:
@@ -61,34 +61,24 @@ def get_today_close():
 from colorama import Fore, Style
 day_change_sign = '+' if Day_Change > 0 else ''
 open_change_sign = '+' if Open_Change > 0 else ''
-from colorama import Fore, Style
-
-from colorama import Fore, Style
-
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 10  # Maximum total length allowed for printing
     
     try:
         # Calculate the lengths of different segments as percentages
-        total_range = h - l
-        
-        if o < c:
-            body_start = o - l
-            body_end = c - l
+        if c > o:
+            n = round(((o - (l-1)) / ((h+1) - (l-1))) * 100)
+            x = round(((c - o) / ((h+1) - (l-1))) * 100)
+            m = 100 - n - x
         else:
-            body_start = c - l
-            body_end = o - l
-
-        body_length_percent = abs(body_end - body_start) / total_range * 100
-        wick_length_percent = ((h - max(o, c)) / total_range) * 100
-        
+            n = round(((c - (l-1)) / ((h+1) - (l-1))) * 100)
+            x = round(((o - c) / ((h+1) - (l-1))) * 100)
+            m = 100 - n - x
+    
         # Calculate the actual lengths to be printed
-        x_length = min(int((body_length_percent / 100) * max_total_length), max_total_length)
-        n_length = min(int((wick_length_percent / 100) * max_total_length), max_total_length)
-        m_length = min(int((wick_length_percent / 100) * max_total_length), max_total_length)
-        
-        # Print OHLC values
-        print(f"OHLC: {o:.2f}, {h:.2f}, {l:.2f}, {c:.2f}")
+        n_length = min(int((n / 100) * max_total_length), max_total_length)
+        x_length = min(int((x / 100) * max_total_length), max_total_length)
+        m_length = min(int((m / 100) * max_total_length), max_total_length)
         
         # Print both the previous day's close and today's close in a single sentence with color
         SMAftywave = (f"{Fore.GREEN} ﮩ٨ـﮩﮩ٨ـ") if SMAfty == 'up' else (f"{Fore.RED} ﮩ٨ـﮩﮩ٨ـ")
@@ -110,7 +100,6 @@ def dayprinter(o, h, l, c, prev_close):
     color = Fore.GREEN if c > prev_close else Fore.RED
 
 
-
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
     today_open = today_data['Open']
@@ -127,4 +116,3 @@ if previous_day_close is not None and today_close is not None:
     dayprinter(*today_data, previous_day_close)
 else:
     print("Unable to fetch data.")
-
