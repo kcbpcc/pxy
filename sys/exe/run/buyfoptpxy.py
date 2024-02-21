@@ -150,7 +150,9 @@ async def main():
     else:
         # Handle the case where fmktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
-        print("fmktpxy=", fmktpxy)
+        symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
+        print("fmktpxy=", fmktpxy, "|symbol=", symbol)
+        
         sys.exit(0)  # For example, exit the program with an error status
     
     # Construct the symbol based on the determined expiry and option type
