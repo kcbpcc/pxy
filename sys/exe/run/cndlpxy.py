@@ -81,10 +81,10 @@ def dayprinter(o, h, l, c, prev_close):
         m_length = min(int((m / 100) * max_total_length), max_total_length)
         
         # Print both the previous day's close and today's close in a single sentence with color
-        SMAftywave = (f"{Fore.GREEN}ﮩﮩ٨") if SMAfty == 'up' else (f"{Fore.RED}ﮩﮩ٨")
+        SMAftywave = (f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ") if SMAfty == 'up' else (f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ")
         print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}", end='') 
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
-    
+        
         if c > o:
             print(Fore.GREEN + '█' * x_length + Style.RESET_ALL, end='')
         elif o > c:
