@@ -77,9 +77,9 @@ def get_next_monday():
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     if expiry_day is None:
-        return f"MIDCAP{expiry_year}{expiry_month}{moptions}{option_type}"
+        return f"MIDCPNIFTY{expiry_year}{expiry_month}{moptions}{option_type}"
     else:
-        return f"MIDCAP{expiry_year}{expiry_month}{expiry_day}{moptions}{option_type}"
+        return f"MIDCPNIFTY{expiry_year}{expiry_month}{expiry_day}{moptions}{option_type}"
 
 
 
