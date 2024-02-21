@@ -17,20 +17,13 @@ from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
 from smaftypxy import check_nifty_status
 from mktrndpxy import get_market_status_for_symbol
-fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
-
-onemincandlesequance, mktpxy = get_market_check()
-optpxy = get_optpxy()
-peak = peak_time()
-macd = calculate_macd_signal("^NSEI")
-SMAfty = check_nifty_status()
 
 # Define the function to send a message to Telegram
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
-        bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
-        user_usernames = '-4135910842'  # Replace with your Telegram username or ID
+        bot_token = 'YOUR_BOT_TOKEN'  # Replace with your actual bot token
+        user_usernames = 'YOUR_TELEGRAM_ID'  # Replace with your Telegram username or ID
 
         # Create a Telegram bot
         bot = telegram.Bot(token=bot_token)
@@ -42,9 +35,7 @@ async def send_telegram_message(message_text):
         # Handle the exception (e.g., log it) and continue with your code
         print(f"Error sending message to Telegram: {e}")
 
-# Define function to get this week's Wednesday date
-from datetime import datetime, timedelta
-
+# Define function to get this week's Tuesday date
 def get_next_tuesday():
     current_date = datetime.now()
     # Calculate days until the next Tuesday
@@ -76,9 +67,6 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
         return f"FINNIFTY{expiry_year}{expiry_month}00{option_type}"
     else:
         return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{option_type}"
-
-
-
 
 # Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
@@ -139,20 +127,19 @@ async def main():
     expiry_year, expiry_month, expiry_day = get_next_tuesday()
     option_type = None  # Default value
     
-    # Determine option type based on bmktpxy
+    # Determine option type based on fmktpxy
     if fmktpxy == 'Buy':
         option_type = 'CE'  # Call Option
     elif fmktpxy == 'Sell':
         option_type = 'PE'  # Put Option
     else:
-        # Handle the case where bmktpxy doesn't match any condition
+        # Handle the case where fmktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
-        symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
-        print("fmktpxy=", fmktpxy, "|symbol=", symbol)
+        print("fmktpxy=", fmktpxy)
         sys.exit(0)  # For example, exit the program with an error status
     
+    # Construct the symbol based on the determined expiry and option type
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
-
 
     if check_existing_positions(broker, symbol):
         print(f"already there {symbol}.")
@@ -167,3 +154,4 @@ async def run_main():
 
 # Run the main asynchronous function
 asyncio.run(run_main())
+
