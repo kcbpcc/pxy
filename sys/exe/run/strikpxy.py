@@ -15,5 +15,5 @@ def get_prices():
     noptions = round_to_nearest_100(get_current_price('^NSEI'))
     boptions = round_to_nearest_100(get_current_price('^NSEBANK'))
     foptions = round_to_nearest_100(get_current_price('NIFTY_FIN_SERVICE.NS'))
-    moptions = round_to_nearest_100(get_current_price('NIFTY_MIDCAP_100.NS'))
+    moptions = round_to_nearest_100(get_current_price('NIFTY_MID_SELECT.NS'))
     return noptions, boptions, foptions, moptions
