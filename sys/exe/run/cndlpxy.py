@@ -61,6 +61,8 @@ def get_today_close():
 from colorama import Fore, Style
 day_change_sign = '+' if Day_Change > 0 else ''
 open_change_sign = '+' if Open_Change > 0 else ''
+from colorama import Fore, Style
+
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 10  # Maximum total length allowed for printing
     
@@ -83,6 +85,9 @@ def dayprinter(o, h, l, c, prev_close):
         n_length = min(int((wick_length_percent / 100) * max_total_length), max_total_length)
         m_length = min(int((wick_length_percent / 100) * max_total_length), max_total_length)
         
+        # Print OHLC values
+        print(f"OHLC: {o:.2f}, {h:.2f}, {l:.2f}, {c:.2f}")
+        
         # Print both the previous day's close and today's close in a single sentence with color
         SMAftywave = (f"{Fore.GREEN} ﮩ٨ـﮩﮩ٨ـ") if SMAfty == 'up' else (f"{Fore.RED} ﮩ٨ـﮩﮩ٨ـ")
         print(f"🔆{day_change_sign}{Day_Change:.2f} ⌛️{open_change_sign}{Open_Change:.2f}{SMAftywave}", end='') 
@@ -101,6 +106,7 @@ def dayprinter(o, h, l, c, prev_close):
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
+
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
