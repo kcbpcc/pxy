@@ -25,7 +25,7 @@ SMAfty = check_nifty_status()
 
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
 
-def get_nifty50_data(period="1d"):
+def get_nifty50_data(period="2d"):
     ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
 
     try:
@@ -48,13 +48,11 @@ def get_previous_day_close(df):
         # Handle the case when there are not enough rows in the DataFrame
         return None  # Or any default value or error handling you prefer
 
-def get_today_close():
-    nifty50_ohlc = get_nifty50_data(period="1d")  # Fetch data for 1 day
-    if not nifty50_ohlc.empty:
-        prev_close = get_previous_day_close(nifty50_ohlc)
-        return nifty50_ohlc.iloc[-1]['Close'], prev_close
+def get_today_close(df):
+    if not df.empty:
+        return df.iloc[-1]['Close']
     else:
-        return None, None  # Handle the case when data is not available
+        return None
 
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 10  # Maximum total length allowed for printing
@@ -92,19 +90,23 @@ def dayprinter(o, h, l, c, prev_close):
     except Exception as e:
         pass
 
-def option_to_trade():
-    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
-    today_open = today_data['Open']
-    today_close = today_data['Close']
-    option_value = round(today_close / 50) * 50
-    return option_value
+def option_to_trade(df):
+    if not df.empty:
+        today_data = df.iloc[-1][OHLC_COLUMNS]
+        today_open = today_data['Open']
+        today_close = today_data['Close']
+        option_value = round(today_close / 50) * 50
+        return option_value
+    else:
+        return None
 
 # Example usage in the main program
-previous_day_close = get_previous_day_close(get_nifty50_data())
-today_close = get_today_close()
+nifty50_ohlc = get_nifty50_data()
+previous_day_close = get_previous_day_close(nifty50_ohlc)
+today_close = get_today_close(nifty50_ohlc)
 
 if previous_day_close is not None and today_close is not None:
-    today_data = get_nifty50_data(period="1d").iloc[-1][OHLC_COLUMNS]
+    today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
     dayprinter(*today_data, previous_day_close)
 else:
     print("Unable to fetch data.")
