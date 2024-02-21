@@ -66,19 +66,22 @@ def dayprinter(o, h, l, c, prev_close):
     
     try:
         # Calculate the lengths of different segments as percentages
-        if c > o:
-            n = round(((o - (l-1)) / ((h+1) - (l-1))) * 100)
-            x = round(((c - o) / ((h+1) - (l-1))) * 100)
-            m = 100 - n - x
+        total_range = h - l
+        
+        if o < c:
+            body_start = o - l
+            body_end = c - l
         else:
-            n = round(((c - (l-1)) / ((h+1) - (l-1))) * 100)
-            x = round(((o - c) / ((h+1) - (l-1))) * 100)
-            m = 100 - n - x
-    
+            body_start = c - l
+            body_end = o - l
+
+        body_length_percent = abs(body_end - body_start) / total_range * 100
+        wick_length_percent = ((h - max(o, c)) / total_range) * 100
+        
         # Calculate the actual lengths to be printed
-        n_length = min(int((n / 100) * max_total_length), max_total_length)
-        x_length = min(int((x / 100) * max_total_length), max_total_length)
-        m_length = min(int((m / 100) * max_total_length), max_total_length)
+        x_length = min(int((body_length_percent / 100) * max_total_length), max_total_length)
+        n_length = min(int((wick_length_percent / 100) * max_total_length), max_total_length)
+        m_length = min(int((wick_length_percent / 100) * max_total_length), max_total_length)
         
         # Print both the previous day's close and today's close in a single sentence with color
         SMAftywave = (f"{Fore.GREEN} ﮩ٨ـﮩﮩ٨ـ") if SMAfty == 'up' else (f"{Fore.RED} ﮩ٨ـﮩﮩ٨ـ")
@@ -98,7 +101,6 @@ def dayprinter(o, h, l, c, prev_close):
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
-
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
