@@ -45,16 +45,12 @@ async def send_telegram_message(message_text):
 # Define function to get this week's Wednesday date
 from datetime import datetime, timedelta
 
-from datetime import datetime, timedelta
-
-from datetime import datetime, timedelta
-
 def get_next_tuesday():
     current_date = datetime.now()
     # Calculate days until the next Tuesday (including today)
     days_until_next_tuesday = (1 - current_date.weekday() + 7) % 7
 
-    # Add 7 days to find the Tuesday after tomorrow
+    # Add 7 days to find the Tuesday after today
     days_until_next_tuesday += 7
 
     # Calculate the date of the next Tuesday
@@ -87,6 +83,7 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
         return f"FINNIFTY{expiry_year}{expiry_month}{foptions}{option_type}"
     else:
         return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{foptions}{option_type}"
+
 
 
 
