@@ -55,7 +55,7 @@ while True:
 
     
     # Print market status for each symbol separated by "|"
-    print(f"NIFTY:{nmktpxy} | BANK:{bmktpxy} | FIN:{fmktpxy} | MID:{mmktpxy}")
+    print("NIFTY:{nmktpxy}|BANK:{bmktpxy}|FIN:{fmktpxy}|MID:{mmktpxy}")
 
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
 
