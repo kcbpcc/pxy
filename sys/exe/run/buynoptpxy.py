@@ -99,7 +99,7 @@ async def place_order(broker, symbol):
     try:
         order_id = broker.order_place(
             tradingsymbol=symbol,
-            quantity=40,
+            quantity=50,
             exchange="NFO",
             transaction_type='BUY',
             order_type='MARKET',
