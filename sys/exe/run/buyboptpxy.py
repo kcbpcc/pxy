@@ -47,33 +47,44 @@ from datetime import datetime, timedelta
 
 def get_next_wednesday():
     current_date = datetime.now()
-    # Calculate days until the next Wednesday (including today)
+    # Calculate days until the next Wednesday
     days_until_next_wednesday = (2 - current_date.weekday() + 7) % 7
 
-    # Add 7 days to find the Wednesday after tomorrow
-    days_until_next_wednesday += 7
+    # If today is Wednesday, add 7 days to find the next Wednesday
+    if days_until_next_wednesday == 0:
+        days_until_next_wednesday += 7
 
     # Calculate the date of the next Wednesday
     next_wednesday = current_date + timedelta(days=days_until_next_wednesday)
-    
+
+    # Ensure next Wednesday is at least 5 days away
+    if (next_wednesday - current_date).days < 5:
+        next_wednesday += timedelta(days=7)
+
+    # Check if next Wednesday is the last Wednesday of the month
+    last_day_of_month = (next_wednesday.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+    if next_wednesday.month != (next_wednesday + timedelta(days=7)).month:
+        if next_wednesday.day > last_day_of_month.day - 7:
+            return next_wednesday.strftime("%y"), next_wednesday.strftime("%b").upper(), None
+
     # Extract year, month, and day components
-    expiry_year = next_wednesday.strftime("%y")
-    expiry_month = next_wednesday.strftime("%m")
-    expiry_day = next_wednesday.strftime("%d")
+    expiry_year = next_wednesday.strftime("%y")  # Represent year with two digits
 
-    # Ensure month is represented as single digit if less than October
-    if int(expiry_month) < 10:
-        expiry_month = expiry_month[1]
+    # Represent month accordingly
+    expiry_month = next_wednesday.strftime("%-m")  # Single digit for 1 to 9
+    if int(expiry_month) >= 10:
+        expiry_month = next_wednesday.strftime("%m")  # Two digits for 10 to 12
 
-    # Ensure day is represented as two digits
-    expiry_day = expiry_day.zfill(2)
+    expiry_day = next_wednesday.strftime("%d").zfill(2)  # Ensure date is represented with 2 digits
 
     return expiry_year, expiry_month, expiry_day
 
-
-# Define function to construct symbol for the Bank Nifty Option
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
-    return f"BANKNIFTY{expiry_year}{expiry_month}{expiry_day}{boptions}{option_type}"
+    if expiry_day is None:
+        return f"BANKNIFTY{expiry_year}{expiry_month}{boptions}{option_type}"
+    else:
+        return f"BANKNIFTY{expiry_year}{expiry_month}{expiry_day}{boptions}{option_type}"
+
 
 # Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
