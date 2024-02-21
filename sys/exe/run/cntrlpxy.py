@@ -675,7 +675,7 @@ try:
     formatted_lines = filtered_df[['Invested','key', 'qty','otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
     
     # Set max_width to 42
-    max_width = 43
+    max_width = 42
     
     # Iterate over each line and format it with color based on PnL value
     for line in formatted_lines:
