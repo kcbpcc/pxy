@@ -67,12 +67,12 @@ def dayprinter(o, h, l, c, prev_close):
     try:
         # Calculate the lengths of different segments as percentages
         if c > o:
-            n = round(((o - (l-1)) / ((h+1) - (l-1))) * 100)
-            x = round(((c - o) / ((h+1) - (l-1))) * 100)
+            n = round(((o - l) / (h - l)) * 100)
+            x = round(((c - o) / (h - l)) * 100)
             m = 100 - n - x
         else:
-            n = round(((c - (l-1)) / ((h+1) - (l-1))) * 100)
-            x = round(((o - c) / ((h+1) - (l-1))) * 100)
+            n = round(((c - l) / (h - l)) * 100)
+            x = round(((o - c) / (h - l)) * 100)
             m = 100 - n - x
     
         # Calculate the actual lengths to be printed
