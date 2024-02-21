@@ -68,9 +68,9 @@ def get_next_tuesday():
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     if expiry_day is None:
-        return f"FINNIFTY{expiry_year}{expiry_month}{option_type}"
+        return f"FINNIFTY{expiry_year}{expiry_month}{foptions}{option_type}"
     else:
-        return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{option_type}"
+        return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{foptions}{option_type}"
 
 
 
