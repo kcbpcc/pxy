@@ -9,7 +9,6 @@ import sys
 import yfinance as yf
 import os
 from cyclepxy import cycle
-
 subprocess.run(['python3', 'cpritepxy.py'])
 console = Console()
 bear_style = Style(color="red")
@@ -19,7 +18,6 @@ buy_style = Style(color="green", blink=True)
 green_style = Style(color="bright_green")
 red_style = Style(color="bright_red")
 standby_style = Style(color="yellow")  
-
 while True:
     from selfpxy import get_random_spiritual_message
     importlib.reload(sys.modules['selfpxy'])  # Correct the usage
@@ -53,19 +51,16 @@ while True:
     fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
     mmktpxy = get_market_status_for_symbol('NIFTY_MID_SELECT.NS')
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
-
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    
     subprocess.run(['python3', 'buynoptpxy.py']) if nmktpxy == "Buy" or nmktpxy == "Sell" else None
     subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy == "Buy" or bmktpxy == "Sell" else None
     subprocess.run(['python3', 'buyfoptpxy.py']) if fmktpxy == "Buy" or fmktpxy == "Sell" else None
     subprocess.run(['python3', 'buymoptpxy.py']) if mmktpxy == "Buy" or mmktpxy == "Sell" else None
-
     # Call the function and store the result in a variable
     subprocess.run(['python3', 'buypxy.py']) if peak == 'PEAKEND' else None
     print("━" * 42)  # Print another line of 42 dashes 
     subprocess.run(['python3', 'cntrlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py'])
-    subprocess.run(['python3', 'cndlpxy.py']) 
     # Print values with color using rich styles
     console.print(f"█NIFTY:", end="", style=green_style if nmktpxy == 'Buy' else red_style if nmktpxy == 'Sell' else None)
     console.print(f"{nmktpxy}", style=green_style if nmktpxy == 'Buy' else red_style if nmktpxy == 'Sell' else None, highlight=False, end="")
@@ -75,6 +70,7 @@ while True:
     console.print(f"{fmktpxy}", style=green_style if fmktpxy == 'Buy' else red_style if fmktpxy == 'Sell' else None, highlight=False, end="")
     console.print(f" █MID:", end="", style=green_style if mmktpxy == 'Buy' else red_style if mmktpxy == 'Sell' else None)
     console.print(f"{mmktpxy}", style=green_style if mmktpxy == 'Buy' else red_style if mmktpxy == 'Sell' else None, highlight=False)
+    subprocess.run(['python3', 'cndlpxy.py']) 
     if optpxy == "Bull":
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=green_style)
     elif optpxy == "Buy":
@@ -86,9 +82,7 @@ while True:
     else:
         console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
     print("━" * 42)
-    
     console.print("[bold]" + random_message + "[/bold]", style=standby_style)
-
     import time
     def progress_bar(duration, optpxy):
         console = Console()
@@ -99,6 +93,5 @@ while True:
             else:
                 console.print('[red]PXY®[/]', end='')
         console.print()  # Move to the next line after the progress bar
-
     progress_bar(cycle, optpxy)
 
