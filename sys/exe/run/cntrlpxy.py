@@ -649,13 +649,6 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
 ###########################################################################################################################################################################################################
-    from dshpxy import get_holdingsinfo
-    red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage = get_holdingsinfo('fileHPdf.csv')    
-    from bordpxy import printbord
-    printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
-             result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
-             nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
-###########################################################################################################################################################################################################
     print("━" * 42)
     from smaftypxy import check_nifty_status
     from macdpxy import calculate_macd_signal
@@ -706,6 +699,15 @@ try:
         # Right-align the text, apply color, and reset color after the line
         print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
     print("━" * 42)
+
+###########################################################################################################################################################################################################
+    from dshpxy import get_holdingsinfo
+    red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage = get_holdingsinfo('fileHPdf.csv')    
+    from bordpxy import printbord
+    printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
+             result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
+             nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
+
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
