@@ -152,7 +152,7 @@ async def main():
     else:
         # Handle the case where nmktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
-        print("NIFTY values - nmktpxy:", nmktpxy, "smanifty:", smanifty)
+        print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
         sys.exit(0)  # For example, exit the program with an error status
     
     # Construct the symbol based on the determined expiry and option type
