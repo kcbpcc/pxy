@@ -51,7 +51,7 @@ while True:
     nmktpxy = get_market_status_for_symbol('^NSEI')
     bmktpxy = get_market_status_for_symbol('^NSEBANK')
     fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
-    mmktpxy = get_market_status_for_symbol('NIFTY_MIDCAP_100.NS')
+    mmktpxy = get_market_status_for_symbol('NIFTY_MID_SELECT.NS')
 
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
 
