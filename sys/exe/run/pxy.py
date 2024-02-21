@@ -58,9 +58,9 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
     subprocess.run(['python3', 'buynoptpxy.py']) if nmktpxy == "Buy" or nmktpxy == "Sell" else None
-    #subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy == "Buy" or bmktpxy == "Sell" else None
-    #subprocess.run(['python3', 'buyfoptpxy.py']) if fmktpxy == "Buy" or fmktpxy == "Sell" else None
-    #subprocess.run(['python3', 'buymoptpxy.py']) if mmktpxy == "Buy" or mmktpxy == "Sell" else None
+    subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy == "Buy" or bmktpxy == "Sell" else None
+    subprocess.run(['python3', 'buyfoptpxy.py']) if fmktpxy == "Buy" or fmktpxy == "Sell" else None
+    subprocess.run(['python3', 'buymoptpxy.py']) if mmktpxy == "Buy" or mmktpxy == "Sell" else None
 
     # Call the function and store the result in a variable
     subprocess.run(['python3', 'buypxy.py']) if peak == 'PEAKEND' else None
