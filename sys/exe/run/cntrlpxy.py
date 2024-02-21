@@ -342,7 +342,8 @@ try:
         else:
             return None  # Or any default value you prefer
     # Apply the function to create/update the otPL% column
-    combined_df['otPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x ) / 1), -threshold, threshold)), 2)) * 10
+    combined_df['ftPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x ) / 1), -threshold, threshold)), 2))
+    combined_df['otPL%'] = combined_df['ftPL%'].apply(lambda x: round(np.exp(np.clip(((x) / 1), -threshold, threshold)), 2))
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
 ###########################################################################################################################################################################################################
