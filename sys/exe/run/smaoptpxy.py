@@ -17,11 +17,11 @@ def sma_above_or_below(symbol):
     
     # Check if the latest price is above or below the 50-minute SMA
     if latest_price > sma_50:
-        smafifty = "above"
+        smaopt= "above"
     elif latest_price < sma_50:
-        smafifty = "below"
+        smaopt= "below"
     else:
-        smafifty = "equal to"
+        smaopt= "equal to"
     
     return smafifty
 
