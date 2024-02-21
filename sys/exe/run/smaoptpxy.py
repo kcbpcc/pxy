@@ -23,6 +23,6 @@ def sma_above_or_below(symbol):
     else:
         smaopt= "equal to"
     
-    return smafifty
+    return smaopt
 
 
