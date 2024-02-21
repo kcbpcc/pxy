@@ -3,7 +3,6 @@ import subprocess
 import time
 import warnings
 from colorama import init, Fore, Style
-from rich import print
 from rich.console import Console
 from rich.style import Style
 import sys
@@ -20,6 +19,7 @@ buy_style = Style(color="green", blink=True)
 green_style = Style(color="bright_green")
 red_style = Style(color="bright_red")
 standby_style = Style(color="yellow")  
+
 while True:
     from selfpxy import get_random_spiritual_message
     importlib.reload(sys.modules['selfpxy'])  # Correct the usage
@@ -55,13 +55,13 @@ while True:
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-    # Determine the market check based on the candle colors and use rich.print to format output
-    GREEN = '\033[92m'
-    RED = '\033[91m'
-    RESET = '\033[0m'
     
-    # Print values with color
-    print(f"NIFTY: {GREEN if nmktpxy == 'Buy' else RED}{nmktpxy}{RESET} | BANK: {GREEN if bmktpxy == 'Buy' else RED}{bmktpxy}{RESET} | FIN: {GREEN if fmktpxy == 'Buy' else RED}{fmktpxy}{RESET} | MID: {GREEN if mmktpxy == 'Buy' else RED}{mmktpxy}{RESET}")
+    # Print values with color using rich styles
+    print(f"NIFTY: {nmktpxy}", style=green_style if nmktpxy == 'Buy' else red_style, highlight=False, end="")
+    print(f" | BANK: {bmktpxy}", style=green_style if bmktpxy == 'Buy' else red_style, highlight=False, end="")
+    print(f" | FIN: {fmktpxy}", style=green_style if fmktpxy == 'Buy' else red_style, highlight=False, end="")
+    print(f" | MID: {mmktpxy}", style=green_style if mmktpxy == 'Buy' else red_style, highlight=False)
+    
     subprocess.run(['python3', 'buynoptpxy.py']) if nmktpxy == "Buy" or nmktpxy == "Sell" else None
     subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy == "Buy" or bmktpxy == "Sell" else None
     subprocess.run(['python3', 'buyfoptpxy.py']) if fmktpxy == "Buy" or fmktpxy == "Sell" else None
@@ -73,7 +73,7 @@ while True:
     subprocess.run(['python3', 'cntrlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py'])
     subprocess.run(['python3', 'cndlpxy.py']) 
-    # console.print("|", style=green_style if mktpxy in ["Buy", "Bull"] else red_style)  # Commented out line
+    
     if optpxy == "Bull":
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=green_style)
     elif optpxy == "Buy":
@@ -87,8 +87,7 @@ while True:
     print("━" * 42)
     
     console.print("[bold]" + random_message + "[/bold]", style=standby_style)
-    from rich.console import Console
-    from rich.style import Style
+
     import time
     def progress_bar(duration, optpxy):
         console = Console()
@@ -99,5 +98,6 @@ while True:
             else:
                 console.print('[red]PXY®[/]', end='')
         console.print()  # Move to the next line after the progress bar
-    # Call the function with the desired parameters
+
     progress_bar(cycle, optpxy)
+
