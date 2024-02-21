@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-import pandas as pd
 import traceback
 import sys
 import logging
@@ -10,21 +9,21 @@ from cnstpxy import dir_path
 from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change
 from strikpxy import get_prices
-noptions, _, _, _ = get_prices()
+_, _, foptions, _ = get_prices()
 from optpxy import get_optpxy
 from cyclepxy import cycle
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
 from smaftypxy import check_nifty_status
 from mktrndpxy import get_market_status_for_symbol
-nmktpxy = get_market_status_for_symbol("^NSEI")
+nmktpxy = get_market_status_for_symbol('NIFTY')
+
 onemincandlesequance, mktpxy = get_market_check()
 optpxy = get_optpxy()
 peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
 
-# Define the function to send a message to Telegram
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
@@ -41,29 +40,44 @@ async def send_telegram_message(message_text):
         # Handle the exception (e.g., log it) and continue with your code
         print(f"Error sending message to Telegram: {e}")
 
-# Define function to get this week's Thursday date
-def get_this_thursday():
+# Define function to get this week's Tuesday date
+def get_next_tuesday():
     current_date = datetime.now()
-    days_until_this_thursday = (3 - current_date.weekday() + 7) % 7
+    # Calculate days until the next Tuesday
+    days_until_next_tuesday = (1 - current_date.weekday() + 7) % 7
 
-    # Ensure the expiry day is always the this Thursday
-    expiry_date = current_date + timedelta(days=days_until_this_thursday)
-    expiry_year = expiry_date.strftime("%y")
-    expiry_month = expiry_date.strftime("%m")
-    expiry_day = expiry_date.strftime("%d")
+    # If today is Tuesday, add 7 days to find the next Tuesday
+    if days_until_next_tuesday == 0:
+        days_until_next_tuesday += 7
 
-    # Ensure the month is one digit until October
-    if int(expiry_month) < 10:
-        expiry_month = expiry_month[1]
+    # Calculate the date of the next Tuesday
+    next_tuesday = current_date + timedelta(days=days_until_next_tuesday)
 
-    # Ensure the date is always two digits
-    expiry_day = expiry_day.zfill(2)
+    # Check if next Tuesday is the last Tuesday of the month
+    last_day_of_month = (current_date.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+    if next_tuesday.month != (next_tuesday + timedelta(days=7)).month:
+        if next_tuesday.day > last_day_of_month.day - 7:
+            return next_tuesday.strftime("%y"), next_tuesday.strftime("%b").upper(), None
+
+    # Extract year, month, and day components
+    expiry_year = next_tuesday.strftime("%y")  # Represent year with two digits
+
+    # Represent month accordingly
+    expiry_month = next_tuesday.strftime("%-m")  # Single digit for 1 to 9
+    if int(expiry_month) >= 10:
+        expiry_month = next_tuesday.strftime("%m")  # Two digits for 10 to 12
+
+    expiry_day = next_tuesday.strftime("%d").zfill(2)  # Ensure date is represented with 2 digits
 
     return expiry_year, expiry_month, expiry_day
 
-# Define function to construct symbol for the NIFTY Put Option
+
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
-    return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions}{option_type}"
+    if expiry_day is None:
+        return f"FINNIFTY{expiry_year}{expiry_month}{foptions}{option_type}"
+    else:
+        return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{foptions}{option_type}"
+
 
 # Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
@@ -71,7 +85,7 @@ def check_existing_positions(broker, symbol):
     positions_net = positions_response['net']
 
     for position in positions_net:
-        if position['tradingsymbol'] == symbol and position['quantity'] >= 50:
+        if position['tradingsymbol'] == symbol and position['quantity'] >= 40:
             return True  # Existing positions found
 
     return False
@@ -81,7 +95,7 @@ async def place_order(broker, symbol):
     try:
         order_id = broker.order_place(
             tradingsymbol=symbol,
-            quantity=50,
+            quantity=40,
             exchange="NFO",
             transaction_type='BUY',
             order_type='MARKET',
@@ -121,21 +135,21 @@ async def main():
         # Reset sys.stdout to its original value
         sys.stdout = sys.__stdout__
 
-    expiry_year, expiry_month, expiry_day = get_this_thursday()
+    expiry_year, expiry_month, expiry_day = get_next_tuesday()
     option_type = None  # Default value
     
-    # Determine option type based on mktpxy
-    if mktpxy == 'Buy':
+    # Determine option type based on nmktpxy
+    if nmktpxy == 'Buy':
         option_type = 'CE'  # Call Option
-    elif mktpxy == 'Sell':
+    elif nmktpxy == 'Sell':
         option_type = 'PE'  # Put Option
     else:
-        # Handle the case where mktpxy doesn't match any condition
+        # Handle the case where nmktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
-        symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
-        print("nmktpxy=", nmktpxy, "|symbol=", symbol)
+        print("nmktpxy=", nmktpxy)
         sys.exit(0)  # For example, exit the program with an error status
     
+    # Construct the symbol based on the determined expiry and option type
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
     if check_existing_positions(broker, symbol):
