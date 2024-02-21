@@ -1,33 +1,31 @@
 import warnings
-
-# Suppress FutureWarnings
-warnings.simplefilter(action='ignore', category=FutureWarning)
-
-# Rest of your code here
 import yfinance as yf
 import pandas as pd
 import colorama
-from colorama import Fore, Style  # Add Style to the imports
+from colorama import Fore, Style
 from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
 from optpxy import get_optpxy
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
 from smaftypxy import check_nifty_status
-import subprocess
-import sys
 
+# Suppress FutureWarnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
+# Initialize colorama for colored output
+colorama.init(autoreset=True)
+
+# Get market data
 onemincandlesequance, mktpxy = get_market_check()
 optpxy = get_optpxy()
 peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
 
-colorama.init(autoreset=True)
-
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
 
-def get_nifty50_data(period="7d"):
+def get_nifty50_data(period="1d"):
     ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
 
     try:
@@ -58,25 +56,27 @@ def get_today_close():
     else:
         return None, None  # Handle the case when data is not available
 
-from colorama import Fore, Style
-day_change_sign = '+' if Day_Change > 0 else ''
-open_change_sign = '+' if Open_Change > 0 else ''
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 10  # Maximum total length allowed for printing
     
     try:
         # Calculate the lengths of different segments as percentages
-        if c > o:
-            n = round(((o - l) / (h - l)) * 100)
-            x = round(((c - o) / (h - l)) * 100)
-            m = 100 - n - x
-            candle_color = Fore.GREEN  # Set candle color to green for upward movement
+        if h != l:  # Ensure denominator is not zero
+            if c > o:
+                n = round(((o - l) / (h - l)) * 100)
+                x = round(((c - o) / (h - l)) * 100)
+                m = 100 - n - x
+                candle_color = Fore.GREEN  # Set candle color to green for upward movement
+            else:
+                n = round(((c - l) / (h - l)) * 100)
+                x = round(((o - c) / (h - l)) * 100)
+                m = 100 - n - x
+                candle_color = Fore.RED  # Set candle color to red for downward movement
         else:
-            n = round(((c - l) / (h - l)) * 100)
-            x = round(((o - c) / (h - l)) * 100)
-            m = 100 - n - x
-            candle_color = Fore.RED  # Set candle color to red for downward movement
-    
+            # If high and low are equal, set lengths to zero
+            n = x = m = 0
+            candle_color = Fore.WHITE  # Set candle color to white
+        
         # Calculate the actual lengths to be printed
         n_length = min(int((n / 100) * max_total_length), max_total_length)
         x_length = min(int((x / 100) * max_total_length), max_total_length)
@@ -91,7 +91,6 @@ def dayprinter(o, h, l, c, prev_close):
         print (f"⚡{nse_power:.2f}{onemincandlesequance}🚦{macd}{SMAftywave}")
     except Exception as e:
         pass
-
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
@@ -109,4 +108,3 @@ if previous_day_close is not None and today_close is not None:
     dayprinter(*today_data, previous_day_close)
 else:
     print("Unable to fetch data.")
-
