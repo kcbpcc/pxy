@@ -50,8 +50,8 @@ def get_next_tuesday():
     # Calculate days until the next Tuesday (including today)
     days_until_next_tuesday = (1 - current_date.weekday() + 7) % 7
 
-    # Add 7 days to find the Tuesday after today
-    days_until_next_tuesday += 2
+    # Add 4 days instead of 7 to find the Tuesday after today
+    days_until_next_tuesday += 4
 
     # Calculate the date of the next Tuesday
     next_tuesday = current_date + timedelta(days=days_until_next_tuesday)
@@ -83,9 +83,6 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
         return f"FINNIFTY{expiry_year}{expiry_month}{foptions}{option_type}"
     else:
         return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{foptions}{option_type}"
-
-
-
 
 # Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
