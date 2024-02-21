@@ -57,10 +57,18 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     
     # Print values with color using rich styles
-    print(f"NIFTY: {nmktpxy}", style=green_style if nmktpxy == 'Buy' else red_style, highlight=False, end="")
-    print(f" | BANK: {bmktpxy}", style=green_style if bmktpxy == 'Buy' else red_style, highlight=False, end="")
-    print(f" | FIN: {fmktpxy}", style=green_style if fmktpxy == 'Buy' else red_style, highlight=False, end="")
-    print(f" | MID: {mmktpxy}", style=green_style if mmktpxy == 'Buy' else red_style, highlight=False)
+    console.print(f"NIFTY: ", end="", style=green_style if nmktpxy == 'Buy' else red_style)
+    console.print(f"{nmktpxy}", style=green_style if nmktpxy == 'Buy' else red_style, highlight=False, end="")
+    
+    console.print(f" | BANK: ", end="", style=green_style if bmktpxy == 'Buy' else red_style)
+    console.print(f"{bmktpxy}", style=green_style if bmktpxy == 'Buy' else red_style, highlight=False, end="")
+    
+    console.print(f" | FIN: ", end="", style=green_style if fmktpxy == 'Buy' else red_style)
+    console.print(f"{fmktpxy}", style=green_style if fmktpxy == 'Buy' else red_style, highlight=False, end="")
+    
+    console.print(f" | MID: ", end="", style=green_style if mmktpxy == 'Buy' else red_style)
+    console.print(f"{mmktpxy}", style=green_style if mmktpxy == 'Buy' else red_style, highlight=False)
+
     
     subprocess.run(['python3', 'buynoptpxy.py']) if nmktpxy == "Buy" or nmktpxy == "Sell" else None
     subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy == "Buy" or bmktpxy == "Sell" else None
