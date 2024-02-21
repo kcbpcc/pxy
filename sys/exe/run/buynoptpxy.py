@@ -9,7 +9,7 @@ from cnstpxy import dir_path
 from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change
 from strikpxy import get_prices
-_, _, foptions, _ = get_prices()
+noptions, _, _, _ = get_prices()
 from optpxy import get_optpxy
 from cyclepxy import cycle
 from utcpxy import peak_time
@@ -74,9 +74,9 @@ def get_next_tuesday():
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     if expiry_day is None:
-        return f"FINNIFTY{expiry_year}{expiry_month}{foptions}{option_type}"
+        return f"FINNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
     else:
-        return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{foptions}{option_type}"
+        return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{noptions}{option_type}"
 
 
 # Define function to check existing positions for the symbol
