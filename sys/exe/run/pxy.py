@@ -52,15 +52,14 @@ while True:
     bmktpxy = get_market_status_for_symbol('^NSEBANK')
     fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
     mmktpxy = get_market_status_for_symbol('NIFTY_MID_SELECT.NS')
-
-    
-    # Print market status for each symbol separated by "|"
-    print("NIFTY:{nmktpxy}|BANK:{bmktpxy}|FIN:{fmktpxy}|MID:{mmktpxy}")
-
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
+    
+    
+    # Print market status for each symbol separated by "|"
+    print(f"NIFTY:{nmktpxy}|BANK:{bmktpxy}|FIN:{fmktpxy}|MID:{mmktpxy}")
     subprocess.run(['python3', 'buynoptpxy.py']) if nmktpxy == "Buy" or nmktpxy == "Sell" else None
     subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy == "Buy" or bmktpxy == "Sell" else None
     subprocess.run(['python3', 'buyfoptpxy.py']) if fmktpxy == "Buy" or fmktpxy == "Sell" else None
