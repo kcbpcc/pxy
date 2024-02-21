@@ -25,7 +25,4 @@ def sma_above_or_below(symbol):
     
     return smafifty
 
-# Example usage
-symbol = "^NSEI"  # NSE Nifty 50 index
-sma_fifty_status = sma_above_or_below(symbol)
-print(f"The current price of {symbol} is {sma_fifty_status} the 50-minute SMA.")
+
