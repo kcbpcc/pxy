@@ -55,6 +55,8 @@ def get_today_close(df):
         return None
 
 def dayprinter(o, h, l, c, prev_close):
+    day_change_sign = '+' if Day_Change > 0 else ''
+    open_change_sign = '+' if Open_Change > 0 else ''
     max_total_length = 10  # Maximum total length allowed for printing
     
     try:
@@ -92,3 +94,4 @@ if previous_day_close is not None and today_close is not None:
     dayprinter(*today_data, previous_day_close)
 else:
     print("Unable to fetch data.")
+
