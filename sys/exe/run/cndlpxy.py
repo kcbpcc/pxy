@@ -1,31 +1,33 @@
 import warnings
+
+# Suppress FutureWarnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
+# Rest of your code here
 import yfinance as yf
 import pandas as pd
 import colorama
-from colorama import Fore, Style
+from colorama import Fore, Style  # Add Style to the imports
 from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
 from optpxy import get_optpxy
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
 from smaftypxy import check_nifty_status
+import subprocess
+import sys
 
-# Suppress FutureWarnings
-warnings.simplefilter(action='ignore', category=FutureWarning)
-
-# Initialize colorama for colored output
-colorama.init(autoreset=True)
-
-# Get market data
 onemincandlesequance, mktpxy = get_market_check()
 optpxy = get_optpxy()
 peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
 
+colorama.init(autoreset=True)
+
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
 
-def get_nifty50_data(period="2d"):
+def get_nifty50_data(period="7d"):
     ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
 
     try:
@@ -48,33 +50,31 @@ def get_previous_day_close(df):
         # Handle the case when there are not enough rows in the DataFrame
         return None  # Or any default value or error handling you prefer
 
-def get_today_close(df):
-    if not df.empty:
-        return df.iloc[-1]['Close']
+def get_today_close():
+    nifty50_ohlc = get_nifty50_data(period="1d")  # Fetch data for 1 day
+    if not nifty50_ohlc.empty:
+        prev_close = get_previous_day_close(nifty50_ohlc)
+        return nifty50_ohlc.iloc[-1]['Close'], prev_close
     else:
-        return None
+        return None, None  # Handle the case when data is not available
 
+from colorama import Fore, Style
+day_change_sign = '+' if Day_Change > 0 else ''
+open_change_sign = '+' if Open_Change > 0 else ''
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 10  # Maximum total length allowed for printing
     
     try:
         # Calculate the lengths of different segments as percentages
-        if h != l:  # Ensure denominator is not zero
-            if c > o:
-                n = round(((o - l) / (h - l)) * 100)
-                x = round(((c - o) / (h - l)) * 100)
-                m = 100 - n - x
-                candle_color = Fore.GREEN  # Set candle color to green for upward movement
-            else:
-                n = round(((c - l) / (h - l)) * 100)
-                x = round(((o - c) / (h - l)) * 100)
-                m = 100 - n - x
-                candle_color = Fore.RED  # Set candle color to red for downward movement
+        if c > o:
+            n = round(((o - (l-1)) / ((h+1) - (l-1))) * 100)
+            x = round(((c - o) / ((h+1) - (l-1))) * 100)
+            m = 100 - n - x
         else:
-            # If high and low are equal, set lengths to zero
-            n = x = m = 0
-            candle_color = Fore.WHITE  # Set candle color to white
-        
+            n = round(((c - (l-1)) / ((h+1) - (l-1))) * 100)
+            x = round(((o - c) / ((h+1) - (l-1))) * 100)
+            m = 100 - n - x
+    
         # Calculate the actual lengths to be printed
         n_length = min(int((n / 100) * max_total_length), max_total_length)
         x_length = min(int((x / 100) * max_total_length), max_total_length)
@@ -84,29 +84,35 @@ def dayprinter(o, h, l, c, prev_close):
         SMAftywave = (f"{Fore.GREEN}ﮩﮩ٨") if SMAfty == 'up' else (f"{Fore.RED}ﮩﮩ٨")
         print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}", end='') 
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
-        print(candle_color + '█' * x_length + Style.RESET_ALL, end='')
+    
+        if c > o:
+            print(Fore.GREEN + '█' * x_length + Style.RESET_ALL, end='')
+        elif o > c:
+            print(Fore.RED + '█' * x_length + Style.RESET_ALL, end='')
+        
         print(Fore.LIGHTWHITE_EX + '━' * m_length, end='')
+    
         print (f"⚡{nse_power:.2f}{onemincandlesequance}🚦{macd}{SMAftywave}")
     except Exception as e:
         pass
+    
+    # Determine the color based on the comparison of today's close with yesterday's close
+    color = Fore.GREEN if c > prev_close else Fore.RED
 
-def option_to_trade(df):
-    if not df.empty:
-        today_data = df.iloc[-1][OHLC_COLUMNS]
-        today_open = today_data['Open']
-        today_close = today_data['Close']
-        option_value = round(today_close / 50) * 50
-        return option_value
-    else:
-        return None
+
+def option_to_trade():
+    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
+    today_open = today_data['Open']
+    today_close = today_data['Close']
+    option_value = round(today_close / 50) * 50
+    return option_value
 
 # Example usage in the main program
-nifty50_ohlc = get_nifty50_data()
-previous_day_close = get_previous_day_close(nifty50_ohlc)
-today_close = get_today_close(nifty50_ohlc)
+previous_day_close = get_previous_day_close(get_nifty50_data())
+today_close = get_today_close()
 
 if previous_day_close is not None and today_close is not None:
-    today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
+    today_data = get_nifty50_data(period="1d").iloc[-1][OHLC_COLUMNS]
     dayprinter(*today_data, previous_day_close)
 else:
     print("Unable to fetch data.")
