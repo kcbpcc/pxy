@@ -55,8 +55,9 @@ def get_next_thursday():
 
     # Check if next Thursday is the last Thursday of the month
     last_day_of_month = (current_date.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
-    if next_thursday.month != (next_thursday + timedelta(days=7)).month:
-        if next_thursday.day > last_day_of_month.day - 7:
+    if (next_thursday - current_date).days < 5:
+        # Find the subsequent Thursday
+        next_thursday += timedelta(days=7)
             return next_thursday.strftime("%y"), next_thursday.strftime("%b").upper(), None
 
     # Extract year, month, and day components
