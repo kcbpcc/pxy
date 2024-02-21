@@ -66,12 +66,12 @@ def get_next_tuesday():
 
     return expiry_year, expiry_month, expiry_day
 
-# Define function to construct symbol for the FINNIFTY Option
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     if expiry_day is None:
-        return f"FINNIFTY{expiry_year}{expiry_month}00{option_type}"
+        return f"FINNIFTY{expiry_year}{expiry_month}{option_type}"
     else:
         return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{option_type}"
+
 
 # Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
