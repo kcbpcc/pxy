@@ -140,7 +140,7 @@ async def main():
     option_type = None  # Default value
     
     # Determine option type based on nmktpxy
-    if nmktpxy == 'Buy':
+    if nmktpxy == 'Bull':
         option_type = 'CE'  # Call Option
     elif nmktpxy == 'Sell':
         option_type = 'PE'  # Put Option
