@@ -51,7 +51,7 @@ def get_next_tuesday():
     days_until_next_tuesday = (1 - current_date.weekday() + 7) % 7
 
     # Add 7 days to find the Tuesday after today
-    days_until_next_tuesday += 7
+    days_until_next_tuesday += 2
 
     # Calculate the date of the next Tuesday
     next_tuesday = current_date + timedelta(days=days_until_next_tuesday)
