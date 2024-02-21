@@ -56,10 +56,12 @@ while True:
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     # Determine the market check based on the candle colors and use rich.print to format output
+    GREEN = '\033[92m'
+    RED = '\033[91m'
+    RESET = '\033[0m'
     
-    
-    # Print market status for each symbol separated by "|"
-    print(f"NIFTY:{nmktpxy}|BANK:{bmktpxy}|FIN:{fmktpxy}|MID:{mmktpxy}")
+    # Print values with color
+    print(f"NIFTY: {GREEN if nmktpxy == 'Buy' else RED}{nmktpxy}{RESET} | BANK: {GREEN if bmktpxy == 'Buy' else RED}{bmktpxy}{RESET} | FIN: {GREEN if fmktpxy == 'Buy' else RED}{fmktpxy}{RESET} | MID: {GREEN if mmktpxy == 'Buy' else RED}{mmktpxy}{RESET}")
     subprocess.run(['python3', 'buynoptpxy.py']) if nmktpxy == "Buy" or nmktpxy == "Sell" else None
     subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy == "Buy" or bmktpxy == "Sell" else None
     subprocess.run(['python3', 'buyfoptpxy.py']) if fmktpxy == "Buy" or fmktpxy == "Sell" else None
