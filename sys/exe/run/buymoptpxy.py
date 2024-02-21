@@ -45,10 +45,6 @@ async def send_telegram_message(message_text):
 # Define function to get this week's Wednesday date
 from datetime import datetime, timedelta
 
-from datetime import datetime, timedelta
-
-from datetime import datetime, timedelta
-
 def get_next_monday():
     current_date = datetime.now()
     # Calculate days until the next Monday (including today)
@@ -59,7 +55,11 @@ def get_next_monday():
 
     # Calculate the date of the next Monday
     next_monday = current_date + timedelta(days=days_until_next_monday)
-    
+
+    # Ensure next Monday is at least 5 days away
+    if (next_monday - current_date).days < 5:
+        next_monday += timedelta(days=7)
+
     # Extract year, month, and day components
     expiry_year = next_monday.strftime("%y")
     expiry_month = next_monday.strftime("%m")
@@ -75,9 +75,12 @@ def get_next_monday():
     return expiry_year, expiry_month, expiry_day
 
 
-# Define function to construct symbol for the Madcap Option
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
-    return f"MIDCAPNIFTY{expiry_year}{expiry_month}{expiry_day}{option_type}"
+    if expiry_day is None:
+        return f"MIDCAPNIFTY{expiry_year}{expiry_month}{foptions}{option_type}"
+    else:
+        return f"MIDCAPNIFTY{expiry_year}{expiry_month}{expiry_day}{foptions}{option_type}"
+
 
 
 
