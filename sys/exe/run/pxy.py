@@ -52,6 +52,19 @@ while True:
     bmktpxy = get_market_status_for_symbol('^NSEBANK')
     fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
     mmktpxy = get_market_status_for_symbol('NIFTY_MID_SELECT.NS')
+    def get_colored_status(symbol_value):
+        status = get_market_status_for_symbol(symbol_value)
+        color = Fore.GREEN if status == "Buy" else (Fore.RED if status == "Sell" else Fore.WHITE)
+        return f"{color}{status}{Style.RESET_ALL}"
+
+    # Get market status for each symbol variable
+    nmktpxy_status = get_colored_status(nmktpxy)
+    bmktpxy_status = get_colored_status(bmktpxy)
+    fmktpxy_status = get_colored_status(fmktpxy)
+    mmktpxy_status = get_colored_status(mmktpxy)
+    
+    # Print market status for each symbol separated by "|"
+    print(f"{nmktpxy_status} | {bmktpxy_status} | {fmktpxy_status} | {mmktpxy_status}")
 
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
 
