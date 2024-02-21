@@ -58,7 +58,7 @@ def get_next_thursday():
     if (next_thursday - current_date).days < 5:
         # Find the subsequent Thursday
         next_thursday += timedelta(days=7)
-            return next_thursday.strftime("%y"), next_thursday.strftime("%b").upper(), None
+        return next_thursday.strftime("%y"), next_thursday.strftime("%b").upper(), None
 
     # Extract year, month, and day components
     expiry_year = next_thursday.strftime("%y")  # Represent year with two digits
