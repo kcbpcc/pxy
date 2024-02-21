@@ -23,6 +23,8 @@ optpxy = get_optpxy()
 peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
+from smaoptpxy import sma_above_or_below
+smafin = sma_above_or_below('NIFTY_FIN_SERVICE.NS')
 
 async def send_telegram_message(message_text):
     try:
@@ -143,16 +145,14 @@ async def main():
     option_type = None  # Default value
     
     # Determine option type based on fmktpxy
-    if fmktpxy == 'Buy':
+    if fmktpxy == 'Buy' and smafin == 'above':
         option_type = 'CE'  # Call Option
-    elif fmktpxy == 'Sell':
+    elif fmktpxy == 'Sell' and smafin == 'below':
         option_type = 'PE'  # Put Option
     else:
         # Handle the case where fmktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
-        symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
-        print("fmktpxy=", fmktpxy, "|symbol=", symbol)
-        
+        print("FINFTY - fmktpxy:", fmktpxy, "smafin:", smafin)
         sys.exit(0)  # For example, exit the program with an error status
     
     # Construct the symbol based on the determined expiry and option type
