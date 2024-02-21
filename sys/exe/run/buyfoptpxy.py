@@ -54,14 +54,20 @@ def get_next_tuesday():
     next_tuesday = current_date + timedelta(days=days_until_next_tuesday)
 
     # Check if next Tuesday is the last Tuesday of the month
-    next_month = next_tuesday.replace(day=28) + timedelta(days=4)
-    if next_tuesday.month != next_month.month:
-        return next_tuesday.strftime("%y"), next_tuesday.strftime("%b").upper(), None
+    last_day_of_month = (current_date.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+    if next_tuesday.month != (next_tuesday + timedelta(days=7)).month:
+        if next_tuesday.day > last_day_of_month.day - 7:
+            return next_tuesday.strftime("%y"), next_tuesday.strftime("%b").upper(), None
 
     # Extract year, month, and day components
     expiry_year = next_tuesday.strftime("%y")  # Represent year with two digits
-    expiry_month = next_tuesday.strftime("%-m")  # Represent month as single digit
-    expiry_day = next_tuesday.strftime("%d")
+
+    # Represent month accordingly
+    expiry_month = next_tuesday.strftime("%-m")  # Single digit for 1 to 9
+    if int(expiry_month) >= 10:
+        expiry_month = next_tuesday.strftime("%m")  # Two digits for 10 to 12
+
+    expiry_day = next_tuesday.strftime("%d").zfill(2)  # Ensure date is represented with 2 digits
 
     return expiry_year, expiry_month, expiry_day
 
