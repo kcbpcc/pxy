@@ -80,24 +80,22 @@ def dayprinter(o, h, l, c, prev_close):
         x_length = min(int((x / 100) * max_total_length), max_total_length)
         m_length = min(int((m / 100) * max_total_length), max_total_length)
         
+        # Determine the color of the candle based on price movement
+        candle_color = Fore.GREEN if c > o else Fore.RED
+        
         # Print both the previous day's close and today's close in a single sentence with color
         SMAftywave = (f"{Fore.GREEN}ﮩﮩ٨") if SMAfty == 'up' else (f"{Fore.RED}ﮩﮩ٨")
         print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}", end='') 
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
     
-        if c > o:
-            print(Fore.GREEN + '█' * x_length + Style.RESET_ALL, end='')
-        elif o > c:
-            print(Fore.RED + '█' * x_length + Style.RESET_ALL, end='')
+        print(candle_color + '█' * x_length + Style.RESET_ALL, end='')
         
         print(Fore.LIGHTWHITE_EX + '━' * m_length, end='')
     
         print (f"⚡{nse_power:.2f}{onemincandlesequance}🚦{macd}{SMAftywave}")
     except Exception as e:
         pass
-    
-    # Determine the color based on the comparison of today's close with yesterday's close
-    color = Fore.GREEN if c > prev_close else Fore.RED
+
 
 
 def option_to_trade():
