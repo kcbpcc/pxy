@@ -144,10 +144,10 @@ async def main():
     expiry_year, expiry_month, expiry_day = get_next_tuesday()
     option_type = None  # Default value
     
-    # Determine option type based on fmktpxy
-    if fmktpxy == 'Buy' and smafin == 'above':
+    # Determine option type based on bmktpxy
+    if fmktpxy == 'Buy' and smafin != 'below':
         option_type = 'CE'  # Call Option
-    elif fmktpxy == 'Sell' and smafin == 'below':
+    elif fmktpxy == 'Sell' and smafin != 'above':
         option_type = 'PE'  # Put Option
     else:
         # Handle the case where fmktpxy doesn't match any condition
