@@ -12,16 +12,17 @@ def sma_above_or_below(symbol):
     last_row = data.iloc[-1]
     
     # Get the latest closing price and 50-minute SMA
+    sma_1 = last_row['Close']
     sma_50 = last_row['SMA_50']
     sma_100 = last_row['SMA_100']
     
     # Check if the latest price is above or below the 50-minute SMA
-    if sma_50 > sma_100:
+    if sma_50 > sma_100 and sma_1 > sma_50:
         smaopt= "above"
-    elif sma_50 < sma_100:
+    elif sma_50 < sma_100 and sma_1 < sma_50:
         smaopt= "below"
     else:
-        smaopt= "equal to"
+        smaopt= "middle"
     
     return smaopt
 
