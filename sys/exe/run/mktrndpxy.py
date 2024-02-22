@@ -11,7 +11,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-def fetch_data(symbol, period="5d", interval="1m"):
+def fetch_data(symbol, period="5d", interval="5m"):
     # Fetch real-time data for the specified interval
     data = yf.Ticker(symbol).history(period=period, interval=interval)
     return data
@@ -38,7 +38,7 @@ def is_market_sell(current_color, last_closed_color):
 def is_market_buy(current_color, last_closed_color):
     return current_color == 'Bull' and last_closed_color == 'Bear'
 
-def calculate_last_twenty_heikin_ashi_colors(symbol, period="5d", interval="1m"):
+def calculate_last_twenty_heikin_ashi_colors(symbol, period="5d", interval="5m"):
     data = fetch_data(symbol, period, interval)
     return calculate_heikin_ashi_colors(data)
 
@@ -54,7 +54,7 @@ def get_market_status(current_color, last_closed_color):
     else:
         return 'None'
 
-def get_market_status_for_symbol(symbol, period="5d", interval="1m"):
+def get_market_status_for_symbol(symbol, period="5d", interval="5m"):
     current_color, last_closed_color = calculate_last_twenty_heikin_ashi_colors(symbol, period, interval)
     return get_market_status(current_color, last_closed_color)
 
