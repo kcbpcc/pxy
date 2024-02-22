@@ -108,7 +108,7 @@ async def place_order(broker, symbol):
             product='NRML'
         )
 
-        print(f"{symbol} Ordered")
+        print(f"{symbol} is ordered")
         message_text = f"Option Order {symbol} placed successfully."
         # Send the message to Telegram
         await send_telegram_message(message_text)
@@ -145,9 +145,9 @@ async def main():
     option_type = None  # Default value
     
     # Determine option type based on nmktpxy
-    if nmktpxy == 'Buy'and smanifty == 'above':
+    if nmktpxy == 'Buy'and smanifty != 'below':
         option_type = 'CE'  # Call Option
-    elif nmktpxy == 'Sell'and smanifty == 'below':
+    elif nmktpxy == 'Sell'and smanifty != 'above':
         option_type = 'PE'  # Put Option
     else:
         # Handle the case where nmktpxy doesn't match any condition
@@ -159,7 +159,7 @@ async def main():
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
     if check_existing_positions(broker, symbol):
-        print(f"already there {symbol}.")
+        print(f"{symbol} is already there ")
     else:
         order_placed = await place_order(broker, symbol)
         if not order_placed:
