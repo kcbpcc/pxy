@@ -11,7 +11,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-def fetch_data(symbol, period="5d", interval="5m"):
+def fetch_data(symbol, period="5d", interval="3m"):
     # Fetch real-time data for the specified interval
     data = yf.Ticker(symbol).history(period=period, interval=interval)
     return data
