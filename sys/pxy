@@ -16,6 +16,7 @@ while true; do
     echo "   -pxypy                 🐍        py"
     echo "   -pxytp                 🚛        tp"
     echo "   -pxybuy                🌱        by"
+    echo "   -pxypnl                💰        pl"
     echo "   -pxyopt                🛸        op"
     echo "   -pxytail               📜        ta"
     echo "   -pxyauto               🤖        at"
@@ -37,6 +38,10 @@ while true; do
             echo "    🎉🎉🎉.pip install.🎉🎉🎉"
             pyp
             ;;   
+        pl)
+            echo "    💰💰💰.pip install.💰💰💰"
+            pxypnl
+            ;;           
         tp)
             echo "    🚛🚛.pxycloudsynch.🚛🚛"
             pxytp
