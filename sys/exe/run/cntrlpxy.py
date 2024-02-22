@@ -667,12 +667,15 @@ try:
             RESET = '\033[0m'
     
     filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
+    import pandas as pd
+    import numpy as np
+    
     filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
     filtered_df['key'] = filtered_df['key'].str.replace('NIFTY24', '')
     
     filtered_df['group'] = filtered_df['key'].str[:3]
     filtered_df['sort_key'] = filtered_df['key'].str[-2:]
-    filtered_df['sort_key'] = filtered_df['sort_key'].astype(int)
+    filtered_df['sort_key'] = pd.to_numeric(filtered_df['sort_key'], errors='coerce')  # Convert to numeric, replace non-numeric values with NaN
     filtered_df = filtered_df.sort_values(by=['group', 'sort_key'])
     filtered_df.drop(['group', 'sort_key'], axis=1, inplace=True)
     
