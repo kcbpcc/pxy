@@ -541,7 +541,7 @@ try:
                         'NFO:NIFTY' in row['key'] and
                         (('CE' in row['key'] and row['PL%'] > 1.4 and nmktpxy in ["Sell", "Bear"]) or
                          ('PE' in row['key'] and row['PL%'] > 1.4 and nmktpxy in ["Buy", "Bull"]) or
-                         (row['PL%'] > 7))
+                         (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -563,7 +563,7 @@ try:
                         'NFO:BANK' in row['key'] and
                         (('CE' in row['key'] and row['PL%'] > 1.4 and bmktpxy in ["Sell", "Bear"]) or
                          ('PE' in row['key'] and row['PL%'] > 1.4 and bmktpxy in ["Buy", "Bull"]) or
-                         (row['PL%'] > 7))
+                         (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -585,7 +585,7 @@ try:
                         'NFO:FIN' in row['key'] and
                         (('CE' in row['key'] and row['PL%'] > 1.4 and fmktpxy in ["Sell", "Bear"]) or
                          ('PE' in row['key'] and row['PL%'] > 1.4 and fmktpxy in ["Buy", "Bull"]) or
-                         (row['PL%'] > 7))
+                         (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -607,7 +607,7 @@ try:
                         'NFO:MIDCP' in row['key'] and
                         (('CE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Sell", "Bear"]) or
                          ('PE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Buy", "Bull"]) or
-                         (row['PL%'] > 7))
+                         (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
