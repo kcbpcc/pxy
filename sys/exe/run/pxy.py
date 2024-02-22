@@ -69,7 +69,7 @@ while True:
     console.print(f"{bmktpxy}", style=green_style if bmktpxy == 'Buy' else red_style if bmktpxy == 'Sell' else None, highlight=False, end="")
     console.print(f" █FIN:", end="", style=green_style if fmktpxy == 'Buy' else red_style if fmktpxy == 'Sell' else None)
     console.print(f"{fmktpxy}", style=green_style if fmktpxy == 'Buy' else red_style if fmktpxy == 'Sell' else None, highlight=False, end="")
-    console.print(f" █MID:", end="", style=green_style if mmktpxy == 'Buy' else red_style if mmktpxy == 'Sell' else None)
+    console.print(f" █MCP:", end="", style=green_style if mmktpxy == 'Buy' else red_style if mmktpxy == 'Sell' else None)
     console.print(f"{mmktpxy}", style=green_style if mmktpxy == 'Buy' else red_style if mmktpxy == 'Sell' else None, highlight=False)
     if optpxy == "Bull":
         console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=green_style)
