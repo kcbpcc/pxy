@@ -664,6 +664,7 @@ try:
             # Define ANSI escape codes
             GREEN = '\033[92m'
             RED = '\033[91m'
+            GRAY = '\033[90m'
             RESET = '\033[0m'
     
     filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
@@ -698,7 +699,7 @@ try:
             if pnl_value > 0:
                 color_code = GREEN  # Using GREEN for green text
             elif pnl_value < 0:
-                color_code = RED  # Using RED for red text
+                color_code = GRAY  # Using RED for red text
             else:
                 color_code = RESET  # Reset color for PnL value of 0
         else:
