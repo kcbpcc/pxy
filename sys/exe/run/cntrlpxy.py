@@ -347,8 +347,8 @@ try:
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
 ###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'prftpxy.py'])
-    subprocess.run(['python3', 'nrmlprftpxy.py'])
+    #subprocess.run(['python3', 'prftpxy.py'])
+    #subprocess.run(['python3', 'nrmlprftpxy.py'])
 ###########################################################################################################################################################################################################
     # Calculate 'Invested' column
     combined_df['Invested'] = (combined_df['qty'] * combined_df['average_price']).round(0).astype(int)
