@@ -680,7 +680,7 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] == 'NRML' and
-                        row['PL%'] < -70
+                        row['PL%'] < -68
                     ):
                         print(row)  # Print the row here
                         try:                            
