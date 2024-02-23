@@ -55,8 +55,8 @@ def get_next_thursday():
     # Calculate the date of the next Thursday
     next_thursday = current_date + timedelta(days=days_until_next_thursday)
 
-    # Ensure next Thursday is at least 15 days away
-    if (next_thursday - current_date).days < 15:
+    # Ensure next Thursday is at least 9 days away
+    if (next_thursday - current_date).days < 9:
         next_thursday += timedelta(days=7)
 
     # Check if next Thursday is the last Thursday of the month
