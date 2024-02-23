@@ -43,7 +43,7 @@ while True:
     from smaftypxy import check_nifty_status
     importlib.reload(sys.modules['smaftypxy'])  # Correct the usage
     SMAfty = check_nifty_status()
-    subprocess.run(['python3', 'cntrlpxy.py'])
+    #subprocess.run(['python3', 'cntrlpxy.py'])
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
     nmktpxy = get_market_status_for_symbol('^NSEI')
