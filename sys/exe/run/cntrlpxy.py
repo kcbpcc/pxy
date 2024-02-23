@@ -593,8 +593,8 @@ try:
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
                         'NFO:NIFTY' in row['key'] and
-                        (('CE' in row['key'] and row['PL%'] > 5 and nmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 5 and nmktpxy in ["Buy", "Bull"]) or
+                        (('CE' in row['key'] and row['PL%'] > 2.5 and nmktpxy in ["Sell", "Bear"]) or
+                         ('PE' in row['key'] and row['PL%'] > 2.5 and nmktpxy in ["Buy", "Bull"]) or
                          (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
@@ -615,8 +615,8 @@ try:
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
                         'NFO:BANK' in row['key'] and
-                        (('CE' in row['key'] and row['PL%'] > 5 and bmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 5 and bmktpxy in ["Buy", "Bull"]) or
+                        (('CE' in row['key'] and row['PL%'] > 2.5 and bmktpxy in ["Sell", "Bear"]) or
+                         ('PE' in row['key'] and row['PL%'] > 2.5 and bmktpxy in ["Buy", "Bull"]) or
                          (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
@@ -637,8 +637,8 @@ try:
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
                         'NFO:FIN' in row['key'] and
-                        (('CE' in row['key'] and row['PL%'] > 5 and fmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 5 and fmktpxy in ["Buy", "Bull"]) or
+                        (('CE' in row['key'] and row['PL%'] > 2.5 and fmktpxy in ["Sell", "Bear"]) or
+                         ('PE' in row['key'] and row['PL%'] > 2.5 and fmktpxy in ["Buy", "Bull"]) or
                          (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
@@ -659,8 +659,8 @@ try:
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
                         'NFO:MIDCP' in row['key'] and
-                        (('CE' in row['key'] and row['PL%'] > 5 and mmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 5 and mmktpxy in ["Buy", "Bull"]) or
+                        (('CE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Sell", "Bear"]) or
+                         ('PE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Buy", "Bull"]) or
                          (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
