@@ -397,7 +397,7 @@ try:
             return None  # Or any default value you prefer
     # Apply the function to create/update the otPL% column
     combined_df['ftPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x ) / 1), -threshold, threshold)), 2))
-    combined_df['otPL%'] = combined_df['ftPL%'].apply(lambda x: max(5, round(np.exp(np.clip(((x) / 1), -threshold, threshold)), 2))) + 5
+    combined_df['otPL%'] = combined_df['ftPL%'].apply(lambda x: max(5, round(np.exp(np.clip(((x) / 1), -threshold, threshold)), 2))) + 15
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
 ###########################################################################################################################################################################################################
@@ -594,7 +594,8 @@ try:
                         auto_value == 'AUTO' and
                         'NFO:NIFTY' in row['key'] and
                         (('CE' in row['key'] and row['PL%'] > 1.4 and nmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 1.4 and nmktpxy in ["Buy", "Bull"]))
+                         ('PE' in row['key'] and row['PL%'] > 1.4 and nmktpxy in ["Buy", "Bull"]) or
+                         (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -615,8 +616,8 @@ try:
                         auto_value == 'AUTO' and
                         'NFO:BANK' in row['key'] and
                         (('CE' in row['key'] and row['PL%'] > 1.4 and bmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 1.4 and bmktpxy in ["Buy", "Bull"]))
-
+                         ('PE' in row['key'] and row['PL%'] > 1.4 and bmktpxy in ["Buy", "Bull"]) or
+                         (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -637,7 +638,8 @@ try:
                         auto_value == 'AUTO' and
                         'NFO:FIN' in row['key'] and
                         (('CE' in row['key'] and row['PL%'] > 1.4 and fmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 1.4 and fmktpxy in ["Buy", "Bull"]))
+                         ('PE' in row['key'] and row['PL%'] > 1.4 and fmktpxy in ["Buy", "Bull"]) or
+                         (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -658,7 +660,8 @@ try:
                         auto_value == 'AUTO' and
                         'NFO:MIDCP' in row['key'] and
                         (('CE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Buy", "Bull"]))
+                         ('PE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Buy", "Bull"]) or
+                         (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
