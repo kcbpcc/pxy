@@ -59,8 +59,8 @@ def get_next_wednesday():
     # Calculate the date of the next Wednesday
     next_wednesday = current_date + timedelta(days=days_until_next_wednesday)
 
-    # Ensure next Wednesday is at least 5 days away
-    if (next_wednesday - current_date).days < 5:
+    # Ensure next Wednesday is at least 15 days away
+    if (next_wednesday - current_date).days < 15:
         next_wednesday += timedelta(days=7)
 
     # Check if next Wednesday is the last Wednesday of the month
