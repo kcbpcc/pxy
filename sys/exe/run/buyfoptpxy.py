@@ -55,8 +55,8 @@ def get_next_tuesday():
     # Calculate the date of the next Tuesday
     next_tuesday = current_date + timedelta(days=days_until_next_tuesday)
 
-    # Ensure next Tuesday is at least 5 days away
-    if (next_tuesday - current_date).days < 5:
+    # Ensure next Tuesday is at least 15 days away
+    if (next_tuesday - current_date).days < 15:
         next_tuesday += timedelta(days=7)
 
     # Check if next Tuesday is the last Tuesday of the month
