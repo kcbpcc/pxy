@@ -680,9 +680,9 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] == 'NRML' and
-                        available_cash > 10000 and
                         row['PL%'] < -70
                     ):
+                        print(row)  # Print the row here
                         try:                            
                             is_placed = nrml_order_avg_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
