@@ -55,7 +55,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     output_lines.append(left_aligned_format.format(f"Booked(opt):{BRIGHT_GREEN if result_nrml >= 0 else BRIGHT_RED}{str(int(result_nrml)).zfill(5)}{RESET}") +
                         right_aligned_format.format(f"Booked(stks):{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{str(round(result)).zfill(5)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"A/C Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{int((0)* 100000)}{RESET}") +
-                       right_aligned_format.format(f"{UNDERLINE}Day Profit:{BRIGHT_GREEN if (result_nrml+result) > 0 else BRIGHT_RED}{int(round((result_nrml+result), 2))}{RESET}"))
+                       right_aligned_format.format(f"{UNDERLINE}Day Profit:{BRIGHT_GREEN if (result_nrml+result) > 0 else BRIGHT_RED}    {int(round((result_nrml+result), 2))}{RESET}"))
 
     #output_lines.append(f"{BRIGHT_YELLOW}Market is {nse_action} ⚡💥 - Power⚡💥{nse_power}{RESET}💥⚡")
     # Join the lines to create the full output
