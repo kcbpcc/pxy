@@ -58,7 +58,7 @@ while True:
     #subprocess.run(['python3', 'buymoptpxy.py']) if mmktpxy == "Buy" or mmktpxy == "Sell" else None
     # Call the function and store the result in a variable
     #subprocess.run(['python3', 'buypxy.py']) if peak == 'PEAKEND' else None
-    print("━" * 42)  # Print another line of 42 dashes 
+    #print("━" * 42)  # Print another line of 42 dashes 
     subprocess.run(['python3', 'cntrlpxy.py'])
     subprocess.run(['python3', 'cndlpxy.py']) 
     subprocess.run(['python3', 'worldpxy.py'])
