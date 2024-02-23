@@ -58,8 +58,8 @@ def get_next_monday():
     # Calculate the date of the next Monday
     next_monday = current_date + timedelta(days=days_until_next_monday)
 
-    # Ensure next Monday is at least 5 days away
-    if (next_monday - current_date).days < 5:
+    # Ensure next Monday is at least 15 days away
+    if (next_monday - current_date).days < 15:
         next_monday += timedelta(days=7)
 
     # Extract year, month, and day components
