@@ -35,7 +35,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     #output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
                             #right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}{RESET}"))                                  
     output_lines.append(left_aligned_format.format(f"A/C Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{int((0)* 100000)}{RESET}") +
-                        right_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
+                        right_aligned_format.format(f"A/C Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
     output_lines.append(
         left_aligned_format.format(
             f"{GREY}{'My Options'.zfill(3)}{RESET}"
