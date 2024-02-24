@@ -65,7 +65,8 @@ while True:
     subprocess.run(['python3', 'worldpxy.py'])
     # Print values with color using rich styles
     console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=standby_style)
-    console.print("[bold]" + random_message + "[/bold]", style=standby_style)
+    subprocess.run(['python3', 'bcndlpxy.py']) 
+    console.print(random_message)
     import time
     def progress_bar(duration, optpxy):
         console = Console()
