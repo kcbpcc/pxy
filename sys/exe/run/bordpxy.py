@@ -54,7 +54,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     output_lines.append(left_aligned_format.format(f"Now:{BRIGHT_YELLOW}{round((nrmlall_Stocks_worth/100000), 2)}{RESET}") +
                         right_aligned_format.format(f"Now:{BRIGHT_YELLOW}{round(all_Stocks_worth_lacks, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Unreal:{BRIGHT_GREEN if total_PnL_nrml_buy >= 0 else BRIGHT_RED}{int(total_PnL_nrml_buy)}{RESET}") +
-                        right_aligned_format.format(f"A/C Loss:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}")) 
+                        right_aligned_format.format(f"Unreal Loss:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}")) 
     output_lines.append(left_aligned_format.format(f"Real:{BRIGHT_GREEN if result_nrml >= 0 else BRIGHT_RED}{str(int(result_nrml)).zfill(5)}{RESET}") +
                         right_aligned_format.format(f"Real:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{str(round(result)).zfill(5)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Drive:{BRIGHT_GREEN if auto_value_status == 'Yes' else BRIGHT_RED}{auto_value}{RESET}") +
