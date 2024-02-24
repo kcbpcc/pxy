@@ -46,7 +46,7 @@ def get_today_close():
         return None, None  # Handle the case when data is not available
 
 def dayprinter(o, h, l, c, prev_close):
-    max_total_length = 10  # Maximum total length allowed for printing
+    max_total_length = 40  # Maximum total length allowed for printing
     
     try:
         # Calculate the lengths of different segments as percentages
