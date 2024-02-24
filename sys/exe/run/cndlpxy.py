@@ -80,25 +80,21 @@ def dayprinter(o, h, l, c, prev_close):
         x_length = min(int((x / 100) * max_total_length), max_total_length)
         m_length = min(int((m / 100) * max_total_length), max_total_length)
         
-        # Print both the previous day's close and today's close in a single sentence with color
-        SMAftywave = (f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ") if SMAfty == 'up' else (f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ")
-        print(f"🔆{day_change_sign}{Day_Change:.2f} ⌛️{open_change_sign}{Open_Change:.2f} ⚡{nse_power:.2f}", end='') 
+         # Print both the previous day's close and today's close in a single sentence with color
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
-        
         if c > o:
-            print(Fore.GREEN + '█' * x_length + Style.RESET_ALL, end='')
+            print(Fore.GREEN + '=' * x_length + Style.RESET_ALL, end='')
         elif o > c:
-            print(Fore.RED + '█' * x_length + Style.RESET_ALL, end='')
+            print(Fore.RED + '=' * x_length + Style.RESET_ALL, end='')
+        print(Fore.LIGHTWHITE_EX + '━' * m_length)
         
-        print(Fore.LIGHTWHITE_EX + '━' * m_length, end='')
-    
-        print (f"{SMAftywave}  🚦{macd}")
+        # Determine the color based on the comparison of today's close with yesterday's close
+        color = Fore.GREEN if c > prev_close else Fore.RED
+        
+        SMAftywave = f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ" if SMAfty == 'up' else f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ"
+        print(f"{SMAftywave} 🚦{macd}🔆{day_change_sign}{Day_Change:.2f} ⌛️{open_change_sign}{Open_Change:.2f} ⚡{nse_power:.2f}")
     except Exception as e:
         pass
-    
-    # Determine the color based on the comparison of today's close with yesterday's close
-    color = Fore.GREEN if c > prev_close else Fore.RED
-
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
