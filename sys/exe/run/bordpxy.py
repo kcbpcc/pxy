@@ -36,6 +36,8 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                             #right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}{RESET}"))                                  
     output_lines.append(left_aligned_format.format(f"A/C Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{int(ydaypnl_to_print)}{RESET}") +
                         right_aligned_format.format(f"A/C Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"A/C Unreal:{BRIGHT_GREEN if total_PnL_nrml_buy >= 0 else BRIGHT_RED}{int(total_PnL_nrml_buy)}{RESET}") +
+                        right_aligned_format.format(f"A/C Unreal:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}"))
     output_lines.append(
         left_aligned_format.format(
             f"{GREY}{'My Options'.zfill(3)}{RESET}"
@@ -53,8 +55,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                         right_aligned_format.format(f"Cap:{BRIGHT_YELLOW}{round(all_Stocks_capital_lacks, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Now:{BRIGHT_YELLOW}{round((nrmlall_Stocks_worth/100000), 2)}{RESET}") +
                         right_aligned_format.format(f"Now:{BRIGHT_YELLOW}{round(all_Stocks_worth_lacks, 2)}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Unreal:{BRIGHT_GREEN if total_PnL_nrml_buy >= 0 else BRIGHT_RED}{int(total_PnL_nrml_buy)}{RESET}") +
-                        right_aligned_format.format(f"Unreal:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}")) 
+ 
     output_lines.append(left_aligned_format.format(f"Real:{BRIGHT_GREEN if result_nrml >= 0 else BRIGHT_RED}{str(int(result_nrml)).zfill(5)}{RESET}") +
                         right_aligned_format.format(f"Real:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{str(round(result)).zfill(5)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Drive:{BRIGHT_GREEN if auto_value_status == 'Yes' else BRIGHT_RED}{auto_value}{RESET}") +
