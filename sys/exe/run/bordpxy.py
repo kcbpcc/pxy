@@ -44,8 +44,6 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
             f"{BOLD}{UNDERLINE}®{RESET}      {BRIGHT_YELLOW}{'My Stocks'.zfill(3)}{RESET}:{str(all_Stocks_count).zfill(3)}"
         )
     )
-    output_lines.append(left_aligned_format.format(f"Count:{BRIGHT_YELLOW}{str(nrmlall_Stocks_count).zfill(3)}{RESET}") +
-                        right_aligned_format.format(f"Count:{BRIGHT_YELLOW}{str(all_Stocks_count).zfill(3)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Capital:{BRIGHT_YELLOW}{round((nrmlall_Stocks_capital/100000), 2)}{RESET}") + 
                         right_aligned_format.format(f"Capital:{BRIGHT_YELLOW}{round(all_Stocks_capital_lacks, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Value:{BRIGHT_YELLOW}{round((nrmlall_Stocks_worth/100000), 2)}{RESET}") +
