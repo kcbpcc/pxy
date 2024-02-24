@@ -64,17 +64,7 @@ while True:
     subprocess.run(['python3', 'cndlpxy.py']) 
     subprocess.run(['python3', 'worldpxy.py'])
     # Print values with color using rich styles
-    if optpxy == "Bull":
-        console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=green_style)
-    elif optpxy == "Buy":
-        console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=green_style)
-    elif optpxy == "Sell":
-        console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=red_style)
-    elif optpxy == "Bear":
-        console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=red_style)
-    else:
-        console.print("🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛", style=standby_style)
-    subprocess.run(['python3', 'bcndlpxy.py']) 
+    console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=standby_style)
     console.print("[bold]" + random_message + "[/bold]", style=standby_style)
     import time
     def progress_bar(duration, optpxy):
