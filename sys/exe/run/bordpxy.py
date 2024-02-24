@@ -40,13 +40,13 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                         right_aligned_format.format(f"{GREY}━━━━━━━━━ My Stocks{RESET}"))
     output_lines.append(
         left_aligned_format.format(
-            f"O-Count:{BRIGHT_YELLOW}{str(nrmlall_Stocks_count).zfill(3)}{RESET}"
+            f"{GREY}My Options.zfill(3)}{RESET}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
             f"         {BOLD}{UNDERLINE}PXY{RESET}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
         ) +
         right_aligned_format.format(
             f"{BRIGHT_GREEN if optpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
-            f"{BOLD}{UNDERLINE}®{RESET}       S-Count:{BRIGHT_YELLOW}{str(all_Stocks_count).zfill(3)}{RESET}"
+            f"{BOLD}{UNDERLINE}®{RESET}       f"{GREY}My Stocks.zfill(3)}{RESET}"
         )
     )    
     #output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
