@@ -92,7 +92,7 @@ def dayprinter(o, h, l, c, prev_close):
         
         print(Fore.LIGHTWHITE_EX + '━' * m_length, end='')
     
-        print (f" ⚡{nse_power:.2f}🚦{macd}")
+        print (f" ⚡{nse_power:.2f} 🚦{macd}")
     except Exception as e:
         pass
     
