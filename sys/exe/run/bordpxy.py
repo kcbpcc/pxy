@@ -27,15 +27,12 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
-               
     output_lines.append(left_aligned_format.format(f"A/C Capital:{BRIGHT_YELLOW}{round(capital, 2)}{RESET}") +
                         right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round(acvalue_to_print + 3.58, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"A/C Profit:{BRIGHT_GREEN if profit > 0 else BRIGHT_RED}{round((profit+3.58), 2)}{RESET}") +
                         right_aligned_format.format(f"A/C Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}"))
     #output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
                         #right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}{RESET}"))                                  
-    output_lines.append(left_aligned_format.format(f"Unreal:{BRIGHT_GREEN if total_PnL_nrml_buy >= 0 else BRIGHT_RED}{int(total_PnL_nrml_buy)}{RESET}") +
-                        right_aligned_format.format(f"Unreal:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}"))
     output_lines.append(
         left_aligned_format.format(
             f"{GREY}{'My Options'.zfill(3)}{RESET}"
@@ -53,19 +50,18 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                         right_aligned_format.format(f"Capital:{BRIGHT_YELLOW}{round(all_Stocks_capital_lacks, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Value:{BRIGHT_YELLOW}{round((nrmlall_Stocks_worth/100000), 2)}{RESET}") +
                         right_aligned_format.format(f"Value:{BRIGHT_YELLOW}{round(all_Stocks_worth_lacks, 2)}{RESET}"))
-    
+    output_lines.append(left_aligned_format.format(f"Unreal:{BRIGHT_GREEN if total_PnL_nrml_buy >= 0 else BRIGHT_RED}{int(total_PnL_nrml_buy)}{RESET}") +
+                        right_aligned_format.format(f"Unreal:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Real:{BRIGHT_GREEN if result_nrml >= 0 else BRIGHT_RED}{str(int(result_nrml)).zfill(5)}{RESET}") +
                         right_aligned_format.format(f"Real:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{str(round(result)).zfill(5)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Drive:{BRIGHT_GREEN if auto_value_status == 'Yes' else BRIGHT_RED}{auto_value}{RESET}") +
                         right_aligned_format.format(f"Profit:{BRIGHT_GREEN if (result_nrml+result) > 0 else BRIGHT_RED}{int(round((result_nrml+result), 2))}{RESET}"))   
-
     #print("━" * 42)  # Print another line of 42 dashes           
     #output_lines.append(f"{BRIGHT_YELLOW}Market is {nse_action} ⚡💥 - Power⚡💥{nse_power}{RESET}💥⚡")
     # Join the lines to create the full output
     full_output = '\n'.join(output_lines)
     # Print to console
     print(full_output)
-
     # Write to file
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
