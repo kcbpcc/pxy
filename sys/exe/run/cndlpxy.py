@@ -92,7 +92,7 @@ def dayprinter(o, h, l, c, prev_close):
         color = Fore.GREEN if c > prev_close else Fore.RED
         
         SMAftywave = f"{Fore.GREEN}ﮩ٨ـﮩﮩ٨ـ" if SMAfty == 'up' else f"{Fore.RED}ﮩ٨ـﮩﮩ٨ـ"
-        print(f"{SMAftywave} 🚦{macd}🔆{day_change_sign}{Day_Change:.2f} ⌛️{open_change_sign}{Open_Change:.2f} ⚡{nse_power:.2f}")
+        print(f"🔆{day_change_sign}{Day_Change:.2f} ⌛️{open_change_sign}{Open_Change:.2f} ⚡{nse_power:.2f}{SMAftywave} 🚦{macd}")
     except Exception as e:
         pass
 
