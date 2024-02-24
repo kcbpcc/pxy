@@ -395,6 +395,8 @@ try:
             return pepower
         else:
             return None  # Or any default value you prefer
+
+###########################################################################################################################################################################################################
     # Apply the function to create/update the otPL% column
     combined_df['ftPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x ) / 1), -threshold, threshold)), 2))
     combined_df['otPL%'] = combined_df['ftPL%'].apply(lambda x: max(5, round(np.exp(np.clip(((x) / 1), -threshold, threshold)), 2))) + 25
