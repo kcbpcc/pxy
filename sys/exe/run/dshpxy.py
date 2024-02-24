@@ -58,10 +58,7 @@ def get_holdingsinfo(csv_file_path):
         nrmlall_Stocks_worth = (nrmlall_Stocks_df['ltp'] * nrmlall_Stocks_df['qty']).round(4).sum()
         nrmlall_Stocks_profit_loss = (nrmlall_Stocks_worth - nrmlall_Stocks_capital).round(4)
         
-        print("Number of NRML Stocks:", nrmlall_Stocks_count)
-        print("Total Capital Invested in NRML Stocks:", nrmlall_Stocks_capital)
-        print("Total Worth of NRML Stocks:", nrmlall_Stocks_worth)
-        print("Profit/Loss from NRML Stocks:", nrmlall_Stocks_profit_loss)
+        
 
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
@@ -80,7 +77,7 @@ def get_holdingsinfo(csv_file_path):
         #print("Number of Stocks Sold 💸💸💸: {}".format(zero_qty_count).rjust(38))
         all_Stocks_capital_lacks = all_Stocks_capital/100000
         all_Stocks_worth_lacks = all_Stocks_worth/100000
-        return red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage
+        return red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
