@@ -60,7 +60,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     output_lines.append(left_aligned_format.format(f"Opt Drive:{BRIGHT_GREEN if auto_value_status == 'Yes' else BRIGHT_RED}{auto_value}{RESET}") +
                         right_aligned_format.format(f"Today Profit:{BRIGHT_GREEN if (result_nrml+result) > 0 else BRIGHT_RED}{int(round((result_nrml+result), 2))}{RESET}"))   
 
-    #print("━" * 42)  # Print another line of 42 dashes           
+    print("━" * 42)  # Print another line of 42 dashes           
     #output_lines.append(f"{BRIGHT_YELLOW}Market is {nse_action} ⚡💥 - Power⚡💥{nse_power}{RESET}💥⚡")
     # Join the lines to create the full output
     full_output = '\n'.join(output_lines)
