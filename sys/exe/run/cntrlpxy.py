@@ -730,7 +730,6 @@ try:
     filtered_df['key'] = filtered_df['key'].str.replace('NIFTY24', '')
     
     filtered_df = filtered_df.sort_values(by='PL%')
-    filtered_df.drop(['group'], axis=1, inplace=True)
     
     formatted_lines = filtered_df[['Invested', 'key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
     
