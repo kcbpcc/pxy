@@ -52,6 +52,17 @@ def get_holdingsinfo(csv_file_path):
         all_Stocks_worth = selected_holdings_df['ltp'].dot(selected_holdings_df['qty']).round(4)
         all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
 
+        nrmlall_Stocks_df = selected_holdings_df[selected_holdings_df['product'] == 'NRML']
+        nrmlall_Stocks_count = len(selected_holdings_df)
+        nrmlall_Stocks_capital = selected_holdings_df['cap'].sum()
+        nrmlall_Stocks_worth = (selected_holdings_df['ltp'] * selected_holdings_df['qty']).round(4).sum()
+        nrmlall_Stocks_profit_loss = (nrmlall_Stocks_worth - nrmlall_Stocks_capital).round(4)
+        
+        print("Number of NRML Stocks:", nrmlall_Stocks_count)
+        print("Total Capital Invested in NRML Stocks:", nrmlall_Stocks_capital)
+        print("Total Worth of NRML Stocks:", nrmlall_Stocks_worth)
+        print("Profit/Loss from NRML Stocks:", nrmlall_Stocks_profit_loss)
+
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
         table = PrettyTable()
