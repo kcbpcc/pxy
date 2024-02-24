@@ -29,7 +29,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     right_aligned_format = "{:>" + str(column_width) + "}"
                
     output_lines.append(left_aligned_format.format(f"A/C Cap:{BRIGHT_YELLOW}{round(capital, 2)}{RESET}") +
-                        right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round(acvalue_to_print + 3.58, 2)}{RESET}"))
+                        right_aligned_format.format(f"A/C Now:{BRIGHT_YELLOW}{round(acvalue_to_print + 3.58, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"A/C Profit:{BRIGHT_GREEN if profit > 0 else BRIGHT_RED}{round((profit+3.58), 2)}{RESET}") +
                         right_aligned_format.format(f"A/C Loss:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}"))
     #output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
@@ -51,8 +51,8 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                         right_aligned_format.format(f"Count:{BRIGHT_YELLOW}{str(all_Stocks_count).zfill(3)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Cap:{BRIGHT_YELLOW}{round((nrmlall_Stocks_capital/100000), 2)}{RESET}") + 
                         right_aligned_format.format(f"Cap:{BRIGHT_YELLOW}{round(all_Stocks_capital_lacks, 2)}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Value:{BRIGHT_YELLOW}{round((nrmlall_Stocks_worth/100000), 2)}{RESET}") +
-                        right_aligned_format.format(f"Value:{BRIGHT_YELLOW}{round(all_Stocks_worth_lacks, 2)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Now:{BRIGHT_YELLOW}{round((nrmlall_Stocks_worth/100000), 2)}{RESET}") +
+                        right_aligned_format.format(f"Now:{BRIGHT_YELLOW}{round(all_Stocks_worth_lacks, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Unreal:{BRIGHT_GREEN if total_PnL_nrml_buy >= 0 else BRIGHT_RED}{int(total_PnL_nrml_buy)}{RESET}") +
                         right_aligned_format.format(f"Unreal:{BRIGHT_GREEN if total_dPnL >= 0 else BRIGHT_RED}{int(total_dPnL)}{RESET}")) 
     output_lines.append(left_aligned_format.format(f"Real:{BRIGHT_GREEN if result_nrml >= 0 else BRIGHT_RED}{str(int(result_nrml)).zfill(5)}{RESET}") +
