@@ -26,7 +26,7 @@ def get_holdingsinfo(csv_file_path):
         holdings_df = pd.read_csv(csv_file_path)
         selected_holdings_df = holdings_df[(holdings_df['qty'] != 0)]    
         
-        selected_columns = ['tradingsymbol', 'qty', 'close_price', 'average_price', 'ltp']
+        selected_columns = ['tradingsymbol','product', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
     
         selected_holdings_df['cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
