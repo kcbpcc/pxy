@@ -729,11 +729,8 @@ try:
     filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
     filtered_df['key'] = filtered_df['key'].str.replace('NIFTY24', '')
     
-    filtered_df['group'] = filtered_df['key'].str[-2:]
-    filtered_df['sort_key'] = filtered_df['key'].str[:3]
-    filtered_df['sort_key'] = pd.to_numeric(filtered_df['sort_key'], errors='coerce')  # Convert to numeric, replace non-numeric values with NaN
-    filtered_df = filtered_df.sort_values(by=['group', 'PL%'])  # Sorting by 'group' and 'PL%'
-    filtered_df.drop(['group', 'sort_key'], axis=1, inplace=True)
+    filtered_df = filtered_df.sort_values(by='PL%')
+    filtered_df.drop(['group'], axis=1, inplace=True)
     
     formatted_lines = filtered_df[['Invested', 'key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
     
