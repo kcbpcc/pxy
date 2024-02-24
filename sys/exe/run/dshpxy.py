@@ -53,9 +53,9 @@ def get_holdingsinfo(csv_file_path):
         all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
 
         nrmlall_Stocks_df = selected_holdings_df[selected_holdings_df['product'] == 'NRML']
-        nrmlall_Stocks_count = len(selected_holdings_df)
-        nrmlall_Stocks_capital = selected_holdings_df['cap'].sum()
-        nrmlall_Stocks_worth = (selected_holdings_df['ltp'] * selected_holdings_df['qty']).round(4).sum()
+        nrmlall_Stocks_count = len(nrmlall_Stocks_df)
+        nrmlall_Stocks_capital = nrmlall_Stocks_df['cap'].sum()
+        nrmlall_Stocks_worth = (nrmlall_Stocks_df['ltp'] * nrmlall_Stocks_df['qty']).round(4).sum()
         nrmlall_Stocks_profit_loss = (nrmlall_Stocks_worth - nrmlall_Stocks_capital).round(4)
         
         print("Number of NRML Stocks:", nrmlall_Stocks_count)
