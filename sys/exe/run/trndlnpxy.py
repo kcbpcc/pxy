@@ -6,7 +6,7 @@ import traceback
 class Trendlyne:
 
     base_url = "https://trendlyne.com/"
-    entry_url = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-pxy/all/all/"
+    entry_url = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-pxy/index/NIFTY500/nifty-500/"
     #https://trendlyne.com/fundamentals/v1/stock-screener/432332/buy-plus-pxy/index/NIFTY500/nifty-500/  
     #(Current Price > 50Day SMA) and (((Day Low+Day High+Day Open+Current Price)/4) > ((Prev Day Close+Previous Day Open)/2)) and (Prev Day Close < Previous Day Open) and (Day Open < Current Price)
     
