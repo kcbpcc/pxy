@@ -49,10 +49,10 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     )
     output_lines.append(left_aligned_format.format(f"Count:{BRIGHT_YELLOW}{str(nrmlall_Stocks_count).zfill(3)}{RESET}") +
                         right_aligned_format.format(f"Count:{BRIGHT_YELLOW}{str(all_Stocks_count).zfill(3)}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Capital: :{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
-                        right_aligned_format.format(f"Capital: :{BRIGHT_YELLOW}{zero_qty_count}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Value: :{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
-                        right_aligned_format.format(f"Value: :{BRIGHT_YELLOW}{zero_qty_count}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Capital:{nrmlall_Stocks_capital:.0f}{RESET}") +
+                        right_aligned_format.format(f"Capital:{all_Stocks_capital_lacks}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Value:{nrmlall_Stocks_worth:.0f}{RESET}") +
+                        right_aligned_format.format(f"Value:{all_Stocks_worth_lacks}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Unrealized:{BRIGHT_GREEN if total_PnL_nrml_buy >= 0 else BRIGHT_RED}{int(total_PnL_nrml_buy)}{RESET}") +
                         right_aligned_format.format(f"Unrealized:{BRIGHT_GREEN if total_PnL_cnc_buy >= 0 else BRIGHT_RED}{int(total_PnL_cnc_buy)}{RESET}")) 
     output_lines.append(left_aligned_format.format(f"Realized:{BRIGHT_GREEN if result_nrml >= 0 else BRIGHT_RED}{str(int(result_nrml)).zfill(5)}{RESET}") +
