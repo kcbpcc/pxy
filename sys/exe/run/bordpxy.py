@@ -35,13 +35,13 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                         #right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}{RESET}"))                                  
     output_lines.append(
         left_aligned_format.format(
-            f"{BRIGHT_YELLOW}{'My Options'.zfill(3)}{RESET}{str(nrmlall_Stocks_count).zfill(3)}:"
+            f"{BRIGHT_YELLOW}{'My Options'.zfill(3)}{RESET}:{str(nrmlall_Stocks_count).zfill(3)}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
-            f"         {BOLD}{UNDERLINE}PXY{RESET}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
+            f"     {BOLD}{UNDERLINE}PXY{RESET}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
         ) +
         right_aligned_format.format(
             f"{BRIGHT_GREEN if optpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
-            f"{BOLD}{UNDERLINE}®{RESET}          {BRIGHT_YELLOW}{'My Stocks'.zfill(3)}{RESET}{str(all_Stocks_count).zfill(3)}"
+            f"{BOLD}{UNDERLINE}®{RESET}      {BRIGHT_YELLOW}{'My Stocks'.zfill(3)}{RESET}:{str(all_Stocks_count).zfill(3)}"
         )
     )
     output_lines.append(left_aligned_format.format(f"Count:{BRIGHT_YELLOW}{str(nrmlall_Stocks_count).zfill(3)}{RESET}") +
