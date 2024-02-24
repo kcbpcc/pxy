@@ -70,9 +70,9 @@ def dayprinter(o, h, l, c, prev_close):
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
         
         if c > o:
-            print(Fore.GREEN + '━' * x_length + Style.RESET_ALL, end='')
+            print(Fore.GREEN + '=' * x_length + Style.RESET_ALL, end='')
         elif o > c:
-            print(Fore.RED + '━' * x_length + Style.RESET_ALL, end='')
+            print(Fore.RED + '=' * x_length + Style.RESET_ALL, end='')
         
         print(Fore.LIGHTWHITE_EX + '━' * m_length, end='')
     
