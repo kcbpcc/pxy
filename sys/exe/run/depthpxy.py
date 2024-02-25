@@ -36,9 +36,9 @@ def calculate_consecutive_candles():
         # Return the latest value
         if current_color is not None:
             if current_color == 'green':
-                return f"The latest state is +{consecutive_count}"
+                return +{consecutive_count}"
             else:
-                return f"The latest state is -{consecutive_count}"
+                return -{consecutive_count}"
 
     except Exception as e:
         return f"An error occurred: {e}"
