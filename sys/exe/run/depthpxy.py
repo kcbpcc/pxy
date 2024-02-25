@@ -29,17 +29,24 @@ try:
         if color == current_color:
             consecutive_count += 1
         else:
+            if current_color is not None:
+                if current_color == 'green':
+                    print(f"The current state is +{consecutive_count}")
+                else:
+                    print(f"The current state is -{consecutive_count}")
             consecutive_count = 1
             current_color = color
 
-    # Print the current state
-    if current_color == 'green':
-        print(f"The current state is +{consecutive_count}")
-    else:
-        print(f"The current state is -{consecutive_count}")
+    # Print the current state at the end
+    if current_color is not None:
+        if current_color == 'green':
+            print(f"The current state is +{consecutive_count}")
+        else:
+            print(f"The current state is -{consecutive_count}")
 
 except Exception as e:
     print(f"An error occurred: {e}")
+
 
 
 
