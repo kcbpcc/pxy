@@ -15,8 +15,8 @@ bear_style = Style(color="red")
 bull_style = Style(color="green")
 sell_style = Style(color="red", blink=True)
 buy_style = Style(color="green", blink=True)
-green_style = Style(color="bright_green")
-red_style = Style(color="bright_red")
+green_style = Style(color="bright_green",, underline=True)
+red_style = Style(color="bright_red",, underline=True)
 standby_style = Style(color="yellow", underline=True)
 while True:
     from selfpxy import get_random_spiritual_message
@@ -62,7 +62,10 @@ while True:
     #print("━" * 42)  # Print another line of 42 dashes 
     subprocess.run(['python3', 'cntrlpxy.py'])
     # Print values with color using rich styles
-    console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=standby_style)
+    console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]",
+                  style=Style(color="bright_green", underline=True) if mktpxy in ["Buy", "Bull"]
+                  else Style(color="bright_red", underline=True) if mktpxy in ["Sell", "Bear"]
+                  else None)
     #console.print(random_message)
     import time
     def progress_bar(duration, optpxy):
