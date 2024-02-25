@@ -79,7 +79,5 @@ def dayprinter(o, h, l, c, prev_close):
         
     except Exception as e:
         pass
-    
-    # Determine the color based on the comparison of today's close with yesterday's close
-    color = Fore.GREEN if c > prev_close else Fore.RED
+
 
