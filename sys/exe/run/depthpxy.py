@@ -35,7 +35,7 @@ def calculate_consecutive_candles():
 
         if current_color is not None:
             if current_color == 'green':
-                return consecutive_count
+                return +consecutive_count
             else:
                 return -consecutive_count
 
