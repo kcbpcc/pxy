@@ -15,8 +15,8 @@ bear_style = Style(color="red")
 bull_style = Style(color="green")
 sell_style = Style(color="red", blink=True)
 buy_style = Style(color="green", blink=True)
-green_style = Style(color="bright_green",, underline=True)
-red_style = Style(color="bright_red",, underline=True)
+green_style = Style(color="bright_green")
+red_style = Style(color="bright_red")
 standby_style = Style(color="yellow", underline=True)
 while True:
     from selfpxy import get_random_spiritual_message
