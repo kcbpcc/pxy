@@ -145,9 +145,9 @@ async def main():
     option_type = None  # Default value
     
     # Determine option type based on bmktpxy
-    if fmktpxy == 'Buy': # and smafin != 'below':
+    if fmktpxy == 'Buy' and smafin != 'below':
         option_type = 'CE'  # Call Option
-    elif fmktpxy == 'Sell': # and smafin != 'above':
+    elif fmktpxy == 'Sell' and smafin != 'above':
         option_type = 'PE'  # Put Option
     else:
         # Handle the case where fmktpxy doesn't match any condition
