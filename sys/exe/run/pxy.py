@@ -61,7 +61,6 @@ while True:
     subprocess.run(['python3', 'buypxy.py']) if peak == 'NONPEAK' and mktpxy == 'Buy' else None
     #print("━" * 42)  # Print another line of 42 dashes 
     subprocess.run(['python3', 'cntrlpxy.py'])
-    subprocess.run(['python3', 'cndlpxy.py']) 
     subprocess.run(['python3', 'worldpxy.py'])
     # Print values with color using rich styles
     console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=standby_style)
