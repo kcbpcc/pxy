@@ -12,7 +12,7 @@ try:
     tickerData = yf.Ticker(tickerSymbol)
 
     # Get the historical prices for this ticker
-    tickerDf = tickerData.history(period='1d',interval='2m')
+    tickerDf = tickerData.history(period='5d',interval='2m')
 
     # Calculate consecutive candles sequence
     consecutive_count = 1
