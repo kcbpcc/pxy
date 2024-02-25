@@ -517,6 +517,7 @@ try:
         #print("━" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
     subprocess.run(['python3', 'bcndlpxy.py']) 
+    subprocess.run(['python3', 'worldpxy.py'])
 
 ###########################################################################################################################################################################################################
     # Read data from the CSV file
