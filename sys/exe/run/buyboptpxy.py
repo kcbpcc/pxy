@@ -155,7 +155,7 @@ async def main():
     else:
         # Handle the case where bmktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
-        print("BANK - bmktpxy:", bmktpxy, "smabank:", smabank)
+        print("NBANK - bmktpxy:", bmktpxy, "smabank:", smabank)
         sys.exit(0)  # For example, exit the program with an error status
     
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
