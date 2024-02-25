@@ -702,7 +702,7 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
 ###########################################################################################################################################################################################################
-    print("━" * 42)
+    #print("━" * 42)
     from smaftypxy import check_nifty_status
     from macdpxy import calculate_macd_signal
     
