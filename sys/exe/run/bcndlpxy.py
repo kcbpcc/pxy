@@ -1,13 +1,10 @@
-import warnings
-
 # Suppress FutureWarnings
+import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 import yfinance as yf
 import pandas as pd
 import colorama
-import subprocess
-import sys
 from colorama import Fore, Style
 
 colorama.init(autoreset=True)
