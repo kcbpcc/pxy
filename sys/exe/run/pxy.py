@@ -17,7 +17,7 @@ sell_style = Style(color="red", blink=True)
 buy_style = Style(color="green", blink=True)
 green_style = Style(color="bright_green")
 red_style = Style(color="bright_red")
-standby_style = Style(color="yellow")  
+standby_style = Style(color="yellow", underline=True)
 while True:
     from selfpxy import get_random_spiritual_message
     importlib.reload(sys.modules['selfpxy'])  # Correct the usage
@@ -63,7 +63,6 @@ while True:
     subprocess.run(['python3', 'cntrlpxy.py'])
     # Print values with color using rich styles
     console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]", style=standby_style)
-    subprocess.run(['python3', 'bcndlpxy.py']) 
     #console.print(random_message)
     import time
     def progress_bar(duration, optpxy):
