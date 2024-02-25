@@ -74,7 +74,7 @@ def dayprinter(o, h, l, c, prev_close):
         elif o > c:
             print(Fore.RED + '=' * x_length + Style.RESET_ALL, end='')
         
-        print(Fore.LIGHTWHITE_EX + '━' * m_length, end='')
+        print(Fore.LIGHTWHITE_EX + '━' * m_length)
     
         
     except Exception as e:
@@ -83,20 +83,3 @@ def dayprinter(o, h, l, c, prev_close):
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
 
-
-def option_to_trade():
-    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
-    today_open = today_data['Open']
-    today_close = today_data['Close']
-    option_value = round(today_close / 50) * 50
-    return option_value
-
-# Example usage in the main program
-previous_day_close = get_previous_day_close(get_nifty50_data())
-today_close = get_today_close()
-
-if previous_day_close is not None and today_close is not None:
-    today_data = get_nifty50_data(period="1d").iloc[-1][OHLC_COLUMNS]
-    dayprinter(*today_data, previous_day_close)
-else:
-    print("Unable to fetch data.")
