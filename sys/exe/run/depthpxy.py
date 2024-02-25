@@ -36,11 +36,11 @@ def calculate_consecutive_candles():
         # Calculate cedepth and pedepth
         if current_color is not None:
             if current_color == 'green':
-                cedepth = consecutive_count * 5
+                cedepth = consecutive_count
                 pedepth = 1
             else:
                 cedepth = 1
-                pedepth = consecutive_count * 5
+                pedepth = consecutive_count
                 
             return cedepth, pedepth
 
