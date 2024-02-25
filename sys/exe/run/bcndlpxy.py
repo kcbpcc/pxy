@@ -74,7 +74,7 @@ def dayprinter(o, h, l, c, prev_close):
         elif o > c:
             print(Fore.RED + '=' * x_length + Style.RESET_ALL, end='')
         
-        print(Fore.LIGHTWHITE_EX + '━' * m_length, end='')
+        print(Fore.LIGHTWHITE_EX + '━' * m_length)
     
         
     except Exception as e:
