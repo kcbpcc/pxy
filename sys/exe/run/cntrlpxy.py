@@ -593,7 +593,7 @@ try:
                     elif (
                         row['qty'] > 0 and
                         row['avg'] != 0 and
-                        row['product'] in ['NRML', 'MIS'] and
+                        row['product'] =='NRML' and
                         auto_value == 'AUTO' and
                         'NFO:' in row['key'] and
                                             
