@@ -73,9 +73,9 @@ while True:
         for _ in range(duration):
             time.sleep(1)
             if optpxy in ['Bull', 'Buy']:
-                console.print('[green]PXY®   [/]', end='')
+                console.print('[green]PXY®    [/]', end='')
             else:
-                console.print('[red]PXY®   [/]', end='')
+                console.print('[red]PXY®    [/]', end='')
         console.print()  # Move to the next line after the progress bar
     progress_bar(cycle, optpxy)
 
