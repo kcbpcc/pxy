@@ -29,7 +29,7 @@ def calculate_cycle(current_time):
         # Convert the remaining time to seconds
         return round(remaining_time.total_seconds())
     else:
-        return 10
+        return 8
 
 # Get the current UTC time
 current_utc_time = datetime.utcnow().time()
