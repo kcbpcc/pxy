@@ -23,6 +23,4 @@ def get_prices():
     foptions = round_to_nearest_100_or_50(get_current_price('NIFTY_FIN_SERVICE.NS'))
     moptions = round_to_nearest_100_or_50(get_current_price('NIFTY_MID_SELECT.NS'))  # Fixed function call
     return noptions, boptions, foptions, moptions
-SMA_50 = get_current_price('^NSEI')
-print("NSEI Options:", SMA_50)
 
