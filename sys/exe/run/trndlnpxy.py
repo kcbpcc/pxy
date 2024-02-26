@@ -6,8 +6,8 @@ import traceback
 class Trendlyne:
 
     base_url = "https://trendlyne.com/"
-    entry_url = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-pxy/index/NIFTY500/nifty-500/"
-    #https://trendlyne.com/fundamentals/v1/stock-screener/432332/buy-plus-pxy/index/NIFTY500/nifty-500/  
+    entry_url = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-pxy/index/NFMICRO250/nifty-microcap-250/"
+    #https://trendlyne.com/fundamentals/stock-screener/432332/buy-plus-pxy/index/NFMICRO250/nifty-microcap-250/
     #(Current Price > 50Day SMA) and (((Day Low+Day High+Day Open+Current Price)/4) > ((Prev Day Close+Previous Day Open)/2)) and (Prev Day Close < Previous Day Open) and (Day Open < Current Price)
     
     #( ( ( ( Previous Day Open - Prev Day Close Rs ) / Prev Day Close Rs ) * 100 ) < 1.4 ) AND ( ( ( ( Day High Rs - Previous Day Open ) / Previous Day Open ) * 100 ) < 1.4 ) AND ( Day Volume Primary Exch / Week Volume Avg Primary Exch > 1.4 ) AND ( Previous Day Open > Prev Day Close Rs ) AND ( Current Price Rs > Previous Day Open ) AND ( Day Volume Primary Exch >= 10000 ) AND ( Previous Day Open > Day Low Rs ) AND ( Current Price Rs > Day Open Rs ) AND ( MACD > 0 )
