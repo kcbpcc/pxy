@@ -46,7 +46,7 @@ def get_today_close():
         return None, None  # Handle the case when data is not available
 
 def dayprinter(o, h, l, c, prev_close):
-    max_total_length = 30  # Maximum total length allowed for printing
+    max_total_length = 26  # Maximum total length allowed for printing
     
     try:
         # Calculate the lengths of different segments as percentages
@@ -59,24 +59,22 @@ def dayprinter(o, h, l, c, prev_close):
             x = round(((o - c) / ((h+1) - (l-1))) * 100)
             m = 100 - n - x
     
+        # Calculate the total length of all segments
+        total_length = n + x + m
+        
         # Calculate the actual lengths to be printed
-        n_length = int((n / 100) * max_total_length)
-        x_length = int((x / 100) * max_total_length)
-        m_length = int((m / 100) * max_total_length)
+        n_length = round((n / total_length) * 20)
+        x_length = round((x / total_length) * 20)
+        m_length = 20 - n_length - x_length
         
         # Print both the previous day's close and today's close in a single sentence with color
-        
-        
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
-        
         if c > o:
             print(Fore.GREEN + '━' * x_length + Style.RESET_ALL, end='')
         elif o > c:
             print(Fore.RED + '━' * x_length + Style.RESET_ALL, end='')
-        
         print(Fore.LIGHTWHITE_EX + '━' * m_length)
     
-        
     except Exception as e:
         pass
     
