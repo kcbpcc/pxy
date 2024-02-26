@@ -60,9 +60,9 @@ def dayprinter(o, h, l, c, prev_close):
             m = 100 - n - x
     
         # Calculate the actual lengths to be printed
-        n_length = min(int((n / 100) * max_total_length), max_total_length)
-        x_length = min(int((x / 100) * max_total_length), max_total_length)
-        m_length = min(int((m / 100) * max_total_length), max_total_length)
+        n_length = int((n / 100) * max_total_length)
+        x_length = int((x / 100) * max_total_length)
+        m_length = int((m / 100) * max_total_length)
         
         # Print both the previous day's close and today's close in a single sentence with color
         
