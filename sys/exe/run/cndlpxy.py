@@ -65,6 +65,7 @@ day_change_sign = '+' if Day_Change > 0 else ''
 open_change_sign = '+' if Open_Change > 0 else ''
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 43  # Maximum total length allowed for printing
+    color_code_length = 7  # Length of color codes such as Fore.GREEN
     
     try:
         # Calculate the lengths of different segments as percentages
@@ -77,21 +78,31 @@ def dayprinter(o, h, l, c, prev_close):
             x = round(((o - c) / ((h+1) - (l-1))) * 100)
             m = 100 - n - x
     
-        # Calculate the actual lengths to be printed
-        n_length = min(int((n / 100) * max_total_length), max_total_length)
-        x_length = min(int((x / 100) * max_total_length), max_total_length)
-        m_length = min(int((m / 100) * max_total_length), max_total_length)
+        # Adjust for the length of color codes
+        available_length = max_total_length - color_code_length * 3
         
-         # Print both the previous day's close and today's close in a single sentence with color
+        # Calculate the actual lengths to be printed
+        n_length = min(int((n / 100) * available_length), available_length)
+        x_length = min(int((x / 100) * available_length), available_length)
+        m_length = min(int((m / 100) * available_length), available_length)
+        
+        # Print both the previous day's close and today's close in a single sentence with color
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
+        
         if c > o:
             print(Fore.GREEN + '=' * x_length + Style.RESET_ALL, end='')
         elif o > c:
             print(Fore.RED + '=' * x_length + Style.RESET_ALL, end='')
-        print(Fore.LIGHTWHITE_EX + '━' * m_length)
         
-        # Determine the color based on the comparison of today's close with yesterday's close
-        color = Fore.GREEN if c > prev_close else Fore.RED
+        print(Fore.LIGHTWHITE_EX + '━' * m_length)
+    
+        
+    except Exception as e:
+        pass
+    
+    # Determine the color based on the comparison of today's close with yesterday's close
+    color = Fore.GREEN if c > prev_close else Fore.RED
+
         
         SMAftywave = f"{Fore.GREEN}٨ـﮩ{Style.RESET_ALL}" if SMAfty == 'up' else f"{Fore.RED}٨ـﮩ{Style.RESET_ALL}"
         print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{SMAftywave}{onemincandlesequance}🚦{macd}PE{pedepth}|CE{pedepth}")
