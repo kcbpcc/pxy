@@ -96,18 +96,14 @@ def dayprinter(o, h, l, c, prev_close):
         
         print(Fore.LIGHTWHITE_EX + '━' * m_length)
     
-        
+        SMAftywave = f"{Fore.GREEN}٨ـﮩ{Style.RESET_ALL}" if SMAfty == 'up' else f"{Fore.RED}٨ـﮩ{Style.RESET_ALL}"
+        print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{SMAftywave}{onemincandlesequance}🚦{macd}PE{pedepth}|CE{pedepth}")
     except Exception as e:
         pass
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
 
-        
-        SMAftywave = f"{Fore.GREEN}٨ـﮩ{Style.RESET_ALL}" if SMAfty == 'up' else f"{Fore.RED}٨ـﮩ{Style.RESET_ALL}"
-        print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{SMAftywave}{onemincandlesequance}🚦{macd}PE{pedepth}|CE{pedepth}")
-    except Exception as e:
-        pass
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
