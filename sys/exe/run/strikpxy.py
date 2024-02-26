@@ -24,5 +24,5 @@ def get_prices():
     moptions = round_to_nearest_100_or_50(get_current_price('NIFTY_MID_SELECT.NS'))  # Fixed function call
     return noptions, boptions, foptions, moptions
 noptions, boptions, foptions, moptions = get_prices()
-print("NSEI Options:", noptions)
+print("NSEI Options:", SMA_50)
 
