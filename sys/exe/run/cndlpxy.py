@@ -64,7 +64,7 @@ from colorama import Fore, Style
 day_change_sign = '+' if Day_Change > 0 else ''
 open_change_sign = '+' if Open_Change > 0 else ''
 def dayprinter(o, h, l, c, prev_close):
-    max_total_length = 43  # Maximum total length allowed for printing
+    max_total_length = 30  # Maximum total length allowed for printing
     
     # Calculate the length of color codes
     color_code_length = len(str(Fore.GREEN)) + len(str(Style.RESET_ALL))
@@ -84,9 +84,10 @@ def dayprinter(o, h, l, c, prev_close):
         available_length = max_total_length - color_code_length * 3
         
         # Calculate the actual lengths to be printed
-        n_length = min(int((n / 100) * available_length), available_length)
-        x_length = min(int((x / 100) * available_length), available_length)
-        m_length = min(int((m / 100) * available_length), available_length)
+        # Calculate the actual lengths to be printed
+        n_length = int((n / 100) * max_total_length)
+        x_length = int((x / 100) * max_total_length)
+        m_length = int((m / 100) * max_total_length)
         
         # Print both the previous day's close and today's close in a single sentence with color
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
