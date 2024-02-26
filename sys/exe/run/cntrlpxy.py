@@ -596,9 +596,9 @@ try:
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
                         'NFO:NIFTY' in row['key'] and
-                        (('CE' in row['key'] and row['PL%'] > 2.5 and nmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 2.5 and nmktpxy in ["Buy", "Bull"]) or
-                         (row['PL%'] > row['otPL%']))
+                        (row['PL%'] > row['otPL%'])
+#                        (('CE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Sell", "Bear"]) or
+#                         ('PE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Buy", "Bull"]) or
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -618,9 +618,9 @@ try:
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
                         'NFO:BANK' in row['key'] and
-                        (('CE' in row['key'] and row['PL%'] > 2.5 and bmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 2.5 and bmktpxy in ["Buy", "Bull"]) or
-                         (row['PL%'] > row['otPL%']))
+                        (row['PL%'] > row['otPL%'])
+#                        (('CE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Sell", "Bear"]) or
+#                         ('PE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Buy", "Bull"]) or
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -640,9 +640,9 @@ try:
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
                         'NFO:FIN' in row['key'] and
-                        (('CE' in row['key'] and row['PL%'] > 2.5 and fmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 2.5 and fmktpxy in ["Buy", "Bull"]) or
-                         (row['PL%'] > row['otPL%']))
+                        (row['PL%'] > row['otPL%'])
+#                        (('CE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Sell", "Bear"]) or
+#                         ('PE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Buy", "Bull"]) or
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -662,9 +662,10 @@ try:
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
                         'NFO:MIDCP' in row['key'] and
-                        (('CE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Buy", "Bull"]) or
-                         (row['PL%'] > row['otPL%']))
+                        (row['PL%'] > row['otPL%'])
+#                        (('CE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Sell", "Bear"]) or
+#                         ('PE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Buy", "Bull"]) or
+
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
