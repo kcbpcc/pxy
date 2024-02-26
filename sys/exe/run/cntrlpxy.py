@@ -401,10 +401,8 @@ try:
     from depthpxy import calculate_consecutive_candles
     cedepth, pedepth = calculate_consecutive_candles()
     from utcpxy import peak_time
-    
     peak = peak_time()
-    
-    if peak in ['NONPEAK', 'PEAKEND']:
+    if peak in ['PEAKSTART']:
         combined_df['otPL%'] = 50
     else:
         combined_df['otPL%'] = 2.5 + combined_df.apply(lambda row: pedepth * 5 if row['key'].endswith('PE') else cedepth * 5 if row['key'].endswith('CE') else None, axis=1)
