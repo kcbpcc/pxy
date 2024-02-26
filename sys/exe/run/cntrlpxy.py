@@ -595,77 +595,11 @@ try:
                         row['avg'] != 0 and
                         row['product'] in ['NRML', 'MIS'] and
                         auto_value == 'AUTO' and
-                        'NFO:NIFTY' in row['key'] and
-                        (row['PL%'] > row['otPL%'])
-#                        (('CE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Sell", "Bear"]) or
-#                         ('PE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Buy", "Bull"]) or
-                    ):
-                        try:                            
-                            is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                # Print the row before placing the order
-                                print(row)                                
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
-                        except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-####################1#######################################################################################################################################################################################                    
-                    elif (
-                        row['qty'] > 0 and
-                        row['avg'] != 0 and
-                        row['product'] in ['NRML', 'MIS'] and
-                        auto_value == 'AUTO' and
-                        'NFO:BANK' in row['key'] and
-                        (row['PL%'] > row['otPL%'])
-#                        (('CE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Sell", "Bear"]) or
-#                         ('PE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Buy", "Bull"]) or
-                    ):
-                        try:                            
-                            is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                # Print the row before placing the order
-                                print(row)                                
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
-                        except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-####################1#######################################################################################################################################################################################                    
-                    elif (
-                        row['qty'] > 0 and
-                        row['avg'] != 0 and
-                        row['product'] in ['NRML', 'MIS'] and
-                        auto_value == 'AUTO' and
-                        'NFO:FIN' in row['key'] and
-                        (row['PL%'] > row['otPL%'])
-#                        (('CE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Sell", "Bear"]) or
-#                         ('PE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Buy", "Bull"]) or
-                    ):
-                        try:                            
-                            is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                # Print the row before placing the order
-                                print(row)                                
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
-                        except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")    
-####################1#######################################################################################################################################################################################                    
-                    elif (
-                        row['qty'] > 0 and
-                        row['avg'] != 0 and
-                        row['product'] in ['NRML', 'MIS'] and
-                        auto_value == 'AUTO' and
-                        'NFO:MIDCP' in row['key'] and
-                        (row['PL%'] > row['otPL%'])
-#                        (('CE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Sell", "Bear"]) or
-#                         ('PE' in row['key'] and row['PL%'] > 2.5 and mmktpxy in ["Buy", "Bull"]) or
-
+                        'NFO:' in row['key'] and
+                                            
+                        (('CE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Sell", "Bear"]) or
+                         ('PE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Buy", "Bull"]) or
+                         (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
