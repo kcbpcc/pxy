@@ -12,13 +12,22 @@ if response.status_code == 200:
     # Parse the HTML content
     soup = BeautifulSoup(response.text, 'html.parser')
     
-    # Extract all text from the webpage
-    all_text = soup.get_text()
+    # Find the elements containing "Equity" and "F&O" along with their corresponding numbers
+    equity_element = soup.find(text="Equity")
+    equity_number = equity_element.find_next_sibling().text.strip()
     
-    # Write the extracted text to a text file
-    with open('extracted_text.txt', 'w', encoding='utf-8') as file:
-        file.write(all_text)
+    fo_element = soup.find(text="F&O")
+    fo_number = fo_element.find_next_sibling().text.strip()
     
-    print("Text extracted successfully and saved to 'extracted_text.txt'")
+    # Print the extracted information
+    print("Equity:", equity_number)
+    print("F&O:", fo_number)
+    
+    # Write the extracted information to a text file
+    with open('extracted_info.txt', 'w', encoding='utf-8') as file:
+        file.write("Equity: " + equity_number + "\n")
+        file.write("F&O: " + fo_number + "\n")
+    
+    print("Information extracted successfully and saved to 'extracted_info.txt'")
 else:
     print("Failed to fetch the webpage")
