@@ -65,8 +65,10 @@ day_change_sign = '+' if Day_Change > 0 else ''
 open_change_sign = '+' if Open_Change > 0 else ''
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 43  # Maximum total length allowed for printing
-    color_code_length = 7  # Length of color codes such as Fore.GREEN
     
+    # Calculate the length of color codes
+    color_code_length = len(str(Fore.GREEN)) + len(str(Style.RESET_ALL))
+
     try:
         # Calculate the lengths of different segments as percentages
         if c > o:
