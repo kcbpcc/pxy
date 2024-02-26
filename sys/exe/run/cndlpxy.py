@@ -66,9 +66,6 @@ open_change_sign = '+' if Open_Change > 0 else ''
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 30  # Maximum total length allowed for printing
     
-    # Calculate the length of color codes
-    color_code_length = len(str(Fore.GREEN)) + len(str(Style.RESET_ALL))
-
     try:
         # Calculate the lengths of different segments as percentages
         if c > o:
@@ -80,16 +77,14 @@ def dayprinter(o, h, l, c, prev_close):
             x = round(((o - c) / ((h+1) - (l-1))) * 100)
             m = 100 - n - x
     
-        # Adjust for the length of color codes
-        available_length = max_total_length - color_code_length * 3
-        
-        # Calculate the actual lengths to be printed
         # Calculate the actual lengths to be printed
         n_length = int((n / 100) * max_total_length)
         x_length = int((x / 100) * max_total_length)
         m_length = int((m / 100) * max_total_length)
         
         # Print both the previous day's close and today's close in a single sentence with color
+        
+        
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
         
         if c > o:
@@ -99,14 +94,15 @@ def dayprinter(o, h, l, c, prev_close):
         
         print(Fore.LIGHTWHITE_EX + '━' * m_length)
     
-        SMAftywave = f"{Fore.GREEN}٨ـﮩ{Style.RESET_ALL}" if SMAfty == 'up' else f"{Fore.RED}٨ـﮩ{Style.RESET_ALL}"
-        print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{SMAftywave}{onemincandlesequance}🚦{macd}PE{pedepth}|CE{cedepth}")
+        
     except Exception as e:
         pass
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
-
+    
+    SMAftywave = f"{Fore.GREEN}٨ـﮩ{Style.RESET_ALL}" if SMAfty == 'up' else f"{Fore.RED}٨ـﮩ{Style.RESET_ALL}"
+    print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{SMAftywave}{onemincandlesequance}🚦{macd}PE{pedepth}|CE{cedepth}")
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
