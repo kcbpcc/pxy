@@ -119,7 +119,7 @@ async def main():
         # Reset sys.stdout to its original value
         sys.stdout = sys.__stdout__
 
-    expiry_year, expiry_month, expiry_day = get_next_month_expiry()
+    expiry_year, expiry_month = get_next_month_expiry()
     option_type = None  # Default value
     
     # Determine option type based on bmktpxy
