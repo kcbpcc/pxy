@@ -47,44 +47,20 @@ async def send_telegram_message(message_text):
 # Define function to get this week's Wednesday date
 from datetime import datetime, timedelta
 
-def get_next_monday():
+def get_next_month_expiry():
     current_date = datetime.now()
-    # Calculate days until the next Monday (including today)
-    days_until_next_monday = (0 - current_date.weekday() + 7) % 7
 
-    # Add 7 days to find the Monday after tomorrow
-    days_until_next_monday += 7
+    # Get the first day of the next month
+    next_month = current_date.replace(day=1) + timedelta(days=32)
+    next_month = next_month.replace(day=1)
 
-    # Calculate the date of the next Monday
-    next_monday = current_date + timedelta(days=days_until_next_monday)
+    expiry_year = next_month.strftime("%y")  # Represent year with two digits
+    expiry_month = next_month.strftime("%b").upper()  
 
-    # Ensure next Monday is at least 9 days away
-    if (next_monday - current_date).days < 9:
-        next_monday += timedelta(days=7)
+    return expiry_year, expiry_month
 
-    # Extract year, month, and day components
-    expiry_year = next_monday.strftime("%y")
-    expiry_month = next_monday.strftime("%m")
-    expiry_day = next_monday.strftime("%d")
-
-    # Ensure month is represented as single digit if less than October
-    if int(expiry_month) < 10:
-        expiry_month = expiry_month[1]
-
-    # Ensure day is represented as two digits
-    expiry_day = expiry_day.zfill(2)
-
-    return expiry_year, expiry_month, expiry_day
-
-
-def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
-    if expiry_day is None:
-        return f"MIDCPNIFTY{expiry_year}{expiry_month}{moptions}{option_type}"
-    else:
-        return f"MIDCPNIFTY{expiry_year}{expiry_month}{expiry_day}{moptions}{option_type}"
-
-
-
+def construct_symbol(expiry_year, expiry_month, option_type):
+    return f"MIDCPNIFTY{expiry_year}{expiry_month}{moptions}{option_type}"
 
 # Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
@@ -142,7 +118,7 @@ async def main():
         # Reset sys.stdout to its original value
         sys.stdout = sys.__stdout__
 
-    expiry_year, expiry_month, expiry_day = get_next_monday()
+    expiry_year, expiry_month = get_next_month_expiry()
     option_type = None  # Default value
     
     # Determine option type based on bmktpxy
@@ -156,7 +132,7 @@ async def main():
         print("MCAP - mmktpxy:", mmktpxy, "smamcap:", smamcap)
         sys.exit(0)  # For example, exit the program with an error status
     
-    symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
+    symbol = construct_symbol(expiry_year, expiry_month, option_type)
 
     if check_existing_positions(broker, symbol):
         print(f"{symbol} is already there")
