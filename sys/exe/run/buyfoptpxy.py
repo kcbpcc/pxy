@@ -43,47 +43,20 @@ async def send_telegram_message(message_text):
         print(f"Error sending message to Telegram: {e}")
 
 # Define function to get this week's Tuesday date
-def get_next_tuesday():
+def get_next_month_expiry():
     current_date = datetime.now()
-    # Calculate days until the next Tuesday
-    days_until_next_tuesday = (1 - current_date.weekday() + 7) % 7
 
-    # If today is Tuesday, add 7 days to find the next Tuesday
-    if days_until_next_tuesday == 0:
-        days_until_next_tuesday += 7
+    # Get the first day of the next month
+    next_month = current_date.replace(day=1) + timedelta(days=32)
+    next_month = next_month.replace(day=1)
 
-    # Calculate the date of the next Tuesday
-    next_tuesday = current_date + timedelta(days=days_until_next_tuesday)
+    expiry_year = next_month.strftime("%y")  # Represent year with two digits
+    expiry_month = next_month.strftime("%b").upper()  
 
-    # Ensure next Tuesday is at least 9 days away
-    if (next_tuesday - current_date).days < 9:
-        next_tuesday += timedelta(days=7)
+    return expiry_year, expiry_month
 
-    # Check if next Tuesday is the last Tuesday of the month
-    last_day_of_month = (next_tuesday.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
-    if next_tuesday.month != (next_tuesday + timedelta(days=7)).month:
-        if next_tuesday.day > last_day_of_month.day - 7:
-            return next_tuesday.strftime("%y"), next_tuesday.strftime("%b").upper(), None
-
-    # Extract year, month, and day components
-    expiry_year = next_tuesday.strftime("%y")  # Represent year with two digits
-
-    # Represent month accordingly
-    expiry_month = next_tuesday.strftime("%-m")  # Single digit for 1 to 9
-    if int(expiry_month) >= 10:
-        expiry_month = next_tuesday.strftime("%m")  # Two digits for 10 to 12
-
-    expiry_day = next_tuesday.strftime("%d").zfill(2)  # Ensure date is represented with 2 digits
-
-    return expiry_year, expiry_month, expiry_day
-
-
-def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
-    if expiry_day is None:
-        return f"FINNIFTY{expiry_year}{expiry_month}{foptions}{option_type}"
-    else:
-        return f"FINNIFTY{expiry_year}{expiry_month}{expiry_day}{foptions}{option_type}"
-
+def construct_symbol(expiry_year, expiry_month, option_type):
+    return f"FINNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
 
 # Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
@@ -141,7 +114,7 @@ async def main():
         # Reset sys.stdout to its original value
         sys.stdout = sys.__stdout__
 
-    expiry_year, expiry_month, expiry_day = get_next_tuesday()
+    expiry_year, expiry_month = get_next_month_expiry()
     option_type = None  # Default value
     
     # Determine option type based on bmktpxy
@@ -156,7 +129,7 @@ async def main():
         sys.exit(0)  # For example, exit the program with an error status
     
     # Construct the symbol based on the determined expiry and option type
-    symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
+    symbol = construct_symbol(expiry_year, expiry_month, option_type)
 
     if check_existing_positions(broker, symbol):
         print(f"{symbol} is already there.")
