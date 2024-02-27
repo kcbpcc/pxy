@@ -55,7 +55,7 @@ def get_next_month_expiry():
     next_month = next_month.replace(day=1)
 
     expiry_year = next_month.strftime("%y")  # Represent year with two digits
-    expiry_month = next_month.strftime("%m")  # Represent month with two digits
+    expiry_month = next_month.strftime("%b").upper()  
 
     return expiry_year, expiry_month
 
