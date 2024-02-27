@@ -59,7 +59,7 @@ def get_next_month_expiry():
 
     return expiry_year, expiry_month
 
-def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
+def construct_symbol(expiry_year, expiry_month, option_type):
     return f"BANKNIFTY{expiry_year}{expiry_month}{boptions}{option_type}"
 
 
