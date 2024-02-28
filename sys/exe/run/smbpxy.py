@@ -22,7 +22,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 symbol = '^NSEI'
 
 # Intervals
-intervals = [5, 4, 3, 2, 1]
+intervals = 1
 periods = [1, 2, 3, 4, 5]
 
 # Create a Console instance for rich print formatting
