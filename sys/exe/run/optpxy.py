@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 def fetch_data():
     # Fetch real-time data for the specified interval
-    data = yf.Ticker('^NSEI').history(period="5d", interval="2m")
+    data = yf.Ticker('^NSEI').history(period="5d", interval="1m")
     return data
 
 def calculate_heikin_ashi_colors(data):
