@@ -164,32 +164,36 @@ if decision == "YES":
             return dct['tradingsymbol'], remaining_cash
 
 
-    if any(lst_tlyne):
-        new_list = []
+if any(lst_tlyne):
+    new_list = []
 
-        # Filter the original list based on the subset of 'tradingsymbol' values
-        lst_all_orders = [d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
+    # Filter the original list based on the subset of 'tradingsymbol' values
+    lst_all_orders = [d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
 
-        # Read the list of previously failed symbols from the file
-        with open(black_file, 'r') as file:
-            lst_failed_symbols = [line.strip() for line in file.readlines()]
-        logging.info(f"ignored symbols: {lst_failed_symbols}")
-        lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
+    # Read the list of previously failed symbols from the file
+    with open(black_file, 'r') as file:
+        lst_failed_symbols = [line.strip() for line in file.readlines()]
+    logging.info(f"Ignored symbols: {lst_failed_symbols}")
+    lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
 
-        response = broker.kite.margins()
-        remaining_cash = response["equity"]["available"]["live_balance"]
+    response = broker.kite.margins()
+    remaining_cash = response["equity"]["available"]["live_balance"]
 
-        for d in lst_orders:
-            symbol, remaining_cash = transact(d, remaining_cash, broker)
-            Utilities().slp_til_nxt_sec()
+    for d in lst_orders:
+        symbol, remaining_cash = transact(d, remaining_cash, broker)
+        Utilities().slp_til_nxt_sec()
 
-        # write the failed symbols to file, so we don't repeat them again
-        if any(new_list):
-            with open(black_file, 'w') as file:
-                for symbol in new_list:
-                    file.write(symbol + '\n')
+        # Check if remaining cash falls below $10,000 and exit the loop
+        if remaining_cash < 10000:
+            break
 
-        print(f"Remaining Cash💰: {round(remaining_cash, 0)}")
+    # Write the failed symbols to file, so we don't repeat them again
+    if any(new_list):
+        with open(black_file, 'w') as file:
+            for symbol in new_list:
+                file.write(symbol + '\n')
+
+    print(f"Remaining Cash💰: {int(round(remaining_cash, 0))}")
 
 elif decision == "NO":
     # Perform actions for "NO"
