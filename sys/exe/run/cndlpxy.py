@@ -86,9 +86,9 @@ def dayprinter(o, h, l, c, prev_close):
         # Print both the previous day's close and today's close in a single sentence with color
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
         if c > o:
-            print(Fore.GREEN + '█' * x_length + Style.RESET_ALL, end='')
+            print(Fore.GREEN + '━' * x_length + Style.RESET_ALL, end='')
         elif o > c:
-            print(Fore.RED + '█' * x_length + Style.RESET_ALL, end='')
+            print(Fore.RED + '━' * x_length + Style.RESET_ALL, end='')
         print(Fore.LIGHTWHITE_EX + '━' * m_length)
     
     except Exception as e:
