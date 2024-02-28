@@ -619,7 +619,7 @@ try:
                         row['avg'] != 0 and
                         row['PL%'] < -70 and
                         row['product'] == 'NRML' and
-                        row['PL%'] < -80
+                        row['PL%'] < -90
                     ):
                         try:                            
                             is_placed = nrml_order_avg_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
