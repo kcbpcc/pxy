@@ -64,11 +64,11 @@ def check_existing_positions(broker, symbol):
     positions_net = positions_response['net']
 
     for position in positions_net:
-        if position['tradingsymbol'] == symbol and position['quantity'] >= 40:
-            return True  # Existing positions found
+        if position['tradingsymbol'] == symbol:
+            return True  # Existing position found
 
     return False
-
+    
 # Define function to place order for the symbol
 async def place_order(broker, symbol):
     try:
