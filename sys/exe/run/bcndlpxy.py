@@ -49,30 +49,28 @@ def dayprinter(o, h, l, c, prev_close):
     max_total_length = 42  # Maximum total length allowed for printing
     
     try:
-        # Calculate the lengths of different segments as percentages
+        # Calculate the lengths of different segments as percentages of H - L
+        candle_length = h - l
         if c > o:
-            n = round(((o - (l-1)) / ((h+1) - (l-1))) * 100)
-            x = round(((c - o) / ((h+1) - (l-1))) * 100)
+            n = round(((o - l) / candle_length) * 100)
+            x = round(((c - o) / candle_length) * 100)
             m = 100 - n - x
         else:
-            n = round(((c - (l-1)) / ((h+1) - (l-1))) * 100)
-            x = round(((o - c) / ((h+1) - (l-1))) * 100)
+            n = round(((c - l) / candle_length) * 100)
+            x = round(((o - c) / candle_length) * 100)
             m = 100 - n - x
     
-        # Calculate the total length of all segments
-        total_length = n + x + m
-        
         # Calculate the actual lengths to be printed
-        n_length = round((n / total_length) * 20)
-        x_length = round((x / total_length) * 20)
-        m_length = 42 - n_length - x_length
+        n_length = round((n / 100) * max_total_length)
+        x_length = round((x / 100) * max_total_length)
+        m_length = max_total_length - n_length - x_length
         
         # Print both the previous day's close and today's close in a single sentence with color
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
         if c > o:
-            print(Fore.GREEN + '━' * x_length + Style.RESET_ALL, end='')
+            print(Fore.GREEN + '█' * x_length + Style.RESET_ALL, end='')
         elif o > c:
-            print(Fore.RED + '━' * x_length + Style.RESET_ALL, end='')
+            print(Fore.RED + '█' * x_length + Style.RESET_ALL, end='')
         print(Fore.LIGHTWHITE_EX + '━' * m_length)
     
     except Exception as e:
@@ -80,7 +78,6 @@ def dayprinter(o, h, l, c, prev_close):
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
-
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
