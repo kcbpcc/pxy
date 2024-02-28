@@ -695,7 +695,7 @@ try:
         print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
 
 ###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'cndlpxy.py'])
+    #subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py'])
 
     from dshpxy import get_holdingsinfo
