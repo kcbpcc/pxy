@@ -619,13 +619,13 @@ try:
                         row['avg'] != 0 and
                         row['PL%'] < -70 and
                         row['product'] == 'NRML' and
-                        row['PL%'] < -99
+                        row['PL%'] < -100
                     ):
                         try:                            
-                            is_placed = nrml_order_avg_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
+                            #is_placed = nrml_order_avg_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            #if is_placed:
                                 # Print the row before placing the order
-                                print(BRIGHT_YELLOW + str(row) + RESET_COLOR)
+                            print(BRIGHT_YELLOW + str(row) + RESET_COLOR)
                         except InputException as e:
                             # Handle the specific exception and print only the error message
                             print(f"An error occurred while placing an order for key {key}: {e}")
