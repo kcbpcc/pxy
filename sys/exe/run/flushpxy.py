@@ -79,8 +79,8 @@ def order_place(index, row):
                                 del row[column]
                         message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
                         # Define the bot token and your Telegram username or ID
-                        bot_token = '6409002088:AAH9mu0lfjvHl_IgRAgX7YrjJQa2Ew9qaLo'  # Replace with your actual bot token
-                        user_usernames = ('-4022487175')  # Replace with your Telegram username or ID
+                        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+                        user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
                         # Function to send a message to Telegram
                         async def send_telegram_message(message_text):
                             bot = telegram.Bot(token=bot_token)
@@ -132,8 +132,8 @@ def nrml_order_place(index, row):
                                 del row[column]
                         message_text = f"{str(row):>10} \nhttps://console.zerodha.com/verified/f5f15318\nBooked profit until now: {result_nrml}"
                         # Define the bot token and your Telegram username or ID
-                        bot_token = '6396096532:AAG5adz_SeUwV8WLn7miteljk_pRrpt8mO0'  # Replace with your actual bot token
-                        user_usernames = ('-4067167377')  # Replace with your Telegram username or ID
+                        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+                        user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
                         # Function to send a message to Telegram
                         async def send_telegram_message(message_text):
                             bot = telegram.Bot(token=bot_token)
@@ -154,7 +154,7 @@ def nrml_order_place(index, row):
         logging.error(f"{str(e)} while placing order")
     return False
 ###########################################################################################################################################################################################################
-def nrml_AVARAGE_order_place(index, row):
+def nrml_order_avg_place(index, row):
     try:
         exchsym = str(index).split(":")
         if len(exchsym) >= 2:
@@ -163,7 +163,7 @@ def nrml_AVARAGE_order_place(index, row):
                 tradingsymbol=exchsym[1],
                 exchange=exchsym[0],
                 transaction_type='BUY',
-                quantity=50,
+                quantity=int(row['qty']),
                 order_type='MARKET',
                 product=row['product'],
                 variety='regular',
@@ -183,10 +183,10 @@ def nrml_AVARAGE_order_place(index, row):
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
-                        message_text = f"{str(row):>10} \nhttps://console.zerodha.com/verified/f5f15318\nBooked profit until now: {result}"
+                        message_text = f"{str(row):>10} \nhttps://console.zerodha.com/verified/f5f15318\nBooked profit until now: {result_nrml}"
                         # Define the bot token and your Telegram username or ID
-                        bot_token = '6396096532:AAG5adz_SeUwV8WLn7miteljk_pRrpt8mO0'  # Replace with your actual bot token
-                        user_usernames = ('-4067167377')  # Replace with your Telegram username or ID
+                        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+                        user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
                         # Function to send a message to Telegram
                         async def send_telegram_message(message_text):
                             bot = telegram.Bot(token=bot_token)
@@ -207,6 +207,7 @@ def nrml_AVARAGE_order_place(index, row):
         logging.error(f"{str(e)} while placing order")
     return False
 ###########################################################################################################################################################################################################
+    
 def order_place_avg(index, row):
     try:
         exchsym = str(index).split(":")
@@ -238,8 +239,8 @@ def order_place_avg(index, row):
                 try:
                     message_text = f"{row['ltp']} \nhttps://www.tradingview.com/chart/?symbol={exchsym[1]}"
                     # Define the bot token and your Telegram username or ID
-                    bot_token = '6704281753:AAEed33wBCxEN81n-NUfajo8pm9gcCVxeZg'  # Replace with your actual bot token
-                    user_id = '-4093430309'  # Replace with your Telegram user ID
+                    bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+                    user_id = '-4136531362'  # Replace with your Telegram user ID
                     # Function to send a message to Telegram
                     async def send_telegram_message(message_text):
                         bot = telegram.Bot(token=bot_token)
@@ -304,6 +305,8 @@ try:
     import asyncio
     from selfpxy import get_random_spiritual_message
     from optpxy import get_optpxy
+    from macdpxy import calculate_macd_signal
+    macd = calculate_macd_signal("^NSEI")
     optpxy = get_optpxy()
     random_message = get_random_spiritual_message()
     switch = analyze_stock()
@@ -379,18 +382,33 @@ try:
     from nftpxy import nse_action, nse_power, OPTIONS  
     threshold = 3
 ###########################################################################################################################################################################################################
+
     nse_factor = {"Bearish": 0.5, "Bear": 1.0, "Bull": 1.5, "Bullish": 2.0}.get(nse_action, 1.0) 
     options_nse_factor = {"Bearish": 2.0, "Bear": 1.5, "Bull": 0.10, "Bullish": 0.5}.get(nse_action, 1.0)  
     exp_nse_factor = math.exp(options_nse_factor)
-    combined_df['otPL%'] = 15 #round(33 * exp_nse_factor, 2) * (1 - ((1+ combined_df['qty'])/500)) 
+    from smapowerpxy import check_smapower_status 
+    cepower, pepower = check_smapower_status('^NSEI')
+    def assign_otpl(row):
+        if 'CE' in row['key']:
+            return cepower
+        elif 'PE' in row['key']:
+            return pepower
+        else:
+            return None  # Or any default value you prefer
+
+###########################################################################################################################################################################################################
+    # Apply the function to create/update the otPL% column
+    from depthpxy import calculate_consecutive_candles
+    cedepth, pedepth = calculate_consecutive_candles()
+    combined_df['otPL%'] = (3 + combined_df.apply(lambda row: pedepth * 0.5 if row['key'].endswith('PE') else cedepth * 0.5  if row['key'].endswith('CE') else None, axis=1))
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
 ###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'prftpxy.py'])
-    subprocess.run(['python3', 'nrmlprftpxy.py'])
+    #subprocess.run(['python3', 'prftpxy.py'])
+    #subprocess.run(['python3', 'nrmlprftpxy.py'])
 ###########################################################################################################################################################################################################
     # Calculate 'Invested' column
-    combined_df['Invested'] = combined_df['qty'] * combined_df['average_price']
+    combined_df['Invested'] = (combined_df['qty'] * combined_df['average_price']).round(0).astype(int)
     # Calculate 'value' column as 'qty' * 'ltp'
     combined_df['value'] = combined_df['qty'] * combined_df['ltp']
     combined_df['value_H'] = combined_df['qty'] * combined_df['high']
@@ -410,7 +428,7 @@ try:
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
-    numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','_pstp','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
+    numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)        # Filter combined_df
     filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) & combined_df['key'].str.startswith('NFO')) | ((combined_df['product'].isin(['CNC', 'MIS'])) & (combined_df['qty'] != 0))]
     # Filter combined_df for rows where 'qty' is greater than 0
@@ -439,10 +457,10 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','otPL%','_pstp','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
+    pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','otPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
-    EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','otPL%','_pstp','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
+    EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','otPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
     PRINT_df = pxy_df[['source','product','key','fPL%','tPL%','PL%','PnL','qty','smb_power']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'qty': 'Q', 'smb_power': 'TR','key': 'key','dPL%': 'dPL%'})
@@ -489,34 +507,44 @@ try:
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
     cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > PRINT_df_sorted_display['fPL%'] ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '🧰')]
-    nrml_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['key','otPL%', 'tPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
+    nrml_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
     nrml_filtered_df['otPL%'] = nrml_filtered_df['otPL%'].round(2)    
-    nrml_filtered_df['key'] = nrml_filtered_df['key'].str.replace('NFO:NIFTY', '')
+    nrml_filtered_df['key'] = nrml_filtered_df['key'].str.replace('NFO:', '')
 ###########################################################################################################################################################################################################
     if not cnc_filtered_df.empty:
         print("━" * 42)
-        print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
-        print("━" * 42)
+        #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
+        #print("━" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
-    #subprocess.run(['python3', 'cndlpxy.py'])  # Run 'cndlpxy.py' using subprocess
+    subprocess.run(['python3', 'bcndlpxy.py']) 
 
 ###########################################################################################################################################################################################################
-    import csv
-    
-    # Specify the CSV file name
-    file_name = 'mempxy.csv'
-    
     # Read data from the CSV file
+    file_name = 'mempxy.csv'
     with open(file_name, 'r') as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
             auto_value = row['AUTO']
     
-    # Now, you can use the 'auto_value' variable in your program
+            # Ensure auto_value is a string
+            if isinstance(auto_value, list):
+                # If auto_value is a list, take the first element as the value
+                auto_value = auto_value[0]
+    
+        # Now, you can use the 'auto_value' variable in your program
 ###########################################################################################################################################################################################################   
-    from utcpxy import peak_time
-    utct = peak_time()
-    #print(utct)
+    from mktrndpxy import get_market_status_for_symbol
+    importlib.reload(sys.modules['mktrndpxy'])
+    nmktpxy = get_market_status_for_symbol('^NSEI')
+    bmktpxy = get_market_status_for_symbol('^NSEBANK')
+    fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
+    mmktpxy = get_market_status_for_symbol('NIFTY_MID_SELECT.NS')
+    from optpxy import get_optpxy
+    importlib.reload(sys.modules['optpxy'])  # Correct the usage 
+    optpxy = get_optpxy()
+    from mktpxy import get_market_check
+    importlib.reload(sys.modules['mktpxy'])  # Correct the usage
+    onemincandlesequance, mktpxy = get_market_check()
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
     csv_file_path_nrml = 'filePnL_nrml.csv'
@@ -545,9 +573,9 @@ try:
                          nse_power < 0.9 and
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.4 and
-                         row['PL%'] > row['fPL%'] and
-                         mktpxy in ['Sell', 'Bear']) and
+                         row['PL%'] > 1.4) and
                         (
+                            (row['source'] == 'holdings' and row['PL%'] > row['tPL%']) or (row['source'] == 'positions' and row['PL%'] > row['tPL%'])
                         )
                     ):
                         try:                            
@@ -561,13 +589,17 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-###########################################################################################################################################################################################################                    
+####################1#######################################################################################################################################################################################                    
                     elif (
                         row['qty'] > 0 and
                         row['avg'] != 0 and
-                        row['product'] in ['NRML', 'MIS'] and
-                        auto_value == 'AUTO'and
-                        nrml_percentage_return > row['otPL%']
+                        row['product'] =='NRML' and
+                        auto_value == 'AUTO' and
+                        'NFO:' in row['key'] and
+                                            
+                        (('CE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Sell", "Bear"]) or
+                         ('PE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Buy", "Bull"]) or
+                         (row['PL%'] > row['otPL%']))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -579,22 +611,21 @@ try:
                             print(f"An error occurred while placing an order for key {key}: {e}")
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-                            #mktpxy in ['Sell-opts'] and
-########################################################################################################################################################################################################### 
+                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")                            
+###########################################################################################################################################################################################################                    
                     elif (
-                        row['qty'] == 0 and
-                        mktpxy in ['Sell'] and
-                        nse_power < 0.5 and
-                        available_cash > 10000 and
-                        auto_value == 'LATER'and
-                        row['product'] in ['NRML', 'MIS']
+                        row['key'].endswith(('PE', 'CE')) and
+                        row['qty'] > 0 and
+                        row['avg'] != 0 and
+                        row['PL%'] < -70 and
+                        row['product'] == 'NRML' and
+                        row['PL%'] < -99
                     ):
                         try:                            
-                            is_placed = nrml_AVARAGE_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            is_placed = nrml_order_avg_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
-                                print(row)                                
+                                print(BRIGHT_YELLOW + str(row) + RESET_COLOR)
                         except InputException as e:
                             # Handle the specific exception and print only the error message
                             print(f"An error occurred while placing an order for key {key}: {e}")
@@ -602,73 +633,77 @@ try:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
 ###########################################################################################################################################################################################################     
-                    elif (
-                        (row['qty'] > 0 and
-                         row['avg'] != 0 and
-                         available_cash > 20000 and
-                         nse_power < 0.1 and
-                         optpxy in ['Buy', 'Bull'] and
-                         row['PL%'] < -18)
-                    ):
-                        try:                            
-                            is_placed = order_place_avg(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                # Print the row before placing the order
-                                print(row['key'])                                
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
-                        except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
 ###########################################################################################################################################################################################################
+    #print("━" * 42)
+    from smaftypxy import check_nifty_status
+    from macdpxy import calculate_macd_signal
+    
+    SMAfty = check_nifty_status()
+    macd = calculate_macd_signal("^NSEI")
+    
+    if nrml_filtered_df.empty:
+        print("optpxy: options not activated, let's wait!")
+    else:
+        filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0].copy()
+        
+        if filtered_df.empty:
+            print("no options yet in the swing .")
+        else:
+            # Define ANSI escape codes
+            GREEN = '\033[92m'
+            RED = '\033[91m'
+            GRAY = '\033[90m'
+            RESET = '\033[0m'
+    
+    filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
+    import pandas as pd
+    import numpy as np
+    
+    filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
+    filtered_df['key'] = filtered_df['key'].str.replace('NIFTY24', '')
+    
+    filtered_df = filtered_df.sort_values(by='PL%')
+    
+    formatted_lines = filtered_df[['Invested', 'key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+    
+    # Set max_width to 42
+    max_width = 42
+    
+    # Iterate over each line and format it with color based on PnL value
+    for line in formatted_lines:
+        values = line.split()
+        pnl_value_str = values[-1]
+        # Check if PnL value is a valid float
+        try:
+            pnl_value = float(pnl_value_str)
+        except ValueError:
+            pnl_value = None  # PnL value is not a valid float
+        # Set color based on PnL value
+        if pnl_value is not None:
+            if pnl_value > 0:
+                color_code = GREEN  # Using GREEN for green text
+            elif pnl_value < 0:
+                color_code = GRAY  # Using RED for red text
+            else:
+                color_code = RESET  # Reset color for PnL value of 0
+        else:
+            color_code = RESET  # Reset color for invalid PnL values
+        # Right-align the text, apply color, and reset color after the line
+        print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
+
+###########################################################################################################################################################################################################
+    subprocess.run(['python3', 'cndlpxy.py'])
+    subprocess.run(['python3', 'worldpxy.py'])
+
     from dshpxy import get_holdingsinfo
-    red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage = get_holdingsinfo('fileHPdf.csv')    
+    all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo('fileHPdf.csv')    
     from bordpxy import printbord
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
-             nse_action, nse_power,red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy)
-###########################################################################################################################################################################################################
- 
-    
-    if nrml_filtered_df.empty:
-        print("optpxy: options not activated, lets wait!")
-
-    else:
-        formatted_lines = nrml_filtered_df[['key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
-    
-        # Set max_width to 42
-        max_width = 42
-    
-        # Iterate over each line and format it with color based on PnL value
-        for line in formatted_lines:
-            values = line.split()
-            pnl_value_str = values[-1]
-    
-            # Check if PnL value is a valid float
-            try:
-                pnl_value = float(pnl_value_str)
-            except ValueError:
-                pnl_value = None  # PnL value is not a valid float
-    
-            # Set color based on PnL value
-            if pnl_value is not None:
-                if pnl_value > 0:
-                    color_code = GREEN  # Using GREEN for green text
-                elif pnl_value < 0:
-                    color_code = RED  # Using RED for red text
-                else:
-                    color_code = RESET  # Reset color for PnL value of 0
-            else:
-                color_code = RESET  # Reset color for invalid PnL values
-    
-            # Right-align the text, apply color, and reset color after the line
-            print(color_code + line.rjust(max_width) + RESET)
-    print(f"Lets play with {YELLOW}{OPTIONS}{RESET} ||Option P&L%:{SILVER} {GREEN if nrml_percentage_return >= 0 else RED}{nrml_percentage_return}%{RESET}")
-    print("━" * 42)
+             nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss)
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
