@@ -182,14 +182,19 @@ if decision == "YES":
         for d in lst_orders:
             symbol, remaining_cash = transact(d, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
+            # Check if remaining cash falls below 25000 and exit the loop
+            if remaining_cash < 25000:
+                break
 
         # write the failed symbols to file, so we don't repeat them again
         if any(new_list):
             with open(black_file, 'w') as file:
                 for symbol in new_list:
                     file.write(symbol + '\n')
+        if remaining_cash < 25000:
+            break
+            print(f"Remaining Cash💰: {int(round(remaining_cash))}")
 
-        print(f"Remaining Cash💰: {round(remaining_cash, 0)}")
 
 elif decision == "NO":
     # Perform actions for "NO"
