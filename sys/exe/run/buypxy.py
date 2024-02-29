@@ -162,7 +162,6 @@ if decision == "YES":
         except Exception as e:
             logging.error(f"Error while placing order: {str(e)}")
             return dct['tradingsymbol'], remaining_cash
-lst_tlyne = [...]
 if any(lst_tlyne):
     new_list = []
 
@@ -193,6 +192,7 @@ if any(lst_tlyne):
                 file.write(symbol + '\n')
 
     print(f"Remaining Cash💰: {int(round(remaining_cash, 0))}")
+
 
 elif decision == "NO":
     # Perform actions for "NO"
