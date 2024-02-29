@@ -119,7 +119,7 @@ if decision == "YES":
             logging.info(f"LTP for {dct['tradingsymbol']} on NSE is {ltp_nse}")
     
             # If LTP from NSE is available and greater than 0, proceed with the order
-            if ltp_nse > 0 and available_cash > 50000:
+            if ltp_nse > 0 and available_cash > 21000:
                 # Place the order on NSE
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
@@ -182,8 +182,6 @@ if decision == "YES":
         for d in lst_orders:
             symbol, remaining_cash = transact(d, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
-            # Check if remaining cash falls below $10,000 and exit the loop
-
 
         # write the failed symbols to file, so we don't repeat them again
         if any(new_list):
