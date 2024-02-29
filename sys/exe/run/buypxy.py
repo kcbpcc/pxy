@@ -183,7 +183,7 @@ if decision == "YES":
             Utilities().slp_til_nxt_sec()
 
             # Check if remaining cash falls below $10,000 and exit the loop
-            if remaining_cash < 50000:
+            if remaining_cash < 25000:
                 break
 
         # Write the failed symbols to file, so we don't repeat them again
