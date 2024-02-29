@@ -163,37 +163,39 @@ if decision == "YES":
             logging.error(f"Error while placing order: {str(e)}")
             return dct['tradingsymbol'], remaining_cash
 
-
+    
     if any(lst_tlyne):
         new_list = []
-
+    
         # Filter the original list based on the subset of 'tradingsymbol' values
         lst_all_orders = [d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
-
+    
         # Read the list of previously failed symbols from the file
         with open(black_file, 'r') as file:
             lst_failed_symbols = [line.strip() for line in file.readlines()]
-        logging.info(f"ignored symbols: {lst_failed_symbols}")
+        logging.info(f"Ignored symbols: {lst_failed_symbols}")
         lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
-
+    
         response = broker.kite.margins()
         remaining_cash = response["equity"]["available"]["live_balance"]
-
+    
         for d in lst_orders:
             symbol, remaining_cash = transact(d, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
+    
             # Check if remaining cash falls below 25000 and exit the loop
             if remaining_cash < 25000:
                 break
-
-        # write the failed symbols to file, so we don't repeat them again
+    
+        # Write the failed symbols to file, so we don't repeat them again
         if any(new_list):
             with open(black_file, 'w') as file:
                 for symbol in new_list:
                     file.write(symbol + '\n')
-        if remaining_cash < 25000:
-            break
-            print(f"Remaining Cash💰: {int(round(remaining_cash))}")
+    
+        # Print remaining cash after the loop completes
+        print(f"Remaining Cash💰: {int(round(remaining_cash))}")
+
 
 
 elif decision == "NO":
