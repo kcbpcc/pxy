@@ -162,8 +162,7 @@ if decision == "YES":
         except Exception as e:
             logging.error(f"Error while placing order: {str(e)}")
             return dct['tradingsymbol'], remaining_cash
-
-
+lst_tlyne = [...]
 if any(lst_tlyne):
     new_list = []
 
