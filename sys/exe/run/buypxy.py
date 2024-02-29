@@ -162,7 +162,8 @@ if decision == "YES":
         except Exception as e:
             logging.error(f"Error while placing order: {str(e)}")
             return dct['tradingsymbol'], remaining_cash
-            
+
+
     if any(lst_tlyne):
         new_list = []
 
@@ -172,7 +173,7 @@ if decision == "YES":
         # Read the list of previously failed symbols from the file
         with open(black_file, 'r') as file:
             lst_failed_symbols = [line.strip() for line in file.readlines()]
-        logging.info(f"Ignored symbols: {lst_failed_symbols}")
+        logging.info(f"ignored symbols: {lst_failed_symbols}")
         lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
 
         response = broker.kite.margins()
@@ -181,23 +182,21 @@ if decision == "YES":
         for d in lst_orders:
             symbol, remaining_cash = transact(d, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
-
             # Check if remaining cash falls below $10,000 and exit the loop
-            if remaining_cash < 25000:
-                break
+            if remaining_cash < 50000:
+                break    
 
-        # Write the failed symbols to file, so we don't repeat them again
+        # write the failed symbols to file, so we don't repeat them again
         if any(new_list):
             with open(black_file, 'w') as file:
                 for symbol in new_list:
                     file.write(symbol + '\n')
 
-        print(f"Remaining Cash💰: {int(round(remaining_cash, 0))}")
+        print(f"Remaining Cash💰: {round(remaining_cash, 0)}")
 
 elif decision == "NO":
     # Perform actions for "NO"
     print("\033[91mNo sufficient funds available \033[0m")
     print("-" * 42)
-
 
 
