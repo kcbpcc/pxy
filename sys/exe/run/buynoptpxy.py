@@ -73,7 +73,7 @@ async def place_order(broker, symbol):
             exchange="NFO",
             transaction_type='BUY',
             order_type='MARKET',
-            product='MIS'
+            product='NRML'
         )
         print(f"{symbol} is ordered")
         message_text = f"Option Order {symbol} placed successfully."
