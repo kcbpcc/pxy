@@ -562,7 +562,7 @@ try:
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
     cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > PRINT_df_sorted_display['fPL%'] ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '🧰')]
-    nrml_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
+    nrml_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['product','Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
     nrml_filtered_df['otPL%'] = nrml_filtered_df['otPL%'].round(2)    
     nrml_filtered_df['key'] = nrml_filtered_df['key'].str.replace('NFO:', '')
 ###########################################################################################################################################################################################################
@@ -743,7 +743,7 @@ try:
     
     filtered_df = filtered_df.sort_values(by='PL%')
     
-    formatted_lines = filtered_df[['_CM','Invested', 'key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+    formatted_lines = filtered_df[['product','Invested', 'key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
     
     # Set max_width to 42
     max_width = 42
