@@ -67,8 +67,8 @@ def get_market_check():
     return onemincandlesequance, mktpxy
 
 # Example usage
-#onemincandlesequance, mktpxy = get_market_check()
+onemincandlesequance, mktpxy = get_market_check()
 
 # Print the individual components
-#print("Heikin-Ashi Candle Sequence:", onemincandlesequance)
-#print("Market Status:", mktpxy)
+print("Heikin-Ashi Candle Sequence:", onemincandlesequance)
+print("Market Status:", mktpxy)
