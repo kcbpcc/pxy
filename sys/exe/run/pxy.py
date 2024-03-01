@@ -57,7 +57,7 @@ while True:
                 style=Style(color="bright_green", underline=True) if mktpxy in ["Buy", "Bull"]
                 else Style(color="bright_red", underline=True) if mktpxy in ["Sell", "Bear"]
                 else None)
-    print("━" * 42)  # Print another line of 42 dashes 
+    
     subprocess.run(['python3', 'buynoptpxy.py']) if nmktpxy == "Buy" or nmktpxy == "Sell" else None
     #subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy == "Buy" or bmktpxy == "Sell" else None
     #subprocess.run(['python3', 'buyfoptpxy.py']) if fmktpxy == "Buy" or fmktpxy == "Sell" else None
