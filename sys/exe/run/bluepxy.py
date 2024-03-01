@@ -1,46 +1,31 @@
 import yfinance as yf
-import warnings
-from fbprophet import Prophet
+import pandas as pd
+import numpy as np
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+import matplotlib.pyplot as plt
 
-# Suppress all warnings
-warnings.filterwarnings("ignore")
+# Fetch Nifty data with 1-minute intervals
+nifty_data = yf.download('^NSEI', start='2020-01-01', end='2024-01-01', interval='1m')
 
-# Fetch Nifty data with 1-minute intervals for the last 5 days
-nifty_data = yf.Ticker('^NSEI').history(period="5d", interval="1m")
+# Keep only 'Close' prices
+nifty_close = nifty_data['Close'].dropna()
 
-# Reset index to make Date a column
-nifty_data.reset_index(inplace=True)
+# Fit SARIMA model
+model = SARIMAX(nifty_close, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))  # Example order, tune as needed
+fit_model = model.fit(disp=False)
 
-# Ensure the data is sorted in ascending order by date
-nifty_data = nifty_data.sort_values(by='Date')
-
-# Rename columns as required by Prophet
-nifty_data.rename(columns={'Date': 'ds', 'Close': 'y'}, inplace=True)
-
-# Initialize Prophet model
-model = Prophet()
-
-# Fit the model
-model.fit(nifty_data)
-
-# Make future dataframe for 7 minutes ahead
-future = model.make_future_dataframe(periods=7, freq='T')
-
-# Forecast
-forecast = model.predict(future)
-
-# Get the forecasted values
-forecasted_values = forecast[['ds', 'yhat']].tail(7)
+# Forecast 7 periods ahead (7 minutes)
+forecast = fit_model.forecast(steps=7)
 
 # Get the current price
-current_price = nifty_data.iloc[-1]['y']
+current_price = nifty_close.iloc[-1]
 
 # Compare current price with the forecasted values
-for idx, row in forecasted_values.iterrows():
-    if current_price > row['yhat']:
-        print(f"The current price is above the forecasted value at {row['ds']}.")
-    elif current_price < row['yhat']:
-        print(f"The current price is below the forecasted value at {row['ds']}.")
+for idx, forecasted_price in enumerate(forecast):
+    if current_price > forecasted_price:
+        print(f"The current price is above the forecasted value at {nifty_close.index[-1] + pd.Timedelta(minutes=(idx + 1))}.")
+    elif current_price < forecasted_price:
+        print(f"The current price is below the forecasted value at {nifty_close.index[-1] + pd.Timedelta(minutes=(idx + 1))}.")
     else:
-        print(f"The current price is equal to the forecasted value at {row['ds']}.")
+        print(f"The current price is equal to the forecasted value at {nifty_close.index[-1] + pd.Timedelta(minutes=(idx + 1))}.")
 
