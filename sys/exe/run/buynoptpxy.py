@@ -17,7 +17,6 @@ from macdpxy import calculate_macd_signal
 from smaftypxy import check_nifty_status
 from mktrndpxy import get_market_status_for_symbol
 nmktpxy = get_market_status_for_symbol("^NSEI")
-
 onemincandlesequance, mktpxy = get_market_check()
 optpxy = get_optpxy()
 peak = peak_time()
@@ -25,30 +24,21 @@ macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
 from smaoptpxy import sma_above_or_below
 smanifty = sma_above_or_below("^NSEI")
-
 async def send_telegram_message(message_text):
     try:
         bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
         user_usernames = '-4135910842'  # Replace with your Telegram username or ID
-
         bot = telegram.Bot(token=bot_token)
-
         await bot.send_message(chat_id=user_usernames, text=message_text)
-
     except Exception as e:
         print(f"Error sending message to Telegram: {e}")
-
 def get_this_month_expiry():
     current_date = datetime.now()
-
     this_month = current_date.replace(day=1) + timedelta(days=15)
     this_month = this_month.replace(day=1)
-
     expiry_year = this_month.strftime("%y")
     expiry_month = this_month.strftime("%b").upper()  
-
     return expiry_year, expiry_month
-
 def construct_symbol(expiry_year, expiry_month, option_type, broker):
     symbol = f"NIFTY{expiry_year}{expiry_month}"
     found_positions = False
@@ -58,10 +48,8 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
         if position['tradingsymbol'] == symbol + str(noptions) + option_type and position['quantity'] > 0:
             found_positions = True
             break
-    
     if not found_positions:
         return f"{symbol}{noptions}{option_type}"
-    
     adjustments = [50, -50, 100, -100]
     for adjustment in adjustments:
         adjusted_noptions = noptions + adjustment
@@ -69,19 +57,14 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
         for position in positions:
             if position['tradingsymbol'] == symbol + str(adjusted_noptions) + option_type :
                 return f"{symbol}{adjusted_noptions}{option_type}"
-    
     return f"{symbol}{noptions}{option_type}"
-
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
-
     for position in positions_net:
         if position['tradingsymbol'] == symbol and position['quantity'] > 0:
             return True
-
     return False
-    
 async def place_order(broker, symbol):
     try:
         order_id = broker.order_place(
@@ -92,7 +75,6 @@ async def place_order(broker, symbol):
             order_type='MARKET',
             product='NRML'
         )
-
         print(f"{symbol} is ordered")
         message_text = f"Option Order {symbol} placed successfully."
         await send_telegram_message(message_text)
@@ -100,14 +82,11 @@ async def place_order(broker, symbol):
     except Exception as e:
         print(f"Error placing Option order for {symbol}: {e}")
         return False
-
 async def main():
     symbol = None
-
     try:
         with open('output.txt', 'w') as file:
             sys.stdout = file
-
             try:
                 broker = get_kite(api="bypass", sec_dir=dir_path)
             except Exception as e:
@@ -118,13 +97,10 @@ async def main():
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)
-
     finally:
         sys.stdout = sys.__stdout__
-
     expiry_year, expiry_month = get_this_month_expiry()
     option_type = None
-    
     if nmktpxy == 'Buy'and (smanifty != 'below' or nse_power < 0.05):
         option_type = 'CE'
     elif nmktpxy == 'Sell' and (smanifty != 'above' or nse_power > 0.95):
@@ -132,17 +108,13 @@ async def main():
     else:
         print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
         sys.exit(0)
-    
     symbol = construct_symbol(expiry_year, expiry_month, option_type, broker)
-
     if check_existing_positions(broker, symbol):
         print(f"{symbol} is already there")
     else:
         order_placed = await place_order(broker, symbol)
         if not order_placed:
             print("Order failed. Check error messages.")
-
 async def run_main():
     await main()
-
 asyncio.run(run_main())
