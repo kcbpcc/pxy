@@ -19,6 +19,10 @@ green_style = Style(color="bright_green")
 red_style = Style(color="bright_red")
 standby_style = Style(color="yellow", underline=True)
 while True:
+    console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]",
+                style=Style(color="bright_green", underline=True) if mktpxy in ["Buy", "Bull"]
+                else Style(color="bright_red", underline=True) if mktpxy in ["Sell", "Bear"]
+                else None)
     from selfpxy import get_random_spiritual_message
     importlib.reload(sys.modules['selfpxy'])  # Correct the usage
     random_message = get_random_spiritual_message()
@@ -62,10 +66,7 @@ while True:
     #print("━" * 42)  # Print another line of 42 dashes 
     subprocess.run(['python3', 'cntrlpxy.py'])
     # Print values with color using rich styles
-    console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]",
-                  style=Style(color="bright_green", underline=True) if mktpxy in ["Buy", "Bull"]
-                  else Style(color="bright_red", underline=True) if mktpxy in ["Sell", "Bear"]
-                  else None)
+
     #subprocess.run(['python3', 'cndlpxy.py'])
     #console.print(random_message)
     import time
