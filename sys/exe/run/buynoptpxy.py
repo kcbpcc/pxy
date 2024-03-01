@@ -38,14 +38,14 @@ async def send_telegram_message(message_text):
     except Exception as e:
         print(f"Error sending message to Telegram: {e}")
 
-def get_next_this_expiry():
+def get_this_month_expiry():
     current_date = datetime.now()
 
-    next_month = current_date.replace(day=1) + timedelta(days=15)
-    next_month = next_month.replace(day=1)
+    this_month = current_date.replace(day=1) + timedelta(days=15)
+    this_month = this_month.replace(day=1)
 
-    expiry_year = next_month.strftime("%y")
-    expiry_month = next_month.strftime("%b").upper()  
+    expiry_year = this_month.strftime("%y")
+    expiry_month = this_month.strftime("%b").upper()  
 
     return expiry_year, expiry_month
 
@@ -122,7 +122,7 @@ async def main():
     finally:
         sys.stdout = sys.__stdout__
 
-    expiry_year, expiry_month = get_next_this_expiry()
+    expiry_year, expiry_month = get_this_month_expiry()
     option_type = None
     
     if nmktpxy == 'Buy'and (smanifty != 'below' or nse_power < 0.1):
