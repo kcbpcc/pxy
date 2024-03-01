@@ -458,7 +458,7 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','otPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','buy_price, 'PL%']]
+    pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','otPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','buy_price', 'PL%']]
     pxy_df['avg'] = pxy_df['average_price'] if pxy_df[source] == 'holdings' else pxy_df['buy_price'] if pxy_df[source] == 'positions' else None
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','otPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
