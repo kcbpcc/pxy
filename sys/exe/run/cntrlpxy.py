@@ -395,14 +395,15 @@ try:
             return pepower
         else:
             return None  # Or any default value you prefer
-
+    from smaftypxy import check_nifty_status
+    SMAfty = check_nifty_status()
 ###########################################################################################################################################################################################################
     # Apply the function to create/update the otPL% column
     from depthpxy import calculate_consecutive_candles
     cedepth, pedepth = calculate_consecutive_candles()
     combined_df['otPL%'] = (3 + combined_df.apply(lambda row: pedepth * 0.5 if row['key'].endswith('PE') else cedepth * 0.5  if row['key'].endswith('CE') else None, axis=1))
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
-    combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
+    combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2) if SMAfty == up else 1.4
 ###########################################################################################################################################################################################################
     #subprocess.run(['python3', 'prftpxy.py'])
     #subprocess.run(['python3', 'nrmlprftpxy.py'])
