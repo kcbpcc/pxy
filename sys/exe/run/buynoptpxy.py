@@ -53,8 +53,9 @@ def construct_symbol(expiry_year, expiry_month, option_type):
     symbol = f"NIFTY{expiry_year}{expiry_month}"
     noptions = 0
     found_positions = False
-    
-    for position in positions:
+    positions_response = broker.kite.positions()
+    positions_net = positions_response['net']
+    for position in positions_net:
         if position['tradingsymbol'] == symbol + str(noptions) + option_type and position['quantity'] > 0:
             found_positions = True
             break
