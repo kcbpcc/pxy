@@ -118,9 +118,9 @@ async def main():
     option_type = None  # Default value
     
     # Determine option type based on nmktpxy
-    if nmktpxy == 'Buy':# and smanifty != 'below':
+    if nmktpxy == 'Buy'and (smanifty != 'below' or nse_power < 0.1):
         option_type = 'CE'  # Call Option
-    elif nmktpxy == 'Sell':# and smanifty != 'above':
+    elif nmktpxy == 'Sell' and (smanifty != 'above' or nse_power > 0.9):
         option_type = 'PE'  # Put Option
     else:
         # Handle the case where nmktpxy doesn't match any condition
