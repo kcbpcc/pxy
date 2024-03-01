@@ -458,7 +458,7 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','otPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','buy_price', 'PL%']]
+    pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','otPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','buy_price', 'PL%_H', 'PL%']]
     import numpy as np
     pxy_df['avg'] = np.where(pxy_df['source'] == 'holdings', pxy_df['average_price'], 
                              np.where(pxy_df['source'] == 'positions', pxy_df['buy_price'], None))
