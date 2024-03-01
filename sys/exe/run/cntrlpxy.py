@@ -522,7 +522,7 @@ try:
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '📌', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
-    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🧰', 'NRML': '⌛'}) 
+    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🧰', 'MIS': '⌛','NRML': '💸'}) 
     PRINT_df['Q'] = PRINT_df['Q'].apply(lambda Q: '+' if Q > 0 else ('-' if Q < 0 else ''))
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: 
         '⚪' if TR > 0.8 else (
@@ -743,7 +743,7 @@ try:
     
     filtered_df = filtered_df.sort_values(by='PL%')
     
-    formatted_lines = filtered_df[['product','Invested', 'key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+    formatted_lines = filtered_df[['_CM','Invested', 'key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
     
     # Set max_width to 42
     max_width = 42
