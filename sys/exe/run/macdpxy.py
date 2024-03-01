@@ -6,7 +6,7 @@ def calculate_macd_signal(ticker_symbol):
     nifty_ticker = yf.Ticker(ticker_symbol)
 
     # Fetch one-minute intraday data for the current day
-    data = nifty_ticker.history(period='5d', interval='1m')
+    data = nifty_ticker.history(period='5d', interval='2m')
 
     # Calculate MACD
     short_window = 12
