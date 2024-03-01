@@ -67,7 +67,7 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
         adjusted_noptions = noptions + adjustment
         
         for position in positions:
-            if position['tradingsymbol'] == symbol + str(adjusted_noptions) + option_type and position['quantity'] > 0:
+            if position['tradingsymbol'] == symbol + str(adjusted_noptions) + option_type :
                 return f"{symbol}{adjusted_noptions}{option_type}"
     
     return f"{symbol}{noptions}{option_type}"
