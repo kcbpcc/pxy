@@ -38,7 +38,7 @@ def calculate_decision():
         available_cash = response["equity"]["available"]["live_balance"]
 
         # Define 'YES' or 'NO' based on the available cash
-        decision = "YES" if available_cash > 25000 else "NO"
+        decision = "YES" if available_cash > 100000 else "NO"
 
         # Print the decision
         status_emoji = "✅" if decision == "YES" else "❌" if decision == "NO" else "❓"
