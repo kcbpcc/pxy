@@ -25,7 +25,7 @@ macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
 from smaoptpxy import sma_above_or_below
 smanifty = sma_above_or_below("^NSEI")
-
+broker = get_kite(api="bypass", sec_dir=dir_path)
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
