@@ -743,7 +743,7 @@ try:
     
     filtered_df = filtered_df.sort_values(by='PL%')
     
-    formatted_lines = filtered_df[['Invested', 'key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+    formatted_lines = filtered_df[['product','Invested', 'key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
     
     # Set max_width to 42
     max_width = 42
