@@ -49,7 +49,7 @@ def get_next_this_expiry():
 
     return expiry_year, expiry_month
 
-def construct_symbol(expiry_year, expiry_month, option_type, positions):
+def construct_symbol(expiry_year, expiry_month, option_type):
     symbol = f"NIFTY{expiry_year}{expiry_month}"
     noptions = 0
     found_positions = False
