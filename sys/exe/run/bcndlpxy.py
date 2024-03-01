@@ -64,7 +64,8 @@ def dayprinter(o, h, l, c, prev_close):
         n_length = round((n / 100) * max_total_length)
         x_length = round((x / 100) * max_total_length)
         m_length = max_total_length - n_length - x_length
-        
+
+        print(BANK, end='')
         # Print both the previous day's close and today's close in a single sentence with color
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
         if c > o:
