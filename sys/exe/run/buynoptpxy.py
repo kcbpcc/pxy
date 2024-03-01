@@ -51,7 +51,6 @@ def get_next_this_expiry():
 
 def construct_symbol(expiry_year, expiry_month, option_type, broker):
     symbol = f"NIFTY{expiry_year}{expiry_month}"
-    noptions = 0
     found_positions = False
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
