@@ -13,9 +13,9 @@ def sma_above_or_below(symbol):
     sma_50 = last_row['SMA_50']
     sma_100 = last_row['SMA_100']
     # Check if the latest price is above or below the 50-minute SMA
-    if sma_50 > sma_100 and sma_1 > sma_50:
+    if sma_1 > sma_100:
         smaopt= "above"
-    elif sma_50 < sma_100 and sma_1 < sma_50:
+    elif sma_1 < sma_100:
         smaopt= "below"
     else:
         smaopt= "middle"
