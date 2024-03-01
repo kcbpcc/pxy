@@ -153,111 +153,7 @@ def nrml_order_place(index, row):
         #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
-###########################################################################################################################################################################################################
-def nrml_order_avg_place(index, row):
-    try:
-        exchsym = str(index).split(":")
-        if len(exchsym) >= 2:
-            logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
-            order_id = broker.order_place(
-                tradingsymbol=exchsym[1],
-                exchange=exchsym[0],
-                transaction_type='BUY',
-                quantity=int(row['qty']),
-                order_type='MARKET',
-                product=row['product'],
-                variety='regular',
-                price=round_to_paise(row['ltp'], -0.3)
-            )
-            if order_id:
-                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
-                # Write the row to the CSV file here
-                with open(csv_file_path_nrml, 'a', newline='') as csvfile:
-                    csvwriter = csv.writer(csvfile)
-                    csvwriter.writerow(row.tolist())  # Write the selected row to the CSV file
-                    try:
-                        import telegram
-                        import asyncio
-                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
-                        # Dropping specified columns from the row
-                        for column in columns_to_drop:
-                            if column in row:
-                                del row[column]
-                        message_text = f"{str(row):>10} \nhttps://console.zerodha.com/verified/f5f15318\nBooked profit until now: {result_nrml}"
-                        # Define the bot token and your Telegram username or ID
-                        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
-                        user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
-                        # Function to send a message to Telegram
-                        async def send_telegram_message(message_text):
-                            bot = telegram.Bot(token=bot_token)
-                            await bot.send_message(chat_id=user_usernames, text=message_text)
-                    except Exception as e:
-                        # Handle the exception (e.g., log it) and continue with your code
-                        print(f"Error sending message to Telegram: {e}")
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
-                    loop = asyncio.get_event_loop()
-                    loop.run_until_complete(send_telegram_message(message_text))
-                return True                
-            else:
-                logging.error("Order placement failed")       
-        else:
-            logging.error("Invalid format for 'index'")    
-    except Exception as e:
-        #print(traceback.format_exc())
-        logging.error(f"{str(e)} while placing order")
-    return False
-###########################################################################################################################################################################################################
-    
-def order_place_avg(index, row):
-    try:
-        exchsym = str(index).split(":")
-        # Check existing positions
-        positions_response = broker.kite.positions()
-        open_positions = positions_response.get('net', [])
-        existing_position = next((position for position in open_positions if position['tradingsymbol'] == exchsym[1]), None)
-        if existing_position:
-            logging.info(f"Position already exists for {exchsym[1]}. Skipping order placement.")
-            return True
-        if len(exchsym) >= 2 :
-            logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
-            # Calculate quantity based on the value of 5000
-            qty = 5000 // row['ltp']
-            qty = int(qty)  # Remove decimals
-            order_id = broker.order_place(
-                tradingsymbol=exchsym[1],
-                exchange=exchsym[0],
-                transaction_type='BUY',
-                quantity=qty,
-                order_type='LIMIT',
-                product='CNC',
-                variety='regular',
-                price=round_to_paise(row['ltp'], +0.3)
-            )
-            if order_id:
-                logging.info(f"BUY {order_id} placed for {exchsym[1]} successfully")
-                # No need to calculate remaining available cash in this case
-                try:
-                    message_text = f"{row['ltp']} \nhttps://www.tradingview.com/chart/?symbol={exchsym[1]}"
-                    # Define the bot token and your Telegram username or ID
-                    bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
-                    user_id = '-4136531362'  # Replace with your Telegram user ID
-                    # Function to send a message to Telegram
-                    async def send_telegram_message(message_text):
-                        bot = telegram.Bot(token=bot_token)
-                        await bot.send_message(chat_id=user_id, text=message_text)
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
-                    asyncio.run(send_telegram_message(message_text))
-                except Exception as e:
-                    # Handle the exception (e.g., log it) and continue with your code
-                    print(f"Error sending message to Telegram: {e}")
-                return exchsym[1], remaining_cash  # Define remaining_cash appropriately
-            return True
-        else:
-            logging.error("Order placement failed")
-    except Exception as e:
-        # print(traceback.format_exc())
-        logging.error(f"{str(e)} while placing order")
-    return False
+
 ###########################################################################################################################################################################################################
 def get_holdingsinfo(resp_list, broker):
     try:
@@ -458,10 +354,8 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','otPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','buy_price', 'PL%_H', 'PL%']]
-    import numpy as np
-    pxy_df['avg'] = np.where(pxy_df['source'] == 'holdings', pxy_df['average_price'], 
-                             np.where(pxy_df['source'] == 'positions', pxy_df['buy_price'], None))
+    pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','otPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
+    pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','otPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
     PRINT_df = pxy_df[['source','product','key','fPL%','tPL%','PL%','PnL','qty','smb_power']]
@@ -519,8 +413,7 @@ try:
         #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         #print("━" * 42)
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
-    print("━" * 42)
-    
+    subprocess.run(['python3', 'bcndlpxy.py']) 
 
 ###########################################################################################################################################################################################################
     # Read data from the CSV file
@@ -601,8 +494,8 @@ try:
                         auto_value == 'AUTO' and
                         'NFO:' in row['key'] and
                                             
-                        (('CE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Buy", "Bull"]))
+                        (('CE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Sell", "Bear"]) or
+                         ('PE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Buy", "Bull"]))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -615,26 +508,6 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")                            
-###########################################################################################################################################################################################################                    
-                    elif (
-                        row['key'].endswith(('PE', 'CE')) and
-                        row['qty'] > 0 and
-                        row['avg'] != 0 and
-                        row['PL%'] < -70 and
-                        row['product'] == 'NRML' and
-                        row['PL%'] < -100
-                    ):
-                        try:                            
-                            #is_placed = nrml_order_avg_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            #if is_placed:
-                                # Print the row before placing the order
-                            print(BRIGHT_YELLOW + str(row) + RESET_COLOR)
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
-                        except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
 ###########################################################################################################################################################################################################     
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
@@ -707,7 +580,6 @@ try:
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
              nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss)
-    subprocess.run(['python3', 'bcndlpxy.py']) 
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
