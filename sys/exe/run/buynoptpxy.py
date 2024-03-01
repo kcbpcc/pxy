@@ -28,8 +28,8 @@ smanifty = sma_above_or_below("^NSEI")
 
 async def send_telegram_message(message_text):
     try:
-        bot_token = 'YOUR_BOT_TOKEN_HERE'  # Replace with your actual bot token
-        user_usernames = 'YOUR_TELEGRAM_USER_ID_HERE'  # Replace with your Telegram username or ID
+        bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
+        user_usernames = '-4135910842'  # Replace with your Telegram username or ID
 
         bot = telegram.Bot(token=bot_token)
 
