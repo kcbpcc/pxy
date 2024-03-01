@@ -600,8 +600,8 @@ try:
                         auto_value == 'AUTO' and
                         'NFO:' in row['key'] and
                                             
-                        (('CE' in row['key'] and row['PL%'] > 200000000 and row['PL'] > 200000000 and mmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 200000000 and row['PL'] > 200000000and mmktpxy in ["Buy", "Bull"]))
+                        (('CE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Sell", "Bear"]) or
+                         ('PE' in row['key'] and row['PL%'] > 1.4 and mmktpxy in ["Buy", "Bull"]))
                     ):
                         try:                            
                             is_placed = nrml_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
