@@ -18,7 +18,7 @@ END_TIME = 245
 
 def fetch_data():
     # Fetch real-time data for the specified interval
-    data = yf.Ticker('^NSEI').history(period="5d", interval="1m")
+    data = yf.Ticker('^NSEI').history(period="5d", interval="3m")
     return data
 
 def calculate_heikin_ashi_colors(data):
@@ -42,7 +42,7 @@ def calculate_last_twenty_heikin_ashi_colors():
 
     if START_TIME <= current_utc_time < END_TIME:
         # Download data for the specified number of days (fixed to 20 days) with a 1-minute interval
-        data = yf.Ticker('^NSEI').history(period="5d", interval="1m")
+        data = yf.Ticker('^NSEI').history(period="5d", interval="3m")
     else:
         data = fetch_data()
 
