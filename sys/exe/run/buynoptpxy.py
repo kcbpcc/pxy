@@ -25,32 +25,26 @@ macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
 from smaoptpxy import sma_above_or_below
 smanifty = sma_above_or_below("^NSEI")
-broker = get_kite(api="bypass", sec_dir=dir_path)
+
 async def send_telegram_message(message_text):
     try:
-        # Define the bot token and your Telegram username or ID
         bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
         user_usernames = '-4135910842'  # Replace with your Telegram username or ID
 
-        # Create a Telegram bot
         bot = telegram.Bot(token=bot_token)
 
-        # Send the message to Telegram
         await bot.send_message(chat_id=user_usernames, text=message_text)
 
     except Exception as e:
-        # Handle the exception (e.g., log it) and continue with your code
         print(f"Error sending message to Telegram: {e}")
 
-# Define function to get this week's Tuesday date
-def get_next_month_expiry():
+def get_next_this_expiry():
     current_date = datetime.now()
 
-    # Get the first day of the next month
-    next_month = current_date.replace(day=1) + timedelta(days=32)
+    next_month = current_date.replace(day=1) + timedelta(days=15)
     next_month = next_month.replace(day=1)
 
-    expiry_year = next_month.strftime("%y")  # Represent year with two digits
+    expiry_year = next_month.strftime("%y")
     expiry_month = next_month.strftime("%b").upper()  
 
     return expiry_year, expiry_month
@@ -79,18 +73,16 @@ def construct_symbol(expiry_year, expiry_month, option_type):
     
     return f"{symbol}{noptions}{option_type}"
 
-# Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
 
     for position in positions_net:
-        if position['tradingsymbol'] == symbol :
-            return True  # Existing position found
+        if position['tradingsymbol'] == symbol and position['quantity'] > 0:
+            return True
 
     return False
     
-# Define function to place order for the symbol
 async def place_order(broker, symbol):
     try:
         order_id = broker.order_place(
@@ -104,19 +96,16 @@ async def place_order(broker, symbol):
 
         print(f"{symbol} is ordered")
         message_text = f"Option Order {symbol} placed successfully."
-        # Send the message to Telegram
         await send_telegram_message(message_text)
-        return True  # Order successful
+        return True
     except Exception as e:
         print(f"Error placing Option order for {symbol}: {e}")
-        return False  # Order failed
+        return False
 
-# Main function to orchestrate the workflow
 async def main():
-    symbol = None  # Initialize symbol with a default value
+    symbol = None
 
     try:
-        # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
 
@@ -132,24 +121,19 @@ async def main():
         sys.exit(1)
 
     finally:
-        # Reset sys.stdout to its original value
         sys.stdout = sys.__stdout__
 
-    expiry_year, expiry_month = get_next_month_expiry()
-    option_type = None  # Default value
+    expiry_year, expiry_month = get_next_this_expiry()
+    option_type = None
     
-    # Determine option type based on nmktpxy
     if nmktpxy == 'Buy'and (smanifty != 'below' or nse_power < 0.1):
-        option_type = 'CE'  # Call Option
+        option_type = 'CE'
     elif nmktpxy == 'Sell' and (smanifty != 'above' or nse_power > 0.9):
-        option_type = 'PE'  # Put Option
+        option_type = 'PE'
     else:
-        # Handle the case where nmktpxy doesn't match any condition
-        # You can raise an exception, set a default value, or handle it in another way
         print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
-        sys.exit(0)  # For example, exit the program with an error status
+        sys.exit(0)
     
-    # Construct the symbol based on the determined expiry and option type
     symbol = construct_symbol(expiry_year, expiry_month, option_type)
 
     if check_existing_positions(broker, symbol):
@@ -159,9 +143,7 @@ async def main():
         if not order_placed:
             print("Order failed. Check error messages.")
 
-# Define async function to run main function
 async def run_main():
     await main()
 
-# Run the main asynchronous function
 asyncio.run(run_main())
