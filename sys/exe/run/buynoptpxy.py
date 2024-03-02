@@ -44,10 +44,17 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
     found_positions = False
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
+    open_positions_count = 0  # Counter to keep track of open positions with the same option_type
     for position in positions_net:
         if position['tradingsymbol'] == symbol + str(noptions) + option_type and position['quantity'] > 0:
             found_positions = True
             break
+        if position['option_type'] == option_type and position['quantity'] > 0:  # Increment open_positions_count if position has the same option_type
+            open_positions_count += 1
+    # Check if there are already three open positions with the same option_type
+    if open_positions_count >= 3:
+        print("Already have 3 open positions with the same option_type.")
+        return None  # Return None if three positions with the same option_type are already open
     if not found_positions:
         return f"{symbol}{noptions}{option_type}"
     adjustments = [50, -50, 100, -100]
