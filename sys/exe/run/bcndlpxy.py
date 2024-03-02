@@ -3,19 +3,31 @@ import warnings
 # Suppress FutureWarnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+# Rest of your code here
 import yfinance as yf
 import pandas as pd
 import colorama
+from colorama import Fore, Style  # Add Style to the imports
+from bnkpxy import bnk_action, bnk_power, Day_bnk_Change, Open_bnk_Change, OPTIONS
+from utcpxy import peak_time
+from macdpxy import calculate_macd_signal
+from smaftypxy import check_nifty_status
 import subprocess
 import sys
-from colorama import Fore, Style
+from mktpxy import get_market_check
+bnk_onemincandlesequance, bktpxy = get_market_check("^NSEI")
+peak = peak_time()
+macd = calculate_macd_signal("^NSEI")
+SMAfty = check_nifty_status()
+from depthpxy import calculate_consecutive_candles
+cedepth, pedepth = calculate_consecutive_candles()
 
 colorama.init(autoreset=True)
 
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
 
 def get_nifty50_data(period="7d"):
-    ticker_symbol = '^NSEBANK'  # NIFTY50 index symbol on Yahoo Finance
+    ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
 
     try:
         # Fetch historical data for the specified period
@@ -45,6 +57,9 @@ def get_today_close():
     else:
         return None, None  # Handle the case when data is not available
 
+from colorama import Fore, Style
+Day_bnk_Change_sign = '+' if Day_bnk_Change > 0 else ''
+Open_bnk_Change_sign = '+' if Open_bnk_Change > 0 else ''
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 42  # Maximum total length allowed for printing
     
@@ -64,7 +79,7 @@ def dayprinter(o, h, l, c, prev_close):
         n_length = round((n / 100) * max_total_length)
         x_length = round((x / 100) * max_total_length)
         m_length = max_total_length - n_length - x_length
-
+        
         # Print both the previous day's close and today's close in a single sentence with color
         print(Fore.LIGHTWHITE_EX + '━' * n_length, end='')
         if c > o:
@@ -78,6 +93,9 @@ def dayprinter(o, h, l, c, prev_close):
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
+    
+    SMAftywave = f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if SMAfty == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
+    print(f"🔆{Day_bnk_Change_sign}{Day_bnk_Change:.2f}⌛️{Open_bnk_Change_sign}{Open_bnk_Change:.2f}⚡{bnk_power:.2f}{SMAftywave}🚦{macd}PE{pedepth}|CE{cedepth}{bnk_onemincandlesequance}")
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
