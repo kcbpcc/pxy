@@ -535,7 +535,7 @@ try:
         if row['product'] == 'MIS':
             filtered_df.at[index, 'product'] = '⌛'
         elif row['product'] == 'NRML':
-            filtered_df.at[index, 'product'] = '💸'
+            filtered_df.at[index, 'product'] = '⏰'
     
     # Convert DataFrame to formatted string
     formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
