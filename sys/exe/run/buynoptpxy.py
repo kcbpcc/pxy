@@ -108,9 +108,9 @@ async def main():
         sys.stdout = sys.__stdout__
     expiry_year, expiry_month = get_this_month_expiry()
     option_type = None
-    if nmktpxy == 'Buy':#and (smanifty != 'below' or nse_power < 0.05):
+    if nmktpxy == 'Buy' and (smanifty != 'below' or smb_power < 0.05):
         option_type = 'CE'
-    elif nmktpxy == 'Buy' :# and (smanifty != 'above' or nse_power > 0.95):
+    elif nmktpxy == 'Sell' and (smanifty != 'above' or smb_power > 0.95):
         option_type = 'PE'
     else:
         print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
