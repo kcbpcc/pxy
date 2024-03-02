@@ -10,7 +10,6 @@ from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change
 from strikpxy import get_prices
 noptions, _, _, _ = get_prices()
-from optpxy import get_optpxy
 from cyclepxy import cycle
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
@@ -18,7 +17,6 @@ from smaftypxy import check_nifty_status
 from mktrndpxy import get_market_status_for_symbol
 nmktpxy = get_market_status_for_symbol("^NSEI")
 onemincandlesequance, mktpxy = get_market_check()
-optpxy = get_optpxy()
 peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
