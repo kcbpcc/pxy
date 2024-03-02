@@ -4,7 +4,7 @@ from optpxy import get_optpxy
 import subprocess
 optpxy = get_optpxy()
 def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
-             result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
+             result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash,
              nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss):                
     RESET = "\033[0m"
     BRIGHT_YELLOW = "\033[93m"
