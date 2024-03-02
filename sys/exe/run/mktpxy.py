@@ -4,7 +4,6 @@ import yfinance as yf
 import time
 import warnings
 
-
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -16,9 +15,9 @@ warnings.filterwarnings("ignore", category=UserWarning)
 START_TIME = 223
 END_TIME = 245
 
-def fetch_data():
-    # Fetch real-time data for the specified interval
-    data = yf.Ticker('^NSEI').history(period="5d", interval="2m")
+def fetch_data(symbol):
+    # Fetch real-time data for the specified interval and symbol
+    data = yf.Ticker(symbol).history(period="5d", interval="2m")
     return data
 
 def calculate_heikin_ashi_colors(data):
@@ -36,21 +35,21 @@ def calculate_heikin_ashi_colors(data):
     onemincandlesequance = f'{"".join(colors)}' #{"😡" if current_color == "Bear" else "😊"}
     return onemincandlesequance, current_color, last_closed_color
 
-def calculate_last_twenty_heikin_ashi_colors():
+def calculate_last_twenty_heikin_ashi_colors(symbol):
     # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
     if START_TIME <= current_utc_time < END_TIME:
         # Download data for the specified number of days (fixed to 20 days) with a 1-minute interval
-        data = yf.Ticker('^NSEI').history(period="5d", interval="2m")
+        data = yf.Ticker(symbol).history(period="5d", interval="2m")
     else:
-        data = fetch_data()
+        data = fetch_data(symbol)
 
     return calculate_heikin_ashi_colors(data)
 
-def get_market_check():
+def get_market_check(symbol):
     # Call the function calculate_last_twenty_heikin_ashi_colors to get colors
-    onemincandlesequance, current_color, last_closed_color = calculate_last_twenty_heikin_ashi_colors()
+    onemincandlesequance, current_color, last_closed_color = calculate_last_twenty_heikin_ashi_colors(symbol)
 
     # Determine the market check based on the candle colors
     if current_color == 'Bear' and last_closed_color == 'Bear':
@@ -65,10 +64,3 @@ def get_market_check():
         mktpxy = 'None'
 
     return onemincandlesequance, mktpxy
-
-# Example usage
-#onemincandlesequance, mktpxy = get_market_check()
-
-# Print the individual components
-#print("Heikin-Ashi Candle Sequence:", onemincandlesequance)
-#print("Market Status:", mktpxy)
