@@ -109,7 +109,7 @@ async def main():
     expiry_year, expiry_month = get_this_month_expiry()
     option_type = None
     if nmktpxy == 'Buy':#and (smanifty != 'below' or nse_power < 0.05):
-        option_type = 'CE'
+        option_type = 'PE'
     elif nmktpxy == 'Buy' :# and (smanifty != 'above' or nse_power > 0.95):
         option_type = 'PE'
     else:
