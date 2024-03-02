@@ -2,7 +2,7 @@ import warnings
 
 # Suppress FutureWarnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
-
+from bnkpxy import bnk_action, bnk_power, Day_bnk_Change, Open_bnk_Change, OPTIONS
 import yfinance as yf
 import pandas as pd
 import colorama
@@ -44,7 +44,9 @@ def get_today_close():
         return nifty50_ohlc.iloc[-1]['Close'], prev_close
     else:
         return None, None  # Handle the case when data is not available
-
+from colorama import Fore, Style
+day_change_sign = '+' if Day_Change > 0 else ''
+open_change_sign = '+' if Open_Change > 0 else ''
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 42  # Maximum total length allowed for printing
     
@@ -78,6 +80,10 @@ def dayprinter(o, h, l, c, prev_close):
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
+
+    SMAftywave = f"{Fore.GREEN}٨ـﮩ{Style.RESET_ALL}" if SMAfty == 'up' else f"{Fore.RED}٨ـﮩ{Style.RESET_ALL}"
+    print(f"🔆{day_change_sign}{Day_bnk_Change:.2f}⌛️{open_change_sign}{Open_bnk_Change:.2f}⚡{bnk_power:.2f}{SMAftywave}🚦macd}PE{pedepth}|CE{cedepth}{onemincandlesequance}")
+
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
