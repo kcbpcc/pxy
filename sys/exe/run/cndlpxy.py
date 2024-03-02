@@ -10,7 +10,6 @@ import colorama
 from colorama import Fore, Style  # Add Style to the imports
 from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
-from optpxy import get_optpxy
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
 from smaftypxy import check_nifty_status
@@ -18,7 +17,6 @@ import subprocess
 import sys
 
 onemincandlesequance, mktpxy = get_market_check()
-optpxy = get_optpxy()
 peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
