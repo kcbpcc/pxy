@@ -59,8 +59,8 @@ def get_today_close():
         return None, None  # Handle the case when data is not available
 
 from colorama import Fore, Style
-day_change_sign = '+' if Day_Change > 0 else ''
-open_change_sign = '+' if Open_Change > 0 else ''
+day_change_sign = '+' if Day_Change >= 0 else ''
+open_change_sign = '+' if Open_Change >= 0 else ''
 nsmawave = f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if nsma == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
 print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{nsmawave}🚦{macd}PE{pedepth}|CE{cedepth}{onemincandlesequance}")
 
