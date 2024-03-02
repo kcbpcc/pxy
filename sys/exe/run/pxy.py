@@ -37,7 +37,7 @@ while True:
     importlib.reload(sys.modules['utcpxy'])  # Correct the usage
     peak = peak_time()
     #print(f"...lets fire again 🚀 Cycle 🎡 : {cycle} seconds".rjust(40))
-    subprocess.run(['python3', 'tistpxy.py'])
+    #subprocess.run(['python3', 'tistpxy.py'])
     from macdpxy import calculate_macd_signal
     importlib.reload(sys.modules['macdpxy'])  # Correct the usage
     macd = calculate_macd_signal("^NSEI")
