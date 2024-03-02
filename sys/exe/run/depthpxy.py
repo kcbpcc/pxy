@@ -1,12 +1,9 @@
 import yfinance as yf
 import warnings
 
-def calculate_consecutive_candles():
+def calculate_consecutive_candles(tickerSymbol):
     # Suppress warnings
     warnings.filterwarnings("ignore")
-
-    # Define the ticker symbol
-    tickerSymbol = '^NSEI'
 
     try:
         # Get data on this ticker
