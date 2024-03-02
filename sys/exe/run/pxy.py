@@ -38,9 +38,9 @@ while True:
     from macdpxy import calculate_macd_signal
     importlib.reload(sys.modules['macdpxy'])  # Correct the usage
     macd = calculate_macd_signal("^NSEI")
-    from smaftypxy import check_nifty_status
-    importlib.reload(sys.modules['smaftypxy'])  # Correct the usage
-    SMAfty = check_nifty_status()
+    from smapxy import check_nifty_status
+    importlib.reload(sys.modules['nsmapxy'])  # Correct the usage
+    nsma = check_nifty_status('^NSEI')
     #subprocess.run(['python3', 'cntrlpxy.py'])
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
@@ -60,7 +60,7 @@ while True:
     #subprocess.run(['python3', 'buyfoptpxy.py']) if fmktpxy == "Buy" or fmktpxy == "Sell" else None
     #subprocess.run(['python3', 'buymoptpxy.py']) if mmktpxy == "Buy" or mmktpxy == "Sell" else None
     # Call the function and store the result in a variable
-    subprocess.run(['python3', 'buypxy.py']) if peak == 'NONPEAK' and mktpxy == 'Buy' and SMAfty == 'up' else None 
+    subprocess.run(['python3', 'buypxy.py']) if peak == 'NONPEAK' and mktpxy == 'Buy' and nsma == 'up' else None 
     #print("━" * 42)  # Print another line of 42 dashes 
     subprocess.run(['python3', 'cntrlpxy.py'])
     # Print values with color using rich styles
