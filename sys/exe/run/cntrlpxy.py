@@ -415,20 +415,6 @@ try:
         print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
     print("━" * 42)
 
-###########################################################################################################################################################################################################
-    # Read data from the CSV file
-    file_name = 'mempxy.csv'
-    with open(file_name, 'r') as csv_file:
-        reader = csv.DictReader(csv_file)
-        for row in reader:
-            auto_value = row['AUTO']
-    
-            # Ensure auto_value is a string
-            if isinstance(auto_value, list):
-                # If auto_value is a list, take the first element as the value
-                auto_value = auto_value[0]
-    
-        # Now, you can use the 'auto_value' variable in your program
 ###########################################################################################################################################################################################################   
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
@@ -491,9 +477,7 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] =='NRML' and
-                        auto_value == 'AUTO' and
                         'NFO:' in row['key'] and
-                                            
                         (('CE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Sell", "Bear"]) or
                          ('PE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Buy", "Bull"]))
                     ):
@@ -579,7 +563,7 @@ try:
     all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo('fileHPdf.csv')    
     from bordpxy import printbord
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
-             result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash, auto_value,
+             result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash,
              nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss)
     subprocess.run(['python3', 'bcndlpxy.py']) 
 ###########################################################################################################################################################################################################
