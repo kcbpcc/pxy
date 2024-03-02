@@ -11,14 +11,14 @@ from colorama import Fore, Style  # Add Style to the imports
 from bnkpxy import bnk_action, bnk_power, Day_bnk_Change, Open_bnk_Change, OPTIONS
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
-from smaftypxy import check_nifty_status
+from smapxy import check_index_status
 import subprocess
 import sys
 from mktpxy import get_market_check
 bnk_onemincandlesequance, bktpxy = get_market_check('^NSEBANK')
 peak = peak_time()
 macd = calculate_macd_signal('^NSEBANK')
-SMAfty = check_nifty_status()
+bsma = check_index_status('^NSEBANK')
 from depthpxy import calculate_consecutive_candles
 cedepth, pedepth = calculate_consecutive_candles()
 
@@ -94,8 +94,8 @@ def dayprinter(o, h, l, c, prev_close):
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
     
-    SMAftywave = f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if SMAfty == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
-    print(f"🔆{Day_bnk_Change_sign}{Day_bnk_Change:.2f}⌛️{Open_bnk_Change_sign}{Open_bnk_Change:.2f}⚡{bnk_power:.2f}{SMAftywave}🚦{macd}PE{pedepth}|CE{cedepth}{bnk_onemincandlesequance}")
+    bsmawave = f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if bsma == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
+    print(f"🔆{Day_bnk_Change_sign}{Day_bnk_Change:.2f}⌛️{Open_bnk_Change_sign}{Open_bnk_Change:.2f}⚡{bnk_power:.2f}{bsmawave}🚦{macd}PE{pedepth}|CE{cedepth}{bnk_onemincandlesequance}")
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
