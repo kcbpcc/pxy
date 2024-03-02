@@ -200,10 +200,8 @@ try:
     import telegram
     import asyncio
     from selfpxy import get_random_spiritual_message
-    from optpxy import get_optpxy
     from macdpxy import calculate_macd_signal
     macd = calculate_macd_signal("^NSEI")
-    optpxy = get_optpxy()
     random_message = get_random_spiritual_message()
     switch = analyze_stock()
     #from ordpxy import get_open_order_status
@@ -422,9 +420,6 @@ try:
     bmktpxy = get_market_status_for_symbol('^NSEBANK')
     fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
     mmktpxy = get_market_status_for_symbol('NIFTY_MID_SELECT.NS')
-    from optpxy import get_optpxy
-    importlib.reload(sys.modules['optpxy'])  # Correct the usage 
-    optpxy = get_optpxy()
     from mktpxy import get_market_check
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
     onemincandlesequance, mktpxy = get_market_check()
@@ -506,7 +501,7 @@ try:
     macd = calculate_macd_signal("^NSEI")
     
     if nrml_filtered_df.empty:
-        print("optpxy: options not activated, let's wait!")
+        print("mktpxy: options not activated, let's wait!")
     else:
         filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0].copy()
         
