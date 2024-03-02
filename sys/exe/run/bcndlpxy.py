@@ -15,9 +15,9 @@ from smaftypxy import check_nifty_status
 import subprocess
 import sys
 from mktpxy import get_market_check
-bnk_onemincandlesequance, bktpxy = get_market_check("^NSEI")
+bnk_onemincandlesequance, bktpxy = get_market_check('^NSEBANK')
 peak = peak_time()
-macd = calculate_macd_signal("^NSEI")
+macd = calculate_macd_signal('^NSEBANK')
 SMAfty = check_nifty_status()
 from depthpxy import calculate_consecutive_candles
 cedepth, pedepth = calculate_consecutive_candles()
@@ -27,7 +27,7 @@ colorama.init(autoreset=True)
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
 
 def get_nifty50_data(period="7d"):
-    ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
+    ticker_symbol = '^NSEBANK'  # NIFTY50 index symbol on Yahoo Finance
 
     try:
         # Fetch historical data for the specified period
