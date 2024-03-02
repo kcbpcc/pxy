@@ -190,7 +190,7 @@ try:
     import os
     import numpy as np
     from mktpxy import get_market_check
-    onemincandlesequance, mktpxy = get_market_check()
+    onemincandlesequance, mktpxy = get_market_check('^NSEI')
     import importlib
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     import math
@@ -422,7 +422,7 @@ try:
     mmktpxy = get_market_status_for_symbol('NIFTY_MID_SELECT.NS')
     from mktpxy import get_market_check
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
-    onemincandlesequance, mktpxy = get_market_check()
+    onemincandlesequance, mktpxy = get_market_check('^NSEI')
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
     csv_file_path_nrml = 'filePnL_nrml.csv'
