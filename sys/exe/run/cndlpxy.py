@@ -95,7 +95,7 @@ def dayprinter(o, h, l, c, prev_close):
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
     
-    SMAftywave = f"{Fore.GREEN}٨ـﮩ{Style.RESET_ALL}" if SMAfty == 'up' else f"{Fore.RED}٨ـﮩ{Style.RESET_ALL}"
+    SMAftywave = f"{Fore.GREEN}𓂃﹏{Style.RESET_ALL}" if SMAfty == 'up' else f"{Fore.RED}𓂃﹏{Style.RESET_ALL}"
     print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{SMAftywave}🚦{macd}PE{pedepth}|CE{cedepth}{onemincandlesequance}")
 
 def option_to_trade():
