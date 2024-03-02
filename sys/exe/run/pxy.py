@@ -38,9 +38,9 @@ while True:
     from macdpxy import calculate_macd_signal
     importlib.reload(sys.modules['macdpxy'])  # Correct the usage
     macd = calculate_macd_signal("^NSEI")
-    from smapxy import check_nifty_status
+    from smapxy import check_index_status
     importlib.reload(sys.modules['nsmapxy'])  # Correct the usage
-    nsma = check_nifty_status('^NSEI')
+    nsma = check_index_status('^NSEI')
     #subprocess.run(['python3', 'cntrlpxy.py'])
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
