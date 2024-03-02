@@ -521,7 +521,7 @@ try:
     filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
     filtered_df['key'] = filtered_df['key'].str.replace('BANKNIFTY24', 'BKFTY24')
     filtered_df = filtered_df.sort_values(by='PL%')
-    formatted_lines = filtered_df[['Invested', 'key', 'qty', 'otPL%', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+    formatted_lines = filtered_df[['Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
     
     # Set max_width to 42
     max_width = 42
