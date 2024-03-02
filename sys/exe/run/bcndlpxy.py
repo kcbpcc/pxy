@@ -58,8 +58,8 @@ def get_today_close():
         return None, None  # Handle the case when data is not available
 
 from colorama import Fore, Style
-Day_bnk_Change_sign = '+' if Day_bnk_Change > 0 else ''
-Open_bnk_Change_sign = '+' if Open_bnk_Change > 0 else ''
+Day_bnk_Change_sign = '+' if Day_bnk_Change >= 0 else ''
+Open_bnk_Change_sign = '+' if Open_bnk_Change >= 0 else ''
 
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 42  # Maximum total length allowed for printing
