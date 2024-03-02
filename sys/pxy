@@ -18,7 +18,6 @@ while true; do
     echo "   -pxybuy                🌱        by"
     echo "   -pxypnl                💰        pl"
     echo "   -pxyopt                🛸        op"
-    echo "   -pxytest               🧩        ts"
     echo "   -pxyclean              🚿        cl"
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
@@ -51,10 +50,6 @@ while true; do
             echo "    🛸🛸🛸..Opt Now..🛸🛸🛸"
             pxyopt
             ;;           
-        ts)
-            echo "    🧑‍💻🧑‍💻🧑‍💻.Test txy.🧑‍💻🧑‍💻🧑‍💻"
-            pxytest
-            ;;   
         up)
             echo "   🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
             pxyupdate
