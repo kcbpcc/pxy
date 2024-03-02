@@ -411,7 +411,7 @@ try:
         #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         #print("━" * 42)
         print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
-    print("━" * 42)
+    #print("━" * 42)
 
 ###########################################################################################################################################################################################################   
     from mktrndpxy import get_market_status_for_symbol
