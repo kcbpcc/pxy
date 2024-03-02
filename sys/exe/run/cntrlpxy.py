@@ -101,7 +101,7 @@ def order_place(index, row):
         logging.error(f"{str(e)} while placing order")
     return False
 ###########################################################################################################################################################################################################
-def nrml_opts_order_place(index, row):
+def options_opts_order_place(index, row):
     try:
         exchsym = str(index).split(":")
         if len(exchsym) >= 2:
@@ -331,13 +331,13 @@ try:
     # Calculate and print the sum of 'PnL' values and its total 'PL%' for rows where 'qty' is greater than 0
     total_PnL = round(combined_df_positive_qty['PnL'].sum())
     total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0   
-    # Calculate total_PnL_percentage_nrml_buy
-    cnc_buy_df = combined_df.loc[(combined_df['product'] == "CNC") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
-    total_PnL_cnc_buy = round(cnc_buy_df['PnL'].sum()) if not cnc_buy_df.empty else 0    
-    nrml_buy_df = combined_df.loc[(combined_df['product'] == "NRML")]
-    total_PnL_nrml_buy = round(nrml_buy_df['PnL'].sum()) if not nrml_buy_df.empty else 0
-    total_invested__nrml = nrml_buy_df['Invested'].sum() if not nrml_buy_df.empty else 0
-    nrml_percentage_return = round((total_PnL_nrml_buy / total_invested__nrml) * 100, 0) if total_invested__nrml != 0 else 0
+    # Calculate total_PnL_percentage_options_buy
+    stocks_buy_df = combined_df.loc[(combined_df['product'] == "CNC") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
+    total_PnL_stocks_buy = round(stocks_buy_df['PnL'].sum()) if not stocks_buy_df.empty else 0    
+    options_buy_df = combined_df.loc[(combined_df['product'] == "NRML")]
+    total_PnL_options_buy = round(options_buy_df['PnL'].sum()) if not options_buy_df.empty else 0
+    total_invested__nrml = options_buy_df['Invested'].sum() if not options_buy_df.empty else 0
+    options_percentage_return = round((total_PnL_options_buy / total_invested__nrml) * 100, 0) if total_invested__nrml != 0 else 0
     # Calculate and print the sum of 'dPnL' values and its total 'dPL%' for rows where 'qty' is greater than 0
     #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
@@ -401,16 +401,16 @@ try:
     # Always print "Table" in bright yellow
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
-    cnc_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > PRINT_df_sorted_display['fPL%'] ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '🧰')]
-    nrml_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['product','Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
-    nrml_filtered_df['otPL%'] = nrml_filtered_df['otPL%'].round(2)    
-    nrml_filtered_df['key'] = nrml_filtered_df['key'].str.replace('NFO:', '')
+    stocks_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > PRINT_df_sorted_display['fPL%'] ) & (PRINT_df_sorted_display['Q'] == '+') & (PRINT_df_sorted_display['_CM'] == '🧰')]
+    options_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['product','Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
+    options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)    
+    options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
 ###########################################################################################################################################################################################################
-    if not cnc_filtered_df.empty:
+    if not stocks_filtered_df.empty:
         print("━" * 42)
         #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         #print("━" * 42)
-        print(cnc_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
+        print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
     print("━" * 42)
 
 ###########################################################################################################################################################################################################   
@@ -477,7 +477,7 @@ try:
                          ('PE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Buy", "Bull"]))
                     ):
                         try:                            
-                            is_placed = nrml_opts_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            is_placed = options_opts_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row)                                
@@ -500,10 +500,10 @@ try:
     SMAfty = check_nifty_status()
     macd = calculate_macd_signal("^NSEI")
     
-    if nrml_filtered_df.empty:
+    if options_filtered_df.empty:
         print("mktpxy: options not activated, let's wait!")
     else:
-        filtered_df = nrml_filtered_df[nrml_filtered_df['qty'] != 0].copy()
+        filtered_df = options_filtered_df[options_filtered_df['qty'] != 0].copy()
         
         if filtered_df.empty:
             print("no options yet in the swing .")
@@ -555,7 +555,7 @@ try:
     all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo('fileHPdf.csv')    
     from bordpxy import printbord
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
-             result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash,
+             result_nrml, total_PnL_stocks_buy, total_PnL_options_buy, available_cash,
              nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss)
     subprocess.run(['python3', 'cndlpxy.py']) 
 ###########################################################################################################################################################################################################
