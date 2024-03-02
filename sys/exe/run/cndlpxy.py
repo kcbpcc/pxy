@@ -12,14 +12,14 @@ from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
-from smaftypxy import check_nifty_status
+from smapxy import check_index_status
 import subprocess
 import sys
 
 onemincandlesequance, mktpxy = get_market_check("^NSEI")
 peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
-SMAfty = check_nifty_status()
+nsma = check_index_status("^NSEI")
 from depthpxy import calculate_consecutive_candles
 cedepth, pedepth = calculate_consecutive_candles()
 
@@ -95,8 +95,8 @@ def dayprinter(o, h, l, c, prev_close):
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
     
-    SMAftywave = f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if SMAfty == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
-    print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{SMAftywave}🚦{macd}PE{pedepth}|CE{cedepth}{onemincandlesequance}")
+    nsmawave = f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if nsma == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
+    print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{nsmawave}🚦{macd}PE{pedepth}|CE{cedepth}{onemincandlesequance}")
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
