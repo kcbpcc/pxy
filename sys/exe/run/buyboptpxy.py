@@ -18,7 +18,6 @@ from macdpxy import calculate_macd_signal
 from smaftypxy import check_nifty_status
 from mktrndpxy import get_market_status_for_symbol
 bmktpxy = get_market_status_for_symbol('^NSEBANK')
-
 onemincandlesequance, mktpxy = get_market_check()
 optpxy = get_optpxy()
 peak = peak_time()
@@ -51,7 +50,7 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
         if position['tradingsymbol'] == symbol + str(boptions) + option_type and position['quantity'] > 0:
             found_positions = True
             break
-        if position['option_type'] == option_type and position['quantity'] > 0:  # Increment open_positions_count if position has the same option_type
+        if position['tradingsymbol'].startswith('BANKNIFTY') and position['tradingsymbol'].endswith(option_type) and position['quantity'] > 0:
             open_positions_count += 1
     # Check if there are already three open positions with the same option_type
     if open_positions_count >= 3:
