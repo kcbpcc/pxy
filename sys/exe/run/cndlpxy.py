@@ -16,7 +16,7 @@ from smaftypxy import check_nifty_status
 import subprocess
 import sys
 
-onemincandlesequance, mktpxy = get_market_check()
+onemincandlesequance, mktpxy = get_market_check("^NSEI")
 peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
