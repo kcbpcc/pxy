@@ -48,7 +48,7 @@ def get_open_order_status(symbol):
         sys.exit(1)
     return "NO"  # No open orders found for the symbol
 ###########################################################################################################################################################################################################
-def order_place(index, row):
+def stocks_sell_order_place(index, row):
     try:
         exchsym = str(index).split(":")
         if len(exchsym) >= 2:
@@ -101,7 +101,7 @@ def order_place(index, row):
         logging.error(f"{str(e)} while placing order")
     return False
 ###########################################################################################################################################################################################################
-def options_opts_order_place(index, row):
+def options_sell_order_place(index, row):
     try:
         exchsym = str(index).split(":")
         if len(exchsym) >= 2:
@@ -457,7 +457,7 @@ try:
                         )
                     ):
                         try:                            
-                            is_placed = order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row)                                
@@ -477,7 +477,7 @@ try:
                          ('PE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Buy", "Bull"]))
                     ):
                         try:                            
-                            is_placed = options_opts_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            is_placed = options_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row)                                
