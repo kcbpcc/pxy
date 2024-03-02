@@ -25,7 +25,7 @@ while True:
     random_message = get_random_spiritual_message()
     from mktpxy import get_market_check
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
-    onemincandlesequance, mktpxy = get_market_check()
+    onemincandlesequance, mktpxy = get_market_check('^NSEI')
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     importlib.reload(sys.modules['nftpxy'])  # Correct the usage
     from cyclepxy import cycle
