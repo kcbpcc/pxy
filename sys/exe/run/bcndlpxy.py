@@ -60,6 +60,9 @@ def get_today_close():
 from colorama import Fore, Style
 Day_bnk_Change_sign = '+' if Day_bnk_Change > 0 else ''
 Open_bnk_Change_sign = '+' if Open_bnk_Change > 0 else ''
+bsmawave = f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if bsma == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
+print(f"🔆{Day_bnk_Change_sign}{Day_bnk_Change:.2f}⌛️{Open_bnk_Change_sign}{Open_bnk_Change:.2f}⚡{bnk_power:.2f}{bsmawave}🚦{macd}PE{pedepth}|CE{cedepth}{bnk_onemincandlesequance}")
+
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 42  # Maximum total length allowed for printing
     
@@ -94,8 +97,6 @@ def dayprinter(o, h, l, c, prev_close):
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
     
-    bsmawave = f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if bsma == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
-    print(f"🔆{Day_bnk_Change_sign}{Day_bnk_Change:.2f}⌛️{Open_bnk_Change_sign}{Open_bnk_Change:.2f}⚡{bnk_power:.2f}{bsmawave}🚦{macd}PE{pedepth}|CE{cedepth}{bnk_onemincandlesequance}")
 
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
