@@ -28,9 +28,6 @@ while True:
     onemincandlesequance, mktpxy = get_market_check()
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     importlib.reload(sys.modules['nftpxy'])  # Correct the usage
-    from optpxy import get_optpxy
-    importlib.reload(sys.modules['optpxy'])  # Correct the usage 
-    optpxy = get_optpxy()
     from cyclepxy import cycle
     importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
     from utcpxy import peak_time
@@ -71,14 +68,14 @@ while True:
     #subprocess.run(['python3', 'cndlpxy.py'])
     #console.print(random_message)
     import time
-    def progress_bar(duration, optpxy):
+    def progress_bar(duration, mktpxy):
         console = Console()
         for _ in range(duration):
             time.sleep(1)
-            if optpxy in ['Bull', 'Buy']:
+            if mktpxy in ['Bull', 'Buy']:
                 console.print('[green]🏛 PXY®   [/]', end='')
             else:
                 console.print('[red]🏛 PXY®   [/]', end='')
         console.print()  # Move to the next line after the progress bar
-    progress_bar(cycle, optpxy)
+    progress_bar(cycle, mktpxy)
 
