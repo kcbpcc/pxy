@@ -517,12 +517,31 @@ try:
     filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
     import pandas as pd
     import numpy as np
+
     
+    # Assuming you have already loaded your DataFrame 'filtered_df'
+    
+    # Convert 'PL%' column to integers
     filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
+    
+    # Replace 'BANKNIFTY24' with 'BKFTY24' in 'key' column
     filtered_df['key'] = filtered_df['key'].str.replace('BANKNIFTY24', 'BKFTY24')
+    
+    # Sort DataFrame by 'PL%' column
     filtered_df = filtered_df.sort_values(by='PL%')
+    
+    # Replace row values in 'product' column
+    for index, row in filtered_df.iterrows():
+        if row['product'] == 'MIS':
+            filtered_df.at[index, 'product'] = '⌛'
+        elif row['product'] == 'NRML':
+            filtered_df.at[index, 'product'] = '💸'
+    
+    # Convert DataFrame to formatted string
     formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
-    filtered_df['product'] = filtered_df['product'].replace({'MIS': '⌛','NRML': '⏰'}) 
+    
+    # Print or do further processing with 'formatted_lines'
+
     
     # Set max_width to 42
     max_width = 42
