@@ -289,8 +289,8 @@ try:
             return pepower
         else:
             return None  # Or any default value you prefer
-    from smaftypxy import check_nifty_status
-    SMAfty = check_nifty_status()
+    from smapxy import check_index_status
+    SMAfty = check_index_status('^NSEI')
 ###########################################################################################################################################################################################################
     # Apply the function to create/update the otPL% column
     from depthpxy import calculate_consecutive_candles
@@ -494,10 +494,10 @@ try:
             print(f"An unexpected error occurred: {e}")        
 ###########################################################################################################################################################################################################
     #print("━" * 42)
-    from smaftypxy import check_nifty_status
+    from smapxy import check_index_status
     from macdpxy import calculate_macd_signal
     
-    SMAfty = check_nifty_status()
+    SMAfty = check_index_status("^NSEI")
     macd = calculate_macd_signal("^NSEI")
     
     if options_filtered_df.empty:
