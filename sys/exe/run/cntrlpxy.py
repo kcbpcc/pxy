@@ -522,7 +522,7 @@ try:
     filtered_df['key'] = filtered_df['key'].str.replace('BANKNIFTY24', 'BKFTY24')
     filtered_df = filtered_df.sort_values(by='PL%')
     formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
-    filtered_df['product'] = filtered_df['product'].replace({'MIS': '⌛','NRML': '💸'}) 
+    filtered_df['product'] = filtered_df['product'].replace({'MIS': '⌛','NRML': '⏰'}) 
     
     # Set max_width to 42
     max_width = 42
