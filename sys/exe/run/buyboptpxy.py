@@ -9,6 +9,7 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change
+from bnkpxy import bnk_action, bnk_power, Day_bnk_Change, Open_bnk_Change
 from strikpxy import get_prices
 _, boptions, _, _ = get_prices()
 from optpxy import get_optpxy
@@ -54,7 +55,7 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
             open_positions_count += 1
     # Check if there are already three open positions with the same option_type
     if open_positions_count >= 3:
-        print("Hey you have 3 open positions.")
+        print(f"Hey! ...you have 3 {option_type} open positions.")
         return None  # Return None if three positions with the same option_type are already open
     if not found_positions:
         return f"{symbol}{boptions}{option_type}"
@@ -77,7 +78,7 @@ async def place_order(broker, symbol):
     try:
         order_id = broker.order_place(
             tradingsymbol=symbol,
-            quantity=50,
+            quantity=15,
             exchange="NFO",
             transaction_type='BUY',
             order_type='MARKET',
@@ -109,20 +110,22 @@ async def main():
         sys.stdout = sys.__stdout__
     expiry_year, expiry_month = get_this_month_expiry()
     option_type = None
-    if bmktpxy == 'Buy'and (smabank != 'below' or nse_power < 0.05):
+    if bmktpxy == 'Buy'and (smabank != 'below' or bnk_power < 0.05):
         option_type = 'CE'
-    elif bmktpxy == 'Sell' and (smabank != 'above' or nse_power > 0.95):
+    elif bmktpxy == 'Sell' and (smabank != 'above' or bnk_power > 0.95):
         option_type = 'PE'
     else:
-        print("BNKTY - bmktpxy:", nmktpxy, "smabank:", smabank)
+        print("BNKTY - bmktpxy:", bmktpxy, "smabank:", smabank)
         sys.exit(0)
     symbol = construct_symbol(expiry_year, expiry_month, option_type, broker)
-    if check_existing_positions(broker, symbol):
-        print(f"{symbol} is already there")
-    else:
-        order_placed = await place_order(broker, symbol)
-        if not order_placed:
-            print("Order failed. Check error messages.")
+    if symbol is not None:
+        if check_existing_positions(broker, symbol):
+            print(f"{symbol} is already there")
+        else:
+            order_placed = await place_order(broker, symbol)
+            if not order_placed:
+                print("Order failed. Check error messages.")
 async def run_main():
     await main()
 asyncio.run(run_main())
+
