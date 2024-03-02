@@ -1,8 +1,6 @@
 # bordpxy.py
 from acvaluepxy import process_acvalue, get_current_acvalue
-from optpxy import get_optpxy
 import subprocess
-optpxy = get_optpxy()
 def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash,
              nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss):                
@@ -39,7 +37,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
             f"     {BOLD}{UNDERLINE}PXY{RESET}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
         ) +
         right_aligned_format.format(
-            f"{BRIGHT_GREEN if optpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
+            f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
             f"{BOLD}{UNDERLINE}®{RESET}      {BRIGHT_YELLOW}{'My Stocks'.zfill(3)}{RESET}:{str(all_Stocks_count).zfill(3)}"
         )
     )
