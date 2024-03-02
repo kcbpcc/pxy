@@ -49,12 +49,7 @@ while True:
     fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
     mmktpxy = get_market_status_for_symbol('NIFTY_MID_SELECT.NS')
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
-    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################  
-    console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]",
-                style=Style(color="bright_green", underline=True) if mktpxy in ["Buy", "Bull"]
-                else Style(color="bright_red", underline=True) if mktpxy in ["Sell", "Bear"]
-                else None)
-    
+    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     #subprocess.run(['python3', 'buynoptpxy.py']) if nmktpxy == "Buy" or nmktpxy == "Sell" else None
     #subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy == "Buy" or bmktpxy == "Sell" else None
     #subprocess.run(['python3', 'buyfoptpxy.py']) if fmktpxy == "Buy" or fmktpxy == "Sell" else None
@@ -64,7 +59,10 @@ while True:
     #print("━" * 42)  # Print another line of 42 dashes 
     subprocess.run(['python3', 'cntrlpxy.py'])
     # Print values with color using rich styles
-
+    console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]",
+                style=Style(color="bright_green", underline=True) if mktpxy in ["Buy", "Bull"]
+                else Style(color="bright_red", underline=True) if mktpxy in ["Sell", "Bear"]
+                else None)
     #subprocess.run(['python3', 'cndlpxy.py'])
     #console.print(random_message)
     import time
