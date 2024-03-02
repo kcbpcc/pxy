@@ -493,7 +493,7 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
 ###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'cndlpxy.py']) 
+    subprocess.run(['python3', 'bcndlpxy.py']) 
     from smapxy import check_index_status
     from macdpxy import calculate_macd_signal
     
@@ -567,7 +567,6 @@ try:
             color_code = RESET  # Reset color for invalid PnL values
         # Right-align the text, apply color, and reset color after the line
         print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
-
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cndlpxy.py'])
     from dshpxy import get_holdingsinfo
@@ -576,8 +575,6 @@ try:
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_stocks_buy, total_PnL_options_buy, available_cash,
              nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss)
-    subprocess.run(['python3', 'worldpxy.py'])
-
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
