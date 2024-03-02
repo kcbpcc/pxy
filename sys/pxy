@@ -18,11 +18,8 @@ while true; do
     echo "   -pxybuy                🌱        by"
     echo "   -pxypnl                💰        pl"
     echo "   -pxyopt                🛸        op"
-    echo "   -pxytail               📜        ta"
-    echo "   -pxyauto               🤖        at"
     echo "   -pxytest               🧩        ts"
     echo "   -pxyclean              🚿        cl"
-    echo "   -pxyflush              💨        fl"    
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
     echo "******************************************"
@@ -58,19 +55,6 @@ while true; do
             echo "    🧑‍💻🧑‍💻🧑‍💻.Test txy.🧑‍💻🧑‍💻🧑‍💻"
             pxytest
             ;;   
-        at)
-            echo "    🤖🤖.Options Auto.🤖🤖"
-            pxyauto
-            ;; 
-        ta)
-            echo "    📜📜📜.tailing logs.📜📜📜"
-            pxytail
-            ;; 
-        fl)
-            echo "...............flush put💨💨💨"
-            pxyflush
-            ;;    
-
         up)
             echo "   🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
             pxyupdate
@@ -92,7 +76,6 @@ while true; do
             echo "    💻💻💻💻..👉exe/run"
             py
             ;;
-
         "")
             echo ".........Lets have fun with PXY®  🔥💫🚀🔥"
             pxypxy
