@@ -49,6 +49,7 @@ while True:
     fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
     mmktpxy = get_market_status_for_symbol('NIFTY_MID_SELECT.NS')
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
+    subprocess.run(['python3', 'worldpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     #subprocess.run(['python3', 'buynoptpxy.py']) if nmktpxy == "Buy" or nmktpxy == "Sell" else None
     #subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy == "Buy" or bmktpxy == "Sell" else None
