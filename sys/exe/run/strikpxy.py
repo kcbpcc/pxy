@@ -5,11 +5,9 @@ import warnings
 warnings.filterwarnings("ignore")
 
 def get_current_price(symbol):
-    data = yf.Ticker(symbol).history(period="2d", interval="1m")
-    data['SMA_50'] = data['Close'].rolling(window=50).mean()
-    last_row = data.iloc[-1]  # Fixed missing assignment of last_row
-    SMA_50 = int(last_row['SMA_50'])  # Fixed syntax for accessing 'SMA_50' column
-    return SMA_50  # Added return statement
+    data = yf.Ticker(symbol).history(period="1d", interval="1m")  # Fetch only one day of data
+    current_price = data['Close'].iloc[-1]  # Get the last available price
+    return current_price
 
 def round_to_nearest_100(price):
     return round(price / 100) * 100
