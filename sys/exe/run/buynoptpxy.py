@@ -116,12 +116,13 @@ async def main():
         print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
         sys.exit(0)
     symbol = construct_symbol(expiry_year, expiry_month, option_type, broker)
-    if check_existing_positions(broker, symbol):
-        print(f"{symbol} is already there")
-    else:
-        order_placed = await place_order(broker, symbol)
-        if not order_placed:
-            print("Order failed. Check error messages.")
+    if symbol is not None:
+        if check_existing_positions(broker, symbol):
+            print(f"{symbol} is already there")
+        else:
+            order_placed = await place_order(broker, symbol)
+            if not order_placed:
+                print("Order failed. Check error messages.")
 async def run_main():
     await main()
 asyncio.run(run_main())
