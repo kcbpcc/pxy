@@ -20,7 +20,7 @@ def calculate_sentiment(today_close, yesterday_close):
 # Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
     "^DJI": {"name": "D&J", "weight": 0.35},
-    "^IXIC": {"name": "NsdQ", "weight": 0.30},
+    "^IXIC": {"name": "N&Q", "weight": 0.30},
     "^GSPC": {"name": "S&P", "weight": 0.35},
     "^FTSE": {"name": "UK", "weight": 0.20},
     "^GDAXI": {"name": "DE", "weight": 0.15},
@@ -53,7 +53,7 @@ for name, price_today in closing_prices_today.items():
         price_yesterday = closing_prices_yesterday[name]
         sentiment = calculate_sentiment(price_today, price_yesterday)
         sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
-        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}|]"
+        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]|"
 
 price_today = None
 
