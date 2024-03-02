@@ -21,7 +21,7 @@ peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
 nsma = check_index_status("^NSEI")
 from depthpxy import calculate_consecutive_candles
-cedepth, pedepth = calculate_consecutive_candles()
+cedepth, pedepth = calculate_consecutive_candles("^NSEI")
 
 colorama.init(autoreset=True)
 
