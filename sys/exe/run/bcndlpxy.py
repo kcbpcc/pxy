@@ -20,7 +20,7 @@ peak = peak_time()
 macd = calculate_macd_signal('^NSEBANK')
 bsma = check_index_status('^NSEBANK')
 from depthpxy import calculate_consecutive_candles
-cedepth, pedepth = calculate_consecutive_candles()
+cedepth, pedepth = calculate_consecutive_candles('^NSEBANK')
 
 colorama.init(autoreset=True)
 
