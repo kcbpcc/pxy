@@ -20,7 +20,7 @@ def calculate_sentiment(today_close, yesterday_close):
 # Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
     "^DJI": {"name": "D&J", "weight": 0.35},
-    "^IXIC": {"name": "Nsdq", "weight": 0.30},
+    "^IXIC": {"name": "N&Q", "weight": 0.30},
     "^GSPC": {"name": "S&P", "weight": 0.35},
     "^FTSE": {"name": "UK", "weight": 0.20},
     "^GDAXI": {"name": "DE", "weight": 0.15},
