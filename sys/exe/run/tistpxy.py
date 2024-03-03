@@ -13,9 +13,8 @@ def print_current_datetime_in_ist():
     ist_timezone = pytz.timezone('Asia/Kolkata')
     ist_now = utc_now.astimezone(ist_timezone)
 
-    # Format the date and time with emojis and white color
     formatted_datetime = (
-        f"\033[97m🗓️ {ist_now.strftime('%d')} "  # Different calendar emoji
+        f"\033[97m\033[4m🗓️ {ist_now.strftime('%d')} "  # Different calendar emoji and underline
         f"{ist_now.strftime('%B'):9} {ist_now.strftime('%Y')}|"  # Month, year
         f"🕛 {ist_now.strftime('%A'):9}|"  # Day
         f"⏰{ist_now.strftime('%I:%M%p')}\033[0m"  # Time (reset color)
