@@ -65,7 +65,7 @@ while True:
                 else Style(color="bright_red", underline=True) if mktpxy in ["Sell", "Bear"]
                 else None)
     #subprocess.run(['python3', 'cndlpxy.py'])
-    #console.print(random_message)
+    console.print(random_message)
     import time
     def progress_bar(duration, mktpxy):
         console = Console()
