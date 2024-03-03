@@ -14,7 +14,7 @@ def print_current_datetime_in_ist():
     ist_now = utc_now.astimezone(ist_timezone)
 
     formatted_datetime = (
-        f"\033[97m\033[4m🗓️ {ist_now.strftime('%d')} "  # Different calendar emoji and underline
+        f"\033[93m\033[4m🗓️ {ist_now.strftime('%d')} "  # Bright yellow color and underline
         f"{ist_now.strftime('%B'):9} {ist_now.strftime('%Y')}|"  # Month, year
         f"🕛 {ist_now.strftime('%A'):9}|"  # Day
         f"⏰{ist_now.strftime('%I:%M%p')}\033[0m"  # Time (reset color)
