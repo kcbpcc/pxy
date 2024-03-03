@@ -17,6 +17,7 @@ buy_style = Style(color="green", blink=True)
 green_style = Style(color="bright_green")
 red_style = Style(color="bright_red")
 standby_style = Style(color="yellow", underline=True)
+subprocess.run(['python3', 'cpritepxy.py'])
 while True:
     from selfpxy import get_random_spiritual_message
     importlib.reload(sys.modules['selfpxy'])  # Correct the usage
