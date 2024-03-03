@@ -63,7 +63,14 @@ def get_random_spiritual_message():
     ]
     
     max_length = max(len(message) for message in spiritual_messages)
-    adjusted_messages = ['.' * (max_length - len(message)) + message + ' ' + emojis[i] for i, message in enumerate(spiritual_messages)]
+    
+    # Ensure we iterate over the shorter of the two lists
+    min_length = min(len(spiritual_messages), len(emojis))
+    
+    adjusted_messages = ['.' * (max_length - len(message)) + message + ' ' + emojis[i] for i, message in enumerate(spiritual_messages[:min_length])]
+    
+    # Shuffle the messages
+    random.shuffle(adjusted_messages)
     
     return adjusted_messages
 
