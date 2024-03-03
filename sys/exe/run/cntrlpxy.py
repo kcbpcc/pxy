@@ -405,6 +405,7 @@ try:
     options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
 
 ###########################################################################################################################################################################################################   
+    subprocess.run(['python3', 'tistpxy.py'])
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
     nmktpxy = get_market_status_for_symbol('^NSEI')
