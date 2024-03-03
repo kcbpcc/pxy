@@ -52,20 +52,32 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
             open_positions_count += 1
     # Check if there are already three open positions with the same option_type
     if open_positions_count >= 0:
+        # Define the count_open_positions function here
+        def count_open_positions(option_type, positions_net):
+            # Initialize a counter for open positions with the given option_type
+            open_positions_count = 0
+            # Iterate through the positions and count the ones with the specified option_type
+            for position in positions_net:
+                if position['tradingsymbol'].startswith('BANKNIFTY') and position['tradingsymbol'].endswith(option_type) and position['quantity'] > 0:
+                    open_positions_count += 1
+            return open_positions_count
+        
+        # Now you can use the count_open_positions function
         if SMAfty == "up":
-            if option_type == "CE" and count_open_positions(option_type) >= 3:
+            if option_type == "CE" and count_open_positions(option_type, positions_net) >= 3:
                 print("Hey! You have reached the maximum of 3 Call Option open positions.")
                 return None
-            elif option_type == "PE" and count_open_positions(option_type) >= 1:
+            elif option_type == "PE" and count_open_positions(option_type, positions_net) >= 1:
                 print("Hey! You have reached the maximum of 1 Put Option open position.")
                 return None
         elif SMAfty == "down":
-            if option_type == "PE" and count_open_positions(option_type) >= 3:
+            if option_type == "PE" and count_open_positions(option_type, positions_net) >= 3:
                 print("Hey! You have reached the maximum of 3 Put Option open positions.")
                 return None
-            elif option_type == "CE" and count_open_positions(option_type) >= 1:
+            elif option_type == "CE" and count_open_positions(option_type, positions_net) >= 1:
                 print("Hey! You have reached the maximum of 1 Call Option open position.")
                 return None
+
 
     if not found_positions:
         return f"{symbol}{boptions}{option_type}"
