@@ -32,7 +32,7 @@ while True:
     from utcpxy import peak_time
     importlib.reload(sys.modules['utcpxy'])  # Correct the usage
     peak = peak_time()
-    print(f"...lets fire again 🚀 Cycle 🎡 : {cycle} seconds".rjust(40))
+    subprocess.run(['python3', 'tistpxy.py'])
     from macdpxy import calculate_macd_signal
     importlib.reload(sys.modules['macdpxy'])  # Correct the usage
     macd = calculate_macd_signal("^NSEI")
@@ -50,7 +50,6 @@ while True:
     #subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'buyboptpxy.py'])
     subprocess.run(['python3', 'buypxy.py']) if peak == 'NONPEAK' and mktpxy == 'Buy' and nsma == 'up' else None 
-    subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
     console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]",
                 style=Style(color="bright_green", underline=True) if mktpxy in ["Buy", "Bull"]
