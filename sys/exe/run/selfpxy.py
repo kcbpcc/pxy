@@ -1,5 +1,6 @@
 import random
 
+# Define the function to get random spiritual message
 def get_random_spiritual_message():
     spiritual_messages = [
         "See divine in every aspect",
@@ -73,10 +74,4 @@ def get_random_spiritual_message():
     random.shuffle(adjusted_messages)
     
     return adjusted_messages
-
-
-
-
-
-
 
