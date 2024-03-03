@@ -9,7 +9,6 @@ import sys
 import yfinance as yf
 import os
 from cyclepxy import cycle
-subprocess.run(['python3', 'cpritepxy.py'])
 console = Console()
 bear_style = Style(color="red")
 bull_style = Style(color="green")
@@ -19,7 +18,6 @@ green_style = Style(color="bright_green")
 red_style = Style(color="bright_red")
 standby_style = Style(color="yellow", underline=True)
 while True:
-
     from selfpxy import get_random_spiritual_message
     importlib.reload(sys.modules['selfpxy'])  # Correct the usage
     random_message = get_random_spiritual_message()
@@ -33,14 +31,13 @@ while True:
     from utcpxy import peak_time
     importlib.reload(sys.modules['utcpxy'])  # Correct the usage
     peak = peak_time()
-    #print(f"...lets fire again 🚀 Cycle 🎡 : {cycle} seconds".rjust(40))
+    print(f"...lets fire again 🚀 Cycle 🎡 : {cycle} seconds".rjust(40))
     from macdpxy import calculate_macd_signal
     importlib.reload(sys.modules['macdpxy'])  # Correct the usage
     macd = calculate_macd_signal("^NSEI")
     from smapxy import check_index_status
     importlib.reload(sys.modules['smapxy'])  # Correct the usage
     nsma = check_index_status('^NSEI')
-    #subprocess.run(['python3', 'cntrlpxy.py'])
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
     nmktpxy = get_market_status_for_symbol('^NSEI')
@@ -52,14 +49,12 @@ while True:
     #subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'buyboptpxy.py'])
     subprocess.run(['python3', 'buypxy.py']) if peak == 'NONPEAK' and mktpxy == 'Buy' and nsma == 'up' else None 
-    #print("━" * 42)  # Print another line of 42 dashes 
+    subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py'])
-    # Print values with color using rich styles
     console.print("[bold]🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛[/bold]",
                 style=Style(color="bright_green", underline=True) if mktpxy in ["Buy", "Bull"]
                 else Style(color="bright_red", underline=True) if mktpxy in ["Sell", "Bear"]
                 else None)
-    #subprocess.run(['python3', 'cndlpxy.py'])
     console.print(random_message)
     import time
     def progress_bar(duration, mktpxy):
