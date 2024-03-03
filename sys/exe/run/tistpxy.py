@@ -20,13 +20,9 @@ def print_current_datetime_in_ist():
         f"🕛 {ist_now.strftime('%A')}|"   # Day
         f"⏰ {ist_now.strftime('%I:%M%p')}\033[0m"  # Time (reset color)
     )
-
-    # Calculate the spaces needed for alignment
-    char_space = 43
-    spaces_needed = char_space - len(formatted_datetime)
-
-    # Print the formatted date and time aligned to the right
-    print(" " * spaces_needed + formatted_datetime)
+    
+    # Print the formatted date and time
+    print(formatted_datetime)
     
     # Time with white color
     formatted_time = f"\033[97m⏰ {ist_now.strftime('%I:%M%p')}\033[0m"  # Time (reset color)
