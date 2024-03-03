@@ -482,7 +482,7 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
 ###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'worldpxy.py'])
+    subprocess.run(['python3', 'tistpxy.py'])
     if not stocks_filtered_df.empty:
         #print("━" * 42)
         #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
