@@ -404,8 +404,9 @@ try:
     options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)    
     options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
 ###########################################################################################################################################################################################################
+    subprocess.run(['python3', 'worldpxy.py'])
     if not stocks_filtered_df.empty:
-        print("━" * 42)
+        #print("━" * 42)
         #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         #print("━" * 42)
         print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
