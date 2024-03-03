@@ -73,5 +73,6 @@ def get_random_spiritual_message():
     # Shuffle the messages
     random.shuffle(adjusted_messages)
     
-    return adjusted_messages
+    # Return a random message from the list
+    return random.choice(adjusted_messages)
 
