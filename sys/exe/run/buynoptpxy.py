@@ -49,7 +49,7 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
         if position['tradingsymbol'].startswith('NIFTY') and position['tradingsymbol'].endswith(option_type) and position['quantity'] > 0:
             open_positions_count += 1
     # Check if there are already three open positions with the same option_type
-    if open_positions_count >= 3:
+    if open_positions_count >= 2:
         print(f"Hey! ...you have 3 {option_type} open positions.")
         return None  # Return None if three positions with the same option_type are already open
     if not found_positions:
