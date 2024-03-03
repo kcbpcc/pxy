@@ -20,15 +20,13 @@ def print_current_datetime_in_ist():
         f"🕛 {ist_now.strftime('%A')}|"   # Day
         f"⏰ {ist_now.strftime('%I:%M%p')}\033[0m"  # Time (reset color)
     )
-
-    # Print the formatted date and time aligned to the right
-    print(f"{formatted_datetime:>43}")
-
+    
+    # Print the formatted date and time
+    print(formatted_datetime)
+    
     # Time with white color
     formatted_time = f"\033[97m⏰ {ist_now.strftime('%I:%M%p')}\033[0m"  # Time (reset color)
     return formatted_time
 
 if __name__ == "__main__":
     print_current_datetime_in_ist()
-
-
