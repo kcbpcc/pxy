@@ -50,7 +50,7 @@ while True:
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     #subprocess.run(['python3', 'buynoptpxy.py'])
-    #subprocess.run(['python3', 'buyboptpxy.py'])
+    subprocess.run(['python3', 'buyboptpxy.py'])
     subprocess.run(['python3', 'buypxy.py']) if peak == 'NONPEAK' and mktpxy == 'Buy' and nsma == 'up' else None 
     #print("━" * 42)  # Print another line of 42 dashes 
     subprocess.run(['python3', 'cntrlpxy.py'])
