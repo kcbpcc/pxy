@@ -22,6 +22,14 @@ def print_current_datetime_in_ist():
     )
     
     # Print the formatted date and time
+    # Check the length of the formatted_datetime string
+    if len(formatted_datetime) < 43:
+        # Calculate the number of dots needed to fill the gap
+        num_dots = 43 - len(formatted_datetime)
+        # Add dots to fill the gap
+        formatted_datetime += '.' * num_dots
+
+    # Print the formatted datetime with right alignment in a width of 43 characters
     print(f"{formatted_datetime:>43}")
     
     # Time with white color
