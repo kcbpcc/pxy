@@ -154,7 +154,6 @@ def options_sell_order_place(index, row):
         logging.error(f"{str(e)} while placing order")
     return False
 ###########################################################################################################################################################################################################
-
 def get_holdingsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
@@ -276,7 +275,6 @@ try:
     from nftpxy import nse_action, nse_power, OPTIONS  
     threshold = 3
 ###########################################################################################################################################################################################################
-
     nse_factor = {"Bearish": 0.5, "Bear": 1.0, "Bull": 1.5, "Bullish": 2.0}.get(nse_action, 1.0) 
     options_nse_factor = {"Bearish": 2.0, "Bear": 1.5, "Bull": 0.10, "Bullish": 0.5}.get(nse_action, 1.0)  
     exp_nse_factor = math.exp(options_nse_factor)
@@ -413,7 +411,6 @@ try:
         #print("━" * 42)
         print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
     #print("━" * 42)
-
 ###########################################################################################################################################################################################################   
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
@@ -488,7 +485,6 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")                            
-
 ###########################################################################################################################################################################################################     
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
@@ -497,15 +493,12 @@ try:
     subprocess.run(['python3', 'bcndlpxy.py']) 
     from smapxy import check_index_status
     from macdpxy import calculate_macd_signal
-    
     SMAfty = check_index_status("^NSEI")
     macd = calculate_macd_signal("^NSEI")
-    
     if options_filtered_df.empty:
         print("mktpxy: options not activated, let's wait!")
     else:
         filtered_df = options_filtered_df[options_filtered_df['qty'] != 0].copy()
-        
         if filtered_df.empty:
             print("no options yet in the swing .")
         else:
@@ -514,39 +507,27 @@ try:
             RED = '\033[91m'
             GRAY = '\033[90m'
             RESET = '\033[0m'
-    
     filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
     import pandas as pd
     import numpy as np
-
-    
     # Assuming you have already loaded your DataFrame 'filtered_df'
-    
     # Convert 'PL%' column to integers
     filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
-    
     # Replace 'BANKNIFTY24' with 'BKFTY24' in 'key' column
     filtered_df['key'] = filtered_df['key'].str.replace('BANKNIFTY24', 'BKFTY24')
-    
     # Sort DataFrame by 'PL%' column
     filtered_df = filtered_df.sort_values(by='PL%')
-    
     # Replace row values in 'product' column
     for index, row in filtered_df.iterrows():
         if row['product'] == 'MIS':
             filtered_df.at[index, 'product'] = '⌛'
         elif row['product'] == 'NRML':
             filtered_df.at[index, 'product'] = '⏰'
-    
     # Convert DataFrame to formatted string
     formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
-    
     # Print or do further processing with 'formatted_lines'
-
-    
     # Set max_width to 42
     max_width = 42
-    
     # Iterate over each line and format it with color based on PnL value
     for line in formatted_lines:
         values = line.split()
