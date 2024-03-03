@@ -77,6 +77,7 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
                 print("Hey! You have reached the maximum of 1 Call Option open position.")
                 return None
 
+
     if not found_positions:
         return f"{symbol}{noptions}{option_type}"
     adjustments = [50, -50, 100, -100]
