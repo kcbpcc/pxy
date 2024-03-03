@@ -51,9 +51,22 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
         if position['tradingsymbol'].startswith('BANKNIFTY') and position['tradingsymbol'].endswith(option_type) and position['quantity'] > 0:
             open_positions_count += 1
     # Check if there are already three open positions with the same option_type
-    if open_positions_count >= 2:
-        print(f"Hey! ...you have 3 {option_type} open positions.")
-        return None  # Return None if three positions with the same option_type are already open
+    if open_positions_count >= 0:
+        if SMAfty == "up":
+            if option_type == "CE" and count_open_positions(option_type) >= 3:
+                print("Hey! You have reached the maximum of 3 Call Option open positions.")
+                return None
+            elif option_type == "PE" and count_open_positions(option_type) >= 1:
+                print("Hey! You have reached the maximum of 1 Put Option open position.")
+                return None
+        elif SMAfty == "down":
+            if option_type == "PE" and count_open_positions(option_type) >= 3:
+                print("Hey! You have reached the maximum of 3 Put Option open positions.")
+                return None
+            elif option_type == "CE" and count_open_positions(option_type) >= 1:
+                print("Hey! You have reached the maximum of 1 Call Option open position.")
+                return None
+
     if not found_positions:
         return f"{symbol}{boptions}{option_type}"
     adjustments = [100, -100, 200, -200]
