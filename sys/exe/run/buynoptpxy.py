@@ -57,7 +57,7 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
             open_positions_count = 0
             # Iterate through the positions and count the ones with the specified option_type
             for position in positions_net:
-                if position['tradingsymbol'].endswith(option_type) and position['quantity'] > 0:
+                if position['tradingsymbol'].startswith('NIFTY') and position['tradingsymbol'].endswith(option_type) and position['quantity'] > 0:
                     open_positions_count += 1
             return open_positions_count
         
