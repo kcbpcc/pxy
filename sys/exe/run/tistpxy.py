@@ -22,7 +22,7 @@ def print_current_datetime_in_ist():
     )
     
     # Print the formatted date and time
-    print(formatted_datetime)
+    print(f"{formatted_datetime:>43}")
     
     # Time with white color
     formatted_time = f"\033[97m⏰ {ist_now.strftime('%I:%M%p')}\033[0m"  # Time (reset color)
