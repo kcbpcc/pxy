@@ -66,7 +66,7 @@ for exchange, name_weight in exchanges.items():
         break  # Exit loop once NIFTY price is found
 
 # Concatenate index_info and price_today into a single string
-output = index_info
+output = f"\033[4m{index_info}\033[0m"
 
 # Print the concatenated string using console.print()
 console.print(output)
