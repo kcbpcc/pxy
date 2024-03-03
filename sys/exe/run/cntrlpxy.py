@@ -403,14 +403,7 @@ try:
     options_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['product','Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
     options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)    
     options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
-###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'worldpxy.py'])
-    if not stocks_filtered_df.empty:
-        #print("━" * 42)
-        #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
-        #print("━" * 42)
-        print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
-    #print("━" * 42)
+
 ###########################################################################################################################################################################################################   
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
@@ -485,10 +478,17 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")                            
-###########################################################################################################################################################################################################     
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
+###########################################################################################################################################################################################################
+    subprocess.run(['python3', 'worldpxy.py'])
+    if not stocks_filtered_df.empty:
+        #print("━" * 42)
+        #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
+        #print("━" * 42)
+        print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
+    #print("━" * 42)
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'bcndlpxy.py']) 
     from smapxy import check_index_status
@@ -549,6 +549,7 @@ try:
             color_code = RESET  # Reset color for invalid PnL values
         # Right-align the text, apply color, and reset color after the line
         print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
+        
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cndlpxy.py'])
     from dshpxy import get_holdingsinfo
