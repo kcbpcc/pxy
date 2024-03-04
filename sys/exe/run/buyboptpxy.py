@@ -85,7 +85,7 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
     for adjustment in adjustments:
         adjusted_boptions = boptions + adjustment
         
-        for position in positions:
+        for position positions_net:
             if position['tradingsymbol'] == symbol + str(adjusted_boptions) + option_type :
                 return f"{symbol}{adjusted_boptions}{option_type}"
     return f"{symbol}{boptions}{option_type}"
