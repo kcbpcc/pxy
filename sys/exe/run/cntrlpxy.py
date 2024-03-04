@@ -462,10 +462,15 @@ try:
                     elif (
                         row['qty'] > 0 and
                         row['avg'] != 0 and
-                        row['product'] =='NRML' and
+                        row['product'] == 'NRML' and
                         'NFO:' in row['key'] and
-                        (('CE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Sell", "Bear"]) or
-                         ('PE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Buy", "Bull"]))
+                        (
+                            (
+                                ('CE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Sell", "Bear"]) or
+                                ('PE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Buy", "Bull"])
+                            ) or
+                            (row['PL%'] > 5)
+                        )
                     ):
                         try:                            
                             is_placed = options_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
