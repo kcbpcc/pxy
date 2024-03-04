@@ -45,7 +45,7 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
     positions_net = positions_response['net']
     open_positions_count = 0  # Counter to keep track of open positions with the same option_type
     for position in positions_net:
-        if position['tradingsymbol'] == symbol + str(boptions) + option_type :
+        if position['tradingsymbol'] == symbol + str(boptions) + option_type and position['quantity'] != 0:
             found_positions = True
             break
         if position['tradingsymbol'].startswith('BANKNIFTY') and position['tradingsymbol'].endswith(option_type) and position['quantity'] > 0:
