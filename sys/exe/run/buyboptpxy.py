@@ -40,55 +40,51 @@ def get_this_month_expiry():
     return expiry_year, expiry_month
 def construct_symbol(expiry_year, expiry_month, option_type, broker):
     symbol = f"BANKNIFTY{expiry_year}{expiry_month}"
-    found_positions = False
-    positions_response = broker.kite.positions()
-    positions_net = positions_response['net']
-    open_positions_count = 0  # Counter to keep track of open positions with the same option_type
-    for position in positions_net:
-        if position['tradingsymbol'] == symbol + str(boptions) + option_type and position['quantity'] != 0:
-            found_positions = True
-            break
+    open_positions_count = 0  # Counter to keep track of open positions with quantity > 0
+
+    # Count open positions with quantity > 0 for the given option type
+    for position in broker.kite.positions()['net']:
         if position['tradingsymbol'].startswith('BANKNIFTY') and position['tradingsymbol'].endswith(option_type) and position['quantity'] > 0:
             open_positions_count += 1
-    # Check if there are already three open positions with the same option_type
-    if open_positions_count >= 0:
-        # Define the count_open_positions function here
-        def count_open_positions(option_type, positions_net):
-            # Initialize a counter for open positions with the given option_type
-            open_positions_count = 0
-            # Iterate through the positions and count the ones with the specified option_type
-            for position in positions_net:
-                if position['tradingsymbol'].startswith('BANKNIFTY') and position['tradingsymbol'].endswith(option_type) and position['quantity'] > 0:
-                    open_positions_count += 1
-            return open_positions_count
-        
-        # Now you can use the count_open_positions function
-        if SMAfty == "up":
-            if option_type == "CE" and count_open_positions(option_type, positions_net) >= 3:
-                print("Hey! You have reached the maximum of 3 Call Option open positions.")
-                return None
-            elif option_type == "PE" and count_open_positions(option_type, positions_net) >= 1:
-                print("Hey! You have reached the maximum of 1 Put Option open position.")
-                return None
-        elif SMAfty == "down":
-            if option_type == "PE" and count_open_positions(option_type, positions_net) >= 3:
-                print("Hey! You have reached the maximum of 3 Put Option open positions.")
-                return None
-            elif option_type == "CE" and count_open_positions(option_type, positions_net) >= 1:
-                print("Hey! You have reached the maximum of 1 Call Option open position.")
-                return None
 
+    # Check if the number of open positions exceeds the limit
+    if SMAfty == "up":
+        if option_type == "CE" and open_positions_count >= 3:
+            print("Hey! You have reached the maximum of 3 Call Option open positions.")
+            return None
+        elif option_type == "PE" and open_positions_count >= 1:
+            print("Hey! You have reached the maximum of 1 Put Option open position.")
+            return None
+    elif SMAfty == "down":
+        if option_type == "PE" and open_positions_count >= 3:
+            print("Hey! You have reached the maximum of 3 Put Option open positions.")
+            return None
+        elif option_type == "CE" and open_positions_count >= 1:
+            print("Hey! You have reached the maximum of 1 Call Option open position.")
+            return None
 
-    if not found_positions:
-        return f"{symbol}{boptions}{option_type}"
-    adjustments = [100, -100, 200, -200]
-    for adjustment in adjustments:
-        adjusted_boptions = boptions + adjustment
-        
-        for position in positions_net:
-            if position['tradingsymbol'] == symbol + str(adjusted_boptions) + option_type :
-                return f"{symbol}{adjusted_boptions}{option_type}"
-    return f"{symbol}{boptions}{option_type}"
+    # Define the symbol range for adjustments
+    min_adjustment = -200
+    max_adjustment = 200
+
+    # Construct symbol with adjustments until it falls within the desired range
+    while True:
+        # Check if the symbol with boptions exists
+        symbol_to_check = symbol + str(boptions) + option_type
+        existing_positions = [position for position in broker.kite.positions()['net'] if position['tradingsymbol'] == symbol_to_check]
+
+        if any(existing_positions):
+            # Symbol with boptions exists, try adjustments
+            for adjustment in range(min_adjustment, max_adjustment + 1, 100):
+                adjusted_boptions = boptions + adjustment
+                adjusted_symbol = symbol + str(adjusted_boptions) + option_type
+
+                if not any(position for position in existing_positions if position['quantity'] > 0):
+                    # Constructed symbol does not have existing positions with quantity > 0
+                    return adjusted_symbol
+
+        # No symbol with boptions found or adjustments didn't yield a suitable symbol, return default symbol
+        return symbol + str(boptions) + option_type
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
