@@ -495,7 +495,6 @@ try:
         print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))    
     #print("━" * 42)
 ###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'bcndlpxy.py']) 
     from smapxy import check_index_status
     from macdpxy import calculate_macd_signal
     SMAfty = check_index_status("^NSEI")
@@ -556,13 +555,14 @@ try:
         print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
         
 ###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'cndlpxy.py'])
+    subprocess.run(['python3', 'bcndlpxy.py']) 
     from dshpxy import get_holdingsinfo
     all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo('fileHPdf.csv')    
     from bordpxy import printbord
     printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_stocks_buy, total_PnL_options_buy, available_cash,
              nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss)
+    subprocess.run(['python3', 'cndlpxy.py'])
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
