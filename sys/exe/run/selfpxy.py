@@ -77,7 +77,7 @@ def get_random_spiritual_message():
         # Calculate the number of spaces needed for alignment
         num_spaces = max_width - len(message) - len(random_emojis[0]) - len(random_emojis[1])
         # Construct the adjusted message with alignment
-        adjusted_message = f"{random_emojis[0]}{' ' * num_spaces}{message} {random_emojis[1]}"
+        adjusted_message = f"{random_emojis[0]}{message}{' ' * num_spaces}{random_emojis[1]}"
         adjusted_messages.append(adjusted_message)
     
     # Shuffle the messages
@@ -88,5 +88,6 @@ def get_random_spiritual_message():
 
 # Example usage
 print(get_random_spiritual_message())
+
 
 
