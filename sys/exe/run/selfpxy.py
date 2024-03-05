@@ -74,7 +74,7 @@ def get_random_spiritual_message():
         # Select two random emojis for each message
         random_emojis = random.sample(emojis, 2)
         # Combine message with emojis
-        adjusted_message = random_emojis[0] + '.' * (max_length - len(message)) + message + ' ' + random_emojis[1]
+        adjusted_message = '.' * (max_length - len(message)) + random_emojis[0] + message + ' ' + random_emojis[1]
         adjusted_messages.append(adjusted_message)
     
     # Shuffle the messages
@@ -84,5 +84,6 @@ def get_random_spiritual_message():
     return random.choice(adjusted_messages)
 
 # Example usage
-print(get_random_spiritual_message())
+#print(get_random_spiritual_message())
+
 
