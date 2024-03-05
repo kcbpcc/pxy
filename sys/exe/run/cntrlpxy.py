@@ -295,8 +295,8 @@ try:
     cedepth, pedepth = calculate_consecutive_candles('^NSEI')
     combined_df['otPL%'] = (3 + combined_df.apply(lambda row: pedepth * 0.5 if row['key'].endswith('PE') else cedepth * 0.5  if row['key'].endswith('CE') else None, axis=1))
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
-    combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(2.8, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
-    combined_df['tPL%'] = np.where(SMAfty == 'up', 1.5 * combined_df['tPL%'], np.where(SMAfty == 'down', combined_df['tPL%'] * 0.5, combined_df['tPL%']))
+    combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
+    combined_df['tPL%'] = np.where(SMAfty == 'up', np.maximum(1.5 * combined_df['tPL%'], 1.4), np.where(SMAfty == 'down', np.maximum(combined_df['tPL%'] * 0.5, 1.4), combined_df['tPL%']))
 ###########################################################################################################################################################################################################
     #subprocess.run(['python3', 'prftpxy.py'])
     #subprocess.run(['python3', 'nrmlprftpxy.py'])
