@@ -50,17 +50,17 @@ def construct_symbol(expiry_year, expiry_month, option_type, broker):
     # Check if the number of open positions exceeds the limit
     if SMAfty == "up":
         if option_type == "CE" and open_positions_count >= 3:
-            print("Hey! You have reached the maximum of 3 Call Option open positions.")
+            print("Got 3 Call open positions, So dont buy")
             return None
         elif option_type == "PE" and open_positions_count >= 1:
-            print("Hey! You have reached the maximum of 1 Put Option open position.")
+            print("Got 1 Put open positions, So dont buy")
             return None
     elif SMAfty == "down":
         if option_type == "PE" and open_positions_count >= 3:
-            print("Hey! You have reached the maximum of 3 Put Option open positions.")
+            print("Got 3 Put open positions, So dont buy")
             return None
         elif option_type == "CE" and open_positions_count >= 1:
-            print("Hey! You have reached the maximum of 1 Call Option open position.")
+            print("Got 1 Call open positions, So dont buy")
             return None
 
     # Define the symbol range for adjustments
