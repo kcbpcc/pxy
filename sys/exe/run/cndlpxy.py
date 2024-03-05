@@ -61,8 +61,6 @@ def get_today_close():
 from colorama import Fore, Style
 day_change_sign = '+' if Day_Change >= 0 else ''
 open_change_sign = '+' if Open_Change >= 0 else ''
-nsmawave = f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if nsma == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
-print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{nsmawave}🚦{macd}PE{pedepth}|CE{cedepth}{onemincandlesequance}")
 
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 42  # Maximum total length allowed for printing
@@ -97,6 +95,8 @@ def dayprinter(o, h, l, c, prev_close):
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
+nsmawave = f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if nsma == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
+print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{nsmawave}🚦{macd}PE{pedepth}|CE{cedepth}{onemincandlesequance}")
     
 
 def option_to_trade():
