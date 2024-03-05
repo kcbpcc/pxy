@@ -63,7 +63,7 @@ def get_random_spiritual_message():
         "🚪", "🙇‍♂️", "🌠", "💞", "🙇", "🤝", "🔑", "🙌", "🌌"
     ]
     
-    max_width = 35
+    max_length = max(len(message) for message in spiritual_messages)
     
     # Ensure we iterate over the shorter of the two lists
     min_length = min(len(spiritual_messages), len(emojis))
@@ -74,10 +74,7 @@ def get_random_spiritual_message():
         # Select two random emojis for each message
         random_emojis = random.sample(emojis, 2)
         # Combine message with emojis
-        # Calculate the number of spaces needed for alignment
-        num_spaces = max_width - len(message) - len(random_emojis[0]) - len(random_emojis[1])
-        # Construct the adjusted message with alignment
-        adjusted_message = f"{random_emojis[0]}{message}{' ' * num_spaces}{random_emojis[1]}"
+        adjusted_message = '.' * (max_length - len(message)) + random_emojis[0] + message + ' ' + random_emojis[1]
         adjusted_messages.append(adjusted_message)
     
     # Shuffle the messages
@@ -87,7 +84,7 @@ def get_random_spiritual_message():
     return random.choice(adjusted_messages)
 
 # Example usage
-print(get_random_spiritual_message())
+#print(get_random_spiritual_message())
 
 
 
