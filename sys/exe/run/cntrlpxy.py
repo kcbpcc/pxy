@@ -399,7 +399,7 @@ try:
     # Always print "Table" in bright yellow
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
-    stocks_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 1.4 ) & (PRINT_df_sorted_display['_CM'] == '🧰')]
+    stocks_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 1.4 ) & (PRINT_df_sorted_display['_CM'] == '🧰') & (PRINT_df_sorted_display['qty'] >0)]
     options_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['product','Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
     options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)    
     options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
@@ -491,7 +491,7 @@ try:
         #print("━" * 42)
         #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         #print("━" * 42)
-        print(stocks_filtered_df[stocks_filtered_df['qty'] > 0].to_string(index=False, justify='left', col_space=-0, header=False))
+        print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
     subprocess.run(['python3', 'tistpxy.py'])
 ###########################################################################################################################################################################################################
     from smapxy import check_index_status
