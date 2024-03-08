@@ -6,11 +6,9 @@ import traceback
 class Trendlyne:
 
     base_url = "https://trendlyne.com/"
-    entry_url = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-pxy/all/all/"
-    #https://trendlyne.com/fundamentals/stock-screener/432332/buy-plus-pxy/index/NFMICRO250/nifty-microcap-250/
-    #(Current Price > 50Day SMA) and (((Day Low+Day High+Day Open+Current Price)/4) > ((Prev Day Close+Previous Day Open)/2)) and (Prev Day Close < Previous Day Open) and (Day Open < Current Price)
+    entry_url = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-pxy/index/NIFTY500/nifty-500/"
+    #https://trendlyne.com/fundamentals/stock-screener/432332/buy-plus-pxy/index/NIFTY500/nifty-500/
     
-    #( ( ( ( Previous Day Open - Prev Day Close Rs ) / Prev Day Close Rs ) * 100 ) < 1.4 ) AND ( ( ( ( Day High Rs - Previous Day Open ) / Previous Day Open ) * 100 ) < 1.4 ) AND ( Day Volume Primary Exch / Week Volume Avg Primary Exch > 1.4 ) AND ( Previous Day Open > Prev Day Close Rs ) AND ( Current Price Rs > Previous Day Open ) AND ( Day Volume Primary Exch >= 10000 ) AND ( Previous Day Open > Day Low Rs ) AND ( Current Price Rs > Day Open Rs ) AND ( MACD > 0 )
     def __init__(self):
         fake_response = requests.get(self.base_url)
         fake_cookies = fake_response.cookies
@@ -42,7 +40,7 @@ class Trendlyne:
                         data_list_of_dicts = []
                         for row in rows:
                             data_dict = {
-                                'power': row[0],
+                                '0': row[0],
                                 'tradingsymbol': row[1],
                                 'QTY': row[2],
                                 '4': row[3],
@@ -51,6 +49,7 @@ class Trendlyne:
                                 '7': row[6],
                                 '8': row[7],
                                 '9': row[8]
+                                '10': row[9]
                             }
                             data_list_of_dicts.append(data_dict)
                         return data_list_of_dicts
