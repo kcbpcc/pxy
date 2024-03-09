@@ -1,3 +1,4 @@
+#PXY®
 #!/bin/bash
 
 source ~/env/bin/activate
@@ -5,28 +6,5 @@ source ~/env/bin/activate
 # Change to the script's directory
 cd ~/pxy/sys/exe/run
 
-echo "Choose an option:"
-echo "n - Run buynoptpxy.py"
-echo "b - Run buyboptpxy.py"
-echo "f - Run buyfoptpxy.py"
-echo "m - Run buymoptpxy.py"
-
-read -p "Enter your choice: " choice
-
-case "$choice" in
-  n)
-    python3 buynoptpxy.py
-    ;;
-  b)
-    python3 buyboptpxy.py
-    ;;
-  f)
-    python3 buyfoptpxy.py
-    ;;
-  m)
-    python3 buymoptpxy.py
-    ;;
-  *)
-    echo "Invalid option. Please enter n, b, f, or m."
-    ;;
-esac
+# Run the Python script
+python3 buynoptpxy.py
