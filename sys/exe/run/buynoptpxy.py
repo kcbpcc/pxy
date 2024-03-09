@@ -146,13 +146,14 @@ async def main():
         order_placed = await place_order(broker, symbol)
         if not order_placed:
             print("Order failed. Check error messages.")
-
 import asyncio
 
 async def run_main():
     try:
         # Prompt the user for input
         print("Do you want to proceed? (y/n)")
+
+        # Wait for user input with a timeout of 5 seconds
         response = await asyncio.wait_for(get_user_input(), timeout=5)
         
         if response.strip().lower() == 'y':
@@ -169,6 +170,4 @@ async def get_user_input():
     return await loop.run_in_executor(None, input)
 
 asyncio.run(run_main())
-
-
 
