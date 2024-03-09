@@ -14,9 +14,7 @@ from cyclepxy import cycle
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
 from mktrndpxy import get_market_status_for_symbol
-nmktpxy = get_market_status_for_symbol("^NSEI")
-
-onemincandlesequance, mktpxy = get_market_check()
+onemincandlesequance, mktpxy = get_market_check("^NSEI")
 peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
 SMAfty = check_nifty_status()
