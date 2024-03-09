@@ -150,10 +150,10 @@ async def main():
 async def run_main():
     try:
         # Prompt the user for input
-        print("Do you want to proceed? (y/n)")
+        print("Do you want to proceed with PE Sell? (y/n)")
         response = await asyncio.wait_for(get_user_input(), timeout=15)
         
-        if response.lower() == 'y':
+        if response.lower() == 'yy':
             await main()
         else:
             print("Exiting program.")
