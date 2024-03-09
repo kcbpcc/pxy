@@ -147,9 +147,21 @@ async def main():
         if not order_placed:
             print("Order failed. Check error messages.")
 
-# Define async function to run main function
 async def run_main():
-    await main()
+    try:
+        # Prompt the user for input
+        print("Do you want to proceed? (y/n)")
+        response = await asyncio.wait_for(get_user_input(), timeout=15)
+        
+        if response.lower() == 'y':
+            await main()
+        else:
+            print("Exiting program.")
+    except asyncio.TimeoutError:
+        print("Timeout reached. Exiting program.")
 
-# Run the main asynchronous function
+async def get_user_input():
+    loop = asyncio.get_running_loop()
+    return await loop.run_in_executor(None, input)
+
 asyncio.run(run_main())
