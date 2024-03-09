@@ -17,7 +17,7 @@ END_TIME = 245
 
 def fetch_data(symbol):
     # Fetch real-time data for the specified interval and symbol
-    data = yf.Ticker(symbol).history(period="5d", interval="5m")
+    data = yf.Ticker(symbol).history(period="5d", interval="2m")
     return data
 
 def calculate_heikin_ashi_colors(data):
@@ -26,10 +26,10 @@ def calculate_heikin_ashi_colors(data):
     ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
     # Calculate the colors of the last 20 closed candles (oldest to latest)
-    colors = ['🔴' if ha_close.iloc[-i] < ha_open.iloc[-i] else '🟢' for i in range(1, min(20, len(ha_close) + 1))][::-1]
+    colors = ['🔴' if ha_close.iloc[-i] < ha_open.iloc[-i] else '🟢' for i in range(1, min(4, len(ha_close) + 1))][::-1]
 
-    current_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-    last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+    current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
+    last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
 
     # Rich print statement for all 20 candle colors
     onemincandlesequance = f'{"".join(colors)}' #{"😡" if current_color == "Bear" else "😊"}
@@ -41,7 +41,7 @@ def calculate_last_twenty_heikin_ashi_colors(symbol):
 
     if START_TIME <= current_utc_time < END_TIME:
         # Download data for the specified number of days (fixed to 20 days) with a 1-minute interval
-        data = yf.Ticker(symbol).history(period="5d", interval="5m")
+        data = yf.Ticker(symbol).history(period="5d", interval="2m")
     else:
         data = fetch_data(symbol)
 
