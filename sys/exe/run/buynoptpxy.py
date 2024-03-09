@@ -10,6 +10,7 @@ from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change
 from strikpxy import get_prices
 noptions, _, _, _ = get_prices()
+from optpxy import get_optpxy
 from cyclepxy import cycle
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
