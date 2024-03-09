@@ -160,6 +160,8 @@ async def main():
         user_input = get_input_with_timeout("Do you want to set option_type to 'PE'? (Y/N): ")
         if user_input == 'Y':
             option_type = 'PE'  # Put Option
+        else:
+            print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
     else:
         # Handle the case where nmktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
