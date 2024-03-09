@@ -128,33 +128,7 @@ async def main():
     expiry_year, expiry_month, expiry_day = get_this_thursday()
     option_type = None  # Default value
     
-    # Determine option type based on nmktpxy
 
-    import threading
-    
-    # Function to get user input with a timeout
-    def get_input_with_timeout(prompt, timeout=5):
-        print(prompt)
-        user_input = [None]  # To store the input from the user
-    
-        # Function to get input from the user
-        def get_input():
-            user_input[0] = input("Enter Y/N: ")
-    
-        # Create a thread for getting user input
-        input_thread = threading.Thread(target=get_input)
-        input_thread.start()
-    
-        # Wait for the input thread to finish or timeout
-        input_thread.join(timeout)
-    
-        # If the input thread is still alive, it means timeout occurred
-        if input_thread.is_alive():
-            print("Timeout reached. Assuming 'N'")
-            return 'N'
-        else:
-            return user_input[0].upper()
-    
     # Determine option type based on nmktpxy
     if nmktpxy == 'Sell' and smanifty != 'above':
         user_input = get_input_with_timeout("Do you want to set option_type to 'PE'? (Y/N): ")
