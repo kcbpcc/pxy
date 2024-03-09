@@ -26,7 +26,7 @@ def calculate_heikin_ashi_colors(data):
     ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
     # Calculate the colors of the last 20 closed candles (oldest to latest)
-    colors = ['🔴' if ha_close.iloc[-i] < ha_open.iloc[-i] else '🟢' for i in range(1, min(4, len(ha_close) + 1))][::-1]
+    colors = ['🔴' if ha_close.iloc[-i] < ha_open.iloc[-i] else '🟢' for i in range(1, min(20, len(ha_close) + 1))][::-1]
 
     current_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
     last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
