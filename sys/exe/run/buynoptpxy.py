@@ -151,6 +151,8 @@ import asyncio
 
 import asyncio
 
+import asyncio
+
 async def run_main():
     try:
         # Prompt the user for input
@@ -172,8 +174,7 @@ async def run_main():
         print("Exiting program.")
 
 async def get_user_input():
-    loop = asyncio.get_running_loop()
-    return await loop.run_in_executor(None, input)
+    return input()  # Blocking call to input()
 
 asyncio.run(run_main())
 
