@@ -13,7 +13,6 @@ noptions, _, _, _ = get_prices()
 from cyclepxy import cycle
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
-from smaftypxy import check_nifty_status
 from mktrndpxy import get_market_status_for_symbol
 nmktpxy = get_market_status_for_symbol("^NSEI")
 
