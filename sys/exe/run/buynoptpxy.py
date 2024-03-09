@@ -130,7 +130,6 @@ async def main():
     
     # Determine option type based on nmktpxy
 
-    import sys
     import threading
     
     # Function to get user input with a timeout
