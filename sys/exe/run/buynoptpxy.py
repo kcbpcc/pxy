@@ -1,20 +1,18 @@
-import asyncio
-import sys
 from datetime import datetime, timedelta
-import telegram
 import traceback
+import sys
 import logging
+import telegram
+import asyncio
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
+noptions, _, _, _ = get_prices()
 from macdpxy import calculate_macd_signal
 from mktrndpxy import get_market_status_for_symbol
-from smaoptpxy import sma_above_or_below
-
-noptions, _, _, _ = get_prices()
 nmktpxy = get_market_status_for_symbol("^NSEI")
+from smaoptpxy import sma_above_or_below
 smanifty = sma_above_or_below("^NSEI")
-
 
 async def send_telegram_message(message_text):
     try:
@@ -33,7 +31,7 @@ async def send_telegram_message(message_text):
         print(f"Error sending message to Telegram: {e}")
 
 # Define function to get this week's Tuesday date
-
+from datetime import datetime, timedelta
 
 def get_this_thursday():
     current_date = datetime.now()
@@ -70,6 +68,8 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
         return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions}{option_type}"
 
 
+
+# Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
@@ -80,7 +80,7 @@ def check_existing_positions(broker, symbol):
 
     return False
 
-
+# Define function to place order for the symbol
 async def place_order(broker, symbol):
     try:
         order_id = broker.order_place(
@@ -101,7 +101,7 @@ async def place_order(broker, symbol):
         print(f"Error placing Option order for {symbol}: {e}")
         return False  # Order failed
 
-
+# Main function to orchestrate the workflow
 async def main():
     symbol = None  # Initialize symbol with a default value
 
@@ -127,14 +127,16 @@ async def main():
 
     expiry_year, expiry_month, expiry_day = get_this_thursday()
     option_type = None  # Default value
-
+    
     # Determine option type based on nmktpxy
-    if nmktpxy == 'Sell' and smanifty != 'above':
+    if nmktpxy == 'Sell'and smanifty != 'above':
         option_type = 'PE'  # Put Option
     else:
+        # Handle the case where nmktpxy doesn't match any condition
+        # You can raise an exception, set a default value, or handle it in another way
         print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
         sys.exit(0)  # For example, exit the program with an error status
-
+    
     # Construct the symbol based on the determined expiry and option type
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
@@ -145,30 +147,9 @@ async def main():
         if not order_placed:
             print("Order failed. Check error messages.")
 
-
+# Define async function to run main function
 async def run_main():
-    try:
-        # Prompt the user for input
-        print("Do you want to proceed? (y/n)")
+    await main()
 
-        # Wait for user input with a timeout of 5 seconds
-        response = await asyncio.wait_for(get_user_input(), timeout=5)
-
-        if response.strip().lower() == 'y':
-            print("Proceeding with the program...")
-            await main()  # Call the main function asynchronously
-        else:
-            print("Exiting program.")
-    except asyncio.TimeoutError:
-        print("Timeout reached. Exiting program.")
-    except KeyboardInterrupt:
-        print("Exiting program.")
-
-
-async def get_user_input():
-    loop = asyncio.get_running_loop()
-    return await loop.run_in_executor(None, input)
-
-
+# Run the main asynchronous function
 asyncio.run(run_main())
-
