@@ -54,6 +54,7 @@ def get_this_thursday():
 
     # Extract year, month, and day components
     expiry_year = this_thursday.strftime("%y")  # Represent year with two digits
+    month_number = int(this_thursday.strftime("%m"))
     expiry_month = str(month_number) if month_number <= 9 else this_thursday.strftime("%m")  # Represent month with single digit for Jan to Sep, and two digits for Oct to Dec
     expiry_day = this_thursday.strftime("%d").zfill(2)  # Ensure date is represented with 2 digits
 
