@@ -148,33 +148,25 @@ async def main():
             print("Order failed. Check error messages.")
 
 import asyncio
-
-import asyncio
-
-import asyncio
-
 async def run_main():
     try:
         # Prompt the user for input
         print("Do you want to proceed? (y/n)")
-        response_task = asyncio.create_task(get_user_input())
+        response = await asyncio.wait_for(get_user_input(), timeout=5)
         
-        # Wait for either user input or timeout
-        done, _ = await asyncio.wait([response_task], timeout=15)
-        
-        if response_task in done:
-            response = response_task.result().strip().lower()
-            if response == 'y':
-                await main()
-            else:
-                print("Exiting program.")
+        if response.strip().lower() == 'y':
+            await main()
         else:
-            print("Timeout reached. Exiting program.")
+            print("Exiting program.")
+    except asyncio.TimeoutError:
+        print("Timeout reached. Exiting program.")
     except KeyboardInterrupt:
         print("Exiting program.")
 
 async def get_user_input():
-    return input()  # Blocking call to input()
+    loop = asyncio.get_running_loop()
+    return await loop.run_in_executor(None, input)
 
 asyncio.run(run_main())
+
 
