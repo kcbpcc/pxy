@@ -162,6 +162,7 @@ async def main():
             option_type = 'PE'  # Put Option
         else:
             print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
+            sys.exit(0)
     else:
         # Handle the case where nmktpxy doesn't match any condition
         # You can raise an exception, set a default value, or handle it in another way
