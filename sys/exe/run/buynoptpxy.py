@@ -6,7 +6,6 @@ import telegram
 import asyncio
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
-from mktpxy import get_market_check
 from strikpxy import get_prices
 noptions, _, _, _ = get_prices()
 from macdpxy import calculate_macd_signal
@@ -129,7 +128,7 @@ async def main():
     option_type = None  # Default value
     
     # Determine option type based on nmktpxy
-    if mktpxy == 'Sell'and smanifty != 'above':
+    if nmktpxy == 'Sell'and smanifty != 'above':
         option_type = 'PE'  # Put Option
     else:
         # Handle the case where nmktpxy doesn't match any condition
