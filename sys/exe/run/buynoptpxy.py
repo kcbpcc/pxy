@@ -10,91 +10,88 @@ from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change
 from strikpxy import get_prices
 noptions, _, _, _ = get_prices()
+from optpxy import get_optpxy
 from cyclepxy import cycle
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
-from smapxy import check_index_status
+from smaftypxy import check_nifty_status
 from mktrndpxy import get_market_status_for_symbol
 nmktpxy = get_market_status_for_symbol("^NSEI")
+
+onemincandlesequance, mktpxy = get_market_check()
+optpxy = get_optpxy()
 peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
-SMAfty = check_index_status("^NSEI")
+SMAfty = check_nifty_status()
 from smaoptpxy import sma_above_or_below
 smanifty = sma_above_or_below("^NSEI")
+
 async def send_telegram_message(message_text):
     try:
+        # Define the bot token and your Telegram username or ID
         bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
         user_usernames = '-4135910842'  # Replace with your Telegram username or ID
+
+        # Create a Telegram bot
         bot = telegram.Bot(token=bot_token)
+
+        # Send the message to Telegram
         await bot.send_message(chat_id=user_usernames, text=message_text)
+
     except Exception as e:
+        # Handle the exception (e.g., log it) and continue with your code
         print(f"Error sending message to Telegram: {e}")
-def get_this_month_expiry():
+
+# Define function to get this week's Tuesday date
+from datetime import datetime, timedelta
+
+def get_this_thursday():
     current_date = datetime.now()
-    this_month = current_date.replace(day=1) + timedelta(days=15)
-    this_month = this_month.replace(day=1)
-    expiry_year = this_month.strftime("%y")
-    expiry_month = this_month.strftime("%b").upper()  
-    return expiry_year, expiry_month
-def construct_symbol(expiry_year, expiry_month, option_type, broker):
-    symbol = f"NIFTY{expiry_year}{expiry_month}"
-    found_positions = False
-    positions_response = broker.kite.positions()
-    positions_net = positions_response['net']
-    open_positions_count = 0  # Counter to keep track of open positions with the same option_type
-    for position in positions_net:
-        if position['tradingsymbol'] == symbol + str(noptions) + option_type and position['quantity'] > 0:
-            found_positions = True
-            break
-        if position['tradingsymbol'].startswith('NIFTY') and position['tradingsymbol'].endswith(option_type) and position['quantity'] > 0:
-            open_positions_count += 1
-    # Check if there are already three open positions with the same option_type
-    
-    if open_positions_count >= 0:
-        # Define the count_open_positions function here
-        def count_open_positions(option_type, positions_net):
-            # Initialize a counter for open positions with the given option_type
-            open_positions_count = 0
-            # Iterate through the positions and count the ones with the specified option_type
-            for position in positions_net:
-                if position['tradingsymbol'].startswith('NIFTY') and position['tradingsymbol'].endswith(option_type) and position['quantity'] > 0:
-                    open_positions_count += 1
-            return open_positions_count
-        
-        # Now you can use the count_open_positions function
-        if SMAfty == "up":
-            if option_type == "CE" and count_open_positions(option_type, positions_net) >= 3:
-                print("Hey! You have reached the maximum of 3 Call Option open positions.")
-                return None
-            elif option_type == "PE" and count_open_positions(option_type, positions_net) >= 1:
-                print("Hey! You have reached the maximum of 1 Put Option open position.")
-                return None
-        elif SMAfty == "down":
-            if option_type == "PE" and count_open_positions(option_type, positions_net) >= 3:
-                print("Hey! You have reached the maximum of 3 Put Option open positions.")
-                return None
-            elif option_type == "CE" and count_open_positions(option_type, positions_net) >= 1:
-                print("Hey! You have reached the maximum of 1 Call Option open position.")
-                return None
+
+    # Calculate days until the next Thursday
+    days_until_this_thursday = (3 - current_date.weekday() + 7) % 7
+
+    # If today is Thursday, return today's date
+    if days_until_this_thursday == 0:
+        return current_date.strftime("%y"), current_date.strftime("%m"), current_date.strftime("%d").zfill(2)
+
+    # Calculate the date of this Thursday
+    this_thursday = current_date + timedelta(days=days_until_this_thursday)
+
+    # Check if this Thursday is the last Thursday of the month
+    last_day_of_month = (this_thursday.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+    if this_thursday.month != (this_thursday + timedelta(days=7)).month:
+        if this_thursday.day > last_day_of_month.day - 7:
+            return this_thursday.strftime("%y"), this_thursday.strftime("%m"), this_thursday.strftime("%d").zfill(2)
+
+    # Extract year, month, and day components
+    expiry_year = this_thursday.strftime("%y")  # Represent year with two digits
+    expiry_month = this_thursday.strftime("%m").upper()  # Represent month with uppercase
+    expiry_day = this_thursday.strftime("%d").zfill(2)  # Ensure date is represented with 2 digits
+
+    return expiry_year, expiry_month, expiry_day
 
 
-    if not found_positions:
-        return f"{symbol}{noptions}{option_type}"
-    adjustments = [50, -50, 100, -100]
-    for adjustment in adjustments:
-        adjusted_noptions = noptions + adjustment
-        
-        for position in positions_net:
-            if position['tradingsymbol'] == symbol + str(adjusted_noptions) + option_type :
-                return f"{symbol}{adjusted_noptions}{option_type}"
-    return f"{symbol}{noptions}{option_type}"
+def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
+    if expiry_day is None:
+        return f"NIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
+    else:
+        return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions}{option_type}"
+
+
+
+# Define function to check existing positions for the symbol
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
+
     for position in positions_net:
-        if position['tradingsymbol'] == symbol and position['quantity'] > 0:
-            return True
+        if position['tradingsymbol'] == symbol and position['quantity'] >= 40:
+            return True  # Existing positions found
+
     return False
+
+# Define function to place order for the symbol
 async def place_order(broker, symbol):
     try:
         order_id = broker.order_place(
@@ -105,18 +102,25 @@ async def place_order(broker, symbol):
             order_type='MARKET',
             product='NRML'
         )
+
         print(f"{symbol} is ordered")
         message_text = f"Option Order {symbol} placed successfully."
+        # Send the message to Telegram
         await send_telegram_message(message_text)
-        return True
+        return True  # Order successful
     except Exception as e:
         print(f"Error placing Option order for {symbol}: {e}")
-        return False
+        return False  # Order failed
+
+# Main function to orchestrate the workflow
 async def main():
-    symbol = None
+    symbol = None  # Initialize symbol with a default value
+
     try:
+        # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
+
             try:
                 broker = get_kite(api="bypass", sec_dir=dir_path)
             except Exception as e:
@@ -127,25 +131,38 @@ async def main():
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)
+
     finally:
+        # Reset sys.stdout to its original value
         sys.stdout = sys.__stdout__
-    expiry_year, expiry_month = get_this_month_expiry()
-    option_type = None
-    if nmktpxy == 'Buy' and (smanifty != 'below' or nse_power < 0.05):
-        option_type = 'CE'
-    elif nmktpxy == 'Sell' and (smanifty != 'above' or nse_power > 0.95):
-        option_type = 'PE'
+
+    expiry_year, expiry_month, expiry_day = get_this_thursday()
+    option_type = None  # Default value
+    
+    # Determine option type based on nmktpxy
+    if nmktpxy == 'Buy'and smanifty != 'below':
+        option_type = 'CE'  # Call Option
+    elif nmktpxy == 'Sell'and smanifty != 'above':
+        option_type = 'PE'  # Put Option
     else:
+        # Handle the case where nmktpxy doesn't match any condition
+        # You can raise an exception, set a default value, or handle it in another way
         print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
-        sys.exit(0)
-    symbol = construct_symbol(expiry_year, expiry_month, option_type, broker)
-    if symbol is not None:
-        if check_existing_positions(broker, symbol):
-            print(f"{symbol} is already there")
-        else:
-            order_placed = await place_order(broker, symbol)
-            if not order_placed:
-                print("Order failed. Check error messages.")
+        sys.exit(0)  # For example, exit the program with an error status
+    
+    # Construct the symbol based on the determined expiry and option type
+    symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
+
+    if check_existing_positions(broker, symbol):
+        print(f"{symbol} is already there")
+    else:
+        order_placed = await place_order(broker, symbol)
+        if not order_placed:
+            print("Order failed. Check error messages.")
+
+# Define async function to run main function
 async def run_main():
     await main()
+
+# Run the main asynchronous function
 asyncio.run(run_main())
