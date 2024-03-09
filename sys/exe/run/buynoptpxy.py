@@ -75,7 +75,7 @@ def check_existing_positions(broker, symbol):
     positions_net = positions_response['net']
 
     for position in positions_net:
-        if position['tradingsymbol'] == symbol and position['quantity'] >= 40:
+        if position['tradingsymbol'] == symbol and position['quantity'] >= 50:
             return True  # Existing positions found
 
     return False
