@@ -147,18 +147,22 @@ async def main():
         if not order_placed:
             print("Order failed. Check error messages.")
 
+import asyncio
+
 async def run_main():
     try:
         # Prompt the user for input
-        print("Do you want to proceed with PE Sell? (y/n)")
+        print("Do you want to proceed? (y/n)")
         response = await asyncio.wait_for(get_user_input(), timeout=15)
         
         if response.lower() == 'yy':
             await main()
         else:
             print("Exiting program.")
+            raise KeyboardInterrupt  # Raise KeyboardInterrupt to exit the program
     except asyncio.TimeoutError:
         print("Timeout reached. Exiting program.")
+        raise KeyboardInterrupt  # Raise KeyboardInterrupt to exit the program
 
 async def get_user_input():
     loop = asyncio.get_running_loop()
