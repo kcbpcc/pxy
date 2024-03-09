@@ -149,23 +149,31 @@ async def main():
 
 import asyncio
 
+import asyncio
+
 async def run_main():
     try:
         # Prompt the user for input
         print("Do you want to proceed? (y/n)")
-        response = await asyncio.wait_for(get_user_input(), timeout=15)
+        response_task = asyncio.create_task(get_user_input())
         
-        if response.lower() == 'yy':
-            await main()
+        # Wait for either user input or timeout
+        done, _ = await asyncio.wait([response_task], timeout=15)
+        
+        if response_task in done:
+            response = response_task.result().strip().lower()
+            if response == 'y':
+                await main()
+            else:
+                print("Exiting program.")
         else:
-            print("Exiting program.")
-            raise KeyboardInterrupt  # Raise KeyboardInterrupt to exit the program
-    except asyncio.TimeoutError:
-        print("Timeout reached. Exiting program.")
-        raise KeyboardInterrupt  # Raise KeyboardInterrupt to exit the program
+            print("Timeout reached. Exiting program.")
+    except KeyboardInterrupt:
+        print("Exiting program.")
 
 async def get_user_input():
     loop = asyncio.get_running_loop()
     return await loop.run_in_executor(None, input)
 
 asyncio.run(run_main())
+
