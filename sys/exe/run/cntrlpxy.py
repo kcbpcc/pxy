@@ -48,7 +48,7 @@ def get_open_order_status(symbol):
         sys.exit(1)
     return "NO"  # No open orders found for the symbol
 ###########################################################################################################################################################################################################
-from cncsellordpxy import stocks_sell_order_place
+from ordpxy.cncsellordpxy import stocks_sell_order_place
 ###########################################################################################################################################################################################################
 def options_sell_order_place(index, row):
     try:
