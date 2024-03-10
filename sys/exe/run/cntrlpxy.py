@@ -494,6 +494,7 @@ try:
         #print("━" * 42)
         print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
 ###########################################################################################################################################################################################################
+    subprocess.run(['python3', 'worldpxy.py'])
     from smapxy import check_index_status
     from macdpxy import calculate_macd_signal
     SMAfty = check_index_status("^NSEI")
