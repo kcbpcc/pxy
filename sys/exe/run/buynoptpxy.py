@@ -29,61 +29,75 @@ async def send_telegram_message(message_text):
 from datetime import datetime, timedelta
 def get_this_thursday():
     current_date = datetime.now()
-    # Calculate days until the next Thursday
     days_until_this_thursday = (3 - current_date.weekday() + 7) % 7
-    # If today is Thursday, return today's date
     if days_until_this_thursday == 0:
         return current_date.strftime("%y"), current_date.strftime("%m"), current_date.strftime("%d").zfill(2)
-    # Calculate the date of this Thursday
     this_thursday = current_date + timedelta(days=days_until_this_thursday)
-    # Check if this Thursday is the last Thursday of the month
     last_day_of_month = (this_thursday.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
     if this_thursday.month != (this_thursday + timedelta(days=7)).month:
         if this_thursday.day > last_day_of_month.day - 7:
             return this_thursday.strftime("%y"), this_thursday.strftime("%m"), this_thursday.strftime("%d").zfill(2)
-    # Extract year, month, and day components
-    expiry_year = this_thursday.strftime("%y")  # Represent year with two digits
+    expiry_year = this_thursday.strftime("%y")
     month_number = int(this_thursday.strftime("%m"))
-    expiry_month = str(month_number) if month_number <= 9 else this_thursday.strftime("%m")  # Represent month with single digit for Jan to Sep, and two digits for Oct to Dec
-    expiry_day = this_thursday.strftime("%d").zfill(2)  # Ensure date is represented with 2 digits
+    expiry_month = str(month_number) if month_number <= 9 else this_thursday.strftime("%m")
+    expiry_day = this_thursday.strftime("%d").zfill(2)
     return expiry_year, expiry_month, expiry_day
+
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     if expiry_day is None:
         return f"NIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
     else:
         return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions}{option_type}"
-# Define function to check existing positions for the symbol
-def check_existing_positions(broker, symbol):
+
+def check_existing_positions(broker, symbol, transaction_type):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
     for position in positions_net:
-        if position['tradingsymbol'] == symbol and position['quantity'] >= 50:
-            return True  # Existing positions found
+        if position['tradingsymbol'] == symbol and position['quantity'] >= 50 and position['transaction_type'] == transaction_type:
+            return True
     return False
-# Define function to place order for the symbol
-async def place_order(broker, symbol):
+
+async def place_order(broker, symbol, transaction_type, price=None):
     try:
-        order_id = broker.order_place(
-            tradingsymbol=symbol,
-            quantity=50,
-            exchange="NFO",
-            transaction_type='BUY',
-            order_type='MARKET',
-            product='NRML'
-        )
-        print(f"{symbol} is ordered")
+        if transaction_type == 'BUY':
+            order_id = broker.order_place(
+                tradingsymbol=symbol,
+                quantity=50,
+                exchange="NFO",
+                transaction_type=transaction_type,
+                order_type='MARKET',
+                product='NRML'
+            )
+        elif transaction_type == 'SELL':
+            order_id = broker.order_place(
+                tradingsymbol=symbol,
+                quantity=50,
+                exchange="NFO",
+                transaction_type=transaction_type,
+                order_type='SL',
+                product='NRML',
+                trigger_price=price  # Set the trigger price for stop-loss order
+            )
+        elif transaction_type == 'TARGET_SELL':
+            order_id = broker.order_place(
+                tradingsymbol=symbol,
+                quantity=50,
+                exchange="NFO",
+                transaction_type='SELL',
+                order_type='LIMIT',
+                product='NRML',
+                price=price  # Set the target sell price
+            )
         message_text = f"Option Order {symbol} placed successfully."
-        # Send the message to Telegram
         await send_telegram_message(message_text)
-        return True  # Order successful
+        return True, order_id
     except Exception as e:
         print(f"Error placing Option order for {symbol}: {e}")
-        return False  # Order failed
-# Main function to orchestrate the workflow
+        return False, None
+
 async def main():
-    symbol = None  # Initialize symbol with a default value
+    symbol = None
     try:
-        # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
             try:
@@ -97,29 +111,43 @@ async def main():
         print(f"Error: {e}")
         sys.exit(1)
     finally:
-        # Reset sys.stdout to its original value
         sys.stdout = sys.__stdout__
     expiry_year, expiry_month, expiry_day = get_this_thursday()
-    option_type = None  # Default value
-    # Determine option type based on nmktpxy
+    option_type = None
     if nmktpxy == 'Sell' and smanifty != 'above':
-        option_type = 'PE'  # Put Option
+        option_type = 'PE'
     else:
-        # Handle the case where nmktpxy doesn't match any condition
-        # You can raise an exception, set a default value, or handle it in another way
         print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
-        sys.exit(0)  # For example, exit the program with an error status
-    # Construct the symbol based on the determined expiry and option type
+        sys.exit(0)
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
-    if check_existing_positions(broker, symbol):
-        print(f"{symbol} is already there")
+    if check_existing_positions(broker, symbol, 'BUY'):
+        print(f"Existing buy order for {symbol} found. Skipping buy order placement.")
     else:
-        order_placed = await place_order(broker, symbol)
-        if not order_placed:
-            print("Order failed. Check error messages.")
-# Define async function to run main function
+        buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY')
+        if buy_order_placed:
+            # Assuming buy_order_price is retrieved from your trading API
+            buy_order_price = your_trading_api_library_here.get_order_price(buy_order_id)
+            # Calculate target sell price 7% above the executed buy price
+            target_sell_price = buy_order_price * 1.07  # 7% above
+            # Place target sell order
+            if check_existing_positions(broker, symbol, 'TARGET_SELL'):
+                print(f"Existing target sell order for {symbol} found. Skipping target sell order placement.")
+            else:
+                target_sell_order_placed, _ = await place_order(broker, symbol, 'TARGET_SELL', target_sell_price)
+                if target_sell_order_placed:
+                    print("Target sell order placed successfully.")
+                    message_text = f"Target sell order for {symbol} placed successfully at {target_sell_price}."
+                    await send_telegram_message(message_text)
+                else:
+                    print("Target sell order placement failed.")
+                    message_text = f"Failed to place target sell order for {symbol}."
+                    await send_telegram_message(message_text)
+        else:
+            print("Buy order placement failed.")
+            message_text = f"Failed to place buy order for {symbol}."
+            await send_telegram_message(message_text)
+
 async def run_main():
     await main()
 
-# Run the main asynchronous function
 asyncio.run(run_main())
