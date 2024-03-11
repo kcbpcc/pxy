@@ -494,6 +494,7 @@ try:
         #print("━" * 42)
         print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
 ###########################################################################################################################################################################################################
+    subprocess.run(['python3', 'worldpxy.py'])
     # Check if DataFrame is empty
     if not options_filtered_df.empty:
         # Filter out rows with quantity = 0
