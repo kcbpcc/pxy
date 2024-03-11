@@ -465,10 +465,7 @@ try:
                         row['product'] == 'NRML' and
                         'NFO:' in row['key'] and
                         (
-                            (
-                                ('CE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Sell", "Bear"]) or
-                                ('PE' in row['key'] and row['PL%'] > 1.5 and mmktpxy in ["Buy", "Bull"])
-                            ) or
+
                             (row['PL%'] > 5)
                         )
                     ):
