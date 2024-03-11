@@ -551,7 +551,7 @@ try:
         else:
             print(".......no options yet in the swing.")
     else:
-        #print("mktpxy: options not activated, let's wait!")
+        print("mktpxy: options not activated, let's wait!")
 
         
 ###########################################################################################################################################################################################################
