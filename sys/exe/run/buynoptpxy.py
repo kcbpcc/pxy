@@ -127,23 +127,30 @@ async def main():
     else:
         buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY')
         if buy_order_placed:
-            # Assuming buy_order_price is retrieved from your trading API
-            buy_order_price = your_trading_api_library_here.get_order_price(buy_order_id)
-            # Calculate target sell price 7% above the executed buy price
-            target_sell_price = buy_order_price * 1.07  # 7% above
-            # Place target sell order
-            if check_existing_positions(broker, symbol, 'TARGET_SELL'):
-                print(f"Existing target sell order for {symbol} found. Skipping target sell order placement.")
-            else:
-                target_sell_order_placed, _ = await place_order(broker, symbol, 'TARGET_SELL', target_sell_price)
-                if target_sell_order_placed:
-                    print("Target sell order placed successfully.")
-                    message_text = f"Target sell order for {symbol} placed successfully at {target_sell_price}."
-                    await send_telegram_message(message_text)
+            # Retrieve the list of trades executed for the buy order
+            buy_order_trades = broker.order_trades(buy_order_id)
+            if buy_order_trades:
+                # Calculate the average price of the executed trades to get the buy order price
+                buy_order_price = sum(trade['price'] * trade['quantity'] for trade in buy_order_trades) / sum(trade['quantity'] for trade in buy_order_trades)
+                # Calculate target sell price 7% above the executed buy price
+                target_sell_price = buy_order_price * 1.07  # 7% above
+                # Place target sell order if it doesn't exist already
+                if not check_existing_positions(broker, symbol, 'TARGET_SELL'):
+                    target_sell_order_placed, _ = await place_order(broker, symbol, 'TARGET_SELL', target_sell_price)
+                    if target_sell_order_placed:
+                        print("Target sell order placed successfully.")
+                        message_text = f"Target sell order for {symbol} placed successfully at {target_sell_price}."
+                        await send_telegram_message(message_text)
+                    else:
+                        print("Target sell order placement failed.")
+                        message_text = f"Failed to place target sell order for {symbol}."
+                        await send_telegram_message(message_text)
                 else:
-                    print("Target sell order placement failed.")
-                    message_text = f"Failed to place target sell order for {symbol}."
-                    await send_telegram_message(message_text)
+                    print(f"Existing target sell order for {symbol} found. Skipping target sell order placement.")
+            else:
+                print("No trades found for the buy order. Unable to determine buy order price.")
+                message_text = f"No trades found for the buy order {buy_order_id}. Unable to determine buy order price."
+                await send_telegram_message(message_text)
         else:
             print("Buy order placement failed.")
             message_text = f"Failed to place buy order for {symbol}."
