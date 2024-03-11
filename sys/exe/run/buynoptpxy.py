@@ -116,7 +116,7 @@ async def main():
     option_type = None
     if nmktpxy == 'Sell' and smanifty != 'above':
         option_type = 'CE'  # Call Option
-    elif: #nmktpxy == 'Buy' and smanifty != 'below':
+    elif smanifty != 'above':
         option_type = 'PE'  # Put Option
     else:
         print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
