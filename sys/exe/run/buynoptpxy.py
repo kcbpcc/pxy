@@ -132,6 +132,7 @@ async def main():
     elif smanifty != 'above':
         option_type = 'PE'  # Put Option
     else:
+        option_type = 'PE'  # Put Option
         print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
         sys.exit(0)
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
