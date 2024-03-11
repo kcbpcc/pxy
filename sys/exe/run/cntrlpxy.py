@@ -549,7 +549,7 @@ try:
                 # Right-align the text, apply color, and reset color after the line
                 print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
         else:
-            #print("no options yet in the swing.")
+            print(".......no options yet in the swing.")
     else:
         #print("mktpxy: options not activated, let's wait!")
 
