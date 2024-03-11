@@ -115,7 +115,9 @@ async def main():
     expiry_year, expiry_month, expiry_day = get_this_thursday()
     option_type = None
     if nmktpxy == 'Sell' and smanifty != 'above':
-        option_type = 'PE'
+        option_type = 'CE'  # Call Option
+    elif nmktpxy == 'Buy' and smanifty != 'below':
+        option_type = 'PE'  # Put Option
     else:
         print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
         sys.exit(0)
