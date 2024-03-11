@@ -95,6 +95,19 @@ async def place_order(broker, symbol, transaction_type, price=None):
         print(f"Error placing Option order for {symbol}: {e}")
         return False, None
 
+async def get_ltp(broker, symbol):
+    try:
+        resp = broker.kite.ltp(symbol)
+        if resp and isinstance(resp, dict):
+            ltp = resp[symbol]['last_price']
+            return ltp
+        else:
+            print("Invalid response or LTP not available.")
+            return None
+    except Exception as e:
+        print(f"Error retrieving LTP for {symbol}: {e}")
+        return None
+
 async def main():
     symbol = None
     try:
@@ -127,14 +140,9 @@ async def main():
     else:
         buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY')
         if buy_order_placed:
-            # Retrieve the list of trades executed for the buy order
-            buy_order_trades = broker.order_trades(buy_order_id)
-            if buy_order_trades:
-                # Calculate the average price of the executed trades to get the buy order price
-                buy_order_price = sum(trade['price'] * trade['quantity'] for trade in buy_order_trades) / sum(trade['quantity'] for trade in buy_order_trades)
-                # Calculate target sell price 7% above the executed buy price
-                target_sell_price = buy_order_price * 1.07  # 7% above
-                # Place target sell order if it doesn't exist already
+            ltp = await get_ltp(broker, symbol)
+            if ltp is not None:
+                target_sell_price = ltp * 1.07  # 7% above
                 if not check_existing_positions(broker, symbol, 'TARGET_SELL'):
                     target_sell_order_placed, _ = await place_order(broker, symbol, 'TARGET_SELL', target_sell_price)
                     if target_sell_order_placed:
@@ -148,8 +156,8 @@ async def main():
                 else:
                     print(f"Existing target sell order for {symbol} found. Skipping target sell order placement.")
             else:
-                print("No trades found for the buy order. Unable to determine buy order price.")
-                message_text = f"No trades found for the buy order {buy_order_id}. Unable to determine buy order price."
+                print("Failed to retrieve LTP. Unable to calculate target sell price.")
+                message_text = "Failed to retrieve LTP. Unable to calculate target sell price."
                 await send_telegram_message(message_text)
         else:
             print("Buy order placement failed.")
