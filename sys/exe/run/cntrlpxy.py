@@ -494,65 +494,65 @@ try:
         #print("━" * 42)
         print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
 ###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'worldpxy.py'])
-    from smapxy import check_index_status
-    from macdpxy import calculate_macd_signal
-    SMAfty = check_index_status("^NSEI")
-    macd = calculate_macd_signal("^NSEI")
-    if options_filtered_df.empty:
-        print("mktpxy: options not activated, let's wait!")
-    else:
+    # Check if DataFrame is empty
+    if not options_filtered_df.empty:
+        # Filter out rows with quantity = 0
         filtered_df = options_filtered_df[options_filtered_df['qty'] != 0].copy()
-        if filtered_df.empty:
-            print("no options yet in the swing .")
-        else:
+        # Check if filtered DataFrame is empty
+        if not filtered_df.empty:
+            # Perform further operations
             # Define ANSI escape codes
             GREEN = '\033[92m'
             RED = '\033[91m'
             GRAY = '\033[90m'
             RESET = '\033[0m'
-    filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
-    import pandas as pd
-    import numpy as np
-    # Assuming you have already loaded your DataFrame 'filtered_df'
-    # Convert 'PL%' column to integers
-    filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
-    # Replace 'BANKNIFTY24' with 'BKFTY24' in 'key' column
-    filtered_df['key'] = filtered_df['key'].str.replace('BANKNIFTY24', 'BKFTY24')
-    # Sort DataFrame by 'PL%' column
-    filtered_df = filtered_df.sort_values(by='PL%')
-    # Replace row values in 'product' column
-    for index, row in filtered_df.iterrows():
-        if row['product'] == 'MIS':
-            filtered_df.at[index, 'product'] = '⌛'
-        elif row['product'] == 'NRML':
-            filtered_df.at[index, 'product'] = '⏰'
-    # Convert DataFrame to formatted string
-    formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
-    # Print or do further processing with 'formatted_lines'
-    # Set max_width to 42
-    max_width = 42
-    # Iterate over each line and format it with color based on PnL value
-    for line in formatted_lines:
-        values = line.split()
-        pnl_value_str = values[-1]
-        # Check if PnL value is a valid float
-        try:
-            pnl_value = float(pnl_value_str)
-        except ValueError:
-            pnl_value = None  # PnL value is not a valid float
-        # Set color based on PnL value
-        if pnl_value is not None:
-            if pnl_value > 0:
-                color_code = GREEN  # Using GREEN for green text
-            elif pnl_value < 0:
-                color_code = GRAY  # Using RED for red text
-            else:
-                color_code = RESET  # Reset color for PnL value of 0
+            # Assign symbols based on 'smb_power' values
+            filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
+            import pandas as pd
+            import numpy as np
+            # Convert 'PL%' column to integers
+            filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
+            # Replace 'BANKNIFTY24' with 'BKFTY24' in 'key' column
+            filtered_df['key'] = filtered_df['key'].str.replace('BANKNIFTY24', 'BKFTY24')
+            # Sort DataFrame by 'PL%' column
+            filtered_df = filtered_df.sort_values(by='PL%')
+            # Replace row values in 'product' column
+            for index, row in filtered_df.iterrows():
+                if row['product'] == 'MIS':
+                    filtered_df.at[index, 'product'] = '⌛'
+                elif row['product'] == 'NRML':
+                    filtered_df.at[index, 'product'] = '⏰'
+            # Convert DataFrame to formatted string
+            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+            # Print or do further processing with 'formatted_lines'
+            # Set max_width to 42
+            max_width = 42
+            # Iterate over each line and format it with color based on PnL value
+            for line in formatted_lines:
+                values = line.split()
+                pnl_value_str = values[-1]
+                # Check if PnL value is a valid float
+                try:
+                    pnl_value = float(pnl_value_str)
+                except ValueError:
+                    pnl_value = None  # PnL value is not a valid float
+                # Set color based on PnL value
+                if pnl_value is not None:
+                    if pnl_value > 0:
+                        color_code = GREEN  # Using GREEN for green text
+                    elif pnl_value < 0:
+                        color_code = GRAY  # Using RED for red text
+                    else:
+                        color_code = RESET  # Reset color for PnL value of 0
+                else:
+                    color_code = RESET  # Reset color for invalid PnL values
+                # Right-align the text, apply color, and reset color after the line
+                print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
         else:
-            color_code = RESET  # Reset color for invalid PnL values
-        # Right-align the text, apply color, and reset color after the line
-        print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
+            print("no options yet in the swing.")
+    else:
+        print("mktpxy: options not activated, let's wait!")
+
         
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cndlpxy.py'])
