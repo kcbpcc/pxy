@@ -444,7 +444,7 @@ try:
                          row['PL%'] > 1.4 and
                          row['PL%'] > row['fPL%']) and
                         (
-                            (row['PL%'] > 5)
+                            (row['PL%'] > row['tPL%'])
                         )
                     ):
                         try:                            
