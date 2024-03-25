@@ -95,7 +95,7 @@ def dayprinter(o, h, l, c, prev_close):
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
-nsmawave = f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if nsma == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
+nsmawave = f"{Fore.GREEN}ﮩ٨ﮩ{Style.RESET_ALL}" if nsma == 'up' else f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"
 print(f"🔆{day_change_sign}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f}{nsmawave}🚦{macd}PE{pedepth}|CE{cedepth}{onemincandlesequance}")
     
 
