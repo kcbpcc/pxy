@@ -442,9 +442,8 @@ try:
                          nse_power < 0.9 and
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.4 and
-                         row['PL%'] > row['fPL%']) and
                         (
-                            (row['PL%'] > row['tPL%'])
+                            ((row['PL%'] > row['tPL%']) or (row['PL%'] > 1.4 and total_dPnL <= 0))
                         )
                     ):
                         try:                            
