@@ -440,8 +440,8 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] == 'CNC' and
-                        row['source'] == 'holdings'
-                        row['PL%'] > 1.4 and
+                        row['source'] == 'holdings'and
+                        row['PL%'] > 1.4 
                         (
                             ((row['PL%'] > row['tPL%']) or 
                              (row['PL%'] > 1.4 and total_dPnL < 0) or
