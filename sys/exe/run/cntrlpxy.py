@@ -442,10 +442,10 @@ try:
                         row['product'] == 'CNC' and
                         row['source'] == 'holdings'and
                         (
-                             (row['PL%'] > 1.4 and total_dPnL < 0) or
-                             (row['dPL%'] < 0 and total_dPnL < 5000)
-                            )
+                            (row['PL%'] > 1.4 and total_dPnL < 0) or
+                            (row['dPL%'] < 0 and total_dPnL < 5000)
                         )
+
                     ):
                         try:                            
                             is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
