@@ -442,9 +442,8 @@ try:
                         row['product'] == 'CNC' and
                         row['source'] == 'holdings'and
                         (
-                            ((row['PL%'] > row['tPL%']) or 
                              (row['PL%'] > 1.4 and total_dPnL < 0) or
-                             (row['dPL%'] < 0 and total_dPnL < 10000)
+                             (row['dPL%'] < 0 and total_dPnL < 5000)
                             )
                         )
                     ):
