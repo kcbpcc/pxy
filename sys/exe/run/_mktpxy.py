@@ -50,7 +50,7 @@ def calculate_last_twenty_heikin_ashi_colors(symbol):
 def get_market_check(symbol):
     # Call the function calculate_last_twenty_heikin_ashi_colors to get colors
     onemincandlesequance, current_color, last_closed_color = calculate_last_twenty_heikin_ashi_colors(symbol)
-
+    price = latest_data['Close'].iloc[-1]
     # Determine the market check based on the candle colors
     if current_color == 'Bear' and last_closed_color == 'Bear':
         mktpxy = 'Bear'
@@ -63,5 +63,5 @@ def get_market_check(symbol):
     else:
         mktpxy = 'None'
 
-    return onemincandlesequance, mktpxy
+    return onemincandlesequance, mktpxy, price
 
