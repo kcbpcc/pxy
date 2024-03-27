@@ -109,12 +109,12 @@ def options_sell_order_place(index, row):
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
                 exchange=exchsym[0],
-                transaction_type='SELL',
+                transaction_type='BUY',
                 quantity=int(row['qty']),
                 order_type='MARKET',
                 product=row['product'],
                 variety='regular',
-                price=round_to_paise(row['ltp'], -0.3)
+                price=round_to_paise(row['ltp'], -0.2)
             )
             if order_id:
                 logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
@@ -461,13 +461,13 @@ try:
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
 ####################1#######################################################################################################################################################################################                    
                     elif (
-                        row['qty'] > 0 and
+                        row['qty'] < -1 and
                         row['avg'] != 0 and
                         row['product'] == 'NRML' and
                         'NFO:' in row['key'] and
                         (
 
-                            (row['PL%'] > 3)
+                            (row['PL%'] > 5)
                         )
                     ):
                         try:                            
