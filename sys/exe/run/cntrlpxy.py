@@ -539,7 +539,7 @@ try:
                     if pnl_value > 0:
                         color_code = GREEN  # Using GREEN for green text
                     elif pnl_value < 0:
-                        color_code = GRAY  # Using RED for red text
+                        color_code = RED  # Using RED for red text
                     else:
                         color_code = RESET  # Reset color for PnL value of 0
                 else:
