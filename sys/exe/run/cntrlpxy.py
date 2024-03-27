@@ -461,7 +461,7 @@ try:
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
 ####################1#######################################################################################################################################################################################                    
                     elif (
-                        row['qty'] < -1 and
+                        row['qty'] < 0 and
                         row['avg'] != 0 and
                         row['product'] == 'NRML' and
                         'NFO:' in row['key'] and
