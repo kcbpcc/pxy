@@ -467,7 +467,7 @@ try:
                         'NFO:' in row['key'] and
                         (
 
-                            (row[PnL] > 2000)
+                            row['PL%'] > 10
                         )
                     ):
                         try:                            
