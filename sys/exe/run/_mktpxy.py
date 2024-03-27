@@ -64,3 +64,4 @@ def get_market_check(symbol):
         mktpxy = 'None'
 
     return onemincandlesequance, mktpxy
+
