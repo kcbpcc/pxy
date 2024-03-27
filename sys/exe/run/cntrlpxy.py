@@ -466,8 +466,7 @@ try:
                         row['product'] == 'NRML' and
                         'NFO:' in row['key'] and
                         (
-
-                            row['PL%'] > -10
+                            row['PL%'] < -10
                         )
                     ):
                         try:                            
