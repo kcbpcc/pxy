@@ -403,7 +403,6 @@ try:
     options_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['product','Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
     options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)    
     options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
-
 ###########################################################################################################################################################################################################   
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
@@ -551,7 +550,6 @@ try:
     else:
         print("mktpxy: options not activated, let's wait!")
 
-        
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cndlpxy.py'])
     from dshpxy import get_holdingsinfo
