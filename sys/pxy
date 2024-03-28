@@ -7,6 +7,10 @@ NC='\033[0m' # No Color
 source ~/env/bin/activate
 while true; do
     sudo timedatectl set-timezone UTC > /dev/null 2>&1
+    # Copy pxy* files from ~/pxy/sys/ to /usr/local/bin/
+    sudo cp ~/pxy/sys/pxy* /usr/local/bin/
+    # Change the permissions of copied files to make them executable
+    sudo chmod +x /usr/local/bin/pxy*
 
     # Display menu
     echo -e "${YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛${NC}"
