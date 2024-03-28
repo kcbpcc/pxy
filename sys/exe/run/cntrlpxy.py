@@ -381,7 +381,13 @@ try:
     # Assuming PRINT_df_sorted is your DataFrame
     PRINT_df_sorted = PRINT_df.copy()
     # Apply the lambda function to limit 'chks' to 2 characters
-    PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
+    PRINT_df_s    from dshpxy import get_holdingsinfo
+    all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo('fileHPdf.csv')    
+    from bordpxy import printbord
+    printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
+             result_nrml, total_PnL_stocks_buy, total_PnL_options_buy, available_cash,
+             nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss)
+###########################################################################################################################################################################################################orted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
     # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
     PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:|NFO:)', '', regex=True).str[:18].str.ljust(18, ' ')
     # Sort the DataFrame by 'PL%' in ascending order
@@ -551,14 +557,8 @@ try:
 
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'cndlpxy.py'])
-    from dshpxy import get_holdingsinfo
-    all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo('fileHPdf.csv')    
-    from bordpxy import printbord
-    printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
-             result_nrml, total_PnL_stocks_buy, total_PnL_options_buy, available_cash,
-             nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss)
-    
-###########################################################################################################################################################################################################
+###########################################################################################################################################################################################################orted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
+
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
