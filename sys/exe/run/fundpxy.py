@@ -42,8 +42,7 @@ def calculate_decision():
 
         # Print the decision
         status_emoji = "✅" if decision == "YES" else "❌" if decision == "NO" else "❓"
-        print(f"Funds: {round(available_cash, 0)} | {decision} to BUY {status_emoji}")
-
+        print(f"Funds: {int(available_cash)} | {decision} to BUY {status_emoji}")
         # Only return the decision, not available_cash
         return decision
 
