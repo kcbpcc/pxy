@@ -293,8 +293,8 @@ try:
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
     combined_df['tPL%'] = np.where(SMAfty == 'up', np.maximum(1 * combined_df['tPL%'], 1.4), np.where(SMAfty == 'down', np.maximum(combined_df['tPL%'] * 0.5, 1.4), combined_df['tPL%']))
 ###########################################################################################################################################################################################################
-    #subprocess.run(['python3', 'prftpxy.py'])
-    #subprocess.run(['python3', 'nrmlprftpxy.py'])
+    subprocess.run(['python3', 'prftpxy.py'])
+    subprocess.run(['python3', 'nrmlprftpxy.py'])
 ###########################################################################################################################################################################################################
     # Calculate 'Invested' column
     combined_df['Invested'] = (combined_df['qty'] * combined_df['average_price']).round(0).astype(int)
@@ -339,7 +339,6 @@ try:
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'worldpxy.py'])
-    subprocess.run(['python3', 'tistpxy.py'])
     from dshpxy import get_holdingsinfo
     all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo('fileHPdf.csv')    
     from bordpxy import printbord
@@ -381,6 +380,7 @@ try:
     # Sort the DataFrame by 'PL%' in ascending order
     # Assuming you have a DataFrame named PRINT_df
 ###########################################################################################################################################################################################################    
+    subprocess.run(['python3', 'tistpxy.py'])
     import pandas as pd
     # Assuming PRINT_df_sorted is your DataFrame
     PRINT_df_sorted = PRINT_df.copy()
