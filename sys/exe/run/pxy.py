@@ -54,6 +54,7 @@ while True:
                 style=Style(color="bright_green", underline=True) if mktpxy in ["Buy", "Bull"]
                 else Style(color="bright_red", underline=True) if mktpxy in ["Sell", "Bear"]
                 else None)
+    subprocess.run(['python3', 'worldpxy.py'])
     console.print(random_message)
     import time
     def progress_bar(duration, mktpxy):
