@@ -16,7 +16,7 @@ def print_current_datetime_in_ist():
     formatted_datetime = (
         f"\033[93m\033[4m🗓️ {ist_now.strftime('%d')} "  # Bright yellow color and underline
         f"{ist_now.strftime('%B'):9} {ist_now.strftime('%Y')}|"  # Month, year
-        f"🕛 {ist_now.strftime('%A'):9}|"  # Day
+        f"🕛 {ist_now.strftime('%A'):9}"  # Day
         f"⏰{ist_now.strftime('%I:%M%p')}\033[0m"  # Time (reset color)
     )
     
