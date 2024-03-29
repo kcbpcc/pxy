@@ -2,6 +2,7 @@ import pandas as pd
 from prettytable import PrettyTable
 from colorama import Fore, Style
 
+
 def convert_to_laks(value):
     return f'{value/100000:.4f}'
 
@@ -19,8 +20,10 @@ def colorize(value):
         else:
             return f'{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
 
-def get_holdingsinfo(holdings_df):
+def get_holdingsinfo(csv_file_path):
     try:
+        # Read data from the local CSV file and filter out rows where qty is not equal to zero
+        holdings_df = pd.read_csv(csv_file_path)
         selected_holdings_df = holdings_df[(holdings_df['qty'] != 0)]    
         
         selected_columns = ['tradingsymbol','product', 'qty', 'close_price', 'average_price', 'ltp']
@@ -54,6 +57,8 @@ def get_holdingsinfo(holdings_df):
         nrmlall_Stocks_capital = nrmlall_Stocks_df['cap'].sum()
         nrmlall_Stocks_worth = (nrmlall_Stocks_df['ltp'] * nrmlall_Stocks_df['qty']).round(4).sum()
         nrmlall_Stocks_profit_loss = (nrmlall_Stocks_worth - nrmlall_Stocks_capital).round(4)
+        
+        
 
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
@@ -78,5 +83,5 @@ def get_holdingsinfo(holdings_df):
         return None
 
 
-# Assuming combined_df is your DataFrame
-get_holdingsinfo(combined_df)
+# Call the function with the path to your CSV file
+get_holdingsinfo('fileHPdf.csv')
