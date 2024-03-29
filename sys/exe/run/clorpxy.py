@@ -1,0 +1,6 @@
+SILVER = "\033[97m"
+UNDERLINE = "\033[4m"
+RED = "\033[91m"
+GREEN = "\033[92m"
+YELLOW = "\033[33m"
+RESET = "\033[0m"
