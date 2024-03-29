@@ -69,7 +69,3 @@ for exchange, name_weight in exchanges.items():
 output = index_info
 # Print the concatenated string using console.print()
 console.print(output)
-
-
-
-
