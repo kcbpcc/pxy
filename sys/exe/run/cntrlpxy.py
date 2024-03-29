@@ -19,7 +19,7 @@ result = sum_last_numerical_value_in_each_row(file_path)
 file_path_nrml = "filePnL_nrml.csv"
 result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
 ###########################################################################################################################################################################################################
-from colors import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET
 logging = Logger(30, dir_path + "main.log")
 try:
     sys.stdout = open('output.txt', 'w')
