@@ -10,7 +10,7 @@ def calculate_consecutive_candles(tickerSymbol):
         tickerData = yf.Ticker(tickerSymbol)
 
         # Get the historical prices for this ticker
-        tickerDf = tickerData.history(period='5d', interval='5m')
+        tickerDf = tickerData.history(period='5d', interval='1m')
 
         # Calculate consecutive candles sequence
         consecutive_count = 1
