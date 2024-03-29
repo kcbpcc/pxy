@@ -114,5 +114,5 @@ if previous_day_close is not None and today_close is not None:
     dayprinter(*today_data, previous_day_close)
 else:
     print("Unable to fetch data.")
-
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET
 print(f"🔆{day_change_sign}{GREEN if Day_Change >= 0 else RED}{Day_Change:.2f}⌛️{open_change_sign}{Open_Change:.2f}⚡{nse_power:.2f} {nsmawave} 🟥-{pedepth}🚦{macd}🚦🟩+{cedepth}")
