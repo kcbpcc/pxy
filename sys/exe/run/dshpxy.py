@@ -2,7 +2,6 @@ import pandas as pd
 from prettytable import PrettyTable
 from colorama import Fore, Style
 
-
 def convert_to_laks(value):
     return f'{value/100000:.4f}'
 
@@ -20,11 +19,10 @@ def colorize(value):
         else:
             return f'{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
 
-def get_holdingsinfo(csv_file_path):
+def get_holdingsinfo(combined_df):
     try:
-        # Read data from the local CSV file and filter out rows where qty is not equal to zero
-        holdings_df = pd.read_csv(csv_file_path)
-        selected_holdings_df = holdings_df[(holdings_df['qty'] != 0)]    
+        # Use combined_df directly instead of reading from CSV
+        selected_holdings_df = combined_df[(combined_df['qty'] != 0)]    
         
         selected_columns = ['tradingsymbol','product', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
@@ -58,8 +56,6 @@ def get_holdingsinfo(csv_file_path):
         nrmlall_Stocks_worth = (nrmlall_Stocks_df['ltp'] * nrmlall_Stocks_df['qty']).round(4).sum()
         nrmlall_Stocks_profit_loss = (nrmlall_Stocks_worth - nrmlall_Stocks_capital).round(4)
         
-        
-
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
         table = PrettyTable()
@@ -72,16 +68,14 @@ def get_holdingsinfo(csv_file_path):
         else:
             table.add_row(['💰₹💰P&L', f'{format_value(all_Stocks_profit_loss)}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
         table.align = 'r'
-        #print(table)
-        zero_qty_count = holdings_df[holdings_df['qty'] == 0].shape[0]
-        #print("Number of Stocks Sold 💸💸💸: {}".format(zero_qty_count).rjust(38))
+        zero_qty_count = combined_df[combined_df['qty'] == 0].shape[0]
         all_Stocks_capital_lacks = all_Stocks_capital/100000
         all_Stocks_worth_lacks = all_Stocks_worth/100000
-        return all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss
+        return all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, nrmlall_Stocks_count, nrmlall_Stocks_capital, nrmlall_Stocks_worth, nrmlall_Stocks_profit_loss
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
 
+# Call the function with the combined_df
+get_holdingsinfo(combined_df)
 
-# Call the function with the path to your CSV file
-get_holdingsinfo('fileHPdf.csv')
