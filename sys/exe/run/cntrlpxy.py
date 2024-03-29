@@ -19,12 +19,7 @@ result = sum_last_numerical_value_in_each_row(file_path)
 file_path_nrml = "filePnL_nrml.csv"
 result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
 ###########################################################################################################################################################################################################
-SILVER = "\033[97m"
-UNDERLINE = "\033[4m"
-RED = "\033[91m"
-GREEN = "\033[92m"
-YELLOW = "\033[33m"
-RESET = "\033[0m"
+from colors import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET
 logging = Logger(30, dir_path + "main.log")
 try:
     sys.stdout = open('output.txt', 'w')
