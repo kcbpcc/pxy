@@ -36,7 +36,7 @@ def get_holdingsinfo(combined_df):
         green_Stocks_capital = green_Stocks_df['cap'].sum()
         green_Stocks_worth = green_Stocks_df['ltp'].dot(green_Stocks_df['qty']).round(4)
         green_Stocks_profit_loss = (green_Stocks_worth - green_Stocks_capital).round(4)
-        green_Stocks_capital_rercentage  = round(((green_Stocks_worth - green_Stocks_capital) / green_Stocks_capital) * 100, 2)
+        green_Stocks_capital_percentage = round(((green_Stocks_worth - green_Stocks_capital) / green_Stocks_capital) * 100, 2) if green_Stocks_capital != 0 else 0
 
         red_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] < 0]
         red_Stocks_count = len(red_Stocks_df)
