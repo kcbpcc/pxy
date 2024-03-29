@@ -49,7 +49,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
                         right_aligned_format.format(f"Open-P&L:{BRIGHT_GREEN if total_dPnL >= 0 else BRIGHT_RED}{round((total_dPnL), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if result_nrml >= 0 else BRIGHT_RED}{str(int(result_nrml)).zfill(5)}{RESET}") +
                         right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{str(round(result)).zfill(5)}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"AC-Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
                         right_aligned_format.format(f"Profits:{BRIGHT_GREEN if (result_nrml+result) > 0 else BRIGHT_RED}{str(int((result_nrml+result))).zfill(5)}{RESET}"))
   
     #print("━" * 42)  # Print another line of 42 dashes           
