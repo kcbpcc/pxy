@@ -77,5 +77,5 @@ def get_holdingsinfo(combined_df):
         return None
 
 # Call the function with the combined_df
-get_holdingsinfo(combined_df)
+#get_holdingsinfo(combined_df)
 
