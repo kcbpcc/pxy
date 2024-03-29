@@ -19,7 +19,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
     acvalue = ((all_Stocks_capital_lacks) + (available_cash/100000))  
     process_acvalue(acvalue)
     acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
-    capital = 20
+    capital = 18.50
     profit = (acvalue_to_print - capital)
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
