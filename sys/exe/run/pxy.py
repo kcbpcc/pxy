@@ -51,6 +51,7 @@ while True:
     #subprocess.run(['python3', 'buyboptpxy.py']) if peak == 'NONPEAK' else None 
     #subprocess.run(['python3', 'buypxy.py']) if peak != 'PEAKSTART' and mktpxy == 'Buy' and nsma == 'up' else None
     subprocess.run(['python3', 'cntrlpxy.py']) 
+    subprocess.run(['python3', 'cndlpxy.py'])
     console.print("[bold]   PXY® PreciseXceleratedYield Pvt Ltd™   [/bold]",
                 style=Style(color="bright_green", underline=True) if mktpxy in ["Buy", "Bull"]
                 else Style(color="bright_red", underline=True) if mktpxy in ["Sell", "Bear"]
