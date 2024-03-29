@@ -13,7 +13,7 @@ while true; do
     sudo chmod +x /usr/local/bin/pxy*
 
     # Display menu
-    echo -e "${YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛${NC}"
+    echo -e "${YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
     echo "******************************************" 
     echo "   -pxy                   🔘        🔥"
     echo "   -pyp                   🎉        pp"
@@ -26,7 +26,7 @@ while true; do
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
     echo "******************************************"
-    echo -e "${YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛🏛${NC}"
+    echo -e "${YELLOW}🏛🏛 PXY® PreciseXceleratedYield Pvt Ltd™🏛🏛${NC}"
 
     # Get user input
     read -p "Enter your choice:⚙️⚙️⚙️👉👉 " choice
