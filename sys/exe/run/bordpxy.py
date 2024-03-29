@@ -1,5 +1,7 @@
 # bordpxy.py
 from acvaluepxy import process_acvalue, get_current_acvalue
+from smapxy import check_index_status
+nsma = check_index_status("^NSEI")
 import subprocess
 def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash,
@@ -31,7 +33,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
             f"     {BOLD}{UNDERLINE}PXY{RESET}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
         ) +
         right_aligned_format.format(
-            f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
+            f"{BRIGHT_GREEN if nsma == 'up' else BRIGHT_RED}"
             f"{BOLD}{UNDERLINE}®{RESET}      {BRIGHT_YELLOW}{'My Stocks'.zfill(3)}{RESET}:{str(all_Stocks_count).zfill(3)}"
         )
     )
