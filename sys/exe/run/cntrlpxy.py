@@ -258,9 +258,9 @@ try:
     #from telpxy import send_telegram_message
     #csv_file_path = "filePnL.csv"
     #total_profit_main = process_csv(csv_file_path)
-    SILVER = "\033[97m"
-    UNDERLINE = "\033[4m"
-    RESET = "\033[0m"
+    #SILVER = "\033[97m"
+    #UNDERLINE = "\033[4m"
+    #RESET = "\033[0m"
     logging.debug("Are we having any holdings to check")
     holdings_response = broker.kite.holdings()
     positions_response = broker.kite.positions()['net']
@@ -444,8 +444,8 @@ try:
     # Convert the 'PL%' column to integers
     #PRINT_df_sorted.loc[:, 'PL%'] = PRINT_df_sorted['PL%'].astype(int)
     # ANSI escape codes for text coloring
-    RESET = "\033[0m"
-    BRIGHT_YELLOW = "\033[93m"
+    #RESET = "\033[0m"
+    #BRIGHT_YELLOW = "\033[93m"
     # Set the maximum width for all columns
     pd.set_option('display.max_colwidth', 1)  # Adjust the value for your desired width
     # Apply truncation to each cell in the DataFrame
@@ -573,10 +573,10 @@ try:
         if not filtered_df.empty:
             # Perform further operations
             # Define ANSI escape codes
-            GREEN = '\033[92m'
-            RED = '\033[91m'
-            GRAY = '\033[90m'
-            RESET = '\033[0m'
+            #GREEN = '\033[92m'
+            #RED = '\033[91m'
+            #GRAY = '\033[90m'
+            #RESET = '\033[0m'
             # Assign symbols based on 'smb_power' values
             filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
             import pandas as pd
