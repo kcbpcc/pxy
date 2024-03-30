@@ -1,7 +1,6 @@
 # bordpxy.py
 from acvaluepxy import process_acvalue, get_current_acvalue
-from smapxy import check_index_status
-nsma = check_index_status("^NSEI")
+
 
 import subprocess
 def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
