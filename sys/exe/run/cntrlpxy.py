@@ -127,8 +127,8 @@ def stocks_avg_order_place(index, row):
                 try:
                     message_text = f"{row['ltp']} \nhttps://www.tradingview.com/chart/?symbol={exchsym[1]}"
                     # Define the bot token and your Telegram username or ID
-                    bot_token = '6704281753:AAEed33wBCxEN81n-NUfajo8pm9gcCVxeZg'  # Replace with your actual bot token
-                    user_id = '-4093430309'  # Replace with your Telegram user ID
+                    bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
+                    user_id = '-4135910842'  # Replace with your Telegram user ID
                     # Function to send a message to Telegram
                     async def send_telegram_message(message_text):
                         bot = telegram.Bot(token=bot_token)
