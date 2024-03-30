@@ -390,7 +390,7 @@ try:
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
 ###########################################################################################################################################################################################################
     from smapxy import check_index_status
-nsma = check_index_status("^NSEI")
+    nsma = check_index_status("^NSEI")
     print("━" * 42)
     from dshpxy import get_holdingsinfo
     all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
