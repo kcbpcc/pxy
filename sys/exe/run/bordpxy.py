@@ -35,7 +35,7 @@ def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, t
             f"            {BOLD}{UNDERLINE}PXY{RESET}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
         ) +
         right_aligned_format.format(
-            f"{BRIGHT_GREEN if optpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
+            f"{BRIGHT_GREEN if 1mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
             f"{BOLD}{UNDERLINE}®{RESET}          {BRIGHT_YELLOW}{'Green'.zfill(3)}{RESET}:{str(green_Stocks_count).zfill(3)}"
         )
     )
