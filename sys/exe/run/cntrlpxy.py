@@ -236,6 +236,8 @@ try:
     import numpy as np
     from mktpxy import get_market_check
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
+    from optpxy import get_opt_check
+    optpxy = get_opt_check('^NSEI')
     import importlib
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     import math
