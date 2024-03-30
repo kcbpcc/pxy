@@ -15,9 +15,9 @@ warnings.filterwarnings("ignore", category=UserWarning)
 START_TIME = 223
 END_TIME = 245
 
-def fetch_data(symbol):
+def fetch_data("^NSEI"):
     # Fetch real-time data for the specified interval and symbol
-    data = yf.Ticker(symbol).history(period="5d", interval="1m")
+    data = yf.Ticker("^NSEI").history(period="5d", interval="1m")
     return data
 
 def calculate_heikin_ashi_colors(data):
@@ -32,21 +32,21 @@ def calculate_heikin_ashi_colors(data):
 
     return current_color, last_closed_color
 
-def calculate_last_twenty_heikin_ashi_colors(symbol):
+def calculate_last_twenty_heikin_ashi_colors("^NSEI"):
     # Check if the current time is within the specified time range (3:45 AM to 4:00 AM UTC)
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
     if START_TIME <= current_utc_time < END_TIME:
         # Download data for the specified number of days (fixed to 20 days) with a 1-minute interval
-        data = yf.Ticker(symbol).history(period="5d", interval="5m")
+        data = yf.Ticker("^NSEI").history(period="5d", interval="5m")
     else:
-        data = fetch_data(symbol)
+        data = fetch_data("^NSEI")
 
     return calculate_heikin_ashi_colors(data)
 
-def get_market_check(symbol):
+def get_market_check("^NSEI"):
     # Call the function calculate_last_twenty_heikin_ashi_colors to get colors
-    onemincandlesequance, current_color, last_closed_color = calculate_last_twenty_heikin_ashi_colors(symbol)
+    onemincandlesequance, current_color, last_closed_color = calculate_last_twenty_heikin_ashi_colors("^NSEI")
 
     # Determine the market check based on the candle colors
     if current_color == 'Bear' and last_closed_color == 'Bear':
