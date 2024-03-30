@@ -46,7 +46,7 @@ def calculate_last_twenty_heikin_ashi_colors(symbol):
 
 def get_opt_check(symbol):
     # Call the function calculate_last_twenty_heikin_ashi_colors to get colors
-    onemincandlesequance, current_color, last_closed_color = calculate_last_twenty_heikin_ashi_colors(symbol)
+    current_color, last_closed_color = calculate_last_twenty_heikin_ashi_colors(symbol)
 
     # Determine the market check based on the candle colors
     if current_color == 'Bear' and last_closed_color == 'Bear':
