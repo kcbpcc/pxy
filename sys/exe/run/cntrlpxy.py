@@ -626,6 +626,7 @@ try:
     else:
         print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
 ###########################################################################################################################################################################################################
+    print("━" * 42)
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
