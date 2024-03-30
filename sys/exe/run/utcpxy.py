@@ -13,7 +13,7 @@ def peak_time():
     #print("Peak Time 0 Range:", peak_time_0_start, "-", peak_time_0_end)
 
     peak_time_1_start = datetime.strptime("03:45", "%H:%M").time()
-    peak_time_1_end = datetime.strptime("03:52", "%H:%M").time()
+    peak_time_1_end = datetime.strptime("03:50", "%H:%M").time()
     #print("Peak Time 1 Range:", peak_time_1_start, "-", peak_time_1_end)
 
     peak_time_2_start = datetime.strptime("03:53", "%H:%M").time()
