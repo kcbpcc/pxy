@@ -2,7 +2,7 @@
 from acvaluepxy import process_acvalue, get_current_acvalue
 from smapxy import check_index_status
 nsma = check_index_status("^NSEI")
-from optpxy iport optpxy
+from optpxy import optpxy
 import subprocess
 def printbord(Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash,
