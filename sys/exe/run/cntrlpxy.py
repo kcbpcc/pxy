@@ -518,7 +518,7 @@ try:
                          available_cash > 20000 and
                          nse_power < 0.1 and
                          mktpxy in ['Buy', 'Bull'] and
-                         row['PL%'] < -14)
+                         row['PL%'] < -74)
                     ):
                         try:                            
                             is_placed = stocks_avg_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
