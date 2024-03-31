@@ -104,7 +104,7 @@ async def main():
         sys.stdout = sys.__stdout__
     
     expiry_year, expiry_month, expiry_day = get_this_thursday()
-    option_type = 'PE'  # Always 'PE'
+    option_type = 'CE'  
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
     
     if check_existing_positions(broker, symbol):
