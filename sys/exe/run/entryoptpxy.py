@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta
 import traceback
 import sys
 import logging
@@ -14,6 +13,7 @@ importlib.reload(sys.modules['smapxy'])  # Correct the usage
 nsma = check_index_status('^NSEI')
 from optpxy import get_opt_check
 optpxy = get_opt_check('^NSEI')
+
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
@@ -73,10 +73,19 @@ async def place_order(broker, symbol, transaction_type, price=None):
                 exchange="NFO",
                 transaction_type=transaction_type,
                 order_type='MARKET',
-                product='MIS'
+                product='NRML'
             )
-
-        else transaction_type == 'TARGET_SELL':
+        elif transaction_type == 'SELL':
+            order_id = broker.order_place(
+                tradingsymbol=symbol,
+                quantity=50,
+                exchange="NFO",
+                transaction_type=transaction_type,
+                order_type='SL',
+                product='NRML',
+                trigger_price=price  # Set the trigger price for stop-loss order
+            )
+        elif transaction_type == 'TARGET_SELL':
             order_id = broker.order_place(
                 tradingsymbol=symbol,
                 quantity=50,
@@ -125,7 +134,7 @@ async def main():
         sys.stdout = sys.__stdout__
     expiry_year, expiry_month, expiry_day = get_this_thursday()
     option_type = None
-    if nsma == 'down':
+	if nsma == 'down':
         option_type = 'PE'  # Call Option
     else:
         print("NIFTY - optpxy:", optpxy, "sma:", nsma)
