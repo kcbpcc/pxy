@@ -13,7 +13,10 @@ def round_to_nearest_100(price):
     return round(price / 100) * 100
 
 def round_to_nearest_100_or_50(price):
-    return price.apply(lambda x: round(x / 50) * 50 if x % 100 < 50 else round(x / 100) * 100)
+    # Apply rounding operation with handling NaN values
+    rounded_price = price.apply(lambda x: round(x / 50) * 50 if x % 100 < 50 else round(x / 100) * 100)
+    rounded_price = rounded_price.fillna(0)  # Replace NaN values with 0
+    return rounded_price
 
 def get_prices():
     noptions = round_to_nearest_100_or_50(get_50sma_price('^NSEI'))
