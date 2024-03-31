@@ -11,9 +11,9 @@ display_menu() {
 # Function to execute selected Python script
 execute_script() {
     case $1 in
-        1) python3 selloptpxy.py ;;
-        2) python3 buyoptpxy.py ;;
-        3) exit ;;
+        s) python3 soptpxy.py ;;
+        b) python3 boptpxy.py ;;
+        e) exit ;;
         *) echo "Invalid option. Please select again." ;;
     esac
 }
