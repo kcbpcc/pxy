@@ -6,8 +6,8 @@ warnings.filterwarnings("ignore")
 
 def get_50sma_price(symbol):
     data = yf.Ticker(symbol).history(period="1d", interval="1m")  # Fetch only one day of data
-    50sma_price = data['Close'].rolling(window=50).mean()
-    return 50sma_price
+    price = data['Close'].rolling(window=50).mean()
+    return price
 
 def round_to_nearest_100(price):
     return round(price / 100) * 100
