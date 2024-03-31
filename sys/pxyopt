@@ -5,7 +5,7 @@ display_menu() {
     echo "Do you sell or buy?"
     echo "    b. 🟢 Buy 👆"
     echo "    s. 🔴 Sell 👇"
-    echo "    e. 🚫 Exit 🚫"
+    echo "    q. 🚫 Exit 🚫"
 }
 
 # Function to execute selected Python script
@@ -13,7 +13,7 @@ execute_script() {
     case $1 in
         s) python3 soptpxy.py ;;
         b) python3 boptpxy.py ;;
-        e) exit ;;
+        q) exit ;;
         *) echo "Invalid option. Please select again." ;;
     esac
 }
