@@ -9,10 +9,11 @@ from cnstpxy import dir_path
 from strikpxy import get_prices
 noptions, _, _, _ = get_prices()
 from macdpxy import calculate_macd_signal
-from mktrndpxy import get_market_status_for_symbol
-nmktpxy = get_market_status_for_symbol("^NSEI")
-from smaoptpxy import sma_above_or_below
-smanifty = sma_above_or_below("^NSEI")
+from smapxy import check_index_status
+importlib.reload(sys.modules['smapxy'])  # Correct the usage
+nsma = check_index_status('^NSEI')
+from optpxy import get_opt_check
+optpxy = get_opt_check('^NSEI')
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
@@ -124,11 +125,10 @@ async def main():
         sys.stdout = sys.__stdout__
     expiry_year, expiry_month, expiry_day = get_this_thursday()
     option_type = None
-    if nmktpxy == 'Sell' and smanifty != 'above':
+    if nsma == 'down':
         option_type = 'PE'  # Call Option
     else:
-        option_type = 'PE'  # Put Option
-        print("NIFTY - nmktpxy:", nmktpxy, "smanifty:", smanifty)
+        print("NIFTY - optpxy:", optpxy, "sma:", nsma)
         sys.exit(0)
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
     if check_existing_positions(broker, symbol, 'BUY'):
