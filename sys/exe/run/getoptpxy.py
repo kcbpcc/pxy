@@ -25,7 +25,8 @@ async def send_telegram_message(message_text):
     except Exception as e:
         # Handle the exception (e.g., log it) and continue with your code
         print(f"Error sending message to Telegram: {e}")
-# Define function to get this week's Tuesday date
+
+# Define function to get this week's Thursday date
 from datetime import datetime, timedelta
 def get_this_thursday():
     current_date = datetime.now()
@@ -49,70 +50,31 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     else:
         return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions}{option_type}"
 
-def check_existing_positions(broker, symbol, transaction_type):
+def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
     for position in positions_net:
         # Check if 'tradingsymbol' matches and 'quantity' is at least 50
         if position['tradingsymbol'] == symbol and position['quantity'] >= 50:
-            # If transaction_type is provided, check if it matches as well
-            if 'transaction_type' in position and position['transaction_type'] == transaction_type:
-                return True
-            # If transaction_type is not provided, return True since tradingsymbol and quantity match
-            elif not transaction_type:
-                return True
+            return True
     return False
 
-async def place_order(broker, symbol, transaction_type, price=None):
+async def place_order(broker, symbol, product_type):
     try:
-        if transaction_type == 'BUY':
-            order_id = broker.order_place(
-                tradingsymbol=symbol,
-                quantity=50,
-                exchange="NFO",
-                transaction_type=transaction_type,
-                order_type='MARKET',
-                product='NRML'
-            )
-        elif transaction_type == 'SELL':
-            order_id = broker.order_place(
-                tradingsymbol=symbol,
-                quantity=50,
-                exchange="NFO",
-                transaction_type=transaction_type,
-                order_type='SL',
-                product='NRML',
-                trigger_price=price  # Set the trigger price for stop-loss order
-            )
-        elif transaction_type == 'TARGET_SELL':
-            order_id = broker.order_place(
-                tradingsymbol=symbol,
-                quantity=50,
-                exchange="NFO",
-                transaction_type='SELL',
-                order_type='LIMIT',
-                product='NRML',
-                price=price  # Set the target sell price
-            )
-        message_text = f"Option Order {symbol} placed successfully."
+        order_id = broker.order_place(
+            tradingsymbol=symbol,
+            quantity=50,
+            exchange="NFO",
+            transaction_type='BUY' if product_type == 'NRML' else 'SELL',  # 'BUY' for NRML, 'SELL' for MIS
+            order_type='MARKET',
+            product=product_type  # Set product type dynamically
+        )
+        message_text = f"Option Order {symbol} placed successfully as {product_type} order."
         await send_telegram_message(message_text)
         return True, order_id
     except Exception as e:
-        print(f"Error placing Option order for {symbol}: {e}")
+        print(f"Error placing Option order for {symbol} as {product_type} order: {e}")
         return False, None
-
-async def get_ltp(broker, symbol):
-    try:
-        resp = broker.kite.ltp(symbol)
-        if resp and isinstance(resp, dict):
-            ltp = resp[symbol]['last_price']
-            return ltp
-        else:
-            print("Invalid response or LTP not available.")
-            return None
-    except Exception as e:
-        print(f"Error retrieving LTP for {symbol}: {e}")
-        return None
 
 async def main():
     symbol = None
@@ -132,43 +94,23 @@ async def main():
     finally:
         sys.stdout = sys.__stdout__
     expiry_year, expiry_month, expiry_day = get_this_thursday()
-    option_type = None
-    if nsma == 'down':
-        option_type = 'PE'  # Call Option
-    else:
-        print("NIFTY - optpxy:", optpxy, "sma:", nsma)
-        sys.exit(0)
+    option_type = 'PE'  # Always 'PE'
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
-    if check_existing_positions(broker, symbol, 'BUY'):
-        print(f"Existing buy order for {symbol} found. Skipping buy order placement.")
+    if check_existing_positions(broker, symbol):
+        print(f"Existing order for {symbol} found. Skipping order placement.")
     else:
-        buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY')
+        # Place BUY order with NRML product type
+        buy_order_placed, buy_order_id = await place_order(broker, symbol, 'NRML')
         if buy_order_placed:
-            ltp = await get_ltp(broker, symbol)
-            if ltp is not None:
-                target_sell_price = ltp * 1.07  # 7% above
-                if not check_existing_positions(broker, symbol, 'TARGET_SELL'):
-                    target_sell_order_placed, _ = await place_order(broker, symbol, 'TARGET_SELL', target_sell_price)
-                    if target_sell_order_placed:
-                        print("Target sell order placed successfully.")
-                        message_text = f"Target sell order for {symbol} placed successfully at {target_sell_price}."
-                        await send_telegram_message(message_text)
-                    else:
-                        print("Target sell order placement failed.")
-                        message_text = f"Failed to place target sell order for {symbol}."
-                        await send_telegram_message(message_text)
-                else:
-                    print(f"Existing target sell order for {symbol} found. Skipping target sell order placement.")
-            else:
-                print("Failed to retrieve LTP. Unable to calculate target sell price.")
-                message_text = "Failed to retrieve LTP. Unable to calculate target sell price."
-                await send_telegram_message(message_text)
-        else:
-            print("Buy order placement failed.")
-            message_text = f"Failed to place buy order for {symbol}."
-            await send_telegram_message(message_text)
+            print("BUY order placed successfully.")
+        
+        # Place SELL order with MIS product type
+        sell_order_placed, sell_order_id = await place_order(broker, symbol, 'MIS')
+        if sell_order_placed:
+            print("SELL order placed successfully.")
 
 async def run_main():
     await main()
 
 asyncio.run(run_main())
+
