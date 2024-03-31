@@ -87,11 +87,21 @@ async def place_order(broker, symbol, transaction_type, product_type, quantity, 
 
 async def main():
     try:
-        broker = get_kite(api="bypass", sec_dir=dir_path)
-    except Exception as e:
-        remove_token(dir_path)
-        logging.error(f"{str(e)} Unable to get holdings")
-        return
+        # Redirect sys.stdout to 'output.txt'
+        with open('output.txt', 'w') as file:
+            sys.stdout = file
+
+            try:
+                broker = get_kite(api="bypass", sec_dir=dir_path)
+            except Exception as e:
+                remove_token(dir_path)
+                print(traceback.format_exc())
+                logging.error(f"{str(e)} unable to get holdings")
+                sys.exit(1)
+
+    finally:
+        # Reset sys.stdout to its default value
+        sys.stdout = sys.__stdout__
     
     expiry_year, expiry_month, expiry_day = get_this_thursday()
     option_type = 'PE'  # Always 'PE'
