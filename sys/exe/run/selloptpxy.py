@@ -104,7 +104,13 @@ async def main():
         sys.stdout = sys.__stdout__
     
     expiry_year, expiry_month, expiry_day = get_this_thursday()
-    option_type = 'CE'  
+    
+    option_type = input("Enter S for Sell Call Option (CE) or B for Buy Put Option (PE): ").upper()
+    
+    if option_type not in ['S', 'B']:
+        print("Invalid option type. Please enter S or B.")
+        return
+    
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
     
     if check_existing_positions(broker, symbol):
@@ -129,3 +135,4 @@ async def run_main():
     await main()
 
 asyncio.run(run_main())
+
