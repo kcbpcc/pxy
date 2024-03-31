@@ -6,7 +6,7 @@ def check_index_status(index_symbol):
     data = yf.Ticker(index_symbol).history(period="5d", interval="1m")
 
     # Calculate the 100-day SMA of the index
-    sma_100_index = data['Close'].rolling(window=50).mean()
+    sma_50_index = data['Close'].rolling(window=50).mean()
 
     # Get the present index close
     present_index_close = data['Close'].iloc[-1]
