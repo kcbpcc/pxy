@@ -65,16 +65,18 @@ async def place_order(broker, symbol, product_type):
             tradingsymbol=symbol,
             quantity=50,
             exchange="NFO",
-            transaction_type='BUY' if product_type == 'NRML' else 'SELL',  # 'BUY' for NRML, 'SELL' for MIS
+            transaction_type='SELL',  # Always sell for PE
             order_type='MARKET',
             product=product_type  # Set product type dynamically
         )
-        message_text = f"Option Order {symbol} placed successfully as {product_type} order."
+        # Get the executed price
+        executed_price = broker.kite.order_history(order_id)['average_price']
+        message_text = f"Option Order {symbol} placed successfully as {product_type} order. Executed at {executed_price}."
         await send_telegram_message(message_text)
-        return True, order_id
+        return True, order_id, executed_price
     except Exception as e:
         print(f"Error placing Option order for {symbol} as {product_type} order: {e}")
-        return False, None
+        return False, None, None
 
 async def main():
     symbol = None
@@ -99,18 +101,20 @@ async def main():
     if check_existing_positions(broker, symbol):
         print(f"Existing order for {symbol} found. Skipping order placement.")
     else:
-        # Place BUY order with NRML product type
-        buy_order_placed, buy_order_id = await place_order(broker, symbol, 'NRML')
-        if buy_order_placed:
-            print("BUY order placed successfully.")
-        
         # Place SELL order with MIS product type
-        sell_order_placed, sell_order_id = await place_order(broker, symbol, 'MIS')
+        sell_order_placed, sell_order_id, executed_price = await place_order(broker, symbol, 'MIS')
         if sell_order_placed:
             print("SELL order placed successfully.")
+            # Calculate target price (94% of executed price)
+            target_price = executed_price * 0.94
+            # Place BUY order with MIS product type at target price
+            buy_order_placed, buy_order_id = await place_order(broker, symbol, 'MIS')
+            if buy_order_placed:
+                print(f"BUY order placed successfully at target price: {target_price}")
 
 async def run_main():
     await main()
 
 asyncio.run(run_main())
+
 
