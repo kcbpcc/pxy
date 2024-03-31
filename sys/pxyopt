@@ -3,9 +3,9 @@
 # Function to display menu
 display_menu() {
     echo "Do you sell or buy?"
-    echo "b. 🟢 Buy 👆"
-    echo "s. 🔴 Sell 👇"
-    echo "e. 🚫 Exit 🚫"
+    echo "    b. 🟢 Buy 👆"
+    echo "    s. 🔴 Sell 👇"
+    echo "    e. 🚫 Exit 🚫"
 }
 
 # Function to execute selected Python script
