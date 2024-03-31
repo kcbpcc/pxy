@@ -2,9 +2,9 @@
 
 # Function to display menu
 display_menu() {
-    echo "Select an option:"
-    echo "s. 🔴 Sell ↘️"
-    echo "b. 🟢 Buy ↗️"
+    echo "Do you sell or buy?"
+    echo "b. 🟢 Buy 👆"
+    echo "s. 🔴 Sell 👇"
     echo "e. 🚫 Exit 🚫"
 }
 
