@@ -1,7 +1,29 @@
-#PXY®
 #!/bin/bash
+
+# Function to display menu
+display_menu() {
+    echo "Select an option:"
+    echo "1. Sell Option Proxy"
+    echo "2. Buy Option Proxy"
+    echo "3. Exit"
+}
+
+# Function to execute selected Python script
+execute_script() {
+    case $1 in
+        1) python3 selloptpxy.py ;;
+        2) python3 buyoptpxy.py ;;
+        3) exit ;;
+        *) echo "Invalid option. Please select again." ;;
+    esac
+}
+
+# Main script
 source ~/env/bin/activate
-# Change to the script's directory
 cd ~/pxy/sys/exe/run
-# Run the Python script
-python3 selloptpxy.py
+
+while true; do
+    display_menu
+    read -p "Enter your choice: " choice
+    execute_script $choice
+done
