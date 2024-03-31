@@ -13,7 +13,7 @@ def round_to_nearest_100(price):
     return round(price / 100) * 100
 
 def round_to_nearest_100_or_50(price):
-    return round(price / 50) * 50 if price % 100 < 50 else round(price / 100) * 100
+    return price.apply(lambda x: round(x / 50) * 50 if x % 100 < 50 else round(x / 100) * 100)
 
 def get_prices():
     noptions = round_to_nearest_100_or_50(get_50sma_price('^NSEI'))
