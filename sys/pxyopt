@@ -3,9 +3,9 @@
 # Function to display menu
 display_menu() {
     echo "Select an option:"
-    echo "1. Sell Option Proxy"
-    echo "2. Buy Option Proxy"
-    echo "3. Exit"
+    echo "s. Sell Option Proxy"
+    echo "b. Buy Option Proxy"
+    echo "e. Exit"
 }
 
 # Function to execute selected Python script
