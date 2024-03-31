@@ -9,7 +9,6 @@ from strikpxy import get_prices
 noptions, _, _, _ = get_prices()
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
-importlib.reload(sys.modules['smapxy'])  # Correct the usage
 nsma = check_index_status('^NSEI')
 from optpxy import get_opt_check
 optpxy = get_opt_check('^NSEI')
