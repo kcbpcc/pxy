@@ -134,7 +134,7 @@ async def main():
         sys.stdout = sys.__stdout__
     expiry_year, expiry_month, expiry_day = get_this_thursday()
     option_type = None
-	if nsma == 'down':
+    if nsma == 'down':
         option_type = 'PE'  # Call Option
     else:
         print("NIFTY - optpxy:", optpxy, "sma:", nsma)
