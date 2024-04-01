@@ -1,7 +1,7 @@
 import asyncio
 import traceback
 import sys
-from error_handling import setup_logging, handle_order_placement_error
+from logoptpxy import setup_logging, handle_order_placement_error
 from trading_bot import send_telegram_message
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
