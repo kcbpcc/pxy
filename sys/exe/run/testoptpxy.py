@@ -8,7 +8,7 @@ from cnstpxy import dir_path
 from strikpxy import get_prices
 from datetime import datetime, timedelta
 from thuoptpxy import get_this_thursday
-from datetime import datetime, timedelta
+
 
 
 async def main():
