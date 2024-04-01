@@ -123,8 +123,8 @@ async def main():
         if isinstance(order_history, list) and order_history:
             executed_price = order_history[-1]['average_price']  # Accessing 'average_price' from the last element
             if executed_price > 0:
-                # Calculate target price (94% of executed price)
-                 target_price = round(executed_price * 1.06, 1)
+                # Calculate target price (94% of executed price) and round to one decimal place
+                target_price = round(executed_price * 1.06, 1)
                 # Place BUY order with MIS product type at target price
                 buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'MIS', 50, 'LIMIT', price=target_price)
                 if buy_order_placed:
@@ -133,7 +133,6 @@ async def main():
                 print("Error: Executed price is zero or negative.")
         else:
             print("Error: Unable to retrieve order history or empty history.")
-
 
 async def run_main():
     await main()
