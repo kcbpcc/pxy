@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 def get_this_thursday():
     current_date = datetime.now()
     days_until_this_thursday = (3 - current_date.weekday() + 7) % 7
