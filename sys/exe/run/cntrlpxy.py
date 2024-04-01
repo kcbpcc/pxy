@@ -316,27 +316,20 @@ try:
     # Calculate 'dPL%' column as ('dPnL' / 'Invested') * 100
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 ###########################################################################################################################################################################################################    
-    # Round all numeric columns to 2 decimal places
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
-    combined_df[numeric_columns] = combined_df[numeric_columns].round(2)        # Filter combined_df
+    combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
     filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) & combined_df['key'].str.startswith('NFO')) | ((combined_df['product'].isin(['CNC', 'MIS'])) & (combined_df['qty'] != 0))]
-    # Filter combined_df for rows where 'qty' is greater than 0
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
-    # Calculate and print the sum of 'PnL' values and its total 'PL%' for rows where 'qty' is greater than 0
     total_PnL = round(combined_df_positive_qty['PnL'].sum())
-    total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0   
-    # Calculate total_PnL_percentage_options_buy
+    total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
     stocks_buy_df = combined_df.loc[(combined_df['product'] == "CNC") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
-    total_PnL_stocks_buy = round(stocks_buy_df['PnL'].sum()) if not stocks_buy_df.empty else 0    
+    total_PnL_stocks_buy = round(stocks_buy_df['PnL'].sum()) if not stocks_buy_df.empty else 0
     options_buy_df = combined_df.loc[(combined_df['product'] == "NRML")]
     total_PnL_options_buy = round(options_buy_df['PnL'].sum()) if not options_buy_df.empty else 0
     total_invested__nrml = options_buy_df['Invested'].sum() if not options_buy_df.empty else 0
     options_percentage_return = round((total_PnL_options_buy / total_invested__nrml) * 100, 0) if total_invested__nrml != 0 else 0
-    # Calculate and print the sum of 'dPnL' values and its total 'dPL%' for rows where 'qty' is greater than 0
-    #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
-    total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
 ###########################################################################################################################################################################################################
     from smapxy import check_index_status
     nsma = check_index_status("^NSEI")
