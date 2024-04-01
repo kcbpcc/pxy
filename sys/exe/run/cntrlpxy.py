@@ -384,30 +384,15 @@ try:
 ###########################################################################################################################################################################################################    
     print("━" * 42)
     import pandas as pd
-    # Assuming PRINT_df_sorted is your DataFrame
     PRINT_df_sorted = PRINT_df.copy()
-    # Apply the lambda function to limit 'chks' to 2 characters
     PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
-    # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
     PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:|NFO:)', '', regex=True).str[:18].str.ljust(18, ' ')
-    # Sort the DataFrame by 'PL%' in ascending order
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
-    # Convert the 'PL%' column to integers
-    #PRINT_df_sorted.loc[:, 'PL%'] = PRINT_df_sorted['PL%'].astype(int)
-    # ANSI escape codes for text coloring
-    #RESET = "\033[0m"
-    #BRIGHT_YELLOW = "\033[93m"
-    # Set the maximum width for all columns
-    pd.set_option('display.max_colwidth', 1)  # Adjust the value for your desired width
-    # Apply truncation to each cell in the DataFrame
+    pd.set_option('display.max_colwidth', 1)
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-    #print("━" * 42)
-    # Always print "Table" in bright yellow
-    # Print the truncated DataFrame without color
-    # Assuming PRINT_df_sorted_display is your DataFrame
-    stocks_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 1.4 ) & (PRINT_df_sorted_display['_CM'] == '🧰') ]
+    stocks_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 1.4 ) & (PRINT_df_sorted_display['_CM'] == '🧰')]
     options_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['product','Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
-    options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)    
+    options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)
     options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
 ###########################################################################################################################################################################################################   
     from mktpxy import get_market_check
