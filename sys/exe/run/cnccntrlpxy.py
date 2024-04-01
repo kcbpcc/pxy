@@ -12,12 +12,9 @@ import csv
 import telegram
 import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
-from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
 result = sum_last_numerical_value_in_each_row(file_path)  
-file_path_nrml = "filePnL_nrml.csv"
-result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
 ###########################################################################################################################################################################################################
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 logging = Logger(30, dir_path + "main.log")
@@ -189,7 +186,6 @@ try:
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
-    from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
     from swchpxy import analyze_stock
     import telegram
     import asyncio
@@ -202,8 +198,6 @@ try:
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
-    file_path_nrml = "filePnL_nrml.csv"
-    result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
     #from telpxy import send_telegram_message
     #csv_file_path = "filePnL.csv"
     #total_profit_main = process_csv(csv_file_path)
@@ -294,8 +288,7 @@ try:
     combined_df['tPL%'] = np.where(SMAfty == 'up', np.maximum(1 * combined_df['tPL%'], 1.4), np.where(SMAfty == 'down', np.maximum(combined_df['tPL%'] * 0.5, 1.4), combined_df['tPL%']))
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
-    subprocess.run(['python3', 'nrmlprftpxy.py'])
-###########################################################################################################################################################################################################
+    ###########################################################################################################################################################################################################
     # Calculate 'Invested' column
     combined_df['Invested'] = (combined_df['qty'] * combined_df['average_price']).round(0).astype(int)
     # Calculate 'value' column as 'qty' * 'ltp'
@@ -319,7 +312,7 @@ try:
     # Round all numeric columns to 2 decimal places
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)        # Filter combined_df
-    filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) & combined_df['key'].str.startswith('NFO')) | ((combined_df['product'].isin(['CNC', 'MIS'])) & (combined_df['qty'] != 0))]
+    filtered_df = combined_df[(combined_df['product'] == 'CNC') & (combined_df['qty'] != 0)]
     # Filter combined_df for rows where 'qty' is greater than 0
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
     # Calculate and print the sum of 'PnL' values and its total 'PL%' for rows where 'qty' is greater than 0
@@ -328,26 +321,12 @@ try:
     # Calculate total_PnL_percentage_options_buy
     stocks_buy_df = combined_df.loc[(combined_df['product'] == "CNC") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
     total_PnL_stocks_buy = round(stocks_buy_df['PnL'].sum()) if not stocks_buy_df.empty else 0    
-    options_buy_df = combined_df.loc[(combined_df['product'] == "NRML")]
     total_PnL_options_buy = round(options_buy_df['PnL'].sum()) if not options_buy_df.empty else 0
-    total_invested__nrml = options_buy_df['Invested'].sum() if not options_buy_df.empty else 0
-    options_percentage_return = round((total_PnL_options_buy / total_invested__nrml) * 100, 0) if total_invested__nrml != 0 else 0
     # Calculate and print the sum of 'dPnL' values and its total 'dPL%' for rows where 'qty' is greater than 0
     #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
-###########################################################################################################################################################################################################
-    from smapxy import check_index_status
-    nsma = check_index_status("^NSEI")
-    print("━" * 42)
-    from dshpxy import get_holdingsinfo
-    all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
-    from bordpxy import printbord
-    printbord(optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
-             result_nrml, total_PnL_stocks_buy, total_PnL_options_buy, available_cash,
-             nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma)
-###########################################################################################################################################################################################################
     import pandas as pd
     from tabulate import tabulate
     # Define the file path for the CSV file
@@ -366,7 +345,7 @@ try:
     # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '📌', 'positions': '🎯'})
     # Conditionally replace values in the '_CM' column
-    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🧰', 'MIS': '⌛','NRML': '💸'}) 
+    PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🧰'})
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: 
         '⚪' if TR > 0.8 else (
             '🟢' if 0.5 < TR <= 0.8 else (
@@ -421,7 +400,6 @@ try:
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
     # Define the CSV file path
     csv_file_path = "filePnL.csv"
-    csv_file_path_nrml = 'filePnL_nrml.csv'
     # Create an empty list to store the rows that meet the condition
     selected_rows = []
     # Loop through the DataFrame and place orders based on conditions
@@ -494,66 +472,6 @@ try:
 ###########################################################################################################################################################################################################
     print("━" * 42)
 ###########################################################################################################################################################################################################
-    # Check if DataFrame is empty
-    if not options_filtered_df.empty:
-        # Filter out rows with quantity = 0
-        filtered_df = options_filtered_df[options_filtered_df['qty'] != 0].copy()
-        # Check if filtered DataFrame is empty
-        if not filtered_df.empty:
-            # Perform further operations
-            # Define ANSI escape codes
-            #GREEN = '\033[92m'
-            #RED = '\033[91m'
-            #GRAY = '\033[90m'
-            #RESET = '\033[0m'
-            # Assign symbols based on 'smb_power' values
-            filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
-            import pandas as pd
-            import numpy as np
-            # Convert 'PL%' column to integers
-            filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
-            # Replace 'BANKNIFTY24' with 'BKFTY24' in 'key' column
-            filtered_df['key'] = filtered_df['key'].str.replace('BANKNIFTY24', 'BKFTY24')
-            # Sort DataFrame by 'PL%' column
-            filtered_df = filtered_df.sort_values(by='PL%')
-            # Replace row values in 'product' column
-            for index, row in filtered_df.iterrows():
-                if row['product'] == 'MIS':
-                    filtered_df.at[index, 'product'] = '⌛'
-                elif row['product'] == 'NRML':
-                    filtered_df.at[index, 'product'] = '⏰'
-            # Convert DataFrame to formatted string
-            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
-            # Print or do further processing with 'formatted_lines'
-            # Set max_width to 42
-            max_width = 42
-            # Iterate over each line and format it with color based on PnL value
-            for line in formatted_lines:
-                values = line.split()
-                pnl_value_str = values[-1]
-                # Check if PnL value is a valid float
-                try:
-                    pnl_value = float(pnl_value_str)
-                except ValueError:
-                    pnl_value = None  # PnL value is not a valid float
-                # Set color based on PnL value
-                if pnl_value is not None:
-                    if pnl_value > 0:
-                        color_code = GREEN  # Using GREEN for green text
-                    elif pnl_value < 0:
-                        color_code = RED  # Using RED for red text
-                    else:
-                        color_code = RESET  # Reset color for PnL value of 0
-                else:
-                    color_code = RESET  # Reset color for invalid PnL values
-                # Right-align the text, apply color, and reset color after the line
-                print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
-        else:
-            print("..............no options yet in the swing.")
-    else:
-        print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
-###########################################################################################################################################################################################################
-
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
