@@ -263,7 +263,7 @@ try:
     threshold = 3
 ###########################################################################################################################################################################################################
     nse_factor = {"Bearish": 0.5, "Bear": 1.0, "Bull": 1.5, "Bullish": 2.0}.get(nse_action, 1.0) 
-    exp_nse_factor = math.exp(options_nse_factor)
+    
     from smapowerpxy import check_smapower_status 
     cepower, pepower = check_smapower_status('^NSEI')
     def assign_otpl(row):
