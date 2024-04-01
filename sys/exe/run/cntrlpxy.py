@@ -198,18 +198,10 @@ try:
     macd = calculate_macd_signal("^NSEI")
     random_message = get_random_spiritual_message()
     switch = analyze_stock()
-    #from ordpxy import get_open_order_status
-    # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
     file_path_nrml = "filePnL_nrml.csv"
     result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
-    #from telpxy import send_telegram_message
-    #csv_file_path = "filePnL.csv"
-    #total_profit_main = process_csv(csv_file_path)
-    #SILVER = "\033[97m"
-    #UNDERLINE = "\033[4m"
-    #RESET = "\033[0m"
     logging.debug("Are we having any holdings to check")
     holdings_response = broker.kite.holdings()
     positions_response = broker.kite.positions()['net']
@@ -219,22 +211,14 @@ try:
     try:
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
-        # Rest of your code that depends on the 'available_cash' variable
     except Exception as e:
         print(f"An error occurred: {e}")
-        # Handle the error as needed
-        # Set available_cash to 0 or any other default value
         available_cash = 0
-    # Add 'key' column to holdings_df and positions_df
-    # Create 'key' column if holdings_df is not empty
     holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
-    # Create 'key' column if positions_df is not empty
     positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
     combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
-    # Get OHLC data for the 'key' column
     lst = combined_df['key'].tolist()
     resp = broker.kite.ohlc(lst)
-    # Create a dictionary from the response for easier mapping
     dct = {
         k: {
             'ltp': v['ohlc'].get('ltp', v['last_price']),
@@ -245,7 +229,6 @@ try:
         }
         for k, v in resp.items()
     }
-    # Add 'ltp', 'open', 'high', and 'low' columns to the DataFrame
     combined_df['ltp'] = combined_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row['last_price']), axis=1)
     combined_df['open'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('open', 0))
     combined_df['high'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('high', 0))
