@@ -1,5 +1,5 @@
 import telegram
-from error_handling import log_telegram_error
+from logoptpxy import log_telegram_error
 
 async def send_telegram_message(message_text):
     try:
