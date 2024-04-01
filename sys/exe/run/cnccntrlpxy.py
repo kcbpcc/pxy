@@ -17,7 +17,7 @@ file_path = 'filePnL.csv'
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 logging = Logger(30, dir_path + "main.log")
 try:
-    #sys.stdout = open('output.txt', 'w')
+    sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
 except Exception as e:
     remove_token(dir_path)
