@@ -13,7 +13,6 @@ import telegram
 import asyncio
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
-result = sum_last_numerical_value_in_each_row(file_path)  
 ###########################################################################################################################################################################################################
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 logging = Logger(30, dir_path + "main.log")
