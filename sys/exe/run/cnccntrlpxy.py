@@ -11,7 +11,7 @@ from colorama import Fore, Style
 import csv
 import telegram
 import asyncio
-import pandas as pd  # Added import for pandas
+import pandas as pd 
 
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
