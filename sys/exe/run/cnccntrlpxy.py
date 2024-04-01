@@ -180,8 +180,6 @@ try:
     import numpy as np
     from mktpxy import get_market_check
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
-    from optpxy import get_opt_check
-    optpxy = get_opt_check('^NSEI')
     import importlib
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     import math
@@ -265,7 +263,6 @@ try:
     threshold = 3
 ###########################################################################################################################################################################################################
     nse_factor = {"Bearish": 0.5, "Bear": 1.0, "Bull": 1.5, "Bullish": 2.0}.get(nse_action, 1.0) 
-    options_nse_factor = {"Bearish": 2.0, "Bear": 1.5, "Bull": 0.10, "Bullish": 0.5}.get(nse_action, 1.0)  
     exp_nse_factor = math.exp(options_nse_factor)
     from smapowerpxy import check_smapower_status 
     cepower, pepower = check_smapower_status('^NSEI')
@@ -318,10 +315,8 @@ try:
     # Calculate and print the sum of 'PnL' values and its total 'PL%' for rows where 'qty' is greater than 0
     total_PnL = round(combined_df_positive_qty['PnL'].sum())
     total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0   
-    # Calculate total_PnL_percentage_options_buy
     stocks_buy_df = combined_df.loc[(combined_df['product'] == "CNC") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
     total_PnL_stocks_buy = round(stocks_buy_df['PnL'].sum()) if not stocks_buy_df.empty else 0    
-    total_PnL_options_buy = round(options_buy_df['PnL'].sum()) if not options_buy_df.empty else 0
     # Calculate and print the sum of 'dPnL' values and its total 'dPL%' for rows where 'qty' is greater than 0
     #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
@@ -385,9 +380,6 @@ try:
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
     stocks_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 1.4 ) & (PRINT_df_sorted_display['_CM'] == '🧰') ]
-    options_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['product','Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
-    options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)    
-    options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
 ###########################################################################################################################################################################################################   
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
