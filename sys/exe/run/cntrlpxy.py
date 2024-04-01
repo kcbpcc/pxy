@@ -486,9 +486,10 @@ try:
 
 ###########################################################################################################################################################################################################
     if not stocks_filtered_df.empty:
-        #print("━" * 42)
-        #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
-        #print("━" * 42)
+        # Uncomment the lines below if you want to print some headers or formatting
+        # print("━" * 42)
+        # print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
+        # print("━" * 42)
         print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
 ###########################################################################################################################################################################################################
     print("━" * 42)
