@@ -494,66 +494,45 @@ try:
 ###########################################################################################################################################################################################################
     print("━" * 42)
 ###########################################################################################################################################################################################################
-    # Check if DataFrame is empty
     if not options_filtered_df.empty:
-        # Filter out rows with quantity = 0
         filtered_df = options_filtered_df[options_filtered_df['qty'] != 0].copy()
-        # Check if filtered DataFrame is empty
         if not filtered_df.empty:
-            # Perform further operations
-            # Define ANSI escape codes
-            #GREEN = '\033[92m'
-            #RED = '\033[91m'
-            #GRAY = '\033[90m'
-            #RESET = '\033[0m'
-            # Assign symbols based on 'smb_power' values
             filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
             import pandas as pd
             import numpy as np
-            # Convert 'PL%' column to integers
             filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
-            # Replace 'BANKNIFTY24' with 'BKFTY24' in 'key' column
             filtered_df['key'] = filtered_df['key'].str.replace('BANKNIFTY24', 'BKFTY24')
-            # Sort DataFrame by 'PL%' column
             filtered_df = filtered_df.sort_values(by='PL%')
-            # Replace row values in 'product' column
             for index, row in filtered_df.iterrows():
                 if row['product'] == 'MIS':
                     filtered_df.at[index, 'product'] = '⌛'
                 elif row['product'] == 'NRML':
                     filtered_df.at[index, 'product'] = '⏰'
-            # Convert DataFrame to formatted string
             formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
-            # Print or do further processing with 'formatted_lines'
-            # Set max_width to 42
             max_width = 42
-            # Iterate over each line and format it with color based on PnL value
             for line in formatted_lines:
                 values = line.split()
                 pnl_value_str = values[-1]
-                # Check if PnL value is a valid float
                 try:
                     pnl_value = float(pnl_value_str)
                 except ValueError:
-                    pnl_value = None  # PnL value is not a valid float
-                # Set color based on PnL value
+                    pnl_value = None
                 if pnl_value is not None:
                     if pnl_value > 0:
-                        color_code = GREEN  # Using GREEN for green text
+                        color_code = GREEN
                     elif pnl_value < 0:
-                        color_code = RED  # Using RED for red text
+                        color_code = RED
                     else:
-                        color_code = RESET  # Reset color for PnL value of 0
+                        color_code = RESET
                 else:
-                    color_code = RESET  # Reset color for invalid PnL values
-                # Right-align the text, apply color, and reset color after the line
+                    color_code = RESET
                 print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
         else:
             print("..............no options yet in the swing.")
     else:
         print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
-###########################################################################################################################################################################################################
 
+###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
