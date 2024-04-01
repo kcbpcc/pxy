@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import asyncio
 import traceback
 import sys
@@ -6,7 +7,6 @@ from teloptpxy import send_telegram_message
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
-from datetime import datetime, timedelta
 from thuoptpxy import get_this_thursday, construct_symbol
 from chkoptpxy import check_existing_positions
 from ordoptpxy import place_order
