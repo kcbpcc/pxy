@@ -147,7 +147,59 @@ def stocks_avg_order_place(index, row):
         logging.error(f"{str(e)} while placing order")
     return False
 ###########################################################################################################################################################################################################
-
+def options_sell_order_place(index, row):
+    try:
+        exchsym = str(index).split(":")
+        if len(exchsym) >= 2:
+            logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
+            order_id = broker.order_place(
+                tradingsymbol=exchsym[1],
+                exchange=exchsym[0],
+                transaction_type='BUY',
+                quantity=int(row['qty']),
+                order_type='MARKET',
+                product=row['product'],
+                variety='regular',
+                price=round_to_paise(row['ltp'], -0.2)
+            )
+            if order_id:
+                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
+                # Write the row to the CSV file here
+                with open(csv_file_path_nrml, 'a', newline='') as csvfile:
+                    csvwriter = csv.writer(csvfile)
+                    csvwriter.writerow(row.tolist())  # Write the selected row to the CSV file
+                    try:
+                        import telegram
+                        import asyncio
+                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
+                        # Dropping specified columns from the row
+                        for column in columns_to_drop:
+                            if column in row:
+                                del row[column]
+                        message_text = f"{str(row):>10} \nhttps://console.zerodha.com/verified/f5f15318\nBooked profit until now: {result_nrml}"
+                        # Define the bot token and your Telegram username or ID
+                        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+                        user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
+                        # Function to send a message to Telegram
+                        async def send_telegram_message(message_text):
+                            bot = telegram.Bot(token=bot_token)
+                            await bot.send_message(chat_id=user_usernames, text=message_text)
+                    except Exception as e:
+                        # Handle the exception (e.g., log it) and continue with your code
+                        print(f"Error sending message to Telegram: {e}")
+                    # Send the 'row' content as a message to Telegram immediately after printing the row
+                    loop = asyncio.get_event_loop()
+                    loop.run_until_complete(send_telegram_message(message_text))
+                return True                
+            else:
+                logging.error("Order placement failed")       
+        else:
+            logging.error("Invalid format for 'index'")    
+    except Exception as e:
+        #print(traceback.format_exc())
+        logging.error(f"{str(e)} while placing order")
+    return False
+###########################################################################################################################################################################################################
 def get_holdingsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
@@ -483,16 +535,35 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-
+####################1#######################################################################################################################################################################################                    
+                    elif (
+                        row['qty'] < 0 and
+                        row['avg'] != 0 and
+                        'NFO:' in row['key'] and
+                        (
+                            row['PL%'] < -10
+                        )
+                    ):
+                        try:                            
+                            is_placed = options_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            if is_placed:
+                                # Print the row before placing the order
+                                print(row)                                
+                        except InputException as e:
+                            # Handle the specific exception and print only the error message
+                            print(f"An error occurred while placing an order for key {key}: {e}")
+                        except Exception as e:
+                            # Handle any other exceptions that may occur during order placement
+                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")                            
+        except Exception as e:
+            # Handle any other exceptions that may occur during the loop
+            print(f"An unexpected error occurred: {e}")        
 ###########################################################################################################################################################################################################
-    try:
-        # Your code here
-        if not stocks_filtered_df.empty:
-            print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
-    except Exception as e:
-        # Handle the exception here
-        print(f"An error occurred: {e}")
-
+    if not stocks_filtered_df.empty:
+        #print("━" * 42)
+        #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
+        #print("━" * 42)
+        print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
 ###########################################################################################################################################################################################################
     print("━" * 42)
 ###########################################################################################################################################################################################################
