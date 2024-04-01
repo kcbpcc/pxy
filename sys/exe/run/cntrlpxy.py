@@ -410,62 +410,62 @@ try:
     options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)    
     options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
 ###########################################################################################################################################################################################################   
-from mktpxy import get_market_check
-importlib.reload(sys.modules['mktpxy'])
-onemincandlesequance, mktpxy = get_market_check('^NSEI')
-csv_file_path = "filePnL.csv"
-csv_file_path_nrml = 'filePnL_nrml.csv'
-selected_rows = []
-if nse_power < 1:
-    try:
-        for index, row in EXE_df.iterrows():
-            excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
-            key = row['key']
-            symbol_in_order = row['key'].split(":")[1]
-            if (
-                row['key'] not in excluded_keys and
-                row['open'] > 0 and
-                row['high'] > 0 and
-                row['low'] > 0 and
-                row['close'] > 0 and
-                row['ltp'] != 0
-            ):
+    from mktpxy import get_market_check
+    importlib.reload(sys.modules['mktpxy'])
+    onemincandlesequance, mktpxy = get_market_check('^NSEI')
+    csv_file_path = "filePnL.csv"
+    csv_file_path_nrml = 'filePnL_nrml.csv'
+    selected_rows = []
+    if nse_power < 1:
+        try:
+            for index, row in EXE_df.iterrows():
+                excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
+                key = row['key']
+                symbol_in_order = row['key'].split(":")[1]
                 if (
-                    (row['qty'] > 0 and
-                     row['avg'] != 0 and
-                     nse_power < 0.9 and
-                     row['product'] == 'CNC' and
-                     row['PL%'] > 1.4) and
-                    (
-                        (row['PL%'] > row['tPL%'])
-                    )
+                    row['key'] not in excluded_keys and
+                    row['open'] > 0 and
+                    row['high'] > 0 and
+                    row['low'] > 0 and
+                    row['close'] > 0 and
+                    row['ltp'] != 0
                 ):
-                    try:
-                        is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                        if is_placed:
-                            print(row)
-                    except InputException as e:
-                        print(f"An error occurred while placing an order for key {key}: {e}")
-                    except Exception as e:
-                        print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-                elif (
-                    (row['qty'] > 0 and
-                     row['avg'] != 0 and
-                     available_cash > 20000 and
-                     nse_power < 0.1 and
-                     mktpxy in ['Buy', 'Bull'] and
-                     row['PL%'] < -74)
-                ):
-                    try:
-                        is_placed = stocks_avg_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                        if is_placed:
-                            print(row['key'])
-                    except InputException as e:
-                        print(f"An error occurred while placing an order for key {key}: {e}")
-                    except Exception as e:
-                        print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+                    if (
+                        (row['qty'] > 0 and
+                         row['avg'] != 0 and
+                         nse_power < 0.9 and
+                         row['product'] == 'CNC' and
+                         row['PL%'] > 1.4) and
+                        (
+                            (row['PL%'] > row['tPL%'])
+                        )
+                    ):
+                        try:
+                            is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            if is_placed:
+                                print(row)
+                        except InputException as e:
+                            print(f"An error occurred while placing an order for key {key}: {e}")
+                        except Exception as e:
+                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+                    elif (
+                        (row['qty'] > 0 and
+                         row['avg'] != 0 and
+                         available_cash > 20000 and
+                         nse_power < 0.1 and
+                         mktpxy in ['Buy', 'Bull'] and
+                         row['PL%'] < -74)
+                    ):
+                        try:
+                            is_placed = stocks_avg_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            if is_placed:
+                                print(row['key'])
+                        except InputException as e:
+                            print(f"An error occurred while placing an order for key {key}: {e}")
+                        except Exception as e:
+                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
     if not stocks_filtered_df.empty:
         print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
