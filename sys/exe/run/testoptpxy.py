@@ -11,6 +11,7 @@ from thuoptpxy import get_this_thursday, construct_symbol
 from chkoptpxy import check_existing_positions
 from ordoptpxy import place_order
 
+
 async def main():
     try:
         # Redirect sys.stdout to 'output.txt'
