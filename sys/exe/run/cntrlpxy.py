@@ -350,37 +350,17 @@ try:
 ###########################################################################################################################################################################################################
     import pandas as pd
     from tabulate import tabulate
-    # Define the file path for the CSV file
     lstchk_file = "fileHPdf.csv"
-    # Dump the DataFrame to the CSV file, overwriting any existing file
     combined_df.to_csv(lstchk_file, index=False)
-    #print(f"DataFrame has been saved to {lstchk_file}")
-    # Create a copy of 'filtered_df' and select specific columns
     pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','otPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
-    pxy_df['avg'] =filtered_df['average_price']
-    # Create a copy for just printing 'filtered_df' and select specific columns
+    pxy_df['avg'] = filtered_df['average_price']
     EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','otPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
     PRINT_df = pxy_df[pxy_df['qty'] > 0][['source', 'product', 'key', 'tPL%', 'PL%', 'PnL', 'smb_power']]
-    # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'smb_power': 'TR','key': 'key','dPL%': 'dPL%'})
-    # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '📌', 'positions': '🎯'})
-    # Conditionally replace values in the '_CM' column
     PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🧰', 'MIS': '⌛','NRML': '💸'}) 
-    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: 
-        '⚪' if TR > 0.8 else (
-            '🟢' if 0.5 < TR <= 0.8 else (
-                '🟠' if 0.3 < TR <= 0.5 else (
-                    '🔴' if TR <= 0.3 else TR
-                )
-            )
-        )
-    )
-    # Convert the 'PnL' column to integers
-    # Remove 'BSE:' or 'NSE:' from the 'key' column
+    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '⚪' if TR > 0.8 else ('🟢' if 0.5 < TR <= 0.8 else ('🟠' if 0.3 < TR <= 0.5 else ('🔴' if TR <= 0.3 else TR))))
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'BSE:|NSE:', '', regex=True)
-    # Sort the DataFrame by 'PL%' in ascending order
-    # Assuming you have a DataFrame named PRINT_df
 ###########################################################################################################################################################################################################    
     print("━" * 42)
     import pandas as pd
