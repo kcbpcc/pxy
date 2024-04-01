@@ -281,11 +281,10 @@ try:
         elif 'PE' in row['key']:
             return pepower
         else:
-            return None  # Or any default value you prefer
+            return None  
     from smapxy import check_index_status
     SMAfty = check_index_status('^NSEI')
 ###########################################################################################################################################################################################################
-    # Apply the function to create/update the otPL% column
     from depthpxy import calculate_consecutive_candles
     cedepth, pedepth = calculate_consecutive_candles('^NSEI')
     combined_df['otPL%'] = (3 + combined_df.apply(lambda row: pedepth * 0.5 if row['key'].endswith('PE') else cedepth * 0.5  if row['key'].endswith('CE') else None, axis=1))
@@ -293,27 +292,15 @@ try:
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
     combined_df['tPL%'] = np.where(SMAfty == 'up', np.maximum(1 * combined_df['tPL%'], 1.4), np.where(SMAfty == 'down', np.maximum(combined_df['tPL%'] * 0.5, 1.4), combined_df['tPL%']))
 ###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'prftpxy.py'])
-    subprocess.run(['python3', 'nrmlprftpxy.py'])
-###########################################################################################################################################################################################################
-    # Calculate 'Invested' column
     combined_df['Invested'] = (combined_df['qty'] * combined_df['average_price']).round(0).astype(int)
-    # Calculate 'value' column as 'qty' * 'ltp'
     combined_df['value'] = combined_df['qty'] * combined_df['ltp']
     combined_df['value_H'] = combined_df['qty'] * combined_df['high']
-    # Calculate 'PnL' column as 'value' - 'Invested'
     combined_df['PnL'] = (combined_df['value'] - combined_df['Invested']).astype(int)
     combined_df['PnL_H'] = combined_df['value_H'] - combined_df['Invested']
-    # Calculate 'PL%' column as ('PnL' / 'Invested') * 100
     combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100).round(2)
-    #combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
     combined_df['PL%_H'] = (combined_df['PnL_H'] / combined_df['Invested']) * 100
-    #combined_df['PL%_H'] = ((combined_df['PnL_H'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
-    # Calculate 'Yvalue' column as 'qty' * 'close'
     combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
-    # Calculate 'dPnL' column as 'close_price' - 'ltp'
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
-    # Calculate 'dPL%' column as ('dPnL' / 'Invested') * 100
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 ###########################################################################################################################################################################################################    
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
