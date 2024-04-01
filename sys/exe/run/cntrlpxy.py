@@ -410,87 +410,67 @@ try:
     options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)    
     options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
 ###########################################################################################################################################################################################################   
-    from mktrndpxy import get_market_status_for_symbol
-    importlib.reload(sys.modules['mktrndpxy'])
-    nmktpxy = get_market_status_for_symbol('^NSEI')
-    bmktpxy = get_market_status_for_symbol('^NSEBANK')
-    fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
-    mmktpxy = get_market_status_for_symbol('NIFTY_MID_SELECT.NS')
-    from mktpxy import get_market_check
-    importlib.reload(sys.modules['mktpxy'])  # Correct the usage
-    onemincandlesequance, mktpxy = get_market_check('^NSEI')
-    # Define the CSV file path
-    csv_file_path = "filePnL.csv"
-    csv_file_path_nrml = 'filePnL_nrml.csv'
-    # Create an empty list to store the rows that meet the condition
-    selected_rows = []
-    # Loop through the DataFrame and place orders based on conditions
-    if nse_power < 1 :
-        try:
-            for index, row in EXE_df.iterrows():
-                excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
-                key = row['key']  # Get the 'key' value
-                symbol_in_order = row['key'].split(":")[1]
-                # Check the common conditions first
+from mktpxy import get_market_check
+importlib.reload(sys.modules['mktpxy'])
+onemincandlesequance, mktpxy = get_market_check('^NSEI')
+csv_file_path = "filePnL.csv"
+csv_file_path_nrml = 'filePnL_nrml.csv'
+selected_rows = []
+if nse_power < 1:
+    try:
+        for index, row in EXE_df.iterrows():
+            excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
+            key = row['key']
+            symbol_in_order = row['key'].split(":")[1]
+            if (
+                row['key'] not in excluded_keys and
+                row['open'] > 0 and
+                row['high'] > 0 and
+                row['low'] > 0 and
+                row['close'] > 0 and
+                row['ltp'] != 0
+            ):
                 if (
-                    row['key'] not in excluded_keys and
-                    row['open'] > 0 and
-                    row['high'] > 0 and
-                    row['low'] > 0 and
-                    row['close'] > 0 and
-                    row['ltp'] != 0                   
-                ):                            
-###########################################################################################################################################################################################################                    
-                    if (
-                        (row['qty'] > 0 and
-                         row['avg'] != 0 and
-                         nse_power < 0.9 and
-                         row['product'] == 'CNC' and
-                         row['PL%'] > 1.4 ) and
-                        (
-                            (row['PL%'] > row['tPL%'])
-                        )
-                    ):
-                        try:                            
-                            is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                # Print the row before placing the order
-                                print(row)                                
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
-                        except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-###########################################################################################################################################################################################################     
-                    elif (
-                        (row['qty'] > 0 and
-                         row['avg'] != 0 and
-                         available_cash > 20000 and
-                         nse_power < 0.1 and
-                         mktpxy in ['Buy', 'Bull'] and
-                         row['PL%'] < -74)
-                    ):
-                        try:                            
-                            is_placed = stocks_avg_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                # Print the row before placing the order
-                                print(row['key'])                                
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
-                        except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-        except Exception as e:
-            # Handle any other exceptions that may occur during the loop
-            print(f"An unexpected error occurred: {e}")        
+                    (row['qty'] > 0 and
+                     row['avg'] != 0 and
+                     nse_power < 0.9 and
+                     row['product'] == 'CNC' and
+                     row['PL%'] > 1.4) and
+                    (
+                        (row['PL%'] > row['tPL%'])
+                    )
+                ):
+                    try:
+                        is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                        if is_placed:
+                            print(row)
+                    except InputException as e:
+                        print(f"An error occurred while placing an order for key {key}: {e}")
+                    except Exception as e:
+                        print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+                elif (
+                    (row['qty'] > 0 and
+                     row['avg'] != 0 and
+                     available_cash > 20000 and
+                     nse_power < 0.1 and
+                     mktpxy in ['Buy', 'Bull'] and
+                     row['PL%'] < -74)
+                ):
+                    try:
+                        is_placed = stocks_avg_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                        if is_placed:
+                            print(row['key'])
+                    except InputException as e:
+                        print(f"An error occurred while placing an order for key {key}: {e}")
+                    except Exception as e:
+                        print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
     if not stocks_filtered_df.empty:
         print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
     else:
         print(YELLOW +".............no stocks reached target yet."+ RESET)
-###########################################################################################################################################################################################################
     print("━" * 42)
 ###########################################################################################################################################################################################################
     if not options_filtered_df.empty:
@@ -530,7 +510,6 @@ try:
             print(YELLOW +"..............no options yet in the swing."+ RESET)
     else:
         print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
-
 ###########################################################################################################################################################################################################
 except Exception as e:
     remove_token(dir_path)
