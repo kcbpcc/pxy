@@ -485,12 +485,14 @@ try:
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
 
 ###########################################################################################################################################################################################################
-    if not stocks_filtered_df.empty:
-        # Uncomment the lines below if you want to print some headers or formatting
-        # print("━" * 42)
-        # print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
-        # print("━" * 42)
-        print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
+    try:
+        # Your code here
+        if not stocks_filtered_df.empty:
+            print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
+    except Exception as e:
+        # Handle the exception here
+        print(f"An error occurred: {e}")
+
 ###########################################################################################################################################################################################################
     print("━" * 42)
 ###########################################################################################################################################################################################################
