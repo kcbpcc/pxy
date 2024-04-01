@@ -192,16 +192,8 @@ try:
     macd = calculate_macd_signal("^NSEI")
     random_message = get_random_spiritual_message()
     switch = analyze_stock()
-    #from ordpxy import get_open_order_status
-    # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
-    #from telpxy import send_telegram_message
-    #csv_file_path = "filePnL.csv"
-    #total_profit_main = process_csv(csv_file_path)
-    #SILVER = "\033[97m"
-    #UNDERLINE = "\033[4m"
-    #RESET = "\033[0m"
     logging.debug("Are we having any holdings to check")
     holdings_response = broker.kite.holdings()
     positions_response = broker.kite.positions()['net']
