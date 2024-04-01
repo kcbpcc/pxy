@@ -11,8 +11,12 @@ from colorama import Fore, Style
 import csv
 import telegram
 import asyncio
+import pandas as pd  # Added import for pandas
+
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
+csv_file_path = 'filePnL.csv'  # Define csv_file_path variable
+
 ###########################################################################################################################################################################################################
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 logging = Logger(30, dir_path + "main.log")
@@ -24,7 +28,7 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
-file_path = 'filePnL.csv'
+
 ###########################################################################################################################################################################################################
 def get_open_order_status(symbol):
     try:
@@ -37,6 +41,7 @@ def get_open_order_status(symbol):
         logging.error(f"{str(e)} unable to get orders")
         sys.exit(1)
     return "NO"  # No open orders found for the symbol
+
 ###########################################################################################################################################################################################################
 def stocks_sell_order_place(index, row):
     try:
@@ -60,8 +65,6 @@ def stocks_sell_order_place(index, row):
                     csvwriter = csv.writer(csvfile)
                     csvwriter.writerow(row.tolist())  # Write the selected row to the CSV file
                     try:
-                        import telegram
-                        import asyncio
                         columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
@@ -75,12 +78,12 @@ def stocks_sell_order_place(index, row):
                         async def send_telegram_message(message_text):
                             bot = telegram.Bot(token=bot_token)
                             await bot.send_message(chat_id=user_usernames, text=message_text)
+                        # Send the 'row' content as a message to Telegram immediately after printing the row
+                        loop = asyncio.get_event_loop()
+                        await loop.run_until_complete(send_telegram_message(message_text))
                     except Exception as e:
                         # Handle the exception (e.g., log it) and continue with your code
                         print(f"Error sending message to Telegram: {e}")
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
-                    loop = asyncio.get_event_loop()
-                    loop.run_until_complete(send_telegram_message(message_text))
                 return True                
             else:
                 logging.error("Order placement failed")       
@@ -90,6 +93,7 @@ def stocks_sell_order_place(index, row):
         #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
+
 ###########################################################################################################################################################################################################
 def stocks_avg_order_place(index, row):
     try:
@@ -141,6 +145,7 @@ def stocks_avg_order_place(index, row):
         # print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
+
 ###########################################################################################################################################################################################################
 def get_holdingsinfo(resp_list, broker):
     try:
@@ -150,6 +155,7 @@ def get_holdingsinfo(resp_list, broker):
     except Exception as e:
         print(f"An error occurred in holdings: {e}")
         return None
+
 def get_positionsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
@@ -158,6 +164,7 @@ def get_positionsinfo(resp_list, broker):
     except Exception as e:
         print(f"An error occurred in positions: {e}")
         return None
+
 ###########################################################################################################################################################################################################
 try:
     import sys
