@@ -527,7 +527,7 @@ try:
                     color_code = RESET
                 print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
         else:
-            print("..............no options yet in the swing.")
+            print(YELLOW +"..............no options yet in the swing."+ RESET)
     else:
         print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
 
