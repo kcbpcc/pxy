@@ -36,12 +36,12 @@ def get_open_order_status(symbol):
         orders = broker.kite.orders()
         for order in orders:
             if order['status'] == 'OPEN' and order['tradingsymbol'] == symbol:
-                return "YES"  # There is at least one open order for the symbol
+                return "YES"  
     except Exception as e:
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get orders")
         sys.exit(1)
-    return "NO"  # No open orders found for the symbol
+    return "NO"  
 ###########################################################################################################################################################################################################
 def stocks_sell_order_place(index, row):
     try:
@@ -60,30 +60,24 @@ def stocks_sell_order_place(index, row):
             )
             if order_id:
                 logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
-                # Write the row to the CSV file here
                 with open(csv_file_path, 'a', newline='') as csvfile:
                     csvwriter = csv.writer(csvfile)
-                    csvwriter.writerow(row.tolist())  # Write the selected row to the CSV file
+                    csvwriter.writerow(row.tolist())  
                     try:
                         import telegram
                         import asyncio
                         columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
-                        # Dropping specified columns from the row
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
                         message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
-                        # Define the bot token and your Telegram username or ID
-                        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
-                        user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
-                        # Function to send a message to Telegram
+                        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
+                        user_usernames = ('-4136531362') 
                         async def send_telegram_message(message_text):
                             bot = telegram.Bot(token=bot_token)
                             await bot.send_message(chat_id=user_usernames, text=message_text)
                     except Exception as e:
-                        # Handle the exception (e.g., log it) and continue with your code
                         print(f"Error sending message to Telegram: {e}")
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
                     loop = asyncio.get_event_loop()
                     loop.run_until_complete(send_telegram_message(message_text))
                 return True                
@@ -92,14 +86,12 @@ def stocks_sell_order_place(index, row):
         else:
             logging.error("Invalid format for 'index'")    
     except Exception as e:
-        #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
 ###########################################################################################################################################################################################################
 def stocks_avg_order_place(index, row):
     try:
         exchsym = str(index).split(":")
-        # Check existing positions
         positions_response = broker.kite.positions()
         open_positions = positions_response.get('net', [])
         existing_position = next((position for position in open_positions if position['tradingsymbol'] == exchsym[1]), None)
@@ -108,7 +100,6 @@ def stocks_avg_order_place(index, row):
             return True
         if len(exchsym) >= 2 :
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
-            # Calculate quantity based on the value of 5000
             qty = 5000 // row['ltp']
             qty = int(qty)  # Remove decimals
             order_id = broker.order_place(
@@ -123,27 +114,21 @@ def stocks_avg_order_place(index, row):
             )
             if order_id:
                 logging.info(f"BUY {order_id} placed for {exchsym[1]} successfully")
-                # No need to calculate remaining available cash in this case
                 try:
                     message_text = f"{row['ltp']} \nhttps://www.tradingview.com/chart/?symbol={exchsym[1]}"
-                    # Define the bot token and your Telegram username or ID
-                    bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
-                    user_id = '-4135910842'  # Replace with your Telegram user ID
-                    # Function to send a message to Telegram
+                    bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'
+                    user_id = '-4135910842' 
                     async def send_telegram_message(message_text):
                         bot = telegram.Bot(token=bot_token)
                         await bot.send_message(chat_id=user_id, text=message_text)
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
                     asyncio.run(send_telegram_message(message_text))
                 except Exception as e:
-                    # Handle the exception (e.g., log it) and continue with your code
                     print(f"Error sending message to Telegram: {e}")
-                return exchsym[1], remaining_cash  # Define remaining_cash appropriately
+                return exchsym[1], remaining_cash 
             return True
         else:
             logging.error("Order placement failed")
     except Exception as e:
-        # print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
 ###########################################################################################################################################################################################################
