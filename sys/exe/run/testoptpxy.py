@@ -7,8 +7,9 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
 from datetime import datetime, timedelta
-from thuoptpxy import get_this_thursday, construct_symbol, place_order
+from thuoptpxy import get_this_thursday, construct_symbol
 from chkoptpxy import check_existing_positions
+from ordoptpxy import place_order
 
 async def main():
     try:
