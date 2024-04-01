@@ -43,7 +43,7 @@ def get_open_order_status(symbol):
     return "NO"  # No open orders found for the symbol
 
 ###########################################################################################################################################################################################################
-def stocks_sell_order_place(index, row):
+async def stocks_sell_order_place(index, row):  # Define the function as async
     try:
         exchsym = str(index).split(":")
         if len(exchsym) >= 2:
@@ -79,8 +79,7 @@ def stocks_sell_order_place(index, row):
                             bot = telegram.Bot(token=bot_token)
                             await bot.send_message(chat_id=user_usernames, text=message_text)
                         # Send the 'row' content as a message to Telegram immediately after printing the row
-                        loop = asyncio.get_event_loop()
-                        await loop.run_until_complete(send_telegram_message(message_text))
+                        await send_telegram_message(message_text)  # Use await here
                     except Exception as e:
                         # Handle the exception (e.g., log it) and continue with your code
                         print(f"Error sending message to Telegram: {e}")
