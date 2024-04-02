@@ -503,7 +503,7 @@ try:
     RESET = "\033[0m"
     YELLOW = "\033[93m"
     
-    # Assuming options_filtered_df is already defined
+    # Assuming options_filtered_df and combined_df are already defined
     if not options_filtered_df.empty:
         filtered_df = options_filtered_df.copy()
         if not filtered_df.empty:
@@ -518,12 +518,13 @@ try:
             filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] += ' 🟥'
             filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] += ' 🟩'
             
-            # Define 'm2m' column in filtered_df
+            # Merge 'm2m' column into 'filtered_df' from 'combined_df' based on common key values
             if 'm2m' in combined_df.columns:
                 try:
                     filtered_df = pd.merge(filtered_df, combined_df[['key', 'm2m']], on='key', how='left')
                 except KeyError:
                     print("Error: 'm2m' column not found in combined_df.")
+            
             filtered_df = filtered_df.sort_values(by='PL%')
     
             for index, row in filtered_df.iterrows():
@@ -533,30 +534,14 @@ try:
                     filtered_df.at[index, 'product'] = '⏰'
     
             # Format and print the data
-            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL', 'm2m']].to_string(index=False, header=False).split('\n')
+            formatted_lines = filtered_df.to_string(index=False, header=False).split('\n')
             max_width = 42
             for line in formatted_lines:
-                values = line.split()
-                pnl_value_str = values[-1]  # Assuming 'm2m' is the last column
-                try:
-                    pnl_value = float(pnl_value_str)
-                except ValueError:
-                    pnl_value = None
-                if pnl_value is not None:
-                    if pnl_value > 0:
-                        color_code = GREEN
-                    elif pnl_value < 0:
-                        color_code = RED
-                    else:
-                        color_code = RESET
-                else:
-                    color_code = RESET
-                print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
+                print(line)
         else:
             print(YELLOW + "..............no options yet in the swing." + RESET)
     else:
         print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
-
 
 ###########################################################################################################################################################################################################
 
