@@ -460,7 +460,7 @@ try:
                             ((row['PL%'] > row['tPL%']) and (row['PL%'] > 200))
                         )
                     ):
-                         try:                            
+                        try:
                             is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
