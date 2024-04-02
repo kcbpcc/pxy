@@ -40,9 +40,9 @@ def printbord(total_m2m, optpxy, Day_Change, result, total_PnL_percentage, total
                         right_aligned_format.format(f"Value:{BRIGHT_YELLOW}{round(all_Stocks_worth_lacks, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Day Delta:{BRIGHT_GREEN if ydaypnl_to_print >= 0 else BRIGHT_RED}{int(ydaypnl_to_print*100000)}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if total_dPnL >= 0 else BRIGHT_RED}{round((total_dPnL), 2)}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if total_m2m >= 0 else BRIGHT_RED}{str(int(total_m2m)).zfill(5)}{RESET}") +
-                        right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{str(round(result)).zfill(5)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
+                        right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{str(round(result)).zfill(5)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if total_m2m >= 0 else BRIGHT_RED}{str(int(total_m2m)).zfill(5)}{RESET}") +
                         right_aligned_format.format(f"Profits:{BRIGHT_GREEN if (total_m2m+result) > 0 else BRIGHT_RED}{str(int((total_m2m+result))).zfill(5)}{RESET}"))
   
     #print("━" * 42)  # Print another line of 42 dashes           
