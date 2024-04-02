@@ -499,7 +499,7 @@ try:
         if not combined_df.empty:
             m2m_index = combined_df.columns.get_loc('m2m')
             filtered_df = options_filtered_df.copy()
-            filtered_df['m2m'] = combined_df.iloc[:, m2m_index]
+            filtered_df['m2m'] = combined_df.iloc[:, m2m_index].astype(int)
             if not filtered_df.empty:
                 # Apply transformations
                 filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
