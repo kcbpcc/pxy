@@ -513,7 +513,7 @@ try:
             # Convert 'PL%' column to integers
             filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
             # Replace 'BANKNIFTY24' with 'BKFTY24' in 'key' column
-            filtered_df['key'] = filtered_df['key'].str.replace('BANKNIFTY24', 'BKFTY24')
+            filtered_df['key'] = filtered_df['key'].str.replace('NIFTY', 'N')
             # Sort DataFrame by 'PL%' column
             filtered_df = filtered_df.sort_values(by='PL%')
             # Replace row values in 'product' column
