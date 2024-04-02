@@ -519,8 +519,11 @@ try:
             filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] += ' 🟩'
             
             # Define 'm2m' column in filtered_df
-            m2m_index = filtered_df.columns.get_loc('m2m')
-    
+            if 'm2m' in combined_df.columns:
+                try:
+                    filtered_df = pd.merge(filtered_df, combined_df[['key', 'm2m']], on='key', how='left')
+                except KeyError:
+                    print("Error: 'm2m' column not found in combined_df.")
             filtered_df = filtered_df.sort_values(by='PL%')
     
             for index, row in filtered_df.iterrows():
