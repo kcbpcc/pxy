@@ -498,8 +498,11 @@ try:
     if not options_filtered_df.empty:
         if not combined_df.empty:
             m2m_index = combined_df.columns.get_loc('m2m')
+            # Replace non-finite values with a default value (e.g., 0)
             filtered_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
-            filtered_df['m2m'] = combined_df.iloc[:, m2m_index].astype(int)
+            # Convert the column to integers
+            filtered_df['m2m'] = filtered_df['m2m'].astype(int)
+            # Copy options_filtered_df to filtered_df
             filtered_df = options_filtered_df.copy()
             if not filtered_df.empty:
                 # Apply transformations
