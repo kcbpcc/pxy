@@ -494,16 +494,14 @@ try:
 ###########################################################################################################################################################################################################
     print("━" * 42)
 ###########################################################################################################################################################################################################
-    if not options_filtered_df.empty:
-        filtered_df = options_filtered_df.copy()
+   if not options_filtered_df.empty:
+        filtered_df = options_filtered_df[options_filtered_df['qty'] != 0].copy()
         if not filtered_df.empty:
             filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
             import pandas as pd
             import numpy as np
-            filtered_df['key'] = filtered_df['key'].str.replace('NIFTY', 'N')
             filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
-            filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] += ' 🟥'
-            filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] += ' 🟩'
+            filtered_df['key'] = filtered_df['key'].str.replace('BANKNIFTY24', 'BKFTY24')
             filtered_df = filtered_df.sort_values(by='PL%')
             for index, row in filtered_df.iterrows():
                 if row['product'] == 'MIS':
