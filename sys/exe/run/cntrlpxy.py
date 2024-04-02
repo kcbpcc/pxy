@@ -511,8 +511,8 @@ try:
                 # Convert 'PL%' column to integer
                 filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
     
-                filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] += ' 🟥'
-                filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] += ' 🟩'
+                filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] = '🟥 ' + filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key']
+                filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] = '🟩 ' + filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key']
 
                 filtered_df = filtered_df.sort_values(by='PL%')
     
@@ -522,7 +522,7 @@ try:
                     elif row['product'] == 'NRML':
                         filtered_df.at[index, 'product'] = '⏰'
     
-                formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PnL','m2m']].to_string(index=False, header=False).split('\n')
+                formatted_lines = filtered_df[['key', 'Invested', 'qty', 'PnL','m2m']].to_string(index=False, header=False).split('\n')
                 max_width = 42
                 for line in formatted_lines:
                     values = line.split()
