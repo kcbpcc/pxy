@@ -53,6 +53,10 @@ def get_current_acvalue():
 
         ydaypnl = current_acvalue - latest_acvalue
 
+        print("Current AC Value:", current_acvalue)
+        print("Latest AC Value:", latest_acvalue)
+        print("Yesterday's PNL:", ydaypnl)
+
         return current_acvalue, ydaypnl
     else:
         # Handle the case when a record for the current date doesn't exist
