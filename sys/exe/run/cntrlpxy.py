@@ -273,7 +273,7 @@ try:
 ###########################################################################################################################################################################################################    
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
-    filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) & combined_df['key'].str.startswith('NFO')) | ((combined_df['product'].isin(['CNC', 'MIS'])) & (combined_df['qty'] != 0))]
+    filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) | ((combined_df['product'] == 'CNC') & (combined_df['qty'] > 0)))]
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
     total_PnL = round(combined_df_positive_qty['PnL'].sum())
     total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
@@ -387,7 +387,7 @@ try:
     print("━" * 42)
 ###########################################################################################################################################################################################################
     if not options_filtered_df.empty:
-        filtered_df = options_filtered_df[options_filtered_df['qty'] != 0].copy()
+        filtered_df = options_filtered_df.copy()
         if not filtered_df.empty:
             filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
             import pandas as pd
