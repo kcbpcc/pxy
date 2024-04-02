@@ -271,10 +271,13 @@ try:
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 ###########################################################################################################################################################################################################    
+    import pandas as pd
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
     filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) | ((combined_df['product'] == 'CNC') & (combined_df['qty'] > 0)))]
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
+    filtered_df['PL%'] = filtered_df['PL%'].fillna(0)
+    filtered_df['PL%'] = filtered_df['PL%'].astype(int)
     total_PnL = round(combined_df_positive_qty['PnL'].sum())
     total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
     stocks_buy_df = combined_df.loc[(combined_df['product'] == "CNC") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
