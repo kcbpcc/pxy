@@ -51,7 +51,6 @@ while True:
     #subprocess.run(['python3', 'buyboptpxy.py']) if peak == 'NONPEAK' else None 
     subprocess.run(['python3', 'buypxy.py']) if peak != 'PEAKSTART' and Open_Change > 0 else None
     subprocess.run(['python3', 'prftpxy.py'])
-    subprocess.run(['python3', 'nrmlprftpxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py']) 
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py'])
