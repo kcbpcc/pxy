@@ -1,8 +1,5 @@
 import csv
-from datetime import datetime, timedelta
-import time
-import subprocess
-
+from datetime import datetime
 
 CSV_FILENAME = 'acvalue.csv'
 
@@ -30,6 +27,7 @@ def process_acvalue(acvalue):
             writer.writerows(rows)
     else:
         pass
+
 def get_current_acvalue():
     try:
         with open(CSV_FILENAME, mode='r') as csvfile:
@@ -46,15 +44,14 @@ def get_current_acvalue():
     if record_exists:
         current_acvalue = float([row['acvalue'] for row in rows if row['date'] == current_date][0])
 
-        # Find the previous record date
-        previous_dates = [row['date'] for row in rows if row['date'] < current_date]
-        if previous_dates:
-            latest_previous_date = max(previous_dates)
-            latest_previous_acvalue = float([row['acvalue'] for row in rows if row['date'] == latest_previous_date][0])
+        # Find the most recent record date
+        if rows:
+            latest_date = max(row['date'] for row in rows)
+            latest_acvalue = float([row['acvalue'] for row in rows if row['date'] == latest_date][0])
         else:
-            latest_previous_acvalue = 0  # or handle it according to your logic
+            latest_acvalue = 0  # or handle it according to your logic
 
-        ydaypnl = current_acvalue - latest_previous_acvalue
+        ydaypnl = current_acvalue - latest_acvalue
 
         return current_acvalue, ydaypnl
     else:
@@ -69,15 +66,4 @@ def get_current_acvalue():
             # Handle the case when the file is empty
             # print("CSV file is empty. Unable to retrieve latest data.")
             return 0, 0
-    else:
-        # Handle the case when a record for the current date doesn't exist
-        if rows:
-            # Assuming rows is a list of dictionaries with 'date' and 'acvalue' keys
-            latest_row = max(rows, key=lambda row: row['date'])
-            latest_acvalue = float(latest_row['acvalue'])
 
-            return latest_acvalue, 0
-        else:
-            # Handle the case when the file is empty
-            # print("CSV file is empty. Unable to retrieve latest data.")
-            return 0, 0
