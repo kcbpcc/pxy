@@ -67,7 +67,7 @@ def stocks_sell_order_place(index, row):
                     try:
                         import telegram
                         import asyncio
-                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PL%_H', 'dPL%', 'pxy','yxp']
+                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'm2m', 'dPL%', 'pxy','yxp']
                         # Dropping specified columns from the row
                         for column in columns_to_drop:
                             if column in row:
@@ -315,8 +315,8 @@ try:
     # Calculate 'PL%' column as ('PnL' / 'Invested') * 100
     combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100).round(2)
     #combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
-    combined_df['PL%_H'] = (combined_df['PnL_H'] / combined_df['Invested']) * 100
-    #combined_df['PL%_H'] = ((combined_df['PnL_H'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
+    combined_df['m2m'] = (combined_df['PnL_H'] / combined_df['Invested']) * 100
+    #combined_df['m2m'] = ((combined_df['PnL_H'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
     # Calculate 'Yvalue' column as 'qty' * 'close'
     combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
     # Calculate 'dPnL' column as 'close_price' - 'ltp'
@@ -325,7 +325,7 @@ try:
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
-    numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
+    numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','m2m', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)        # Filter combined_df
     filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) & combined_df['key'].str.startswith('NFO')) | ((combined_df['product'].isin(['CNC', 'MIS'])) & (combined_df['qty'] != 0))]
     # Filter combined_df for rows where 'qty' is greater than 0
@@ -364,10 +364,10 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     #print(f"DataFrame has been saved to {lstchk_file}")
     # Create a copy of 'filtered_df' and select specific columns
-    pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','otPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','PL%_H', 'PL%']]
+    pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','otPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL','m2m', 'PL%']]
     pxy_df['avg'] =filtered_df['average_price']
     # Create a copy for just printing 'filtered_df' and select specific columns
-    EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','otPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'PL%_H', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
+    EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','otPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'm2m', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
     PRINT_df = pxy_df[pxy_df['qty'] > 0][['source', 'product', 'key', 'tPL%', 'PL%', 'PnL', 'smb_power']]
     # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'product': '_CM', 'smb_power': 'TR','key': 'key','dPL%': 'dPL%'})
