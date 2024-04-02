@@ -1,8 +1,35 @@
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
+import subprocess
+
 
 CSV_FILENAME = 'acvalue.csv'
 
+def process_acvalue(acvalue):
+    current_date = datetime.utcnow().strftime('%Y-%m-%d')
+
+    try:
+        with open(CSV_FILENAME, mode='r') as csvfile:
+            reader = csv.DictReader(csvfile)
+            rows = list(reader)
+    except Exception as e:
+        # Handle the exception (e.g., log an error message)
+        print(f"Error reading CSV file: {e}")
+        return
+
+    record_exists = any(row['date'] == current_date for row in rows)
+
+    if not record_exists:
+        rows.append({'date': current_date, 'acvalue': acvalue})
+    
+        with open(CSV_FILENAME, mode='w', newline='') as csvfile:
+            fieldnames = ['date', 'acvalue']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+    else:
+        pass
 def get_current_acvalue():
     try:
         with open(CSV_FILENAME, mode='r') as csvfile:
@@ -30,6 +57,18 @@ def get_current_acvalue():
         ydaypnl = current_acvalue - latest_previous_acvalue
 
         return current_acvalue, ydaypnl
+    else:
+        # Handle the case when a record for the current date doesn't exist
+        if rows:
+            # Assuming rows is a list of dictionaries with 'date' and 'acvalue' keys
+            latest_row = max(rows, key=lambda row: row['date'])
+            latest_acvalue = float(latest_row['acvalue'])
+
+            return latest_acvalue, 0
+        else:
+            # Handle the case when the file is empty
+            # print("CSV file is empty. Unable to retrieve latest data.")
+            return 0, 0
     else:
         # Handle the case when a record for the current date doesn't exist
         if rows:
