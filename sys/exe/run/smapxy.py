@@ -2,21 +2,22 @@ import yfinance as yf
 import warnings
 
 def check_index_status(index_symbol):
-    # Retrieve historical price data for the given index
+    # Download historical data
     data = yf.Ticker(index_symbol).history(period="5d", interval="1m")
 
-    # Calculate the 100-day SMA of the index
-    sma_50_index = data['Close'].rolling(window=50).mean()
+    # Calculate SMA
+    data['50SMA'] = data['Close'].rolling(window=50).mean()
+    data['200SMA'] = data['Close'].rolling(window=200).mean()
 
-    # Get the present index close
-    present_index_close = data['Close'].iloc[-1]
+    # Get the last values of SMA and current price
+    last_50sma = data['50SMA'].iloc[-1]
+    last_200sma = data['200SMA'].iloc[-1]
+    current_price = data['Close'].iloc[-1]
 
-    # Suppress FutureWarning temporarily for this section
-    with warnings.catch_warnings():
-        warnings.simplefilter(action='ignore', category=FutureWarning)
-
-        # Compare present index close with 100-day SMA of the index
-        if present_index_close > sma_50_index.iloc[-1]:
-            return "up"
-        else:
-            return "down"
+    # Check trend
+    if current_price > last_50sma and last_50sma > last_200sma:
+        return "up"
+    elif current_price < last_50sma and last_50sma < last_200sma:
+        return "down"
+    else:
+        return "side"
