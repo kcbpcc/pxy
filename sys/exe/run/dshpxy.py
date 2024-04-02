@@ -28,7 +28,7 @@ def get_holdingsinfo(combined_df):
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
         # Filter rows where 'key' column contains "NFO:"
         nfom2m_df = selected_holdings_df[selected_holdings_df['key'].str.contains("NFO:")]
-        
+        print(df_combined[['key', 'm2m']])
         # Check if there are any non-numeric values in 'm2m' column
         non_numeric_m2m = nfom2m_df[~nfom2m_df['m2m'].apply(lambda x: str(x).replace('.', '').isdigit())]
         print("Rows with non-numeric 'm2m' values:")
