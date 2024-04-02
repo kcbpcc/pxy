@@ -315,23 +315,13 @@ try:
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     # Calculate 'dPL%' column as ('dPnL' / 'Invested') * 100
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
+###########################################################################################################################################################################################################
     if not combined_df.empty:
-        # Get the index of the 'm2m' column
         m2m_index = combined_df.columns.get_loc('m2m')
-        
-        # Replace non-finite values with a default value (e.g., 0) in 'm2m' column
         combined_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
-        
-        # Convert the 'm2m' column to integers
         combined_df['m2m'] = combined_df['m2m'].astype(int)
-        
-        # Filter the DataFrame where source is 'positions' and qty is greater than 0
         m2m_filtered_df = combined_df[(combined_df['source'] == 'positions') & (combined_df['qty'] > 0)]
-        
-        # Sum up the 'm2m' values for the filtered DataFrame
         total_m2m = m2m_filtered_df['m2m'].sum()
-        
-        # Print the total m2m
         print("Total m2m for rows where source is 'positions' and qty > 0:", total_m2m)
     else:
         print(YELLOW + "Combined DataFrame is empty." + RESET)
