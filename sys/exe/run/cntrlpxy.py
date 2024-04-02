@@ -321,8 +321,7 @@ try:
         combined_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
         combined_df['m2m'] = combined_df['m2m'].astype(int)
         m2m_filtered_df = combined_df[(combined_df['source'] == 'positions') & (combined_df['qty'] > 0)]
-        total_m2m = m2m_filtered_df['m2m'].sum()
-        print("Total m2m for rows where source is 'positions' and qty > 0:", total_m2m)
+        total_postions_m2m = m2m_filtered_df['m2m'].sum()
     else:
         print(YELLOW + "Combined DataFrame is empty." + RESET)
 ###########################################################################################################################################################################################################    
@@ -354,7 +353,7 @@ try:
     from dshpxy import get_holdingsinfo
     total_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
     from bordpxy import printbord
-    printbord(total_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
+    printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_stocks_buy, total_PnL_options_buy, available_cash,
              nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma)
 ###########################################################################################################################################################################################################
