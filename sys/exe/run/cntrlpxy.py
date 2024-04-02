@@ -390,7 +390,7 @@ try:
     print("━" * 42)
 ###########################################################################################################################################################################################################
     if not options_filtered_df.empty:
-        filtered_df = options_filtered_df.copy()
+        filtered_df = options_filtered_df[options_filtered_df['qty'] != 0].copy()
         if not filtered_df.empty:
             filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
             import pandas as pd
