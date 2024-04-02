@@ -1,36 +1,7 @@
 import csv
-from datetime import datetime, timedelta
-import time
-import subprocess
-
+from datetime import datetime
 
 CSV_FILENAME = 'acvalue.csv'
-
-def process_acvalue(acvalue):
-    current_date = datetime.utcnow().strftime('%Y-%m-%d')
-
-    try:
-        with open(CSV_FILENAME, mode='r') as csvfile:
-            reader = csv.DictReader(csvfile)
-            rows = list(reader)
-    except Exception as e:
-        # Handle the exception (e.g., log an error message)
-        print(f"Error reading CSV file: {e}")
-        return
-
-    record_exists = any(row['date'] == current_date for row in rows)
-
-    if not record_exists:
-        rows.append({'date': current_date, 'acvalue': acvalue})
-    
-        with open(CSV_FILENAME, mode='w', newline='') as csvfile:
-            fieldnames = ['date', 'acvalue']
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(rows)
-    else:
-        pass
-
 
 def get_current_acvalue():
     try:
@@ -48,15 +19,15 @@ def get_current_acvalue():
     if record_exists:
         current_acvalue = float([row['acvalue'] for row in rows if row['date'] == current_date][0])
 
-        # Find the most recent past date
-        past_dates = [row['date'] for row in rows if row['date'] < current_date]
-        if past_dates:
-            latest_past_date = max(past_dates)
-            yesterday_acvalue = float([row['acvalue'] for row in rows if row['date'] == latest_past_date][0])
+        # Find the previous record date
+        previous_dates = [row['date'] for row in rows if row['date'] < current_date]
+        if previous_dates:
+            latest_previous_date = max(previous_dates)
+            latest_previous_acvalue = float([row['acvalue'] for row in rows if row['date'] == latest_previous_date][0])
         else:
-            yesterday_acvalue = 0  # or handle it according to your logic
+            latest_previous_acvalue = 0  # or handle it according to your logic
 
-        ydaypnl = current_acvalue - yesterday_acvalue
+        ydaypnl = current_acvalue - latest_previous_acvalue
 
         return current_acvalue, ydaypnl
     else:
@@ -71,4 +42,3 @@ def get_current_acvalue():
             # Handle the case when the file is empty
             # print("CSV file is empty. Unable to retrieve latest data.")
             return 0, 0
-
