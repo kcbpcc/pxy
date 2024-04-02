@@ -66,7 +66,7 @@ def stocks_sell_order_place(index, row):
                     try:
                         import telegram
                         import asyncio
-                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'm2m', 'dPL%', 'pxy','yxp']
+                        columns_to_drop = ['smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'PnL_H', 'dPL%', 'pxy','yxp']
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
@@ -270,12 +270,10 @@ try:
     combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
-    combined_df['m2m'] = combined_df['m2m'].fillna(0).apply(lambda x: 0 if x == '' or x != 0 else x)
 ###########################################################################################################################################################################################################    
     import pandas as pd
-    numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','m2m', 'dPnL', 'dPL%']
+    numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PnL_H', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
-    print(combined_df[['key', 'm2m']])
     filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) | ((combined_df['product'] == 'CNC') & (combined_df['qty'] > 0)))]
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
     filtered_df['PL%'] = filtered_df['PL%'].fillna(0)
@@ -407,7 +405,7 @@ try:
                     filtered_df.at[index, 'product'] = '⌛'
                 elif row['product'] == 'NRML':
                     filtered_df.at[index, 'product'] = '⏰'
-            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL','m2m']].to_string(index=False, header=False).split('\n')
+            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
             max_width = 42
             for line in formatted_lines:
                 values = line.split()
