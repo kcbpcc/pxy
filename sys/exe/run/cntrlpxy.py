@@ -519,7 +519,7 @@ try:
             filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] += ' 🟩'
             
             # Define 'm2m' column in filtered_df
-            filtered_df['m2m'] = combined_df.set_index('key')['m2m'].reindex(filtered_df['key']).values
+            m2m_index = filtered_df.columns.get_loc('m2m')
     
             filtered_df = filtered_df.sort_values(by='PL%')
     
