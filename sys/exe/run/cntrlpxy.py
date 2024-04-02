@@ -390,7 +390,7 @@ try:
     print("━" * 42)
 ###########################################################################################################################################################################################################
     if not options_filtered_df.empty:
-        filtered_df = options_filtered_df[options_filtered_df['qty'] != 0].copy()
+        filtered_df = options_filtered_df.copy()
         if not filtered_df.empty:
             filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
             import pandas as pd
@@ -405,7 +405,7 @@ try:
                     filtered_df.at[index, 'product'] = '⌛'
                 elif row['product'] == 'NRML':
                     filtered_df.at[index, 'product'] = '⏰'
-            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%','m2m' 'PnL']].to_string(index=False, header=False).split('\n')
             max_width = 42
             for line in formatted_lines:
                 values = line.split()
