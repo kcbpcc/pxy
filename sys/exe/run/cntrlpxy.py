@@ -494,6 +494,15 @@ try:
 ###########################################################################################################################################################################################################
     print("━" * 42)
 ###########################################################################################################################################################################################################
+    import pandas as pd
+    import numpy as np
+    
+    # Define color codes for printing
+    GREEN = "\033[92m"
+    RED = "\033[91m"
+    RESET = "\033[0m"
+    YELLOW = "\033[93m"
+    
     # Assuming options_filtered_df is already defined
     if not options_filtered_df.empty:
         filtered_df = options_filtered_df.copy()
@@ -508,6 +517,9 @@ try:
     
             filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] += ' 🟥'
             filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] += ' 🟩'
+            
+            # Define 'm2m' column in filtered_df
+            filtered_df['m2m'] = combined_df.set_index('key')['m2m'].reindex(filtered_df['key']).values
     
             filtered_df = filtered_df.sort_values(by='PL%')
     
@@ -518,11 +530,11 @@ try:
                     filtered_df.at[index, 'product'] = '⏰'
     
             # Format and print the data
-            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL']].to_string(index=False, header=False).split('\n')
+            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL', 'm2m']].to_string(index=False, header=False).split('\n')
             max_width = 42
             for line in formatted_lines:
                 values = line.split()
-                pnl_value_str = values[-1]
+                pnl_value_str = values[-1]  # Assuming 'm2m' is the last column
                 try:
                     pnl_value = float(pnl_value_str)
                 except ValueError:
@@ -541,6 +553,7 @@ try:
             print(YELLOW + "..............no options yet in the swing." + RESET)
     else:
         print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
+
 
 ###########################################################################################################################################################################################################
 
