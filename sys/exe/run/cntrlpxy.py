@@ -405,7 +405,7 @@ try:
                     filtered_df.at[index, 'product'] = '⌛'
                 elif row['product'] == 'NRML':
                     filtered_df.at[index, 'product'] = '⏰'
-            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%','m2m' 'PnL']].to_string(index=False, header=False).split('\n')
+            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%','m2m', 'PnL']].to_string(index=False, header=False).split('\n')
             max_width = 42
             for line in formatted_lines:
                 values = line.split()
