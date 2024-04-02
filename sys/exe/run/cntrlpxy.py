@@ -494,7 +494,8 @@ try:
 ###########################################################################################################################################################################################################
     print("━" * 42)
 ###########################################################################################################################################################################################################
-    # Assuming options_filtered_df and combined_df are already defined
+    import numpy as np
+    
     if not options_filtered_df.empty:
         if not combined_df.empty:
             m2m_index = combined_df.columns.get_loc('m2m')
@@ -502,55 +503,56 @@ try:
             filtered_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
             # Convert the column to integers
             filtered_df['m2m'] = filtered_df['m2m'].astype(int)
-            # Copy options_filtered_df to filtered_df
-            filtered_df = options_filtered_df.copy()
-            if not filtered_df.empty:
-                # Apply transformations
-                filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
-                filtered_df['key'] = filtered_df['key'].str.replace('NIFTY', 'N')
-    
-                # Replace non-finite values in 'PL%' column with 0
-                filtered_df['PL%'] = filtered_df['PL%'].fillna(0)
-    
-                # Convert 'PL%' column to integer
-                filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
-    
-                filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] = '🟥 ' + filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key']
-                filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] = '🟩 ' + filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key']
-
-                filtered_df = filtered_df.sort_values(by='PL%')
-    
-                for index, row in filtered_df.iterrows():
-                    if row['product'] == 'MIS':
-                        filtered_df.at[index, 'product'] = '⌛'
-                    elif row['product'] == 'NRML':
-                        filtered_df.at[index, 'product'] = '⏰'
-    
-                formatted_lines = filtered_df[['key', 'Invested', 'qty', 'PnL','m2m']].to_string(index=False, header=False).split('\n')
-                max_width = 42
-                for line in formatted_lines:
-                    values = line.split()
-                    pnl_value_str = values[-1]
-                    try:
-                        pnl_value = float(pnl_value_str)
-                    except ValueError:
-                        pnl_value = None
-                    if pnl_value is not None:
-                        if pnl_value > 0:
-                            color_code = GREEN
-                        elif pnl_value < 0:
-                            color_code = RED
-                        else:
-                            color_code = RESET
-                    else:
-                        color_code = RESET
-                    print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
-            else:
-                print(YELLOW + "..............no options yet in the swing." + RESET)
         else:
             print(YELLOW + "Combined DataFrame is empty." + RESET)
     else:
         print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
+    
+    # After ensuring 'm2m' column is added, proceed with the rest of the code
+    if not filtered_df.empty:
+        # Apply transformations
+        filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
+        filtered_df['key'] = filtered_df['key'].str.replace('NIFTY', 'N')
+    
+        # Replace non-finite values in 'PL%' column with 0
+        filtered_df['PL%'] = filtered_df['PL%'].fillna(0)
+    
+        # Convert 'PL%' column to integer
+        filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
+    
+        filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] = '🟥 ' + filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key']
+        filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] = '🟩 ' + filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key']
+    
+        filtered_df = filtered_df.sort_values(by='PL%')
+    
+        for index, row in filtered_df.iterrows():
+            if row['product'] == 'MIS':
+                filtered_df.at[index, 'product'] = '⌛'
+            elif row['product'] == 'NRML':
+                filtered_df.at[index, 'product'] = '⏰'
+    
+        formatted_lines = filtered_df[['key', 'Invested', 'qty', 'PnL','m2m']].to_string(index=False, header=False).split('\n')
+        max_width = 42
+        for line in formatted_lines:
+            values = line.split()
+            pnl_value_str = values[-1]
+            try:
+                pnl_value = float(pnl_value_str)
+            except ValueError:
+                pnl_value = None
+            if pnl_value is not None:
+                if pnl_value > 0:
+                    color_code = GREEN
+                elif pnl_value < 0:
+                    color_code = RED
+                else:
+                    color_code = RESET
+            else:
+                color_code = RESET
+            print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
+    else:
+        print(YELLOW + "..............no options yet in the swing." + RESET)
+
 
 
 ###########################################################################################################################################################################################################
