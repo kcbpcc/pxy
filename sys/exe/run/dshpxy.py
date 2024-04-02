@@ -26,19 +26,10 @@ def get_holdingsinfo(combined_df):
         
         selected_columns = ['tradingsymbol','key', 'm2m', 'product', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
-        # Filter rows where 'key' column contains "NFO:"
         nfom2m_df = combined_df[combined_df['key'].str.contains("NFO:")].copy()
-        
-        # Convert 'm2m' column to numeric, ignoring errors for non-numeric values and empty strings
         nfom2m_df['m2m'] = pd.to_numeric(nfom2m_df['m2m'], errors='coerce')
-        
-        # Replace missing 'm2m' values with 0
         nfom2m_df['m2m'].fillna(0, inplace=True)
-        
-        # Sum 'm2m' values
         total_m2m = nfom2m_df['m2m'].sum()
-        
-        print("Total m2m for rows with 'NFO:' in key:", total_m2m)
     
         selected_holdings_df['cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
         selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
