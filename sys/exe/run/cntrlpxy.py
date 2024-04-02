@@ -505,6 +505,8 @@ try:
     
     # Assuming options_filtered_df and combined_df are already defined
     if not options_filtered_df.empty:
+        m2m_index = combined_df.columns.get_loc('m2m')
+        filtered_df['m2m'] = combined_df.iloc[:, m2m_index]
         filtered_df = options_filtered_df.copy()
         if not filtered_df.empty:
             # Apply transformations
@@ -518,8 +520,7 @@ try:
             filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
     
             # Merge 'm2m' column into 'filtered_df' from 'combined_df' based on common key values
-            m2m_index = combined_df.columns.get_loc('m2m')
-            m2m = combined_df.iloc[:, m2m_index]
+
     
             filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] += ' 🟥'
             filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] += ' 🟩'
