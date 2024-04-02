@@ -54,6 +54,7 @@ def get_current_acvalue():
         ydaypnl = current_acvalue - latest_acvalue
 
         return current_acvalue, ydaypnl
+        print("Yesterday's PNL:", ydaypnl)
     else:
         # Handle the case when a record for the current date doesn't exist
         if rows:
