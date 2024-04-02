@@ -70,6 +70,6 @@ def get_current_acvalue():
 
 # Outside of the function, after calling get_current_acvalue
 current_acvalue, ydaypnl = get_current_acvalue()
-print("Yesterday's PNL:", ydaypnl)
+#print("Yesterday's PNL:", ydaypnl)
 
 
