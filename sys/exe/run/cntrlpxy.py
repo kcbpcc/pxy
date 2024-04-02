@@ -318,7 +318,7 @@ try:
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
     pd.set_option('display.max_colwidth', 1)
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-    stocks_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 1.4 ) & (PRINT_df_sorted_display['_CM'] == '🧰')]
+    stocks_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 0 ) & (PRINT_df_sorted_display['_CM'] == '🧰')]
     options_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['product','Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
     options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)
     options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
