@@ -54,10 +54,11 @@ def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
     for position in positions_net:
-        # Check if 'tradingsymbol' matches and 'quantity' is at least 50
-        if position['tradingsymbol'] == symbol and position['quantity'] >= 50:
+        # Check if 'tradingsymbol' matches and 'quantity' is less than or equal to 50
+        if position['tradingsymbol'] == symbol and position['quantity'] <= 50:
             return True
     return False
+
 
 async def place_order(broker, symbol, transaction_type, product_type, quantity, order_type, price=None):
     try:
