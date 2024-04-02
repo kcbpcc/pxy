@@ -494,55 +494,46 @@ try:
 ###########################################################################################################################################################################################################
     print("━" * 42)
 ###########################################################################################################################################################################################################
-    import pandas as pd
-    import numpy as np
-    
-    # Define color codes for printing
-    GREEN = "\033[92m"
-    RED = "\033[91m"
-    RESET = "\033[0m"
-    YELLOW = "\033[93m"
-    
-    # Assuming options_filtered_df and combined_df are already defined
     if not options_filtered_df.empty:
-        filtered_df = options_filtered_df.copy()
+        filtered_df = options_filtered_df[options_filtered_df['qty'] != 0].copy()
         if not filtered_df.empty:
-            # Apply transformations
             filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
+            import pandas as pd
+            import numpy as np
             filtered_df['key'] = filtered_df['key'].str.replace('NIFTY', 'N')
-            
-            # Handle non-finite values in 'PL%' column
-            filtered_df.replace([np.inf, -np.inf], np.nan, inplace=True)
-            filtered_df['PL%'] = filtered_df['PL%'].astype(float).fillna(0).astype(int)
-    
+            filtered_df['m2m'] = combined_df['m2m']
+            filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
             filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] += ' 🟥'
             filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] += ' 🟩'
-            
-            # Merge 'm2m' column into 'filtered_df' from 'combined_df' based on common key values
-            if 'm2m' in combined_df.columns:
-                try:
-                    filtered_df = pd.merge(filtered_df, combined_df[['key', 'm2m']], on='key', how='left')
-                except KeyError:
-                    print("Error: 'm2m' column not found in combined_df.")
-            
             filtered_df = filtered_df.sort_values(by='PL%')
-    
             for index, row in filtered_df.iterrows():
                 if row['product'] == 'MIS':
                     filtered_df.at[index, 'product'] = '⌛'
                 elif row['product'] == 'NRML':
                     filtered_df.at[index, 'product'] = '⏰'
-    
-            # Format and print the data
-            formatted_lines = filtered_df.to_string(index=False, header=False).split('\n')
+            formatted_lines = filtered_df[['product', 'Invested', 'key', 'qty', 'PL%', 'PnL','m2m']].to_string(index=False, header=False).split('\n')
             max_width = 42
             for line in formatted_lines:
-                print(line)
+                values = line.split()
+                pnl_value_str = values[-1]
+                try:
+                    pnl_value = float(pnl_value_str)
+                except ValueError:
+                    pnl_value = None
+                if pnl_value is not None:
+                    if pnl_value > 0:
+                        color_code = GREEN
+                    elif pnl_value < 0:
+                        color_code = RED
+                    else:
+                        color_code = RESET
+                else:
+                    color_code = RESET
+                print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
         else:
-            print(YELLOW + "..............no options yet in the swing." + RESET)
+            print(YELLOW +"..............no options yet in the swing."+ RESET)
     else:
         print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
-
 ###########################################################################################################################################################################################################
 
 except Exception as e:
