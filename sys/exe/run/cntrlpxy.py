@@ -219,7 +219,6 @@ try:
     combined_df['high'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('high', 0))
     combined_df['low'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('low', 0))
     combined_df['close'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('close_price', 0))
-    combined_df['m2m'] = combined_df['m2m'].map(lambda x: dct.get(x, {}).get('m2m', 0))
     combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
     combined_df['oPL%'] = combined_df.apply(lambda row: (((row['ltp'] - row['open']) / row['open']) * 100) if row['open'] != 0 else 1, axis=1)
     combined_df['_pstp'] = (combined_df['average_price'] *1.01) 
@@ -270,6 +269,7 @@ try:
     combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
+    combined_df['m2m'] = combined_df['m2m']
 ###########################################################################################################################################################################################################    
     import pandas as pd
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%', 'm2m', 'dPnL', 'dPL%']
