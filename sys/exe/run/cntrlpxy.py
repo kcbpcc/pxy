@@ -270,7 +270,7 @@ try:
     combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
-    combined_df['m2m'] = combined_df['m2m']
+    combined_df['m2m'] = combined_df['m2m'].fillna(0).apply(lambda x: 0 if x == '' or x != 0 else x)
 ###########################################################################################################################################################################################################    
     import pandas as pd
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','m2m', 'dPnL', 'dPL%']
