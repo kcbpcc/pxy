@@ -26,8 +26,18 @@ def get_holdingsinfo(combined_df):
         
         selected_columns = ['tradingsymbol','key', 'm2m', 'product', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
+        # Filter rows where 'key' column contains "NFO:"
         nfom2m_df = selected_holdings_df[selected_holdings_df['key'].str.contains("NFO:")]
+        
+        # Check if there are any non-numeric values in 'm2m' column
+        non_numeric_m2m = nfom2m_df[~nfom2m_df['m2m'].apply(lambda x: str(x).replace('.', '').isdigit())]
+        print("Rows with non-numeric 'm2m' values:")
+        print(non_numeric_m2m)
+        
+        # Sum up the 'm2m' values
         total_nfom2m = nfom2m_df['m2m'].sum()
+        
+        print("Total m2m for rows with 'NFO:' in 'key' column:", total_nfom2m)
     
         selected_holdings_df['cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
         selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
