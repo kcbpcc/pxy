@@ -518,11 +518,8 @@ try:
             filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
     
             # Merge 'm2m' column into 'filtered_df' from 'combined_df' based on common key values
-            if 'm2m' in combined_df.columns:
-                try:
-                    filtered_df = pd.merge(filtered_df, combined_df[['key', 'm2m']], on='key', how='left')
-                except KeyError:
-                    print("Error: 'm2m' column not found in combined_df.")
+            m2m_index = combined_df.columns.get_loc('m2m')
+            m2m = combined_df.iloc[:, m2m_index]
     
             filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] += ' 🟥'
             filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] += ' 🟩'
