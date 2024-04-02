@@ -13,7 +13,7 @@ def printbord(total_m2m, optpxy, Day_Change, result, total_PnL_percentage, total
     process_acvalue(acvalue)
     acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
     capital = 18.50
-    hide = 4.00
+    hide = 0.00
     profit = (acvalue_to_print - capital)
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
