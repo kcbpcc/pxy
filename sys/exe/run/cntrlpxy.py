@@ -393,7 +393,7 @@ try:
             import pandas as pd
             import numpy as np
             filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
-            filtered_df['key'] = filtered_df['key'].str.replace('NIFTY', 'NSE')
+            filtered_df['key'] = filtered_df['key'].str.replace('NIFTY', 'N')
             filtered_df = filtered_df.sort_values(by='PL%')
             for index, row in filtered_df.iterrows():
                 if row['product'] == 'MIS':
