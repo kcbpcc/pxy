@@ -27,17 +27,18 @@ def get_holdingsinfo(combined_df):
         selected_columns = ['tradingsymbol','key', 'm2m', 'product', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
         # Filter rows where 'key' column contains "NFO:"
-        nfom2m_df = selected_holdings_df[selected_holdings_df['key'].str.contains("NFO:")]
-        print(df_combined[['key', 'm2m']])
-        # Check if there are any non-numeric values in 'm2m' column
-        non_numeric_m2m = nfom2m_df[~nfom2m_df['m2m'].apply(lambda x: str(x).replace('.', '').isdigit())]
-        print("Rows with non-numeric 'm2m' values:")
-        print(non_numeric_m2m)
+        nfom2m_df = combined_df[combined_df['key'].str.contains("NFO:")].copy()
         
-        # Sum up the 'm2m' values
-        total_nfom2m = nfom2m_df['m2m'].sum()
+        # Convert 'm2m' column to numeric, ignoring errors for non-numeric values and empty strings
+        nfom2m_df['m2m'] = pd.to_numeric(nfom2m_df['m2m'], errors='coerce')
         
-        print("Total m2m for rows with 'NFO:' in 'key' column:", total_nfom2m)
+        # Replace missing 'm2m' values with 0
+        nfom2m_df['m2m'].fillna(0, inplace=True)
+        
+        # Sum 'm2m' values
+        total_m2m = nfom2m_df['m2m'].sum()
+        
+        print("Total m2m for rows with 'NFO:' in key:", total_m2m)
     
         selected_holdings_df['cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
         selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
@@ -83,7 +84,7 @@ def get_holdingsinfo(combined_df):
         zero_qty_count = combined_df[combined_df['qty'] == 0].shape[0]
         all_Stocks_capital_lacks = all_Stocks_capital/100000
         all_Stocks_worth_lacks = all_Stocks_worth/100000
-        return total_nfom2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, nrmlall_Stocks_count, nrmlall_Stocks_capital, nrmlall_Stocks_worth, nrmlall_Stocks_profit_loss
+        return total_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, nrmlall_Stocks_count, nrmlall_Stocks_capital, nrmlall_Stocks_worth, nrmlall_Stocks_profit_loss
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
