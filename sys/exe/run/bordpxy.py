@@ -11,7 +11,7 @@ def printbord(total_m2m, optpxy, Day_Change, result, total_PnL_percentage, total
     #print("━" * 42)
     acvalue = ((all_Stocks_capital_lacks) + (available_cash/100000))  
     process_acvalue(acvalue)
-    current_acvalue, ydaypnl = get_current_acvalue()       
+    acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
     capital = 18.50
     hide = 4.00
     profit = (acvalue_to_print - capital)
@@ -19,7 +19,7 @@ def printbord(total_m2m, optpxy, Day_Change, result, total_PnL_percentage, total
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
     output_lines.append(left_aligned_format.format(f"A/C Capital:{BRIGHT_YELLOW}{round(capital, 2)}{RESET}") +
-                        right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((current_acvalue + hide), 2)}{RESET}"))
+                        right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((acvalue_to_print + hide), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"A/C Profit:{BRIGHT_GREEN if profit > 0 else BRIGHT_RED}{round((profit), 2)}{RESET}") +
                         right_aligned_format.format(f"A/C Loss:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
@@ -38,7 +38,7 @@ def printbord(total_m2m, optpxy, Day_Change, result, total_PnL_percentage, total
 
     output_lines.append(left_aligned_format.format(f"Capital:{BRIGHT_YELLOW}{round((all_Stocks_capital_lacks), 2)}{RESET}") + 
                         right_aligned_format.format(f"Value:{BRIGHT_YELLOW}{round(all_Stocks_worth_lacks, 2)}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Day Delta:{BRIGHT_GREEN if ydaypnl >= 0 else BRIGHT_RED}{int(ydaypnl)}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Day Delta:{BRIGHT_GREEN if ydaypnl_to_print >= 0 else BRIGHT_RED}{int(ydaypnl_to_print*10000)}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if total_dPnL >= 0 else BRIGHT_RED}{round((total_dPnL), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if total_m2m >= 0 else BRIGHT_RED}{str(int(total_m2m)).zfill(5)}{RESET}") +
                         right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{str(round(result)).zfill(5)}{RESET}"))
@@ -54,4 +54,3 @@ def printbord(total_m2m, optpxy, Day_Change, result, total_PnL_percentage, total
     # Write to file
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
-
