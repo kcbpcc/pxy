@@ -511,7 +511,8 @@ try:
                 # Convert 'PL%' column to integer
                 filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
     
-                filtered_df['key'] = filtered_df['key'].str.replace('CE', ' 🟥').str.replace('PE', ' 🟩')
+                filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] += ' 🟥'
+                filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] += ' 🟩'
 
                 filtered_df = filtered_df.sort_values(by='PL%')
     
