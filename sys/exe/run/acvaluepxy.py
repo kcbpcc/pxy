@@ -44,19 +44,16 @@ def get_current_acvalue():
     if record_exists:
         current_acvalue = float([row['acvalue'] for row in rows if row['date'] == current_date][0])
 
-        # Find the most recent record date
-        if rows:
-            latest_date = max(row['date'] for row in rows)
-            latest_acvalue = float([row['acvalue'] for row in rows if row['date'] == latest_date][0])
+        # Find the most recent record date that is before the current date
+        previous_dates = [row['date'] for row in rows if row['date'] < current_date]
+        if previous_dates:
+            latest_previous_date = max(previous_dates)
+            latest_previous_acvalue = float([row['acvalue'] for row in rows if row['date'] == latest_previous_date][0])
+            ydaypnl = current_acvalue - latest_previous_acvalue
         else:
-            latest_acvalue = 0  # or handle it according to your logic
-
-        ydaypnl = current_acvalue - latest_acvalue
-
-        print("Current AC Value:", current_acvalue)
-        print("Latest AC Value:", latest_acvalue)
-        print("Yesterday's PNL:", ydaypnl)
-
+            # If there are no previous dates, set ydaypnl to 0
+            ydaypnl = 0
+        
         return current_acvalue, ydaypnl
     else:
         # Handle the case when a record for the current date doesn't exist
@@ -74,4 +71,5 @@ def get_current_acvalue():
 # Outside of the function, after calling get_current_acvalue
 current_acvalue, ydaypnl = get_current_acvalue()
 print("Yesterday's PNL:", ydaypnl)
+
 
