@@ -502,6 +502,21 @@ try:
 ###########################################################################################################################################################################################################
     print("━" * 42)
 ###########################################################################################################################################################################################################
+    import numpy as np
+    
+    if not options_filtered_df.empty:
+        if not combined_df.empty:
+            m2m_index = combined_df.columns.get_loc('m2m')
+            # Replace non-finite values with a default value (e.g., 0)
+            filtered_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
+            # Convert the column to integers
+            filtered_df['m2m'] = filtered_df['m2m'].astype(int)
+        else:
+            print(YELLOW + "Combined DataFrame is empty." + RESET)
+    else:
+        print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
+    
+    # After ensuring 'm2m' column is added, proceed with the rest of the code
     if not filtered_df.empty:
         # Apply transformations
         filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
