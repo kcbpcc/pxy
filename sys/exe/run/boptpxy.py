@@ -54,7 +54,7 @@ def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
     for position in positions_net:
-        if position['tradingsymbol'] == symbol and position['quantity'] < -100:
+        if position['tradingsymbol'] == symbol and position['quantity'] < -1:
             return True
     return False
 
@@ -123,7 +123,7 @@ async def main():
             executed_price = order_history[-1]['average_price']  # Accessing 'average_price' from the last element
             if executed_price > 0:
                 # Calculate target price (94% of executed price) and round to one decimal place
-                target_price = round(executed_price - 7, 1)
+                target_price = round(executed_price - 5, 1)
                 # Place BUY order with MIS product type at target price
                 buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'MIS', 50, 'LIMIT', price=target_price)
                 if buy_order_placed:
