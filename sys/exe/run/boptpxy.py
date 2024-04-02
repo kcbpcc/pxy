@@ -46,9 +46,9 @@ def get_this_thursday():
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     if expiry_day is None:
-        return f"NIFTY{expiry_year}{expiry_month}{noptions + 100}{option_type}"
+        return f"NIFTY{expiry_year}{expiry_month}{noptions - 100}{option_type}"
     else:
-        return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions + 100}{option_type}"
+        return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions - 100}{option_type}"
 
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
