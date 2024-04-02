@@ -54,7 +54,6 @@ def get_current_acvalue():
         ydaypnl = current_acvalue - latest_acvalue
 
         return current_acvalue, ydaypnl
-        print("Yesterday's PNL:", ydaypnl)
     else:
         # Handle the case when a record for the current date doesn't exist
         if rows:
@@ -67,4 +66,8 @@ def get_current_acvalue():
             # Handle the case when the file is empty
             # print("CSV file is empty. Unable to retrieve latest data.")
             return 0, 0
+
+# Outside of the function, after calling get_current_acvalue
+current_acvalue, ydaypnl = get_current_acvalue()
+print("Yesterday's PNL:", ydaypnl)
 
