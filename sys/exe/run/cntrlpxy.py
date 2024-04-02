@@ -270,9 +270,10 @@ try:
     combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
+    combined_df['m2m'] = combined_df['m2m']
 ###########################################################################################################################################################################################################    
     import pandas as pd
-    numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
+    numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','m2m', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
     print(combined_df[['key', 'm2m']])
     filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) | ((combined_df['product'] == 'CNC') & (combined_df['qty'] > 0)))]
