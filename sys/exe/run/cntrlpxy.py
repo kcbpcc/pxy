@@ -222,7 +222,6 @@ try:
     combined_df['m2m'] = combined_df['m2m'].map(lambda x: dct.get(x, {}).get('m2m', 0))
     combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
     combined_df['oPL%'] = combined_df.apply(lambda row: (((row['ltp'] - row['open']) / row['open']) * 100) if row['open'] != 0 else 1, axis=1)
-
     combined_df['_pstp'] = (combined_df['average_price'] *1.01) 
     ###########################################################################################################################################################################################################
     epsilon = 1e-10
