@@ -506,6 +506,7 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
 ###########################################################################################################################################################################################################
+    print("━" * 42)
     from smapxy import check_index_status
     nsma = check_index_status("^NSEI")
     from dshpxy import get_holdingsinfo
