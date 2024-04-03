@@ -22,11 +22,6 @@ def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_P
         + ((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "   ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ   " + RESET)
         + f"Flush%:{(BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED)}{green_Stocks_capital_rercentage:.2f}{RESET}".zfill(4)
     )
-
-
-
-
-    
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
     
