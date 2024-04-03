@@ -35,9 +35,8 @@ def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_P
         )
         + left_aligned_format.format(
             f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}{RESET}".zfill(5)
-        )
+        )[5:]  # Removing the first 5 characters (Flush:)
     )
-
     output_lines.append(
         left_aligned_format.format(
             f"{BRIGHT_YELLOW}{'Red'.zfill(3)}{RESET}:{str(red_Stocks_count).zfill(3)}"
