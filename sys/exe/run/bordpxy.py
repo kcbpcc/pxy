@@ -23,19 +23,11 @@ def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_P
                         right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((acvalue_to_print + hide), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"A/C Profit:{BRIGHT_GREEN if profit > 0 else BRIGHT_RED}{round((profit), 2)}{RESET}") +
                         right_aligned_format.format(f"A/C Loss:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}"))
-    print(
-        left_aligned_format.format(
-            f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}".zfill(5)
-        )
-        + (
-            (GREEN + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ") if nsma == "up" else (RED + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ") if nsma == "red" else (YELLOW + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ")
-        )
-        + (
-            (GREEN + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ") if nsma == "up" else (RED + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ") if nsma == "red" else (YELLOW + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ")
-        )
-        + left_aligned_format.format(
-            f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}{RESET}".zfill(5)
-        )[5:]  # Removing the first 5 characters (Flush:)
+     print(
+        f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}"
+        + ("ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ" if nsma == "up" else "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ" if nsma == "red" else "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ")
+        + ("ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ" if nsma == "up" else "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ" if nsma == "red" else "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ")
+        + f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}"
     )
     output_lines.append(
         left_aligned_format.format(
