@@ -54,7 +54,7 @@ def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
     for position in positions_net:
-        if position['tradingsymbol'] == symbol and position['quantity'] < -150:
+        if position['tradingsymbol'] == symbol and position['quantity'] < -300:
             return True
     return False
 
