@@ -294,7 +294,6 @@ try:
     combined_df['tPL%'] = np.where(SMAfty == 'up', np.maximum(1 * combined_df['tPL%'], 1.4), np.where(SMAfty == 'down', np.maximum(combined_df['tPL%'] * 0.5, 1.4), combined_df['tPL%']))
 ###########################################################################################################################################################################################################
     subprocess.run(['python3', 'prftpxy.py'])
-    subprocess.run(['python3', 'nrmlprftpxy.py'])
 ###########################################################################################################################################################################################################
     # Calculate 'Invested' column
     combined_df['Invested'] = (combined_df['qty'] * combined_df['average_price']).round(0).astype(int)
