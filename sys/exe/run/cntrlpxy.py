@@ -316,14 +316,24 @@ try:
     # Calculate 'dPL%' column as ('dPnL' / 'Invested') * 100
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 ###########################################################################################################################################################################################################
+    import pandas as pd
+    import numpy as np
+    
     if not combined_df.empty:
-        m2m_index = combined_df.columns.get_loc('m2m')
-        combined_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
-        combined_df['m2m'] = combined_df['m2m'].astype(int)
+        if 'm2m' in combined_df.columns:
+            m2m_index = combined_df.columns.get_loc('m2m')
+            if not combined_df['m2m'].isnull().all():
+                combined_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
+                combined_df['m2m'] = combined_df['m2m'].astype(int)
+            else:
+                m2m_index = 0  # Set m2m_index to 0 if all values in 'm2m' column are empty
+        else:
+            print("Warning: 'm2m' column not found.")
+            m2m_index = 0  # Set m2m_index to 0 if 'm2m' column doesn't exist
         m2m_filtered_df = combined_df[(combined_df['source'] == 'positions') & (combined_df['qty'] > 0)]
-        total_postions_m2m = m2m_filtered_df['m2m'].sum()
+        total_positions_m2m = m2m_filtered_df['m2m'].sum()
     else:
-        print(YELLOW + "Combined DataFrame is empty." + RESET)
+        print("Combined DataFrame is empty.")
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
