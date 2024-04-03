@@ -19,7 +19,7 @@ def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_P
     column_width = 30
     print(
         f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}"
-        + ("ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ" if nsma == "up" else "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ" if nsma == "red" else "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـ")
+        + (GREEN + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـ" if nsma == "up" else RED + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـ" if nsma == "down" else YELLOW + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـ" + RESET)
         + f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}"
     )
     left_aligned_format = "{:<" + str(column_width) + "}"
