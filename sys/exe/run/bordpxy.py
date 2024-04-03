@@ -19,7 +19,7 @@ def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_P
     
     print(
         f"Flush:{(BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED)}{round(green_Stocks_profit_loss):>5}{RESET}".zfill(5)
-        + ((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "   ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـ   " + RESET)
+        + ((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "   ٨ﮩ٨ـvﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـ   " + RESET)
         + f"Flush%:{(BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED)}{green_Stocks_capital_rercentage:.2f}{RESET}".zfill(4)
     )
 
