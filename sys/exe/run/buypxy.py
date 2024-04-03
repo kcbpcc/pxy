@@ -47,7 +47,7 @@ decision = calculate_decision()
 if decision == "YES":
     try:
         # Read the fileHPdf.csv directly
-        df_fileHPdf = pd.read_csv('empt.csv')
+        df_fileHPdf = pd.read_csv('empty.csv')
 
         # Extract tradingsymbols from df_fileHPdf
         lst = df_fileHPdf['tradingsymbol'].to_list()
