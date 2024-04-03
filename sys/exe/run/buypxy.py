@@ -48,20 +48,28 @@ if decision == "YES":
     try:
         # Read the fileHPdf.csv directly
         df_fileHPdf = pd.read_csv('empty.csv', encoding='latin1')
-
-        # Extract tradingsymbols from df_fileHPdf
-        lst = df_fileHPdf['tradingsymbol'].to_list()
-
-        # get list from Trendlyne
-        lst_tlyne = []
-        lst_dct_tlyne = Trendlyne().entry()
-        if lst_dct_tlyne and any(lst_dct_tlyne):
-            lst_tlyne = [dct['tradingsymbol'] for dct in lst_dct_tlyne]
-
+    
+        if df_fileHPdf.empty:
+            print("The file is empty. No data to process.")
+        elif 'tradingsymbol' not in df_fileHPdf.columns:
+            print("No 'tradingsymbol' column found in the file.")
+        else:
+            # Extract tradingsymbols from df_fileHPdf
+            lst = df_fileHPdf['tradingsymbol'].tolist()
+    
+            # get list from Trendlyne
+            lst_tlyne = []
+            lst_dct_tlyne = Trendlyne().entry()
+            if lst_dct_tlyne and any(lst_dct_tlyne):
+                lst_tlyne = [dct['tradingsymbol'] for dct in lst_dct_tlyne]
+    
+    except pd.errors.EmptyDataError:
+        # Handle the case when the file is empty
+        print("The file is empty. No data to process.")
+    
     except Exception as e:
-        print(traceback.format_exc())
-        logging.error(f"{str(e)} unable to read Trendlyne calls")
-        sys.exit(1)
+        # Handle other exceptions
+        print(f"An error occurred: {e}")
 
     try:
         if any(lst_tlyne):
