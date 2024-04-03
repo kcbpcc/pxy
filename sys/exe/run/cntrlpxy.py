@@ -543,7 +543,7 @@ try:
     if not filtered_df.empty:
         # Apply transformations
         filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
-        filtered_df['key'] = filtered_df['key'].str.replace('NIFTY', 'N')
+        filtered_df['key'] = filtered_df['key'].str.replace('NFO:NIFTY', 'N')
     
         # Replace non-finite values in 'PL%' column with 0
         filtered_df['PL%'] = filtered_df['PL%'].fillna(0)
