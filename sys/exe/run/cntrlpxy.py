@@ -328,7 +328,7 @@ try:
             else:
                 m2m_index = 0  # Set m2m_index to 0 if all values in 'm2m' column are empty
         else:
-            print("Warning: 'm2m' column not found.")
+            #print("Warning: 'm2m' column not found.")
             # If 'm2m' column doesn't exist, you can add it with default values or handle it accordingly
             combined_df['m2m'] = 0  # For example, you can add 'm2m' column with default value 0
         
