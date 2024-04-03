@@ -30,7 +30,9 @@ def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_P
         + (
             (GREEN + "/--^-\_---^^_/---^^") if nsma == "up" else (RED + "--^-\_---^^_/---^^") if nsma == "red" else (YELLOW + "--^-\_---^^_/---^^")
         )
-        + right_aligned_format.format(
+        (
+            (GREEN + "/--^-\_---^^_/---^^") if nsma == "up" else (RED + "--^-\_---^^_/---^^") if nsma == "red" else (YELLOW + "--^-\_---^^_/---^^")
+        )+ right_aligned_format.format(
             f"Flush%: {BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}{RESET}".zfill(5)
         )
     )
