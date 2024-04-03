@@ -338,11 +338,12 @@ try:
         if 'm2m' in m2m_filtered_df.columns:
             total_postions_m2m = m2m_filtered_df['m2m'].sum()
         else:
-            print("Warning: 'm2m' column not found in filtered DataFrame.")
+            #print("Warning: 'm2m' column not found in filtered DataFrame.")
             total_postions_m2m = 0  # or any other appropriate value
    
     else:
-        print("Combined DataFrame is empty.")
+        total_postions_m2m = 0
+        #print("Combined DataFrame is empty.")
 
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
