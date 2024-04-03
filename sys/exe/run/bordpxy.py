@@ -1,29 +1,31 @@
 # bordpxy.py
 from acvaluepxy import process_acvalue, get_current_acvalue
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 import subprocess
 
 def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_cnc_buy, total_PnL_nrml_buy, available_cash,
              nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma):                
-    from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
     output_lines = []
-    #print("━" * 42)
-    #print("\033[93m📉🔀Trades Overview & Market Dynamics 📈🔄\033[0m")
-    #print("━" * 42)
+    
     acvalue = ((all_Stocks_capital_lacks) + (available_cash/100000))  
     process_acvalue(acvalue)
     acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
+    
     capital = 18.50
     hide = 0.00
     profit = (acvalue_to_print - capital)
     column_width = 30
+    
     print(
         f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}"
         + (GREEN + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـ" if nsma == "up" else RED + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـ" if nsma == "down" else YELLOW + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـ" + RESET)
         + f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}"
     )
+    
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
+    
     output_lines.append(left_aligned_format.format(f"A/C Capital:{BRIGHT_YELLOW}{round(capital, 2)}{RESET}") +
                         right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((acvalue_to_print + hide), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"A/C Profit:{BRIGHT_GREEN if profit > 0 else BRIGHT_RED}{round((profit), 2)}{RESET}") +
@@ -48,13 +50,8 @@ def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_P
     output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if total_m2m >= 0 else BRIGHT_RED}{str(int(total_m2m)).zfill(5)}{RESET}") +
                       right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{str(round(result)).zfill(5)}{RESET}"))
 
-    #print("━" * 42)  # Print another line of 42 dashes           
-    #output_lines.append(f"{BRIGHT_YELLOW}Market is {nse_action} ⚡💥 - Power⚡💥{nse_power}{RESET}💥⚡")
-    # Join the lines to create the full output
     full_output = '\n'.join(output_lines)
-    # Print to console
     print(full_output)
-    # Write to file
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
 
