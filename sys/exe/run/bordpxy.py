@@ -17,7 +17,11 @@ def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_P
     hide = 0.00
     profit = (acvalue_to_print - capital)
     column_width = 30
-
+    print(
+        f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}"
+        + (GREEN + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـ" if nsma == "up" else RED + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـ" if nsma == "down" else YELLOW + "ﮩ٨ﮩ٨ـvﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـ" + RESET)
+        + f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}"
+    )
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
     output_lines.append(left_aligned_format.format(f"A/C Capital:{BRIGHT_YELLOW}{round(capital, 2)}{RESET}") +
@@ -41,8 +45,8 @@ def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_P
                       right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if total_dPnL >= 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
                       right_aligned_format.format(f"Buy-P&L:{BRIGHT_GREEN if total_postions_m2m > 0 else BRIGHT_RED}{str(int(total_postions_m2m)).zfill(5)}{RESET}"))
-    #output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if total_m2m >= 0 else BRIGHT_RED}{str(int(total_m2m)).zfill(5)}{RESET}") +
-                      #right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{str(round(result)).zfill(5)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if total_m2m >= 0 else BRIGHT_RED}{str(int(total_m2m)).zfill(5)}{RESET}") +
+                      right_aligned_format.format(f"Booked:{BRIGHT_GREEN if result > 0 else BRIGHT_RED}{str(round(result)).zfill(5)}{RESET}"))
 
     #print("━" * 42)  # Print another line of 42 dashes           
     #output_lines.append(f"{BRIGHT_YELLOW}Market is {nse_action} ⚡💥 - Power⚡💥{nse_power}{RESET}💥⚡")
