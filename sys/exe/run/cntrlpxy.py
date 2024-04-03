@@ -341,6 +341,9 @@ try:
             print("Warning: 'm2m' column not found in filtered DataFrame.")
             total_positions_m2m = 0  # or any other appropriate value
     
+        # Correct variable name total_postions_m2m to total_positions_m2m
+        printbord(total_positions_m2m, total_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage)
+    
     else:
         print("Combined DataFrame is empty.")
 
