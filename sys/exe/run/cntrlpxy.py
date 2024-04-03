@@ -329,11 +329,21 @@ try:
                 m2m_index = 0  # Set m2m_index to 0 if all values in 'm2m' column are empty
         else:
             print("Warning: 'm2m' column not found.")
-            m2m_index = 0  # Set m2m_index to 0 if 'm2m' column doesn't exist
+            # If 'm2m' column doesn't exist, you can add it with default values or handle it accordingly
+            combined_df['m2m'] = 0  # For example, you can add 'm2m' column with default value 0
+        
         m2m_filtered_df = combined_df[(combined_df['source'] == 'positions') & (combined_df['qty'] > 0)]
-        total_positions_m2m = m2m_filtered_df['m2m'].sum()
+        
+        # Check if 'm2m' column exists in m2m_filtered_df before accessing it
+        if 'm2m' in m2m_filtered_df.columns:
+            total_positions_m2m = m2m_filtered_df['m2m'].sum()
+        else:
+            print("Warning: 'm2m' column not found in filtered DataFrame.")
+            total_positions_m2m = 0  # or any other appropriate value
+    
     else:
         print("Combined DataFrame is empty.")
+
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','otPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%','PL%_H', 'dPnL', 'dPL%']
