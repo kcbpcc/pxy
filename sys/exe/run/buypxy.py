@@ -46,12 +46,6 @@ decision = calculate_decision()
 
 if decision == "YES":
     try:
-        # Read the fileHPdf.csv directly
-        df_fileHPdf = pd.read_csv('empty.csv', encoding='latin1')
-
-        # Extract tradingsymbols from df_fileHPdf
-        lst = df_fileHPdf['tradingsymbol'].to_list()
-
         # get list from Trendlyne
         lst_tlyne = []
         lst_dct_tlyne = Trendlyne().entry()
@@ -66,19 +60,25 @@ if decision == "YES":
     try:
         if any(lst_tlyne):
             logging.info(f"reading trendlyne ...{lst_tlyne}")
-            lst_tlyne = [x for x in lst_tlyne if x not in lst]
-            logging.info(f"filtered from holdings and positions: {lst}")
 
-            # get lists from orders
-            lst_dct_orders = broker.orders
+            # get lists from executed orders
+            lst_dct_executed_orders = broker.executed_orders
 
-            if lst_dct_orders and any(lst_dct_orders):
-                symbols_orders = [dct['symbol'] for dct in lst_dct_orders]
+            if lst_dct_executed_orders and any(lst_dct_executed_orders):
+                symbols_executed_orders = [dct['symbol'] for dct in lst_dct_executed_orders]
             else:
-                symbols_orders = []
+                symbols_executed_orders = []
 
-            # Combine symbols orders
-            all_symbols = symbols_orders
+            # get lists from open orders
+            lst_dct_open_orders = broker.open_orders
+
+            if lst_dct_open_orders and any(lst_dct_open_orders):
+                symbols_open_orders = [dct['symbol'] for dct in lst_dct_open_orders]
+            else:
+                symbols_open_orders = []
+
+            # Combine symbols from executed and open orders
+            all_symbols = symbols_executed_orders + symbols_open_orders
 
             # Assuming lst_tlyne is defined somewhere before this block
             lst_tlyne = lst_tlyne if lst_tlyne else []  # Initialize lst_tlyne if not defined
