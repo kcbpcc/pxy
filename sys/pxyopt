@@ -14,7 +14,7 @@ execute_script() {
     case $1 in
         s) python3 soptpxy.py ;;
         b) python3 boptpxy.py ;;
-        o) python3 optbspxy.py
+        o) python3 optbspxy.py ;;
         q) exit ;;
         *) echo "Invalid option. Please select again." ;;
     esac
