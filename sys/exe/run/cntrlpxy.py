@@ -583,7 +583,7 @@ try:
                     color_code = RESET
             else:
                 color_code = RESET
-            print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(42) + RESET)
+            print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(41) + RESET)
     else:
         print(YELLOW + "..............no options yet in the swing." + RESET)
 
