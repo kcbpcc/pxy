@@ -559,6 +559,13 @@ try:
         # Sort the DataFrame by the 'key' column
         filtered_df = filtered_df.sort_values(by='key')
     
+        # Sum quantities separately for CE and PE types
+        ce_qty_sum = filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'qty'].sum()
+        pe_qty_sum = filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'qty'].sum()
+    
+        print("Total CE Qty:", ce_qty_sum)
+        print("Total PE Qty:", pe_qty_sum)
+    
         for index, row in filtered_df.iterrows():
             if row['product'] == 'MIS':
                 filtered_df.at[index, 'product'] = '⌛'
