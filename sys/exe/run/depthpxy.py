@@ -27,17 +27,23 @@ def calculate_consecutive_candles(tickerSymbol):
             if color == current_color:
                 consecutive_count += 1
             else:
+                if current_color == 'green':
+                    cedepth = min(consecutive_count, 10)
+                    pedepth = max(0, consecutive_count - 10)
+                elif current_color == 'red':
+                    pedepth = min(consecutive_count, 10)
+                    cedepth = max(0, consecutive_count - 10)
                 consecutive_count = 1
                 current_color = color
 
-        # Calculate cedepth and pedepth
+        # Calculate cedepth and pedepth for the last segment
         if current_color is not None:
             if current_color == 'green':
-                cedepth = consecutive_count
-                pedepth = 1
+                cedepth = min(consecutive_count, 10)
+                pedepth = 0
             else:
-                cedepth = 1
-                pedepth = consecutive_count
+                pedepth = min(consecutive_count, 10)
+                cedepth = 0
                 
             return cedepth, pedepth
 
