@@ -537,8 +537,8 @@ try:
     else:
         print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
     
-    # Filter only rows where 'key' contains 'CE' or 'PE'
-    filtered_df = filtered_df[filtered_df['key'].str.contains('CE|PE')]
+    # Filter only rows where 'key' starts with 'NFO'
+    filtered_df = filtered_df[filtered_df['key'].str.startswith('NFO')]
     
     # After ensuring 'm2m' column is added and rows are filtered, proceed with the rest of the code
     if not filtered_df.empty:
@@ -556,15 +556,15 @@ try:
         filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] = filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] + '🟥 '
         filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] = filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] +  '🟩 '
     
+        # Sort the DataFrame by the 'key' column
+        filtered_df = filtered_df.sort_values(by='key')
+    
         # Sum quantities separately for CE and PE types
         ce_qty_sum = filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'qty'].sum()
         pe_qty_sum = filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'qty'].sum()
     
         print("Total CE Qty:", ce_qty_sum)
         print("Total PE Qty:", pe_qty_sum)
-    
-        # Sort the DataFrame by the 'key' column
-        filtered_df = filtered_df.sort_values(by='key')
     
         for index, row in filtered_df.iterrows():
             if row['product'] == 'MIS':
