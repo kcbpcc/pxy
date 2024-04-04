@@ -33,7 +33,7 @@ def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_P
         ) +
         right_aligned_format.format(
             f"{BRIGHT_GREEN if optpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
-            f"{BOLD}{UNDERLINE}®{RESET}            {BRIGHT_YELLOW}{'Red'.zfill(3)}{RESET}:{str(red_Stocks_count).zfill(3)}"
+            f"{BOLD}{UNDERLINE}®{RESET}           {BRIGHT_YELLOW}{'Red'.zfill(3)}{RESET}:{str(red_Stocks_count).zfill(3)}"
         )
     )
     output_lines.append(left_aligned_format.format(f"Capital:{BRIGHT_YELLOW}{round(all_Stocks_capital_lacks, 2)}{RESET}") + 
