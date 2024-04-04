@@ -27,7 +27,7 @@ def calculate_consecutive_candles(tickerSymbol):
             if color == current_color:
                 consecutive_count += 1
             else:
-                consecutive_count -= 1
+                consecutive_count = 1
                 current_color = color
 
         # Calculate cedepth and pedepth
