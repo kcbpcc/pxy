@@ -1,5 +1,8 @@
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
+import subprocess
+
 
 CSV_FILENAME = 'acvalue.csv'
 
@@ -28,6 +31,7 @@ def process_acvalue(acvalue):
     else:
         pass
 
+
 def get_current_acvalue():
     try:
         with open(CSV_FILENAME, mode='r') as csvfile:
@@ -44,16 +48,16 @@ def get_current_acvalue():
     if record_exists:
         current_acvalue = float([row['acvalue'] for row in rows if row['date'] == current_date][0])
 
-        # Find the most recent record date that is before the current date
-        previous_dates = [row['date'] for row in rows if row['date'] < current_date]
-        if previous_dates:
-            latest_previous_date = max(previous_dates)
-            latest_previous_acvalue = float([row['acvalue'] for row in rows if row['date'] == latest_previous_date][0])
-            ydaypnl = current_acvalue - latest_previous_acvalue
+        # Find the most recent past date
+        past_dates = [row['date'] for row in rows if row['date'] < current_date]
+        if past_dates:
+            latest_past_date = max(past_dates)
+            yesterday_acvalue = float([row['acvalue'] for row in rows if row['date'] == latest_past_date][0])
         else:
-            # If there are no previous dates, set ydaypnl to 0
-            ydaypnl = 0
-        
+            yesterday_acvalue = 0  # or handle it according to your logic
+
+        ydaypnl = current_acvalue - yesterday_acvalue
+
         return current_acvalue, ydaypnl
     else:
         # Handle the case when a record for the current date doesn't exist
@@ -67,9 +71,5 @@ def get_current_acvalue():
             # Handle the case when the file is empty
             # print("CSV file is empty. Unable to retrieve latest data.")
             return 0, 0
-
-# Outside of the function, after calling get_current_acvalue
-current_acvalue, ydaypnl = get_current_acvalue()
-#print("Yesterday's PNL:", ydaypnl)
 
 
