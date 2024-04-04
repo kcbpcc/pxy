@@ -52,9 +52,11 @@ for name, price_today in closing_prices_today.items():
         sentiment = calculate_sentiment(price_today, price_yesterday)
         day_change_percentage = ((price_today - price_yesterday) / price_yesterday) * 100
         sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
-        output += f"{name}({day_change_percentage:.2f}%)"
+        output += f"[{sentiment_style}]{name}{day_change_percentage:.2f}%"
+
+# Remove the trailing "|"
+output = output[:-1]
 
 # Print the formatted text
 console.print(output)
-
 
