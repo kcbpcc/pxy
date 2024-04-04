@@ -22,7 +22,7 @@ def printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_P
     right_aligned_format = "{:>" + str(column_width) + "}"
     
     output_lines.append(left_aligned_format.format(f"A/C Capital:{BRIGHT_YELLOW}{round(capital, 2)}{RESET}") +
-                        right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((acvalue + hide), 2)}{RESET}"))
+                        right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((acvalue_to_print + hide), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"A/C Profit:{BRIGHT_GREEN if (acvalue - capital) > 0 else BRIGHT_RED}{round((acvalue - capital ), 2)}{RESET}") +
                         right_aligned_format.format(f"A/C Loss:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}"))
     output_lines.append(
