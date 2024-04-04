@@ -51,9 +51,9 @@ for name, price_today in closing_prices_today.items():
     if name in closing_prices_yesterday:
         price_yesterday = closing_prices_yesterday[name]
         sentiment = calculate_sentiment(price_today, price_yesterday)
-        day_change_percentage = ((price_today - price_yesterday) / price_yesterday) * 100
         sentiment_color = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
-        text.append(f"[{sentiment_color}]{name}({day_change_percentage:.2f}%)", style=sentiment_color)
+        text.append(f"[{sentiment_color}]{name}", style=sentiment_color)
+        text.append(f"({price_today:.2f}%)")
         text.append("|")
 
 # Remove the trailing "|"
@@ -61,6 +61,4 @@ text = text[:-1]
 
 # Print the formatted text
 console.print(text)
-
-
 
