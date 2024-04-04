@@ -516,7 +516,7 @@ try:
              nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma)
 ###########################################################################################################################################################################################################
     if not stocks_filtered_df.empty:
-        subprocess.run(['python3', 'cndlpxy.py'])
+        print("━" * 42)
         #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         #print("━" * 42)
         print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
