@@ -576,7 +576,7 @@ try:
                     color_code = GREEN
                 elif pnl_value < 0:
                     color_code = RED
-                elif pnl_value < 0:
+                elif pnl_value == 0:
                     color_code = YELLOW
                 else:
                     color_code = RESET
