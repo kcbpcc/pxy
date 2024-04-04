@@ -46,14 +46,15 @@ for exchange, name_weight in exchanges.items():
         closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
         closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
 
-# Print index names in one row with sentiment color
+# Print index names in one row with sentiment color and day change percentage
 index_info = ""
 for name, price_today in closing_prices_today.items():
     if name in closing_prices_yesterday:
         price_yesterday = closing_prices_yesterday[name]
         sentiment = calculate_sentiment(price_today, price_yesterday)
+        day_change_percentage = ((price_today - price_yesterday) / price_yesterday) * 100
         sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
-        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]|"
+        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}] ({day_change_percentage:.2f}%)\t"
 
 price_today = None
 
@@ -69,3 +70,4 @@ for exchange, name_weight in exchanges.items():
 output = index_info
 # Print the concatenated string using console.print()
 console.print(output)
+
