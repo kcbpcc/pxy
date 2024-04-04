@@ -424,7 +424,7 @@ try:
     # Always print "Table" in bright yellow
     # Print the truncated DataFrame without color
     # Assuming PRINT_df_sorted_display is your DataFrame
-    stocks_filtered_df = PRINT_df_sorted_display[(PRINT_df_sorted_display['PL%'] > 1.4 ) #& (PRINT_df_sorted_display['_CM'] == '🧰') ]
+    stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%', ascending=False)
     options_filtered_df = pxy_df.loc[pxy_df['key'].str.startswith('NFO'), ['product','Invested','key', 'tPL%','otPL%', 'PL%', 'PnL', 'qty', 'smb_power']]
     options_filtered_df['otPL%'] = options_filtered_df['otPL%'].round(2)    
     options_filtered_df['key'] = options_filtered_df['key'].str.replace('NFO:', '')
