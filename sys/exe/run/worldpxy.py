@@ -27,9 +27,7 @@ exchanges = {
     "^FCHI": {"name": "FR", "weight": 0.15},
     "^N225": {"name": "JP", "weight": 0.20},
     "^HSI": {"name": "HK", "weight": 0.20},
-    "000001.SS": {"name": "CN", "weight": 0.20},
-    "^NSEI": {"name": "NIFTY", "weight": 0.125},
-    "^NSEBANK": {"name": "BKFTY", "weight": 0.125}
+    "000001.SS": {"name": "CN", "weight": 0.20}
 }
 
 # Create a console object for rich text output
@@ -54,20 +52,11 @@ for name, price_today in closing_prices_today.items():
         sentiment = calculate_sentiment(price_today, price_yesterday)
         day_change_percentage = ((price_today - price_yesterday) / price_yesterday) * 100
         sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
-        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}] ({day_change_percentage:.2f}%)\t"
-
-price_today = None
-
-for exchange, name_weight in exchanges.items():
-    ticker = yf.Ticker(exchange)
-    if exchange == "^NSEI":  # Check if the exchange is NIFTY
-        price_today_float = ticker.history(period="1d")['Close'].iloc[-1]  # Fetch today's last trade price
-        # Extract the last four digits of the integer part
-        price_today = int(str(int(price_today_float))[-4:])
-        break  # Exit loop once NIFTY price is found
+        index_info += f"{name} ({day_change_percentage:.2f}%) | "
 
 # Concatenate index_info and price_today into a single string
-output = index_info
+output = index_info[:-3]  # Removing the trailing " | "
 # Print the concatenated string using console.print()
 console.print(output)
+
 
