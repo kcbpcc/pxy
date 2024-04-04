@@ -134,15 +134,14 @@ async def main():
         print(f"Existing order for {ce_symbol} or {pe_symbol} found. Skipping order placement.")
         return
     
-    # Place SELL order with MIS product type for CE
+    # Place SELL order with MIS product type for CE and PE
     ce_sell_order_placed, ce_sell_order_id = await place_order(broker, ce_symbol, 'SELL', 'MIS', 50, 'MARKET')
-    if ce_sell_order_placed:
-        print("SELL order for CE placed successfully.")
-    
-    # Place SELL order with MIS product type for PE
     pe_sell_order_placed, pe_sell_order_id = await place_order(broker, pe_symbol, 'SELL', 'MIS', 50, 'MARKET')
-    if pe_sell_order_placed:
-        print("SELL order for PE placed successfully.")
+    
+    if ce_sell_order_placed and pe_sell_order_placed:
+        print("SELL orders for CE and PE placed successfully.")
+    else:
+        print("Failed to place one or both SELL orders. Check logs for details.")
 
 async def run_main():
     await main()
