@@ -15,6 +15,8 @@ def calculate_consecutive_candles(tickerSymbol):
         # Calculate consecutive candles sequence
         consecutive_count = 1
         current_color = None
+        cedepth = 0
+        pedepth = 0
 
         for i in range(1, len(tickerDf)):
             if tickerDf['Close'][i] > tickerDf['Close'][i - 1]:
@@ -28,24 +30,20 @@ def calculate_consecutive_candles(tickerSymbol):
                 consecutive_count += 1
             else:
                 if current_color == 'green':
-                    cedepth = min(consecutive_count, 10)
-                    pedepth = max(0, consecutive_count - 10)
+                    cedepth += min(consecutive_count, 10 - pedepth)
                 elif current_color == 'red':
-                    pedepth = min(consecutive_count, 10)
-                    cedepth = max(0, consecutive_count - 10)
+                    pedepth += min(consecutive_count, 10 - cedepth)
                 consecutive_count = 1
                 current_color = color
 
-        # Calculate cedepth and pedepth for the last segment
+        # Add the last segment to depths
         if current_color is not None:
             if current_color == 'green':
-                cedepth = min(consecutive_count, 10)
-                pedepth = 0
+                cedepth += min(consecutive_count, 10 - pedepth)
             else:
-                pedepth = min(consecutive_count, 10)
-                cedepth = 0
-                
-            return cedepth, pedepth
+                pedepth += min(consecutive_count, 10 - cedepth)
+
+        return cedepth, pedepth
 
     except Exception as e:
         return f"An error occurred: {e}"
