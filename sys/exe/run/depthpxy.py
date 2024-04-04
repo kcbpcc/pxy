@@ -13,26 +13,40 @@ def calculate_consecutive_candles(tickerSymbol):
         tickerDf = tickerData.history(period='5d', interval='1m')
 
         # Calculate consecutive candles sequence
-        consecutive_count = 0
-        cedepth = 0
-        pedepth = 0
+        consecutive_counts = []
 
         for i in range(1, len(tickerDf)):
             if tickerDf['Close'][i] > tickerDf['Close'][i - 1]:
-                consecutive_count += 1
+                color = 'green'
             elif tickerDf['Close'][i] < tickerDf['Close'][i - 1]:
-                consecutive_count = 0
+                color = 'red'
+            else:
+                color = None
 
-            if consecutive_count == 9:  # Reached 9 consecutive candles
-                if tickerDf['Close'][i] > tickerDf['Close'][i - 1]:  # Next candle is green
-                    cedepth = 9
-                    pedepth = 0
-                elif tickerDf['Close'][i] < tickerDf['Close'][i - 1]:  # Next candle is red
-                    cedepth = 8
-                    pedepth = 1
-                break
+            # Append current color to the consecutive counts history
+            consecutive_counts.append(color)
 
-        return cedepth, pedepth
+            # Keep only the last 10 entries in the history
+            if len(consecutive_counts) > 10:
+                consecutive_counts.pop(0)
+
+            # Count consecutive candles from the history
+            consecutive_green = consecutive_counts.count('green')
+            consecutive_red = consecutive_counts.count('red')
+
+            # Calculate cedepth and pedepth
+            cedepth = min(consecutive_green, 10)
+            pedepth = min(consecutive_red, 10 - cedepth)
+
+            # Return the counts if we have at least 9 candles
+            if len(consecutive_counts) >= 9:
+                return cedepth, pedepth
 
     except Exception as e:
         return f"An error occurred: {e}"
+
+# Example usage
+cedepth, pedepth = calculate_consecutive_candles("AAPL")
+print("CE Depth:", cedepth)
+print("PE Depth:", pedepth)
+
