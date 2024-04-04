@@ -143,12 +143,12 @@ async def main():
 async def calculate_total_funds_needed(broker, ce_symbol, pe_symbol):
     try:
         def get_ltp(symbol):
-            nonlocal ltp  # Use nonlocal to reference the outer ltp variable
+            ltp = [0]  # Use a list to simulate nonlocal behavior
             key = f"NFO:{symbol}"
             resp = broker.kite.ltp(key)
             if resp and isinstance(resp, dict):
-                ltp = resp[key]['last_price']
-            return ltp
+                ltp[0] = resp[key]['last_price']
+            return ltp[0]
         
         # Default value for ltp in case retrieval fails
         ltp_ce = get_ltp(ce_symbol)
