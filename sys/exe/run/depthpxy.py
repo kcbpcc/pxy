@@ -13,35 +13,24 @@ def calculate_consecutive_candles(tickerSymbol):
         tickerDf = tickerData.history(period='5d', interval='1m')
 
         # Calculate consecutive candles sequence
-        consecutive_count = 1
-        current_color = None
+        consecutive_count = 0
         cedepth = 0
         pedepth = 0
 
         for i in range(1, len(tickerDf)):
             if tickerDf['Close'][i] > tickerDf['Close'][i - 1]:
-                color = 'green'
-            elif tickerDf['Close'][i] < tickerDf['Close'][i - 1]:
-                color = 'red'
-            else:
-                color = current_color
-
-            if color == current_color:
                 consecutive_count += 1
-            else:
-                if current_color == 'green':
-                    cedepth += min(consecutive_count, 10 - pedepth)
-                elif current_color == 'red':
-                    pedepth += min(consecutive_count, 10 - cedepth)
-                consecutive_count = 1
-                current_color = color
+            elif tickerDf['Close'][i] < tickerDf['Close'][i - 1]:
+                consecutive_count = 0
 
-        # Add the last segment to depths
-        if current_color is not None:
-            if current_color == 'green':
-                cedepth += min(consecutive_count, 10 - pedepth)
-            else:
-                pedepth += min(consecutive_count, 10 - cedepth)
+            if consecutive_count == 9:  # Reached 9 consecutive candles
+                if tickerDf['Close'][i] > tickerDf['Close'][i - 1]:  # Next candle is green
+                    cedepth = 9
+                    pedepth = 0
+                elif tickerDf['Close'][i] < tickerDf['Close'][i - 1]:  # Next candle is red
+                    cedepth = 8
+                    pedepth = 1
+                break
 
         return cedepth, pedepth
 
