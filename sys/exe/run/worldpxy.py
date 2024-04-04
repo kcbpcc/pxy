@@ -52,7 +52,7 @@ for name, price_today in closing_prices_today.items():
         price_yesterday = closing_prices_yesterday[name]
         sentiment = calculate_sentiment(price_today, price_yesterday)
         sentiment_color = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
-        text.append(f"[{sentiment_color}]{name}", style=sentiment_color)
+        text.append(f"{name}", style=sentiment_color)
         day_change_percentage = ((price_today - price_yesterday) / price_yesterday) * 100
         text.append(f"({day_change_percentage:.2f}%)")
         text.append("|")
@@ -61,9 +61,5 @@ for name, price_today in closing_prices_today.items():
 text = text[:-1]
 
 # Print the formatted text
-console.print(text.plain)  # Print plain text without Rich formatting
-
-
-# Print the formatted text
-console.print(text)
+console.print(text.plain)
 
