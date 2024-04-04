@@ -519,8 +519,7 @@ try:
         print("━" * 42)
         #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
         #print("━" * 42)
-        print(stocks_filtered_df.to_string(index=False, justify='left', col_space=-0, header=False))
-        print('\n'.join([line.rjust(38) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))
+        print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))
 
 ###########################################################################################################################################################################################################
     print("━" * 42)
