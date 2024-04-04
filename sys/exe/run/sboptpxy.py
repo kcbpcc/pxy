@@ -116,15 +116,12 @@ async def main():
     pe_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, pe_option_type, noptions)
     
     # Get available cash
-    response = broker.kite.margins(segment="equity")
-    available_cash = response["equity"]["available"]["live_balance"]
-    print("Available Cash:", available_cash)
+    total_funds_needed = await calculate_total_funds_needed(broker, ce_symbol, pe_symbol)
     
-    # Get required margin for CE and PE
-    ce_margin_required = get_required_margin(broker, ce_symbol)
-    pe_margin_required = get_required_margin(broker, pe_symbol)
+    decision = await get_funds_decision(broker, total_funds_needed)
+    print("Funds Decision:", decision)
     
-    if available_cash >= ce_margin_required + pe_margin_required:
+    if decision == "YES":
         print("Funds are sufficient for both CE and PE options.")
     else:
         print("Funds are not sufficient for both CE and PE options. Exiting.")
@@ -143,7 +140,24 @@ async def main():
     else:
         print("Failed to place one or both SELL orders. Check logs for details.")
 
-async def run_main():
-    await main()
-
-asyncio.run(run_main())
+async def calculate_total_funds_needed(broker, ce_symbol, pe_symbol):
+    try:
+        def get_ltp(symbol):
+            nonlocal ltp  # Use nonlocal to reference the outer ltp variable
+            key = f"NFO:{symbol}"
+            resp = broker.kite.ltp(key)
+            if resp and isinstance(resp, dict):
+                ltp = resp[key]['last_price']
+            return ltp
+        
+        # Default value for ltp in case retrieval fails
+        ltp_ce = get_ltp(ce_symbol)
+        ltp_pe = get_ltp(pe_symbol)
+        
+        # Calculate total funds needed (LTP * quantity * 2 for both CE and PE)
+        quantity = 50
+        total_funds_needed = (ltp_ce + ltp_pe) * quantity * 2
+        return total_funds_needed
+    except Exception as e:
+        print(f"Error calculating total funds needed: {e}")
+        return 0
