@@ -524,7 +524,6 @@ try:
     print("━" * 42)
 ###########################################################################################################################################################################################################
     import numpy as np
-    
     if not options_filtered_df.empty:
         if not combined_df.empty:
             m2m_index = combined_df.columns.get_loc('m2m')
@@ -552,14 +551,11 @@ try:
         # Convert 'PL%' column to integer
         filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
     
-        # Add emojis to the 'key' column based on its ending
         filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] = filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] + '🟥 '
         filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] = filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] +  '🟩 '
     
-        # Sort the DataFrame by the 'key' column
-        filtered_df = filtered_df.sort_values(by='key')
+        filtered_df = filtered_df.sort_values(by='PL%')
     
- 
         for index, row in filtered_df.iterrows():
             if row['product'] == 'MIS':
                 filtered_df.at[index, 'product'] = '⌛'
@@ -587,18 +583,8 @@ try:
             else:
                 color_code = RESET
             print(color_code + (line[:-3] + line[-3:].rjust(3)) + RESET)
-            # Filter rows where 'key' ends with 'CE' or 'PE'
-            ce_rows = filtered_df['key'].str.endswith('CE')
-            pe_rows = filtered_df['key'].str.endswith('PE')
-            
-            # Sum quantities separately for CE and PE types
-            ce_qty_sum = filtered_df.loc[ce_rows, 'qty'].sum()
-            pe_qty_sum = filtered_df.loc[pe_rows, 'qty'].sum()
-            
-            print("Total CE Qty:", ce_qty_sum, "||", "Total PE Qty:", pe_qty_sum)
     else:
         print(YELLOW + "..............no options yet in the swing." + RESET)
-
 
 ###########################################################################################################################################################################################################
 
