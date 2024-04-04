@@ -1,5 +1,6 @@
 import yfinance as yf
 from rich.console import Console
+from rich.text import Text
 import warnings
 
 # Suppress warnings
@@ -45,18 +46,21 @@ for exchange, name_weight in exchanges.items():
         closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
 
 # Print index names in one row with sentiment color and day change percentage
-index_info = ""
+text = Text()
 for name, price_today in closing_prices_today.items():
     if name in closing_prices_yesterday:
         price_yesterday = closing_prices_yesterday[name]
         sentiment = calculate_sentiment(price_today, price_yesterday)
         day_change_percentage = ((price_today - price_yesterday) / price_yesterday) * 100
-        sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
-        index_info += f"{name} ({day_change_percentage:.2f}%) | "
+        sentiment_color = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
+        text.append(f"[{sentiment_color}]{name}({day_change_percentage:.2f}%)", style=sentiment_color)
+        text.append("|")
 
-# Concatenate index_info and price_today into a single string
-output = index_info[:-3]  # Removing the trailing " | "
-# Print the concatenated string using console.print()
-console.print(output)
+# Remove the trailing "|"
+text = text[:-1]
+
+# Print the formatted text
+console.print(text)
+
 
 
