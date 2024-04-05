@@ -522,8 +522,6 @@ try:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))
 
 ###########################################################################################################################################################################################################
-    print("━" * 42)
-
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
