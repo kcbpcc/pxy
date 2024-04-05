@@ -70,8 +70,8 @@ try:
     from swchpxy import analyze_stock
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     from selfpxy import get_random_spiritual_message
-    from macdpxy import calculate_macd_signal
-    macd = calculate_macd_signal("^NSEI")
+    #from macdpxy import calculate_macd_signal
+    #macd = calculate_macd_signal("^NSEI")
     random_message = get_random_spiritual_message()
     switch = analyze_stock()
     result = sum_last_numerical_value_in_each_row(file_path)  
