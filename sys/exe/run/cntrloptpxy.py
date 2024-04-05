@@ -31,9 +31,9 @@ finally:
 from cmbddfpxy import process_data
 combined_df = process_data()
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
-opt_df['CP'] = opt_df['key'].apply(lambda x: BRIGHT_RED if x.endswith('PE') else (BRIGHT_GREEN if x.endswith('CE') else None))
+opt_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
 opt_df.loc[:, 'key'] = opt_df['key'].str.replace('NFO:', '')  # Remove 'NFO:' from the 'key' column
-opt_df = opt_df[['CP', 'key', 'Invested', 'qty', 'PnL']]
+opt_df = opt_df[['key', 'Invested', 'qty', 'PnL', 'CP']]
 
 # Set the maximum width for display
 pd.set_option('display.max_colwidth', 42)
@@ -51,7 +51,7 @@ YELLOW = BRIGHT_YELLOW
 max_width = 42
 for line in formatted_lines:
     values = line.split()
-    pnl_value_str = values[-1]
+    pnl_value_str = values[-2]
     try:
         pnl_value = float(pnl_value_str)
     except ValueError:
