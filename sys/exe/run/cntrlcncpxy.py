@@ -162,7 +162,6 @@ try:
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS  
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
-    from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
     from swchpxy import analyze_stock
     import telegram
     import asyncio
@@ -173,8 +172,6 @@ try:
     switch = analyze_stock()
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
-    file_path_nrml = "filePnL_nrml.csv"
-    result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
     from smapxy import check_index_status
     SMAfty = check_index_status('^NSEI')
     from tabulate import tabulate
@@ -209,7 +206,7 @@ try:
 ###########################################################################################################################################################################################################
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
-    filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) & combined_df['key'].str.startswith('NFO')) | ((combined_df['product'].isin(['CNC', 'MIS'])) & (combined_df['qty'] != 0))]
+    filtered_df = combined_df[(combined_df['product'] == 'CNC') & (combined_df['qty'] != 0)]
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
     total_PnL = round(combined_df_positive_qty['PnL'].sum())
     total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
@@ -239,7 +236,6 @@ try:
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ###########################################################################################################################################################################################################   
     csv_file_path = "filePnL.csv"
-    csv_file_path_nrml = 'filePnL_nrml.csv'
     selected_rows = []
     if nse_power < 1 :
         try:
