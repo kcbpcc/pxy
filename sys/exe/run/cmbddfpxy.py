@@ -80,15 +80,15 @@ try:
     from swchpxy import analyze_stock
     import telegram
     import asyncio
-    #from selfpxy import get_random_spiritual_message
-    #from macdpxy import calculate_macd_signal
-    #macd = calculate_macd_signal("^NSEI")
-    #random_message = get_random_spiritual_message()
-    #switch = analyze_stock()
+    from selfpxy import get_random_spiritual_message
+    from macdpxy import calculate_macd_signal
+    macd = calculate_macd_signal("^NSEI")
+    random_message = get_random_spiritual_message()
+    switch = analyze_stock()
     file_path = 'filePnL.csv'
-    #result = sum_last_numerical_value_in_each_row(file_path)  
-    #file_path_nrml = "filePnL_nrml.csv"
-    #result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
+    result = sum_last_numerical_value_in_each_row(file_path)  
+    file_path_nrml = "filePnL_nrml.csv"
+    result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
     logging.debug("Are we having any holdings to check")
     holdings_response = broker.kite.holdings()
     positions_response = broker.kite.positions()['net']
