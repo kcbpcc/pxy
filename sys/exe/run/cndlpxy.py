@@ -113,4 +113,4 @@ if previous_day_close is not None and today_close is not None:
 else:
     print("Unable to fetch data.")
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET
-print(f"🔆{day_change_sign}{GREEN if Day_Change >= 0 else RED}{Day_Change:.2f}{RESET}⌛{open_change_sign}{GREEN if Open_Change >= 0 else RED}{Open_Change:.2f}{RESET}⚡ {GREEN if nse_power >0.5 else RED}{nse_power:.2f}{RESET} {nsmawave} 🟥-{pedepth}🚦{macd}🚦{cedepth}+🟩")
+print(f"🔆{day_change_sign}{GREEN if Day_Change >= 0 else RED}{Day_Change:.2f}{RESET}⌛{open_change_sign}{GREEN if Open_Change >= 0 else RED}{Open_Change:.2f}{RESET}⚡ {GREEN if nse_power >0.5 else RED}{nse_power:.2f}{RESET} {nifty50_ohlc.iloc[-1]['Close']} 🟥-{pedepth}🚦{macd}🚦{cedepth}+🟩")
