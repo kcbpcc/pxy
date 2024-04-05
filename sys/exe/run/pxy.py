@@ -52,7 +52,6 @@ while True:
     subprocess.run(['python3', 'cntrlcncpxy.py']) 
     subprocess.run(['python3', 'cntrloptpxy.py']) 
     subprocess.run(['python3', 'cndlpxy.py'])
-    subprocess.run(['python3', 'worldpxy.py'])
     console.print(random_message)
     import time
     def progress_bar(duration, mktpxy):
