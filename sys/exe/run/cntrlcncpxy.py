@@ -13,7 +13,6 @@ import csv
 import telegram
 import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
-from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
 from cmbddfpxy import process_data
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 combined_df = process_data()
@@ -150,11 +149,10 @@ try:
     import datetime
     import time
     from login_get_kite import get_kite, remove_token
-    from cnstpxy import dir_path
+    from cnstpxy import dir_path, sellbuff, secs, perc_col_name
     from toolkit.logger import Logger
     from toolkit.currency import round_to_paise
     import csv
-    from cnstpxy import sellbuff, secs, perc_col_name
     from time import sleep
     import subprocess
     import random
@@ -165,7 +163,7 @@ try:
     from optpxy import get_opt_check
     optpxy = get_opt_check('^NSEI')
     import importlib
-    from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
+    from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS  
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
     from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
@@ -181,22 +179,15 @@ try:
     result = sum_last_numerical_value_in_each_row(file_path)  
     file_path_nrml = "filePnL_nrml.csv"
     result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
-    from nftpxy import nse_action, nse_power, OPTIONS  
     from smapxy import check_index_status
     SMAfty = check_index_status('^NSEI')
     from tabulate import tabulate
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
     nmktpxy = get_market_status_for_symbol('^NSEI')
-    from mktpxy import get_market_check
-    importlib.reload(sys.modules['mktpxy'])  # Correct the usage
-    onemincandlesequance, mktpxy = get_market_check('^NSEI')
-    from smapxy import check_index_status
-    nsma = check_index_status("^NSEI")
     from dshpxy import get_holdingsinfo
-    total_nrml_m2m, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
+    total_nrml_m2m, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, nrmlall_Stocks_count, nrmlall_Stocks_capital, nrmlall_Stocks_worth, nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
     from bordpxy import printbord
-
 ###########################################################################################################################################################################################################
     try:
         response = broker.kite.margins()
