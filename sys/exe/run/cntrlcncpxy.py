@@ -125,20 +125,15 @@ def stocks_avg_order_place(index, row):
             )
             if order_id:
                 logging.info(f"BUY {order_id} placed for {exchsym[1]} successfully")
-                # No need to calculate remaining available cash in this case
                 try:
                     message_text = f"{row['ltp']} \nhttps://www.tradingview.com/chart/?symbol={exchsym[1]}"
-                    # Define the bot token and your Telegram username or ID
                     bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
                     user_id = '-4135910842'  # Replace with your Telegram user ID
-                    # Function to send a message to Telegram
                     async def send_telegram_message(message_text):
                         bot = telegram.Bot(token=bot_token)
                         await bot.send_message(chat_id=user_id, text=message_text)
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
                     asyncio.run(send_telegram_message(message_text))
                 except Exception as e:
-                    # Handle the exception (e.g., log it) and continue with your code
                     print(f"Error sending message to Telegram: {e}")
                 return exchsym[1], remaining_cash  # Define remaining_cash appropriately
             return True
@@ -148,7 +143,6 @@ def stocks_avg_order_place(index, row):
         # print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
-
 ###########################################################################################################################################################################################################
 try:
     import sys
@@ -214,7 +208,6 @@ try:
 ###########################################################################################################################################################################################################
     import pandas as pd
     import numpy as np
-    
     if not combined_df.empty:
         if 'm2m' in combined_df.columns:
             m2m_index = combined_df.columns.get_loc('m2m')
@@ -242,24 +235,18 @@ try:
         #print("Combined DataFrame is empty.")
 
 ###########################################################################################################################################################################################################    
-    # Round all numeric columns to 2 decimal places
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%', 'dPnL', 'dPL%']
-    combined_df[numeric_columns] = combined_df[numeric_columns].round(2)        # Filter combined_df
+    combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
     filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) & combined_df['key'].str.startswith('NFO')) | ((combined_df['product'].isin(['CNC', 'MIS'])) & (combined_df['qty'] != 0))]
-    # Filter combined_df for rows where 'qty' is greater than 0
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
-    # Calculate and print the sum of 'PnL' values and its total 'PL%' for rows where 'qty' is greater than 0
     total_PnL = round(combined_df_positive_qty['PnL'].sum())
-    total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0   
-    # Calculate total_PnL_percentage_options_buy
+    total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
     stocks_buy_df = combined_df.loc[(combined_df['product'] == "CNC") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
-    total_PnL_stocks_buy = round(stocks_buy_df['PnL'].sum()) if not stocks_buy_df.empty else 0    
+    total_PnL_stocks_buy = round(stocks_buy_df['PnL'].sum()) if not stocks_buy_df.empty else 0
     options_buy_df = combined_df.loc[(combined_df['product'] == "NRML")]
     total_PnL_options_buy = round(options_buy_df['PnL'].sum()) if not options_buy_df.empty else 0
     total_invested__nrml = options_buy_df['Invested'].sum() if not options_buy_df.empty else 0
     options_percentage_return = round((total_PnL_options_buy / total_invested__nrml) * 100, 0) if total_invested__nrml != 0 else 0
-    # Calculate and print the sum of 'dPnL' values and its total 'dPL%' for rows where 'qty' is greater than 0
-    #total_dPnL = combined_df_positive_qty['dPnL'].sum()
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
