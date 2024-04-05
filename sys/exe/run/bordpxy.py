@@ -2,18 +2,18 @@
 from acvaluepxy import process_acvalue, get_current_acvalue
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 import subprocess
-color_code = ""
+
+def printbord(total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
+             result_nrml, total_PnL_stocks_buy, total_PnL_options_buy, available_cash,
+             nse_action, nse_power, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy, nrmlall_Stocks_count, nrmlall_Stocks_capital, nrmlall_Stocks_worth, nrmlall_Stocks_profit_loss, nsma):
+    output_lines = []
+    color_code = ""
     if mktpxy in ["Buy", "Bull"]:
         color_code = BRIGHT_GREEN + UNDERLINE
     elif mktpxy in ["Sell", "Bear"]:
         color_code = BRIGHT_RED + UNDERLINE
     text = "PXY® PreciseXceleratedYield Pvt Ltd™"
     print(color_code + text.center(42) + RESET)
-def printbord(total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
-             result_nrml, total_PnL_stocks_buy, total_PnL_options_buy, available_cash,
-             nse_action, nse_power, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy, nrmlall_Stocks_count, nrmlall_Stocks_capital, nrmlall_Stocks_worth, nrmlall_Stocks_profit_loss, nsma):
-    output_lines = []
-
     acvalue = ((all_Stocks_capital_lacks) + (available_cash/100000))  
     process_acvalue(acvalue)
     acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
