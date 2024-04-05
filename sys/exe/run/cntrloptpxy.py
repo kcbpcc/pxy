@@ -32,24 +32,6 @@ except Exception as e:
 file_path = 'filePnL.csv'
 ###########################################################################################################################################################################################################
 
-###########################################################################################################################################################################################################
-def get_holdingsinfo(resp_list, broker):
-    try:
-        df = pd.DataFrame(resp_list)
-        df['source'] = 'holdings'
-        return df
-    except Exception as e:
-        print(f"An error occurred in holdings: {e}")
-        return None
-def get_positionsinfo(resp_list, broker):
-    try:
-        df = pd.DataFrame(resp_list)
-        df['source'] = 'positions'
-        return df
-    except Exception as e:
-        print(f"An error occurred in positions: {e}")
-        return None
-###########################################################################################################################################################################################################
 try:
     import sys
     import traceback
@@ -96,51 +78,11 @@ try:
     #SILVER = "\033[97m"
     #UNDERLINE = "\033[4m"
     #RESET = "\033[0m"
-    logging.debug("Are we having any holdings to check")
-    holdings_response = broker.kite.holdings()
-    positions_response = broker.kite.positions()['net']
-    holdings_df = get_holdingsinfo(holdings_response, broker)
-    positions_df = get_positionsinfo(positions_response, broker)
-    ###########################################################################################################################################################################################################
-    try:
-        response = broker.kite.margins()
-        available_cash = response["equity"]["available"]["live_balance"]
-        # Rest of your code that depends on the 'available_cash' variable
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        # Handle the error as needed
-        # Set available_cash to 0 or any other default value
-        available_cash = 0
-    # Add 'key' column to holdings_df and positions_df
-    # Create 'key' column if holdings_df is not empty
-    holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
-    # Create 'key' column if positions_df is not empty
-    positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
-    combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
-    # Get OHLC data for the 'key' column
-    lst = combined_df['key'].tolist()
-    resp = broker.kite.ohlc(lst)
-    # Create a dictionary from the response for easier mapping
-    dct = {
-        k: {
-            'ltp': v['ohlc'].get('ltp', v['last_price']),
-            'open': v['ohlc']['open'],
-            'high': v['ohlc']['high'],
-            'low': v['ohlc']['low'],
-            'close_price': v['ohlc']['close'],
-        }
-        for k, v in resp.items()
-    }
-    # Add 'ltp', 'open', 'high', and 'low' columns to the DataFrame
-    combined_df['ltp'] = combined_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row['last_price']), axis=1)
-    combined_df['open'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('open', 0))
-    combined_df['high'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('high', 0))
-    combined_df['low'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('low', 0))
-    combined_df['close'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('close_price', 0))
-    combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
-    combined_df['oPL%'] = combined_df.apply(lambda row: (((row['ltp'] - row['open']) / row['open']) * 100) if row['open'] != 0 else 1, axis=1)
-    combined_df['pstp'] = (combined_df['average_price'] *0.99)
-    combined_df['_pstp'] = (combined_df['average_price'] *1.01) 
+# Call the function to execute the code and return the combined DataFrame
+    from combined_df import process_data
+    combined_df = process_data()
+
+
     ###########################################################################################################################################################################################################
     epsilon = 1e-10
     combined_df[['smb_power']] = combined_df.apply(
@@ -179,25 +121,6 @@ try:
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
     combined_df['tPL%'] = np.where(SMAfty == 'up', np.maximum(1 * combined_df['tPL%'], 1.4), np.where(SMAfty == 'down', np.maximum(combined_df['tPL%'] * 0.5, 1.4), combined_df['tPL%']))
 ###########################################################################################################################################################################################################
-    # Calculate 'Invested' column
-    combined_df['Invested'] = (combined_df['qty'] * combined_df['average_price']).round(0).astype(int)
-    # Calculate 'value' column as 'qty' * 'ltp'
-    combined_df['value'] = combined_df['qty'] * combined_df['ltp']
-    combined_df['value_H'] = combined_df['qty'] * combined_df['high']
-    # Calculate 'PnL' column as 'value' - 'Invested'
-    combined_df['PnL'] = (combined_df['value'] - combined_df['Invested']).astype(int)
-    combined_df['PnL_H'] = combined_df['value_H'] - combined_df['Invested']
-    # Calculate 'PL%' column as ('PnL' / 'Invested') * 100
-    combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100).round(2)
-    #combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
-    combined_df['PL%_H'] = (combined_df['PnL_H'] / combined_df['Invested']) * 100
-    #combined_df['PL%_H'] = ((combined_df['PnL_H'] / combined_df['Invested']) * 100) * np.where(combined_df['qty'] < 0, -1, 1)
-    # Calculate 'Yvalue' column as 'qty' * 'close'
-    combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
-    # Calculate 'dPnL' column as 'close_price' - 'ltp'
-    combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
-    # Calculate 'dPL%' column as ('dPnL' / 'Invested') * 100
-    combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 ###########################################################################################################################################################################################################
     import pandas as pd
     import numpy as np
