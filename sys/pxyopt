@@ -1,31 +1,10 @@
+#PXY®
 #!/bin/bash
 
-# Function to display menu
-display_menu() {
-    echo "Do you sell or buy?"
-    echo "    b. 🟢 Buy 👆"
-    echo "    s. 🔴 Sell 👇"
-    echo "    o. 🫱 Opt 🫲"
-    echo "    q. 🚫 Exit 🚫"
-}
-
-# Function to execute selected Python script
-execute_script() {
-    case $1 in
-        s) python3 soptpxy.py ;;
-        b) python3 soptpxy.py ;;
-        o) python3 sboptpxy.py ;;
-        q) exit ;;
-        *) echo "Invalid option. Please select again." ;;
-    esac
-}
-
-# Main script
 source ~/env/bin/activate
+
+# Change to the script's directory
 cd ~/pxy/sys/exe/run
 
-while true; do
-    display_menu
-    read -p "Enter your choice: " choice
-    execute_script $choice
-done
+# Run the Python script
+python3 sboptpxy.py
