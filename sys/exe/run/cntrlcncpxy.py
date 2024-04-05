@@ -141,9 +141,9 @@ def stocks_avg_order_place(index, row):
     return False
 ###########################################################################################################################################################################################################
 try:
+    import pandas as pd
     import sys
     import traceback
-    import pandas as pd
     import datetime
     import time
     from login_get_kite import get_kite, remove_token
