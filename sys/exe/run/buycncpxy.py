@@ -42,7 +42,7 @@ finally:
     sys.stdout = original_stdout
 
 # Call the calculate_decision function to get the decision
-decision = calculate_decision()
+decision, optdecision = calculate_decision()
 
 if decision == "YES":
     try:
