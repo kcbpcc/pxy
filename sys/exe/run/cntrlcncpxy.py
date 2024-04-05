@@ -201,7 +201,20 @@ try:
 ###########################################################################################################################################################################################################
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * 1), 2)
-    #combined_df['tPL%'] = np.where(((nsma == 'up') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))), np.maximum(2 * combined_df['tPL%'], 1.4), np.where(((nsma == 'down') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))), np.maximum(combined_df['tPL%'] * 1, 1.4), 1.4))
+    # Handle NaN values by replacing them with 0
+    combined_df['dPL%'].fillna(0, inplace=True)
+    combined_df['oPL%'].fillna(0, inplace=True)
+    
+    # Ensure data types are numeric (float)
+    combined_df['dPL%'] = pd.to_numeric(combined_df['dPL%'], errors='coerce')
+    combined_df['oPL%'] = pd.to_numeric(combined_df['oPL%'], errors='coerce')
+    
+    # Apply the np.where() statement
+    combined_df['tPL%'] = np.where(((SMAfty == 'up') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))),
+                                    np.maximum(2 * combined_df['tPL%'], 1.4),
+                                    np.where(((SMAfty == 'down') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))),
+                                             np.maximum(combined_df['tPL%'] * 1, 1.4),
+                                             1.4))
 ###########################################################################################################################################################################################################
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
