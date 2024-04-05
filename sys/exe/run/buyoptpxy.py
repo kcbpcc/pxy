@@ -119,17 +119,22 @@ async def main():
     pe_option_type = 'PE'
     pe_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, pe_option_type)
     
-    # Place BUY orders for both CE and PE options
-    buy_order_placed_ce, buy_order_id_ce = await place_order(broker, ce_symbol, 'BUY', 'NRML', 50, 'MARKET')
-    buy_order_placed_pe, buy_order_id_pe = await place_order(broker, pe_symbol, 'BUY', 'NRML', 50, 'MARKET')
+    # Check if there are existing positions for CE and PE options with quantity >= 50
+    ce_position_exists = check_existing_positions(broker, ce_symbol)
+    pe_position_exists = check_existing_positions(broker, pe_symbol)
     
-    if buy_order_placed_ce:
-        print("BUY order for CE placed successfully.")
-    if buy_order_placed_pe:
-        print("BUY order for PE placed successfully.")
-
-async def run_main():
-    await main()
-
-asyncio.run(run_main())
-
+    if not ce_position_exists:
+        # Place BUY order for CE option
+        buy_order_placed_ce, buy_order_id_ce = await place_order(broker, ce_symbol, 'BUY', 'NRML', 50, 'MARKET')
+        if buy_order_placed_ce:
+            print("BUY order for CE placed successfully.")
+    else:
+        print("Existing position found for CE option.")
+    
+    if not pe_position_exists:
+        # Place BUY order for PE option
+        buy_order_placed_pe, buy_order_id_pe = await place_order(broker, pe_symbol, 'BUY', 'NRML', 50, 'MARKET')
+        if buy_order_placed_pe:
+            print("BUY order for PE placed successfully.")
+    else:
+        print("Existing position found for PE option.")
