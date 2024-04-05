@@ -7,19 +7,9 @@ import traceback
 import os
 import subprocess
 from cnstpxy import dir_path
-#from colorama import Fore, Style
 import csv
-#import telegram
 import asyncio
-#from bukdpxy import sum_last_numerical_value_in_each_row
-#from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
-
 file_path = 'filePnL.csv'
-#result = sum_last_numerical_value_in_each_row(file_path)  
-#file_path_nrml = "filePnL_nrml.csv"
-#result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
-
-#from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 logging = Logger(30, dir_path + "main.log")
 
 try:
