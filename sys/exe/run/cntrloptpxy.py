@@ -199,6 +199,34 @@ try:
     # Calculate 'dPL%' column as ('dPnL' / 'Invested') * 100
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 ###########################################################################################################################################################################################################
+    import pandas as pd
+    import numpy as np
+    
+    if not combined_df.empty:
+        if 'm2m' in combined_df.columns:
+            m2m_index = combined_df.columns.get_loc('m2m')
+            if not combined_df['m2m'].isnull().all():
+                combined_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
+                combined_df['m2m'] = combined_df['m2m'].astype(int)
+            else:
+                m2m_index = 0  # Set m2m_index to 0 if all values in 'm2m' column are empty
+        else:
+            #print("Warning: 'm2m' column not found.")
+            # If 'm2m' column doesn't exist, you can add it with default values or handle it accordingly
+            combined_df['m2m'] = 0  # For example, you can add 'm2m' column with default value 0
+        
+        m2m_filtered_df = combined_df[(combined_df['source'] == 'positions') & (combined_df['qty'] > 0)]
+        
+        # Check if 'm2m' column exists in m2m_filtered_df before accessing it
+        if 'm2m' in m2m_filtered_df.columns:
+            total_postions_m2m = m2m_filtered_df['m2m'].sum()
+        else:
+            #print("Warning: 'm2m' column not found in filtered DataFrame.")
+            total_postions_m2m = 0  # or any other appropriate value
+   
+    else:
+        total_postions_m2m = 0
+        #print("Combined DataFrame is empty.")
 
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
@@ -223,38 +251,6 @@ try:
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
 
-###########################################################################################################################################################################################################    import numpy as np
-    
-    # Check if the DataFrame is not empty
-    import numpy as np
-    
-    # Check if the DataFrame is not empty
-    if not filtered_df.empty:
-        # Ensure 'm2m' column is added and replace non-finite values with a default value
-        m2m_index = filtered_df.columns.get_loc('m2m')
-        filtered_df['m2m'] = filtered_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0).astype(int)
-    
-        # Filter out rows with NaN values in the 'key' column
-        filtered_df = filtered_df.dropna(subset=['key'])
-    
-        # Group by strike price and sum investments for Put and Call options
-        grouped_df = filtered_df.groupby(filtered_df['key'].str.extract(r'(\d+)').squeeze().astype(float).astype('Int64'))
-        combined_df = grouped_df.agg({
-            'Invested': 'sum',
-        }).reset_index()
-    
-        # Find CE target as same investment as PE for each strike price
-        for index, row in combined_df.iterrows():
-            strike_price = row['key']
-            pe_investment = filtered_df.loc[filtered_df['key'] == f'N{strike_price}PE', 'Invested'].sum()
-            ce_investment = filtered_df.loc[filtered_df['key'] == f'N{strike_price}CE', 'Invested'].sum()
-            ce_target = pe_investment
-            print(f"For CE with strike price {strike_price}, the target investment is: {ce_target}")
-    else:
-        print(YELLOW + "Filtered DataFrame is empty." + RESET)
-
-
-    
 ###########################################################################################################################################################################################################
     import numpy as np
     
