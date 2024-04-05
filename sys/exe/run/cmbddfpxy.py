@@ -132,6 +132,11 @@ try:
     combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
+
+    lstchk_file = "fileHPdf.csv"
+    # Dump the DataFrame to the CSV file, overwriting any existing file
+    combined_df.to_csv(lstchk_file, index=False)
+
     print(combined_df)
 except Exception as e:
     print(f"An error occurred: {e}")
