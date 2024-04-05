@@ -54,7 +54,7 @@ def get_holdingsinfo(combined_df):
         all_Stocks_worth = selected_holdings_df['ltp'].dot(selected_holdings_df['qty']).round(4)
         all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
 
-        nrmlall_Stocks_df = selected_holdings_df[selected_holdings_df['product'].isin(['NRML', 'MIS'])]
+        nrmlall_Stocks_df = selected_holdings_df[selected_holdings_df['product'].isin(['NRML'])]
         nrmlall_Stocks_count = len(nrmlall_Stocks_df)
         nrmlall_Stocks_capital = nrmlall_Stocks_df['cap'].sum()
         nrmlall_Stocks_worth = (nrmlall_Stocks_df['ltp'] * nrmlall_Stocks_df['qty']).round(4).sum()
