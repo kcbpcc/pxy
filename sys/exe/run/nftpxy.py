@@ -12,8 +12,7 @@ cedepth, pedepth = calculate_consecutive_candles("^NSEI")
 macd = calculate_macd_signal("^NSEI")
 nsma = check_index_status("^NSEI")
 # Initialize day_change_sign and open_change_sign
-day_change_sign = '+' if Day_Change > 0 else ''
-open_change_sign = '+' if Open_Change > 0 else ''
+
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -62,7 +61,8 @@ def get_nse_action():
         print(f"Error during data download for 5 days: {e}")
 
     return nse_action, nse_power, Day_Change, Open_Change, OPTIONS  # Return calculated values
-
+day_change_sign = '+' if Day_Change > 0 else ''
+open_change_sign = '+' if Open_Change > 0 else ''
 # Call the get_nse_action function
 nse_action, nse_power, Day_Change, Open_Change, OPTIONS = get_nse_action()
 #print("NSE Action:", nse_action, "\nNSE Power:", nse_power, "\nDay Change:", Day_Change, "\nOpen Change:", Open_Change, "\nOPTIONS:", OPTIONS)
