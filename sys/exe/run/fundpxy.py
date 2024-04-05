@@ -39,12 +39,14 @@ def calculate_decision():
 
         # Define 'YES' or 'NO' based on the available cash
         decision = "YES" if available_cash > 10000 else "NO"
-
+        optdecision = "YES" if available_cash > 25000 else "NO"
         # Print the decision
-        status_emoji = "✅" if decision == "YES" else "❌" if decision == "NO" else "❓"
-        print(f"Funds: {int(available_cash)} | {decision} to BUY {status_emoji}")
+        #status_emoji = "✅" if decision == "YES" else "❌" if decision == "NO" else "❓"
+        $opt_status_emoji = "✅" if decision == "YES" else "❌" if decision == "NO" else "❓"
+        #print(f"Funds: {int(available_cash)} | {decision} to BUY {status_emoji}")
+        #print(f"Funds: {int(available_cash)} | {optdecision} to BUY {opt_status_emoji}")
         # Only return the decision, not available_cash
-        return decision
+        return decision, optdecision 
 
     except Exception as e:
         remove_token(dir_path)
