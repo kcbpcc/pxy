@@ -22,9 +22,11 @@ while true; do
     echo "   -pxybuy                🌱        by"
     echo "   -pxypnl                💰        pl"
     echo "   -pxyopt                🛸        op"
+    echo "   -pxyosell              👇🏻        so"
     echo "   -pxyclean              🚿        cl"
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
+    
     echo "******************************************"
     echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
 
@@ -37,6 +39,10 @@ while true; do
         pp)
             echo "    🎉🎉🎉.pip install.🎉🎉🎉"
             pyp
+            ;;   
+        so)
+            echo "    👇🏻👇🏻👇🏻👇🏻.pip install.👇🏻👇🏻👇🏻👇🏻"
+            pxyso
             ;;   
         pl)
             echo "    💰💰💰.pip install.💰💰💰"
