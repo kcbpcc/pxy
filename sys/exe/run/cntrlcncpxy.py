@@ -326,9 +326,6 @@ try:
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
     nmktpxy = get_market_status_for_symbol('^NSEI')
-    bmktpxy = get_market_status_for_symbol('^NSEBANK')
-    fmktpxy = get_market_status_for_symbol('NIFTY_FIN_SERVICE.NS')
-    mmktpxy = get_market_status_for_symbol('NIFTY_MID_SELECT.NS')
     from mktpxy import get_market_check
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
