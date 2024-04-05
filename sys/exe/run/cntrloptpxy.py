@@ -296,17 +296,18 @@ try:
                                                                             'key'] + '🟩 '
     
         # Group by strike price and sum investments and PnL for Put and Call options
-        grouped_df = filtered_df.groupby(filtered_df['key'].str.extract(r'(\d+)').squeeze())
+        grouped_df = filtered_df.groupby(filtered_df['key'].str.extract(r'(\d+)').squeeze().astype(int))
         combined_df = grouped_df.agg({
             'Invested': 'sum',
             'PnL': 'sum'
         }).reset_index()
-    
+        
         # Print CE targets based on PE investments
         for index, row in combined_df.iterrows():
             strike_price = row['key']
             ce_target = row['Invested']
             print(f"For CE with strike price {strike_price}, the target investment is: {ce_target}")
+
     
         # Sort the DataFrame by PnL
         combined_df = combined_df.sort_values(by='PnL')
