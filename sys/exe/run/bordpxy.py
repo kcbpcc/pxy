@@ -50,12 +50,13 @@ def printbord(total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_P
     full_output = '\n'.join(output_lines)
     print(full_output)
     color_code = ""
-    color_code = ""
     if mktpxy in ["Buy", "Bull"]:
         color_code = BRIGHT_GREEN + UNDERLINE
     elif mktpxy in ["Sell", "Bear"]:
         color_code = BRIGHT_RED + UNDERLINE
     
+    text = "PXY® PreciseXceleratedYield Pvt Ltd™"
+    print(color_code + text.center(42) + RESET)
     print(color_code + "     PXY® PreciseXceleratedYield Pvt Ltd™" + RESET)
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
