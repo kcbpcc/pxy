@@ -6,14 +6,6 @@ from cnstpxy import dir_path
 from toolkit.logger import Logger
 import csv
 
-try:
-    sys.stdout = open('output.txt', 'w')
-    broker = get_kite(api="bypass", sec_dir=dir_path)
-except Exception as e:
-    remove_token(dir_path)
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
-    sys.exit(1)
 file_path = 'filePnL.csv'
 logging = Logger(30, dir_path + "main.log")
 
@@ -37,7 +29,14 @@ def get_positionsinfo(resp_list, broker):
 
 def process_data():
     try:
-
+        try:
+            sys.stdout = open('output.txt', 'w')
+            broker = get_kite(api="bypass", sec_dir=dir_path)
+        except Exception as e:
+            remove_token(dir_path)
+            print(traceback.format_exc())
+            logging.error(f"{str(e)} unable to get holdings")
+            sys.exit(1)
         holdings_response = broker.kite.holdings()
         positions_response = broker.kite.positions()['net']
         holdings_df = get_holdingsinfo(holdings_response, broker)
@@ -89,4 +88,3 @@ if result_df is not None:
     # Further processing of the DataFrame here
 else:
     print("Error occurred during data processing. Please check logs for details.")
-
