@@ -201,6 +201,10 @@ try:
     combined_df['smb_power'] = combined_df.apply(calculate_smb_power, axis=1)
     threshold = 3
 ###########################################################################################################################################################################################################
+    combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
+    combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * 1), 2)
+    combined_df['tPL%'] = np.where(((SMAfty == 'up') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))), np.maximum(2 * combined_df['tPL%'], 1.4), np.where(((SMAfty == 'down') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))), np.maximum(combined_df['tPL%'] * 1, 1.4), 1.4))
+###########################################################################################################################################################################################################
     numeric_columns = ['fPL%', 'tPL%', 'smb_power', 'oPL%', 'qty', 'average_price', 'Invested', 'Yvalue', 'ltp', 'close', 'open', 'high', 'low', 'value', 'PnL', 'PL%', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
     filtered_df = combined_df[(combined_df['product'] == 'CNC') & (combined_df['qty'] != 0)]
@@ -211,10 +215,7 @@ try:
     total_PnL_stocks_buy = round(stocks_buy_df['PnL'].sum()) if not stocks_buy_df.empty else 0
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
-###########################################################################################################################################################################################################
-    combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
-    combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * 1), 2)
-    combined_df['tPL%'] = np.where(((SMAfty == 'up') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))), np.maximum(2 * combined_df['tPL%'], 1.4), np.where(((SMAfty == 'down') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))), np.maximum(combined_df['tPL%'] * 1, 1.4), 1.4))
+
 ###########################################################################################################################################################################################################
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
