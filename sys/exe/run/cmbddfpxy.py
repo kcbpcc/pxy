@@ -90,7 +90,7 @@ def process_data():
         return None
 
 # Call the function to execute the code and return the combined DataFrame
-result_df = process_data()
+combined_df = process_data()
 
 # Check if the result is not None before further processing
 if result_df is not None:
