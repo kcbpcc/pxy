@@ -65,14 +65,14 @@ try:
     file_path = 'filePnL.csv'
 
 ############################################################################### DONT KNOW WHY THESE ARE NEEDED SOME HOW  ###############################################################################     
-    from bukdpxy import sum_last_numerical_value_in_each_row
-    from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
+    #from bukdpxy import sum_last_numerical_value_in_each_row
+    #from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
     from swchpxy import analyze_stock
-    from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
+    #from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     switch = analyze_stock()
-    result = sum_last_numerical_value_in_each_row(file_path)  
-    file_path_nrml = "filePnL_nrml.csv"
-    result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
+    #result = sum_last_numerical_value_in_each_row(file_path)  
+    #file_path_nrml = "filePnL_nrml.csv"
+    #result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
 
 ############################################################################### DONT KNOW WHY THESE ARE NEEDED SOME HOW  ###############################################################################   
     
