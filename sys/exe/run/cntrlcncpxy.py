@@ -295,29 +295,6 @@ try:
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
-     ###########################################################################################################################################################################################################
-            elif (
-                (row['qty'] > 0 and
-                 row['avg'] != 0 and
-                 available_cash > 10000 and
-                 nse_power < 0.1 and
-                 mktpxy in ['Buy', 'Bull'] and
-                 row['PL%'] < -20)
-            ):
-                try:
-                    is_placed = stocks_avg_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
-                    if is_placed:
-                        # Print the row before placing the order
-                        print(row['key'])
-                except InputException as e:
-                    # Handle the specific exception and print only the error message
-                    print(f"An error occurred while placing an order for key {key}: {e}")
-                except Exception as e:
-                    # Handle any other exceptions that may occur during order placement
-                    print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-    except Exception as e:
-        # Handle any other exceptions that may occur during the loop
-        print(f"An unexpected error occurred: {e}")
 ###########################################################################################################################################################################################################
     printbord(total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              total_PnL_stocks_buy, available_cash,
