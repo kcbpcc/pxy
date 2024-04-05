@@ -46,7 +46,6 @@ try:
     positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
     combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
 
-   combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
     lst = combined_df['key'].tolist()
     resp = broker.kite.ohlc(lst)
     dct = {
@@ -79,3 +78,4 @@ except Exception as e:
     print(f"An error occurred: {e}")
     traceback.print_exc()
     sys.exit(1)
+
