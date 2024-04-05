@@ -68,3 +68,4 @@ try:
     print(combined_df)
 finally:
     sys.stdout.close()
+    print(combined_df)
