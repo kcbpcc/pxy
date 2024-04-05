@@ -175,9 +175,6 @@ try:
     from smapxy import check_index_status
     SMAfty = check_index_status('^NSEI')
     from tabulate import tabulate
-    from mktrndpxy import get_market_status_for_symbol
-    importlib.reload(sys.modules['mktrndpxy'])
-    nmktpxy = get_market_status_for_symbol('^NSEI')
     from optpxy import get_opt_check
     optpxy = get_opt_check('^NSEI')
     from smapxy import check_index_status
