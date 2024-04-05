@@ -47,8 +47,8 @@ while True:
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
     subprocess.run(['python3', 'tistpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    subprocess.run(['python3', 'buypxy.py']) if (nse_power < 0.1 and peak == 'NONPEAK') or peak == 'PEAKEND' else None
-    subprocess.run(['python3', 'optpxy.py'])
+    subprocess.run(['python3', 'buycncpxy.py']) if (nse_power < 0.1 and peak == 'NONPEAK') or peak == 'PEAKEND' else None
+    subprocess.run(['python3', 'buyoptpxy.py'])
     subprocess.run(['python3', 'cntrlpxy.py']) 
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py'])
