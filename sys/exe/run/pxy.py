@@ -47,7 +47,10 @@ while True:
     
     def progress_bar(duration, mktpxy):
         console = Console()
-        console.print(''.join([GREEN('🏛 PXY®   ') if mktpxy in ['Bull', 'Buy'] else RED('🏛 PXY®   ') for _ in range(int(duration))]))
+        console.print(''.join(['[bright_green]🏛 PXY®   [/]' if mktpxy in ['Bull', 'Buy'] else '[bright_red]🏛 PXY®   [/]' for _ in range(int(duration))]))
 
     progress_bar(cycle, mktpxy)  # Ensure to pass `cycle` as an integer
+
+
+
 
