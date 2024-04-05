@@ -42,7 +42,7 @@ def calculate_decision():
         optdecision = "YES" if available_cash > 25000 else "NO"
         # Print the decision
         #status_emoji = "✅" if decision == "YES" else "❌" if decision == "NO" else "❓"
-        $opt_status_emoji = "✅" if decision == "YES" else "❌" if decision == "NO" else "❓"
+        #opt_status_emoji = "✅" if decision == "YES" else "❌" if decision == "NO" else "❓"
         #print(f"Funds: {int(available_cash)} | {decision} to BUY {status_emoji}")
         #print(f"Funds: {int(available_cash)} | {optdecision} to BUY {opt_status_emoji}")
         # Only return the decision, not available_cash
