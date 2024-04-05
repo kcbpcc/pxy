@@ -34,7 +34,7 @@ opt_df['CP'] = opt_df['key'].apply(lambda x: 'ðŸŸ¥' if x.endswith('PE') else ('ð
 opt_df.loc[:, 'key'] = opt_df['key'].str.replace('NFO:', '')  # Remove 'NFO:' from the 'key' column
 opt_df = opt_df[['CP','key', 'Invested', 'qty', 'PnL' ]]
 pd.set_option('display.max_colwidth', 40)
-print(opt_df.to_string(index=False, header=False, justify='right', col_space=1, line_width=40))
+print(opt_df.to_string(index=False, header=False, justify='right', col_space=1, line_width=42))
 
 
 
