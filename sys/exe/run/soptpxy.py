@@ -64,9 +64,21 @@ def check_existing_positions(broker, symbol):
             return True
     return False
 
-async def place_order(broker, symbol, transaction_type, product_type, quantity, order_type, price=None):
+async def place_order(broker, symbol, transaction_type, product_type, quantity, order_type, price=None, stop_loss=None, target=None):
     try:
-        if price is None:
+        if order_type == 'OCO':
+            order_id = broker.order_oco(
+                tradingsymbol=symbol,
+                quantity=quantity,
+                exchange="NFO",
+                transaction_type=transaction_type,
+                order_type=order_type,
+                product=product_type,
+                price=price,
+                stop_loss=stop_loss,
+                target=target
+            )
+        elif price is None:
             order_id = broker.order_place(
                 tradingsymbol=symbol,
                 quantity=quantity,
@@ -129,11 +141,15 @@ async def main():
             executed_price = order_history[-1]['average_price']  # Accessing 'average_price' from the last element
             if executed_price > 0:
                 # Calculate target price (94% of executed price) and round to one decimal place
-                target_price = round(executed_price - 10, 1)
-                # Place BUY order with MIS product type at target price
-                buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'MIS', 50, 'LIMIT', price=target_price)
-                if buy_order_placed:
-                    print("BUY order placed successfully at target price:", target_price)
+                target_price = round(executed_price - 5, 1)
+                # Calculate stop-loss price (for example, 2% below executed price)
+                stop_loss_price = round(executed_price + 10 , 1)
+                
+                # Place OCO order with MIS product type for target and stop-loss
+                oco_order_placed, oco_order_id = await place_order(broker, symbol, 'BUY', 'MIS', 50, 'OCO', price=target_price, stop_loss=stop_loss_price)
+                
+                if oco_order_placed:
+                    print("OCO order placed successfully.")
             else:
                 print("Error: Executed price is zero or negative.")
         else:
@@ -143,3 +159,5 @@ async def run_main():
     await main()
 
 asyncio.run(run_main())
+
+
