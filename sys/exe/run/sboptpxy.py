@@ -52,16 +52,16 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
         expiry_month = expiry_month[1]
 
     if expiry_day is None:
-        return f"NIFTY{expiry_year}{expiry_month}{noptions + 100}{option_type}"
+        return f"NIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
     else:
-        return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions + 100}{option_type}"
+        return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions}{option_type}"
 
 
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
     for position in positions_net:
-        if position['tradingsymbol'] == symbol and position['quantity'] < -300:
+        if position['tradingsymbol'] == symbol and position['quantity'] < 0:
             return True
     return False
 
