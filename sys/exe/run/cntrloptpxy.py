@@ -34,4 +34,4 @@ opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)]
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '')  # Remove 'NFO:' from the 'key' column
 opt_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
 opt_df = opt_df[['key', 'Invested', 'qty', 'PnL', 'CP']]  # Added a closing parenthesis here
-print(opt_df.to_string(index=False))
+print(opt_df.to_string(index=False, header=False))
