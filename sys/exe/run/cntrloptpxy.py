@@ -64,4 +64,4 @@ for line in formatted_lines:
     
 # Process exit orders for CE options
 for index, row in opt_df.iterrows():
-    exit_ce_options(row['key'], row['PL%'], row['qty'])
+    exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
