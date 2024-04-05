@@ -57,6 +57,7 @@ def stocks_sell_order_place(index, row):
                 variety='regular',
                 price=round_to_paise(row['ltp'], -0.2)
             )
+###########################################################################################################################################################################################################            
             if order_id:
                 logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
                 # Write the row to the CSV file here
@@ -257,9 +258,7 @@ try:
                          row['PL%'] > 1.4) and
                         (
                             (row['PL%'] > row['tPL%']) or
-                            (total_dPnL < 0) or
-                            (row['dPL%'] < 0) or
-                            (row['oPL%'] < 0)
+                            (total_dPnL < 0) 
                         )
                     ):
                         try:
