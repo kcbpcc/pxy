@@ -182,6 +182,8 @@ try:
     from mktrndpxy import get_market_status_for_symbol
     importlib.reload(sys.modules['mktrndpxy'])
     nmktpxy = get_market_status_for_symbol('^NSEI')
+    from optpxy import get_opt_check
+    optpxy = get_opt_check('^NSEI')
     from smapxy import check_index_status
     nsma = check_index_status("^NSEI")
     from dshpxy import get_holdingsinfo
