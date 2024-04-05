@@ -99,7 +99,7 @@ async def main():
     _, optdecision = calculate_decision()
     
     # Check if optdecision is YES
-    if optdecision.upper() == 'YES':
+    if optdecision == 'YES':
         try:
             # Redirect sys.stdout to 'output.txt'
             with open('output.txt', 'w') as file:
