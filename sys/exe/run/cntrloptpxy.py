@@ -256,17 +256,15 @@ try:
     print("━" * 42)
 ###########################################################################################################################################################################################################
     import numpy as np
-    if not options_filtered_df.empty:
-        if not combined_df.empty:
-            m2m_index = combined_df.columns.get_loc('m2m')
-            # Replace non-finite values with a default value (e.g., 0)
-            filtered_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
-            # Convert the column to integers
-            filtered_df['m2m'] = filtered_df['m2m'].astype(int)
-        else:
-            print(YELLOW + "Combined DataFrame is empty." + RESET)
+    
+    if not combined_df.empty:
+        m2m_index = combined_df.columns.get_loc('m2m')
+        # Replace non-finite values with a default value (e.g., 0)
+        filtered_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
+        # Convert the column to integers
+        filtered_df['m2m'] = filtered_df['m2m'].astype(int)
     else:
-        print("mktpxy: " + YELLOW + "options not activated" + RESET + ", let's wait!")
+        print(YELLOW + "Combined DataFrame is empty." + RESET)
     
     # Filter only rows where 'key' starts with 'NFO'
     filtered_df = filtered_df[filtered_df['key'].str.startswith('NFO')]
@@ -317,6 +315,7 @@ try:
             print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(41) + RESET)
     else:
         print(YELLOW + "..............no options yet in the swing." + RESET)
+
 
 
 ###########################################################################################################################################################################################################
