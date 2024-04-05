@@ -26,17 +26,15 @@ def get_holdingsinfo(combined_df):
         
         selected_columns = ['tradingsymbol','key', 'm2m', 'product', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
-        nfom2m_df = combined_df[combined_df['key'].str.contains("NFO:")].copy()
-        nfom2m_df['m2m'] = pd.to_numeric(nfom2m_df['m2m'], errors='coerce')
-        nfom2m_df['m2m'].fillna(0, inplace=True)
-        total_nrml_m2m = nfom2m_df['m2m'].sum()
-
-        nfom2m_df = combined_df[combined_df['key'].str.contains("NFO:") & (combined_df['source'] == 'positions')].copy()
-        nfom2m_df['m2m'] = pd.to_numeric(nfom2m_df['m2m'], errors='coerce')
-        nfom2m_df['m2m'].fillna(0, inplace=True)
-        total_cnc_m2m = nfom2m_df['m2m'].sum()
-
-    
+        nrml_nfom2m_df = combined_df[combined_df['key'].str.contains("NFO:")].copy()
+        nrml_nfom2m_df['m2m'] = pd.to_numeric(nrml_nfom2m_df['m2m'], errors='coerce')
+        nrml_nfom2m_df['m2m'].fillna(0, inplace=True)
+        nrml_total_nrml_m2m = nrml_nfom2m_df['m2m'].sum()
+        
+        cnc_nfom2m_df = combined_df[(combined_df['key'].str.contains("NSE:|BSE:") & (combined_df['source'] == 'positions'))].copy()
+        cnc_nfom2m_df['m2m'] = pd.to_numeric(cnc_nfom2m_df['m2m'], errors='coerce')
+        cnc_nfom2m_df['m2m'].fillna(0, inplace=True)
+        total_cnc_m2m = cnc_nfom2m_df['m2m'].sum()
         selected_holdings_df['cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
         selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
         selected_holdings_df['perc'] = ((selected_holdings_df['unrealized'] / selected_holdings_df['cap']) * 100).where(selected_holdings_df['cap'] > 0)
