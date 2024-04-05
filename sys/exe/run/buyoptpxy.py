@@ -13,8 +13,7 @@ from smapxy import check_index_status
 nsma = check_index_status('^NSEI')
 from optpxy import get_opt_check
 optpxy = get_opt_check('^NSEI')
-from fundpxy import calculate_decision
-decision, optdecision = calculate_decision()
+
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
@@ -62,7 +61,7 @@ def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
     for position in positions_net:
-        if position['tradingsymbol'] == symbol and position['quantity'] < 0:
+        if position['tradingsymbol'] == symbol and abs(position['quantity']) >= 50:
             return True
     return False
 
@@ -92,69 +91,65 @@ async def place_order(broker, symbol, transaction_type, product_type, quantity, 
         print(f"Error placing order for {symbol}: {e}")
         return False, None
 
-from fundpxy import calculate_decision
-
 async def main():
-    # Check the decision from the fundpxy module
-    _, optdecision = calculate_decision()
+    try:
+        # Redirect sys.stdout to 'output.txt'
+        with open('output.txt', 'w') as file:
+            sys.stdout = file
+
+            try:
+                broker = get_kite(api="bypass", sec_dir=dir_path)
+            except Exception as e:
+                remove_token(dir_path)
+                print(traceback.format_exc())
+                logging.error(f"{str(e)} unable to get holdings")
+                sys.exit(1)
+
+    finally:
+        # Reset sys.stdout to its default value
+        sys.stdout = sys.__stdout__
     
-    # Check if optdecision is YES
-    if optdecision == 'YES':
-        try:
-            # Redirect sys.stdout to 'output.txt'
-            with open('output.txt', 'w') as file:
-                sys.stdout = file
+    expiry_year, expiry_month, expiry_day = get_this_thursday()
+    
+    # For Call option (CE)
+    ce_option_type = 'CE'
+    ce_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, ce_option_type)
+    
+    # For Put option (PE)
+    pe_option_type = 'PE'
+    pe_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, pe_option_type)
+    
+    # Place BUY orders for both CE and PE options
+    buy_order_placed_ce, buy_order_id_ce = await place_order(broker, ce_symbol, 'BUY', 'MIS', 50, 'MARKET')
+    buy_order_placed_pe, buy_order_id_pe = await place_order(broker, pe_symbol, 'BUY', 'MIS', 50, 'MARKET')
+    
+    if buy_order_placed_ce:
+        print("BUY order for CE placed successfully.")
+    if buy_order_placed_pe:
+        print("BUY order for PE placed successfully.")
+        
+        # Get executed prices for both CE and PE
+        ce_executed_price = 0
+        pe_executed_price = 0
+        
+        order_history_ce = broker.kite.order_history(buy_order_id_ce)
+        if isinstance(order_history_ce, list) and order_history_ce:
+            ce_executed_price = order_history_ce[-1]['average_price']
+        order_history_pe = broker.kite.order_history(buy_order_id_pe)
+        if isinstance(order_history_pe, list) and order_history_pe:
+            pe_executed_price = order_history_pe[-1]['average_price']
+        
+        if ce_executed_price > 0 and pe_executed_price > 0:
+            # Calculate target price for CE using CE and PE executed prices
+            ce_target_price = round((ce_executed_price + pe_executed_price), 1)
+            # Place SELL order for CE at target price
+            sell_order_placed, sell_order_id = await place_order(broker, ce_symbol, 'SELL', 'MIS', 50, 'LIMIT', price=ce_target_price)
+            if sell_order_placed:
+                print("SELL order for CE placed successfully at target price:", ce_target_price)
+        else:
+            print("Error: Executed prices for CE and/or PE are zero or negative.")
 
-                try:
-                    broker = get_kite(api="bypass", sec_dir=dir_path)
-                except Exception as e:
-                    remove_token(dir_path)
-                    print(traceback.format_exc())
-                    logging.error(f"{str(e)} unable to get holdings")
-                    sys.exit(1)
+async def run_main():
+    await main()
 
-        finally:
-            # Reset sys.stdout to its default value
-            sys.stdout = sys.__stdout__
-        
-        expiry_year, expiry_month, expiry_day = get_this_thursday()
-        
-        # For Call option (CE)
-        ce_option_type = 'CE'
-        ce_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, ce_option_type)
-        
-        # For Put option (PE)
-        pe_option_type = 'PE'
-        pe_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, pe_option_type)
-        
-        # Place BUY orders for both CE and PE options
-        buy_order_placed_ce, buy_order_id_ce = await place_order(broker, ce_symbol, 'BUY', 'MIS', 50, 'MARKET')
-        buy_order_placed_pe, buy_order_id_pe = await place_order(broker, pe_symbol, 'BUY', 'MIS', 50, 'MARKET')
-        
-        if buy_order_placed_ce:
-            print("BUY order for CE placed successfully.")
-        if buy_order_placed_pe:
-            print("BUY order for PE placed successfully.")
-            
-            # Get executed prices for both CE and PE
-            ce_executed_price = 0
-            pe_executed_price = 0
-            
-            order_history_ce = broker.kite.order_history(buy_order_id_ce)
-            if isinstance(order_history_ce, list) and order_history_ce:
-                ce_executed_price = order_history_ce[-1]['average_price']
-            order_history_pe = broker.kite.order_history(buy_order_id_pe)
-            if isinstance(order_history_pe, list) and order_history_pe:
-                pe_executed_price = order_history_pe[-1]['average_price']
-            
-            if ce_executed_price > 0 and pe_executed_price > 0:
-                # Calculate target price for CE using CE and PE executed prices
-                ce_target_price = round((ce_executed_price + pe_executed_price), 1)
-                # Place SELL order for CE at target price
-                sell_order_placed, sell_order_id = await place_order(broker, ce_symbol, 'SELL', 'MIS', 50, 'LIMIT', price=ce_target_price)
-                if sell_order_placed:
-                    print("SELL order for CE placed successfully at target price:", ce_target_price)
-            else:
-                print("Error: Executed prices for CE and/or PE are zero or negative.")
-    else:
-        print("Optdecision is not YES. Exiting program.")
+asyncio.run(run_main())
