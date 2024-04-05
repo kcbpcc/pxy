@@ -109,7 +109,7 @@ def stocks_avg_order_place(index, row):
         if len(exchsym) >= 2 :
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
             # Calculate quantity based on the value of 5000
-            qty = 5000 // row['ltp']
+            qty = 1 if row['ltp'] > 1000 else 1000 // row['ltp']
             qty = int(qty)  # Remove decimals
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
@@ -485,10 +485,10 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
-                         available_cash > 20000 and
+                         available_cash > 10000 and
                          nse_power < 0.1 and
                          mktpxy in ['Buy', 'Bull'] and
-                         row['PL%'] < -74)
+                         row['PL%'] < -20)
                     ):
                         try:                            
                             is_placed = stocks_avg_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
