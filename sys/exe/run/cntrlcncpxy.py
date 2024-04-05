@@ -206,33 +206,6 @@ try:
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * 1), 2)
     combined_df['tPL%'] = np.where(SMAfty == 'up', np.maximum(1 * combined_df['tPL%'], 1.4), np.where(SMAfty == 'down', np.maximum(combined_df['tPL%'] * 0.5, 1.4), combined_df['tPL%']))
 ###########################################################################################################################################################################################################
-    import pandas as pd
-    import numpy as np
-    if not combined_df.empty:
-        if 'm2m' in combined_df.columns:
-            m2m_index = combined_df.columns.get_loc('m2m')
-            if not combined_df['m2m'].isnull().all():
-                combined_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
-                combined_df['m2m'] = combined_df['m2m'].astype(int)
-            else:
-                m2m_index = 0  # Set m2m_index to 0 if all values in 'm2m' column are empty
-        else:
-            #print("Warning: 'm2m' column not found.")
-            # If 'm2m' column doesn't exist, you can add it with default values or handle it accordingly
-            combined_df['m2m'] = 0  # For example, you can add 'm2m' column with default value 0
-        
-        m2m_filtered_df = combined_df[(combined_df['source'] == 'positions') & (combined_df['qty'] > 0)]
-        
-        # Check if 'm2m' column exists in m2m_filtered_df before accessing it
-        if 'm2m' in m2m_filtered_df.columns:
-            total_postions_m2m = m2m_filtered_df['m2m'].sum()
-        else:
-            #print("Warning: 'm2m' column not found in filtered DataFrame.")
-            total_postions_m2m = 0  # or any other appropriate value
-   
-    else:
-        total_postions_m2m = 0
-        #print("Combined DataFrame is empty.")
 
 ###########################################################################################################################################################################################################    
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%', 'dPnL', 'dPL%']
