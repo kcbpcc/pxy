@@ -17,8 +17,8 @@ optpxy = get_opt_check('^NSEI')
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
-        bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
-        user_usernames = '-4135910842'  # Replace with your Telegram username or ID
+        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+        user_usernames = '-4136531362'  # Replace with your Telegram username or ID
         # Create a Telegram bot
         bot = telegram.Bot(token=bot_token)
         # Send the message to Telegram
