@@ -45,22 +45,6 @@ formatted_lines = opt_df.to_string(index=False, header=False, justify='left', co
 
 # Print each line with proper alignment and color
 max_width = 42
-for line in formatted_lines:
-    values = line.split()
-    pnl_value_str = values[-2]
-    try:
-        pnl_value = float(pnl_value_str)
-    except ValueError:
-        pnl_value = None
-    if pnl_value is not None:
-        if pnl_value > 0:
-            color_code = GREEN
-        elif pnl_value < 0:
-            color_code = RED
-        elif pnl_value == 0:
-            color_code = YELLOW
-        else:
-            color_code = RESET
-    else:
-        color_code = RESET
+color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
+
     print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(41) + RESET)
