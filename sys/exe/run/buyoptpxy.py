@@ -129,7 +129,7 @@ async def main():
         if buy_order_placed_ce:
             print("BUY order for CE placed successfully.")
     else:
-         print(f"Existing {ce_symbol},So i am not Buying")
+         print(f"Existing {ce_symbol},So not Buying")
     
     if not pe_position_exists:
         # Place BUY order for PE option
@@ -137,7 +137,7 @@ async def main():
         if buy_order_placed_pe:
             print("BUY order for PE placed successfully.")
     else:
-         print(f"Existing {pe_symbol},So i am not Buying")
+         print(f"Existing {pe_symbol},So not Buying")
 
 
 async def run_main():
