@@ -254,6 +254,7 @@ try:
 ###########################################################################################################################################################################################################
     import numpy as np
     
+    # Check if the DataFrame is not empty
     if not combined_df.empty:
         m2m_index = combined_df.columns.get_loc('m2m')
         # Replace non-finite values with a default value (e.g., 0)
@@ -269,7 +270,15 @@ try:
     # After ensuring 'm2m' column is added and rows are filtered, proceed with the rest of the code
     if not filtered_df.empty:
         # Apply transformations
-        filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
+        filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(
+            lambda smb_power: '⚪' if smb_power > 0.8 else (
+                '🟢' if 0.5 < smb_power <= 0.8 else (
+                    '🟠' if 0.3 < smb_power <= 0.5 else (
+                        '🔴' if smb_power <= 0.3 else smb_power
+                    )
+                )
+            )
+        )
         filtered_df['key'] = filtered_df['key'].str.replace('NFO:NIFTY', 'N')
     
         # Replace non-finite values in 'PL%' column with 0
@@ -278,18 +287,38 @@ try:
         # Convert 'PL%' column to integer
         filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
     
-        filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] = filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] + '🟥 '
-        filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] = filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] +  '🟩 '
+        # Append symbols for Call and Put options
+        filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] = filtered_df.loc[
+                                                                            filtered_df['key'].str.endswith('CE'),
+                                                                            'key'] + '🟥 '
+        filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] = filtered_df.loc[
+                                                                            filtered_df['key'].str.endswith('PE'),
+                                                                            'key'] + '🟩 '
     
-        filtered_df = filtered_df.sort_values(by='PL%')
+        # Group by strike price and sum investments and PnL for Put and Call options
+        grouped_df = filtered_df.groupby(filtered_df['key'].str.extract(r'(\d+)').squeeze())
+        combined_df = grouped_df.agg({
+            'Invested': 'sum',
+            'PnL': 'sum'
+        }).reset_index()
     
-        for index, row in filtered_df.iterrows():
+        # Print CE targets based on PE investments
+        for index, row in combined_df.iterrows():
+            strike_price = row['key']
+            ce_target = row['Invested']
+            print(f"For CE with strike price {strike_price}, the target investment is: {ce_target}")
+    
+        # Sort the DataFrame by PnL
+        combined_df = combined_df.sort_values(by='PnL')
+    
+        for index, row in combined_df.iterrows():
             if row['product'] == 'MIS':
-                filtered_df.at[index, 'product'] = '⌛'
+                combined_df.at[index, 'product'] = '⌛'
             elif row['product'] == 'NRML':
-                filtered_df.at[index, 'product'] = '⏰'
+                combined_df.at[index, 'product'] = '⏰'
     
-        formatted_lines = filtered_df[['key', 'Invested', 'qty','m2m', 'PnL']].to_string(index=False, header=False).split('\n')
+        # Format and print the DataFrame
+        formatted_lines = combined_df[['key', 'Invested', 'PnL']].to_string(index=False, header=False).split('\n')
         max_width = 42
         for line in formatted_lines:
             values = line.split()
@@ -312,6 +341,7 @@ try:
             print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(41) + RESET)
     else:
         print(YELLOW + "..............no options yet in the swing." + RESET)
+
 ###########################################################################################################################################################################################################
 
 except Exception as e:
