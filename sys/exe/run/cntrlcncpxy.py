@@ -210,9 +210,9 @@ try:
     combined_df['oPL%'] = pd.to_numeric(combined_df['oPL%'], errors='coerce')
     
     # Apply the np.where() statement
-    combined_df['tPL%'] = np.where(((SMAfty == 'up') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))),
+    combined_df['tPL%'] = np.where(((nsma == 'up') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))),
                                     np.maximum(2 * combined_df['tPL%'], 1.4),
-                                    np.where(((SMAfty == 'down') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))),
+                                    np.where(((nsma == 'down') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))),
                                              np.maximum(combined_df['tPL%'] * 1, 1.4),
                                              1.4))
 ###########################################################################################################################################################################################################
