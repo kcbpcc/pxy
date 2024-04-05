@@ -10,8 +10,6 @@ from login_get_kite import get_kite, remove_token
 import sys
 from time import sleep
 import traceback
-from constants import dir_path, buff, secs, perc_col_name
-from holdings import get
 file_path = 'filePnL.csv'
 logging = Logger(30, dir_path + "main.log")
 
