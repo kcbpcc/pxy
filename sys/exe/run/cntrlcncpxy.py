@@ -173,12 +173,10 @@ try:
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
     from smapxy import check_index_status
-    SMAfty = check_index_status('^NSEI')
+    nsma = check_index_status('^NSEI')
     from tabulate import tabulate
     from optpxy import get_opt_check
     optpxy = get_opt_check('^NSEI')
-    from smapxy import check_index_status
-    nsma = check_index_status("^NSEI")
     from dshpxy import get_holdingsinfo
     total_nrml_m2m, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
     from bordpxy import printbord
@@ -203,7 +201,7 @@ try:
 ###########################################################################################################################################################################################################
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * 1), 2)
-    #combined_df['tPL%'] = np.where(((SMAfty == 'up') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))), np.maximum(2 * combined_df['tPL%'], 1.4), np.where(((SMAfty == 'down') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))), np.maximum(combined_df['tPL%'] * 1, 1.4), 1.4))
+    #combined_df['tPL%'] = np.where(((nsma == 'up') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))), np.maximum(2 * combined_df['tPL%'], 1.4), np.where(((nsma == 'down') & ((combined_df['dPL%'] >= 0) & (combined_df['oPL%'] >= 0))), np.maximum(combined_df['tPL%'] * 1, 1.4), 1.4))
 ###########################################################################################################################################################################################################
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
