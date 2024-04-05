@@ -219,7 +219,7 @@ try:
     combined_df.to_csv(lstchk_file, index=False)
     pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL', 'PL%']]
     pxy_df['avg'] =filtered_df['average_price']
-    EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low',  'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
+    EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
     PRINT_df = pxy_df[(pxy_df['qty'] > 0) & (~pxy_df['key'].str.contains('NFO'))][['source', 'key', 'dPL%', 'oPL%', 'tPL%', 'smb_power', 'PL%', 'PnL']]
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'smb_power': 'TR','key': 'key','dPL%': 'dPL%'})
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '📌', 'positions': '🎯'})
