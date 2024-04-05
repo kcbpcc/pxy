@@ -18,14 +18,15 @@ def place_order(key, action, quantity):
     # Implement your order placement logic here
     pass
 
-def exit_ce_options(key, pl_percentage, quantity):
+def exit_ce_options(key, pl_percentage, quantity, pnl):
     if key.endswith('CE') and pl_percentage >= 100:
         try:
             place_order(key, 'SELL', quantity)  # Assuming you have a function to place orders named place_order()
-            print(f"Exit order placed for {key} successfully.")
+            message = f"Exit order placed for {key} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
+            print(message)
+            send_telegram_message(message)
         except Exception as e:
             print(f"Error placing exit order for {key}: {e}")
-
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
