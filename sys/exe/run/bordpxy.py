@@ -25,6 +25,8 @@ def printbord(total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_P
                         right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((acvalue_to_print + hide), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"A/C Profit:{BRIGHT_GREEN if (acvalue_to_print - capital) > 0 else BRIGHT_RED}{round((acvalue_to_print - capital ), 2)}{RESET}") +
                         right_aligned_format.format(f"A/C Loss:{BRIGHT_GREEN if total_PnL >= 0 else BRIGHT_RED}{round((total_PnL/100000), 2)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
+                        right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_rercentage}{RESET}"))                                  
     output_lines.append(
         left_aligned_format.format(
             f"{BRIGHT_YELLOW}{'Green'.zfill(3)}{RESET}:{str(green_Stocks_count).zfill(3)}"
@@ -47,10 +49,7 @@ def printbord(total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_P
 
     full_output = '\n'.join(output_lines)
     print(full_output)
-    print(
-        f"Flush:{(BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED)}{round(green_Stocks_profit_loss):>5}{RESET}".zfill(5)
-        + ((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "   ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ  " + RESET)
-        + f"Flush%:{(BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED)}{green_Stocks_capital_rercentage:.2f}{RESET}".zfill(6)
-    )
+    print("ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + (GREEN if nsma == "up" else RED if nsma == "down" else YELLOW))
+
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
