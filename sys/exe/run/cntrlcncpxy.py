@@ -186,6 +186,9 @@ try:
     try:
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
+    except KeyError as e:
+        print(f"KeyError: {e}")
+        available_cash = 0
     except Exception as e:
         print(f"An error occurred: {e}")
         available_cash = 0
