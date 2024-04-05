@@ -505,7 +505,6 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
 ###########################################################################################################################################################################################################
-    print("━" * 42)
     from smapxy import check_index_status
     nsma = check_index_status("^NSEI")
     from dshpxy import get_holdingsinfo
@@ -516,7 +515,6 @@ try:
              nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma)
 ###########################################################################################################################################################################################################
     if not stocks_filtered_df.empty:
-        print("━" * 42)
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))
         print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
 ###########################################################################################################################################################################################################
