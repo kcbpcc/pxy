@@ -1,13 +1,12 @@
 from rich import print
-from colorama import Fore, Style
 import sys
 import yfinance as yf
 import time
 import warnings
-from macdpxy import calculate_macd_signal
-from smapxy import check_index_status
-from depthpxy import calculate_consecutive_candles
-cedepth, pedepth = calculate_consecutive_candles("^NSEI")
+
+# Set the python3IOENCODING environment variable to 'utf-8'
+sys.stdout.reconfigure(encoding='utf-8')
+
 # Suppress yfinance warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -54,17 +53,6 @@ def get_nse_action():
 
     return nse_action, nse_power, Day_Change, Open_Change, OPTIONS  # Return calculated values
 
-# Set the python3IOENCODING environment variable to 'utf-8'
-sys.stdout.reconfigure(encoding='utf-8')
-
 # Call the get_nse_action function
 nse_action, nse_power, Day_Change, Open_Change, OPTIONS = get_nse_action()
-
-day_change_sign = '+' if Day_Change > 0 else ''
-open_change_sign = '+' if Open_Change > 0 else ''
-
-# Define close_color variable
-close_color = Fore.RED if Day_Change < 0 else Fore.GREEN
-
-# Print the formatted output using rich print
-print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈-{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
+#print("NSE Action:", nse_action, "\nNSE Power:", nse_power, "\nDay Change:", Day_Change, "\nOpen Change:", Open_Change, "\nOPTIONS:", OPTIONS)
