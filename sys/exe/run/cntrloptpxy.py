@@ -7,14 +7,17 @@ import pandas as pd
 logging = Logger(30, "main.log")
 
 try:
-    # Get Kite instance
-    broker = get_kite(api="bypass", sec_dir="dir_path")
+    # Redirect sys.stdout to 'output.txt'
+    with open('output.txt', 'w') as file:
+        sys.stdout = file
 
-except Exception as e:
-    # Log error and exit
-    remove_token("dir_path")
-    logging.error(f"Unable to get holdings: {str(e)}")
-    sys.exit(1)
+        try:
+            broker = get_kite(api="bypass", sec_dir=dir_path)
+        except Exception as e:
+            remove_token(dir_path)
+            print(traceback.format_exc())
+            logging.error(f"{str(e)} unable to get holdings")
+            sys.exit(1)
 
 def get_positionsinfo(resp_list, broker):
     try:
