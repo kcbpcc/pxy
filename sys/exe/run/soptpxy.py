@@ -17,8 +17,8 @@ optpxy = get_opt_check('^NSEI')
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
-        bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
-        user_usernames = '-4135910842'  # Replace with your Telegram username or ID
+        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+        user_usernames = '-4136531362'  # Replace with your Telegram username or ID
         # Create a Telegram bot
         bot = telegram.Bot(token=bot_token)
         # Send the message to Telegram
@@ -40,7 +40,7 @@ def get_this_thursday():
         if this_thursday.day > last_day_of_month.day - 7:
             return this_thursday.strftime("%y"), this_thursday.strftime("%m"), this_thursday.strftime("%d").zfill(2)
     expiry_year = this_thursday.strftime("%y")
-    month_number = int((this_thursday+dtadjest).strftime("%m"))
+    month_number = int(this_thursday.strftime("%m"))
     expiry_month = str(month_number) if month_number <= 9 else this_thursday.strftime("%m")
     expiry_day_adjest = timedelta(days=adjest)  # Example adjustment of 7 days
     expiry_day = (this_thursday - expiry_day_adjest).strftime("%d").zfill(2)
