@@ -5,6 +5,10 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from toolkit.logger import Logger
 import csv
+import os
+import sys
+import traceback
+import logging
 
 file_path = 'filePnL.csv'
 logging = Logger(30, dir_path + "main.log")
@@ -27,9 +31,22 @@ def get_positionsinfo(resp_list, broker):
         print(f"An error occurred in positions: {e}")
         return None
 
+try:
+    sys.stdout = open('output.txt', 'w')
+    broker = get_kite(api="bypass", sec_dir=dir_path)
+except Exception as e:
+    remove_token(dir_path)
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} unable to get holdings")
+    sys.exit(1)
+finally:
+    # Ensure to close the file and restore stdout
+    if sys.stdout != sys.__stdout__:
+        sys.stdout.close()
+        sys.stdout = sys.__stdout__
+
 def process_data():
     try:
-        broker = get_kite(api="bypass", sec_dir=dir_path)
         holdings_response = broker.kite.holdings()
         positions_response = broker.kite.positions()['net']
         holdings_df = get_holdingsinfo(holdings_response, broker)
