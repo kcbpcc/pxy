@@ -59,7 +59,7 @@ try:
     import os
     import numpy as np
     #from mktpxy import get_market_check
-    onemincandlesequance, mktpxy = get_market_check('^NSEI')
+    #onemincandlesequance, mktpxy = get_market_check('^NSEI')
     from optpxy import get_opt_check
     optpxy = get_opt_check('^NSEI')
     import importlib
