@@ -236,7 +236,7 @@ try:
 ###########################################################################################################################################################################################################   
     csv_file_path = "filePnL.csv"
     selected_rows = []
-    if nse_power < 1:
+    if nse_power < 1 :
         try:
             for index, row in EXE_df.iterrows():
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
@@ -248,26 +248,44 @@ try:
                     row['high'] > 0 and
                     row['low'] > 0 and
                     row['close'] > 0 and
-                    row['ltp'] != 0
-                ):
+                    row['ltp'] != 0                   
+                ):                            
+###########################################################################################################################################################################################################                    
                     if (
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
                          nse_power < 0.9 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 1.4) and
+                         row['PL%'] > 1.4 ) and
                         (
-                            (row['PL%'] > row['tPL%']) or
-                            (total_dPnL < 0) or
-                            (row['dPL%'] < 0) or
-                            (row['oPL%'] < 0)
+                            (row['PL%'] > row['tPL%']) or ((row['PL%'] > 1.4) and (total_dPnL < 0))
                         )
                     ):
                         try:
                             is_placed = stocks_sell_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
-                                print(row)
+                                print(row)                                
+                        except InputException as e:
+                            # Handle the specific exception and print only the error message
+                            print(f"An error occurred while placing an order for key {key}: {e}")
+                        except Exception as e:
+                            # Handle any other exceptions that may occur during order placement
+                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+###########################################################################################################################################################################################################     
+                    elif (
+                        (row['qty'] > 0 and
+                         row['avg'] != 0 and
+                         available_cash > 10000 and
+                         nse_power < 0.1 and
+                         mktpxy in ['Buy', 'Bull'] and
+                         row['PL%'] < -20)
+                    ):
+                        try:                            
+                            is_placed = stocks_avg_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
+                            if is_placed:
+                                # Print the row before placing the order
+                                print(row['key'])                                
                         except InputException as e:
                             # Handle the specific exception and print only the error message
                             print(f"An error occurred while placing an order for key {key}: {e}")
@@ -275,10 +293,9 @@ try:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
         except Exception as e:
-            # Handle any exceptions that may occur during the iteration
-            print(f"An error occurred during iteration: {e}")
-    
-    ###########################################################################################################################################################################################################
+            # Handle any other exceptions that may occur during the loop
+            print(f"An unexpected error occurred: {e}")        
+     ###########################################################################################################################################################################################################
             elif (
                 (row['qty'] > 0 and
                  row['avg'] != 0 and
