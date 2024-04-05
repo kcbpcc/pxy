@@ -1,25 +1,17 @@
-import sys
-import traceback
 import pandas as pd
 import datetime
 import time
-from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
-import csv
-from cnstpxy import sellbuff, secs, perc_col_name
+from login_get_kite import get_kite, remove_token
+import sys
 from time import sleep
-import subprocess
-import random
+import traceback
 import os
-import numpy as np
-import importlib
-import math
-import telegram
+import subprocess
+from cnstpxy import dir_path
+import csv
 import asyncio
-from swchpxy import analyze_stock
-
 file_path = 'filePnL.csv'
 logging = Logger(30, dir_path + "main.log")
 
@@ -31,6 +23,8 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
+
+file_path = 'filePnL.csv'
 
 def get_holdingsinfo(resp_list, broker):
     try:
@@ -51,6 +45,33 @@ def get_positionsinfo(resp_list, broker):
         return None
 
 try:
+    import sys
+    import traceback
+    import pandas as pd
+    import datetime
+    import time
+    from login_get_kite import get_kite, remove_token
+    from cnstpxy import dir_path
+    from toolkit.logger import Logger
+    from toolkit.currency import round_to_paise
+    import csv
+    from cnstpxy import sellbuff, secs, perc_col_name
+    from time import sleep
+    import subprocess
+    import random
+    import os
+    import numpy as np
+    import importlib
+    import math
+    import telegram
+    import asyncio
+    file_path = 'filePnL.csv'
+
+############################################################################### DONT KNOW WHY THESE ARE NEEDED SOME HOW  ###############################################################################     
+    from swchpxy import analyze_stock
+    switch = analyze_stock()
+############################################################################### DONT KNOW WHY THESE ARE NEEDED SOME HOW  ###############################################################################   
+    
     logging.debug("Are we having any holdings to check")
     holdings_response = broker.kite.holdings()
     positions_response = broker.kite.positions()['net']
@@ -87,7 +108,6 @@ try:
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
     print(combined_df)
-    
 except Exception as e:
     print(f"An error occurred: {e}")
     traceback.print_exc()
