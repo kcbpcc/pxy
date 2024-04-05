@@ -252,96 +252,93 @@ try:
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
 
 ###########################################################################################################################################################################################################
-    import numpy as np
-    
     # Check if the DataFrame is not empty
     if not combined_df.empty:
         m2m_index = combined_df.columns.get_loc('m2m')
         # Replace non-finite values with a default value (e.g., 0)
-        filtered_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
+        combined_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
         # Convert the column to integers
-        filtered_df['m2m'] = filtered_df['m2m'].astype(int)
-    else:
-        print(YELLOW + "Combined DataFrame is empty." + RESET)
+        combined_df['m2m'] = combined_df['m2m'].astype(int)
     
-    # Filter only rows where 'key' starts with 'NFO'
-    filtered_df = filtered_df[filtered_df['key'].str.startswith('NFO')]
+        # Filter only rows where 'key' starts with 'NFO'
+        combined_df = combined_df[combined_df['key'].str.startswith('NFO')]
     
-    # After ensuring 'm2m' column is added and rows are filtered, proceed with the rest of the code
-    if not filtered_df.empty:
-        # Apply transformations
-        filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(
-            lambda smb_power: '⚪' if smb_power > 0.8 else (
-                '🟢' if 0.5 < smb_power <= 0.8 else (
-                    '🟠' if 0.3 < smb_power <= 0.5 else (
-                        '🔴' if smb_power <= 0.3 else smb_power
+        # After ensuring 'm2m' column is added and rows are filtered, proceed with the rest of the code
+        if not combined_df.empty:
+            # Apply transformations
+            combined_df.loc[:, 'option_power'] = combined_df['smb_power'].apply(
+                lambda smb_power: '⚪' if smb_power > 0.8 else (
+                    '🟢' if 0.5 < smb_power <= 0.8 else (
+                        '🟠' if 0.3 < smb_power <= 0.5 else (
+                            '🔴' if smb_power <= 0.3 else smb_power
+                        )
                     )
                 )
             )
-        )
-        filtered_df['key'] = filtered_df['key'].str.replace('NFO:NIFTY', 'N')
+            combined_df['key'] = combined_df['key'].str.replace('NFO:NIFTY', 'N')
     
-        # Replace non-finite values in 'PL%' column with 0
-        filtered_df['PL%'] = filtered_df['PL%'].fillna(0)
+            # Replace non-finite values in 'PL%' column with 0
+            combined_df['PL%'] = combined_df['PL%'].fillna(0)
     
-        # Convert 'PL%' column to integer
-        filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
+            # Convert 'PL%' column to integer
+            combined_df.loc[:, 'PL%'] = combined_df['PL%'].astype(int)
     
-        # Append symbols for Call and Put options
-        filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] = filtered_df.loc[
-                                                                            filtered_df['key'].str.endswith('CE'),
-                                                                            'key'] + '🟥 '
-        filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] = filtered_df.loc[
-                                                                            filtered_df['key'].str.endswith('PE'),
-                                                                            'key'] + '🟩 '
+            # Append symbols for Call and Put options
+            combined_df.loc[combined_df['key'].str.endswith('CE'), 'key'] = combined_df.loc[
+                                                                                combined_df['key'].str.endswith('CE'),
+                                                                                'key'] + '🟥 '
+            combined_df.loc[combined_df['key'].str.endswith('PE'), 'key'] = combined_df.loc[
+                                                                                combined_df['key'].str.endswith('PE'),
+                                                                                'key'] + '🟩 '
     
-        # Group by strike price and sum investments and PnL for Put and Call options
-        grouped_df = filtered_df.groupby(filtered_df['key'].str.extract(r'(\d+)').squeeze().astype(int))
-        combined_df = grouped_df.agg({
-            'Invested': 'sum',
-            'PnL': 'sum'
-        }).reset_index()
-        
-        # Print CE targets based on PE investments
-        for index, row in combined_df.iterrows():
-            strike_price = row['key']
-            ce_target = row['Invested']
-            print(f"For CE with strike price {strike_price}, the target investment is: {ce_target}")
-
+            # Group by strike price and sum investments and PnL for Put and Call options
+            grouped_df = combined_df.groupby(combined_df['key'].str.extract(r'(\d+)').squeeze().astype(int))
+            combined_df = grouped_df.agg({
+                'Invested': 'sum',
+                'PnL': 'sum'
+            }).reset_index()
     
-        # Sort the DataFrame by PnL
-        combined_df = combined_df.sort_values(by='PnL')
+            # Print CE targets based on PE investments
+            for index, row in combined_df.iterrows():
+                strike_price = row['key']
+                ce_target = row['Invested']
+                print(f"For CE with strike price {strike_price}, the target investment is: {ce_target}")
     
-        for index, row in combined_df.iterrows():
-            if row['product'] == 'MIS':
-                combined_df.at[index, 'product'] = '⌛'
-            elif row['product'] == 'NRML':
-                combined_df.at[index, 'product'] = '⏰'
+            # Sort the DataFrame by PnL
+            combined_df = combined_df.sort_values(by='PnL')
     
-        # Format and print the DataFrame
-        formatted_lines = combined_df[['key', 'Invested', 'PnL']].to_string(index=False, header=False).split('\n')
-        max_width = 42
-        for line in formatted_lines:
-            values = line.split()
-            pnl_value_str = values[-1]
-            try:
-                pnl_value = float(pnl_value_str)
-            except ValueError:
-                pnl_value = None
-            if pnl_value is not None:
-                if pnl_value > 0:
-                    color_code = GREEN
-                elif pnl_value < 0:
-                    color_code = RED
-                elif pnl_value == 0:
-                    color_code = YELLOW
+            for index, row in combined_df.iterrows():
+                if row['product'] == 'MIS':
+                    combined_df.at[index, 'product'] = '⌛'
+                elif row['product'] == 'NRML':
+                    combined_df.at[index, 'product'] = '⏰'
+    
+            # Format and print the DataFrame
+            formatted_lines = combined_df[['key', 'Invested', 'PnL']].to_string(index=False, header=False).split('\n')
+            max_width = 42
+            for line in formatted_lines:
+                values = line.split()
+                pnl_value_str = values[-1]
+                try:
+                    pnl_value = float(pnl_value_str)
+                except ValueError:
+                    pnl_value = None
+                if pnl_value is not None:
+                    if pnl_value > 0:
+                        color_code = GREEN
+                    elif pnl_value < 0:
+                        color_code = RED
+                    elif pnl_value == 0:
+                        color_code = YELLOW
+                    else:
+                        color_code = RESET
                 else:
                     color_code = RESET
-            else:
-                color_code = RESET
-            print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(41) + RESET)
+                print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(41) + RESET)
+        else:
+            print(YELLOW + "..............no options yet in the swing." + RESET)
     else:
-        print(YELLOW + "..............no options yet in the swing." + RESET)
+        print(YELLOW + "Combined DataFrame is empty." + RESET)
 
 ###########################################################################################################################################################################################################
 
