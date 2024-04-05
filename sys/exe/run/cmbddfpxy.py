@@ -84,15 +84,7 @@ try:
     positions_response = broker.kite.positions()['net']
     holdings_df = get_holdingsinfo(holdings_response, broker)
     positions_df = get_positionsinfo(positions_response, broker)
-    try:
-        response = broker.kite.margins()
-        available_cash = response["equity"]["available"]["live_balance"]
-        # Rest of your code that depends on the 'available_cash' variable
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        # Handle the error as needed
-        # Set available_cash to 0 or any other default value
-        available_cash = 0
+
     holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
     positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
     combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
