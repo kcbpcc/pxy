@@ -58,10 +58,6 @@ def get_today_close():
     else:
         return None, None  # Handle the case when data is not available
 
-from colorama import Fore, Style
-day_change_sign = '+' if Day_Change >= 0 else ''
-open_change_sign = '+' if Open_Change >= 0 else ''
-nsmawave = (f"{Fore.GREEN}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if nsma == 'up' else (f"{Fore.RED}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}" if nsma == 'down' else f"{Fore.YELLOW}ﮩ٨ﮩ٨ـ{Style.RESET_ALL}"))
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 42  # Maximum total length allowed for printing
     
@@ -95,7 +91,7 @@ def dayprinter(o, h, l, c, prev_close):
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
-    
+
 def option_to_trade():
     today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
     today_open = today_data['Open']
@@ -108,9 +104,19 @@ previous_day_close = get_previous_day_close(get_nifty50_data())
 today_close = get_today_close()
 
 if previous_day_close is not None and today_close is not None:
-    today_data = get_nifty50_data(period="1d").iloc[-1][OHLC_COLUMNS]
+    nifty50_ohlc = get_nifty50_data(period="1d")  # Assign the result to a variable
+    today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
     dayprinter(*today_data, previous_day_close)
 else:
     print("Unable to fetch data.")
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET
-print(f"🔆{day_change_sign}{GREEN if Day_Change >= 0 else RED}{Day_Change:.2f}{RESET}⌛{open_change_sign}{GREEN if Open_Change >= 0 else RED}{Open_Change:.2f}{RESET}⚡ {GREEN if nse_power >0.5 else RED}{nse_power:.2f}{RESET} {nifty50_ohlc.iloc[-1]['Close']} 🟥-{pedepth}🚦{macd}🚦{cedepth}+🟩")
+
+# Check if today's close is higher or lower than today's open
+if previous_day_close is not None and today_close is not None:
+    close = today_close[0]
+    open_price = nifty50_ohlc.iloc[-1]['Open']
+    close_color = Fore.GREEN if close > open_price else Fore.RED
+else:
+    close_color = Fore.YELLOW
+
+# Now you can use nifty50_ohlc outside of the function
+print(f"🔆{day_change_sign}{GREEN if Day_Change >= 0 else RED}{Day_Change:.2f}{RESET}⌛{open_change_sign}{GREEN if Open_Change >= 0 else RED}{Open_Change:.2f}{RESET}⚡ {GREEN if nse_power >0.5 else RED}{nse_power:.2f}{RESET} {close_color}{today_close[0]} 🟥-{pedepth}🚦{macd}🚦{cedepth}+🟩")
