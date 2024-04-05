@@ -31,17 +31,16 @@ except Exception as e:
     sys.exit(1)
 file_path = 'filePnL.csv'
 ###########################################################################################################################################################################################################
-def get_open_order_status(symbol):
+def get_order_status(symbol, broker):
     try:
         orders = broker.kite.orders()
         for order in orders:
-            if order['status'] == 'OPEN' and order['tradingsymbol'] == symbol:
-                return "YES"  # There is at least one open order for the symbol
+            if order['tradingsymbol'] == symbol:
+                return "YES"  # There is at least one order for the symbol
     except Exception as e:
-        remove_token(dir_path)
-        logging.error(f"{str(e)} unable to get orders")
-        sys.exit(1)
-    return "NO"  # No open orders found for the symbol
+        logging.error(f"Error fetching orders: {str(e)}")
+        return "ERROR"  # Unable to fetch orders due to error
+    return "NO"  # No orders found for the symbol
 ###########################################################################################################################################################################################################
 def stocks_sell_order_place(index, row):
     try:
@@ -248,7 +247,6 @@ try:
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
                 key = row['key']  # Get the 'key' value
                 symbol_in_order = row['key'].split(":")[1]
-                # Check the common conditions first
                 if (
                     row['key'] not in excluded_keys and
                     row['open'] > 0 and
@@ -269,7 +267,7 @@ try:
                         )
                     ):
                         try:
-                            is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            is_placed = stocks_sell_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row)                                
@@ -289,7 +287,7 @@ try:
                          row['PL%'] < -20)
                     ):
                         try:                            
-                            is_placed = stocks_avg_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            is_placed = stocks_avg_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row['key'])                                
