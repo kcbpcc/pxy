@@ -58,20 +58,16 @@ try:
     import random
     import os
     import numpy as np
-    #from mktpxy import get_market_check
-    #onemincandlesequance, mktpxy = get_market_check('^NSEI')
-    #from optpxy import get_opt_check
-    #optpxy = get_opt_check('^NSEI')
     import importlib
-    from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
+    #from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     import math
-    from bukdpxy import sum_last_numerical_value_in_each_row
-    from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
-    from swchpxy import analyze_stock
+    #from bukdpxy import sum_last_numerical_value_in_each_row
+    #from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
+    #from swchpxy import analyze_stock
     import telegram
     import asyncio
-    from selfpxy import get_random_spiritual_message
-    from macdpxy import calculate_macd_signal
+    #from selfpxy import get_random_spiritual_message
+    #from macdpxy import calculate_macd_signal
     macd = calculate_macd_signal("^NSEI")
     random_message = get_random_spiritual_message()
     switch = analyze_stock()
