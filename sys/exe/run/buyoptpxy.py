@@ -127,29 +127,9 @@ async def main():
         print("BUY order for CE placed successfully.")
     if buy_order_placed_pe:
         print("BUY order for PE placed successfully.")
-        
-        # Get executed prices for both CE and PE
-        ce_executed_price = 0
-        pe_executed_price = 0
-        
-        order_history_ce = broker.kite.order_history(buy_order_id_ce)
-        if isinstance(order_history_ce, list) and order_history_ce:
-            ce_executed_price = order_history_ce[-1]['average_price']
-        order_history_pe = broker.kite.order_history(buy_order_id_pe)
-        if isinstance(order_history_pe, list) and order_history_pe:
-            pe_executed_price = order_history_pe[-1]['average_price']
-        
-        if ce_executed_price > 0 and pe_executed_price > 0:
-            # Calculate target price for CE using CE and PE executed prices
-            ce_target_price = round((ce_executed_price + pe_executed_price), 1)
-            # Place SELL order for CE at target price
-            sell_order_placed, sell_order_id = await place_order(broker, ce_symbol, 'SELL', 'MIS', 50, 'LIMIT', price=ce_target_price)
-            if sell_order_placed:
-                print("SELL order for CE placed successfully at target price:", ce_target_price)
-        else:
-            print("Error: Executed prices for CE and/or PE are zero or negative.")
 
 async def run_main():
     await main()
 
 asyncio.run(run_main())
+
