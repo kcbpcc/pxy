@@ -1,4 +1,4 @@
-.import traceback
+import traceback
 import sys
 import logging
 import telegram
