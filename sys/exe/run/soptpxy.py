@@ -1,3 +1,4 @@
+dtadjest = 1
 import traceback
 import sys
 import logging
@@ -39,7 +40,7 @@ def get_this_thursday():
         if this_thursday.day > last_day_of_month.day - 7:
             return this_thursday.strftime("%y"), this_thursday.strftime("%m"), this_thursday.strftime("%d").zfill(2)
     expiry_year = this_thursday.strftime("%y")
-    month_number = int(this_thursday.strftime("%m"))
+    month_number = int((this_thursday+dtadjest).strftime("%m"))
     expiry_month = str(month_number) if month_number <= 9 else this_thursday.strftime("%m")
     expiry_day = this_thursday.strftime("%d").zfill(2)
     return expiry_year, expiry_month, expiry_day
