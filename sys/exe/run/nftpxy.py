@@ -6,7 +6,8 @@ import time
 import warnings
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
-
+from depthpxy import calculate_consecutive_candles
+cedepth, pedepth = calculate_consecutive_candles("^NSEI")
 # Suppress yfinance warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
