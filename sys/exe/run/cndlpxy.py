@@ -11,17 +11,9 @@ from colorama import Fore, Style  # Add Style to the imports
 from mktpxy import get_market_check
 from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
 from utcpxy import peak_time
-from macdpxy import calculate_macd_signal
-from smapxy import check_index_status
 import subprocess
 import sys
 
-onemincandlesequance, mktpxy = get_market_check("^NSEI")
-peak = peak_time()
-macd = calculate_macd_signal("^NSEI")
-nsma = check_index_status("^NSEI")
-from depthpxy import calculate_consecutive_candles
-cedepth, pedepth = calculate_consecutive_candles("^NSEI")
 
 colorama.init(autoreset=True)
 
