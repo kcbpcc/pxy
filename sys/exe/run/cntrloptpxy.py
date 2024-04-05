@@ -254,7 +254,18 @@ try:
 ###########################################################################################################################################################################################################
     # Filter only rows where 'key' starts with 'NFO'
     combined_df = combined_df[combined_df['key'].str.startswith('NFO')]
+    # Debugging: Print column names of the DataFrame
+    print("Column names:", combined_df.columns)
     
+    # Filter only rows where 'key' starts with 'NFO'
+    combined_df = combined_df[combined_df['key'].str.startswith('NFO')]
+    
+    # Debugging: Print the first few rows of the DataFrame
+    print("First few rows of filtered DataFrame:")
+    print(combined_df.head())
+    
+    # After ensuring 'm2m' column is added and rows are filtered, proceed with the rest of the code
+if not combined_df.empty:
     # After ensuring 'm2m' column is added and rows are filtered, proceed with the rest of the code
     if not combined_df.empty:
         # Group by strike price and sum investments and PnL for Put and Call options
