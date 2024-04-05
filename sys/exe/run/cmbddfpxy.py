@@ -90,11 +90,11 @@ def process_data():
         return None
 
 # Call the function to execute the code and return the combined DataFrame
-process_data_df = process_data()
+combined_df = process_data()
 
 # Check if the result is not None before further processing
-if result_df is not None:
-    print(result_df)  # You can print the DataFrame for inspection
+if combined_df is not None:
+    print(combined_df)  # You can print the DataFrame for inspection
     # Further processing of the DataFrame here
 else:
     print("Error occurred during data processing. Please check logs for details.")
