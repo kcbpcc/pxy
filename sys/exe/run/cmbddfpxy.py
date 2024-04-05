@@ -13,12 +13,15 @@ import telegram
 import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
 from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
+
 file_path = 'filePnL.csv'
 result = sum_last_numerical_value_in_each_row(file_path)  
 file_path_nrml = "filePnL_nrml.csv"
 result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
+
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 logging = Logger(30, dir_path + "main.log")
+
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
@@ -27,7 +30,9 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
+
 file_path = 'filePnL.csv'
+
 def get_holdingsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
@@ -36,6 +41,7 @@ def get_holdingsinfo(resp_list, broker):
     except Exception as e:
         print(f"An error occurred in holdings: {e}")
         return None
+
 def get_positionsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
@@ -44,6 +50,7 @@ def get_positionsinfo(resp_list, broker):
     except Exception as e:
         print(f"An error occurred in positions: {e}")
         return None
+
 try:
     import sys
     import traceback
@@ -126,5 +133,7 @@ try:
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
     print(combined_df)
-
-  
+except Exception as e:
+    print(f"An error occurred: {e}")
+    traceback.print_exc()
+    sys.exit(1)
