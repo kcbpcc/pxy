@@ -41,10 +41,9 @@ pd.set_option('display.max_colwidth', 42)
 # Convert DataFrame to string
 formatted_lines = opt_df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
 
-
-
 # Print each line with proper alignment and color
 max_width = 42
-color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
-
+for line in formatted_lines:
+    color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
     print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(41) + RESET)
+
