@@ -74,7 +74,8 @@ def process_data():
         combined_df['close'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('close_price', 0))
         combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
         combined_df['oPL%'] = combined_df.apply(lambda row: (((row['ltp'] - row['open']) / row['open']) * 100) if row['open'] != 0 else 1, axis=1)
-        combined_df['Invested'] = (combined_df['qty'] * combined_df['average_price']).round(0).astype(int)
+        combined_df['avg'] = combined_df['average_price']
+        combined_df['Invested'] = (combined_df['qty'] * combined_df['avg']).round(0).astype(int)
         combined_df['value'] = combined_df['qty'] * combined_df['ltp']
         combined_df['PnL'] = (combined_df['value'] - combined_df['Invested']).astype(int)
         combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100).round(2)
