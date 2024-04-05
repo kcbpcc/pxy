@@ -38,6 +38,4 @@ opt_df = opt_df[['key', 'Invested', 'qty', 'PnL', 'CP']]
 print(opt_df.to_string(index=False, header=False, justify='right', col_space=1, line_width=42))
 
 
-# Print the DataFrame with values aligned to the right and width of 42 spaces
-print(opt_df.to_string(index=False, header=False, justify='right', col_space=42))
 
