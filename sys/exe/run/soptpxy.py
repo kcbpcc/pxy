@@ -1,4 +1,4 @@
-dtadjest = -1
+adjest = 1
 import traceback
 import sys
 import logging
@@ -42,7 +42,8 @@ def get_this_thursday():
     expiry_year = this_thursday.strftime("%y")
     month_number = int((this_thursday+dtadjest).strftime("%m"))
     expiry_month = str(month_number) if month_number <= 9 else this_thursday.strftime("%m")
-    expiry_day = this_thursday.strftime("%d").zfill(2)
+    expiry_day_adjest = timedelta(days=adjest)  # Example adjustment of 7 days
+    expiry_day = (this_thursday - expiry_day_adjest).strftime("%d").zfill(2)
     return expiry_year, expiry_month, expiry_day
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
