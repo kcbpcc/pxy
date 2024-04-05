@@ -1,4 +1,4 @@
-
+expiry_day_adjest = timedelta(days=1)  # Example adjustment of 7 days
 import traceback
 import sys
 import logging
@@ -42,7 +42,7 @@ def get_this_thursday():
     expiry_year = this_thursday.strftime("%y")
     month_number = int(this_thursday.strftime("%m"))
     expiry_month = str(month_number) if month_number <= 9 else this_thursday.strftime("%m")
-    expiry_day_adjest = timedelta(days=1)  # Example adjustment of 7 days
+    
     expiry_day = (this_thursday - expiry_day_adjest).strftime("%d").zfill(2)
     return expiry_year, expiry_month, expiry_day
 
