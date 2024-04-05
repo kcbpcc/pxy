@@ -129,7 +129,7 @@ async def main():
         if buy_order_placed_ce:
             print("BUY order for CE placed successfully.")
     else:
-        print("Existing position found for CE option. Skipping CE symbol.")
+        print("Existing {ce_symbol}")
     
     if not pe_position_exists:
         # Place BUY order for PE option
@@ -137,7 +137,7 @@ async def main():
         if buy_order_placed_pe:
             print("BUY order for PE placed successfully.")
     else:
-        print("Existing position found for PE option. Skipping PE symbol.")
+        print("Existing {pe_symbol}")
 
 
 async def run_main():
