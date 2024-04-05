@@ -11,8 +11,9 @@ from depthpxy import calculate_consecutive_candles
 cedepth, pedepth = calculate_consecutive_candles("^NSEI")
 macd = calculate_macd_signal("^NSEI")
 nsma = check_index_status("^NSEI")
-from depthpxy import calculate_consecutive_candles
-cedepth, pedepth = calculate_consecutive_candles("^NSEI")
+# Initialize day_change_sign and open_change_sign
+day_change_sign = '+' if Day_Change > 0 else ''
+open_change_sign = '+' if Open_Change > 0 else ''
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
 
