@@ -16,6 +16,8 @@ result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
 
 logging = Logger(30, dir_path + "main.log")
 
+broker = None  # Initialize broker outside the try block
+
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
@@ -46,6 +48,8 @@ def get_positionsinfo(resp_list, broker):
         return None
 
 try:
+    if broker is None:
+        raise ValueError("Broker object is not initialized.")
 
     logging.debug("Are we having any holdings to check")
     holdings_response = broker.kite.holdings()
@@ -92,4 +96,3 @@ except Exception as e:
     print(f"An error occurred: {e}")
     traceback.print_exc()
     sys.exit(1)
-
