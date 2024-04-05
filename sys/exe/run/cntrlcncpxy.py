@@ -199,7 +199,9 @@ try:
 ###########################################################################################################################################################################################################
     epsilon = 1e-10
     combined_df[['smb_power']] = combined_df.apply(
-    lambda row: pd.Series({'smb_power': round(abs(row['ltp'] - (row['low'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon) if (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon != 0) and (row['ltp'] - (row['low'] - 0.01) != 0) else 0.5, 2)}, axis=1)
+        lambda row: pd.Series({'smb_power': round(abs(row['ltp'] - (row['low'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon) if (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon != 0) and (row['ltp'] - (row['low'] - 0.01) != 0) else 0.5, 2)}), 
+        axis=1
+    )
     from nftpxy import nse_action, nse_power, OPTIONS  
     threshold = 3
 ###########################################################################################################################################################################################################
