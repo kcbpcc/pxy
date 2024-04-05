@@ -41,7 +41,7 @@ while true; do
             pyp
             ;;   
         so)
-            echo "    👎🏾👎🏾👎🏾selling options👎🏾👎🏾👎🏾"
+            echo "    🔴🔴🔴selling options🔴🔴🔴"
             pxyso
             ;;   
         pl)
