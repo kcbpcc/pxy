@@ -251,19 +251,19 @@ try:
                     row['ltp'] != 0                   
                 ):                            
 ###########################################################################################################################################################################################################                    
-                    if (
-                        (row['qty'] > 0 and
-                         row['avg'] != 0 and
-                         nse_power < 0.9 and
-                         row['product'] == 'CNC' and
-                         row['PL%'] > 1.4 ) and
-                        (
-                            (row['PL%'] > row['tPL%']) or 
-                            (total_dPnL < 0) or 
-                            (row['dPL%'] < 0 or
-                            (row['oPL%'] < 0 
-                        )
-                    ):
+                        if (
+                            (row['qty'] > 0 and
+                             row['avg'] != 0 and
+                             nse_power < 0.9 and
+                             row['product'] == 'CNC' and
+                             row['PL%'] > 1.4 ) and
+                            (
+                                (row['PL%'] > row['tPL%']) or 
+                                (total_dPnL < 0) or 
+                                (row['dPL%'] < 0) or  # Added a closing parenthesis
+                                (row['oPL%'] < 0)     # Closed the conditional with a closing parenthesis
+                            )
+                        ):
                         try:
                             is_placed = stocks_sell_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
