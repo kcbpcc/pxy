@@ -32,7 +32,7 @@ from cmbddfpxy import process_data
 combined_df = process_data()
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
-opt_df['key'] = opt_df['key'].str.replace('NFO:', '').str.replace('NFTY', 'N')  # Remove 'NFO:' from the 'key' column and replace 'NFTY' with 'N'
+opt_df['key'] = opt_df['key'].str.replace('NFO:', '').str.replace('NIFTY', 'N')  # Remove 'NFO:' from the 'key' column and replace 'NIFTY' with 'N'
 opt_df['PL%'] = opt_df['PL%'].astype(int)
 opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 
