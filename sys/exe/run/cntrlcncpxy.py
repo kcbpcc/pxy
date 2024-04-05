@@ -189,25 +189,17 @@ try:
     file_path_nrml = "filePnL_nrml.csv"
     result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
 
-    ###########################################################################################################################################################################################################
+###########################################################################################################################################################################################################
     try:
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
     except Exception as e:
         print(f"An error occurred: {e}")
         available_cash = 0
-    ###########################################################################################################################################################################################################
+###########################################################################################################################################################################################################
     epsilon = 1e-10
     combined_df[['smb_power']] = combined_df.apply(
-    lambda row: pd.Series({
-        'smb_power': round(
-            abs(row['ltp'] - (row['low'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon)
-            if (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon != 0) and (row['ltp'] - (row['low'] - 0.01) != 0)
-            else 0.5,
-            2
-        ),
-    }), axis=1
-    )
+    lambda row: pd.Series({'smb_power': round(abs(row['ltp'] - (row['low'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon) if (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon != 0) and (row['ltp'] - (row['low'] - 0.01) != 0) else 0.5, 2)}, axis=1)
     from nftpxy import nse_action, nse_power, OPTIONS  
     threshold = 3
 ###########################################################################################################################################################################################################
@@ -226,17 +218,9 @@ try:
     from smapxy import check_index_status
     SMAfty = check_index_status('^NSEI')
 ###########################################################################################################################################################################################################
-    # Apply the function to create/update the otPL% column
-    from depthpxy import calculate_consecutive_candles
-    cedepth, pedepth = calculate_consecutive_candles('^NSEI')
-    combined_df['otPL%'] = (3 + combined_df.apply(lambda row: pedepth * 0.5 if row['key'].endswith('PE') else cedepth * 0.5  if row['key'].endswith('CE') else None, axis=1))
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * nse_factor), 2)
     combined_df['tPL%'] = np.where(SMAfty == 'up', np.maximum(1 * combined_df['tPL%'], 1.4), np.where(SMAfty == 'down', np.maximum(combined_df['tPL%'] * 0.5, 1.4), combined_df['tPL%']))
-###########################################################################################################################################################################################################
-    subprocess.run(['python3', 'prftpxy.py'])
-###########################################################################################################################################################################################################
-
 ###########################################################################################################################################################################################################
     import pandas as pd
     import numpy as np
