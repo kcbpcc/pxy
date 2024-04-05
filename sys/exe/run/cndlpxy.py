@@ -123,4 +123,4 @@ else:
     close_color = Fore.YELLOW
 
 # Now you can use nifty50_ohlc outside of the function
-print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡ {Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}📈{close_color}{int(today_close[0])}🟥-{pedepth}🚦{macd}🚦{cedepth}+🟩")
+print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}📈-{close_color}{int(today_close[0])}🟥-{pedepth}🚦{macd}🚦{cedepth}+🟩")
