@@ -7,10 +7,8 @@ import sys
 import os
 from cyclepxy import cycle
 from clorpxy import RED, GREEN
-
 console = Console()
 subprocess.run(['python3', 'cpritepxy.py'])
-
 while True:
     from selfpxy import get_random_spiritual_message
     importlib.reload(sys.modules['selfpxy'])  # Correct the usage
@@ -44,13 +42,13 @@ while True:
     subprocess.run(['python3', 'cndlpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     console.print(random_message)
-    
     def progress_bar(duration, mktpxy):
-        console = Console(); console.print(''.join(['[green]🏛 PXY®   [/]' if mktpxy in ['Bull', 'Buy'] else '[red]🏛 PXY®   [/]' for _ in range(int(duration))])) ; time.sleep(duration)
-    
-    # Ensure `cycle` is passed as an integer to the progress_bar function
+        console = Console()
+        for _ in range(int(duration)):
+            time.sleep(1)
+            if mktpxy in ['Bull', 'Buy']:
+                console.print('[green]🏛 PXY®   [/]', end='')
+            else:
+                console.print('[red]🏛 PXY®   [/]', end='')
+        console.print()
     progress_bar(int(cycle), mktpxy)
-
-
-
-
