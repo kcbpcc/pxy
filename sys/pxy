@@ -1,4 +1,4 @@
-#!/bin/bash
+ing#!/bin/bash
 # ANSI color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -22,7 +22,7 @@ while true; do
     echo "   -pxybuy                🌱        by"
     echo "   -pxypnl                💰        pl"
     echo "   -pxyopt                🛸        op"
-    echo "   -pxyosell              👇🏻        so"
+    echo "   -pxyosell              ⤵️        so"
     echo "   -pxyclean              🚿        cl"
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
@@ -41,7 +41,7 @@ while true; do
             pyp
             ;;   
         so)
-            echo "    👇🏻👇🏻👇🏻👇🏻.pip install.👇🏻👇🏻👇🏻👇🏻"
+            echo "    ⤵️⤵️⤵️selling options⤵️⤵️⤵️"
             pxyso
             ;;   
         pl)
