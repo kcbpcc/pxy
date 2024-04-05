@@ -199,36 +199,6 @@ try:
     # Calculate 'dPL%' column as ('dPnL' / 'Invested') * 100
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
 ###########################################################################################################################################################################################################
-    import pandas as pd
-    import numpy as np
-    
-    import numpy as np
-    
-    # Check if the DataFrame is not empty
-    if not combined_df.empty:
-        # Ensure 'm2m' column is added and replace non-finite values with a default value
-        m2m_index = combined_df.columns.get_loc('m2m')
-        combined_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0).astype(int)
-    
-        # Filter out rows with NaN values in the 'key' column
-        combined_df = combined_df.dropna(subset=['key'])
-    
-        # Group by strike price and sum investments for Put and Call options
-        grouped_df = combined_df.groupby(combined_df['key'].str.extract(r'(\d+)').squeeze().astype(float).astype('Int64'))
-        combined_df = grouped_df.agg({
-            'Invested': 'sum',
-        }).reset_index()
-    
-        # Find CE target as same investment as PE for each strike price
-        for index, row in combined_df.iterrows():
-            strike_price = row['key']
-            pe_investment = combined_df.loc[combined_df['key'] == f'N{strike_price}PE', 'Invested'].iloc[0]
-            ce_investment = combined_df.loc[combined_df['key'] == f'N{strike_price}CE', 'Invested'].iloc[0]
-            ce_target = pe_investment
-            print(f"For CE with strike price {strike_price}, the target investment is: {ce_target}")
-    else:
-        print(YELLOW + "Combined DataFrame is empty." + RESET)
-
 
 ###########################################################################################################################################################################################################    
     # Round all numeric columns to 2 decimal places
@@ -256,13 +226,19 @@ try:
 ###########################################################################################################################################################################################################    import numpy as np
     
     # Check if the DataFrame is not empty
-    if not combined_df.empty:
+    import numpy as np
+    
+    # Check if the DataFrame is not empty
+    if not filtered_df.empty:
         # Ensure 'm2m' column is added and replace non-finite values with a default value
-        m2m_index = combined_df.columns.get_loc('m2m')
-        combined_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0).astype(int)
+        m2m_index = filtered_df.columns.get_loc('m2m')
+        filtered_df['m2m'] = filtered_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0).astype(int)
+    
+        # Filter out rows with NaN values in the 'key' column
+        filtered_df = filtered_df.dropna(subset=['key'])
     
         # Group by strike price and sum investments for Put and Call options
-        grouped_df = combined_df.groupby(combined_df['key'].str.extract(r'(\d+)').squeeze().astype(int))
+        grouped_df = filtered_df.groupby(filtered_df['key'].str.extract(r'(\d+)').squeeze().astype(float).astype('Int64'))
         combined_df = grouped_df.agg({
             'Invested': 'sum',
         }).reset_index()
@@ -270,12 +246,12 @@ try:
         # Find CE target as same investment as PE for each strike price
         for index, row in combined_df.iterrows():
             strike_price = row['key']
-            pe_investment = combined_df.loc[combined_df['key'] == f'N{strike_price}PE', 'Invested'].iloc[0]
-            ce_investment = combined_df.loc[combined_df['key'] == f'N{strike_price}CE', 'Invested'].iloc[0]
+            pe_investment = filtered_df.loc[filtered_df['key'] == f'N{strike_price}PE', 'Invested'].sum()
+            ce_investment = filtered_df.loc[filtered_df['key'] == f'N{strike_price}CE', 'Invested'].sum()
             ce_target = pe_investment
             print(f"For CE with strike price {strike_price}, the target investment is: {ce_target}")
     else:
-        print(YELLOW + "Combined DataFrame is empty." + RESET)
+        print(YELLOW + "Filtered DataFrame is empty." + RESET)
 
 
     
