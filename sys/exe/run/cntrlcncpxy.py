@@ -1,3 +1,4 @@
+import pandas as pd
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from login_get_kite import get_kite, remove_token
@@ -182,7 +183,6 @@ try:
     result = sum_last_numerical_value_in_each_row(file_path)  
     file_path_nrml = "filePnL_nrml.csv"
     result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
-
 ###########################################################################################################################################################################################################
     try:
         response = broker.kite.margins()
@@ -222,7 +222,7 @@ try:
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
 ###########################################################################################################################################################################################################
-    import pandas as pd
+    
     from tabulate import tabulate
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
@@ -235,7 +235,7 @@ try:
     PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '⚪' if TR > 0.8 else ('🟢' if 0.5 < TR <= 0.8 else ('🟠' if 0.3 < TR <= 0.5 else ('🔴' if TR <= 0.3 else TR))))
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'BSE:|NSE:', '', regex=True)
 ###########################################################################################################################################################################################################    
-    import pandas as pd
+    
     PRINT_df_sorted = PRINT_df.copy()
     PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
     PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:|NFO:)', '', regex=True).str[:8].str.ljust(8, ' ')
@@ -250,12 +250,9 @@ try:
     from mktpxy import get_market_check
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
-    # Define the CSV file path
     csv_file_path = "filePnL.csv"
     csv_file_path_nrml = 'filePnL_nrml.csv'
-    # Create an empty list to store the rows that meet the condition
     selected_rows = []
-    # Loop through the DataFrame and place orders based on conditions
     if nse_power < 1 :
         try:
             for index, row in EXE_df.iterrows():
