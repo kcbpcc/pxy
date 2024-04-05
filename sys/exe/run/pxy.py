@@ -29,6 +29,7 @@ while True:
     from smapxy import check_index_status
     importlib.reload(sys.modules['smapxy'])  # Correct the usage
     nsma = check_index_status('^NSEI')
+    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
     subprocess.run(['python3', 'tistpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
