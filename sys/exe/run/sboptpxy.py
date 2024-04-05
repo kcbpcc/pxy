@@ -110,35 +110,63 @@ async def main():
         sys.stdout = sys.__stdout__
     
     expiry_year, expiry_month, expiry_day = get_this_thursday()
-    option_type = 'PE'  
-    symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
     
-    if check_existing_positions(broker, symbol):
-        print(f"Existing order for {symbol} found. Skipping order placement.")
-        return
+    # For Call option (CE)
+    ce_option_type = 'CE'
+    ce_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, ce_option_type)
     
-    # Place BUY order with MIS product type
-    buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'MIS', 50, 'MARKET')
-    if buy_order_placed:
-        print("BUY order placed successfully.")
-        
-        # Get executed price
-        order_history = broker.kite.order_history(buy_order_id)
-        print("Order History:", order_history)  # Print order history to understand its structure
-        
-        if isinstance(order_history, list) and order_history:
-            executed_price = order_history[-1]['average_price']  # Accessing 'average_price' from the last element
-            if executed_price > 0:
-                # Calculate target price (106% of executed price) and round to one decimal place
-                target_price = round(executed_price + 10, 1)
-                # Place SELL order with MIS product type at target price
-                sell_order_placed, sell_order_id = await place_order(broker, symbol, 'SELL', 'MIS', 50, 'LIMIT', price=target_price)
-                if sell_order_placed:
-                    print("SELL order placed successfully at target price:", target_price)
+    # For Put option (PE)
+    pe_option_type = 'PE'
+    pe_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, pe_option_type)
+    
+    # Check for existing positions for both CE and PE options
+    if check_existing_positions(broker, ce_symbol):
+        print(f"Existing order for {ce_symbol} found. Skipping order placement.")
+    else:
+        # Place BUY order for CE option
+        buy_order_placed, buy_order_id = await place_order(broker, ce_symbol, 'BUY', 'MIS', 50, 'MARKET')
+        if buy_order_placed:
+            print("BUY order for CE placed successfully.")
+            
+            # Get executed price
+            order_history = broker.kite.order_history(buy_order_id)
+            if isinstance(order_history, list) and order_history:
+                executed_price = order_history[-1]['average_price']
+                if executed_price > 0:
+                    # Calculate target price for CE
+                    target_price = round(executed_price + 10, 1)
+                    # Place SELL order for CE at target price
+                    sell_order_placed, sell_order_id = await place_order(broker, ce_symbol, 'SELL', 'MIS', 50, 'LIMIT', price=target_price)
+                    if sell_order_placed:
+                        print("SELL order for CE placed successfully at target price:", target_price)
+                else:
+                    print("Error: Executed price for CE is zero or negative.")
             else:
-                print("Error: Executed price is zero or negative.")
-        else:
-            print("Error: Unable to retrieve order history or empty history.")
+                print("Error: Unable to retrieve order history or empty history for CE.")
+
+    if check_existing_positions(broker, pe_symbol):
+        print(f"Existing order for {pe_symbol} found. Skipping order placement.")
+    else:
+        # Place BUY order for PE option
+        buy_order_placed, buy_order_id = await place_order(broker, pe_symbol, 'BUY', 'MIS', 50, 'MARKET')
+        if buy_order_placed:
+            print("BUY order for PE placed successfully.")
+            
+            # Get executed price
+            order_history = broker.kite.order_history(buy_order_id)
+            if isinstance(order_history, list) and order_history:
+                executed_price = order_history[-1]['average_price']
+                if executed_price > 0:
+                    # Calculate target price for PE
+                    target_price = round(executed_price + 10, 1)
+                    # Place SELL order for PE at target price
+                    sell_order_placed, sell_order_id = await place_order(broker, pe_symbol, 'SELL', 'MIS', 50, 'LIMIT', price=target_price)
+                    if sell_order_placed:
+                        print("SELL order for PE placed successfully at target price:", target_price)
+                else:
+                    print("Error: Executed price for PE is zero or negative.")
+            else:
+                print("Error: Unable to retrieve order history or empty history for PE.")
 
 async def run_main():
     await main()
