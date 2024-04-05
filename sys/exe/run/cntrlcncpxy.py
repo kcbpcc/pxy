@@ -13,6 +13,8 @@ import telegram
 import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
 from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
+from cmbddfpxy import process_data
+combined_df = process_data()
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
 result = sum_last_numerical_value_in_each_row(file_path)  
