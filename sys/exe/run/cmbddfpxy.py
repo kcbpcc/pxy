@@ -87,7 +87,7 @@ try:
     combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
     combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
     print(combined_df)
-    return combined_df
+    
 except Exception as e:
     print(f"An error occurred: {e}")
     traceback.print_exc()
