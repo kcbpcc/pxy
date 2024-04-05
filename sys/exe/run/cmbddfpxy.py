@@ -72,7 +72,7 @@ try:
     import asyncio
     from selfpxy import get_random_spiritual_message
     from macdpxy import calculate_macd_signal
-    #macd = calculate_macd_signal("^NSEI")
+    macd = calculate_macd_signal("^NSEI")
     #random_message = get_random_spiritual_message()
     #switch = analyze_stock()
     file_path = 'filePnL.csv'
