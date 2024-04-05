@@ -15,12 +15,13 @@ import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
 from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
 from cmbddfpxy import process_data
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 combined_df = process_data()
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
 result = sum_last_numerical_value_in_each_row(file_path)  
 ###########################################################################################################################################################################################################
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+
 logging = Logger(30, dir_path + "main.log")
 try:
     sys.stdout = open('output.txt', 'w')
@@ -69,7 +70,6 @@ def stocks_sell_order_place(index, row):
                         import telegram
                         import asyncio
                         columns_to_drop = ['fPL%','tPL%','oPL%','smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'dPL%', 'pxy','yxp']
-                        # Dropping specified columns from the row
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
@@ -181,6 +181,22 @@ try:
     result = sum_last_numerical_value_in_each_row(file_path)  
     file_path_nrml = "filePnL_nrml.csv"
     result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
+    from nftpxy import nse_action, nse_power, OPTIONS  
+    from smapxy import check_index_status
+    SMAfty = check_index_status('^NSEI')
+    from tabulate import tabulate
+    from mktrndpxy import get_market_status_for_symbol
+    importlib.reload(sys.modules['mktrndpxy'])
+    nmktpxy = get_market_status_for_symbol('^NSEI')
+    from mktpxy import get_market_check
+    importlib.reload(sys.modules['mktpxy'])  # Correct the usage
+    onemincandlesequance, mktpxy = get_market_check('^NSEI')
+    from smapxy import check_index_status
+    nsma = check_index_status("^NSEI")
+    from dshpxy import get_holdingsinfo
+    total_nrml_m2m, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
+    from bordpxy import printbord
+
 ###########################################################################################################################################################################################################
     try:
         response = broker.kite.margins()
@@ -194,11 +210,9 @@ try:
         lambda row: pd.Series({'smb_power': round(abs(row['ltp'] - (row['low'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon) if (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon != 0) and (row['ltp'] - (row['low'] - 0.01) != 0) else 0.5, 2)}), 
         axis=1
     )
-    from nftpxy import nse_action, nse_power, OPTIONS  
     threshold = 3
 ###########################################################################################################################################################################################################
-    from smapxy import check_index_status
-    SMAfty = check_index_status('^NSEI')
+
 ###########################################################################################################################################################################################################
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * 1), 2)
@@ -221,7 +235,7 @@ try:
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
 ###########################################################################################################################################################################################################
     
-    from tabulate import tabulate
+    
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
     pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL', 'PL%']]
@@ -242,12 +256,7 @@ try:
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ###########################################################################################################################################################################################################   
-    from mktrndpxy import get_market_status_for_symbol
-    importlib.reload(sys.modules['mktrndpxy'])
-    nmktpxy = get_market_status_for_symbol('^NSEI')
-    from mktpxy import get_market_check
-    importlib.reload(sys.modules['mktpxy'])  # Correct the usage
-    onemincandlesequance, mktpxy = get_market_check('^NSEI')
+
     csv_file_path = "filePnL.csv"
     csv_file_path_nrml = 'filePnL_nrml.csv'
     selected_rows = []
@@ -312,11 +321,7 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
 ###########################################################################################################################################################################################################
-    from smapxy import check_index_status
-    nsma = check_index_status("^NSEI")
-    from dshpxy import get_holdingsinfo
-    total_nrml_m2m, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
-    from bordpxy import printbord
+
     printbord(total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              result_nrml, total_PnL_stocks_buy, total_PnL_options_buy, available_cash,
              nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma)
