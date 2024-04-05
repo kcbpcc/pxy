@@ -252,46 +252,44 @@ try:
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
 
 ###########################################################################################################################################################################################################
-    # Filter only rows where 'key' starts with 'NFO'
-    combined_df = combined_df[combined_df['key'].str.startswith('NFO')]
-    # Debugging: Print column names of the DataFrame
-    print("Column names:", combined_df.columns)
+    import numpy as np
     
-    # Filter only rows where 'key' starts with 'NFO'
-    combined_df = combined_df[combined_df['key'].str.startswith('NFO')]
-    
-    # Debugging: Print the first few rows of the DataFrame
-    print("First few rows of filtered DataFrame:")
-    print(combined_df.head())
-    
-    # After ensuring 'm2m' column is added and rows are filtered, proceed with the rest of the code
-if not combined_df.empty:
-    # After ensuring 'm2m' column is added and rows are filtered, proceed with the rest of the code
     if not combined_df.empty:
-        # Group by strike price and sum investments and PnL for Put and Call options
-        grouped_df = combined_df.groupby(combined_df['key'].str.extract(r'(\d+)').squeeze().astype(int))
-        combined_df = grouped_df.agg({
-            'Invested': 'sum',
-            'PnL': 'sum'
-        }).reset_index()
+        m2m_index = combined_df.columns.get_loc('m2m')
+        # Replace non-finite values with a default value (e.g., 0)
+        filtered_df['m2m'] = combined_df.iloc[:, m2m_index].replace([np.inf, -np.inf, np.nan], 0)
+        # Convert the column to integers
+        filtered_df['m2m'] = filtered_df['m2m'].astype(int)
+    else:
+        print(YELLOW + "Combined DataFrame is empty." + RESET)
     
-        # Print CE targets based on PE investments
-        for index, row in combined_df.iterrows():
-            strike_price = row['key']
-            ce_target = row['Invested']
-            print(f"For CE with strike price {strike_price}, the target investment is: {ce_target}")
+    # Filter only rows where 'key' starts with 'NFO'
+    filtered_df = filtered_df[filtered_df['key'].str.startswith('NFO')]
     
-        # Sort the DataFrame by PnL
-        combined_df = combined_df.sort_values(by='PnL')
+    # After ensuring 'm2m' column is added and rows are filtered, proceed with the rest of the code
+    if not filtered_df.empty:
+        # Apply transformations
+        filtered_df.loc[:, 'option_power'] = filtered_df['smb_power'].apply(lambda smb_power: '⚪' if smb_power > 0.8 else ('🟢' if 0.5 < smb_power <= 0.8 else ('🟠' if 0.3 < smb_power <= 0.5 else ('🔴' if smb_power <= 0.3 else smb_power))))
+        filtered_df['key'] = filtered_df['key'].str.replace('NFO:NIFTY', 'N')
     
-        for index, row in combined_df.iterrows():
+        # Replace non-finite values in 'PL%' column with 0
+        filtered_df['PL%'] = filtered_df['PL%'].fillna(0)
+    
+        # Convert 'PL%' column to integer
+        filtered_df.loc[:, 'PL%'] = filtered_df['PL%'].astype(int)
+    
+        filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] = filtered_df.loc[filtered_df['key'].str.endswith('CE'), 'key'] + '🟥 '
+        filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] = filtered_df.loc[filtered_df['key'].str.endswith('PE'), 'key'] +  '🟩 '
+    
+        filtered_df = filtered_df.sort_values(by='PL%')
+    
+        for index, row in filtered_df.iterrows():
             if row['product'] == 'MIS':
-                combined_df.at[index, 'product'] = '⌛'
+                filtered_df.at[index, 'product'] = '⌛'
             elif row['product'] == 'NRML':
-                combined_df.at[index, 'product'] = '⏰'
+                filtered_df.at[index, 'product'] = '⏰'
     
-        # Format and print the DataFrame
-        formatted_lines = combined_df[['key', 'Invested', 'PnL']].to_string(index=False, header=False).split('\n')
+        formatted_lines = filtered_df[['key', 'Invested', 'qty','m2m', 'PnL']].to_string(index=False, header=False).split('\n')
         max_width = 42
         for line in formatted_lines:
             values = line.split()
@@ -314,7 +312,6 @@ if not combined_df.empty:
             print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(41) + RESET)
     else:
         print(YELLOW + "..............no options yet in the swing." + RESET)
-
 ###########################################################################################################################################################################################################
 
 except Exception as e:
