@@ -14,6 +14,18 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 file_path = 'filePnL.csv'
 logging = Logger(30, dir_path + "main.log")
 
+def place_order(key, action, quantity):
+    # Implement your order placement logic here
+    pass
+
+def exit_ce_options(key, pl_percentage, quantity):
+    if key.endswith('CE') and pl_percentage >= 100:
+        try:
+            place_order(key, 'SELL', quantity)  # Assuming you have a function to place orders named place_order()
+            print(f"Exit order placed for {key} successfully.")
+        except Exception as e:
+            print(f"Error placing exit order for {key}: {e}")
+
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
@@ -33,7 +45,8 @@ combined_df = process_data()
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '').str.replace('NIFTY', 'N')  # Remove 'NFO:' from the 'key' column and replace 'NIFTY' with 'N'
-opt_df['PL%'] = opt_df['PL%'].astype(int)
+opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100  # Calculate PL%
+opt_df['PL%'] = opt_df['PL%'].astype(int)  # Convert PL% to integer
 opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 
 # Set the maximum width for display
@@ -47,4 +60,7 @@ max_width = 42
 for line in formatted_lines:
     color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
     print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(41) + RESET)
-
+    
+# Process exit orders for CE options
+for index, row in opt_df.iterrows():
+    exit_ce_options(row['key'], row['PL%'], row['qty'])
