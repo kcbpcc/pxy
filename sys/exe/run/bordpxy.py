@@ -52,3 +52,4 @@ def printbord(total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_P
     print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
+    
