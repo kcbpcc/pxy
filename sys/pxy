@@ -22,7 +22,7 @@ while true; do
     echo "   -pxybuy                🌱        by"
     echo "   -pxypnl                💰        pl"
     echo "   -pxyopt                🛸        op"
-    echo "   -pxyosell              ⤵️        so"
+    echo "   -pxyosell              👎🏾        so"
     echo "   -pxyclean              🚿        cl"
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
@@ -41,7 +41,7 @@ while true; do
             pyp
             ;;   
         so)
-            echo "    ⤵️⤵️⤵️selling options⤵️⤵️⤵️"
+            echo "    👎🏾👎🏾👎🏾selling options👎🏾👎🏾👎🏾"
             pxyso
             ;;   
         pl)
