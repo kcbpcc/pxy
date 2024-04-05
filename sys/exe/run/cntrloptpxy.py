@@ -22,6 +22,6 @@ def get_holdingsinfo(resp_list, broker):
         print(f"An error occurred in holdings: {e}")
         return None
 
-from cmdbdfpxy import process_data
+from cmbddfpxy import process_data
 combined_df = process_data()
 print(combined_df)
