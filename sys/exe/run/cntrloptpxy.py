@@ -30,7 +30,7 @@ finally:
 from cmbddfpxy import process_data
 combined_df = process_data()
 #print(combined_df)
-opt_df = combined_df[combined_df['key'].str.contains('NFO', case=False)]
+opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)]
 opt_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
 opt_df = opt_df[['key', 'Invested', 'qty', 'PnL', 'CP']]  # Added a closing parenthesis here
-print(opt_df)
+print(opt_df.to_string(index=False))
