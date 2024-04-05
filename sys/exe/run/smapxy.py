@@ -15,9 +15,9 @@ def check_index_status(index_symbol):
     current_price = data['Close'].iloc[-1]
 
     # Check trend
-    if current_price > last_50sma and last_50sma > last_200sma:
+    if current_price > last_50sma :
         return "up"
-    elif current_price < last_50sma and last_50sma < last_200sma:
+    elif current_price < last_50sma :
         return "down"
     else:
         return "side"
