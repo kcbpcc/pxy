@@ -120,8 +120,8 @@ async def main():
     pe_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, pe_option_type)
     
     # Place BUY orders for both CE and PE options
-    buy_order_placed_ce, buy_order_id_ce = await place_order(broker, ce_symbol, 'BUY', 'MIS', 50, 'MARKET')
-    buy_order_placed_pe, buy_order_id_pe = await place_order(broker, pe_symbol, 'BUY', 'MIS', 50, 'MARKET')
+    buy_order_placed_ce, buy_order_id_ce = await place_order(broker, ce_symbol, 'BUY', 'NRML', 50, 'MARKET')
+    buy_order_placed_pe, buy_order_id_pe = await place_order(broker, pe_symbol, 'BUY', 'NRML', 50, 'MARKET')
     
     if buy_order_placed_ce:
         print("BUY order for CE placed successfully.")
