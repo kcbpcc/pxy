@@ -206,8 +206,6 @@ try:
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * 1), 2)
     combined_df['tPL%'] = np.where(SMAfty == 'up', np.maximum(1 * combined_df['tPL%'], 1.4), np.where(SMAfty == 'down', np.maximum(combined_df['tPL%'] * 0.5, 1.4), combined_df['tPL%']))
 ###########################################################################################################################################################################################################
-
-###########################################################################################################################################################################################################    
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
     filtered_df = combined_df[((combined_df['product'].isin(['NRML', 'MIS'])) & combined_df['key'].str.startswith('NFO')) | ((combined_df['product'].isin(['CNC', 'MIS'])) & (combined_df['qty'] != 0))]
@@ -224,63 +222,26 @@ try:
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
 ###########################################################################################################################################################################################################
-
     import pandas as pd
     from tabulate import tabulate
-    # Define the file path for the CSV file
     lstchk_file = "fileHPdf.csv"
-    # Dump the DataFrame to the CSV file, overwriting any existing file
     combined_df.to_csv(lstchk_file, index=False)
-    #print(f"DataFrame has been saved to {lstchk_file}")
-    # Create a copy of 'filtered_df' and select specific columns
     pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL', 'PL%']]
     pxy_df['avg'] =filtered_df['average_price']
-    # Create a copy for just printing 'filtered_df' and select specific columns
     EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low',  'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
     PRINT_df = pxy_df[(pxy_df['qty'] > 0) & (~pxy_df['key'].str.contains('NFO'))][['source', 'key', 'dPL%', 'oPL%', 'tPL%', 'smb_power', 'PL%', 'PnL']]
-    # Rename columns for display
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'smb_power': 'TR','key': 'key','dPL%': 'dPL%'})
-    # Conditionally replace values in the 'HP' column
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '📌', 'positions': '🎯'})
-    # Conditionally replace values in the '_CM' column
-    #PRINT_df['_CM'] = PRINT_df['_CM'].replace({'CNC': '🧰', 'MIS': '⌛','NRML': '💸'}) 
-    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: 
-        '⚪' if TR > 0.8 else (
-            '🟢' if 0.5 < TR <= 0.8 else (
-                '🟠' if 0.3 < TR <= 0.5 else (
-                    '🔴' if TR <= 0.3 else TR
-                )
-            )
-        )
-    )
-    # Convert the 'PnL' column to integers
-    # Remove 'BSE:' or 'NSE:' from the 'key' column
+    PRINT_df['TR'] = PRINT_df['TR'].apply(lambda TR: '⚪' if TR > 0.8 else ('🟢' if 0.5 < TR <= 0.8 else ('🟠' if 0.3 < TR <= 0.5 else ('🔴' if TR <= 0.3 else TR))))
     PRINT_df['key'] = PRINT_df['key'].str.replace(r'BSE:|NSE:', '', regex=True)
-    # Sort the DataFrame by 'PL%' in ascending order
-    # Assuming you have a DataFrame named PRINT_df
 ###########################################################################################################################################################################################################    
     import pandas as pd
-    # Assuming PRINT_df_sorted is your DataFrame
     PRINT_df_sorted = PRINT_df.copy()
-    # Apply the lambda function to limit 'chks' to 2 characters
     PRINT_df_sorted['TR'] = PRINT_df_sorted['TR'].apply(lambda TR: TR[:2] if isinstance(TR, str) else TR)
-    # Remove 'BSE:' or 'NSE:' from the 'key' column and limit to 3 characters
     PRINT_df_sorted['key'] = PRINT_df_sorted['key'].str.replace(r'(BSE:|NSE:|NFO:)', '', regex=True).str[:8].str.ljust(8, ' ')
-    # Sort the DataFrame by 'PL%' in ascending order
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
-    # Convert the 'PL%' column to integers
-    #PRINT_df_sorted.loc[:, 'PL%'] = PRINT_df_sorted['PL%'].astype(int)
-    # ANSI escape codes for text coloring
-    #RESET = "\033[0m"
-    #BRIGHT_YELLOW = "\033[93m"
-    # Set the maximum width for all columns
-    pd.set_option('display.max_colwidth', 1)  # Adjust the value for your desired width
-    # Apply truncation to each cell in the DataFrame
+    pd.set_option('display.max_colwidth', 1)
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-    #print("━" * 42)
-    # Always print "Table" in bright yellow
-    # Print the truncated DataFrame without color
-    # Assuming PRINT_df_sorted_display is your DataFrame
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ###########################################################################################################################################################################################################   
     from mktrndpxy import get_market_status_for_symbol
