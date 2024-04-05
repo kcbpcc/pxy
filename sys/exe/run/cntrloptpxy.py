@@ -33,9 +33,8 @@ opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
 opt_df.loc[:, 'key'] = opt_df['key'].str.replace('NFO:', '')  # Remove 'NFO:' from the 'key' column
 opt_df = opt_df[['key', 'Invested', 'qty', 'PnL', 'CP']]
-
-# Print the DataFrame with values aligned to the right and a maximum width of 42 spaces
-print(opt_df.to_string(index=False, header=False, justify='right', col_space=1, line_width=42))
+pd.set_option('display.max_colwidth', 40)
+print(opt_df.to_string(index=False, header=False, justify='right', col_space=1, line_width=40))
 
 
 
