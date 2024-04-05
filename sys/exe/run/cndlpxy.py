@@ -103,6 +103,10 @@ def option_to_trade():
 previous_day_close = get_previous_day_close(get_nifty50_data())
 today_close = get_today_close()
 
+# Initialize day_change_sign and open_change_sign
+day_change_sign = '+' if Day_Change >= 0 else ''
+open_change_sign = '+' if Open_Change >= 0 else ''
+
 if previous_day_close is not None and today_close is not None:
     nifty50_ohlc = get_nifty50_data(period="1d")  # Assign the result to a variable
     today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
