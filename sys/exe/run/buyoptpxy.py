@@ -123,23 +123,22 @@ async def main():
     ce_position_exists = check_existing_positions(broker, ce_symbol)
     pe_position_exists = check_existing_positions(broker, pe_symbol)
     
-    print(f"ce_position_exists: {ce_position_exists}")
     if not ce_position_exists:
         # Place BUY order for CE option
         buy_order_placed_ce, buy_order_id_ce = await place_order(broker, ce_symbol, 'BUY', 'NRML', 50, 'MARKET')
         if buy_order_placed_ce:
             print("BUY order for CE placed successfully.")
     else:
-        print("Existing position found for CE option.")
+        print("Existing position found for CE option. Skipping CE symbol.")
     
-    print(f"pe_position_exists: {pe_position_exists}")
     if not pe_position_exists:
         # Place BUY order for PE option
         buy_order_placed_pe, buy_order_id_pe = await place_order(broker, pe_symbol, 'BUY', 'NRML', 50, 'MARKET')
         if buy_order_placed_pe:
             print("BUY order for PE placed successfully.")
     else:
-        print("Existing position found for PE option.")
+        print("Existing position found for PE option. Skipping PE symbol.")
+
 
 async def run_main():
     await main()
