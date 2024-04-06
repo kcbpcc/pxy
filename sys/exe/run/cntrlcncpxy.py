@@ -67,7 +67,7 @@ def stocks_sell_order_place(index, row):
                     try:
                         import telegram
                         import asyncio
-                        columns_to_drop = ['fPL%','tPL%','oPL%','smb_power', 'oPL%', 'qty', 'close', 'open', 'high', 'low', 'dPL%']
+                        columns_to_drop = ['fPL%','smb_power','oPL%', 'qty', 'close',  'open', 'high', 'low', 'dPL%','product']]
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
