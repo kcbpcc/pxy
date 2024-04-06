@@ -48,7 +48,7 @@ def place_order(tradingsymbol, quantity, exchange, transaction_type, order_type,
         return None
 
 def exit_ce_options(key, pl_percentage, quantity, pnl):
-    if key.endswith('CE') and pl_percentage >= 100:
+    if key.endswith('CE') and pl_percentage >= 1:
         try:
             place_order(key, 'SELL', quantity)  
             message = f"Exit order placed for {key} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
