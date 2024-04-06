@@ -6,8 +6,6 @@ from cnstpxy import dir_path
 from toolkit.logger import Logger
 import csv
 import os
-import sys
-import traceback
 import logging
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 import requests  
@@ -50,7 +48,7 @@ def place_order(tradingsymbol, quantity, exchange, transaction_type, order_type,
 def exit_ce_options(key, pl_percentage, quantity, pnl):
     if key.endswith('CE') and pl_percentage >= 1:
         try:
-            place_order(key, 'SELL', quantity)  
+            place_order(key, quantity, 'SELL', 'MARKET', 'MIS')  
             message = f"Exit order placed for {key} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
             print(message)
             send_telegram_message(message)
