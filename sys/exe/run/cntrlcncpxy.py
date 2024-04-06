@@ -236,7 +236,13 @@ try:
 ###########################################################################################################################################################################################################   
     csv_file_path = "filePnL.csv"
     selected_rows = []
-    if nse_power < 1 :
+    if row['dPL%'] < 0:
+        print("dPL% is negative")
+    elif row['dPL%'] > 0:
+        print("dPL% is positive")
+    else:
+        print("dPL% is zero")
+        if nse_power < 1 :
         try:
             for index, row in EXE_df.iterrows():
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
