@@ -189,8 +189,6 @@ try:
         print(f"An error occurred: {e}")
         available_cash = 0
 ###########################################################################################################################################################################################################
-    combined_df['dPL%'] = pd.to_numeric(combined_df['dPL%'], errors='coerce')
-    combined_df['oPL%'] = pd.to_numeric(combined_df['oPL%'], errors='coerce')
     epsilon = 1e-10
     def calculate_smb_power(row):
         start = row['low'] if row['source'] == 'holdings' else (row['avg'] if row['source'] == 'positions' else ValueError("Invalid value in 'source' column"))
