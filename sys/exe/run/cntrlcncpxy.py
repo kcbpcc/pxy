@@ -67,7 +67,7 @@ def stocks_sell_order_place(index, row):
                     try:
                         import telegram
                         import asyncio
-                        columns_to_drop = ['fPL%','tPL%','oPL%','smb_power', 'oPL%', 'pstp', '_pstp', 'qty', 'close', 'open', 'high', 'low', 'dPL%', 'pxy','yxp']
+                        columns_to_drop = ['fPL%','tPL%','oPL%','smb_power', 'oPL%', 'qty', 'close', 'open', 'high', 'low', 'dPL%']
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
@@ -217,7 +217,7 @@ try:
 ###########################################################################################################################################################################################################
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
-    pxy_df = filtered_df.copy()[['tPL%','fPL%','smb_power','oPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL', 'PL%']]
+    pxy_df = filtered_df.copy()[['tPL%','fPL%','oPL%','dPL%','PnL', 'PL%','smb_power','Invested','source','product', 'qty','avg','ltp', 'open', 'high', 'close', 'low','key']]
     pxy_df['avg'] =filtered_df['average_price']
     EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
     PRINT_df = pxy_df[(pxy_df['qty'] > 0) & (~pxy_df['key'].str.contains('NFO'))][['source', 'key', 'dPL%', 'oPL%', 'tPL%', 'smb_power', 'PL%', 'PnL']]
