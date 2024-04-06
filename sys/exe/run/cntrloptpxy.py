@@ -48,7 +48,7 @@ def place_order(tradingsymbol, quantity, exchange, transaction_type, order_type,
 def exit_ce_options(key, pl_percentage, quantity, pnl):
     if key.endswith('CE') and pl_percentage >= 1:
         try:
-            place_order(key, quantity, 'SELL', 'MARKET', 'MIS')  
+            place_order(key, quantity, 'SELL', 'MARKET', 'MIS', 'NRML')  
             message = f"Exit order placed for {key} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
             print(message)
             send_telegram_message(message)
