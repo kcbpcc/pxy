@@ -130,25 +130,25 @@ async def main():
         print(f"Existing order for {symbol} found. Skipping order placement.")
         return
     
-    # Place SELL order with MIS product type
-    sell_order_placed, sell_order_id = await place_order(broker, symbol, 'SELL', 'MIS', 50, 'MARKET')
-    if sell_order_placed:
-        print("SELL order placed successfully.")
+    # Place BUY order with MIS product type
+    buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'MIS', 50, 'MARKET')
+    if buy_order_placed:
+        print("BUY order placed successfully.")
         
         # Get executed price
-        order_history = broker.kite.order_history(sell_order_id)
+        order_history = broker.kite.order_history(buy_order_id)
         print("Order History:", order_history)  # Print order history to understand its structure
         
         if isinstance(order_history, list) and order_history:
             executed_price = order_history[-1]['average_price']  # Accessing 'average_price' from the last element
             if executed_price > 0:
-                # Calculate target price (94% of executed price) and round to one decimal place
-                target_price = round(executed_price - 5, 1)
+                # Calculate target price (for example, 94% of executed price) and round to one decimal place
+                target_price = round(executed_price + 5, 1)
                 # Calculate stop-loss price (for example, 2% below executed price)
-                stop_loss_price = round(executed_price + 10 , 1)
+                stop_loss_price = round(executed_price - 10 , 1)
                 
                 # Place OCO order with MIS product type for target and stop-loss
-                oco_order_placed, oco_order_id = await place_order(broker, symbol, 'BUY', 'MIS', 50, 'OCO', price=target_price, stop_loss=stop_loss_price)
+                oco_order_placed, oco_order_id = await place_order(broker, symbol, 'SELL', 'MIS', 50, 'OCO', price=target_price, stop_loss=stop_loss_price)
                 
                 if oco_order_placed:
                     print("OCO order placed successfully.")
@@ -161,5 +161,3 @@ async def run_main():
     await main()
 
 asyncio.run(run_main())
-
-
