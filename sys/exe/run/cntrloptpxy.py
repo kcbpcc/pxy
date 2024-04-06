@@ -87,7 +87,7 @@ max_width = 42
 for line in formatted_lines:
     color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
     print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(41) + RESET)
-summary_sentence = f"{'🔴' if total_pl < 0 else '🟢'} | CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_percentage:.2f}% | "
+summary_sentence = f"{'🔴' if total_pl < 0 else '🟢'} | CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_percentage:.2f}%"
 print(f"{YELLOW}{summary_sentence.rjust(42)}{RESET}")   
 for index, row in opt_df.iterrows():
     exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
