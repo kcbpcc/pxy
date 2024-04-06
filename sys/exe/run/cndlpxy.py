@@ -123,10 +123,9 @@ else:
     close_color = Fore.YELLOW
     
 from selfpxy import get_random_spiritual_message
-import importlib
-importlib.reload(selfpxy)
 random_message = get_random_spiritual_message()
 console.print(random_message)
+
 
 
 # Now you can use nifty50_ohlc outside of the function
