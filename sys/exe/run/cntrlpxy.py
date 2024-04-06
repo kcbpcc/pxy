@@ -467,7 +467,7 @@ try:
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.4 ) and
                         (
-                            (row['PL%'] > row['tPL%']) or ((row['PL%'] > 0) and (total_dPnL < 0))
+                            (row['PL%'] > row['tPL%']) or ((row['PL%'] > 0) and (total_dPnL < 0)) or (row['dPL%'] < 0)
                         )
                     ):
                         try:
