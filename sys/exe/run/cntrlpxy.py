@@ -12,12 +12,12 @@ import csv
 import telegram
 import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
-from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
+
 ###########################################################################################################################################################################################################
 file_path = 'filePnL.csv'
 result = sum_last_numerical_value_in_each_row(file_path)  
 file_path_nrml = "filePnL_nrml.csv"
-result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
+
 ###########################################################################################################################################################################################################
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 logging = Logger(30, dir_path + "main.log")
@@ -188,8 +188,6 @@ try:
     import importlib
     from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
     import math
-    from bukdpxy import sum_last_numerical_value_in_each_row
-    from nrmlbukdpxy import sum_last_numerical_value_in_each_row_nrml
     from swchpxy import analyze_stock
     import telegram
     import asyncio
@@ -202,8 +200,6 @@ try:
     # Replace 'filePnL.csv' with the path to your actual CSV file
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
-    file_path_nrml = "filePnL_nrml.csv"
-    result_nrml = sum_last_numerical_value_in_each_row_nrml(file_path_nrml)
     #from telpxy import send_telegram_message
     #csv_file_path = "filePnL.csv"
     #total_profit_main = process_csv(csv_file_path)
@@ -504,17 +500,7 @@ try:
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
-###########################################################################################################################################################################################################
-    print("━" * 42)
-    from smapxy import check_index_status
-    nsma = check_index_status("^NSEI")
-    from dshpxy import get_holdingsinfo
-    total_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
-    from bordpxy import printbord
-    printbord(total_postions_m2m, total_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
-             result_nrml, total_PnL_stocks_buy, total_PnL_options_buy, available_cash,
-             nse_action, nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma)
-###########################################################################################################################################################################################################
+######################################################################################################################################################################
     if not stocks_filtered_df.empty:
         print("━" * 42)
         #print(f"{BRIGHT_YELLOW}HP|CM|STOCK     |fPL%|tPL%|PL% |PL |Q|TR{RESET}")
