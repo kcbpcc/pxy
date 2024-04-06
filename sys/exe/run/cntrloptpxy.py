@@ -79,7 +79,6 @@ opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100
-print(f"Total Invested: {total_invested}, Total P&L: {total_pl}, Total P&L%: {total_pl_percentage:.2f}%")
 
 pd.set_option('display.max_colwidth', 42)
 formatted_lines = opt_df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
@@ -88,12 +87,7 @@ max_width = 42
 for line in formatted_lines:
     color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
     print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(41) + RESET)
-    total_invested = opt_df['Invested'].sum()
-    total_pl = opt_df['PnL'].sum()
-    total_pl_percentage = (total_pl / total_invested) * 100
-
-    summary_sentence = f"Total Invested: {total_invested}, Total P&L: {total_pl}, Total P&L%: {total_pl_percentage:.2f}%"
-
+    print(f"Invested:{total_invested},  P&L:{total_pl}, P&L%:{total_pl_percentage:.2f}%")
 for index, row in opt_df.iterrows():
     exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
 
