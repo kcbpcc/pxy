@@ -234,7 +234,7 @@ try:
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ###########################################################################################################################################################################################################   
-    print(EXE_df[['key', 'dPL%', 'oPL%']])
+    EXE_df = EXE_df.rename(columns={'dPL%': 'dPL_percent', 'oPL%': 'oPL_percent'})
     csv_file_path = "filePnL.csv"
     selected_rows = []
     if nse_power < 1:
@@ -259,7 +259,9 @@ try:
                          row['PL%'] > 1.4) and
                         (
                             (row['PL%'] > row['tPL%']) or
-                            (total_dPnL < 0) 
+                            (total_dPnL < 0) or
+                            (row['dPL_percent'] < 0) or  # Use the renamed column here
+                            (row['oPL_percent'] < 0)      # Use the renamed column here
                         )
                     ):
                         try:
