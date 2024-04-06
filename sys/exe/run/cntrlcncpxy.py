@@ -242,6 +242,12 @@ try:
             for index, row in EXE_df.iterrows():
                 print(row['dPL%'])
                 print(row['oPL%'])
+                if row['dPL%'] < 0:
+                    print("dPL% is negative")
+                
+                # Example condition using 'oPL%'
+                if row['oPL%'] < 0:
+                    print("oPL% is negative")
 
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
                 key = row['key']  # Get the 'key' value
