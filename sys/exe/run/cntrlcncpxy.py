@@ -240,14 +240,21 @@ try:
     if nse_power < 1:
         try:
             for index, row in EXE_df.iterrows():
-                print(row['dPL%'])
-                print(row['oPL%'])
-                if row['dPL%'] < 0:
-                    print("dPL% is negative")
-                
-                # Example condition using 'oPL%'
-                if row['oPL%'] < 0:
-                    print("oPL% is negative")
+            # Example condition using 'dPL%'
+            if row['dPL%'] < 0:
+                print("dPL% is negative")
+            elif row['dPL%'] > 0:
+                print("dPL% is positive")
+            else:
+                print("dPL% is zero")
+            
+            # Example condition using 'oPL%'
+            if row['oPL%'] < 0:
+                print("oPL% is negative")
+            elif row['oPL%'] > 0:
+                print("oPL% is positive")
+            else:
+                print("oPL% is zero")
 
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
                 key = row['key']  # Get the 'key' value
