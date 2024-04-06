@@ -34,7 +34,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
         order_id = broker.order_place(
             tradingsymbol=tradingsymbol,
             quantity=quantity,
-            exchange=NFO,
+            exchange='NFO',
             transaction_type=transaction_type,
             order_type=order_type,
             product=product
