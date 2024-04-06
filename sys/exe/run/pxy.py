@@ -10,9 +10,6 @@ from clorpxy import RED, GREEN
 console = Console()
 subprocess.run(['python3', 'cpritepxy.py'])
 while True:
-    from selfpxy import get_random_spiritual_message
-    importlib.reload(sys.modules['selfpxy'])  # Correct the usage
-    random_message = get_random_spiritual_message()
     from mktpxy import get_market_check
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
@@ -40,7 +37,6 @@ while True:
     subprocess.run(['python3', 'cntrloptpxy.py']) 
     subprocess.run(['python3', 'cndlpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-    console.print(random_message)
     def progress_bar(duration, mktpxy):
         console = Console()
         for _ in range(int(duration)):
