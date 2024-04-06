@@ -90,5 +90,5 @@ for line in formatted_lines:
 summary_sentence = f"Invested: {total_invested}, P&L: {total_pl}, P&L%: {total_pl_percentage:.2f}%"
 print(f"{YELLOW}{summary_sentence.rjust(42)}{RESET}")   
 for index, row in opt_df.iterrows():
-    exit_ce_options(row['key'] row['PL%'], row['qty'] row['PnL'])
+    exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
 
