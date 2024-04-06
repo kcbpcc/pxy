@@ -189,6 +189,8 @@ try:
         print(f"An error occurred: {e}")
         available_cash = 0
 ###########################################################################################################################################################################################################
+    combined_df['dPL%'] = pd.to_numeric(EXE_df['dPL%'], errors='coerce')
+    combined_df['oPL%'] = pd.to_numeric(EXE_df['oPL%'], errors='coerce')
     epsilon = 1e-10
     def calculate_smb_power(row):
         start = row['low'] if row['source'] == 'holdings' else (row['avg'] if row['source'] == 'positions' else ValueError("Invalid value in 'source' column"))
@@ -234,28 +236,12 @@ try:
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ###########################################################################################################################################################################################################   
- 
+
     csv_file_path = "filePnL.csv"
     selected_rows = []
-    if nse_power < 1:
+    if nse_power < 1 :
         try:
             for index, row in EXE_df.iterrows():
-            # Example condition using 'dPL%'
-                if row['dPL%'] < 0:
-                    print("dPL% is negative")
-                elif row['dPL%'] > 0:
-                    print("dPL% is positive")
-                else:
-                    print("dPL% is zero")
-                
-                # Example condition using 'oPL%'
-                if row['oPL%'] < 0:
-                    print("oPL% is negative")
-                elif row['oPL%'] > 0:
-                    print("oPL% is positive")
-                else:
-                    print("oPL% is zero")
-
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
                 key = row['key']  # Get the 'key' value
                 symbol_in_order = row['key'].split(":")[1]
@@ -265,32 +251,31 @@ try:
                     row['high'] > 0 and
                     row['low'] > 0 and
                     row['close'] > 0 and
-                    row['ltp'] != 0
-                ):
+                    row['ltp'] != 0                   
+                ):                            
+###########################################################################################################################################################################################################                    
                     if (
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
                          nse_power < 0.9 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 1.4) and
+                         row['PL%'] > 1.4 ) and
                         (
-                            (row['PL%'] > row['tPL%']) or
-                            (total_dPnL < 0) or
-                            (row['dPL_percent'] < 0) or  # Use the renamed column here
-                            (row['oPL_percent'] < 0)      # Use the renamed column here
+                            (row['PL%'] > row['tPL%']) or ((row['PL%'] > 1.4) and (total_dPnL < 0))
                         )
                     ):
                         try:
                             is_placed = stocks_sell_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
-                                print(row)
+                                print(row)                                
                         except InputException as e:
                             # Handle the specific exception and print only the error message
                             print(f"An error occurred while placing an order for key {key}: {e}")
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+###########################################################################################################################################################################################################     
                     elif (
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
@@ -299,11 +284,11 @@ try:
                          mktpxy in ['Buy', 'Bull'] and
                          row['PL%'] < -20)
                     ):
-                        try:
+                        try:                            
                             is_placed = stocks_avg_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
-                                print(row['key'])
+                                print(row['key'])                                
                         except InputException as e:
                             # Handle the specific exception and print only the error message
                             print(f"An error occurred while placing an order for key {key}: {e}")
@@ -312,7 +297,9 @@ try:
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
-            print(f"An unexpected error occurred: {e}")
+            print(f"An unexpected error occurred: {e}")        
+###########################################################################################################################################################################################################
+
   
 ###########################################################################################################################################################################################################
     printbord(total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
