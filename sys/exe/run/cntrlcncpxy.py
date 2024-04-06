@@ -234,7 +234,6 @@ try:
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ###########################################################################################################################################################################################################   
-    print("Trying to check to exit profitable stocks")
     csv_file_path = "filePnL.csv"
     selected_rows = []
     if nse_power < 1 :
