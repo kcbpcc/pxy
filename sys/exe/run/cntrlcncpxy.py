@@ -234,12 +234,15 @@ try:
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ###########################################################################################################################################################################################################   
-    EXE_df = EXE_df.rename(columns={'dPL%': 'dPL_percent', 'oPL%': 'oPL_percent'})
+ 
     csv_file_path = "filePnL.csv"
     selected_rows = []
     if nse_power < 1:
         try:
             for index, row in EXE_df.iterrows():
+                print(row['dPL%'])
+                print(row['oPL%'])
+
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
                 key = row['key']  # Get the 'key' value
                 symbol_in_order = row['key'].split(":")[1]
