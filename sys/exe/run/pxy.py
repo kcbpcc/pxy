@@ -55,9 +55,5 @@ while True:
             else:
                 console.print('[yellow]🏛 PXY®   [/]🤝', end='')  # Neutral with handshake
         console.print()
-    
-    # Example usage:
-    cycle = input("Enter duration: ")
-    mktpxy = input("Enter market condition (Bull/Bear/Buy/Sell): ")
     progress_bar(cycle, mktpxy)
 
