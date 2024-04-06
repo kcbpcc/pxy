@@ -81,12 +81,11 @@ total_pl_percentage = (total_pl / total_invested) * 100
 
 print_df = opt_df
 print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
-print_df['key'] = 
+print_df['key'] = print_df['key'].str.replace('NIFTY', 'N')
+print_df['MN'] = np.where(print_df['product'] == 'MIS', '⏱', '🔢')
 
 pd.set_option('display.max_colwidth', 42)
 formatted_lines = print_df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
-print_df['key'] = print_df['key'].str.replace('NIFTY', 'N')
-print_df['MN'] = np.where(print_df['product'] == 'MIS', '⏱', '🔢')
 
 max_width = 42
 for line in formatted_lines:
