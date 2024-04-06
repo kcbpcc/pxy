@@ -1,5 +1,5 @@
 import warnings
-
+console = Console()
 # Suppress FutureWarnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
