@@ -29,12 +29,12 @@ def send_telegram_message(message):
     except Exception as e:
         print(f"Error sending Telegram message: {e}")
 
-def place_order(tradingsymbol, quantity, exchange, transaction_type, order_type, product):
+def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
     try:
         order_id = broker.order_place(
             tradingsymbol=tradingsymbol,
             quantity=quantity,
-            exchange=exchange,
+            exchange=NFO,
             transaction_type=transaction_type,
             order_type=order_type,
             product=product
@@ -48,7 +48,7 @@ def place_order(tradingsymbol, quantity, exchange, transaction_type, order_type,
 def exit_ce_options(key, pl_percentage, quantity, pnl):
     if key.endswith('CE') and pl_percentage >= 1:
         try:
-            place_order(key, quantity, 'SELL', 'MARKET', 'MIS', 'NRML')  
+            place_order(key, quantity, 'SELL', 'MARKET', 'NRML')  
             message = f"Exit order placed for {key} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
             print(message)
             send_telegram_message(message)
