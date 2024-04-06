@@ -57,7 +57,6 @@ def stocks_sell_order_place(index, row):
                 variety='regular',
                 price=round_to_paise(row['ltp'], -0.2)
             )
-###########################################################################################################################################################################################################            
             if order_id:
                 logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
                 # Write the row to the CSV file here
@@ -174,10 +173,12 @@ try:
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
     from smapxy import check_index_status
-    nsma = check_index_status('^NSEI')
+    SMAfty = check_index_status('^NSEI')
     from tabulate import tabulate
     from optpxy import get_opt_check
     optpxy = get_opt_check('^NSEI')
+    from smapxy import check_index_status
+    nsma = check_index_status("^NSEI")
     from dshpxy import get_holdingsinfo
     total_nrml_m2m, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
     from bordpxy import printbord
@@ -189,22 +190,16 @@ try:
         print(f"An error occurred: {e}")
         available_cash = 0
 ###########################################################################################################################################################################################################
-    combined_df['dPL%'] = pd.to_numeric(combined_df['dPL%'], errors='coerce')
-    combined_df['oPL%'] = pd.to_numeric(combined_df['oPL%'], errors='coerce')
     epsilon = 1e-10
-    def calculate_smb_power(row):
-        start = row['low'] if row['source'] == 'holdings' else (row['avg'] if row['source'] == 'positions' else ValueError("Invalid value in 'source' column"))
-        smb_power = round(abs(row['ltp'] - (start - 0.01)) / (abs(row['high'] + 0.01) - abs(start - 0.01) + epsilon), 2)
-        if abs(row['high'] + 0.01) - abs(start - 0.01) + epsilon != 0 and row['ltp'] - (start - 0.01) != 0:
-            return smb_power
-        else:
-            return 0.5
-    combined_df['smb_power'] = combined_df.apply(calculate_smb_power, axis=1)
+    combined_df[['smb_power']] = combined_df.apply(
+        lambda row: pd.Series({'smb_power': round(abs(row['ltp'] - (row['low'] - 0.01)) / (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon) if (abs(row['high'] + 0.01) - abs(row['low'] - 0.01) + epsilon != 0) and (row['ltp'] - (row['low'] - 0.01) != 0) else 0.5, 2)}), 
+        axis=1
+    )
     threshold = 3
 ###########################################################################################################################################################################################################
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * 1), 2)
-    combined_df['tPL%'] = np.where(nsma == 'up', np.maximum(2 * combined_df['tPL%'], 1.4), np.where(nsma == 'down', np.maximum(combined_df['tPL%'] * 1, 1.4), 1.4))
+    combined_df['tPL%'] = np.where(SMAfty == 'up', np.maximum(1 * combined_df['tPL%'], 1.4), np.where(SMAfty == 'down', np.maximum(combined_df['tPL%'] * 0.5, 1.4), combined_df['tPL%']))
 ###########################################################################################################################################################################################################
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
@@ -216,12 +211,13 @@ try:
     total_PnL_stocks_buy = round(stocks_buy_df['PnL'].sum()) if not stocks_buy_df.empty else 0
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
+    total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
 ###########################################################################################################################################################################################################
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
-    pxy_df = filtered_df.copy()[['tPL%','fPL%','smb_power','oPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL', 'PL%']]
+    pxy_df = filtered_df.copy()[['fPL%','tPL%','smb_power','oPL%','Invested','source','product', 'qty','average_price', 'close', 'ltp', 'open', 'high','low','key','dPL%','PnL', 'PL%']]
     pxy_df['avg'] =filtered_df['average_price']
-    EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low', 'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
+    EXE_df = pxy_df[['tPL%','fPL%','smb_power','oPL%','Invested','qty', 'avg', 'close', 'ltp', 'open', 'high', 'low',  'dPL%','product', 'source', 'key', 'PL%', 'PnL']]    
     PRINT_df = pxy_df[(pxy_df['qty'] > 0) & (~pxy_df['key'].str.contains('NFO'))][['source', 'key', 'dPL%', 'oPL%', 'tPL%', 'smb_power', 'PL%', 'PnL']]
     PRINT_df = PRINT_df.rename(columns={'source': 'HP', 'smb_power': 'TR','key': 'key','dPL%': 'dPL%'})
     PRINT_df['HP'] = PRINT_df['HP'].replace({'holdings': '📌', 'positions': '🎯'})
@@ -236,7 +232,6 @@ try:
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ###########################################################################################################################################################################################################   
-
     csv_file_path = "filePnL.csv"
     selected_rows = []
     if nse_power < 1 :
@@ -261,7 +256,7 @@ try:
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.4 ) and
                         (
-                            (row['PL%'] > row['tPL%']) or (total_dPnL < 0) or (row['oPL%'] < 0) or (row['dPL%'] < 0)
+                            (row['PL%'] > row['tPL%']) or ((row['PL%'] > 0) and (total_dPnL < 0))
                         )
                     ):
                         try:
@@ -298,9 +293,6 @@ try:
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
-###########################################################################################################################################################################################################
-
-  
 ###########################################################################################################################################################################################################
     printbord(total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              total_PnL_stocks_buy, available_cash,
