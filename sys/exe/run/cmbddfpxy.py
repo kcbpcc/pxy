@@ -81,7 +81,7 @@ def process_data():
         combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100).round(2)
         combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
-        combined_df['dPL%'] = (combined_df['dPnL'] / combined_df['Yvalue']) * 100
+        combined_df['dPL%'] = combined_df.apply(lambda row: ((row['dPnL'] / row['Yvalue']) * 100) if row['Yvalue'] != 0 else 0, axis=1)
         
         return combined_df
 
