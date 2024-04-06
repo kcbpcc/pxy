@@ -2,13 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 import traceback
 
-
 class Trendlyne:
-
     base_url = "https://trendlyne.com/"
     entry_url = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-pxy/all/all/"
-    #https://trendlyne.com/fundamentals/stock-screener/432332/buy-plus-pxy/all/all/
-    
+
     def __init__(self):
         fake_response = requests.get(self.base_url)
         fake_cookies = fake_response.cookies
@@ -39,18 +36,21 @@ class Trendlyne:
 
                         data_list_of_dicts = []
                         for row in rows:
-                            data_dict = {
-                                '0': row[0],
-                                'tradingsymbol': row[1],
-                                'QTY': row[2],
-                                '4': row[3],
-                                '5': row[4],
-                                '6': row[5],
-                                '7': row[6],
-                                '8': row[7],
-                                '9': row[8]
-                            }
-                            data_list_of_dicts.append(data_dict)
+                            if len(row) == 9:  # Check if the row has exactly 9 elements
+                                data_dict = {
+                                    '0': row[0],
+                                    'tradingsymbol': row[1],
+                                    'QTY': row[2],
+                                    '4': row[3],
+                                    '5': row[4],
+                                    '6': row[5],
+                                    '7': row[6],
+                                    '8': row[7],
+                                    '9': row[8]
+                                }
+                                data_list_of_dicts.append(data_dict)
+                            else:
+                                print("Unexpected number of elements in row:", row)
                         return data_list_of_dicts
                     else:
                         print("No 'tbody' element found on the page.")
@@ -65,3 +65,4 @@ class Trendlyne:
 if __name__ == '__main__':
     t = Trendlyne()
     print(t.entry())
+
