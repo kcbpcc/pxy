@@ -128,6 +128,7 @@ else:
     close_color = Fore.YELLOW
     
 from selfpxy import get_random_spiritual_message
+importlib.reload(sys.modules['selfpxy'])
 random_message = get_random_spiritual_message()
 console.print(random_message)
 
