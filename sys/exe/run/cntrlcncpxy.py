@@ -277,8 +277,9 @@ try:
                     elif (
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
+                         row['Invested'] < 20000
                          available_cash > 10000 and
-                         nse_power < 0.1 and
+                         nse_power < 0.3 and
                          mktpxy in ['Buy', 'Bull'] and
                          row['PL%'] < -20)
                     ):
