@@ -179,7 +179,7 @@ try:
     from optpxy import get_opt_check
     optpxy = get_opt_check('^NSEI')
     from dshpxy import get_holdingsinfo
-    total_nrml_m2m, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
+    total_nrml_m2m, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, nrmlall_Stocks_worth, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
     from bordpxy import printbord
 #########################################################################################################################################################################################################
     try:
