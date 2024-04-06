@@ -34,7 +34,7 @@ while True:
     subprocess.run(['python3', 'tistpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'buycncpxy.py']) if (nsma == 'up' and mktpxy == 'Buy') or peak == 'PEAKEND' else None
-    subprocess.run(['python3', 'buyoptpxy.py']) if nse_power < 0.1 else None
+    subprocess.run(['python3', 'buyoptpxy.py']) if (nsma == 'down' and mktpxy == 'Sell') or peak == 'PEAKEND' else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'cntrlcncpxy.py']) 
     subprocess.run(['python3', 'cntrloptpxy.py']) 
