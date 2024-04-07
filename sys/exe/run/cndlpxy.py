@@ -63,17 +63,7 @@ def get_today_close():
     else:
         return None, None  # Handle the case when data is not available
 
-from selfpxy import get_random_spiritual_message
-importlib.reload(sys.modules['selfpxy'])
-random_message = get_random_spiritual_message()
-console.print(random_message)
 
-# Initialize day_change_sign and open_change_sign
-day_change_sign = '+' if Day_Change > 0 else ''
-open_change_sign = '+' if Open_Change > 0 else ''
-
-# Now you can use nifty50_ohlc outside of the function
-print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈:{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
 
 
 
@@ -99,7 +89,18 @@ def dayprinter(o, h, l, c, prev_close):
         x_length = round((x / 100) * max_total_length)
         m_length = max_total_length - n_length - x_length
         
-        # Print both the previous day's close and today's close in a single sentence with color
+        from selfpxy import get_random_spiritual_message
+        importlib.reload(sys.modules['selfpxy'])
+        random_message = get_random_spiritual_message()
+        console.print(random_message)
+        
+        # Initialize day_change_sign and open_change_sign
+        day_change_sign = '+' if Day_Change > 0 else ''
+        open_change_sign = '+' if Open_Change > 0 else ''
+        
+        # Now you can use nifty50_ohlc outside of the function
+        print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈:{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
+
         print(Fore.LIGHTWHITE_EX + '█' * n_length, end='')
         if c > o:
             print(Fore.GREEN + '█' * x_length + Style.RESET_ALL, end='')
