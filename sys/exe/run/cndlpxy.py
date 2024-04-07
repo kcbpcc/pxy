@@ -68,7 +68,9 @@ importlib.reload(sys.modules['selfpxy'])
 random_message = get_random_spiritual_message()
 console.print(random_message)
 
-
+# Initialize day_change_sign and open_change_sign
+day_change_sign = '+' if Day_Change > 0 else ''
+open_change_sign = '+' if Open_Change > 0 else ''
 
 # Now you can use nifty50_ohlc outside of the function
 print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈:{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
@@ -122,9 +124,7 @@ def option_to_trade():
 previous_day_close = get_previous_day_close(get_nifty50_data())
 today_close = get_today_close()
 
-# Initialize day_change_sign and open_change_sign
-day_change_sign = '+' if Day_Change > 0 else ''
-open_change_sign = '+' if Open_Change > 0 else ''
+
 
 if previous_day_close is not None and today_close is not None:
     nifty50_ohlc = get_nifty50_data(period="1d")  # Assign the result to a variable
