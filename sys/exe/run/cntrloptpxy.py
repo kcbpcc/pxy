@@ -10,10 +10,9 @@ import logging
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 import requests  
 import numpy as np
-
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)  
-
 def send_telegram_message(message):
     try:
         for username in user_usernames:
@@ -29,7 +28,7 @@ def send_telegram_message(message):
                 print("Telegram message sent successfully.")
     except Exception as e:
         print(f"Error sending Telegram message: {e}")
-
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
     try:
         order_id = broker.order_place(
@@ -45,7 +44,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
     except Exception as e:
         print(f"Error placing order: {e}")
         return None
-
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 def exit_ce_options(key, pl_percentage, quantity, pnl):
     if key.endswith('CE') and pl_percentage >= 110:
         try:
@@ -68,6 +67,7 @@ finally:
     if sys.stdout != sys.__stdout__:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
 from cmbddfpxy import process_data
 combined_df = process_data()
@@ -79,6 +79,7 @@ opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','product']]
 total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
 print_df = opt_df
 print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
@@ -90,6 +91,7 @@ summary_sentence = f"CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_perc
 print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")   
 pd.set_option('display.max_colwidth', 42)
 formatted_lines = print_df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 
 max_width = 42
 for line in formatted_lines:
@@ -103,3 +105,4 @@ print_mis_df = print_df.loc[print_df['MN'] == '⌛', ['MN', 'key', 'Invested', '
 if not print_mis_df.empty:
     print("━" * 42)
     print(print_mis_df)
+############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
