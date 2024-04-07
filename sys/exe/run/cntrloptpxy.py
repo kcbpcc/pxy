@@ -85,7 +85,7 @@ print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else (
 print_df['key'] = print_df['key'].str.replace('NIFTY', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '⏰')
 print_df = print_df[['MN','key', 'Invested', 'qty', 'PL%', 'PnL','CP']]
-
+print_df = print_df[['MN','key', 'Invested', 'qty', 'PL%', 'PnL','CP']] 
 summary_sentence = f"CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_percentage:.2f}%{'🔴' if total_pl < 0 else '🟢'}"
 print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")   
 pd.set_option('display.max_colwidth', 42)
@@ -99,3 +99,7 @@ for line in formatted_lines:
 for index, row in opt_df.iterrows():
     exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
 
+print_mis_df = print_df.loc[print_df['MN'] == '⌛', ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+if not print_mis_df.empty:
+    print("━" * 42)
+    print(print_mis_df)
