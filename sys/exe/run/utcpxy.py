@@ -4,9 +4,6 @@ def peak_time():
     # Get the current UTC time without date component
     current_utc_time = datetime.utcnow().time()
 
-    # #print current time for debugging
-    #print("Current UTC Time (without date):", current_utc_time)
-
     # Define the peak time ranges
     peak_time_0_start = datetime.strptime("00:00", "%H:%M").time()
     peak_time_0_end = datetime.strptime("03:44", "%H:%M").time()
@@ -49,5 +46,3 @@ def peak_time():
     # If none of the above conditions are met, return a default value
     return "UNKNOWN"
 
-# Test the function
-#print("Peak Time Label:", peak_time())
