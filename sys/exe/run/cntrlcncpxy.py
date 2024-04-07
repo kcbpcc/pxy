@@ -212,7 +212,7 @@ try:
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
     total_PnL = round(combined_df_positive_qty['PnL'].sum())
     total_PnL_percentage = (total_PnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
-    stocks_buy_df = combined_df.loc[(combined_df['product'] == "CNC") & (combined_df['qty'] > 1) & (combined_df['source'] == "positions")]
+    stocks_buy_df = combined_df.loc[(combined_df['product'] == "CNC") & (combined_df['qty'] > 0) & (combined_df['source'] == "positions")]
     total_PnL_stocks_buy = round(stocks_buy_df['PnL'].sum()) if not stocks_buy_df.empty else 0
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
@@ -234,7 +234,7 @@ try:
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
     pd.set_option('display.max_colwidth', 1)
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-    stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 0].sort_values(by='PL%')
+    stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
     csv_file_path = "filePnL.csv"
     selected_rows = []
