@@ -1,0 +1,18 @@
+1_VOL > 0 AND
+2_OPNL > 0 AND
+3_DPNL > 0 AND
+4_PWR > 0.50 AND
+5_SMA > 0 AND
+6_KICK > 0 AND
+7_VALUE > 5
+
+
+
+6_KICK	( ( ( Prev Day Close + Previous Day Open ) / 2 < ( Current Price + Day Open ) / 2 ) ) OR ( ( Prev Day Close < Previous Day Open ) and ( Current Price > Previous Day Open ) )		
+7_VALUE	Piotroski Score		
+QTY	10000 / Current Price		
+3_DPNL	( ( Current Price - Prev Day Close ) / ( Prev Day Close ) ) * 100		
+1_VOL	( Day Volume / Week Volume Avg ) > 2 AND ( Week Volume Avg * Current Price > 20000000 ) AND Day Volume >= 20000		
+5_SMA	Current Price > 20Day SMA		
+4_PWR	( ( Current Price - Day Low ) / ( Day High - Day Low ) )		
+2_OPNL	( ( Current Price - Day Open ) / ( Day Open ) ) * 100
