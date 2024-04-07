@@ -6,7 +6,7 @@ subprocess.run(['python3', 'worldpxy.py'])
 def printbord(bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              total_PnL_stocks_buy, available_cash,
              nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma):
-    #print(bkd_total_cnc_m2m)
+    print(bkd_total_cnc_m2m)
     output_lines = []
     acvalue = ((all_Stocks_worth_lacks) + (nrmlall_Stocks_worth/100000) + (available_cash/100000))  
     process_acvalue(acvalue)
@@ -40,8 +40,8 @@ def printbord(bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, optpxy, Day_Chan
                         right_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m > 0 else BRIGHT_RED}{str(int(total_cnc_m2m)).zfill(5)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if total_dPnL >= 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Placed:{GREEN if result > 0 else GREEN}{str(round(result)).zfill(5)}{RESET}")) +
-                      right_aligned_format.format(f"BOOKED:{GREEN if bkd_total_cnc_m2m > 0 else GREEN}{str(round(bkd_total_cnc_m2m)).zfill(5)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if total_nrml_m2m >= 0 else BRIGHT_RED}{str(int(total_nrml_m2m)).zfill(5)}{RESET}") +
+                      right_aligned_format.format(f"BOOKED:{GREEN if result > 0 else GREEN}{str(round(result)).zfill(5)}{RESET}"))
 
     full_output = '\n'.join(output_lines)
     print(full_output)
