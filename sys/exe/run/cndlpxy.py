@@ -5,10 +5,7 @@ import time
 import warnings
 from rich.console import Console
 console = Console()
-# Suppress FutureWarnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
-
-# Rest of your code here
 import yfinance as yf
 import pandas as pd
 import colorama
@@ -20,41 +17,28 @@ from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
 import subprocess
 import sys
-
 onemincandlesequance, mktpxy = get_market_check("^NSEI")
 peak = peak_time()
 macd = calculate_macd_signal("^NSEI")
 nsma = check_index_status("^NSEI")
 from depthpxy import calculate_consecutive_candles
 cedepth, pedepth = calculate_consecutive_candles("^NSEI")
-
 colorama.init(autoreset=True)
-
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
-
 def get_nifty50_data(period="7d"):
     ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
-
     try:
-        # Fetch historical data for the specified period
         nifty_data = yf.Ticker(ticker_symbol).history(period=period)
-
-        # Extract OHLC data
         ohlc_data = nifty_data[OHLC_COLUMNS]
-
         return ohlc_data
-
     except Exception as e:
         print(f"Error fetching data: {e}")
         return pd.DataFrame()  # Return an empty DataFrame in case of an error
-
 def get_previous_day_close(df):
     if len(df) >= 2:
         return df.iloc[-2]['Close']
     else:
-        # Handle the case when there are not enough rows in the DataFrame
         return None  # Or any default value or error handling you prefer
-
 def get_today_close():
     nifty50_ohlc = get_nifty50_data(period="1d")  # Fetch data for 1 day
     if not nifty50_ohlc.empty:
@@ -62,51 +46,9 @@ def get_today_close():
         return nifty50_ohlc.iloc[-1]['Close'], prev_close
     else:
         return None, None  # Handle the case when data is not available
-def option_to_trade():
-    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
-    today_open = today_data['Open']
-    today_close = today_data['Close']
-    option_value = round(today_close / 50) * 50
-    return option_value
-
-    # Example usage in the main program
-    previous_day_close = get_previous_day_close(get_nifty50_data())
-    today_close = get_today_close()
-    
-    # Initialize day_change_sign and open_change_sign
-    day_change_sign = '+' if Day_Change > 0 else ''
-    open_change_sign = '+' if Open_Change > 0 else ''
-    
-    if previous_day_close is not None and today_close is not None:
-        nifty50_ohlc = get_nifty50_data(period="1d")  # Assign the result to a variable
-        today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
-        dayprinter(*today_data, previous_day_close)
-    else:
-        print("Unable to fetch data.")
-    
-    # Check if today's close is higher or lower than today's open
-    if previous_day_close is not None and today_close is not None:
-        close = today_close[0]
-        open_price = nifty50_ohlc.iloc[-1]['Open']
-        close_color = Fore.GREEN if close > open_price else Fore.RED
-    else:
-        close_color = Fore.YELLOW
-        
-    from selfpxy import get_random_spiritual_message
-    importlib.reload(sys.modules['selfpxy'])
-    random_message = get_random_spiritual_message()
-    console.print(random_message)
-    
-    
-    
-    # Now you can use nifty50_ohlc outside of the function
-    print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈:{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
-
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 42  # Maximum total length allowed for printing
-    
     try:
-        # Calculate the lengths of different segments as percentages of H - L
         candle_length = h - l
         if c > o:
             n = round(((o - l) / candle_length) * 100)
@@ -132,7 +74,38 @@ def dayprinter(o, h, l, c, prev_close):
     
     except Exception as e:
         pass
-    
-    # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
+def option_to_trade():
+    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
+    today_open = today_data['Open']
+    today_close = today_data['Close']
+    option_value = round(today_close / 50) * 50
+    return option_value
+previous_day_close = get_previous_day_close(get_nifty50_data())
+today_close = get_today_close()
+day_change_sign = '+' if Day_Change > 0 else ''
+open_change_sign = '+' if Open_Change > 0 else ''
+if previous_day_close is not None and today_close is not None:
+    nifty50_ohlc = get_nifty50_data(period="1d")  # Assign the result to a variable
+    today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
+    dayprinter(*today_data, previous_day_close)
+else:
+    print("Unable to fetch data.")
+# Check if today's close is higher or lower than today's open
+if previous_day_close is not None and today_close is not None:
+    close = today_close[0]
+    open_price = nifty50_ohlc.iloc[-1]['Open']
+    close_color = Fore.GREEN if close > open_price else Fore.RED
+else:
+    close_color = Fore.YELLOW
+from selfpxy import get_random_spiritual_message
+importlib.reload(sys.modules['selfpxy'])
+random_message = get_random_spiritual_message()
+console.print(random_message)
+# Now you can use nifty50_ohlc outside of the function
+print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈:{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
+
+
+
+
 
