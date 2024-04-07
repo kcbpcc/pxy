@@ -237,7 +237,7 @@ try:
 ###########################################################################################################################################################################################################   
     csv_file_path = "filePnL.csv"
     selected_rows = []
-    if nse_power < 1 :
+    if Open_Change < 0 :
         try:
             for index, row in EXE_df.iterrows():
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
