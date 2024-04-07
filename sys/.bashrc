@@ -57,9 +57,9 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='PXY®💲🕉💲 '
+    PS1='PXY®💲💲 '
 else
-    PS1='PXY®💲🕉💲'
+    PS1='PXY®💲💲'
 fi
 unset color_prompt force_color_prompt
 
