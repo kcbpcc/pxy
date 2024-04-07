@@ -86,6 +86,8 @@ print_df['key'] = print_df['key'].str.replace('NIFTY', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '⏰')
 print_df = print_df[['MN','key', 'Invested', 'qty', 'PL%', 'PnL','CP']]
 
+summary_sentence = f"CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_percentage:.2f}%{'🔴' if total_pl < 0 else '🟢'}"
+print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")   
 pd.set_option('display.max_colwidth', 42)
 formatted_lines = print_df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
 
@@ -93,8 +95,7 @@ max_width = 42
 for line in formatted_lines:
     color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
     print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(40) + RESET)
-summary_sentence = f"CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_percentage:.2f}%{'🔴' if total_pl < 0 else '🟢'}"
-print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")   
+
 for index, row in opt_df.iterrows():
     exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
 
