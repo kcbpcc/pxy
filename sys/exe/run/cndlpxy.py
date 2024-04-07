@@ -63,6 +63,20 @@ def get_today_close():
     else:
         return None, None  # Handle the case when data is not available
 
+from selfpxy import get_random_spiritual_message
+importlib.reload(sys.modules['selfpxy'])
+random_message = get_random_spiritual_message()
+console.print(random_message)
+
+
+
+# Now you can use nifty50_ohlc outside of the function
+print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈:{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
+
+
+
+
+
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 42  # Maximum total length allowed for printing
     
@@ -127,16 +141,6 @@ if previous_day_close is not None and today_close is not None:
 else:
     close_color = Fore.YELLOW
     
-from selfpxy import get_random_spiritual_message
-importlib.reload(sys.modules['selfpxy'])
-random_message = get_random_spiritual_message()
-console.print(random_message)
-
-
-
-# Now you can use nifty50_ohlc outside of the function
-print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈:{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
-
 
 
 
