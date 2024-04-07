@@ -62,12 +62,45 @@ def get_today_close():
         return nifty50_ohlc.iloc[-1]['Close'], prev_close
     else:
         return None, None  # Handle the case when data is not available
+def option_to_trade():
+    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
+    today_open = today_data['Open']
+    today_close = today_data['Close']
+    option_value = round(today_close / 50) * 50
+    return option_value
+
+# Example usage in the main program
+previous_day_close = get_previous_day_close(get_nifty50_data())
+today_close = get_today_close()
+
+# Initialize day_change_sign and open_change_sign
+day_change_sign = '+' if Day_Change > 0 else ''
+open_change_sign = '+' if Open_Change > 0 else ''
+
+if previous_day_close is not None and today_close is not None:
+    nifty50_ohlc = get_nifty50_data(period="1d")  # Assign the result to a variable
+    today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
+    dayprinter(*today_data, previous_day_close)
+else:
+    print("Unable to fetch data.")
+
+# Check if today's close is higher or lower than today's open
+if previous_day_close is not None and today_close is not None:
+    close = today_close[0]
+    open_price = nifty50_ohlc.iloc[-1]['Open']
+    close_color = Fore.GREEN if close > open_price else Fore.RED
+else:
+    close_color = Fore.YELLOW
+    
+from selfpxy import get_random_spiritual_message
+importlib.reload(sys.modules['selfpxy'])
+random_message = get_random_spiritual_message()
+console.print(random_message)
 
 
 
-
-
-
+# Now you can use nifty50_ohlc outside of the function
+print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈:{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
 
 def dayprinter(o, h, l, c, prev_close):
     max_total_length = 42  # Maximum total length allowed for printing
@@ -89,18 +122,7 @@ def dayprinter(o, h, l, c, prev_close):
         x_length = round((x / 100) * max_total_length)
         m_length = max_total_length - n_length - x_length
         
-        from selfpxy import get_random_spiritual_message
-        importlib.reload(sys.modules['selfpxy'])
-        random_message = get_random_spiritual_message()
-        console.print(random_message)
-        
-        # Initialize day_change_sign and open_change_sign
-        day_change_sign = '+' if Day_Change > 0 else ''
-        open_change_sign = '+' if Open_Change > 0 else ''
-        
-        # Now you can use nifty50_ohlc outside of the function
-        print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈:{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
-
+        # Print both the previous day's close and today's close in a single sentence with color
         print(Fore.LIGHTWHITE_EX + '█' * n_length, end='')
         if c > o:
             print(Fore.GREEN + '█' * x_length + Style.RESET_ALL, end='')
@@ -113,35 +135,4 @@ def dayprinter(o, h, l, c, prev_close):
     
     # Determine the color based on the comparison of today's close with yesterday's close
     color = Fore.GREEN if c > prev_close else Fore.RED
-
-def option_to_trade():
-    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
-    today_open = today_data['Open']
-    today_close = today_data['Close']
-    option_value = round(today_close / 50) * 50
-    return option_value
-
-# Example usage in the main program
-previous_day_close = get_previous_day_close(get_nifty50_data())
-today_close = get_today_close()
-
-
-
-if previous_day_close is not None and today_close is not None:
-    nifty50_ohlc = get_nifty50_data(period="1d")  # Assign the result to a variable
-    today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
-    dayprinter(*today_data, previous_day_close)
-else:
-    print("Unable to fetch data.")
-
-# Check if today's close is higher or lower than today's open
-if previous_day_close is not None and today_close is not None:
-    close = today_close[0]
-    open_price = nifty50_ohlc.iloc[-1]['Open']
-    close_color = Fore.GREEN if close > open_price else Fore.RED
-else:
-    close_color = Fore.YELLOW
-    
-
-
 
