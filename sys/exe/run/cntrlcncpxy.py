@@ -192,7 +192,7 @@ try:
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     epsilon = 1e-10
     def calculate_smb_power(row):
-        start = row['low'] if row['source'] == 'holdings' and row['product'] == 'CNC' else (row['avg'] if row['source'] == 'positions' and row['product'] == 'CNC' else ValueError("Invalid value in 'source' column"))
+        start = row['low'] if row['source'] == 'holdings' and row['product'] == 'CNC' else (row['avg'] if row['source'] == 'positions' and row['product'] == 'CNC' else None)
         smb_power = round(abs(row['ltp'] - (start - 0.01)) / (abs(row['high'] + 0.01) - abs(start - 0.01) + epsilon), 2)
         if abs(row['high'] + 0.01) - abs(start - 0.01) + epsilon != 0 and row['ltp'] - (start - 0.01) != 0:
             return smb_power
