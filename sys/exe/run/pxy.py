@@ -12,11 +12,12 @@ from sleeppxy import progress_bar
 import time
 from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
-logging = Logger(30, dir_path + "main.log")
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from login_get_kite import get_kite, remove_token
 import traceback
+from cnstpxy import dir_path
+logging = Logger(30, dir_path + "main.log")
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
