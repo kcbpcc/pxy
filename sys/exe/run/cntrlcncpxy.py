@@ -192,7 +192,7 @@ try:
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     epsilon = 1e-10
     def calculate_smb_power(row):
-        start = row['avg'] if any(combined_df['source'] == 'positions' & (combined_df['product'] == 'CNC')) and row['source'] == 'positions' and row['product'] == 'CNC' else None
+        start = row['low'] if row['source'] == 'holdings' else (row['avg'] if row['source'] == 'positions' else ValueError("Invalid value in 'source' column"))
         smb_power = round(abs(row['ltp'] - (start - 0.01)) / (abs(row['high'] + 0.01) - abs(start - 0.01) + epsilon), 2)
         if abs(row['high'] + 0.01) - abs(start - 0.01) + epsilon != 0 and row['ltp'] - (start - 0.01) != 0:
             return smb_power
