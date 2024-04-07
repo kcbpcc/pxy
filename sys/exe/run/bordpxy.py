@@ -7,7 +7,7 @@ def printbord(total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_P
              total_PnL_stocks_buy, available_cash,
              nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma):
     output_lines = []
-    acvalue = ((all_Stocks_worth_lacks) + (nrmlall_Stocks_worth) + (available_cash/100000))  
+    acvalue = ((all_Stocks_worth_lacks) + (nrmlall_Stocks_worth/100000) + (available_cash/100000))  
     process_acvalue(acvalue)
     acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
     capital = 18.50
