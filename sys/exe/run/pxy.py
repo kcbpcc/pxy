@@ -8,6 +8,9 @@ import os
 from cyclepxy import cycle
 from clorpxy import RED, GREEN
 console = Console()
+from sleeppxy import progress_bar
+import time
+from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
 while True:
     from mktpxy import get_market_check
@@ -38,9 +41,6 @@ while True:
     subprocess.run(['python3', 'cntrlcncpxy.py']) 
     subprocess.run(['python3', 'cntrloptpxy.py']) 
     subprocess.run(['python3', 'cndlpxy.py'])
-    from sleeppxy import progress_bar
-    import time
-    from rich.console import Console
+    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(cycle, mktpxy)
-
 
