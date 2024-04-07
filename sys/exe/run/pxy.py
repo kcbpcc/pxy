@@ -41,6 +41,6 @@ while True:
     from sleeppxy import progress_bar
     import time
     from rich.console import Console
-    progress_bar(5, mktpxy)
+    progress_bar(cycle, mktpxy)
 
 
