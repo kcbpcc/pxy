@@ -27,19 +27,19 @@ while True:
     importlib.reload(sys.modules['smapxy'])  # Correct the usage
     nsma = check_index_status('^NSEI')
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-    subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
     subprocess.run(['python3', 'tistpxy.py'])
+    subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PEAKSTART' else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    subprocess.run(['python3', 'buycncpxy.py']) if (nsma == 'up' and mktpxy == 'Buy') or peak == 'PEAKEND' else None
-    subprocess.run(['python3', 'buyoptpxy.py']) if (nsma == 'down' and mktpxy == 'Sell') or peak == 'PEAKEND' else None
+    subprocess.run(['python3', 'cntrlcncpxy.py']) if peak == 'PEAKSTART' else None
+    subprocess.run(['python3', 'cntrloptpxy.py']) if peak == 'PEAKSTART' else None
+    subprocess.run(['python3', 'buyoptpxy.py']) if (nse_power > 0.9 and optpxy == 'Sell or Bear ') or (nse_power < 0.1 and optpxy == 'Buy or Bull') or peak == 'PEAKEND' else None
+    subprocess.run(['python3', 'buycncpxy.py']) if (mktpxy == 'Buy' and Open_Change > 0) or peak == 'PEAKEND' else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'cntrlcncpxy.py']) 
     subprocess.run(['python3', 'cntrloptpxy.py']) 
     subprocess.run(['python3', 'cndlpxy.py'])
-    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     import time
     from rich.console import Console
-    
     def progress_bar(duration, mktpxy):
         console = Console()
         for _ in range(int(duration)):
