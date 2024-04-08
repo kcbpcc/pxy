@@ -105,7 +105,7 @@ if not print_open_buy_df.empty:
 if not print_close_df.empty:
     #print("Close Trades:")
     print_formatted_df(print_close_df)
-    print(f"{'Booked💰:':>37}{GREEN if total_real >= 0 else RED}{total_real}{RESET}")
+    print(f"{'BOOKED💰:':>37}{GREEN if total_real >= 0 else RED}{total_real}{RESET}")
 if not print_open_sell_df.empty:
     #print("Open Sell Trades:")
     print_formatted_df(print_open_sell_df)
