@@ -47,7 +47,6 @@ def get_this_thursday():
     return expiry_year, expiry_month, expiry_day
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
-    # Convert expiry_month to a single digit string if it's less than or equal to 9
     if len(expiry_month) == 2 and expiry_month.startswith("0"):
         expiry_month = expiry_month[1]
 
@@ -93,7 +92,6 @@ async def place_order(broker, symbol, transaction_type, product_type, quantity, 
 
 async def main():
     try:
-        # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
 
@@ -106,17 +104,14 @@ async def main():
                 sys.exit(1)
 
     finally:
-        # Reset sys.stdout to its default value
         sys.stdout = sys.__stdout__
     
     expiry_year, expiry_month, expiry_day = get_this_thursday()
     
-    # For Call option (CE)
+    # Construct symbols for call and put options using noptions as the strike price
     ce_option_type = 'CE'
-    ce_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, ce_option_type)
-    
-    # For Put option (PE)
     pe_option_type = 'PE'
+    ce_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, ce_option_type)
     pe_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, pe_option_type)
     
     # Check if there are existing positions for CE and PE options with quantity >= 50
@@ -138,7 +133,6 @@ async def main():
             print("BUY order for PE placed successfully.")
     else:
          print(f"Existing {pe_symbol},So not Buying")
-
 
 async def run_main():
     await main()
