@@ -84,7 +84,8 @@ def stocks_sell_order_place(index, row):
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
-                        message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
+                        message_text = f"📊 Let's Book {exchsym[1]}!\n💹 Profit: {row['PL']}\n💰 Profit %: {row['PL%']}\n📈 LTP: {row['ltp']}\n📉 Avg: {row['lavg']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}"
+                        #message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
                         user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
@@ -136,7 +137,7 @@ def stocks_avg_order_place(index, row):
             if order_id:
                 logging.info(f"BUY {order_id} placed for {exchsym[1]} successfully")
                 try:
-                    message_text = f"📊 Let's average {exchsym[1]}!\n📈 Current Price (LTP): {row['ltp']}\n💰 Investment: {row['Invested']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}"
+                    message_text = f"📊 Let's Average {exchsym[1]}!\n📈 Current Price (LTP): {row['ltp']}\n💰 Investment: {row['Invested']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}"
                     bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
                     user_id = '-4135910842'  # Replace with your Telegram user ID
                     async def send_telegram_message(message_text):
