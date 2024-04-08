@@ -204,7 +204,7 @@ try:
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * 1), 2)
     combined_df['min'] = np.where(Day_Change > 0, 4, 2) # Fixed the closing quotation mark here
-    combined_df['tPL%'] = np.where(nsma == 'up', np.maximum(1.5 * combined_df['tPL%'], combined_df['min']), np.where(nsma == 'down', np.maximum(combined_df['tPL%'] * 1, combined_df['min']), combined_df['min']))
+    combined_df['tPL%'] = np.where(nsma == 'up', np.maximum(1.25 * combined_df['tPL%'], combined_df['min']), np.where(nsma == 'down', np.maximum(combined_df['tPL%'] * 0.75, combined_df['min']), combined_df['min']))
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
