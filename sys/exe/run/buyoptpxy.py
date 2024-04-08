@@ -11,8 +11,8 @@ noptions, _, _, _ = get_prices()
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
 nsma = check_index_status('^NSEI')
-from optpxy import get_opt_check
-optpxy = get_opt_check('^NSEI')
+from mktpxy import get_market_check
+onemincandlesequance, mktpxy = get_market_check('^NSEI')
 
 async def send_telegram_message(message_text):
     try:
