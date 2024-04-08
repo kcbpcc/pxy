@@ -238,7 +238,7 @@ try:
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
     csv_file_path = "filePnL.csv"
     selected_rows = []
-    if nsma == 'up':
+    if nsma == 'down':
         try:
             for index, row in EXE_df.iterrows():
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
@@ -263,11 +263,9 @@ try:
                             (row['PL%'] > row['tPL%'])
                         )
                     ):
-                        
                         try:
                             is_placed = stocks_sell_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
-                                # Print the row before placing the order
                                 print(row)                                
                         except InputException as e:
                             # Handle the specific exception and print only the error message
