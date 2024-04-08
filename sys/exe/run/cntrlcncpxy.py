@@ -222,7 +222,7 @@ try:
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
-    total_opt_real = combined_df['qty'] == 0]['pnl'].sum() if 'NFO' in key else None
+    total_opt_real = combined_df[combined_df['qty'] == 0]['pnl'].sum() if 'NFO' in key else None
     print(total_opt_real)
     filtered_df = combined_df[(combined_df['product'] == 'CNC') & (combined_df['qty'] != 0)]
     combined_df_positive_qty = combined_df[(combined_df['qty'] > 0) & (combined_df['source'] == 'holdings')]
