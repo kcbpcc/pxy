@@ -3,7 +3,7 @@ from acvaluepxy import process_acvalue, get_current_acvalue
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 import subprocess
 subprocess.run(['python3', 'worldpxy.py']) 
-def printbord(bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, mktpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
+def printbord(total_opt_real, bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, mktpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              total_PnL_stocks_buy, available_cash,
              nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma):
     #print(bkd_total_cnc_m2m)
@@ -40,7 +40,7 @@ def printbord(bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, mktpxy, Day_Chan
                         right_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m > 0 else BRIGHT_RED}{str(int(total_cnc_m2m)).zfill(5)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if total_dPnL >= 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if total_nrml_m2m >= 0 else BRIGHT_RED}{str(int(total_nrml_m2m)).zfill(5)}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if total_opt_real >= 0 else BRIGHT_RED}{str(int(total_opt_real)).zfill(5)}{RESET}") +
                       right_aligned_format.format(f"BOOKED:{GREEN if result > 0 else GREEN}{str(round(result)).zfill(5)}{RESET}"))
 
     full_output = '\n'.join(output_lines)
