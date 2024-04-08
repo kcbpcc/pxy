@@ -32,7 +32,7 @@ except Exception as e:
     sys.exit(1)
 file_path = 'filePnL.csv'
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
-def get_order_status(symbol, broker):
+def get_order_status(symbol):
     try:
         orders = broker.kite.orders()
         for order in orders:
