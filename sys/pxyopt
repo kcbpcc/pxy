@@ -25,7 +25,7 @@ display_menu() {
     echo "2. 🔂 (Strategy: Strangle)"
     echo "3. 💵 (Strategy: Targeted Call Sell)"
     echo "4. 🪙 (Strategy: Targeted Put Buy)"
-    echo "q. ❌ Exit"
+    echo "q. 🔙 Exit"
 }
 
 # Function to execute the selected Python script
