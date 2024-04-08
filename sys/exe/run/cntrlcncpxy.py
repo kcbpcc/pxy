@@ -185,6 +185,7 @@ try:
     from tabulate import tabulate
     from dshpxy import get_holdingsinfo
     from bordpxy import printbord
+    from utcpxy import peak_time
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
     macd = calculate_macd_signal("^NSEI")
@@ -193,6 +194,7 @@ try:
     file_path = 'filePnL.csv'
     result = sum_last_numerical_value_in_each_row(file_path)  
     nsma = check_index_status('^NSEI')
+    peak = peak_time()
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
     try:
         response = broker.kite.margins()
@@ -290,7 +292,7 @@ try:
                          row['avg'] != 0 and
                          row['Invested'] < 20000 and
                          available_cash > 30000 and
-                         mktpxy in ['Buy'] and
+                         peak == 'PEAKEND' and
                          row['PL%'] < -20)
                     ):
                         try:                            
