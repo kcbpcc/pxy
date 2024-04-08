@@ -202,8 +202,6 @@ try:
     except Exception as e:
         print(f"An error occurred: {e}")
         available_cash = 0
-####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
-    bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)      
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     epsilon = 1e-10
     def calculate_smb_power(row):
@@ -218,7 +216,7 @@ try:
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + nse_power) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * 1), 2)
-    combined_df['min'] = 1.5 if total_dPnL < 0 else 2
+    combined_df['min'] = 1.5
     combined_df['credit'] = np.maximum(0.5 * ((nse_power > 0) + (Day_Change > 0) + (Open_Change > 0)), 0.3)
     combined_df['tPL%'] = combined_df['credit'] + (np.where(nsma == 'up', np.maximum(1 * combined_df['tPL%'], combined_df['min']), np.where(nsma == 'down', np.maximum(combined_df['tPL%'] * 0.5, combined_df['min']), combined_df['min'])))
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
@@ -232,6 +230,8 @@ try:
     total_PnL_stocks_buy = round(stocks_buy_df['PnL'].sum()) if not stocks_buy_df.empty else 0
     total_dPnL = round(combined_df_positive_qty['dPnL'].sum())
     total_dPnL_percentage = (total_dPnL / combined_df_positive_qty['Invested'].sum()) * 100 if combined_df_positive_qty['Invested'].sum() != 0 else 0
+####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
+    bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss = get_holdingsinfo(combined_df)    
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
