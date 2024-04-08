@@ -3,7 +3,7 @@ from acvaluepxy import process_acvalue, get_current_acvalue
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 import subprocess
 subprocess.run(['python3', 'worldpxy.py']) 
-def printbord(bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
+def printbord(bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, mktpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              total_PnL_stocks_buy, available_cash,
              nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma):
     #print(bkd_total_cnc_m2m)
@@ -30,7 +30,7 @@ def printbord(bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, optpxy, Day_Chan
             f"          {BOLD}{UNDERLINE}PXY{RESET}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
         ) +
         right_aligned_format.format(
-            f"{BRIGHT_GREEN if optpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
+            f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
             f"{BOLD}{UNDERLINE}®{RESET}            {BRIGHT_YELLOW}{'Red'.zfill(3)}{RESET}:{str(red_Stocks_count).zfill(3)}"
         )
     )
