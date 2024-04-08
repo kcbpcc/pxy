@@ -110,8 +110,8 @@ async def main():
     expiry_year, expiry_month, expiry_day = get_this_thursday()
     
     # Define strike prices for call and put options
-    call_strike = noptions + 200  # Example: Adding 200 points to the price for the call option
-    put_strike = noptions - 200   # Example: Subtracting 200 points from the price for the put option
+    call_strike = noptions - 200  # Example: Adding 200 points to the price for the call option
+    put_strike = noptions + 200   # Example: Subtracting 200 points from the price for the put option
     
     # Construct symbols for call and put options with the respective strike prices
     ce_option_type = 'CE'
