@@ -104,5 +104,4 @@ for index, row in opt_df.iterrows():
 
 print_mis_df = print_df.loc[print_df['MN'] == '⌛', ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 if not print_mis_df.empty:
-    print("\nMisformatted Data:")
     print_formatted_df(print_mis_df)
