@@ -31,7 +31,7 @@ def get_holdingsinfo(combined_df):
         nrml_nfom2m_df['m2m'].fillna(0, inplace=True)
         total_nrml_m2m = nrml_nfom2m_df['m2m'].sum()
         
-        cnc_nfom2m_df = combined_df[(combined_df['key'].str.contains("NSE:|BSE:") & (combined_df['source'] == 'positions') & (combined_df['qty'] > 0))].copy()
+        cnc_nfom2m_df = combined_df[(combined_df['key'].str.contains("NSE:|BSE:") & (combined_df['qty'] == 0))].copy()
         cnc_nfom2m_df['m2m'] = pd.to_numeric(cnc_nfom2m_df['m2m'], errors='coerce')
         cnc_nfom2m_df['m2m'].fillna(0, inplace=True)
         total_cnc_m2m = cnc_nfom2m_df['m2m'].sum()
