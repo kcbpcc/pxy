@@ -103,6 +103,10 @@ for index, row in opt_df.iterrows():
 
 print_mis_df = print_df.loc[print_df['MN'] == '⌛', ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 if not print_mis_df.empty:
-    print("━" * 42)
-    print(print_mis_df)
+    pd.set_option('display.max_colwidth', 42)
+    formatted_mis_lines = print_df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
+for line in formatted_mis_lines:
+    color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
+    print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(40) + RESET)
+    
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
