@@ -269,9 +269,6 @@ try:
                             is_placed = stocks_sell_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 print(row)                                
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
@@ -289,9 +286,6 @@ try:
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row['key'])                                
-                        except InputException as e:
-                            # Handle the specific exception and print only the error message
-                            print(f"An error occurred while placing an order for key {key}: {e}")
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
