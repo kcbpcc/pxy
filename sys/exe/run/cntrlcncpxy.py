@@ -260,7 +260,7 @@ try:
                          row['product'] == 'CNC' and
                          row['PL%'] > 1.4 ) and
                         (
-                            (row['PL%'] > row['tPL%']) or (Day_Change < 0)  
+                            (row['PL%'] > row['tPL%'])
                         )
                     ):
                         try:
