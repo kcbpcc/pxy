@@ -86,7 +86,7 @@ print_df = opt_df.copy()
 print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
 print_df['key'] = print_df['key'].str.replace('NIFTY', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '⏰')
-print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'realised', 'CP']]
 summary_sentence = f"CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_percentage:.2f}%{'🔴' if total_pl < 0 else '🟢'}"
 print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")
 
