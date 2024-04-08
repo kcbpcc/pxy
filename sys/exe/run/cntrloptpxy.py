@@ -90,21 +90,21 @@ summary_sentence = f"CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_perc
 print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")
 
 pd.set_option('display.max_colwidth', 42)
-print_nrml_df = print_df.loc[print_df['MN'] == '⏰', ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+print_open_df = print_df[(print_df['Invested'] > 0)][['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 def print_formatted_df(df):
     formatted_lines = df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
     for line in formatted_lines:
         color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
         print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(40) + RESET)
 
-print_formatted_df(print_nrml_df)
+print_formatted_df(print_open_df)
 
 for index, row in opt_df.iterrows():
     exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
 
-print_mis_df = print_df.loc[print_df['MN'] == '⌛', ['MN', 'key', 'Invested', 'qty', 'PL%', 'CP']]
-if not print_mis_df.empty:
+print_close_df = print_df[(print_df['Invested'] == 0)][['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+if not print_close_df.empty:
     print("━" * 42)
-    print_formatted_df(print_mis_df)
+    print_formatted_df(print_close_df)
 
 
