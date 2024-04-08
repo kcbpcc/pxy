@@ -45,11 +45,11 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
         print(f"Error placing order: {e}")
         return None
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-def exit_ce_options(key, pl_percentage, quantity, pnl):
+def exit_ce_options(key, pl_percentage, quantity, PL):
     if key.endswith('CE') and pl_percentage >= 110:
         try:
             place_order(key, quantity, 'SELL', 'MARKET', 'NRML')  
-            message = f"Exit order placed for {key} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
+            message = f"Exit order placed for {key} successfully.\nPL: {PL}, PL%: {pl_percentage}%"
             print(message)
             send_telegram_message(message)
         except Exception as e:
@@ -73,24 +73,24 @@ from cmbddfpxy import process_data
 combined_df = process_data()
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
-opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
+opt_df['PL%'] = (opt_df['PL'] / opt_df['Invested']) * 100
 opt_df['PL%'] = opt_df['PL%'].fillna(0)
 opt_df['PL%'] = opt_df['PL%'].astype(int)  
-opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','product']]
+opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PL','product','']]
 total_invested = opt_df['Invested'].sum()
-total_pl = opt_df['PnL'].sum()
+total_pl = opt_df['PL'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 print_df = opt_df.copy()
 print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
 print_df['key'] = print_df['key'].str.replace('NIFTY', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '⏰')
-print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PL', ,'pnl','CP']]
 summary_sentence = f"CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_percentage:.2f}%{'🔴' if total_pl < 0 else '🟢'}"
 print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")
 
 pd.set_option('display.max_colwidth', 42)
-print_open_df = print_df[(print_df['Invested'] > 0)][['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+print_open_df = print_df[(print_df['Invested'] > 0)][['MN', 'key', 'Invested', 'qty', 'PL%', 'PL', 'CP']]
 def print_formatted_df(df):
     formatted_lines = df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
     for line in formatted_lines:
@@ -99,12 +99,10 @@ def print_formatted_df(df):
 
 print_formatted_df(print_open_df)
 
-print_close_df = print_df[(print_df['Invested'] == 0)][['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+print_close_df = print_df[(print_df['Invested'] == 0)][['MN', 'key', 'Invested', 'qty', 'PL%', 'pnl', 'CP']]
 if not print_close_df.empty:
     print("━" * 42)
     print_formatted_df(print_close_df)
 
 for index, row in opt_df.iterrows():
-    exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
-
-
+    exit_ce_options(row['key'], row['PL%'], row['qty'], row['PL'])
