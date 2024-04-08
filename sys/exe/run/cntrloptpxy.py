@@ -76,7 +76,7 @@ opt_df['key'] = opt_df['key'].str.replace('NFO:', '')
 opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
 opt_df['PL%'] = opt_df['PL%'].fillna(0)
 opt_df['PL%'] = opt_df['PL%'].astype(int)  
-opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','product']]
+opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','product','m2m']]
 total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100
@@ -92,20 +92,19 @@ print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")
 pd.set_option('display.max_colwidth', 42)
 print_nrml_df = print_df.loc[print_df['MN'] == '⏰', ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 def print_formatted_df(df):
-    for index, row in df.iterrows():
-        color_code = GREEN if row['Invested'] > 0 else RED
-        line = f"{row['MN']} {row['key']} {row['Invested']} {row['qty']} {row['PL%']} {row['PnL']} {row['CP']}"
+    formatted_lines = df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
+    for line in formatted_lines:
+        color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
         print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(40) + RESET)
 
-print("\nInvested > 0:")
-positive_investments = print_df[print_df['Invested'] > 0]
-print_formatted_df(positive_investments)
-
-print("\nInvested < 0:")
-negative_investments = print_df[print_df['Invested'] < 0]
-print_formatted_df(negative_investments)
+print_formatted_df(print_nrml_df)
 
 for index, row in opt_df.iterrows():
     exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
+
+print_mis_df = print_df.loc[print_df['MN'] == '⌛', ['MN', 'key', 'Invested', 'qty', 'PL%', 'm2m', 'CP']]
+if not print_mis_df.empty:
+    print("━" * 42)
+    print_formatted_df(print_mis_df)
 
 
