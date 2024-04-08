@@ -124,7 +124,7 @@ def stocks_avg_order_place(index, row):
             if order_id:
                 logging.info(f"BUY {order_id} placed for {exchsym[1]} successfully")
                 try:
-                    message_text = f"📊 Let's average {symbol}!\n📈 Current Price (LTP): {row['ltp']}\n💰 Investment: {row['Invested']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}"
+                    message_text = f"📊 Let's average {exchsym[1]}!\n📈 Current Price (LTP): {row['ltp']}\n💰 Investment: {row['Invested']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}"
                     bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
                     user_id = '-4135910842'  # Replace with your Telegram user ID
                     async def send_telegram_message(message_text):
