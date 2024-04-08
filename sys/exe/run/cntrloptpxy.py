@@ -87,10 +87,7 @@ print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else (
 print_df['key'] = print_df['key'].str.replace('NIFTY', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'CP']]
-summary_sentence = (
-    f"CAP:{total_invested}|P&L:{total_pl}|P&L%:{total_pl_percentage:.2f}%{'🔴' if total_pl < 0 else '🟢'} "
-    f"{'Options Profit & Loss Booked💰:':>37}{GREEN if total_real >= 0 else RED}{total_real}{RESET}"
-)
+summary_sentence = f"CAP:{total_invested}|P&L:{total_pl}|P&L%:{total_pl_percentage:.2f}%{'🔴' if total_pl < 0 else '🟢'} {'Booked💰:':>37}{GREEN if total_real >= 0 else RED}{total_real}{RESET}"
 print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")
 
 pd.set_option('display.max_colwidth', 42)
