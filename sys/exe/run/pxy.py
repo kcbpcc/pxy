@@ -29,6 +29,9 @@ while True:
     from smapxy import check_index_status
     importlib.reload(sys.modules['smapxy'])  # Correct the usage
     nsma = check_index_status('^NSEI')
+    from optpxy import get_opt_check
+    importlib.reload(sys.modules['optpxy'])  # Correct the usage
+    optpxy = get_opt_check('^NSEI')
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PREPEAK' else None
