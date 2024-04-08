@@ -32,7 +32,7 @@ except Exception as e:
     sys.exit(1)
 file_path = 'filePnL.csv'
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
-def get_order_status(symbol):
+def get_any_order_status(symbol):
     try:
         orders = broker.kite.orders()
         for order in orders:
@@ -42,6 +42,18 @@ def get_order_status(symbol):
         logging.error(f"Error fetching orders: {str(e)}")
         return "ERROR"  # Unable to fetch orders due to error
     return "NO"  # No orders found for the symbol
+####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
+def get_open_order_status(symbol):
+    try:
+        orders = broker.kite.orders()
+        for order in orders:
+            if order['status'] == 'OPEN' and order['tradingsymbol'] == symbol:
+                return "YES"  # There is at least one open order for the symbol
+    except Exception as e:
+        remove_token(dir_path)
+        logging.error(f"{str(e)} unable to get orders")
+        sys.exit(1)
+    return "NO"  # No open orders found for the symbol
 #####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™######################################################################################################################
 def stocks_sell_order_place(index, row):
     try:
@@ -266,7 +278,7 @@ try:
                         )
                     ):
                         try:
-                            is_placed = stocks_sell_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
+                            is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 print(row)                                
                         except Exception as e:
@@ -282,7 +294,7 @@ try:
                          row['PL%'] < -20)
                     ):
                         try:                            
-                            is_placed = stocks_avg_order_place(key, row) if get_order_status(symbol_in_order) == "NO" else False
+                            is_placed = stocks_avg_order_place(key, row) if get_any_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 # Print the row before placing the order
                                 print(row['key'])                                
