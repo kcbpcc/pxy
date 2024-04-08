@@ -80,6 +80,7 @@ opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','pnl','product']]
 total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100
+total_real = opt_df['pnl'].sum() if qty == 0 
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 print_df = opt_df.copy()
 print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
@@ -104,6 +105,7 @@ if not print_open_buy_df.empty:
 if not print_close_df.empty:
     #print("Close Trades:")
     print_formatted_df(print_close_df)
+    print(f"{'--- Options Booked:':>42}{total_real}")
 if not print_open_sell_df.empty:
     #print("Open Sell Trades:")
     print_formatted_df(print_open_sell_df)
