@@ -46,7 +46,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
         return None
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 def exit_ce_options(key, pl_percentage, quantity, pnl):
-    if key.endswith('CE') and pl_percentage >= 10:
+    if key.endswith('CE') and pl_percentage >= 110:
         try:
             place_order(key, quantity, 'SELL', 'MARKET', 'NRML')  
             message = f"Exit order placed for {key} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
