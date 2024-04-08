@@ -80,7 +80,7 @@ opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','pnl','product']]
 total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100
-total_real = opt_df['pnl'].sum() if qty == 0 
+total_real = opt_df.loc[opt_df['qty'] == 0, 'pnl'].sum()
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 print_df = opt_df.copy()
 print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
