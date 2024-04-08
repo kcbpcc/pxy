@@ -87,7 +87,7 @@ print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else (
 print_df['key'] = print_df['key'].str.replace('NIFTY', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'CP']]
-summary_sentence = f"CAP:{total_invested}|P&L:{total_pl}|P&L%:{total_pl_percentage:.2f}% {'Booked:':>37}{GREEN if total_real >= 0 else RED}{total_real}{RESET}"
+summary_sentence = f"CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_percentage:.2f}%{'🔴' if total_pl < 0 else '🟢'}"
 print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")
 
 pd.set_option('display.max_colwidth', 42)
@@ -105,7 +105,7 @@ if not print_open_buy_df.empty:
 if not print_close_df.empty:
     #print("Close Trades:")
     print_formatted_df(print_close_df)
-    print(f"{'Options Profit & Loss Booked💰:':>37}{GREEN if total_real >= 0 else RED}{total_real}{RESET}")
+    print(f"{'Booked💰:':>37}{GREEN if total_real >= 0 else RED}{total_real}{RESET}")
 if not print_open_sell_df.empty:
     #print("Open Sell Trades:")
     print_formatted_df(print_open_sell_df)
