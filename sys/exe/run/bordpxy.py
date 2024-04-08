@@ -6,6 +6,7 @@ subprocess.run(['python3', 'worldpxy.py'])
 def printbord(bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, optpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              total_PnL_stocks_buy, available_cash,
              nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, mktpxy,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma):
+    print(bkd_total_cnc_m2m)
     output_lines = []
     acvalue = ((all_Stocks_worth_lacks) + (nrmlall_Stocks_worth/100000) + (available_cash/100000))  
     process_acvalue(acvalue)
