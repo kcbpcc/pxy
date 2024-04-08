@@ -1,3 +1,4 @@
+adjest = 1
 import traceback
 import sys
 import logging
@@ -10,12 +11,14 @@ noptions, _, _, _ = get_prices()
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
 nsma = check_index_status('^NSEI')
+from mktpxy import get_market_check
+onemincandlesequance, mktpxy = get_market_check('^NSEI')
 
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
-        bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
-        user_usernames = '-4135910842'  # Replace with your Telegram username or ID
+        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+        user_usernames = '-4136531362'  # Replace with your Telegram username or ID
         # Create a Telegram bot
         bot = telegram.Bot(token=bot_token)
         # Send the message to Telegram
@@ -39,7 +42,8 @@ def get_this_thursday():
     expiry_year = this_thursday.strftime("%y")
     month_number = int(this_thursday.strftime("%m"))
     expiry_month = str(month_number) if month_number <= 9 else this_thursday.strftime("%m")
-    expiry_day = this_thursday.strftime("%d").zfill(2)
+    expiry_day_adjest = timedelta(days=adjest)  # Example adjustment of 7 days
+    expiry_day = (this_thursday - expiry_day_adjest).strftime("%d").zfill(2)
     return expiry_year, expiry_month, expiry_day
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
