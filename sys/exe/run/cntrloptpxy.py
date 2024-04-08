@@ -105,7 +105,7 @@ if not print_open_buy_df.empty:
 if not print_close_df.empty:
     #print("Close Trades:")
     print_formatted_df(print_close_df)
-    print(f"{'Options Profit Booked:':>38}{total_real}")
+    print(f"{'Profit&Loss:':>38}{total_real}")
 if not print_open_sell_df.empty:
     #print("Open Sell Trades:")
     print_formatted_df(print_open_sell_df)
