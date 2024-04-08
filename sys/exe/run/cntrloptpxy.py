@@ -90,15 +90,16 @@ summary_sentence = f"CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_perc
 print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")
 
 pd.set_option('display.max_colwidth', 42)
-print_open_df = print_df.loc[print_df['qty'] > 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+print_open_buy_df = print_df.loc[print_df['qty'] > 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 print_close_df = print_df.loc[print_df['qty'] == 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'pnl', 'CP']]
+print_open_sell_df = print_df.loc[print_df['qty'] < 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 def print_formatted_df(df):
     formatted_lines = df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
     for line in formatted_lines:
         color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
         print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(40) + RESET)
 
-print_formatted_df(print_open_df)
+print_formatted_df(print_open_buy_df)
 print_formatted_df(print_close_df)
 
 for index, row in opt_df.iterrows():
