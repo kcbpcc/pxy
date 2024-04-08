@@ -262,7 +262,6 @@ try:
                         (
                             (row['PL%'] > row['tPL%'])
                         )
-                        print(row)  
                     ):
                         
                         try:
