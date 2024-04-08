@@ -101,6 +101,7 @@ def print_formatted_df(df):
 
 print_formatted_df(print_open_buy_df)
 print_formatted_df(print_close_df)
+print_formatted_df(print_open_sell_df)
 
 for index, row in opt_df.iterrows():
     exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
