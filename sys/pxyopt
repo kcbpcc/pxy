@@ -9,10 +9,10 @@ cd ~/pxy/sys/exe/run
 # Function to display the menu
 display_menu() {
     echo "Choose an option from the menu below:"
-    echo "1. 📈 Execute straddleoptpxy.py (Strategy: Straddle)"
-    echo "2. 🔄 Execute strangleoptpxy.py (Strategy: Strangle)"
-    echo "3. 🎯 Execute tgtceselloptpxy.py (Strategy: Targeted Call Sell)"
-    echo "4. 🛒 Execute tgtpebuyoptpxy.py (Strategy: Targeted Put Buy)"
+    echo "1. ➖ (Strategy: Straddle)"
+    echo "2. == (Strategy: Strangle)"
+    echo "3. 💵 (Strategy: Targeted Call Sell)"
+    echo "4. 🪙 (Strategy: Targeted Put Buy)"
     echo "5. ❌ Exit"
 }
 
