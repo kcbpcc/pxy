@@ -72,7 +72,7 @@ finally:
 from cmbddfpxy import process_data
 combined_df = process_data()
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
-opt_df['key'] = opt_df['key'].str.rePnLace('NFO:', '') 
+opt_df['key'] = opt_df['key'].str.replace('NFO:', '')
 opt_df['PnL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
 opt_df['PnL%'] = opt_df['PnL%'].fillna(0)
 opt_df['PnL%'] = opt_df['PnL%'].astype(int)  
