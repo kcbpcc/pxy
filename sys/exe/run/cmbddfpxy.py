@@ -84,7 +84,7 @@ def process_data():
         combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100).round(2)
         combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
-        combined_df['real'] = combined_df['realised']
+
         return combined_df
 
     except Exception as e:
