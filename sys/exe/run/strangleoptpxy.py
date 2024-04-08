@@ -46,14 +46,14 @@ def get_this_thursday():
     expiry_day = (this_thursday - expiry_day_adjest).strftime("%d").zfill(2)
     return expiry_year, expiry_month, expiry_day
 
-def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
+def construct_symbol(expiry_year, expiry_month, expiry_day, option_type, strike):
     if len(expiry_month) == 2 and expiry_month.startswith("0"):
         expiry_month = expiry_month[1]
 
     if expiry_day is None:
-        return f"NIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
+        return f"NIFTY{expiry_year}{expiry_month}{strike}{option_type}"
     else:
-        return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions}{option_type}"
+        return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike}{option_type}"
 
 
 def check_existing_positions(broker, symbol):
@@ -101,18 +101,23 @@ async def main():
                 remove_token(dir_path)
                 print(traceback.format_exc())
                 logging.error(f"{str(e)} unable to get holdings")
-                sys.exit(1)
+                await send_telegram_message(f"Error: {str(e)}. Unable to get holdings.")
+                return  # Exit the function if unable to get the broker
 
     finally:
         sys.stdout = sys.__stdout__
     
     expiry_year, expiry_month, expiry_day = get_this_thursday()
     
-    # Construct symbols for call and put options using noptions as the strike price
+    # Define strike prices for call and put options
+    call_strike = noptions + 200  # Example: Adding 200 points to the price for the call option
+    put_strike = noptions - 200   # Example: Subtracting 200 points from the price for the put option
+    
+    # Construct symbols for call and put options with the respective strike prices
     ce_option_type = 'CE'
     pe_option_type = 'PE'
-    ce_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, ce_option_type)
-    pe_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, pe_option_type)
+    ce_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, ce_option_type, call_strike)
+    pe_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, pe_option_type, put_strike)
     
     # Check if there are existing positions for CE and PE options with quantity >= 50
     ce_position_exists = check_existing_positions(broker, ce_symbol)
@@ -124,7 +129,7 @@ async def main():
         if buy_order_placed_ce:
             print("BUY order for CE placed successfully.")
     else:
-         print(f"Existing {ce_symbol},So not Buying")
+         print(f"Existing {ce_symbol}, So not Buying")
     
     if not pe_position_exists:
         # Place BUY order for PE option
@@ -132,7 +137,7 @@ async def main():
         if buy_order_placed_pe:
             print("BUY order for PE placed successfully.")
     else:
-         print(f"Existing {pe_symbol},So not Buying")
+         print(f"Existing {pe_symbol}, So not Buying")
 
 async def run_main():
     await main()
