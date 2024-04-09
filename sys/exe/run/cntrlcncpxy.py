@@ -255,7 +255,7 @@ try:
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
     csv_file_path = "filePnL.csv"
     selected_rows = []
-    if nsma == 'down':
+    if nse_power < 0.9:
         try:
             for index, row in EXE_df.iterrows():
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
@@ -267,8 +267,7 @@ try:
                     row['high'] > 0 and
                     row['low'] > 0 and
                     row['close'] > 0 and
-                    row['ltp'] != 0 and
-                    nse_power < 0.9 
+                    row['ltp'] != 0 
                 ):                            
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
                     if (
