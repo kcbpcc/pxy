@@ -296,7 +296,6 @@ try:
                         try:                            
                             is_placed = stocks_avg_order_place(key, row) if get_any_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
-                                # Print the row before placing the order
                                 print(row['key'])                                
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
