@@ -215,7 +215,7 @@ try:
     threshold = 3
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + x ) / 2), -threshold, threshold)), 2))
-    combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + nse_power) / 2), -threshold, threshold)), 2)) * 1), 2)
+    combined_df['tPL%'] = np.round(np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + combined_df['fPL%']) / 2), -threshold, threshold)), 2)) * 1), 2)
     combined_df['min'] = 1.5
     combined_df['credit'] = np.maximum(0.5 * ((nse_power > 0) + (Day_Change > 0) + (Open_Change > 0)), 0.3)
     combined_df['tPL%'] = combined_df['credit'] + (np.where(nsma == 'up', np.maximum(1 * combined_df['tPL%'], combined_df['min']), np.where(nsma == 'down', np.maximum(combined_df['tPL%'] * 0.5, combined_df['min']), combined_df['min'])))
