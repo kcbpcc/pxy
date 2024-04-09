@@ -255,7 +255,7 @@ try:
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
     csv_file_path = "filePnL.csv"
     selected_rows = []
-    if nse_power < 0.9:
+    if mktpxy == "Sell" or mktpxy == "Bear":
         try:
             for index, row in EXE_df.iterrows():
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
