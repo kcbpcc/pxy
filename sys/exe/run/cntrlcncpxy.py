@@ -272,18 +272,20 @@ try:
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 1.4 ) and
+                         row['PL%'] > 1.4) and
                         (
                             ((row['PL%'] > row['tPL%']) or (total_dPnL < 0))
                         )
                     ):
+                        print(row)  # Printing the row before entering the try block
                         try:
                             is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
-                                print(row)                                
+                                print(row)  # Optionally print the row after placing the order
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+
 ##############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#############################################################################################################     
                     elif (
                         (row['qty'] > 0 and
