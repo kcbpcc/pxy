@@ -277,7 +277,6 @@ try:
                             ((row['PL%'] > row['tPL%']) or (total_dPnL < 0))
                         )
                     ):
-                        print(row) 
                         try:
                             is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
