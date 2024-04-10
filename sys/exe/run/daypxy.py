@@ -26,19 +26,17 @@ nifty_data = yf.Ticker("^NSEI")
 nifty_today = nifty_data.history(period='1d')
 
 try:
-    today_close = nifty_today['Close'].iloc[-1]
+    current_price = nifty_today['Close'].iloc[-1]  # Assuming 'Close' column represents the current price
 except IndexError:
-    print("Error: Unable to retrieve today's close value.")
+    print("Error: Unable to retrieve today's current price.")
     exit(1)
 
-if len(today_close) < 1:
-    print("Error: 'today_close' is empty.")
+if current_price is None:
+    print("Error: 'current_price' is None.")
     exit(1)
 
 day_change_sign = '+' if Day_Change > 0 else ''
 open_change_sign = '+' if Open_Change > 0 else ''
 
-print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}"
-      f"⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}"
-      f"⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}"
-      f"🟥-{pedepth}🚦📈:{int(today_close[0])}{macd}🚦{cedepth}+🟩")
+print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈:{int(current_price[0])}{macd}🚦{cedepth}+🟩")
+
