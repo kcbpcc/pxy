@@ -98,7 +98,4 @@ if previous_day_close is not None and today_close is not None:
     close_color = Fore.GREEN if close > open_price else Fore.RED
 else:
     close_color = Fore.YELLOW
-from selfpxy import get_random_spiritual_message
-importlib.reload(sys.modules['selfpxy'])
-random_message = get_random_spiritual_message()
-console.print(random_message)
+
