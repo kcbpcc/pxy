@@ -31,7 +31,5 @@ def print_current_datetime_in_ist():
     else:
         print(f"{BRIGHT_YELLOW}{formatted_datetime}{Day_Change}{RESET}")
 
-# Call the function to print the current datetime in IST
-print_current_datetime_in_ist()
 
 
