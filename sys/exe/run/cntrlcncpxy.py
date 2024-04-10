@@ -296,9 +296,10 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")        
 ###########################################################################################################################################################################################################
+    subprocess.run(['python3', 'tistpxy.py'])
     if not stocks_filtered_df.empty:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))
-    subprocess.run(['python3', 'tistpxy.py'])
+    subprocess.run(['python3', 'daypxy.py'])
 #############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
     printbord(Open_Change,total_opt_real,bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, mktpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              total_PnL_stocks_buy, available_cash,
