@@ -3,6 +3,9 @@ import sys
 from toolkit.logger import Logger
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
+from utcpxy import peak_time
+importlib.reload(sys.modules['utcpxy'])  # Correct the usage
+peak = peak_time()
 
 # Configure logging
 logging = Logger(30, dir_path + "main.log")
@@ -36,9 +39,8 @@ def calculate_decision():
 
         # Access the available cash from the response
         available_cash = response["equity"]["available"]["live_balance"]
-
-        # Define 'YES' or 'NO' based on the available cash
-        decision = "YES" if available_cash > 30000 else "NO"
+        limit = 50000 if peak == 'NONPEAK' else 500 if peak == 'PEAKEND' else None
+        decision = "YES" if available_cash > limit else "NO"
         optdecision = "YES" if available_cash > 30000 else "NO"
         # Print the decision
         #status_emoji = "✅" if decision == "YES" else "❌" if decision == "NO" else "❓"
