@@ -24,14 +24,9 @@ nsma = check_index_status("^NSEI")
 from depthpxy import calculate_consecutive_candles
 cedepth, pedepth = calculate_consecutive_candles("^NSEI")
 colorama.init(autoreset=True)
-def get_today_close():
-    nifty50_ohlc = get_nifty50_data(period="1d")  # Fetch data for 1 day
-    if not nifty50_ohlc.empty:
-        prev_close = get_previous_day_close(nifty50_ohlc)
-        return nifty50_ohlc.iloc[-1]['Close'], prev_close
-    else:
-        return None, None  # Handle the case when data is not available
-today_close = get_today_close()
+nifty_data = yf.Ticker("^NSEI")
+nifty_today = nifty_data.history(period='1d')
+today_close = nifty_today['Close'].iloc[-1]
 day_change_sign = '+' if Day_Change > 0 else ''
 open_change_sign = '+' if Open_Change > 0 else ''
 # Now you can use nifty50_ohlc outside of the function
