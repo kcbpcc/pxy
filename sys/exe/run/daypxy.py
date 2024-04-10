@@ -25,6 +25,8 @@ nsma = check_index_status("^NSEI")
 from depthpxy import calculate_consecutive_candles
 cedepth, pedepth = calculate_consecutive_candles("^NSEI")
 colorama.init(autoreset=True)
+day_change_sign = '+' if Day_Change > 0 else ''
+open_change_sign = '+' if Open_Change > 0 else ''
 def print_output(day_change_sign, Day_Change, open_change_sign, Open_Change, nse_power, pedepth, close_color, today_close, macd, cedepth):
     print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}"
           f"⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}"
