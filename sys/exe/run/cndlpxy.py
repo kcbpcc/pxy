@@ -91,7 +91,7 @@ if previous_day_close is not None and today_close is not None:
     dayprinter(*today_data, previous_day_close)
 else:
     print("Unable to fetch data.")
-# Check if today's close is higher or lower than today's open
+
 if previous_day_close is not None and today_close is not None:
     close = today_close[0]
     open_price = nifty50_ohlc.iloc[-1]['Open']
@@ -102,5 +102,3 @@ from selfpxy import get_random_spiritual_message
 importlib.reload(sys.modules['selfpxy'])
 random_message = get_random_spiritual_message()
 console.print(random_message)
-# Now you can use nifty50_ohlc outside of the function
-print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}🟥-{pedepth}🚦📈:{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
