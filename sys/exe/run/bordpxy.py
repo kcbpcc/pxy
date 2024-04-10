@@ -51,10 +51,8 @@ def printbord(Open_Change, total_opt_real, bkd_total_cnc_m2m, total_nrml_m2m, to
         color_code = BRIGHT_RED + UNDERLINE
     else:  # Open_Change == 0
         color_code = BRIGHT_YELLOW + UNDERLINE
-    
     text = "PXY® PreciseXceleratedYield Pvt Ltd™"
     print(color_code + text.center(42) + RESET)
-    
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
 
