@@ -24,7 +24,16 @@ cedepth, pedepth = calculate_consecutive_candles("^NSEI")
 
 nifty_data = yf.Ticker("^NSEI")
 nifty_today = nifty_data.history(period='1d')
-today_close = nifty_today['Close'].iloc[-1]
+
+try:
+    today_close = nifty_today['Close'].iloc[-1]
+except IndexError:
+    print("Error: Unable to retrieve today's close value.")
+    exit(1)
+
+if len(today_close) < 1:
+    print("Error: 'today_close' is empty.")
+    exit(1)
 
 day_change_sign = '+' if Day_Change > 0 else ''
 open_change_sign = '+' if Open_Change > 0 else ''
