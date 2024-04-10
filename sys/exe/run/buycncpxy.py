@@ -82,7 +82,7 @@ if decision == "YES":
                 return ltp
             ltp_nse = get_ltp('NSE')
             logging.info(f"LTP for {dct['tradingsymbol']} on NSE is {ltp_nse}")
-            if ltp_nse > 0 and available_cash > 10000:
+            if ltp_nse > 0 and available_cash > 30000:
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
