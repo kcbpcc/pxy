@@ -127,7 +127,8 @@ if decision == "YES":
         for d in lst_orders:
             symbol, remaining_cash = transact(d, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
-            if remaining_cash < 20000:
+            limit = 50000 if peak == 'NONPEAK' else 5000 if peak == 'PEAKEND' else None
+            if remaining_cash < limit:
                 break
         if any(new_list):
             with open(black_file, 'w') as file:
