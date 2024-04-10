@@ -11,7 +11,7 @@ display_menu() {
     echo "1. 🔃 (Strategy: Straddle)"
     echo "2. 🔂 (Strategy: Strangle)"
     echo "3. 💵 (Strategy: Targeted Call Sell)"
-    echo "4. 🪙  (Strategy: Targeted Put Buy)"
+    echo "4. 🧱 (Strategy: Targeted Put Buy)"
     echo "Q. 👈 Exit"
 }
 
