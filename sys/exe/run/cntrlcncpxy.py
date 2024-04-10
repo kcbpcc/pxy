@@ -73,7 +73,6 @@ def stocks_sell_order_place(index, row):
 ######################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################            
             if order_id:
                 logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
-                # Write the row to the CSV file here
                 with open(csv_file_path, 'a', newline='') as csvfile:
                     csvwriter = csv.writer(csvfile)
                     csvwriter.writerow(row.tolist())  # Write the selected row to the CSV file
@@ -85,7 +84,6 @@ def stocks_sell_order_place(index, row):
                             if column in row:
                                 del row[column]
                         message_text = f"📊 Let's Book {exchsym[1]}!\n💹 Profit: {row['PnL']}\n💰 Profit %: {row['PL%']}\n📈 LTP: {row['ltp']}\n📉 Avg: {row['lavg']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}\nBooked profit until now: {result}"
-                        # Define the bot token and your Telegram username or ID
                         bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
                         user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
                         # Function to send a message to Telegram
@@ -93,9 +91,7 @@ def stocks_sell_order_place(index, row):
                             bot = telegram.Bot(token=bot_token)
                             await bot.send_message(chat_id=user_usernames, text=message_text)
                     except Exception as e:
-                        # Handle the exception (e.g., log it) and continue with your code
                         print(f"Error sending message to Telegram: {e}")
-                    # Send the 'row' content as a message to Telegram immediately after printing the row
                     loop = asyncio.get_event_loop()
                     loop.run_until_complete(send_telegram_message(message_text))
                 return True                
@@ -104,14 +100,12 @@ def stocks_sell_order_place(index, row):
         else:
             logging.error("Invalid format for 'index'")    
     except Exception as e:
-        #print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
 def stocks_avg_order_place(index, row):
     try:
         exchsym = str(index).split(":")
-        # Check existing positions
         positions_response = broker.kite.positions()
         open_positions = positions_response.get('net', [])
         existing_position = next((position for position in open_positions if position['tradingsymbol'] == exchsym[1]), None)
@@ -120,7 +114,6 @@ def stocks_avg_order_place(index, row):
             return True
         if len(exchsym) >= 2 :
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
-            # Calculate quantity based on the value of 5000
             qty = 1 if row['ltp'] > 1000 else 1000 // row['ltp']
             qty = int(qty)  # Remove decimals
             order_id = broker.order_place(
@@ -150,7 +143,6 @@ def stocks_avg_order_place(index, row):
         else:
             logging.error("Order placement failed")
     except Exception as e:
-        # print(traceback.format_exc())
         logging.error(f"{str(e)} while placing order")
     return False
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
