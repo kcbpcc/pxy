@@ -28,8 +28,9 @@ colorama.init(autoreset=True)
 day_change_sign = '+' if Day_Change > 0 else ''
 open_change_sign = '+' if Open_Change > 0 else ''
 def print_output(day_change_sign, Day_Change, open_change_sign, Open_Change, nse_power, pedepth, close_color, today_close, macd, cedepth):
+    # Print the output with color determined by Day_Change
     print(f"🔆{day_change_sign}{Fore.GREEN if Day_Change >= 0 else Fore.RED}{Day_Change:.2f}{Style.RESET_ALL}"
           f"⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}"
           f"⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}"
-          f"🟥-{pedepth}🚦📈:{close_color}{int(today_close[0])}{macd}🚦{cedepth}+🟩")
+          f"🟥-{pedepth}🚦📈:{Fore.GREEN if Day_Change >= 0 else Fore.RED}{int(today_close[0])}{Style.RESET_ALL}{macd}🚦{cedepth}+🟩")
 print_output(day_change_sign, Day_Change, open_change_sign, Open_Change, nse_power, pedepth, close_color, today_close, macd, cedepth)
