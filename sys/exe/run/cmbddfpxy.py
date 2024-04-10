@@ -17,6 +17,7 @@ def get_holdingsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
         df['source'] = 'holdings'
+        df['h_average_price'] = df['average_price']
         df.to_csv("holdings.csv", index=False)  # Hardcoded filename "holdings.csv"
         return df
     except Exception as e:
