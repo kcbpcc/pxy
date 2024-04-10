@@ -42,7 +42,6 @@ def printbord(total_opt_real, bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, 
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if total_dPnL >= 0 else BRIGHT_RED}{round(total_dPnL, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if total_opt_real >= 0 else BRIGHT_RED}{str(int(total_opt_real)).zfill(5)}{RESET}") +
                       right_aligned_format.format(f"BOOKED:{GREEN if result > 0 else GREEN}{str(round(result)).zfill(5)}{RESET}"))
-
     full_output = '\n'.join(output_lines)
     print(full_output)
     color_code = ""
