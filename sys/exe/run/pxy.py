@@ -39,5 +39,6 @@ while True:
     subprocess.run(['python3', 'cntrlcncpxy.py']) 
     subprocess.run(['python3', 'cntrloptpxy.py']) 
     subprocess.run(['python3', 'cndlpxy.py'])
+    subprocess.run(['python3', 'selfpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(cycle, mktpxy)
