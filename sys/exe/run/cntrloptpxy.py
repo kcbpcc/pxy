@@ -99,13 +99,11 @@ def print_formatted_df(df):
         color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
         print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(40) + RESET)
 if not print_open_buy_df.empty:
-    #print("Open Buy Trades:")
     print_formatted_df(print_open_buy_df)
+subprocess.run(['python3', 'daypxy.py'])
 if not print_close_df.empty:
-    #print("Close Trades:")
     print_formatted_df(print_close_df)
 if not print_open_sell_df.empty:
-    #print("Open Sell Trades:")
     print_formatted_df(print_open_sell_df)
 for index, row in opt_df.iterrows():
     exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
