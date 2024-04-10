@@ -24,12 +24,9 @@ def print_current_datetime_in_ist():
         f"⏰{ist_now.strftime('%I:%M%p')}"  # Time (reset color)
     )
     if Day_Change > 0:
-        print(formatted_datetime, f"{BRIGHT_GREEN}Day Change: {Day_Change}{RESET}")
+        print(f"{BRIGHT_GREEN}{formatted_datetime}{Day_Change}{RESET}")
     elif Day_Change < 0:
-        print(formatted_datetime, f"{BRIGHT_RED}Day Change: {Day_Change}{RESET}")
+        print(f"{BRIGHT_RED}{formatted_datetime}{Day_Change}{RESET}")
     else:
-        print(formatted_datetime, f"{BRIGHT_YELLOW}Day Change: {Day_Change}{RESET}")
-
-# Test the function
-print_current_datetime_in_ist()
+        print(f"{BRIGHT_YELLOW}{formatted_datetime}{Day_Change}{RESET}")
 
