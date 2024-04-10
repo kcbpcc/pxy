@@ -17,8 +17,6 @@ def get_holdingsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
         df['source'] = 'holdings'
-        df['h_average_price'] = df['average_price']
-        df.to_csv("holdings.csv", index=False)  # Hardcoded filename "holdings.csv"
         return df
     except Exception as e:
         print(f"An error occurred in holdings: {e}")
@@ -28,11 +26,11 @@ def get_positionsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
         df['source'] = 'positions'
-        df.to_csv("positions.csv", index=False)  # Hardcoded filename "positions.csv"
         return df
     except Exception as e:
         print(f"An error occurred in positions: {e}")
         return None
+
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
