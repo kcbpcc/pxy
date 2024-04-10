@@ -99,7 +99,7 @@ if decision == "YES":
                     remaining_cash -= int(float(dct['QTY'].replace(',', ''))) * ltp_nse
                     print(f"Order placed successfully for {dct['tradingsymbol']} and cash remained {remaining_cash}")
                     try:
-                        message_text = f"{ltp} \nhttps://www.tradingview.com/chart/?symbol={dct['tradingsymbol']}"
+                        message_text = f"📊 Let's Buy {exchsym[1]}!\n📈 Current Price (LTP): {ltp}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}"
                         bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
                         user_id = '-4135910842'  # Replace with your Telegram user ID
                         async def send_telegram_message(message_text):
