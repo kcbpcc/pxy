@@ -33,4 +33,4 @@ def print_output(day_change_sign, Day_Change, open_change_sign, Open_Change, nse
           f"⌛{open_change_sign}{Fore.GREEN if Open_Change >= 0 else Fore.RED}{Open_Change:.2f}{Style.RESET_ALL}"
           f"⚡{Fore.GREEN if nse_power > 0.5 else Fore.RED}{nse_power:.2f}{Style.RESET_ALL}"
           f"🟥-{pedepth}🚦📈:{Fore.GREEN if Day_Change >= 0 else Fore.RED}{int(today_close[0])}{Style.RESET_ALL}{macd}🚦{cedepth}+🟩")
-print_output(day_change_sign, Day_Change, open_change_sign, Open_Change, nse_power, pedepth, close_color, today_close, macd, cedepth)
+
