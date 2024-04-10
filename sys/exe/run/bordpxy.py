@@ -2,7 +2,6 @@
 from acvaluepxy import process_acvalue, get_current_acvalue
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 import subprocess
-
     color_code = ""
     if Open_Change > 0:
         color_code = BRIGHT_GREEN + UNDERLINE
@@ -14,8 +13,6 @@ import subprocess
     print(color_code + text.center(42) + RESET)
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
-
-
 def printbord(Open_Change, total_opt_real, bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, mktpxy, Day_Change, result, total_PnL_percentage, total_dPnL, total_PnL, total_dPnL_percentage,
              total_PnL_stocks_buy, available_cash,
              nse_power,all_Stocks_count, red_Stocks_count,green_Stocks_count,all_Stocks_capital_lacks,all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage,nrmlall_Stocks_count ,nrmlall_Stocks_capital ,nrmlall_Stocks_worth ,nrmlall_Stocks_profit_loss, nsma):
