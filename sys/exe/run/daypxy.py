@@ -24,21 +24,6 @@ nsma = check_index_status("^NSEI")
 from depthpxy import calculate_consecutive_candles
 cedepth, pedepth = calculate_consecutive_candles("^NSEI")
 colorama.init(autoreset=True)
-OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
-def get_nifty50_data(period="7d"):
-    ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
-    try:
-        nifty_data = yf.Ticker(ticker_symbol).history(period=period)
-        ohlc_data = nifty_data[OHLC_COLUMNS]
-        return ohlc_data
-    except Exception as e:
-        print(f"Error fetching data: {e}")
-        return pd.DataFrame()  # Return an empty DataFrame in case of an error
-def get_previous_day_close(df):
-    if len(df) >= 2:
-        return df.iloc[-2]['Close']
-    else:
-        return None  # Or any default value or error handling you prefer
 def get_today_close():
     nifty50_ohlc = get_nifty50_data(period="1d")  # Fetch data for 1 day
     if not nifty50_ohlc.empty:
@@ -46,8 +31,6 @@ def get_today_close():
         return nifty50_ohlc.iloc[-1]['Close'], prev_close
     else:
         return None, None  # Handle the case when data is not available
-
-previous_day_close = get_previous_day_close(get_nifty50_data())
 today_close = get_today_close()
 day_change_sign = '+' if Day_Change > 0 else ''
 open_change_sign = '+' if Open_Change > 0 else ''
