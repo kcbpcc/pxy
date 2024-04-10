@@ -34,6 +34,11 @@ def get_nifty50_data(period="7d"):
     except Exception as e:
         print(f"Error fetching data: {e}")
         return pd.DataFrame()  # Return an empty DataFrame in case of an error
+def get_previous_day_close(df):
+    if len(df) >= 2:
+        return df.iloc[-2]['Close']
+    else:
+        return None  # Or any default value or error handling you prefer
 def get_today_close():
     nifty50_ohlc = get_nifty50_data(period="1d")  # Fetch data for 1 day
     if not nifty50_ohlc.empty:
