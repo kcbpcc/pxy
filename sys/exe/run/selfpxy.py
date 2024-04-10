@@ -84,7 +84,7 @@ def get_random_spiritual_message():
     return random.choice(adjusted_messages)
 
 # Example usage
-#print(get_random_spiritual_message())
+print(get_random_spiritual_message())
 
 
 
