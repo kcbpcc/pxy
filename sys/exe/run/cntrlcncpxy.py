@@ -85,7 +85,7 @@ def stocks_sell_order_place(index, row):
                             if column in row:
                                 del row[column]
                         #message_text = f"📊 Let's Book {exchsym[1]}!\n💹 Profit: {row['PL']}\n💰 Profit %: {row['PL%']}\n📈 LTP: {row['ltp']}\n📉 Avg: {row['lavg']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}"
-                        message_text = f"📊 Let's Book {exchsym[1]}!\n💹 Profit: {row['PL']}\n💰 Profit %: {row['PL%']}\n📈 LTP: {row['ltp']}\n📉 Avg: {row['lavg']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}\nBooked profit until now: {result}"
+                        message_text = f"📊 Let's Book {exchsym[1]}!\n💹 Profit: {row['PnL']}\n💰 Profit %: {row['PL%']}\n📈 LTP: {row['ltp']}\n📉 Avg: {row['lavg']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}\nBooked profit until now: {result}"
                         #message_text = f"{str(row):>10} \nhttps://www.tradingview.com/chart/?symbol={key}\nBooked profit until now: {result}"
                         # Define the bot token and your Telegram username or ID
                         bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
