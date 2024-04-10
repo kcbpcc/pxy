@@ -35,7 +35,7 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'cntrlcncpxy.py']) if peak == 'PEAKSTART' else None
     subprocess.run(['python3', 'cntrloptpxy.py']) if peak == 'PEAKSTART' else None
-    subprocess.run(['python3', 'buycncpxy.py']) if peak == 'PEAKEND' else None
+    subprocess.run(['python3', 'buycncpxy.py']) if nsma == 'down' and maktpxy == ('Buy', 'Bull') else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'cntrlcncpxy.py']) 
     subprocess.run(['python3', 'cntrloptpxy.py']) 
