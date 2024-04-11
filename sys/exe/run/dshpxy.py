@@ -59,6 +59,10 @@ def get_holdingsinfo(combined_df):
         ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################           
         
         return total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage
+        # Assuming all the variables are defined with appropriate values
+        result_row = f"{total_nrml_m2m}, {all_Stocks_count}, {red_Stocks_count}, {green_Stocks_count}, {all_Stocks_capital_lacks}, {all_Stocks_worth_lacks}, {zero_qty_count}, {green_Stocks_profit_loss}, {green_Stocks_capital_rercentage}"
+        print(result_row)
+
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
