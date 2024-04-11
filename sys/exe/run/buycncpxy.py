@@ -35,7 +35,6 @@ try:
 finally:
     sys.stdout = original_stdout
 # Call the calculate_decision function to get the decision
-decision, optdecision = calculate_decision()
 if decision == "YES":
     try:
         df_fileHPdf = pd.read_csv('fileHPdf.csv')
