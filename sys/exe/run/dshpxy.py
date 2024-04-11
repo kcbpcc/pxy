@@ -12,14 +12,9 @@ def get_holdingsinfo(combined_df):
             combined_df['m2m'] = 0
             
         selected_holdings_df = combined_df[(combined_df['qty'] != 0) & (combined_df['product'] == 'CNC')]
-        selected_positions_df = combined_df[(combined_df['qty'] != 0) & (combined_df['product'] != 'CNC')]
         
-        selected_columns = ['tradingsymbol','key', 'm2m', 'product', 'qty', 'close_price', 'average_price', 'ltp']
-        selected_holdings_df = selected_holdings_df[selected_columns].copy()
-        nrml_nfom2m_df = combined_df[combined_df['key'].str.contains("NFO:")].copy()
-        nrml_nfom2m_df['m2m'] = pd.to_numeric(nrml_nfom2m_df['m2m'], errors='coerce')
-        nrml_nfom2m_df['m2m'].fillna(0, inplace=True)
-        total_nrml_m2m = nrml_nfom2m_df['m2m'].sum()
+        
+
         
         cnc_nfom2m_df = combined_df[(combined_df['key'].str.contains("NSE:|BSE:") & (combined_df['source'] == 'positions') & (combined_df['qty'] > 0))].copy()
         cnc_nfom2m_df['m2m'] = pd.to_numeric(cnc_nfom2m_df['m2m'], errors='coerce')
@@ -59,6 +54,17 @@ def get_holdingsinfo(combined_df):
         nrmlall_Stocks_capital = nrmlall_Stocks_df['cap'].sum()
         nrmlall_Stocks_worth = (nrmlall_Stocks_df['ltp'] * nrmlall_Stocks_df['qty']).round(4).sum()
         nrmlall_Stocks_profit_loss = (nrmlall_Stocks_worth - nrmlall_Stocks_capital).round(4)
+
+        
+        selected_positions_df = combined_df[(combined_df['qty'] != 0) & (combined_df['product'] != 'CNC')]
+
+        
+        selected_columns = ['tradingsymbol','key', 'm2m', 'product', 'qty', 'close_price', 'average_price', 'ltp']
+        selected_holdings_df = selected_holdings_df[selected_columns].copy()
+        nrml_nfom2m_df = combined_df[combined_df['key'].str.contains("NFO:")].copy()
+        nrml_nfom2m_df['m2m'] = pd.to_numeric(nrml_nfom2m_df['m2m'], errors='coerce')
+        nrml_nfom2m_df['m2m'].fillna(0, inplace=True)
+        total_nrml_m2m = nrml_nfom2m_df['m2m'].sum()
         
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
