@@ -1,9 +1,10 @@
-# funds.py
 import sys
+import traceback  # Add this import statement
 from toolkit.logger import Logger
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from utcpxy import peak_time
+
 peak = peak_time()
 
 # Configure logging
@@ -41,15 +42,12 @@ def calculate_decision():
         limit = 50000 if peak == 'NONPEAK' else 5000 if peak == 'PEAKEND' else None
         decision = "YES" if available_cash > limit else "NO"
         optdecision = "YES" if available_cash > 30000 else "NO"
-        # Print the decision
-        #status_emoji = "✅" if decision == "YES" else "❌" if decision == "NO" else "❓"
-        #opt_status_emoji = "✅" if decision == "YES" else "❌" if decision == "NO" else "❓"
-        #print(f"Funds: {int(available_cash)} | {decision} to BUY {status_emoji}")
-        #print(f"Funds: {int(available_cash)} | {optdecision} to BUY {opt_status_emoji}")
         # Only return the decision, not available_cash
-        return decision, optdecision, available_cash , limit
+        return decision, optdecision, available_cash, limit
 
     except Exception as e:
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get available cash")
-        return "NO"  # Return 'NO' in case of an error
+        # Return default values in case of an error
+        return "NO", "NO", 0, 0
+
