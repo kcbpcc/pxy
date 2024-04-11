@@ -84,9 +84,7 @@ def process_data():
         combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
 
-        print(combined_df.columns)
         return combined_df
-        
 
     except Exception as e:
         print(f"An error occurred: {e}")
