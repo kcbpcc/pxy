@@ -214,7 +214,7 @@ try:
     total_opt_real = combined_df[(combined_df['qty'] == 0) & (combined_df['key'].str.contains('NFO:'))]['pnl'].sum()
     filtered_df = combined_df[(combined_df['product'] == 'CNC') & (combined_df['qty'] != 0)]
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
-    total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = get_holdingsinfo(combined_df)    
+    nrmlall_Stocks_worth, total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = get_holdingsinfo(combined_df)    
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
@@ -293,7 +293,7 @@ try:
     if not stocks_filtered_df.empty:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))
 #############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
-    printbord(nse_action, nse_power, Day_Change, Open_Change, total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
+    printbord(nrmlall_Stocks_worth, nse_action, nse_power, Day_Change, Open_Change, total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
 except Exception as e:
     remove_token(dir_path)
