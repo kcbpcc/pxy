@@ -68,17 +68,3 @@ def get_holdingsinfo(combined_df):
 
 # Call the function with the combined_df
 # get_holdingsinfo(combined_df)
-
-# Assuming you have your DataFrame combined_df ready
-result = get_holdingsinfo(combined_df)
-if result is not None:
-    nrmlall_Stocks_worth, total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = result
-    print(f"Total NRML M2M: {total_nrml_m2m}")
-    print(f"All Stocks Count: {all_Stocks_count}")
-    print(f"Red Stocks Count: {red_Stocks_count}")
-    print(f"Green Stocks Count: {green_Stocks_count}")
-    print(f"All Stocks Capital (in lakhs): {all_Stocks_capital_lacks}")
-    print(f"All Stocks Worth (in lakhs): {all_Stocks_worth_lacks}")
-    print(f"Zero Quantity Count: {zero_qty_count}")
-    print(f"Green Stocks Profit/Loss: {green_Stocks_profit_loss}")
-    print(f"Green Stocks Capital Percentage: {green_Stocks_capital_percentage}%")
