@@ -46,7 +46,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
         print(f"Error placing order: {e}")
         return None
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-def exit_ce_options(key, pl_percentage, quantity, pnl):
+def exit_options(key, pl_percentage, quantity, pnl):
     if (key.endswith('CE') and pl_percentage >= 33 and quantity > 0) or (key.endswith('PE') and pl_percentage >= 33 and quantity > 0):
         try:
             place_order(key, quantity, 'SELL', 'MARKET', 'NRML')  
@@ -110,5 +110,5 @@ if not print_close_df.empty:
 if not print_open_sell_df.empty:
     print_formatted_df(print_open_sell_df)
 for index, row in opt_df.iterrows():
-    exit_ce_options(row['key'], row['PL%'], row['qty'], row['PnL'])
+    exit_options(row['key'], row['PL%'], row['qty'], row['PnL'])
 
