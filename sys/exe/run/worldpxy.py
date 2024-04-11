@@ -19,15 +19,17 @@ def calculate_sentiment(today_close, yesterday_close):
 
 # Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
-    "^DJI": {"name": "D", "weight": 0.35},
-    "^IXIC": {"name": "N", "weight": 0.30},
-    "^GSPC": {"name": "S", "weight": 0.35},
-    "^FTSE": {"name": "U", "weight": 0.20},
-    "^GDAXI": {"name": "G", "weight": 0.15},
-    "^FCHI": {"name": "F", "weight": 0.15},
-    "^N225": {"name": "J", "weight": 0.20},
-    "^HSI": {"name": "H", "weight": 0.20},
-    "000001.SS": {"name": "C", "weight": 0.20}
+    "^DJI": {"name": "D&J", "weight": 0.35},
+    "^IXIC": {"name": "N&Q", "weight": 0.30},
+    "^GSPC": {"name": "S&P", "weight": 0.35},
+    "^N225": {"name": "JP", "weight": 0.20},
+    "^HSI": {"name": "HK", "weight": 0.20},
+    "000001.SS": {"name": "CN", "weight": 0.20},
+    "^FTSE": {"name": "UK", "weight": 0.20},
+    "^GDAXI": {"name": "DE", "weight": 0.15},
+    "^FCHI": {"name": "FR", "weight": 0.15},
+    "^NSEI": {"name": "NIFTY", "weight": 0.125},
+    "^NSEBANK": {"name": "BKFTY", "weight": 0.125}
 }
 
 # Create a console object for rich text output
@@ -51,7 +53,7 @@ for name, price_today in closing_prices_today.items():
         price_yesterday = closing_prices_yesterday[name]
         sentiment = calculate_sentiment(price_today, price_yesterday)
         sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
-        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]"
+        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]|"
 
 price_today = None
 
@@ -67,4 +69,5 @@ for exchange, name_weight in exchanges.items():
 output = index_info
 # Print the concatenated string using console.print()
 console.print(output)
+
 
