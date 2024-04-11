@@ -10,7 +10,8 @@ def get_holdingsinfo(combined_df):
     try:
         if "m2m" not in combined_df.columns:
             combined_df['m2m'] = 0
-        selected_holdings_df = combined_df[(combined_df['qty'] != 0) & combined_df[(combined_df['product'] == 'CNC')]    
+            
+        selected_holdings_df = combined_df[(combined_df['qty'] != 0) & (combined_df['product'] == 'CNC')]
         
         selected_columns = ['tradingsymbol','key', 'm2m', 'product', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
