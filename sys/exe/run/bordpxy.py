@@ -58,7 +58,7 @@ def printbord(green_Stocks_capital_lacks, red_Stocks_capital_lacks, nsma, all_St
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if (all_Stocks_worth_lacks - all_Stocks_yworth_lacks)*100000 >= 0 else BRIGHT_RED}{int(round((all_Stocks_worth_lacks - all_Stocks_yworth_lacks) * 100000, 0))}{RESET}"))
     
-    output_lines.append(left_aligned_format.format(f"(G{green_Stocks_capital_lacks:.2f}R{red_Stocks_capital_lacks:.2f}){RESET}") +
+    output_lines.append(left_aligned_format.format(f"G{green_Stocks_capital_lacks:.2f}R{red_Stocks_capital_lacks:.2f}{RESET}") +
                        right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else GREEN}{str(round(booked, 2)).zfill(5)}{RESET}"))
   
     full_output = '\n'.join(output_lines)
