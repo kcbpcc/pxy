@@ -15,7 +15,7 @@ def printbord(nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_ca
     print(color_code + text.center(42) + RESET)
     
     output_lines = []
-    nrmlall_Stocks_worth = 100
+    nrmlall_Stocks_worth = 0
     acvalue = ((all_Stocks_worth_lacks) + (nrmlall_Stocks_worth / 100000) + (available_cash / 100000))  
     process_acvalue(acvalue)
     acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
