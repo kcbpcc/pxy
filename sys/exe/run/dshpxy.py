@@ -8,8 +8,7 @@ def format_value(value):
     if value == 'Profit & Loss':
         return 'Profit & Loss'
     return f'{value:.0f}' if isinstance(value, (int, float)) else value
-from cmbddfpxy import process_data
-combined_df = process_data()
+
 def get_holdingsinfo(combined_df):
     try:
         if "m2m" not in combined_df.columns:
