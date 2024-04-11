@@ -14,7 +14,6 @@ def get_holdingsinfo(combined_df):
         if "m2m" not in combined_df.columns:
             combined_df['m2m'] = 0
 
-        ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################            
         selected_holdings_df = combined_df[(combined_df['qty'] != 0) & (combined_df['product'] == 'CNC')]
         
         selected_holdings_df['cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
@@ -26,7 +25,7 @@ def get_holdingsinfo(combined_df):
         green_Stocks_capital = green_Stocks_df['cap'].sum()
         green_Stocks_worth = green_Stocks_df['ltp'].dot(green_Stocks_df['qty']).round(4)
         green_Stocks_profit_loss = (green_Stocks_worth - green_Stocks_capital).round(4)
-        green_Stocks_capital_rercentage = round(((green_Stocks_worth - green_Stocks_capital) / green_Stocks_capital) * 100, 2) if green_Stocks_capital != 0 else 0
+        green_Stocks_capital_percentage = round(((green_Stocks_worth - green_Stocks_capital) / green_Stocks_capital) * 100, 2) if green_Stocks_capital != 0 else 0
 
         red_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] < 0]
         red_Stocks_count = len(red_Stocks_df)
@@ -47,32 +46,32 @@ def get_holdingsinfo(combined_df):
         all_Stocks_capital_lacks = all_Stocks_capital/100000
         all_Stocks_worth_lacks = all_Stocks_worth/100000
 
-        ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################           
-        
         selected_positions_df = combined_df[(combined_df['qty'] != 0) & (combined_df['product'] != 'CNC')]
         
-        nrml_nfom2m_df = selected_positions_df[selected_positions_df['key']].copy()
+        nrml_nfom2m_df = selected_positions_df.copy()
         nrml_nfom2m_df['m2m'] = pd.to_numeric(nrml_nfom2m_df['m2m'], errors='coerce')
         nrml_nfom2m_df['m2m'].fillna(0, inplace=True)
         total_nrml_m2m = nrml_nfom2m_df['m2m'].sum()
-       
-        ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################           
-        
-        return total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage
-        # Assuming all the variables are defined with appropriate values
-        result_row = f"{total_nrml_m2m}, {all_Stocks_count}, {red_Stocks_count}, {green_Stocks_count}, {all_Stocks_capital_lacks}, {all_Stocks_worth_lacks}, {zero_qty_count}, {green_Stocks_profit_loss}, {green_Stocks_capital_rercentage}"
-        print(result_row)
+
+        return total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
 
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
 
 # Call the function with the combined_df
-#get_holdingsinfo(combined_df)
+# get_holdingsinfo(combined_df)
 
-
-
-
-
-
-
+# Assuming you have your DataFrame combined_df ready
+result = get_holdingsinfo(combined_df)
+if result is not None:
+    total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = result
+    print(f"Total NRML M2M: {total_nrml_m2m}")
+    print(f"All Stocks Count: {all_Stocks_count}")
+    print(f"Red Stocks Count: {red_Stocks_count}")
+    print(f"Green Stocks Count: {green_Stocks_count}")
+    print(f"All Stocks Capital (in lakhs): {all_Stocks_capital_lacks}")
+    print(f"All Stocks Worth (in lakhs): {all_Stocks_worth_lacks}")
+    print(f"Zero Quantity Count: {zero_qty_count}")
+    print(f"Green Stocks Profit/Loss: {green_Stocks_profit_loss}")
+    print(f"Green Stocks Capital Percentage: {green_Stocks_capital_percentage}%")
