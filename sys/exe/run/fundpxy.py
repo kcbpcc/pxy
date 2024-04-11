@@ -47,7 +47,7 @@ def calculate_decision():
         #print(f"Funds: {int(available_cash)} | {decision} to BUY {status_emoji}")
         #print(f"Funds: {int(available_cash)} | {optdecision} to BUY {opt_status_emoji}")
         # Only return the decision, not available_cash
-        return decision, optdecision 
+        return decision, optdecision, available_cash , limit
 
     except Exception as e:
         remove_token(dir_path)
