@@ -72,8 +72,12 @@ if decision == "YES":
         target = round_to_paise(ltp, max_target)
         return max(resistance, target)
     def transact(dct, remaining_cash, broker):
-        response = broker.kite.margins()
-        available_cash = response["equity"]["available"]["live_balance"]
+        try:
+            response = broker.kite.margins()
+            available_cash = response["equity"]["available"]["live_balance"]
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            available_cash = 0
         ltp = -1
         try:
             def get_ltp(exchange):
