@@ -114,17 +114,14 @@ async def main():
     
     expiry_year, expiry_month, expiry_day = get_this_thursday()
     
-    # For Call option (CE)
-    ce_option_type = 'CE'
-    ce_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, ce_option_type)
+    # Determine the option type based on mktpxy
+    option_type = 'CE' if mktpxy == 'Buy' else ('PE' if mktpxy == 'Sell' else (print("Not the time, lest exit") or sys.exit(1)))
     
-    # For Put option (PE)
-    pe_option_type = 'PE'
-    pe_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, pe_option_type)
+    # Construct symbol based on the determined option type
+    symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
     
-    # Check if there are existing positions for CE and PE options with quantity >= 50
-    ce_position_exists = check_existing_positions(broker, ce_symbol)
-    pe_position_exists = check_existing_positions(broker, pe_symbol)
+    # Check if there are existing positions for the determined option type with quantity >= 50
+    position_exists = check_existing_positions(broker, symbol)
     
     if not ce_position_exists:
         # Place BUY order for CE option
