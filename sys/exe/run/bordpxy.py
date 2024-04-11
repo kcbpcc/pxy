@@ -1,3 +1,6 @@
+from bukdpxy import sum_last_numerical_value_in_each_row
+file_path = 'filePnL.csv'
+booked = sum_last_numerical_value_in_each_row(file_path)
 from acvaluepxy import process_acvalue, get_current_acvalue
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 def printbord(all_Stocks_yworth, total_cnc_m2m, mktpxy, available_cash, nse_action, nse_power, Day_Change, Open_Change, total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
@@ -56,7 +59,7 @@ def printbord(all_Stocks_yworth, total_cnc_m2m, mktpxy, available_cash, nse_acti
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if (all_Stocks_worth_lacks - all_Stocks_yworth) >= 0 else BRIGHT_RED}{round((all_Stocks_worth_lacks - all_Stocks_yworth), 2)}{RESET}"))
     
     output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if result >= 0 else BRIGHT_RED}{str(int(result)).zfill(5)}{RESET}") +
-                      right_aligned_format.format(f"BOOKED:{GREEN if result > 0 else GREEN}{str(round(result)).zfill(5)}{RESET}"))
+                      right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else GREEN}{str(round(booked)).zfill(5)}{RESET}"))
     
     full_output = '\n'.join(output_lines)
     
