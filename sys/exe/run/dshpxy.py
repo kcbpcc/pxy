@@ -52,9 +52,11 @@ def get_holdingsinfo(combined_df):
         all_Stocks_yworth_lacks = all_Stocks_yworth/100000
         green_Stocks_capital_lacks = green_Stocks_capital/100000
         red_Stocks_capital_lacks = red_Stocks_capital/100000
-        
 
-        return green_Stocks_capital_lacks, red_Stocks_capital_lacks, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
+        selected_opts_df = combined_df[(combined_df['qty'] != 0) & combined_df['key'].str.contains('NFO:', case=False)].copy()
+        total_opts_invested_lacks = selected_opts_df['Invested'].sum() / 100000
+
+        return total_opts_invested__lacks, green_Stocks_capital_lacks, red_Stocks_capital_lacks, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
 
     except Exception as e:
         print(f"An error occurred: {e}")
