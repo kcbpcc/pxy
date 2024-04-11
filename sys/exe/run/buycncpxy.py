@@ -132,7 +132,7 @@ if decision == "YES":
             with open(black_file, 'w') as file:
                 for symbol in new_list:
                     file.write(symbol + '\n')
-        print(f"Remaining Cash💰: {int(round(remaining_cash))}")
+        print(f"Remaining Cash💰: {int(round(remaining_cash/1000))}K")
 elif decision == "NO":
     # Perform actions for "NO"
     print("\033[91mNo sufficient funds available \033[0m")
