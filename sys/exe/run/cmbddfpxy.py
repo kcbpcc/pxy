@@ -74,7 +74,7 @@ def process_data():
         combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
         combined_df['oPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['open']) / row['open']) * 100), 2) if row['open'] != 0 else 0, axis=1)
         combined_df['dPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['close']) / row['close']) * 100), 2) if row['close'] != 0 else 0, axis=1)
-        combined_df['m2m'] = combined_df['m2m'].fillna(0).astype(int)
+        #combined_df['m2m'] = combined_df['m2m'].fillna(0).astype(int)
         combined_df['pnl'] = combined_df['pnl'].astype(int)
         combined_df['avg'] = combined_df['average_price']
         combined_df['Invested'] = (combined_df['qty'] * combined_df['avg']).round(0).astype(int)
@@ -85,6 +85,7 @@ def process_data():
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
 
         return combined_df
+        print(combined_df.columns)
 
     except Exception as e:
         print(f"An error occurred: {e}")
