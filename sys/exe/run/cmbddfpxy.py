@@ -87,7 +87,7 @@ def process_data():
         if "m2m" not in combined_df.columns:
             combined_df['m2m'] = 0
         else:
-            combined_df['m2m'] = combined_df['m2m'].fillna(0).astype(int)
+            combined_df['m2m'] = combined_df['m2m'].astype(int)
         return combined_df
 
     except Exception as e:
