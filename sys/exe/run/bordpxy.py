@@ -32,7 +32,7 @@ def printbord(available_cash, nse_action, nse_power, Day_Change, Open_Change, to
                         right_aligned_format.format(f"A/C Loss:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks) >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks) / 100000), 2)}{RESET}"))
     
     output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
-                        right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_rercentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_percentage}{RESET}"))                                  
+                        right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_percentage}{RESET}"))                                  
     
     output_lines.append(
         left_aligned_format.format(
