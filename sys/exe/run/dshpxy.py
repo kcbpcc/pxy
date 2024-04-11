@@ -51,6 +51,7 @@ def get_holdingsinfo(combined_df):
         zero_qty_count = combined_df[combined_df['qty'] == 0].shape[0]
         all_Stocks_capital_lacks = all_Stocks_capital/100000
         all_Stocks_worth_lacks = all_Stocks_worth/100000
+        all_Stocks_yworth_lacks = all_Stocks_yworth/100000
 
         selected_positions_df = combined_df[(combined_df['qty'] != 0) & (combined_df['product'] != 'CNC')]
         
