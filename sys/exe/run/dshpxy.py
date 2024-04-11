@@ -1,31 +1,16 @@
 import pandas as pd
 from prettytable import PrettyTable
-from colorama import Fore, Style
-
 def convert_to_laks(value):
     return f'{value/100000:.4f}'
-
 def format_value(value):
     if value == 'Profit & Loss':
         return 'Profit & Loss'
     return f'{value:.0f}' if isinstance(value, (int, float)) else value
-
-def colorize(value):
-    if isinstance(value, (int, float)):
-        if value < 0:
-            return f'{Fore.RED}{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
-        elif value > 0:
-            return f'{Fore.GREEN}{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
-        else:
-            return f'{Style.BRIGHT}{format_value(value)}{Style.RESET_ALL}'
-
-
 def get_holdingsinfo(combined_df):
     try:
         if "m2m" not in combined_df.columns:
             combined_df['m2m'] = 0
-
-        selected_holdings_df = combined_df[(combined_df['qty'] != 0)]    
+        selected_holdings_df = combined_df[(combined_df['qty'] != 0) & combined_df[(combined_df['product'] == 'CNC')]    
         
         selected_columns = ['tradingsymbol','key', 'm2m', 'product', 'qty', 'close_price', 'average_price', 'ltp']
         selected_holdings_df = selected_holdings_df[selected_columns].copy()
@@ -75,19 +60,11 @@ def get_holdingsinfo(combined_df):
         
         day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)
         day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
-        table = PrettyTable()
-        table.field_names = ['📉 Board', 'Total', 'Green', 'Red']
-        table.add_row(['Stocks📈', all_Stocks_count, green_Stocks_count, red_Stocks_count])
-        table.add_row(['Invested', convert_to_laks(all_Stocks_capital), convert_to_laks(green_Stocks_capital), convert_to_laks(red_Stocks_capital)])
-        table.add_row(['WorthNow', convert_to_laks(all_Stocks_worth), convert_to_laks(green_Stocks_worth), convert_to_laks(red_Stocks_worth)])
-        if all_Stocks_profit_loss < 0:
-            table.add_row(['💰₹💰P&L', f'{Style.BRIGHT}{Fore.RED}{format_value(all_Stocks_profit_loss)}{Style.RESET_ALL}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
-        else:
-            table.add_row(['💰₹💰P&L', f'{format_value(all_Stocks_profit_loss)}', colorize(green_Stocks_profit_loss), colorize(red_Stocks_profit_loss)])
-        table.align = 'r'
+        
         zero_qty_count = combined_df[combined_df['qty'] == 0].shape[0]
         all_Stocks_capital_lacks = all_Stocks_capital/100000
         all_Stocks_worth_lacks = all_Stocks_worth/100000
+        
         return bkd_total_cnc_m2m, total_nrml_m2m, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_rercentage, nrmlall_Stocks_count, nrmlall_Stocks_capital, nrmlall_Stocks_worth, nrmlall_Stocks_profit_loss
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -95,6 +72,7 @@ def get_holdingsinfo(combined_df):
 
 # Call the function with the combined_df
 #get_holdingsinfo(combined_df)
+
 
 
 
