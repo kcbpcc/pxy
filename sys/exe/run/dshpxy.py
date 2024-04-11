@@ -60,7 +60,7 @@ def get_holdingsinfo(combined_df):
         nrml_nfom2m_df['m2m'].fillna(0, inplace=True)
         total_nrml_m2m = nrml_nfom2m_df['m2m'].sum()
 
-        return all_Stocks_yworth, total_cnc_m2m, total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
+        return all_Stocks_yworth_lacks, total_cnc_m2m, total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
 
     except Exception as e:
         print(f"An error occurred: {e}")
