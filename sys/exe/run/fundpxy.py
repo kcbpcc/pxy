@@ -39,7 +39,7 @@ def calculate_decision():
 
         # Access the available cash from the response
         available_cash = response["equity"]["available"]["live_balance"]
-        limit = 50000 if peak == 'NONPEAK' else 500 if peak == 'PEAKEND' else None
+        limit = 50000 if peak == 'NONPEAK' else 5000 if peak == 'PEAKEND' else None
         decision = "YES" if available_cash > limit else "NO"
         optdecision = "YES" if available_cash > 30000 else "NO"
         # Print the decision
