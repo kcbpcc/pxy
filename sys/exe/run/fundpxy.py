@@ -4,7 +4,6 @@ from toolkit.logger import Logger
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from utcpxy import peak_time
-importlib.reload(sys.modules['utcpxy'])  # Correct the usage
 peak = peak_time()
 
 # Configure logging
