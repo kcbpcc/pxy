@@ -233,7 +233,7 @@ try:
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
     pd.set_option('display.max_colwidth', 1)
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-    stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > green_Stocks_capital_rercentage].sort_values(by='PL%')
+    stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > green_Stocks_capital_percentage].sort_values(by='PL%')
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
     csv_file_path = "filePnL.csv"
     selected_rows = []
