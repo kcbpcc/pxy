@@ -54,7 +54,7 @@ def get_holdingsinfo(combined_df):
         nrml_nfom2m_df['m2m'].fillna(0, inplace=True)
         total_nrml_m2m = nrml_nfom2m_df['m2m'].sum()
 
-        nrmlall_Stocks_df = selected_positions_df[selected_positions_df['product'].isin(['NRML'])]
+        nrmlall_Stocks_df = selected_positions_df[selected_positions_df['product'].isin(['NRML', 'MIS'])]
         nrmlall_Stocks_count = len(nrmlall_Stocks_df)
         nrmlall_Stocks_capital = nrmlall_Stocks_df['cap'].sum()
         nrmlall_Stocks_worth = (nrmlall_Stocks_df['ltp'] * nrmlall_Stocks_df['qty']).round(4).sum()
