@@ -293,7 +293,7 @@ try:
     if not stocks_filtered_df.empty:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))
 #############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
-    printbord(available_cash, nse_action, nse_power, Day_Change, Open_Change, total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
+    printbord(mktpxy, available_cash, nse_action, nse_power, Day_Change, Open_Change, total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
 except Exception as e:
     remove_token(dir_path)
