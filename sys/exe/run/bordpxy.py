@@ -1,9 +1,6 @@
 from acvaluepxy import process_acvalue, get_current_acvalue
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-def printbord(Open_Change, total_cnc_m2m, mktpxy, Day_Change, result, total_dPnL, total_PnL,
-              available_cash, nse_power, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks,
-              all_Stocks_worth_lacks, green_Stocks_profit_loss, green_Stocks_capital_rercentage,
-              nrmlall_Stocks_worth, nsma):
+def printbord(total_nrml_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
     color_code = ""
     if Open_Change > 0:
         color_code = BRIGHT_GREEN + UNDERLINE
