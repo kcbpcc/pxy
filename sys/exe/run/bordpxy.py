@@ -12,7 +12,7 @@ def printbord(nse_action, nse_power, Day_Change, Open_Change, total_nrml_m2m, al
     print(color_code + text.center(42) + RESET)
     
     output_lines = []
-    
+    nrmlall_Stocks_worth = 100
     acvalue = ((all_Stocks_worth_lacks) + (nrmlall_Stocks_worth / 100000) + (available_cash / 100000))  
     process_acvalue(acvalue)
     acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
