@@ -99,45 +99,31 @@ async def main():
         # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
-
             try:
-                broker = get_kite(api="bypass", sec_dir=dir_path)
+                broker = await get_kite(api="bypass", sec_dir=dir_path)  # Assuming get_kite is an async function
             except Exception as e:
                 remove_token(dir_path)
                 print(traceback.format_exc())
                 logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
-
     finally:
         # Reset sys.stdout to its default value
         sys.stdout = sys.__stdout__
-    
+
     expiry_year, expiry_month, expiry_day = get_this_thursday()
-    
-    # Determine the option type based on mktpxy
-    option_type = 'CE' if mktpxy == 'Buy' else ('PE' if mktpxy == 'Sell' else (print("Not the time, lest wait") or sys.exit(1)))
-    
-    # Construct symbol based on the determined option type
+
+    option_type = 'CE' if mktpxy == 'Buy' else ('PE' if mktpxy == 'Sell' else (print("Not the time, let's wait") or sys.exit(1)))
+
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
-    
-    # Check if there are existing positions for the determined option type with quantity >= 50
+
     position_exists = check_existing_positions(broker, symbol)
-    
-    if not ce_position_exists:
-        # Place BUY order for CE option
-        buy_order_placed_ce, buy_order_id_ce = await place_order(broker, ce_symbol, 'BUY', 'NRML', 50, 'MARKET')
-        if buy_order_placed_ce:
-            print("BUY order for CE placed successfully.")
+
+    if not position_exists:
+        buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
+        if buy_order_placed:
+            print("BUY order placed successfully.")
     else:
-         print(f"Existing {ce_symbol},So not Buying")
-    
-    if not pe_position_exists:
-        # Place BUY order for PE option
-        buy_order_placed_pe, buy_order_id_pe = await place_order(broker, pe_symbol, 'BUY', 'NRML', 50, 'MARKET')
-        if buy_order_placed_pe:
-            print("BUY order for PE placed successfully.")
-    else:
-         print(f"Existing {pe_symbol},So not Buying")
+        print(f"Existing {symbol}, So not buying")
 
 
 async def run_main():
