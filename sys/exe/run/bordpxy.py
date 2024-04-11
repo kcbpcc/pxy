@@ -29,7 +29,7 @@ def printbord(nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_ca
     right_aligned_format = "{:>" + str(column_width) + "}"
     
     output_lines.append(left_aligned_format.format(f"A/C Capital:{BRIGHT_YELLOW}{round(capital, 2)}{RESET}") +
-                        right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((acvalue_to_print + hide), 2)}{RESET}"))
+                        right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((acvalue_to_print), 2)}{RESET}"))
     
     output_lines.append(left_aligned_format.format(f"A/C Profit:{BRIGHT_GREEN if (acvalue_to_print - capital) > 0 else BRIGHT_RED}{round((acvalue_to_print - capital ), 2)}{RESET}") +
                         right_aligned_format.format(f"A/C Loss:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1), 2)}{RESET}"))
