@@ -19,6 +19,10 @@ logging = Logger(30, dir_path + "main.log")
 black_file = dir_path + "blacklist.txt"
 # Save the original sys.stdout
 original_stdout = sys.stdout
+from utcpxy import peak_time
+importlib.reload(sys.modules['utcpxy'])  # Correct the usage
+peak = peak_time()
+limit = 50000 if peak == 'NONPEAK' else 5000 if peak == 'PEAKEND' else None
 try:
     # Redirect sys.stdout to 'output.txt'
     with open('output.txt', 'w') as file:
@@ -74,7 +78,7 @@ if decision == "YES":
         ltp = -1
         try:
             def get_ltp(exchange):
-                nonlocal ltp  # Use nonlocal to reference the outer ltp variable
+                nonlocal ltp  # Use nonlocal to reference the outer ltp variablelimit
                 key = f"{exchange}:{dct['tradingsymbol']}"
                 resp = broker.kite.ltp(key)
                 if resp and isinstance(resp, dict):
@@ -82,7 +86,7 @@ if decision == "YES":
                 return ltp
             ltp_nse = get_ltp('NSE')
             logging.info(f"LTP for {dct['tradingsymbol']} on NSE is {ltp_nse}")
-            if ltp_nse > 0 and available_cash > 30000:
+            if ltp_nse > 0 and available_cash > limit :
                 order_id = broker.order_place(
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
@@ -127,8 +131,7 @@ if decision == "YES":
         for d in lst_orders:
             symbol, remaining_cash = transact(d, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
-            limit = 50000 if peak == 'NONPEAK' else 5000 if peak == 'PEAKEND' else None
-            if remaining_cash < limit:
+            if remaining_cash < limit :
                 break
         if any(new_list):
             with open(black_file, 'w') as file:
