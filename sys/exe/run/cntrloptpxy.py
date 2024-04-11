@@ -82,7 +82,7 @@ total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
 
-######################################₹#₹₹₹₹₹₹PXY® PreciseXceleratedYield Pvt Ltd™############################################
+######################################PXY® PreciseXceleratedYield Pvt Ltd™############################################
 print_df = opt_df.copy()
 print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
 print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N')
