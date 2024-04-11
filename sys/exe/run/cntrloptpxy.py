@@ -76,10 +76,12 @@ opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
 opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
 opt_df['PL%'] = opt_df['PL%'].fillna(0)
-opt_df['PL%'] = opt_df['PL%'].astype(int)  
-opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','pnl','product']]
+opt_df['PL%'] = opt_df['PL%'].astype(int) 
+opt_df['m2m'] = opt_df['m2m'].astype(int)
+opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','pnl','product','m2m']]
 total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
+total_opt_m2m = opt_df['m2m'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
 
 ######################################PXY® PreciseXceleratedYield Pvt Ltd™############################################
@@ -88,7 +90,7 @@ print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else (
 print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'CP']]
-summary_sentence = f"CAP:{total_invested} | P&L:{total_pl} | P&L%:{total_pl_percentage:.0f}%{'🔴' if total_pl < 0 else '🟢'}"
+summary_sentence = f"CAP:{total_invested}| M2M:{total_opt_m2m} | P&L:{total_pl} | P&L%:{total_pl_percentage:.0f}%{'🔴' if total_pl < 0 else '🟢'}"
 print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")
 
 pd.set_option('display.max_colwidth', 42)
