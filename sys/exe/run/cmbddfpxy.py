@@ -10,7 +10,6 @@ import sys
 import traceback
 import logging
 
-file_path = 'filePnL.csv'
 logging = Logger(30, dir_path + "main.log")
 
 def get_holdingsinfo(resp_list, broker):
