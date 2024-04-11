@@ -41,4 +41,4 @@ if failed_files:
     for file, error_message in failed_files.items():
         print(f"\033[91m{file}:\033[0m {error_message}")
 else:
-    print("\033[91mPXY® Ready to takeoff / all signals OK!!!✅✅\033[0m")
+    print("\033[91mPXY® Ready to takeoff !✅✅\033[0m")
