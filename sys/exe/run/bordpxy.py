@@ -59,8 +59,9 @@ def printbord(total_opts_invested_lacks, green_Stocks_capital_lacks, red_Stocks_
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if (all_Stocks_worth_lacks - all_Stocks_yworth_lacks)*100000 >= 0 else BRIGHT_RED}{int(round((all_Stocks_worth_lacks - all_Stocks_yworth_lacks) * 100000, 0))}{RESET}"))
     
-    output_lines.append(left_aligned_format.format(f"OptCap:{total_opts_invested_lacks}{RESET}") +
-                        right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else RED}{booked:05}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Opts Cap:{total_opts_invested_lacks:05}{RESET}") +
+                        right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else RED}{round(booked):05}{RESET}"))
+
   
     full_output = '\n'.join(output_lines)
     
