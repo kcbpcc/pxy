@@ -58,9 +58,9 @@ def printbord(green_Stocks_capital_lacks, red_Stocks_capital_lacks, nsma, all_St
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 12000 else BRIGHT_YELLOW}{available_cash:.0f}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if (all_Stocks_worth_lacks - all_Stocks_yworth_lacks)*100000 >= 0 else BRIGHT_RED}{int(round((all_Stocks_worth_lacks - all_Stocks_yworth_lacks) * 100000, 0))}{RESET}"))
     
-    output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if booked >= 0 else BRIGHT_RED}{str(int(booked)).zfill(5)}{RESET}") +
-                      right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else GREEN}{str(round(booked)).zfill(5)}{RESET}"))
-    
+    output_lines.append(left_aligned_format.format(f"G/R Cap:({green_Stocks_capital_lacks}|{red_Stocks_capital_lacks}){RESET}") +
+                       right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else GREEN}{str(round(booked)).zfill(5)}{RESET}"))
+  
     full_output = '\n'.join(output_lines)
     
     with open("bordpxy.csv", "w") as file:
