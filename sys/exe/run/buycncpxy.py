@@ -20,7 +20,6 @@ black_file = dir_path + "blacklist.txt"
 # Save the original sys.stdout
 original_stdout = sys.stdout
 from utcpxy import peak_time
-importlib.reload(sys.modules['utcpxy'])  # Correct the usage
 peak = peak_time()
 limit = 50000 if peak == 'NONPEAK' else 5000 if peak == 'PEAKEND' else None
 try:
