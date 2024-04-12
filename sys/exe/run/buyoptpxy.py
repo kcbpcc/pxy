@@ -67,7 +67,6 @@ def check_existing_positions(broker, symbol):
             return True
     return False
 
-
 async def place_order(broker, symbol, transaction_type, product_type, quantity, order_type, price=None):
     try:
         if price is None:
