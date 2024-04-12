@@ -114,7 +114,7 @@ async def main():
 
     expiry_year, expiry_month, expiry_day = get_this_thursday()
 
-    option_type = 'CE' if mktpxy == 'Buy' else ('PE' if mktpxy == 'Sell' else (print(f"Now market is {mktpxy} - let's wait 👀🔍👀🔍👀") or sys.exit(1)))
+    option_type = 'CE' if mktpxy == 'Buy' else ('PE' if mktpxy == 'Bear' else (print(f"Now market is {mktpxy} - let's wait 👀🔍👀🔍👀") or sys.exit(1)))
 
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
