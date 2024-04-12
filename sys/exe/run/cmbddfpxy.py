@@ -83,11 +83,15 @@ def process_data():
         combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100).round(2)
         combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
-        
-        if "m2m" not in combined_df.columns:
-            combined_df['m2m'] = 0
-        else:
-            combined_df['m2m'] = combined_df['m2m'].astype(int)
+      
+        # Handle conversion of 'm2m' column to int if it exists
+        if "m2m" in combined_df.columns:
+            try:
+                combined_df['m2m'] = combined_df['m2m'].astype(int)
+            except ValueError:
+                # Handle the case where some values cannot be converted to int
+                pass
+
         return combined_df
 
     except Exception as e:
