@@ -16,7 +16,7 @@ def round_to_nearest_100_or_50(price):
     return round(price / 50) * 50 if price % 100 < 50 else round(price / 100) * 100
 
 def get_prices():
-    noptions = round_to_nearest_100_or_50(get_current_price('^NSEI'))
+    noptions = round_to_nearest_100(get_current_price('^NSEI'))
     boptions = round_to_nearest_100(get_current_price('^NSEBANK'))  # Keep NSEBANK as nearest hundred only
     foptions = round_to_nearest_100_or_50(get_current_price('NIFTY_FIN_SERVICE.NS'))
     moptions = round_to_nearest_100_or_50(get_current_price('NIFTY_MID_SELECT.NS'))  # Fixed function call
