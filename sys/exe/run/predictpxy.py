@@ -9,13 +9,13 @@ def predict_market_sentiment():
     Bullish = "Bullish"
 
     if ha_nse_action == Bearish and nsma == "down":
-        predictmkt = BRIGHT_RED + "hopeless" + RESET
+        mktpredict = BRIGHT_RED + "hopeless" + RESET
     elif ha_nse_action == Bullish and nsma == "up":
-        predictmkt = BRIGHT_GREEN + "hopeful" + RESET
+        mktpredict = BRIGHT_GREEN + "hopeful" + RESET
     else:
-        predictmkt = BOLD + "useless" + RESET
+        mktpredict = BOLD + "useless" + RESET
 
-    print("Predicted market sentiment:", predictmkt)
+    print("Predicted market sentiment:", mktpredict)
     return mktpredict
 
 # Call the function to predict market sentiment and print the result
