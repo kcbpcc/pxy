@@ -12,30 +12,30 @@ def format_value(value):
 def get_holdingsinfo(combined_df):
     try:
 
-        selected_holdings_df = combined_df[(combined_df['qty'] != 0) & (combined_df['product'] == 'CNC')]
+        selected_holdings_df = combined_df.loc[(combined_df['qty'] != 0) & (combined_df['product'] == 'CNC')].copy()
         
-        selected_holdings_df['cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
-        selected_holdings_df['unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
-        selected_holdings_df['perc'] = ((selected_holdings_df['unrealized'] / selected_holdings_df['cap']) * 100)
+        selected_holdings_df.loc[:, 'cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
+        selected_holdings_df.loc[:, 'unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
+        selected_holdings_df.loc[:, 'perc'] = ((selected_holdings_df['unrealized'] / selected_holdings_df['cap']) * 100)
 
-        green_Stocks_df = selected_holdings_df[(selected_holdings_df['perc'] > 0)]
+        green_Stocks_df = selected_holdings_df[(selected_holdings_df['perc'] > 0)].copy()
         green_Stocks_count = len(green_Stocks_df)
         green_Stocks_capital = green_Stocks_df['cap'].sum()
-        green_Stocks_worth = green_Stocks_df['ltp'].dot(green_Stocks_df['qty']).round(4)
+        green_Stocks_worth = (green_Stocks_df['ltp'] * green_Stocks_df['qty']).sum().round(4)
         green_Stocks_profit_loss = (green_Stocks_worth - green_Stocks_capital).round(4)
         green_Stocks_capital_percentage = round(((green_Stocks_worth - green_Stocks_capital) / green_Stocks_capital) * 100, 2) if green_Stocks_capital != 0 else 0
 
-        red_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] < 0]
+        red_Stocks_df = selected_holdings_df[selected_holdings_df['perc'] < 0].copy()
         red_Stocks_count = len(red_Stocks_df)
         red_Stocks_capital = red_Stocks_df['cap'].sum()
-        red_Stocks_worth = red_Stocks_df['ltp'].dot(red_Stocks_df['qty']).round(4)
+        red_Stocks_worth = (red_Stocks_df['ltp'] * red_Stocks_df['qty']).sum().round(4)
         red_Stocks_profit_loss = (red_Stocks_worth - red_Stocks_capital).round(4)
 
-        all_Stocks_df = selected_holdings_df[selected_holdings_df['product'] == 'CNC']
+        all_Stocks_df = selected_holdings_df[selected_holdings_df['product'] == 'CNC'].copy()
         all_Stocks_count = len(selected_holdings_df)
         all_Stocks_capital = selected_holdings_df['cap'].sum()
-        all_Stocks_yworth = selected_holdings_df['close'].dot(selected_holdings_df['qty']).round(4)
-        all_Stocks_worth = selected_holdings_df['ltp'].dot(selected_holdings_df['qty']).round(4)
+        all_Stocks_yworth = (selected_holdings_df['close'] * selected_holdings_df['qty']).sum().round(4)
+        all_Stocks_worth = (selected_holdings_df['ltp'] * selected_holdings_df['qty']).sum().round(4)
         all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
 
         cnc_nfom2m_df = selected_holdings_df[(selected_holdings_df['key'].str.contains("NSE:|BSE:") & (selected_holdings_df['source'] == 'positions') & (selected_holdings_df['qty'] > 0))].copy()
@@ -43,15 +43,15 @@ def get_holdingsinfo(combined_df):
         cnc_nfom2m_df['m2m'].fillna(0, inplace=True)
         total_cnc_m2m = cnc_nfom2m_df['m2m'].sum()
 
-        day_change = all_Stocks_worth - selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)
-        day_change_percentage = ((day_change / selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4)) * 100) if selected_holdings_df['close_price'].dot(selected_holdings_df['qty']).round(4) != 0 else 0
+        day_change = all_Stocks_worth - (selected_holdings_df['close_price'] * selected_holdings_df['qty']).sum().round(4)
+        day_change_percentage = ((day_change / (selected_holdings_df['close_price'] * selected_holdings_df['qty']).sum().round(4)) * 100) if (selected_holdings_df['close_price'] * selected_holdings_df['qty']).sum().round(4) != 0 else 0
         
         zero_qty_count = combined_df[combined_df['qty'] == 0].shape[0]
-        all_Stocks_capital_lacks = all_Stocks_capital/100000
-        all_Stocks_worth_lacks = all_Stocks_worth/100000
-        all_Stocks_yworth_lacks = all_Stocks_yworth/100000
-        green_Stocks_capital_lacks = green_Stocks_capital/100000
-        red_Stocks_capital_lacks = red_Stocks_capital/100000
+        all_Stocks_capital_lacks = all_Stocks_capital / 100000
+        all_Stocks_worth_lacks = all_Stocks_worth / 100000
+        all_Stocks_yworth_lacks = all_Stocks_yworth / 100000
+        green_Stocks_capital_lacks = green_Stocks_capital / 100000
+        red_Stocks_capital_lacks = red_Stocks_capital / 100000
 
         selected_opts_df = combined_df[(combined_df['qty'] != 0) & combined_df['key'].str.contains('NFO:', case=False)].copy()
         total_opts_invested_lacks = selected_opts_df['Invested'].sum() / 100000
