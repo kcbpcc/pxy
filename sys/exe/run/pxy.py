@@ -13,9 +13,9 @@ import time
 from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
 while True:
-    from predictpxy import predicted_sentiment
+    from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
-    predicted_sentiment = predict_market_sentiment()
+    mktpredict = predict_market_sentiment()
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
     from nftpxy import get_nse_action
