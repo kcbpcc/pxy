@@ -99,13 +99,15 @@ async def main():
         # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
+
             try:
-                broker = await get_kite(api="bypass", sec_dir=dir_path)  # Assuming get_kite is an async function
+                broker = get_kite(api="bypass", sec_dir=dir_path)
             except Exception as e:
                 remove_token(dir_path)
                 print(traceback.format_exc())
                 logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
+
     finally:
         # Reset sys.stdout to its default value
         sys.stdout = sys.__stdout__
