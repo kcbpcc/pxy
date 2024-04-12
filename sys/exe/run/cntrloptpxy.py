@@ -95,9 +95,9 @@ print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")
 subprocess.run(['python3', 'buyoptpxy.py']) 
 
 pd.set_option('display.max_colwidth', 42)
-print_open_buy_df = print_df.loc[print_df['qty'] > 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'm2m', 'CP']]
-print_close_df = print_df.loc[print_df['qty'] == 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'pnl', 'm2m', 'CP']]
-print_open_sell_df = print_df.loc[print_df['qty'] < 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'm2m', 'CP']]
+print_open_buy_df = print_df.loc[print_df['qty'] > 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+print_close_df = print_df.loc[print_df['qty'] == 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'pnl','CP']]
+print_open_sell_df = print_df.loc[print_df['qty'] < 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 def print_formatted_df(df):
     formatted_lines = df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
     for line in formatted_lines:
