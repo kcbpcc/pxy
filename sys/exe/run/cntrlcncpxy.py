@@ -236,6 +236,7 @@ try:
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > green_Stocks_capital_percentage].sort_values(by='PL%')
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
     csv_file_path = "filePnL.csv"
+    total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks)*100000)
     selected_rows = []
     if mktpxy == "Sell" or mktpxy == "Bear":
         try:
@@ -252,6 +253,7 @@ try:
                     row['ltp'] != 0 
                 ):                            
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
+                    
                     if (
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
