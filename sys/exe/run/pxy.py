@@ -16,6 +16,7 @@ while True:
     from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
     mktpredict = predict_market_sentiment()
+    from mktpxy import onemincandlesequance, mktpxy
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
     from nftpxy import get_nse_action
