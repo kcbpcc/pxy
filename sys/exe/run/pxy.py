@@ -13,6 +13,7 @@ import time
 from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
 while True:
+    from predictpxy import predictmkt
     from mktpxy import get_market_check
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
@@ -42,5 +43,6 @@ while True:
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'selfpxy.py'])
     subprocess.run(['python3', 'daypxy.py']) 
+    subprocess.run(['python3', 'predictpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(cycle, mktpxy)
