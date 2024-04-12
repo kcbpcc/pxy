@@ -34,25 +34,23 @@ def get_nse_action():
         nse_power = round(max(0.1, min(raw_nse_power, 1.0)), 2)
         Day_Change = round(((current_price - yesterday_close) / yesterday_close) * 100, 2)
         Open_Change = round(((current_price - today_open) / today_open) * 100, 2)
-        OPTIONS = round(current_price / 50) * 50 if current_price % 100 < 50 else round(current_price / 100) * 100
 
-        # Determine if today's candle is bullish or bearish compared to yesterday
-        # Initialize Day Action as an empty string
-        nse_action = ""
-        if today > yesterday:
-            nse_action = "Bullish"
-            OPTIONS = round(current_price / 50) * 50 if current_price % 100 < 50 else round(current_price / 100) * 100
-        elif today < yesterday:
-            nse_action = "Bearish"
-            OPTIONS = round(current_price / 50) * 50 if current_price % 100 < 50 else round(current_price / 100) * 100
-        else:
-            return 'Neutral', nse_power, Day_Change, Open_Change, OPTIONS  # Return neutral along with other values
+        ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
+        ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+        ha_high = data[['High', 'Open', 'Close']].max(axis=1)
+        ha_low = data[['Low', 'Open', 'Close']].min(axis=1)
+        
+        # Define Heikin-Ashi day candle status
+        ha_nse_action = "Bullish" if ha_close.iloc[-1] > ha_open.iloc[-1] else "Bearish"
 
     except Exception as e:
         print(f"Error during data download for 5 days: {e}")
 
-    return nse_action, nse_power, Day_Change, Open_Change, OPTIONS  # Return calculated values
+    except Exception as e:
+        print(f"Error during data download for 5 days: {e}")
+
+    return ha_nse_action, nse_action, nse_power, Day_Change, Open_Change  # Return calculated values
 
 # Call the get_nse_action function
-nse_action, nse_power, Day_Change, Open_Change, OPTIONS = get_nse_action()
-#print("NSE Action:", nse_action, "\nNSE Power:", nse_power, "\nDay Change:", Day_Change, "\nOpen Change:", Open_Change, "\nOPTIONS:", OPTIONS)
+nse_action, nse_power, Day_Change, Open_Change  = get_nse_action()
+
