@@ -56,7 +56,7 @@ def printbord(all_Stocks_worth_dpnl, positive_Stocks_worth_dpnl, green_Stocks_ca
     output_lines.append(left_aligned_format.format(f"Capital:{BRIGHT_YELLOW}{round(all_Stocks_capital_lacks, 2)}{RESET}") + 
                       right_aligned_format.format(f"Value:{BRIGHT_YELLOW}{round(all_Stocks_worth_lacks, 2)}{RESET}"))
     
-    output_lines.append(left_aligned_format.format(f"Day-P&L®:{BRIGHT_GREEN if positive_Stocks_worth_dpnl >= 0 else BRIGHT_RED}{positive_Stocks_worth_dpnl:.0f}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"®Day-P&L:{BRIGHT_GREEN if positive_Stocks_worth_dpnl >= 0 else BRIGHT_RED}{positive_Stocks_worth_dpnl:.0f}{RESET}") +
                         right_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m > 0 else BRIGHT_RED}{str(int(total_cnc_m2m)).zfill(5)}{RESET}"))
     
     output_lines.append(left_aligned_format.format(f"Delta:{BRIGHT_GREEN if ydaypnl_to_print >= 0 else BRIGHT_RED}{int(ydaypnl_to_print * 100000)}{RESET}") +
