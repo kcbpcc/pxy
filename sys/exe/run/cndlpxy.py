@@ -11,7 +11,8 @@ import pandas as pd
 import colorama
 from colorama import Fore, Style  # Add Style to the imports
 from mktpxy import get_market_check
-from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
+from nftpxy import get_nse_action
+nse_action, nse_power, Day_Change, Open_Change  = get_nse_action()
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
