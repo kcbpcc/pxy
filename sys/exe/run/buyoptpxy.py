@@ -61,11 +61,11 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
-    symbol_prefix = symbol[:-2]  # Extract the symbol prefix without the last two characters ("CE" or "PE")
     for position in positions_net:
-        if position['tradingsymbol'].startswith(symbol_prefix) and position['tradingsymbol'].endswith(('CE', 'PE')) and abs(position['quantity']) >= 50:
+        if position['tradingsymbol'] == symbol and abs(position['quantity']) >= 50:
             return True
     return False
+
 
 async def place_order(broker, symbol, transaction_type, product_type, quantity, order_type, price=None):
     try:
