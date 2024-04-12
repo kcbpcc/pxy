@@ -36,6 +36,8 @@ def get_holdingsinfo(combined_df):
         all_Stocks_capital = selected_holdings_df['cap'].sum()
         all_Stocks_yworth = (selected_holdings_df['close'] * selected_holdings_df['qty']).sum().round(4)
         all_Stocks_worth = (selected_holdings_df['ltp'] * selected_holdings_df['qty']).sum().round(4)
+        all_Stocks_worth_dpnl = (all_Stocks_yworth - all_Stocks_worth)
+        print(all_Stocks_worth_dpnl)
         all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
 
         cnc_nfom2m_df = selected_holdings_df[(selected_holdings_df['key'].str.contains("NSE:|BSE:") & (selected_holdings_df['source'] == 'positions') & (selected_holdings_df['qty'] > 0))].copy()
