@@ -1,4 +1,4 @@
-adjest = 1
+adjest = 0
 import traceback
 import sys
 import logging
