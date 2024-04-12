@@ -37,7 +37,6 @@ def get_holdingsinfo(combined_df):
         all_Stocks_yworth = (selected_holdings_df['close'] * selected_holdings_df['qty']).sum().round(4)
         all_Stocks_worth = (selected_holdings_df['ltp'] * selected_holdings_df['qty']).sum().round(4)
         all_Stocks_worth_dpnl = (all_Stocks_yworth - all_Stocks_worth)
-        print(all_Stocks_worth_dpnl)
         all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
 
         cnc_nfom2m_df = selected_holdings_df[(selected_holdings_df['key'].str.contains("NSE:|BSE:") & (selected_holdings_df['source'] == 'positions') & (selected_holdings_df['qty'] > 0))].copy()
@@ -58,7 +57,7 @@ def get_holdingsinfo(combined_df):
         selected_opts_df = combined_df[(combined_df['qty'] != 0) & combined_df['key'].str.contains('NFO:', case=False)].copy()
         total_opts_invested_lacks = selected_opts_df['Invested'].sum() / 100000
 
-        return total_opts_invested_lacks, green_Stocks_capital_lacks, red_Stocks_capital_lacks, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
+        return all_Stocks_worth_dpnl, total_opts_invested_lacks, green_Stocks_capital_lacks, red_Stocks_capital_lacks, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
 
     except Exception as e:
         print(f"An error occurred: {e}")
