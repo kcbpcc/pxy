@@ -90,7 +90,7 @@ print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else (
 print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
-summary_sentence = f"CAP:{total_invested}|M2M:{total_opt_m2m}|PL:{total_pl}|PL%:{total_pl_percentage:.0f}%{'🔴' if total_pl < 0 else '🟢'}"
+summary_sentence = f"CAP:{total_invested}|M2M:{total_opt_m2m}|P&L:{total_pl}|P&L%:{total_pl_percentage:.0f}%{'🔴' if total_pl < 0 else '🟢'}"
 
 subprocess.run(['python3', 'buyoptpxy.py']) 
 
