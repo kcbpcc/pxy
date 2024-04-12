@@ -1,4 +1,5 @@
 #buyoptpxy.py
+adjest = 0
 import traceback
 import sys
 import logging
