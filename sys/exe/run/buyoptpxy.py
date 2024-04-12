@@ -122,12 +122,10 @@ async def main():
     if not position_exists:
         buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
         if buy_order_placed:
-            print("BUY order placed successfully.")
+            await send_telegram_message(f"{symbol} BUY order placed successfully.")
+            print(f"{symbol} BUY order placed successfully.")
     else:
         print(f"Existing {symbol}, So not buying")
-
-
 async def run_main():
     await main()
-
 asyncio.run(run_main())
