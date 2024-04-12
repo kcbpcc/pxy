@@ -16,7 +16,7 @@ while True:
     from mktpxy import get_market_check
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
-    from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS
+    from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
     importlib.reload(sys.modules['nftpxy'])  # Correct the usage
     from cyclepxy import cycle
     importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
