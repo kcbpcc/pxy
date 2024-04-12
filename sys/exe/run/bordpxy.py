@@ -15,7 +15,7 @@ def printbord(all_Stocks_worth_dpnl, positive_Stocks_worth_dpnl, green_Stocks_ca
         color_code = BRIGHT_YELLOW + UNDERLINE
     text = "PXY® PreciseXceleratedYield Pvt Ltd™"
     print(color_code + text.center(42) + RESET)
-    
+    total_opts_invested_lacks = 0
     output_lines = []
     acvalue = ((all_Stocks_worth_lacks) + (total_opts_invested_lacks) + (available_cash / 100000))  
     process_acvalue(acvalue)
