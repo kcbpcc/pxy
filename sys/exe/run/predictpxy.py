@@ -16,7 +16,7 @@ def predict_market_sentiment():
         predictmkt = BOLD + "useless" + RESET
 
     print("Predicted market sentiment:", predictmkt)
-    return predictmkt
+    return mktpredict
 
 # Call the function to predict market sentiment and print the result
 predicted_sentiment = predict_market_sentiment()
