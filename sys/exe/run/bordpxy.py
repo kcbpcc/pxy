@@ -60,7 +60,7 @@ def printbord(all_Stocks_worth_dpnl, total_opts_invested_lacks, green_Stocks_cap
                         right_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m > 0 else BRIGHT_RED}{str(int(total_cnc_m2m)).zfill(5)}{RESET}"))
     
     output_lines.append(left_aligned_format.format(f"Delta:{BRIGHT_GREEN if ydaypnl_to_print >= 0 else BRIGHT_RED}{int(ydaypnl_to_print * 100000)}{RESET}") +
-                        right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if all_Stocks_worth_dpnl else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
+                        right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
     
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
                           right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else GREEN}{str(round(booked)).zfill(5)}{RESET}"))
