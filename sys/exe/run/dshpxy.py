@@ -12,7 +12,7 @@ def format_value(value):
 def get_holdingsinfo(combined_df):
     try:
 
-        selected_holdings_df = combined_df.loc[(combined_df['qty'] != 0) & (combined_df['product'] == 'CNC')].copy()
+        selected_holdings_df = combined_df.loc[(combined_df['qty'] > 0) & (combined_df['product'] == 'CNC')].copy()
         
         selected_holdings_df.loc[:, 'cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
         selected_holdings_df.loc[:, 'unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
@@ -31,7 +31,7 @@ def get_holdingsinfo(combined_df):
         red_Stocks_worth = (red_Stocks_df['ltp'] * red_Stocks_df['qty']).sum().round(4)
         red_Stocks_profit_loss = (red_Stocks_worth - red_Stocks_capital).round(4)
 
-        all_Stocks_df = selected_holdings_df[(selected_holdings_df['product'] == 'CNC') & (selected_holdings_df['qty'] > 0) & (selected_holdings_df['source'] == 'holdings')].copy()
+        all_Stocks_df = selected_holdings_df[selected_holdings_df['source'] == 'holdings'].copy()
         all_Stocks_count = len(selected_holdings_df)
         all_Stocks_capital = selected_holdings_df['cap'].sum()
         all_Stocks_yworth = (selected_holdings_df['close'] * selected_holdings_df['qty']).sum().round(4)
