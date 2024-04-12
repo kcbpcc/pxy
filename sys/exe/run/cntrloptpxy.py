@@ -91,7 +91,7 @@ print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
 summary_sentence = f"CAP:{total_invested}|M2M:{total_opt_m2m}|PL:{total_pl}|PL%:{total_pl_percentage:.0f}%{'🔴' if total_pl < 0 else '🟢'}"
-print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")
+
 subprocess.run(['python3', 'buyoptpxy.py']) 
 
 pd.set_option('display.max_colwidth', 42)
@@ -105,7 +105,7 @@ def print_formatted_df(df):
         print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(40) + RESET)
 if not print_open_buy_df.empty:
     print_formatted_df(print_open_buy_df)
-subprocess.run(['python3', 'daypxy.py'])
+print(f"{YELLOW}{summary_sentence.rjust(41)}{RESET}")
 if not print_close_df.empty:
     print_formatted_df(print_close_df)
 if not print_open_sell_df.empty:
