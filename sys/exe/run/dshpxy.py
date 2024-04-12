@@ -31,7 +31,7 @@ def get_holdingsinfo(combined_df):
         red_Stocks_worth = (red_Stocks_df['ltp'] * red_Stocks_df['qty']).sum().round(4)
         red_Stocks_profit_loss = (red_Stocks_worth - red_Stocks_capital).round(4)
 
-        all_Stocks_df = selected_holdings_df[selected_holdings_df['source'] == 'holdings'].copy()
+        all_Stocks_df = selected_holdings_df
         all_Stocks_count = len(selected_holdings_df)
         all_Stocks_capital = selected_holdings_df['cap'].sum()
         all_Stocks_yworth = (selected_holdings_df['close'] * selected_holdings_df['qty']).sum().round(4)
