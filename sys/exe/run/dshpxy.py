@@ -33,7 +33,7 @@ def get_holdingsinfo(combined_df):
 
         all_Stocks_df =  combined_df.loc[(combined_df['qty'] > 0) & (combined_df['product'] == 'CNC') & (combined_df['source'] == 'holdings')].copy()
         all_Stocks_count = len(selected_holdings_df)
-        all_Stocks_capital = selected_holdings_df['cap'].sum()
+        all_Stocks_capital = all_Stocks_df['cap'].sum()
         all_Stocks_yworth = (all_Stocks_df['close'] * all_Stocks_df['qty']).sum().round(4)
         all_Stocks_worth = (all_Stocks_df['ltp'] * all_Stocks_df['qty']).sum().round(4)
         all_Stocks_worth_dpnl = (all_Stocks_worth - all_Stocks_yworth)
