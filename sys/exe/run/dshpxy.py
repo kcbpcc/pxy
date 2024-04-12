@@ -39,7 +39,7 @@ def get_holdingsinfo(combined_df):
         all_Stocks_worth_dpnl = (all_Stocks_worth - all_Stocks_yworth)
         all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
 
-        positive_qty_df = combined_df.loc[(combined_df['qty'] != 0) & (combined_df['product'] == 'CNC')].copy()
+        positive_qty_df = combined_df.loc[(combined_df['qty'] > 0) & (combined_df['product'] == 'CNC')].copy()
         positive_qty_df = selected_holdings_df[selected_holdings_df['product'] == 'CNC'].copy()
         positive_Stocks_yworth = (positive_qty_df['close'] * positive_qty_df['qty']).sum().round(4)
         positive_Stocks_worth = (positive_qty_df['ltp'] * positive_qty_df['qty']).sum().round(4)
