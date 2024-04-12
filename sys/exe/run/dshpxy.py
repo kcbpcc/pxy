@@ -39,11 +39,6 @@ def get_holdingsinfo(combined_df):
         all_Stocks_worth_dpnl = (all_Stocks_worth - all_Stocks_yworth)
         all_Stocks_profit_loss = (all_Stocks_worth - all_Stocks_capital).round(4)
 
-        positive_qty_df = combined_df.loc[(combined_df['qty'] > 0) & (combined_df['product'] == 'CNC') & (combined_df['source'] == 'holdings')].copy()
-        positive_Stocks_yworth = (positive_qty_df['close'] * positive_qty_df['qty']).sum().round(4)
-        positive_Stocks_worth = (positive_qty_df['ltp'] * positive_qty_df['qty']).sum().round(4)
-        positive_Stocks_worth_dpnl = (positive_Stocks_worth - positive_Stocks_yworth)
-
         cnc_nfom2m_df = selected_holdings_df[(selected_holdings_df['key'].str.contains("NSE:|BSE:") & (selected_holdings_df['source'] == 'positions') & (selected_holdings_df['qty'] > 0))].copy()
         cnc_nfom2m_df['m2m'] = pd.to_numeric(cnc_nfom2m_df['m2m'], errors='coerce')
         cnc_nfom2m_df['m2m'].fillna(0, inplace=True)
@@ -62,7 +57,7 @@ def get_holdingsinfo(combined_df):
         selected_opts_df = combined_df[(combined_df['qty'] != 0) & combined_df['key'].str.contains('NFO:', case=False)].copy()
         total_opts_invested_lacks = selected_opts_df['Invested'].sum() / 100000
 
-        return all_Stocks_worth_dpnl, positive_Stocks_worth_dpnl, green_Stocks_capital_lacks, red_Stocks_capital_lacks, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
+        return all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
 
     except Exception as e:
         print(f"An error occurred: {e}")
