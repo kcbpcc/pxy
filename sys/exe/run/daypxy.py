@@ -10,7 +10,7 @@ from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
 from depthpxy import calculate_consecutive_candles
-from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
+from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change 
 
 console = Console()
 warnings.simplefilter(action='ignore', category=FutureWarning)
