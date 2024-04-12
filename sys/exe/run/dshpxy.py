@@ -42,7 +42,7 @@ def get_holdingsinfo(combined_df):
         positive_qty_df = selected_holdings_df[(selected_holdings_df['source'] == 'holdings') & (selected_holdings_df['qty'] > 0)].copy()
         positive_Stocks_yworth = (positive_qty_df['close'] * positive_qty_df['qty']).sum().round(4)
         positive_Stocks_worth = (positive_qty_df['ltp'] * positive_qty_df['qty']).sum().round(4)
-        positive_Stocks_worth_dpnl = (all_Stocks_worth - all_Stocks_yworth)
+        positive_Stocks_worth_dpnl = (positive_Stocks_worth - positive_Stocks_yworth)
 
         cnc_nfom2m_df = selected_holdings_df[(selected_holdings_df['key'].str.contains("NSE:|BSE:") & (selected_holdings_df['source'] == 'positions') & (selected_holdings_df['qty'] > 0))].copy()
         cnc_nfom2m_df['m2m'] = pd.to_numeric(cnc_nfom2m_df['m2m'], errors='coerce')
