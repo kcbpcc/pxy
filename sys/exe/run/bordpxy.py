@@ -3,7 +3,7 @@ file_path = 'filePnL.csv'
 booked = sum_last_numerical_value_in_each_row(file_path)
 from acvaluepxy import process_acvalue, get_current_acvalue
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-def printbord(total_opts_invested_lacks, green_Stocks_capital_lacks, red_Stocks_capital_lacks, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
+def printbord(all_Stocks_worth_dpnl, total_opts_invested_lacks, green_Stocks_capital_lacks, red_Stocks_capital_lacks, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
     
     
     color_code = ""
@@ -60,7 +60,7 @@ def printbord(total_opts_invested_lacks, green_Stocks_capital_lacks, red_Stocks_
                         right_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m > 0 else BRIGHT_RED}{str(int(total_cnc_m2m)).zfill(5)}{RESET}"))
     
     output_lines.append(left_aligned_format.format(f"Delta:{BRIGHT_GREEN if ydaypnl_to_print >= 0 else BRIGHT_RED}{int(ydaypnl_to_print * 100000)}{RESET}") +
-                        right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if (all_Stocks_worth_lacks - all_Stocks_yworth_lacks)*100000 >= 0 else BRIGHT_RED}{int(round((all_Stocks_worth_lacks - all_Stocks_yworth_lacks) * 100000, 0))}{RESET}"))
+                        right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if all_Stocks_worth_dpnl else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
     
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
                           right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else GREEN}{str(round(booked)).zfill(5)}{RESET}"))
