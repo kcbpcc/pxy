@@ -35,7 +35,7 @@ def printbord(all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2
             f"{BRIGHT_YELLOW}{'Green'.zfill(3)}{RESET}:{str(green_Stocks_count).zfill(3)}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
             f"          {BOLD}{UNDERLINE}PXY{RESET}"
-            f"{BRIGHT_GREEN if ha_nse_action == 'Bullish' else BRIGHT_RED if ha_nse_action == 'Bearish' else GREY}"
+            f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
         ) +
         right_aligned_format.format(
             f"{BRIGHT_GREEN if mktpxy in ['Buy'] else (BRIGHT_RED if mktpxy in ['Sell'] else GREY)}"
