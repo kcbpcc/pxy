@@ -52,5 +52,5 @@ def get_nse_action():
     return ha_nse_action, nse_power, Day_Change, Open_Change  # Return calculated values
 
 # Call the get_nse_action function
-nse_action, nse_power, Day_Change, Open_Change  = get_nse_action()
+ha_nse_action, nse_power, Day_Change, Open_Change  = get_nse_action()
 
