@@ -164,7 +164,7 @@ try:
     import numpy as np
     from mktpxy import get_market_check
     import importlib
-    from nftpxy import nse_action, nse_power, Day_Change, Open_Change, OPTIONS  
+    from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
     import math
     from bukdpxy import sum_last_numerical_value_in_each_row
     from swchpxy import analyze_stock
