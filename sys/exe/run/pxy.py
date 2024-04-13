@@ -14,7 +14,7 @@ from rich.console import Console
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 # Start the script session to capture terminal output
-
+subprocess.run(['script', 'pxy.log'])
 
 # Your main script starts here
 from predictpxy import predict_market_sentiment
@@ -25,7 +25,6 @@ from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
 
 while True:
-    subprocess.run(['script', 'pxy.log'])
     if os.name == 'nt':
         os.system('cls')
     else:
@@ -55,3 +54,4 @@ while True:
 
     cycle
     progress_bar(10, mktpxy)
+
