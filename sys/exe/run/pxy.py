@@ -45,20 +45,6 @@ while True:
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'selfpxy.py'])
     subprocess.run(['python3', 'daypxy.py']) 
-    # Assuming mktpredict holds the value 'UP', 'DOWN', or 'SIDE'
-    # Length of the constant string
-    constant_length = len("PXY® Predicted market sentiment:")
-    
-    # Maximum width needed for alignment
-    max_width = 43
-    
-    # Determine the padding needed for alignment
-    padding = max_width - constant_length - len(mktpredict)
-    
-    # Print the statement with the adjusted width
-    print(f"PXY® Predicted market sentiment:".rjust(43, mktpredict)
-
-
-
+    print(f"PXY® Predicted market sentiment: {mktpredict}".rjust(43))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(cycle, mktpxy)
