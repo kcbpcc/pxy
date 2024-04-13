@@ -11,7 +11,7 @@ import logging
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 import requests  
 import numpy as np
-timetgtpxy import timetgt
+from timetgtpxy import timetgt
 importlib.reload(sys.modules['timetgtpxy'])
 timetgt = timetgt()
 
