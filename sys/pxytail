@@ -7,7 +7,7 @@ log_file="$HOME/pxy/sys/exe/run/log.log"
 output_file="$HOME/pxy/sys/exe/run/output.txt"
 
 # Path to the main.log file
-main_log_file="$HOME/pxy/sys/exe/main.log"
+main_log_file="$HOME/pxy/sys/exe/run/main.log"
 
 # Check if log.log file exists
 if [ ! -f "$log_file" ]; then
@@ -15,5 +15,5 @@ if [ ! -f "$log_file" ]; then
     exit 1
 fi
 
-# Continuously tail log.log file and redirect output to both terminal, output.txt, and main.log
-tail -f "$log_file" | tee -a "$output_file" | tee -a "$main_log_file"
+# Continuously tail log.log, output.txt, and main.log files and display output simultaneously
+tail -f "$log_file" & tail -f "$output_file" & tail -f "$main_log_file"
