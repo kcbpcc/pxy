@@ -107,8 +107,7 @@ async def place_order(broker, symbol, transaction_type, product_type, quantity, 
 
 async def main():
     try:
-        print(f"CE positions: {count_CE}")
-        print(f"PE positions: {count_PE}")
+
         # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
@@ -124,7 +123,11 @@ async def main():
     finally:
         # Reset sys.stdout to its default value
         sys.stdout = sys.__stdout__
-   
+    
+    count_CE, count_PE = count_positions_by_type(broker, symbol)
+    print(f"CE positions: {count_CE}")
+    print(f"PE positions: {count_PE}")
+    
     expiry_year, expiry_month, expiry_day = get_this_thursday()
 
     option_type = 'CE' if mktpxy == 'Buy' else ('PE' if mktpxy == 'Sell' else (print(f"Now market is {mktpxy} - let's wait 👀🔍👀🔍👀") or sys.exit(1)))
