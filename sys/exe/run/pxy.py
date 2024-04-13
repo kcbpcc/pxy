@@ -26,6 +26,7 @@ while True:
     if os.name == 'nt':
         os.system('cls')
     else:
+        ls -l
         #os.system('clear')
     from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
