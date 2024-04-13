@@ -107,7 +107,6 @@ async def place_order(broker, symbol, transaction_type, product_type, quantity, 
 
 async def main():
     try:
-
         # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
@@ -125,19 +124,24 @@ async def main():
         sys.stdout = sys.__stdout__
     
     count_CE, count_PE = count_positions_by_type(broker)
-    print(f"🔥CE positions:{count_CE}   ⚖️⚖️   PE positions:{count_PE}💧")
+    print(f"Debug: CE positions: {count_CE}, PE positions: {count_PE}")
 
     PE_weight = count_PE - count_CE
     CE_weight = count_CE - count_PE
     weight = abs(count_PE - count_CE)
+    print(f"Debug: PE_weight: {PE_weight}, CE_weight: {CE_weight}, weight: {weight}")
     
     expiry_year, expiry_month, expiry_day = get_this_thursday()
+    print(f"Debug: Expiry Date - Year: {expiry_year}, Month: {expiry_month}, Day: {expiry_day}")
 
     option_type = 'CE' if (mktpxy == 'Buy' and CE_weight < 1) else ('PE' if (mktpxy == 'Sell' and PE_weight < 1) else (print(f"Market-{mktpxy} and Weight:{weight} - let's wait 👀🔍👀🔍👀") or sys.exit(1)))
+    print(f"Debug: Option type: {option_type}")
 
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
+    print(f"Debug: Symbol: {symbol}")
 
     position_exists = check_existing_positions(broker, symbol)
+    print(f"Debug: Position exists: {position_exists}")
 
     if not position_exists:
         buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
@@ -145,7 +149,9 @@ async def main():
             await send_telegram_message(f"{symbol} BUY order placed successfully.")
             print(f"{symbol} BUY order placed successfully.")
     else:
-        print(f"Existing {symbol}, So not buying")
+        print(f"Debug: Existing {symbol}, So not buying")
+
 async def run_main():
     await main()
+
 asyncio.run(run_main())
