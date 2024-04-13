@@ -9,11 +9,11 @@ def predict_market_sentiment():
     Bullish = "Bullish"
 
     if ha_nse_action == Bearish and nsma == "down":
-        mktpredict = BRIGHT_RED + "FALL" + RESET
+        mktpredict = BRIGHT_RED + "FALLTREND" + RESET
     elif ha_nse_action == Bullish and nsma == "up":
-        mktpredict = BRIGHT_GREEN + "RISE" + RESET
+        mktpredict = BRIGHT_GREEN + "RISETREND" + RESET
     else:
-        mktpredict = BOLD + "SIDE" + RESET
+        mktpredict = BOLD + "SIDETREND" + RESET
 
     return mktpredict
 
