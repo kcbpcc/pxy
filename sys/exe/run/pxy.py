@@ -13,10 +13,13 @@ import time
 from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
 def append_terminal_contents_to_log():
+    # Get the current directory where the script is located
     current_directory = os.getcwd()
+    # Construct the path to the pxy.log file in the current directory
     log_file_path = os.path.join(current_directory, "pxy.log")
+    # Use the tty command to capture the terminal contents and append to pxy.log
     with open(log_file_path, 'a') as log_file:
-        subprocess.run(["xdotool", "getactivewindow", "getwindowname"], stdout=log_file)
+        subprocess.run(["tty"], stdout=log_file)
 while True:
     append_terminal_contents_to_log()
     if os.name == 'nt':
