@@ -11,6 +11,8 @@ console = Console()
 from sleeppxy import progress_bar
 import time
 from rich.console import Console
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+
 subprocess.run(['python3', 'cpritepxy.py'])
 def append_terminal_contents_to_log():
     # Get the current directory where the script is located
