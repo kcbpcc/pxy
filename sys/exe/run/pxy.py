@@ -25,6 +25,7 @@ def append_terminal_contents_to_log():
         log_file.write(tty + '\n')
 while True:
     # Call the function to append terminal contents to the log
+    append_terminal_contents_to_log()
     if os.name == 'nt':
         os.system('cls')
     else:
@@ -62,6 +63,6 @@ while True:
     subprocess.run(['python3', 'selfpxy.py'])
     subprocess.run(['python3', 'daypxy.py']) 
     print(f"    PXY® Predicted market sentiment : {mktpredict}")
-    append_terminal_contents_to_log()
+    
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(cycle, mktpxy)
