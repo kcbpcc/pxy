@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Full path to the pxy.log file
+log_file="$HOME/pxy/sys/exe/run/pxy.log"
+
+# Check if pxy.log file exists
+if [ ! -f "$log_file" ]; then
+    echo "pxy.log file not found!"
+    exit 1
+fi
+
+# Continuously tail pxy.log file
+tail -f "$log_file"
