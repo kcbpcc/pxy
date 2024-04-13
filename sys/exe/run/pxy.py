@@ -55,7 +55,7 @@ while True:
     max_width = constant_length + value_length
     
     # Print the statement with the adjusted width
-    print(f"  PXY® Predicted market sentiment: {mktpredict.rjust(43 - max_width)} {'👇' if mktpredict == 'hopeless' else '☝️' if mktpredict == 'hopeful' else '🤏'}")
+    print(f"PXY® Predicted market sentiment: {mktpredict.rjust(39 - max_width)} {'👇' if mktpredict == 'hopeless' else '☝️' if mktpredict == 'hopeful' else '🤏'}")
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(cycle, mktpxy)
