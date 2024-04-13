@@ -17,8 +17,14 @@ def append_terminal_contents_to_log():
     current_directory = os.getcwd()
     # Construct the path to the pxy.log file in the current directory
     log_file_path = os.path.join(current_directory, "pxy.log")
-    # Loop continuously to append terminal device to the log file
+    # Get the current tty
+    tty = os.popen("tty").read().strip()
+    # Open the log file in append mode
+    with open(log_file_path, 'a') as log_file:
+        # Write the tty to the log file
+        log_file.write(tty + '\n')
 while True:
+    # Call the function to append terminal contents to the log
     append_terminal_contents_to_log()
     if os.name == 'nt':
         os.system('cls')
