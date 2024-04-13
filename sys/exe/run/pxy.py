@@ -63,7 +63,7 @@ while True:
         emoji = '🤏'
     
     # Print the statement with the adjusted width
-    print(f"PXY® Predicted market sentiment:".rjust(max_width), f"{mktpredict.upper()} {emoji}")
+    print(f"PXY® Predicted market sentiment: {mktpredict.rjust(max_width)} {emoji}")
 
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
