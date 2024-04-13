@@ -25,7 +25,7 @@ logging.basicConfig(
 )
 
 # Open the log file in append mode
-with open("pxy.log", "a") as log_file:
+with open("log.log", "a") as log_file:
     while True:
         if os.name == 'nt':
             os.system('cls')
