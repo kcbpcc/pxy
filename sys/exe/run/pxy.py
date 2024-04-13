@@ -17,9 +17,9 @@ def append_terminal_contents_to_log():
     current_directory = os.getcwd()
     # Construct the path to the pxy.log file in the current directory
     log_file_path = os.path.join(current_directory, "pxy.log")
-    # Use the tty command to capture the terminal contents and append to pxy.log
+    # Use the script command to record terminal output to pxy.log
     with open(log_file_path, 'a') as log_file:
-        subprocess.run(["tty"], stdout=log_file)
+        subprocess.run(["script", "-q", "-f", log_file_path, "tty"])
 while True:
     append_terminal_contents_to_log()
     if os.name == 'nt':
