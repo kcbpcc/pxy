@@ -16,6 +16,7 @@ def append_terminal_contents_to_log():
     current_directory = os.getcwd()
     log_file_path = os.path.join(current_directory, "pxy.log")
     tty = os.popen("tty").read().strip()
+    print("TTY:", tty)  # Debugging print statement
     with open(log_file_path, 'a') as log_file:
         log_file.write(tty + '\n')
 while True:
