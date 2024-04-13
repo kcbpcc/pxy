@@ -12,7 +12,12 @@ from sleeppxy import progress_bar
 import time
 from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
+def append_terminal_contents_to_log():
+    # Use xdotool to capture the terminal contents and append to pxy.log
+    with open('pxy.log', 'a') as log_file:
+        subprocess.run(["xdotool", "getactivewindow", "getwindowname"], stdout=log_file)
 while True:
+    append_terminal_contents_to_log()
     if os.name == 'nt':
         os.system('cls')
     else:
