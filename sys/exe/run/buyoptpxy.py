@@ -57,6 +57,19 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     else:
         return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions}{option_type}"
 
+def count_positions_by_type(broker, symbol):
+    positions_response = broker.kite.positions()
+    positions_net = positions_response['net']
+    count_CE = 0
+    count_PE = 0
+    for position in positions_net:
+        if position['tradingsymbol'] == symbol and abs(position['quantity']) >= 50:
+            if position['instrument_type'] == 'CE':
+                count_CE += 1
+            elif position['instrument_type'] == 'PE':
+                count_PE += 1
+    print(f"CE positions: {count_CE}")
+    print(f"PE positions: {count_PE}")
 
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
