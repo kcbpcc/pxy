@@ -13,14 +13,13 @@ import time
 from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
 
-# Define a function to clear the current line
-def clear_line():
-    sys.stdout.write("\r")
-    sys.stdout.write("\033[K") # Clear line from cursor position
+# Define a function to move the cursor to the beginning of the terminal
+def move_cursor_to_top():
+    sys.stdout.write("\033[1;1H")
     sys.stdout.flush()
 
 while True:
-    clear_line()  # Clear the current line before printing
+    move_cursor_to_top()  # Move cursor to the top
     from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
     mktpredict = predict_market_sentiment()
