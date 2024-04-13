@@ -20,6 +20,9 @@ def timetgt():
     # Calculate the timetgt value
     timetgt = round(10 * (1 - time_passed_percentage), 1)
 
+    # Ensure timetgt never goes below 5
+    timetgt = max(timetgt, 5)
+
     return timetgt
 
 # Test the function
