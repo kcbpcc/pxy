@@ -45,6 +45,6 @@ while True:
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'selfpxy.py'])
     subprocess.run(['python3', 'daypxy.py']) 
-    print(f"PXY® Predicted market sentiment: {mktpredict.rjust(42)} {'👇' if mktpredict == 'hopeless' else '☝️' if mktpredict == 'hopeful' else '🤏'}")
+    print(f"PXY® Predicted market sentiment: {mktpredict.rjust(40)} {'👇' if mktpredict == 'hopeless' else '☝️' if mktpredict == 'hopeful' else '🤏'}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(cycle, mktpxy)
