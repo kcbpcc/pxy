@@ -13,13 +13,12 @@ import time
 from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
 
-# Define a function to move the cursor to the beginning of the terminal
-def move_cursor_to_top():
-    sys.stdout.write("\033[1;1H")
-    sys.stdout.flush()
+# Define a function to move the cursor up one line
+def move_cursor_up():
+    sys.stdout.write("\033[F")
 
 while True:
-    move_cursor_to_top()  # Move cursor to the top
+    move_cursor_up()  # Move cursor up one line
     from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
     mktpredict = predict_market_sentiment()
@@ -56,3 +55,4 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(5, mktpxy)
     time.sleep(1)  # Adjust the delay as needed
+
