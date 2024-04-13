@@ -127,6 +127,8 @@ async def main():
     count_CE, count_PE = count_positions_by_type(broker)
     print(f"🔥CE positions:{count_CE}   ⚖️⚖️   PE positions:{count_PE}💧")
 
+    PE_weight = count_PE - count_CE
+    CE_weight = count_CE - count_PE
     
     expiry_year, expiry_month, expiry_day = get_this_thursday()
 
