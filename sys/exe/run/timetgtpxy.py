@@ -24,6 +24,3 @@ def timetgt():
     timetgt = max(round(timetgt, 1), 7)
 
     return timetgt
-
-# Test the function
-print(timetgt())
