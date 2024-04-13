@@ -43,8 +43,12 @@ with open("pxy.log", "a") as log_file:
         else:
             os.system('clear')
 
-        # Capture terminal output and append it to the log file
-        subprocess.run(['script', '-a', '-q', 'pxy.log'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        # Capture terminal output
+        terminal_output = subprocess.run(['script', '-q', '-c', 'python3 your_script.py'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+        # Print terminal output to both terminal and log file
+        print(terminal_output.stdout)
+        print(terminal_output.stdout, file=log_file)
 
         # Import and reload modules
         from predictpxy import predict_market_sentiment
@@ -88,6 +92,7 @@ with open("pxy.log", "a") as log_file:
         
         cycle
         progress_bar(4, mktpxy)
+
 
 
 
