@@ -1,6 +1,4 @@
 from datetime import datetime, timedelta, timezone
-from nftpxy import get_nse_action
-ha_nse_action, nse_power, Day_Change, Open_Change  = get_nse_action()
 
 def timetgt():
     # Define the start and end times for the countdown in UTC
