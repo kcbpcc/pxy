@@ -26,7 +26,7 @@ while True:
     if os.name == 'nt':
         os.system('cls')
     else:
-        os.system('ls')
+        os.system('date')
         #os.system('clear')
     from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
