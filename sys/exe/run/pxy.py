@@ -24,8 +24,7 @@ class Tee(object):
             file.flush()  # Make sure to flush the buffer to ensure immediate writing
 
     def flush(self):
-        for file in self.files:
-            file.flush()
+        pass  # Do nothing for flush()
 
 # Open the log file in append mode
 with open("pxy.log", "a") as log_file:
@@ -41,7 +40,7 @@ with open("pxy.log", "a") as log_file:
             os.system('clear')
 
         # Capture terminal output and append it to the log file
-        subprocess.run(['script', '-a', 'pxy.log'], stdout=sys.stdout)
+        subprocess.run(['script', '-a', '-q', 'pxy.log'], stdout=sys.stdout, stderr=subprocess.STDOUT)
 
         # Import and reload modules
         from predictpxy import predict_market_sentiment
@@ -85,5 +84,6 @@ with open("pxy.log", "a") as log_file:
         
         cycle
         progress_bar(4, mktpxy)
+
 
 
