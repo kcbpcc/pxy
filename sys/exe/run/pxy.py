@@ -25,7 +25,7 @@ def append_terminal_contents_to_log():
         log_file.write(tty + '\n')
 while True:
     # Call the function to append terminal contents to the log
-        if os.name == 'nt':
+    if os.name == 'nt':
         os.system('cls')
     else:
         os.system('clear')
