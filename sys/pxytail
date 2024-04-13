@@ -7,7 +7,7 @@ log_file="$HOME/pxy/sys/exe/run/log.log"
 output_file="$HOME/pxy/sys/exe/run/output.txt"
 
 # Path to the main.log file
-main_log_file="$HOME/pxy/sys/exe/run/main.log"
+main_log_file="$HOME/pxy/sys/exe/main.log"
 
 # Check if log.log file exists
 if [ ! -f "$log_file" ]; then
