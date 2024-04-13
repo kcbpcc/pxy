@@ -15,6 +15,11 @@ from smapxy import check_index_status
 
 console = Console()
 
+def clear_screen():
+    # Print several blank lines to "clear" the terminal
+    for _ in range(50):
+        print()
+
 def main():
     # Open the output file in append mode
     with open('output.log', 'a') as output_file:
@@ -58,10 +63,11 @@ def main():
             # Display progress bar
             progress_bar(cycle, mktpxy)
             
-            # Clear the screen
-            os.system('clear')
+            # Softly clear the screen
+            clear_screen()
 
             time.sleep(1)  # Adjust the sleep time according to your needs
 
 if __name__ == "__main__":
     main()
+
