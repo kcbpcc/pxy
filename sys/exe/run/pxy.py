@@ -20,7 +20,7 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),  # Output to terminal
-        logging.FileHandler("pxy.log", mode="a"),  # Output to log file
+        logging.FileHandler("log.log", mode="a"),  # Output to log file
     ]
 )
 
