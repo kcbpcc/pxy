@@ -11,6 +11,10 @@ import logging
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 import requests  
 import numpy as np
+timetgtpxy import timetgt
+importlib.reload(sys.modules['timetgtpxy'])
+timetgt = timetgt()
+
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)  
@@ -47,7 +51,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
         return None
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 def exit_options(key, pl_percentage, quantity, pnl):
-    if (key.endswith('CE') and pl_percentage >= 11 and quantity > 0) or (key.endswith('PE') and pl_percentage >= 11 and quantity > 0):
+    if (key.endswith('CE') and pl_percentage >= timetgt and quantity > 0) or (key.endswith('PE') and pl_percentage >= timetgt and quantity > 0):
         try:
             place_order(key, quantity, 'SELL', 'MARKET', 'NRML')  
             message = f"Exit order placed for {key} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
