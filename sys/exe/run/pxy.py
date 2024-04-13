@@ -13,8 +13,7 @@ from sleeppxy import progress_bar
 import time
 from rich.console import Console
 from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-
-# Configure logging to write all levels of output to both terminal and log file
+Configure logging to write all levels of output to both terminal and log file
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -23,16 +22,12 @@ logging.basicConfig(
         logging.FileHandler("log.log", mode="a"),  # Output to log file
     ]
 )
-
-# Open the log file in append mode
 with open("log.log", "a") as log_file:
     while True:
         if os.name == 'nt':
             os.system('cls')
         else:
             os.system('clear')
-
-        # Import and reload modules
         from predictpxy import predict_market_sentiment
         importlib.reload(sys.modules['predictpxy'])  # Correct the usage
         mktpredict = predict_market_sentiment()
@@ -53,17 +48,13 @@ with open("log.log", "a") as log_file:
         from smapxy import check_index_status
         importlib.reload(sys.modules['smapxy'])  # Correct the usage
         nsma = check_index_status('^NSEI')
-        
         ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
         subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PREPEAK' else None
         ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-        
         print((BRIGHT_GREEN + UNDERLINE + "PXY® PreciseXceleratedYield Pvt Ltd™".center(42) if Open_Change > 0 else (BRIGHT_RED + UNDERLINE + "PXY® PreciseXceleratedYield Pvt Ltd™".center(42) if Open_Change < 0 else BRIGHT_YELLOW + UNDERLINE + "PXY® PreciseXceleratedYield Pvt Ltd™".center(42))) + RESET)
-        
         subprocess.run(['python3', 'daypxy.py'])
         subprocess.run(['python3', 'buyoptpxy.py'])
         subprocess.run(['python3', 'buycncpxy.py']) if (not (Open_Change < 0 and Day_Change < 0 and nsma == 'down') and mktpxy == 'Buy') or peak == 'PEAKEND' else None
-        
         ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
         subprocess.run(['python3', 'cntrlcncpxy.py'])
         subprocess.run(['python3', 'cntrloptpxy.py'])
@@ -71,7 +62,5 @@ with open("log.log", "a") as log_file:
         subprocess.run(['python3', 'selfpxy.py'])
         print(f"    PXY® Predicted market sentiment : {mktpredict}")
         ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-        
-        cycle
-        progress_bar(4, mktpxy)
+        progress_bar(cycle, mktpxy)
 
