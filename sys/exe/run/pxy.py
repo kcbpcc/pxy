@@ -25,11 +25,12 @@ def append_terminal_contents_to_log():
         log_file.write(tty + '\n')
 while True:
     # Call the function to append terminal contents to the log
-    append_terminal_contents_to_log()
+    
     if os.name == 'nt':
         os.system('cls')
     else:
         os.system('clear')
+    append_terminal_contents_to_log()
     from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
     mktpredict = predict_market_sentiment()
