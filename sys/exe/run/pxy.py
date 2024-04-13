@@ -44,7 +44,7 @@ with open("pxy.log", "a") as log_file:
             os.system('clear')
 
         # Capture terminal output
-        terminal_output = subprocess.run(['script', '-q', '-c', 'python3 your_script.py'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        terminal_output = subprocess.run(['script', '-q', '-c', 'pxy.py'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Print terminal output to both terminal and log file
         print(terminal_output.stdout)
