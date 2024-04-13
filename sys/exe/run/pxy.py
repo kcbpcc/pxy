@@ -59,6 +59,7 @@ while True:
     subprocess.run(['python3', 'daypxy.py']) 
     print(f"    PXY® Predicted market sentiment : {mktpredict}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    progress_bar(cycle, mktpxy)
+    cycle
+    progress_bar(4, mktpxy)
 
 
