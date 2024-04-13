@@ -68,8 +68,7 @@ def count_positions_by_type(broker, symbol):
                 count_CE += 1
             elif position['instrument_type'] == 'PE':
                 count_PE += 1
-    print(f"CE positions: {count_CE}")
-    print(f"PE positions: {count_PE}")
+
 
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
@@ -124,6 +123,9 @@ async def main():
         # Reset sys.stdout to its default value
         sys.stdout = sys.__stdout__
 
+    print(f"CE positions: {count_CE}")
+    print(f"PE positions: {count_PE}")
+    
     expiry_year, expiry_month, expiry_day = get_this_thursday()
 
     option_type = 'CE' if mktpxy == 'Buy' else ('PE' if mktpxy == 'Sell' else (print(f"Now market is {mktpxy} - let's wait 👀🔍👀🔍👀") or sys.exit(1)))
