@@ -26,6 +26,10 @@ class Tee(object):
     def flush(self):
         pass  # Do nothing for flush()
 
+    def fileno(self):
+        # Return the file descriptor number of the first file in the list
+        return self.files[0].fileno()
+
 # Open the log file in append mode
 with open("pxy.log", "a") as log_file:
     # Redirect standard output to both terminal and log file using Tee
@@ -40,7 +44,7 @@ with open("pxy.log", "a") as log_file:
             os.system('clear')
 
         # Capture terminal output and append it to the log file
-        subprocess.run(['script', '-a', '-q', 'pxy.log'], stdout=sys.stdout, stderr=subprocess.STDOUT)
+        subprocess.run(['script', '-a', '-q', 'pxy.log'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
         # Import and reload modules
         from predictpxy import predict_market_sentiment
