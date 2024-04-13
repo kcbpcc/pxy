@@ -12,11 +12,15 @@ from sleeppxy import progress_bar
 import time
 from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
+
+# Define a function to clear the current line
+def clear_line():
+    sys.stdout.write("\r")
+    sys.stdout.write("\033[K") # Clear line from cursor position
+    sys.stdout.flush()
+
 while True:
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
+    clear_line()  # Clear the current line before printing
     from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
     mktpredict = predict_market_sentiment()
@@ -52,3 +56,4 @@ while True:
     print(f"    PXY® Predicted market sentiment : {mktpredict}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(5, mktpxy)
+    time.sleep(1)  # Adjust the delay as needed
