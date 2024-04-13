@@ -13,13 +13,14 @@ import time
 from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
 
-# Define a function to move the cursor to the beginning of the previous output
-def move_cursor_to_previous_output():
-    sys.stdout.write("\033[F")
-    sys.stdout.flush()
+# Define a function to print enough empty lines to push the new output to the top
+def clear_terminal():
+    num_empty_lines = 35  # Adjust this value based on your terminal height
+    for _ in range(num_empty_lines):
+        print()
 
 while True:
-    move_cursor_to_previous_output()  # Move cursor to beginning of previous output
+    clear_terminal()  # Print empty lines to clear the terminal
     from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
     mktpredict = predict_market_sentiment()
@@ -56,5 +57,4 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(5, mktpxy)
     time.sleep(1)  # Adjust the delay as needed
-
 
