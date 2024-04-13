@@ -56,7 +56,7 @@ while True:
     padding = max_width - constant_length - len(mktpredict)
     
     # Print the statement with the adjusted width
-    print(f"PXY® Predicted market sentiment:".rjust(max_width - padding), mktpredict)
+    print(f"PXY® Predicted market sentiment:".rjust(43, mktpredict)
 
 
 
