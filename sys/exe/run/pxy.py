@@ -17,8 +17,7 @@ def append_terminal_contents_to_log():
     current_directory = os.getcwd()
     # Construct the path to the pxy.log file in the current directory
     log_file_path = os.path.join(current_directory, "pxy.log")
-    # Use the 'echo' command to append the current tty to pxy.log
-    os.system(f'echo "$(tty)" >> {log_file_path}')
+    # Loop continuously to append terminal device to the log file
 while True:
     append_terminal_contents_to_log()
     if os.name == 'nt':
