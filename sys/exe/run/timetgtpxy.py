@@ -1,4 +1,6 @@
 from datetime import datetime, timedelta, timezone
+from nftpxy import get_nse_action
+ha_nse_action, nse_power, Day_Change, Open_Change  = get_nse_action()
 
 def timetgt():
     # Define the start and end times for the countdown in UTC
@@ -18,10 +20,10 @@ def timetgt():
     time_passed_percentage = (total_duration - remaining_time) / total_duration
 
     # Calculate the timetgt value
-    timetgt = round(10 * (1 - time_passed_percentage), 1)
+    timetgt = round(30 - 25 * time_passed_percentage, 1)
 
-    # Ensure timetgt never goes below 5
-    timetgt = max(timetgt, 5)
+    # Ensure timetgt never goes below 7
+    timetgt = max(timetgt, 7)
 
     return timetgt
 
