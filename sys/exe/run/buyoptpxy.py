@@ -125,7 +125,7 @@ async def main():
     
     count_CE, count_PE = count_positions_by_type(broker)
 
-    print(f"⏫CE position:{count_CE}    💁🏻    PE position:{count_PE}⏬")
+    print(f"⏫ CE position:{count_CE}    💁🏻    PE position:{count_PE} ⏬")
 
     PE_weight = count_PE - count_CE
     CE_weight = count_CE - count_PE
