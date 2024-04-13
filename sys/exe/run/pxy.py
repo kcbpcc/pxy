@@ -45,6 +45,17 @@ while True:
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'selfpxy.py'])
     subprocess.run(['python3', 'daypxy.py']) 
-    print(f"PXY® Predicted market sentiment:{mktpredict.rjust(40)}{'👇' if mktpredict == 'hopeless' else '☝️' if mktpredict == 'hopeful' else '🤏'}")
+    # Length of the constant string
+    constant_length = len("PXY® Predicted market sentiment:")
+    
+    # Length of the longest possible value string (4 letters)
+    value_length = 4
+    
+    # Maximum width needed
+    max_width = constant_length + value_length
+    
+    # Print the statement with the adjusted width
+    print(f"PXY® Predicted market sentiment: {mktpredict.rjust(42 - max_width)} {'👇' if mktpredict == 'hopeless' else '☝️' if mktpredict == 'hopeful' else '🤏'}")
+
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(cycle, mktpxy)
