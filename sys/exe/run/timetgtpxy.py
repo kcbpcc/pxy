@@ -21,7 +21,7 @@ def timetgt():
     timetgt = round(30 - 25 * time_passed_percentage, 1)
 
     # Ensure timetgt never goes below 7
-    timetgt = max(timetgt, 7)
+    timetgt = max(round(timetgt, 1), 7)
 
     return timetgt
 
