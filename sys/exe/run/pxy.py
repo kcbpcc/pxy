@@ -13,6 +13,19 @@ import time
 from rich.console import Console
 from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
+# Custom stream class to duplicate output to both terminal and log file
+class Tee(object):
+    def __init__(self, *files):
+        self.files = files
+
+    def write(self, obj):
+        for file in self.files:
+            file.write(obj)
+            file.flush()  # Make sure to flush the buffer to ensure immediate writing
+
+    def flush(self):
+        pass  # Do nothing for flush()
+
 # Open the log file in append mode
 with open("pxy.log", "a") as log_file:
     while True:
@@ -20,6 +33,15 @@ with open("pxy.log", "a") as log_file:
             os.system('cls')
         else:
             os.system('clear')
+
+        # Run the script inside the `script` command
+        terminal_output = subprocess.run(['python3', 'pxy.py'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
+        # Print terminal output to both terminal and log file
+        output_text = terminal_output.stdout.decode('utf-8')
+        print(output_text)
+        log_file.write(output_text)
+        log_file.flush()
 
         # Import and reload modules
         from predictpxy import predict_market_sentiment
