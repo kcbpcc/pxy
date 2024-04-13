@@ -7,6 +7,7 @@ import sys
 import os
 from cyclepxy import cycle
 from clorpxy import RED, GREEN
+from sleeppxy import progress_bar  # Assuming progress_bar is defined in sleeppxy
 
 console = Console()
 
@@ -71,5 +72,6 @@ while True:
 
     # Wait for a while before the next iteration
     time.sleep(1)  # Adjust the sleep time according to your needs
+
 
 
