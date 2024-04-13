@@ -1,4 +1,4 @@
-////import subprocess
+import subprocess
 from bukdpxy import sum_last_numerical_value_in_each_row
 file_path = 'filePnL.csv'
 booked = sum_last_numerical_value_in_each_row(file_path)
