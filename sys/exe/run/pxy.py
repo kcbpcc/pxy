@@ -12,17 +12,8 @@ from sleeppxy import progress_bar
 import time
 from rich.console import Console
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-
 subprocess.run(['python3', 'cpritepxy.py'])
-def append_terminal_contents_to_log():
-    # Get the current directory where the script is located
-    current_directory = os.getcwd()
-    # Construct the path to the pxy.log file in the current directory
-    log_file_path = os.path.join(current_directory, "pxy.log")
-    # Use the 'echo' command to append the current tty to pxy.log
-    os.system(f'echo "$(tty)" >> {log_file_path}')
 while True:
-    append_terminal_contents_to_log()
     if os.name == 'nt':
         os.system('cls')
     else:
@@ -63,6 +54,6 @@ while True:
     print(f"    PXY® Predicted market sentiment : {mktpredict}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     cycle
-    progress_bar(4, mktpxy)
+    progress_bar(10, mktpxy)
 
 
