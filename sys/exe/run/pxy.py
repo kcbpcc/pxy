@@ -48,14 +48,23 @@ while True:
     # Length of the constant string
     constant_length = len("PXY® Predicted market sentiment:")
     
-    # Length of the longest possible value string (4 letters)
-    value_length = 4
+    # Length of the value string
+    value_length = len(mktpredict)
     
-    # Maximum width needed
-    max_width = constant_length + value_length
+    # Maximum width needed (considering both constant and value strings)
+    max_width = max(constant_length, value_length)
+    
+    # Determine the emoji based on mktpredict value
+    if mktpredict == 'DOWN':
+        emoji = '👇'
+    elif mktpredict == 'UP':
+        emoji = '☝️'
+    else:
+        emoji = '🤏'
     
     # Print the statement with the adjusted width
-    print(f"  PXY® Predicted market sentiment: {mktpredict.rjust(42 - max_width)} {'👇' if mktpredict == 'DOWN' else '☝️' if mktpredict == 'UP' else '🤏'}")
+    print(f"PXY® Predicted market sentiment:".rjust(max_width), f"{mktpredict.upper()} {emoji}")
+
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(cycle, mktpxy)
