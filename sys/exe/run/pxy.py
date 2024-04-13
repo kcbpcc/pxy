@@ -13,7 +13,7 @@ import time
 from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
 
-# Define a function to print enough empty lines to push the new output to the top
+# Define a function to print enough empty lines to push the old output down
 def clear_terminal():
     num_empty_lines = 35  # Adjust this value based on your terminal height
     for _ in range(num_empty_lines):
