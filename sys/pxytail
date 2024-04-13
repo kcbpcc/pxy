@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Full path to the pxy.log file
-log_file="$HOME/pxy/sys/exe/run/pxy.log"
+log_file="~/pxy/sys/exe/run/pxy.log"
 
 # Check if pxy.log file exists
 if [ ! -f "$log_file" ]; then
