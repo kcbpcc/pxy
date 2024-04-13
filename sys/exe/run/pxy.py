@@ -45,25 +45,19 @@ while True:
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'selfpxy.py'])
     subprocess.run(['python3', 'daypxy.py']) 
+    # Assuming mktpredict holds the value 'UP', 'DOWN', or 'SIDE'
     # Length of the constant string
     constant_length = len("PXY® Predicted market sentiment:")
     
-    # Length of the value string
-    value_length = len(mktpredict)
+    # Maximum width needed for alignment
+    max_width = 43
     
-    # Maximum width needed (considering both constant and value strings)
-    max_width = max(constant_length, value_length)
-    
-    # Determine the emoji based on mktpredict value
-    if mktpredict == 'DOWN':
-        emoji = '👇'
-    elif mktpredict == 'UP':
-        emoji = '☝️'
-    else:
-        emoji = '🤏'
+    # Determine the padding needed for alignment
+    padding = max_width - constant_length - len(mktpredict)
     
     # Print the statement with the adjusted width
-    print(f"PXY® Predicted market sentiment: {mktpredict.rjust(max_width)} {emoji}")
+    print(f"PXY® Predicted market sentiment:".rjust(max_width - padding), mktpredict)
+
 
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
