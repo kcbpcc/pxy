@@ -12,15 +12,7 @@ from sleeppxy import progress_bar
 import time
 from rich.console import Console
 subprocess.run(['python3', 'cpritepxy.py'])
-def append_terminal_contents_to_log():
-    current_directory = os.getcwd()
-    log_file_path = os.path.join(current_directory, "pxy.log")
-    tty = os.popen("tty").read().strip()
-    print("TTY:", tty)  # Debugging print statement
-    with open(log_file_path, 'a') as log_file:
-        log_file.write(tty + '\n')
 while True:
-    append_terminal_contents_to_log()
     if os.name == 'nt':
         os.system('cls')
     else:
@@ -58,6 +50,5 @@ while True:
     subprocess.run(['python3', 'selfpxy.py'])
     subprocess.run(['python3', 'daypxy.py']) 
     print(f"    PXY® Predicted market sentiment : {mktpredict}")
-    
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(cycle, mktpxy)
