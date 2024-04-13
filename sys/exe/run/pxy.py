@@ -13,7 +13,7 @@ from sleeppxy import progress_bar
 import time
 from rich.console import Console
 from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-Configure logging to write all levels of output to both terminal and log file
+#Configure logging to write all levels of output to both terminal and log file
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
