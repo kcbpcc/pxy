@@ -55,4 +55,3 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     progress_bar(5, mktpxy)
     time.sleep(1)  # Adjust the delay as needed
-
