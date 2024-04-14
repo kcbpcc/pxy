@@ -253,7 +253,6 @@ try:
                     row['ltp'] != 0 
                 ):                            
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
-                    
                     if (
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
@@ -270,7 +269,6 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-
 ##############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#############################################################################################################     
                     elif (
                         (row['qty'] > 0 and
@@ -289,14 +287,14 @@ try:
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
-            print(f"An unexpected error occurred: {e}")        
-###########################################################################################################################################################################################################
+            print(f"An unexpected error occurred: {e}")   
+###########################################################################################################################################################################################################            
+    printbord(all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
     subprocess.run(['python3', 'tistpxy.py'])
     if not stocks_filtered_df.empty:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))
 #############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
-    printbord(all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
-############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
