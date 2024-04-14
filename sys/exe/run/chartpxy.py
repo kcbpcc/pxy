@@ -18,8 +18,14 @@ for i in range(1, len(df)):
     else:
         trend_direction.append(SILVER)
 
+# Calculate delta
+latest_record = df['acvalue'].iloc[-1]
+previous_record = df['acvalue'].iloc[-2]
+delta = latest_record - previous_record
+
 # Create ASCII chart with colored trend
 chart = plot(df['acvalue'].tolist(), {'height': 20, 'format': "{:,.2f}", 'color': trend_direction})
 
 # Print ASCII chart
 print(chart)
+print("Delta:", delta)
