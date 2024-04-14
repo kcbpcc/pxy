@@ -28,4 +28,5 @@ def get_prices():
     dummy = round_to_nearest_100(get_current_price('^NSEI')) 
                                     
     return noptions, CE_Strike, PE_Strike, dummy
+print("CE_Strike:", CE_Strike, "PE_Strike:", PE_Strike)
 
