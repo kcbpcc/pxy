@@ -42,7 +42,7 @@ def printbord(optcap, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, tota
         left_aligned_format.format(
             f"{'Capital'.zfill(7)}:{str(round(all_Stocks_capital_lacks, 2)).zfill(5)}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
-            f"          {BOLD}{UNDERLINE}PXY{RESET}"
+            f"      {BOLD}{UNDERLINE}PXY{RESET}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
         ) +
         right_aligned_format.format(
