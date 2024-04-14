@@ -96,9 +96,7 @@ print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
 summary_sentence = f"CAP:{total_invested}|P&L:{total_pl}|P&L%:{total_pl_percentage:.0f}%|TGT:{timetgt}{'🔴' if total_pl < 0 else '🟢'}"
-print("━" * 42)
 subprocess.run(['python3', 'buyoptpxy.py']) 
-
 pd.set_option('display.max_colwidth', 42)
 print_open_buy_df = print_df.loc[print_df['qty'] > 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 print_close_df = print_df.loc[print_df['qty'] == 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'pnl','CP']]
@@ -117,4 +115,4 @@ if not print_open_sell_df.empty:
     print_formatted_df(print_open_sell_df)
 for index, row in opt_df.iterrows():
     exit_options(row['key'], row['PL%'], row['qty'], row['PnL'])
-
+print("━" * 42)
