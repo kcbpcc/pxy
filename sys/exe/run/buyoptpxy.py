@@ -16,10 +16,6 @@ from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 from datetime import datetime, timedelta
 
-today = datetime.now()
-days_left_until_thursday = (3 - today.weekday()) % 7  # Thursday is weekday 3
-print("Days remaining until Thursday:", days_left_until_thursday)    
-
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
