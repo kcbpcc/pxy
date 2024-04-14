@@ -8,7 +8,7 @@ import asyncio
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
-CE_Strike, PE_Strike = get_prices()
+_, CE_Strike, PE_Strike, _ = get_prices()
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
 nsma = check_index_status('^NSEI')
