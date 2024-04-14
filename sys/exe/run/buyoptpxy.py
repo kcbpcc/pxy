@@ -8,7 +8,7 @@ import asyncio
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
-noptions, _, _, _ = get_prices()
+CE_Strike, PE_Strike = get_prices()
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
 nsma = check_index_status('^NSEI')
@@ -52,7 +52,7 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     # Convert expiry_month to a single digit string if it's less than or equal to 9
     if len(expiry_month) == 2 and expiry_month.startswith("0"):
         expiry_month = expiry_month[1]
-
+    noptions = PE_Strike if option_type == "PE" else (CE_Strike if option_type == "CE" else None)
     if expiry_day is None:
         return f"NIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
     else:
