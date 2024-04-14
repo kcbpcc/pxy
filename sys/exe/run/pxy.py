@@ -12,7 +12,6 @@ from sleeppxy import progress_bar
 import time
 from rich.console import Console
 from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-
 while True:
     from utcpxy import peak_time
     importlib.reload(sys.modules['utcpxy'])  # Correct the usage
@@ -21,7 +20,7 @@ while True:
         os.system('cls')
     else:
         if peak == 'NONPEAK':
-            os.system('clear -x')
+            os.system('tput cup 0 0')
     from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
     mktpredict = predict_market_sentiment()
