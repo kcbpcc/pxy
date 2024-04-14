@@ -34,6 +34,24 @@ def printbord(optcap, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, tota
             f"{BRIGHT_YELLOW}{'Red'.zfill(3)}{RESET}:{str(red_Stocks_count).zfill(3)}"
         )
     )
+
+
+
+
+    output_lines.append(
+        left_aligned_format.format(
+            f"{'Capital'.zfill(7)}:{str(all_Stocks_capital_lacks).zfill(5)}"
+            f"{' ' if mktpxy in ['Bull', 'Buy'] else ''}"
+            f"PXY"
+            f"{' ' if mktpxy in ['Bull'] else ('' if mktpxy in ['Bear'] else '')}"
+        ) +
+        right_aligned_format.format(
+            f"{' ' if mktpxy in ['Buy'] else ('' if mktpxy in ['Sell'] else '')}"
+            f"®            "
+            f"{'Value'.zfill(5)}:{str(all_Stocks_worth_lacks).zfill(5)}"
+        )
+    )
+      
     output_lines.append(left_aligned_format.format(f"Capital:{BRIGHT_YELLOW}{round(all_Stocks_capital_lacks, 2)}{RESET}") + 
                       right_aligned_format.format(f"Value:{BRIGHT_YELLOW}{round(all_Stocks_worth_lacks, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m >= 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
