@@ -18,7 +18,7 @@ def round_to_nearest_100_or_50(price):
     return round(price / 50) * 50 if price % 100 < 50 else round(price / 100) * 100
 
 today = datetime.now()
-days_left_until_thursday = (3 - today.weekday()) % 7  # Thursday is weekday 3
+days_left_until_thursday = 4 #(3 - today.weekday()) % 7  # Thursday is weekday 3
 #print("Days remaining until Thursday:", days_left_until_thursday)    
 
 def get_prices():
