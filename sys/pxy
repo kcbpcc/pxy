@@ -39,56 +39,56 @@ while true; do
     case $choice in
 
         pp)
-            echo "    🎉🎉🎉.pip install.🎉🎉🎉"
+            echo "        🎉🎉🎉.pip install.🎉🎉🎉"
             pyp
             ;;   
         vl)
-            echo "    📊📊📊.A/C Chart.📊📊📊"
+            echo "        📊📊📊.A/C Chart.📊📊📊"
             pxyvalue
             ;;   
         lg)
-            echo "    📜📜📜.pxy log.📜📜📜"
+            echo "        📜📜📜.pxy log.📜📜📜"
             pxytail
             ;;   
         so)
-            echo "    🔴🔴🔴selling options🔴🔴🔴"
+            echo "        🔴🔴🔴selling options🔴🔴🔴"
             pxyso
             ;;   
         pl)
-            echo "    💰💰💰.pip install.💰💰💰"
+            echo "        💰💰💰.pip install.💰💰💰"
             pxypnl
             ;;           
         tp)
-            echo "    🚛🚛.pxycloudsynch.🚛🚛"
+            echo "        🚛🚛.pxycloudsynch.🚛🚛"
             pxytp
             ;;           
         by)
-            echo "    🌱🌱🌱..Buy Now.🌱🌱🌱"
+            echo "        🌱🌱🌱..Buy Now.🌱🌱🌱"
             pxybuy
             ;;   
         op)
-            echo "    🛸🛸🛸..Opt Now..🛸🛸🛸"
+            echo "        🛸🛸🛸..Opt Now..🛸🛸🛸"
             pxyopt
             ;;           
         up)
-            echo "   🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
+            echo "       🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
             pxyupdate
             ;;
         cl)
-            echo "    🚿🚿🚿 Cleanup..🚿🚿🚿"
+            echo "        🚿🚿🚿 Cleanup..🚿🚿🚿"
             pxyclean
             ;;
         ck)
-            echo "    🧪🧪🧪 Test All PXY®...🧪🧪🧪"
+            echo "        🧪🧪🧪 Test All PXY®...🧪🧪🧪"
             pxycheck
             ;;
         py)
-            echo "    ...................👉exe/run"
+            echo "        ...................👉exe/run"
             pxypy
             ;;
 
         py)
-            echo "    💻💻💻💻..👉exe/run"
+            echo "        💻💻💻💻..👉exe/run"
             py
             ;;
         "")
