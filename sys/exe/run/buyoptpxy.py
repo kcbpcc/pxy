@@ -14,6 +14,7 @@ from smapxy import check_index_status
 nsma = check_index_status('^NSEI')
 from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
+from datetime import datetime, timedelta
 
 today = datetime.now()
 days_left_until_thursday = (3 - today.weekday()) % 7  # Thursday is weekday 3
@@ -33,7 +34,7 @@ async def send_telegram_message(message_text):
         print(f"Error sending message to Telegram: {e}")
 
 # Define function to get this week's Thursday date
-from datetime import datetime, timedelta
+
 def get_this_thursday():
     current_date = datetime.now()
     days_until_this_thursday = (3 - current_date.weekday() + 7) % 7
