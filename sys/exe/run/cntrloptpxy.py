@@ -96,7 +96,7 @@ print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
 summary_sentence = f"CAP:{total_invested}|P&L:{total_pl}|P&L%:{total_pl_percentage:.0f}%|TGT:{timetgt}{'🔴' if total_pl < 0 else '🟢'}"
-
+print("━" * 42)
 subprocess.run(['python3', 'buyoptpxy.py']) 
 
 pd.set_option('display.max_colwidth', 42)
