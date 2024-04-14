@@ -21,7 +21,7 @@ while True:
         os.system('cls')
     else:
         if peak == 'NONPEAK':
-            os.system('clear')
+            os.system('clear -x')
     from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
     mktpredict = predict_market_sentiment()
