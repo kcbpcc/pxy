@@ -16,9 +16,9 @@ def printbord(all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
-    output_lines.append(left_aligned_format.format(f"A/C Capital:{BRIGHT_YELLOW}{round(capital, 2)}{RESET}") +
-                        right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((acvalue_to_print), 2)}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"A/C Profit:{BRIGHT_GREEN if (acvalue_to_print - capital) > 0 else BRIGHT_RED}{round((acvalue_to_print - capital ), 2)}{RESET}") +
+    #output_lines.append(left_aligned_format.format(f"A/C Capital:{BRIGHT_YELLOW}{round(capital, 2)}{RESET}") +
+                        #right_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((acvalue_to_print), 2)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"A/C Profit:{BRIGHT_GREEN if (acvalue_to_print) > 0 else BRIGHT_RED}{round((acvalue_to_print ), 2)}{RESET}") +
                         right_aligned_format.format(f"A/C Loss:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
                         right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_percentage}{RESET}"))                                  
