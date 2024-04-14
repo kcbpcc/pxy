@@ -123,10 +123,6 @@ async def main():
         # Reset sys.stdout to its default value
         sys.stdout = sys.__stdout__
     
-
-    symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
-   
-    
     count_CE, count_PE = count_positions_by_type(broker)
 
     print(f"🔥CE positions:{count_CE}  📈--📉  PE positions:{count_PE}💧")
@@ -139,8 +135,7 @@ async def main():
 
     option_type = 'CE' if (mktpxy == 'Buy' and CE_weight < 1 and count_CE < 4) else ('PE' if (mktpxy == 'Sell' and PE_weight < 1 and count_PE < 4) else (print(f"Market-{mktpxy} and Weight:{weight} - let's wait 🔍👀") or sys.exit(1)))
 
-    
-
+    symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
     position_exists = check_existing_positions(broker, symbol)
 
