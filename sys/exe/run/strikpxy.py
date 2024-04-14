@@ -29,5 +29,5 @@ def get_prices():
                                     
     return noptions, CE_Strike, PE_Strike, dummy
     print("CE_Strike:", CE_Strike, "PE_Strike:", PE_Strike)
-print(get_prices())
+#print(get_prices())
 
