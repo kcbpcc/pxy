@@ -24,11 +24,13 @@ while true; do
     echo "   -pxyopt                🛸        op"
     echo "   -pxytail               📜        lg"
     echo "   -pxyosell              🔴        so"
+    echo "   -pxyvalue              📊        vl"
     echo "   -pxyclean              🚿        cl"
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
     echo "******************************************"
     echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
+
 
     # Get user input
     read -p "Enter your choice:⚙️⚙️⚙️👉👉 " choice
@@ -39,6 +41,10 @@ while true; do
         pp)
             echo "    🎉🎉🎉.pip install.🎉🎉🎉"
             pyp
+            ;;   
+        vl)
+            echo "    📊📊📊.A/C Chart.📊📊📊"
+            pxyvalue
             ;;   
         lg)
             echo "    📜📜📜.pxy log.📜📜📜"
