@@ -63,7 +63,7 @@ with open("log.log", "a") as log_file:
         ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
         subprocess.run(['python3', 'cntrlcncpxy.py'])
         subprocess.run(['python3', 'selfpxy.py'])
-        print("-" * 42)
+        print("━" * 42)
         subprocess.run(['python3', 'cntrloptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
         ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
         progress_bar(cycle, mktpxy)
