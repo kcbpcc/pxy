@@ -27,4 +27,4 @@ print(chart)
 latest_record = df['acvalue'].iloc[-1]
 previous_record = df['acvalue'].iloc[-2]
 delta = int((latest_record - previous_record) * 100000)
-print("{:>35}".format("Delta:") + str(delta))
+print("{:>37}".format("Delta:") + str(delta))
