@@ -29,4 +29,4 @@ def timetgt():
 
     return round(timetgt, 1)
 
-print(timetgt())
+#print(timetgt())
