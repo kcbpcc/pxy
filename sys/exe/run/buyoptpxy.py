@@ -135,6 +135,10 @@ async def main():
 
     option_type = 'CE' if (mktpxy == 'Buy' and CE_weight < 1 and count_CE < 4) else ('PE' if (mktpxy == 'Sell' and PE_weight < 1 and count_PE < 4) else (print(f"Market-{mktpxy} and Weight:{weight} - let's wait 🔍👀") or sys.exit(1)))
 
+    
+    today = datetime.now()
+    days_until_thursday = (3 - today.weekday()) % 7  # Thursday is weekday 3
+    print("Days remaining until Thursday:", days_until_thursday)    
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
     position_exists = check_existing_positions(broker, symbol)
