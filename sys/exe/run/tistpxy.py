@@ -9,7 +9,7 @@ def print_current_datetime_in_ist():
     ist_timezone = pytz.timezone('Asia/Kolkata')
     ist_now = utc_now.astimezone(ist_timezone)
     formatted_datetime = (
-        f"|🌅{ist_now.strftime('%d')} "  # Bright yellow color and underline
+        f"|☀️{ist_now.strftime('%d')} "  # Bright yellow color and underline
         f"{ist_now.strftime('%B'):9} {ist_now.strftime('%Y')}|"  # Month, year
         f"🕛{ist_now.strftime('%A'):9}|"  # Day
         f"⏰{ist_now.strftime('%I:%M%p')}"  # Time (reset color)
