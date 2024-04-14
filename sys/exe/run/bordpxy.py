@@ -45,4 +45,3 @@ def printbord(all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
     print(full_output)
-    subprocess.run(['python3', 'worldpxy.py']) 
