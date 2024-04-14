@@ -34,8 +34,6 @@ def printbord(optcap, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, tota
             f"{'Value'.zfill(5)}:{str(round(all_Stocks_worth_lacks, 2)).zfill(5)}"
         )
     )
-    output_lines.append(left_aligned_format.format(f"Capital:{BRIGHT_YELLOW}{round(all_Stocks_capital_lacks, 2)}{RESET}") + 
-                      right_aligned_format.format(f"Value:{BRIGHT_YELLOW}{round(all_Stocks_worth_lacks, 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m >= 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
