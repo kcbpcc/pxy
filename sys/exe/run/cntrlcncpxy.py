@@ -289,9 +289,6 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")   
 ###########################################################################################################################################################################################################  
-    resp = broker.kite.ohlc(['NSEIX:GIFT NIFTY'])
-    giftnifty = resp['NSEIX:GIFT NIFTY']['last_price']
-    print("Latest Last Traded Price (LTP) for NSEIX:GIFT NIFTY:", giftnifty)
     printbord(optcap, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
     print("━" * 42)
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
