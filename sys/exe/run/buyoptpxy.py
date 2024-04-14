@@ -15,7 +15,7 @@ nsma = check_index_status('^NSEI')
 from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 from datetime import datetime, timedelta
-
+print("▪" * 42)
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
