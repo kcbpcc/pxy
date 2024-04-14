@@ -6,7 +6,7 @@ from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN
 df = pd.read_csv('acvalue.csv')
 
 # Convert 'date' column to datetime format
-df['date'] = pd.to_datetime(df['date'])
+df['date'] = pd.to_datetime(df['date'] / 100000)
 
 # Calculate trend direction
 trend_direction = []
