@@ -123,9 +123,7 @@ async def main():
         # Reset sys.stdout to its default value
         sys.stdout = sys.__stdout__
     
-    today = datetime.now()
-    days_until_thursday = (3 - today.weekday()) % 7  # Thursday is weekday 3
-    print("Days remaining until Thursday:", days_until_thursday)    
+
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
    
     
