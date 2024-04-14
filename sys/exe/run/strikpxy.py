@@ -21,10 +21,10 @@ days_left_until_thursday = (3 - today.weekday()) % 7  # Thursday is weekday 3
 print("Days remaining until Thursday:", days_left_until_thursday)    
 
 def get_prices():
-    noptions = round_to_nearest_100(get_current_price('^NSEI')
-    CE_Strike = round_to_nearest_100(get_current_price('^NSEI') - (( 6-days_left_until_thursday ) * 50 )) 
-    PE_Strike = round_to_nearest_100(get_current_price('^NSEI') + (( 6-days_left_until_thursday ) * 50 )) 
-    noptions = round_to_nearest_100(get_current_price('^NSEI')
+    noptions = round_to_nearest_100(get_current_price('^NSEI'))
+    CE_Strike = round_to_nearest_100(get_current_price('^NSEI') - ((6 - days_left_until_thursday) * 50))
+    PE_Strike = round_to_nearest_100(get_current_price('^NSEI') + ((6 - days_left_until_thursday) * 50))
+    dummy = round_to_nearest_100(get_current_price('^NSEI')) 
                                     
-    return noptions, CE_Strike, PE_Strike, noptions
+    return noptions, CE_Strike, PE_Strike, dummy
 
