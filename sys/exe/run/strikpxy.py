@@ -25,6 +25,4 @@ def get_prices():
     PE_Strike = round_to_nearest_100(get_current_price('^NSEI') + (( 6-days_left_until_thursday ) * 50 )) 
 
     return CE_Strike , PE_Strike
-CE_Strike, PE_Strike = get_prices()
-print("CE Strike Price:", CE_Strike)
-print("PE Strike Price:", PE_Strike)
+
