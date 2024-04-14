@@ -52,6 +52,7 @@ with open("log.log", "a") as log_file:
         subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PREPEAK' else None
         ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
         print((BRIGHT_GREEN + UNDERLINE + "PXY® PreciseXceleratedYield Pvt Ltd™".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "PXY® PreciseXceleratedYield Pvt Ltd™".center(42) if mktpredict == 'FALL' else BRIGHT_YELLOW + UNDERLINE + "PXY® PreciseXceleratedYield Pvt Ltd™".center(42))) + RESET)
+        print(f"    PXY® Predicted market sentiment : {mktpredict}")
         subprocess.run(['python3', 'daypxy.py'])
         subprocess.run(['python3', 'buyoptpxy.py'])
         subprocess.run(['python3', 'buycncpxy.py']) if (not (Open_Change < 0 and Day_Change < 0 and nsma == 'down') and mktpxy == 'Buy') or peak == 'PEAKEND' else None
@@ -60,7 +61,7 @@ with open("log.log", "a") as log_file:
         subprocess.run(['python3', 'cntrloptpxy.py'])
         subprocess.run(['python3', 'cndlpxy.py'])
         subprocess.run(['python3', 'selfpxy.py'])
-        print(f"    PXY® Predicted market sentiment : {mktpredict}")
+        
         ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
         progress_bar(cycle, mktpxy)
 
