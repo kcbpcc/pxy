@@ -1,6 +1,6 @@
 import pandas as pd
 from asciichartpy import plot
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN
 
 # Read the CSV file into a DataFrame
 df = pd.read_csv('acvalue.csv')
