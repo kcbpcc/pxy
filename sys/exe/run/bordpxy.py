@@ -47,7 +47,7 @@ def printbord(optcap, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, tota
         ) +
         right_aligned_format.format(
             f"{BRIGHT_GREEN if mktpxy in ['Buy'] else (BRIGHT_RED if mktpxy in ['Sell'] else GREY)}"
-            f"{BOLD}{UNDERLINE}®{RESET}            "
+            f"{BOLD}{UNDERLINE}®{RESET}        "
             f"{'Value'.zfill(5)}:{str(round(all_Stocks_worth_lacks, 2)).zfill(5)}"
         )
     )
