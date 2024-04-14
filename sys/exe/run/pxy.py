@@ -24,10 +24,14 @@ logging.basicConfig(
 )
 with open("log.log", "a") as log_file:
     while True:
+        from utcpxy import peak_time
+        importlib.reload(sys.modules['utcpxy'])  # Correct the usage
+        peak = peak_time()
         if os.name == 'nt':
             os.system('cls')
         else:
-            os.system('clear')
+            if peak == 'NONPEAK':
+                os.system('clear')
         from predictpxy import predict_market_sentiment
         importlib.reload(sys.modules['predictpxy'])  # Correct the usage
         mktpredict = predict_market_sentiment()
@@ -39,9 +43,6 @@ with open("log.log", "a") as log_file:
         ha_nse_action, nse_power, Day_Change, Open_Change  = get_nse_action()
         from cyclepxy import cycle
         importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
-        from utcpxy import peak_time
-        importlib.reload(sys.modules['utcpxy'])  # Correct the usage
-        peak = peak_time()
         from macdpxy import calculate_macd_signal
         importlib.reload(sys.modules['macdpxy'])  # Correct the usage
         macd = calculate_macd_signal("^NSEI")
