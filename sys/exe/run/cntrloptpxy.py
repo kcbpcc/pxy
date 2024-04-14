@@ -108,7 +108,7 @@ def print_formatted_df(df):
         print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(40) + RESET)
 if not print_open_buy_df.empty:
     print_formatted_df(print_open_buy_df)
-print(f"{BRIGHT_YELLOW}{summary_sentence.rjust(42)}{RESET}")
+print(f"{BRIGHT_GREEN if total_pl_percentage > 0 else BRIGHT_RED}{summary_sentence.rjust(42)}{RESET}")
 if not print_close_df.empty:
     print_formatted_df(print_close_df)
 if not print_open_sell_df.empty:
