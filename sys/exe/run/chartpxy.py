@@ -26,5 +26,5 @@ print(chart)
 # Calculate delta
 latest_record = df['acvalue'].iloc[-1]
 previous_record = df['acvalue'].iloc[-2]
-delta = latest_record - previous_record * 100000
+delta = latest_record - previous_record * 1000
 print("Delta:", delta)
