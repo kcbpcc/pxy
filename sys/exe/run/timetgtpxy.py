@@ -1,6 +1,10 @@
 from datetime import datetime, timedelta, timezone
 
 def timetgt():
+    # Define the start and end values for timetgt
+    start_timetgt = 51
+    end_timetgt = 11
+
     # Define the start and end times for the countdown in UTC
     start_time_utc = datetime.strptime("3:45", "%H:%M").time()
     end_time_utc = datetime.strptime("09:54", "%H:%M").time()
@@ -11,16 +15,18 @@ def timetgt():
     # Calculate the total duration of the non-peak period
     total_duration = (end_time_utc.hour - start_time_utc.hour) * 60 + (end_time_utc.minute - start_time_utc.minute)
 
-    # Calculate the remaining time within the non-peak period
-    remaining_time = (end_time_utc.hour - current_time_utc.hour) * 60 + (end_time_utc.minute - current_time_utc.minute)
+    # Calculate the elapsed time within the non-peak period
+    elapsed_time = (current_time_utc.hour - start_time_utc.hour) * 60 + (current_time_utc.minute - start_time_utc.minute)
 
     # Calculate the percentage of time passed
-    time_passed_percentage = (total_duration - remaining_time) / total_duration
+    time_passed_percentage = elapsed_time / total_duration
 
     # Calculate the timetgt value
-    timetgt = round(30 - 25 * time_passed_percentage, 1)
+    timetgt = start_timetgt - (start_timetgt - end_timetgt) * time_passed_percentage
 
-    # Ensure timetgt never goes below 7
-    timetgt = max(round(timetgt, 1), 7)
+    # Ensure timetgt never goes below 10
+    timetgt = max(timetgt, 10)
 
-    return timetgt
+    return round(timetgt, 1)
+
+print(timetgt())
