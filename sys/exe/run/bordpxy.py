@@ -41,12 +41,12 @@ def printbord(optcap, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, tota
     output_lines.append(
         left_aligned_format.format(
             f"{'Capital'.zfill(7)}:{str(round(all_Stocks_capital_lacks, 2)).zfill(5)}"
-            f"{' ' if mktpxy in ['Bull', 'Buy'] else ''}"
-            f"{BOLD}{UNDERLINE}PXY{RESET}"
-            f"{' ' if mktpxy in ['Bull'] else ('' if mktpxy in ['Bear'] else '')}"
+            f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
+            f"          {BOLD}{UNDERLINE}PXY{RESET}"
+            f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
         ) +
         right_aligned_format.format(
-            f"{' ' if mktpxy in ['Buy'] else ('' if mktpxy in ['Sell'] else '')}"
+            f"{BRIGHT_GREEN if mktpxy in ['Buy'] else (BRIGHT_RED if mktpxy in ['Sell'] else GREY)}"
             f"{BOLD}{UNDERLINE}®{RESET}            "
             f"{'Value'.zfill(5)}:{str(round(all_Stocks_worth_lacks, 2)).zfill(5)}"
         )
