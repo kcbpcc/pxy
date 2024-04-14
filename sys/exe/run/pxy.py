@@ -20,7 +20,7 @@ while True:
         os.system('cls')
     else:
         if peak == 'NONPEAK':
-            os.system('tput cup 0 0')
+            os.system('clear')
     from predictpxy import predict_market_sentiment
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
     mktpredict = predict_market_sentiment()
