@@ -41,7 +41,7 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'acvaluepxy.py']) if peak == 'PREPEAK' else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    print((BRIGHT_GREEN + UNDERLINE + "PXY® PreciseXceleratedYield Pvt Ltd™".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "PXY® PreciseXceleratedYield Pvt Ltd™".center(42) if mktpredict == 'FALL' else BRIGHT_YELLOW + UNDERLINE + "PXY® PreciseXceleratedYield Pvt Ltd™".center(42) if mktpredict == 'SIDE' else "")) + RESET)
+    print((BRIGHT_GREEN + UNDERLINE + 🏛 "PXY® PreciseXceleratedYield Pvt Ltd™"🏛 .center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "PXY® PreciseXceleratedYield Pvt Ltd™".center(42) if mktpredict == 'FALL' else BRIGHT_YELLOW + UNDERLINE + "PXY® PreciseXceleratedYield Pvt Ltd™".center(42) if mktpredict == 'SIDE' else "")) + RESET)
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py']) 
