@@ -58,11 +58,11 @@ with open("log.log", "a") as log_file:
         subprocess.run(['python3', 'worldpxy.py']) 
         print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
         subprocess.run(['python3', 'daypxy.py'])
-        subprocess.run(['python3', 'buyoptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
+        subprocess.run(['python3', 'buyoptpxy.py']
         subprocess.run(['python3', 'buycncpxy.py']) if (not (Open_Change < 0 and Day_Change < 0 and nsma == 'down') and mktpxy == 'Buy') or peak == 'PEAKEND' else None
         ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
         subprocess.run(['python3', 'cntrlcncpxy.py'])
-        subprocess.run(['python3', 'cntrloptpxy.py'])
+        subprocess.run(['python3', 'cntrloptpxy.py']), stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
         subprocess.run(['python3', 'selfpxy.py'])
         print("-" * 42)
         ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
