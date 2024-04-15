@@ -18,8 +18,7 @@ timetgt = timetgt()
 from mktpxy import get_market_check
 importlib.reload(sys.modules['mktpxy'])  # Correct the usage
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
-mvtrgt = 10 if mktpxy == "Bull" or mktpxy == "Bear" else 5
-
+mvtrgt = max(10 if mktpxy == "Bull" or mktpxy == "Bear" else 5, 4)
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)  
