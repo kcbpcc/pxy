@@ -7,11 +7,11 @@ from utcpxy import peak_time
 CSV_FILENAME = 'acvalue.csv'
 
 def process_acvalue(acvalue):
-    peak = peak_time()
+    #peak = peak_time()
 
-    if peak != 'PREPEAK':
+    #if peak != 'PREPEAK':
         # Do nothing if peak != 'PREPEAK'
-        return
+        #return
 
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
 
