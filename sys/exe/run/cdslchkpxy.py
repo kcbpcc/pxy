@@ -3,16 +3,17 @@ from datetime import datetime
 
 def cdslcheck(combined_df):
     # Create a copy of the DataFrame to avoid modifying the original DataFrame
+    # Create a copy of the DataFrame to avoid modifying the original DataFrame
     cdsl_df = combined_df.copy()
 
     # Extract date and quantity from the 'authorisation' column
-    date_qty_extract = cdsl_df['authorisation'].str.extract(r"\{'pre': \{'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})': (\d+)\}}")
-    
-    # Extract date and quantity into separate columns
-    cdsl_df['cdsldate'] = pd.to_datetime(date_qty_extract[0])
-    
-    # Fill NaN values in quantity column with 0 and then convert to integers
-    cdsl_df['cdslqty'] = date_qty_extract[1].fillna(0).astype(int)
+    date_qty_extract = cdsl_df['authorisation'].str.extract(r"'pre': {'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}': (\d+)}")
+
+    # Convert the extracted quantity to integers
+    cdsl_df['cdslqty'] = date_qty_extract.astype(float).fillna(0).astype(int)
+
+    # Extract date from the 'authorisation' column
+    cdsl_df['cdsldate'] = pd.to_datetime(cdsl_df['authorisation'].str.extract(r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})"))
 
     # Get today's date and convert it to datetime object
     today = datetime.now().date()
