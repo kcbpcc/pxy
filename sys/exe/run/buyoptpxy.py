@@ -152,4 +152,4 @@ async def run_main():
     await main()
 
 asyncio.run(run_main())
-print("━" * 42)
+
