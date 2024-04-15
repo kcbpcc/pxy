@@ -100,7 +100,7 @@ print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
 summary_sentence = f"CAP:{total_invested}|P&L:{total_pl}|P&L%:{total_pl_percentage:.0f}%|TGT:{mvtrgt_ce}{mvtrgt_pe}"
-subprocess.run(['python3', 'buyoptpxy.py']) 
+
 pd.set_option('display.max_colwidth', 42)
 print_open_buy_df = print_df.loc[print_df['qty'] > 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 print_close_df = print_df.loc[print_df['qty'] == 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'pnl','CP']]
