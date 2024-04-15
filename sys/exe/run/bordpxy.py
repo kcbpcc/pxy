@@ -19,8 +19,8 @@ def printbord(optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, to
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
 
-    output_lines.append(left_aligned_format.format(f"A/C Value:{BRIGHT_YELLOW}{round((acvalue_to_print), 2)}{RESET}") +
-                        right_aligned_format.format(f"A/C Loss:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1), 2)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Profit:{BRIGHT_YELLOW}{round((acvalue_to_print - 18.51), 2)}{RESET}") +
+                        right_aligned_format.format(f"Loss:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
                         right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_percentage}{RESET}"))                                  
     output_lines.append(
