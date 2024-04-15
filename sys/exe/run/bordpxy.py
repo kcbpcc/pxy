@@ -19,7 +19,7 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
 
-    output_lines.append(left_aligned_format.format(f"Profits:{BRIGHT_YELLOW}{round((acvalue_to_print - 15.10), 2)}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Profits:{BRIGHT_YELLOW}{round((18.5 - acvalue_to_print), 2)}{RESET}") +
                         right_aligned_format.format(f"Losses:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1), 2)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
                         right_aligned_format.format(f"Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{int(ydaypnl_to_print * 100000)}{RESET}"))                                  
@@ -38,7 +38,6 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
     )
     output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m > 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
-    #output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m >= 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
     output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{int(extras)}{RESET}") +                    
                         right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else GREEN}{str(round(booked)).zfill(5)}{RESET}"))
     full_output = '\n'.join(output_lines)
