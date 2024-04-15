@@ -22,7 +22,7 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
 
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
                         right_aligned_format.format(f"Day-Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{int(ydaypnl_to_print * 100000)}{RESET}"))   
-    output_lines.append(left_aligned_format.format(f"Closed P&L:{BRIGHT_YELLOW}{round((18.5 - acvalue_to_print), 2)}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Closed P&L:{BRIGHT_YELLOW}{round((18.5 - acvalue_to_print + 5), 2)}{RESET}") +
                         right_aligned_format.format(f"Running P&L:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1), 2)}{RESET}"))
     output_lines.append(
         left_aligned_format.format(
