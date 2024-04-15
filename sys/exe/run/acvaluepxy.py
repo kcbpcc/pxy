@@ -16,7 +16,6 @@ def process_acvalue(acvalue):
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
 
     try:
-        CSV_FILENAME = 'acvalue.csv'  # Specify your CSV filename here
         with open(CSV_FILENAME, mode='r') as csvfile:
             reader = csv.DictReader(csvfile)
             rows = list(reader)
