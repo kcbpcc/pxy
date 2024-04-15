@@ -17,7 +17,7 @@ from bukdpxy import sum_last_numerical_value_in_each_row
 from cmbddfpxy import process_data
 combined_df = process_data()
 from cdslchkpxy import cdslcheck
-cdsl_df = cdslcheck(combined_df)
+check_cdsl_df = cdslcheck(combined_df)
 print(check_cdsl_df[['cdsldate', 'cdslqty', 'qty', 'tradingsymbol']])
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
