@@ -38,7 +38,8 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
     )
     output_lines.append(left_aligned_format.format(f"Day-Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{round(ydaypnl_to_print)}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m >= 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
+    #output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m >= 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if Extras >= 0 else BRIGHT_RED}{int(Extras)}{RESET}") +                    
                         right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else GREEN}{str(round(booked)).zfill(5)}{RESET}"))
     full_output = '\n'.join(output_lines)
     with open("bordpxy.csv", "w") as file:
