@@ -15,6 +15,7 @@ def cdslcheck(combined_df):
 
     # Convert the extracted date to datetime format and create 'cdsldate' column
     cdsl_df['cdsldate'] = cdsl_df['authorised_date'].dt.date
+    cdsl_df['cdsldate'] = pd.to_datetime(cdsl_df['cdsldate'])
 
     # Get today's date and convert it to datetime object
     today = datetime.now().date()
