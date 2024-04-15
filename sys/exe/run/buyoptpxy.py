@@ -130,7 +130,7 @@ async def main():
     CE_weight = count_CE - count_PE
     weight = abs(count_PE - count_CE)
 
-    print(f"{BRIGHT_YELLOW}🔥CE positions:{count_CE} 📈━{weight}━📉 PE positions:{count_PE}💧{RESET}")
+    print(f"{BRIGHT_YELLOW}🔥CE positions:{count_CE} 📈━{weight}━📉 PE positions:{count_PE}💧{RESET}".rjust(42))
 
 
     
