@@ -43,7 +43,7 @@ while true; do
             pyp
             ;;   
         vl)
-            echo "📊📊📊📊📊.A/C Chart.📊📊📊📊📊"
+            echo "📊📊📊📊📊📊📊.A/C Chart.📊📊📊📊📊📊📊"
             pxyvalue
             ;;   
         lg)
