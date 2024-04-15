@@ -21,8 +21,8 @@ onemincandlesequance, mktpxy = get_market_check('^NSEI')
 mvtrgt_pe = 10 if mktpxy == "Bear" else 5
 mvtrgt_ce = 10 if mktpxy == "Bull" else 5
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
-bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
-user_usernames = ('-4136531362',)  
+bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
+user_usernames = ('-4128494197',)  
 def send_telegram_message(message):
     try:
         for username in user_usernames:
