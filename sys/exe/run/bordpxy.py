@@ -36,7 +36,7 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
             f"{'Value'.zfill(5)}:{str(round(acvalue_to_print, 2)).zfill(5)}"
         )
     )
-    output_lines.append(left_aligned_format.format(f"Day-Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{round(ydaypnl_to_print)}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m > 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
     #output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m >= 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
     output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{int(extras)}{RESET}") +                    
