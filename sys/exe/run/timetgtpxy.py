@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 
 def timetgt():
     # Define the start and end values for timetgt
-    start_timetgt = 51
+    start_timetgt = 21
     end_timetgt = 11
 
     # Define the start and end times for the countdown in UTC
