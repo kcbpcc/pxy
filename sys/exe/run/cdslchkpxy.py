@@ -10,7 +10,9 @@ def cdslcheck(combined_df):
     
     # Extract date and quantity into separate columns
     cdsl_df['cdsldate'] = pd.to_datetime(date_qty_extract[0])
-    cdsl_df['cdslqty'] = date_qty_extract[1].astype(int)
+    
+    # Fill NaN values in quantity column with 0 and then convert to integers
+    cdsl_df['cdslqty'] = date_qty_extract[1].fillna(0).astype(int)
 
     # Get today's date and convert it to datetime object
     today = datetime.now().date()
