@@ -2,11 +2,17 @@ import csv
 from datetime import datetime, timedelta
 import time
 import subprocess
-
+from utcpxy import peak_time
 
 CSV_FILENAME = 'acvalue.csv'
 
 def process_acvalue(acvalue):
+    peak = peak_time()
+
+    if peak != 'PREPEAK':
+        # Do nothing if peak != 'PREPEAK'
+        return
+
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
 
     try:
@@ -33,7 +39,6 @@ def process_acvalue(acvalue):
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(rows)
-
 
 def get_current_acvalue():
     try:
