@@ -15,5 +15,8 @@ if [ ! -f "$log_file" ]; then
     exit 1
 fi
 
+# Clear log.log file
+> "$log_file"
+
 # Continuously tail log.log, output.txt, and main.log files and display output simultaneously
 tail -f "$log_file" & tail -f "$main_log_file"
