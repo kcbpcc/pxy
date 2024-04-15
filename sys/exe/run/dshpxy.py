@@ -57,7 +57,7 @@ def get_holdingsinfo(combined_df):
         selected_opts_df = combined_df[(combined_df['qty'] != 0) & combined_df['key'].str.contains('NFO:', case=False)].copy()
         total_opts_invested_lacks = selected_opts_df['Invested'].sum() / 100000
 
-        optcap = combined_df.loc[combined_df['key'].str.contains('NFO:'), 'Invested'].sum()
+        optcap = combined_df.loc[combined_df['key'].str.contains('NFO:'), 'value'].sum()
 
 
         return optcap, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
