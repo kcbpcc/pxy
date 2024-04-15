@@ -18,7 +18,8 @@ timetgt = timetgt()
 from mktpxy import get_market_check
 importlib.reload(sys.modules['mktpxy'])  # Correct the usage
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
-mvtrgt = max(10 if mktpxy == "Bull" or mktpxy == "Bear" else 5, 4)
+mvtrgt_pe = 10 if mktpxy == "Bear" else 5
+mvtrgt_ce = 10 if mktpxy == "Bull" else 5
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)  
@@ -55,7 +56,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
         return None
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 def exit_options(key, pl_percentage, quantity, pnl):
-    if (key.endswith('CE') and pl_percentage >= mvtrgt and quantity > 0) or (key.endswith('PE') and pl_percentage >= mvtrgt and quantity > 0):
+    if (key.endswith('CE') and pl_percentage >= mvtrgt_ce and quantity > 0) or (key.endswith('PE') and pl_percentage >= mvtrgt_pe and quantity > 0):
         try:
             place_order(key, quantity, 'SELL', 'MARKET', 'NRML')  
             message = f"Exit order placed for {key} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
@@ -98,7 +99,7 @@ print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else (
 print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
-summary_sentence = f"CAP:{total_invested}|P&L:{total_pl}|P&L%:{total_pl_percentage:.0f}%|TGT:{mvtrgt}"
+summary_sentence = f"CAP:{total_invested}|P&L:{total_pl}|P&L%:{total_pl_percentage:.0f}%|TGT:{mvtrgt_ce}{mvtrgt_pe}"
 subprocess.run(['python3', 'buyoptpxy.py']) 
 pd.set_option('display.max_colwidth', 42)
 print_open_buy_df = print_df.loc[print_df['qty'] > 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
