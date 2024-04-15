@@ -12,11 +12,21 @@ def check(combined_df):
     # Convert the extracted date to datetime object
     cdsl_df['cdsldate'] = pd.to_datetime(cdsl_df['cdsldate'])
 
-    # Get today's date
+    # Get today's date and convert it to datetime object
     today = datetime.now().date()
+    today_datetime = datetime.combine(today, datetime.min.time())
 
-    # Filter the DataFrame based on the condition and include the 'qty' and 'tradingsymbol' columns
-    filtered_cdsl_df = cdsl_df[cdsl_df['cdsldate'].dt.date != today]
+    # Filter the DataFrame based on the conditions: cdsldate is not today's date and cdslqty is not equal to qty
+    filtered_cdsl_df = cdsl_df[(cdsl_df['cdsldate'] != today_datetime) & (cdsl_df['cdslqty'] != cdsl_df['qty'])]
 
     # Return the filtered DataFrame
     return filtered_cdsl_df
+
+combined_df = pd.DataFrame(data)
+
+# Call the check function with combined_df as argument
+filtered_cdsl_df = check(combined_df)
+
+# Display the filtered DataFrame with cdsldate, cdslqty, qty, and tradingsymbol columns
+print(filtered_cdsl_df[['cdsldate', 'cdslqty', 'qty', 'tradingsymbol']])
+
