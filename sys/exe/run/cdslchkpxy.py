@@ -1,7 +1,7 @@
 import pandas as pd
 from datetime import datetime
 
-def check(combined_df):
+def cdslcheck(combined_df):
     # Create a copy of the DataFrame to avoid modifying the original DataFrame
     cdsl_df = combined_df.copy()
 
