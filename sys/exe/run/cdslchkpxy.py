@@ -1,7 +1,7 @@
 import pandas as pd
 from datetime import datetime
 
-def cdslcheck(combined_df):
+def check(combined_df):
     # Create a copy of the DataFrame to avoid modifying the original DataFrame
     cdsl_df = combined_df.copy()
 
@@ -17,16 +17,7 @@ def cdslcheck(combined_df):
     today_datetime = datetime.combine(today, datetime.min.time())
 
     # Filter the DataFrame based on the conditions: cdsldate is not today's date and cdslqty is not equal to qty
-    filtered_cdsl_df = cdsl_df[(cdsl_df['cdsldate'] != today_datetime) & (cdsl_df['cdslqty'] != cdsl_df['qty'])]
+    check_cdsl_df = cdsl_df[(cdsl_df['cdsldate'] != today_datetime) & (cdsl_df['cdslqty'] != cdsl_df['qty'])]
 
     # Return the filtered DataFrame
-    return filtered_cdsl_df
-
-combined_df = pd.DataFrame(data)
-
-# Call the check function with combined_df as argument
-filtered_cdsl_df = check(combined_df)
-
-# Display the filtered DataFrame with cdsldate, cdslqty, qty, and tradingsymbol columns
-print(filtered_cdsl_df[['cdsldate', 'cdslqty', 'qty', 'tradingsymbol']])
-
+    return check_cdsl_df
