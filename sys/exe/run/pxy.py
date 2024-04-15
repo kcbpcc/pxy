@@ -51,7 +51,7 @@ while True:
     subprocess.run(['python3', 'buycncpxy.py']) if (not (Open_Change < 0 and Day_Change < 0 and nsma == 'down') and mktpxy == 'Buy' and peak == 'NONPEAK') or peak == 'PEAKEND' else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'cntrlcncpxy.py'])
-     print("━" * 42)
+    print("━" * 42)
     subprocess.run(['python3', 'selfpxy.py'])
     print("━" * 42)
     subprocess.run(['python3', 'cntrloptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
