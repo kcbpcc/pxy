@@ -52,6 +52,7 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'cntrlcncpxy.py'])
     subprocess.run(['python3', 'buyoptpxy.py']) 
+    print("━" * 42)
     subprocess.run(['python3', 'selfpxy.py'])
     print("━" * 42)
     subprocess.run(['python3', 'cntrloptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
