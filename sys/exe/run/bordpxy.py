@@ -21,7 +21,7 @@ def printbord(optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, to
 
     output_lines.append(left_aligned_format.format(f"Profit:{BRIGHT_YELLOW}{round((acvalue_to_print - 15.10), 2)}{RESET}") +
                         right_aligned_format.format(f"Loss:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1), 2)}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Day Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{round(ydaypnl_to_print)}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
                         right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_percentage}{RESET}"))                                  
     output_lines.append(
         left_aligned_format.format(
@@ -36,10 +36,10 @@ def printbord(optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, to
             f"{'Value'.zfill(5)}:{str(round(acvalue_to_print, 2)).zfill(5)}"
         )
     )
-    output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m >= 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Day Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{round(ydaypnl_to_print)}{RESET}") +
                         right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
-                          right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else GREEN}{str(round(booked)).zfill(5)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m >= 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
+                        right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else GREEN}{str(round(booked)).zfill(5)}{RESET}"))
     full_output = '\n'.join(output_lines)
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
