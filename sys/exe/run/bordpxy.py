@@ -25,7 +25,7 @@ def printbord(optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, to
                         right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 1.4 else BRIGHT_RED}{green_Stocks_capital_percentage}{RESET}"))                                  
     output_lines.append(
         left_aligned_format.format(
-            f"{'Capital'.zfill(7)}:{str(round(18.50, 2)).zfill(5)}"
+            f"{'Capital'.zfill(7)}:{str(round(18.51, 2)).zfill(5)}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
             f"      {BOLD}{UNDERLINE}PXY{RESET}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
