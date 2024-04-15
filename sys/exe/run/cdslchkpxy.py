@@ -8,13 +8,13 @@ def cdslcheck(combined_df):
     cdsl_df['authorised_date'] = pd.to_datetime(cdsl_df['authorised_date'])
 
     # Combine date and quantity in the format 'YYYY-MM-DD HH:MM:SS': qty
-    cdsl_df['cdsl_info'] = cdsl_df.apply(lambda row: f"{row['authorised_date']}: {row['authorised_quantity']}", axis=1)
+    cdsl_df['cdsl_info'] = cdsl_df.apply(lambda row: f"{row['authorised_date'].date()}: {row['authorised_quantity']}", axis=1)
 
     # Convert the extracted quantity to integers and create 'cdslqty' column
     cdsl_df['cdslqty'] = cdsl_df['authorised_quantity']
 
     # Convert the extracted date to datetime format and create 'cdsldate' column
-    cdsl_df['cdsldate'] = cdsl_df['authorised_date']
+    cdsl_df['cdsldate'] = cdsl_df['authorised_date'].dt.date
 
     # Get today's date and convert it to datetime object
     today = datetime.now().date()
