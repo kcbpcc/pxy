@@ -27,5 +27,6 @@ print(chart)
 latest_record = df['acvalue'].iloc[-1]
 previous_record = df['acvalue'].iloc[-2]
 delta = int((latest_record - previous_record) * 100000)
+delta_color = BRIGHT_GREEN if delta >= 0 else BRIGHT_RED
+print(" 📊📊📊.A/C Chart.📊📊📊     Delta: {}{}".format(delta_color, delta))
 
-print(" 📊📊📊.A/C Chart.📊📊📊" + "     Delta:" + str(delta))
