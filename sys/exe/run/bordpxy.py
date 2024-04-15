@@ -24,7 +24,7 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
                         right_aligned_format.format(f"Run-P&L:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1), 2)}{RESET}"))
     output_lines.append(
         left_aligned_format.format(
-            f"{'Capital'.zfill(7)}:{str(round(18.51, 2)).zfill(5)}"
+            f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(18.51, 2)).zfill(5)}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
             f"      {BOLD}{UNDERLINE}PXY{RESET}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
@@ -32,7 +32,7 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
         right_aligned_format.format(
             f"{BRIGHT_GREEN if mktpxy in ['Buy'] else (BRIGHT_RED if mktpxy in ['Sell'] else GREY)}"
             f"{BOLD}{UNDERLINE}®{RESET}        "
-            f"{'Value'.zfill(5)}:{str(round(acvalue_to_print, 2)).zfill(5)}"
+            f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue_to_print, 2)).zfill(5)}"
         )
     )
     output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m > 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
