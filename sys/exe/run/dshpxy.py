@@ -18,7 +18,7 @@ def get_holdingsinfo(combined_df):
         selected_holdings_df.loc[:, 'unrealized'] = ((selected_holdings_df['ltp'] - selected_holdings_df['average_price']) * selected_holdings_df['qty']).round(2)
         selected_holdings_df.loc[:, 'perc'] = ((selected_holdings_df['unrealized'] / selected_holdings_df['cap']) * 100)
 
-        green_Stocks_df = selected_holdings_df[(selected_holdings_df['perc'] > 0)].copy()
+        green_Stocks_df = selected_holdings_df[(selected_holdings_df['P&L%'] > 0)].copy()
         green_Stocks_count = len(green_Stocks_df)
         green_Stocks_capital = green_Stocks_df['cap'].sum()
         green_Stocks_worth = (green_Stocks_df['ltp'] * green_Stocks_df['qty']).sum().round(4)
