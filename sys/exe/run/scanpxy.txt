@@ -1,18 +1,11 @@
-1_VOL > 0 AND
-2_OPNL > 0 AND
-3_DPNL > 0 AND
-4_PWR > 0.50 AND
-5_SMA > 0 AND
-6_KICK > 0 AND
-7_VALUE > 5
+1_VOLUME > 0 and 2_OPNL > 0 and 3_DPNL > 0 and 4_HAREV > 0 and 5_VWEIGHT > 0 and 6_VALUE > 0 and 7_SMA > 0
 
 
-
-6_KICK	( ( ( Prev Day Close + Previous Day Open ) / 2 < ( Current Price + Day Open ) / 2 ) ) OR ( ( Prev Day Close < Previous Day Open ) and ( Current Price > Previous Day Open ) )		
-7_VALUE	Piotroski Score		
-QTY	10000 / Current Price		
-3_DPNL	( ( Current Price - Prev Day Close ) / ( Prev Day Close ) ) * 100		
-1_VOL	( Day Volume / Week Volume Avg ) > 2 AND ( Week Volume Avg * Current Price > 20000000 ) AND Day Volume >= 20000		
-5_SMA	Current Price > 20Day SMA		
-4_PWR	( ( Current Price - Day Low ) / ( Day High - Day Low ) )		
+7_SMA	Current Price > 50Day EMA		
+6_VALUE	Piotroski Score > 6		
+5_VWEIGHT	( Week Volume Avg * Current Price > 20000000 )		
+4_HAREV	( ( ( Day Open + Day High + Day Low + Current Price ) / 4 ) > ( ( Previous Day Open + Prev Day Close ) / 2 ) ) AND ( Previous Day Open > Prev Day Close ) AND ( ( ( ( Previous Day Open + Prev Day Close ) / 2 ) > Day Low ) OR ( ( ( Previous Day Open + Prev Day Close ) / 2 ) > Day Open ) )		
+QTY	5000 / Current Price		
+1_VOLUME	( Day Volume / Week Volume Avg ) > 1.4		
+3_DPNL	( ( Current Price - Prev Day Close ) / ( Prev Day Close ) )		
 2_OPNL	( ( Current Price - Day Open ) / ( Day Open ) ) * 100
