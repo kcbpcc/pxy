@@ -10,6 +10,9 @@ def cdslcheck(combined_df):
     # Combine date and quantity in the format 'YYYY-MM-DD HH:MM:SS': qty
     cdsl_df['cdsl_info'] = date_qty_extract.apply(lambda x: f"{x[0]}: {x[1]}", axis=1)
 
+    # Convert the extracted quantity to integers and create 'cdslqty' column
+    cdsl_df['cdslqty'] = date_qty_extract[1].astype(float).fillna(0).astype(int)
+
     # Convert the extracted date to datetime format
     cdsl_df['cdsldate'] = pd.to_datetime(date_qty_extract[0], format='%Y-%m-%d %H:%M:%S', errors='coerce')
 
