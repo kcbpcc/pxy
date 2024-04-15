@@ -147,7 +147,7 @@ async def main():
             print(f"{symbol} BUY order placed successfully.")
     else:
         print(f"Existing {symbol}, So not buying")
-
+    print("━" * 42)
 async def run_main():
     await main()
 
