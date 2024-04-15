@@ -217,7 +217,7 @@ try:
     total_opt_real = combined_df[(combined_df['qty'] == 0) & (combined_df['key'].str.contains('NFO:'))]['pnl'].sum()
     filtered_df = combined_df[(combined_df['product'] == 'CNC') & (combined_df['qty'] != 0)]
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
-    optcap, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = get_holdingsinfo(combined_df)    
+    optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = get_holdingsinfo(combined_df)    
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
@@ -292,7 +292,7 @@ try:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")   
 ###########################################################################################################################################################################################################  
-    printbord(optcap, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
+    printbord(optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
     print("━" * 42)
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
     if not stocks_filtered_df.empty:
