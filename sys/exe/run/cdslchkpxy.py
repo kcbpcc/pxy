@@ -6,13 +6,11 @@ def cdslcheck(combined_df):
     cdsl_df = combined_df.copy()
 
     # Extract date and quantity from the 'authorisation' column
-    cdsl_df['cdsldate'] = cdsl_df['authorisation'].str.extract(r"\{'pre': \{'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})': (\d+)\}}")
+    date_qty_extract = cdsl_df['authorisation'].str.extract(r"\{'pre': \{'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})': (\d+)\}}")
     
-    # Convert the extracted date to datetime object
-    cdsl_df['cdsldate'] = pd.to_datetime(cdsl_df['cdsldate'])
-
-    # Extracted quantity directly from the pattern, no need for conversion
-    cdsl_df['cdslqty'] = cdsl_df['authorisation'].str.extract(r"\{'pre': \{'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}': (\d+)\}}").astype(int)
+    # Extract date and quantity into separate columns
+    cdsl_df['cdsldate'] = pd.to_datetime(date_qty_extract[0])
+    cdsl_df['cdslqty'] = date_qty_extract[1].astype(int)
 
     # Get today's date and convert it to datetime object
     today = datetime.now().date()
