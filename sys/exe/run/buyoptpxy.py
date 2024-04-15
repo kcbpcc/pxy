@@ -15,6 +15,7 @@ nsma = check_index_status('^NSEI')
 from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 from datetime import datetime, timedelta
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 print("━" * 42)
 async def send_telegram_message(message_text):
     try:
@@ -126,7 +127,7 @@ async def main():
     
     count_CE, count_PE = count_positions_by_type(broker)
 
-    print(f"🔥CE positions:{count_CE}  📈--📉  PE positions:{count_PE}💧")
+    print(f"{BRIGHT_YELLOW}🔥CE positions:{count_CE} 📈--📉 PE positions:{count_PE}💧{RESET}")
 
     PE_weight = count_PE - count_CE
     CE_weight = count_CE - count_PE
