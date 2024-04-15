@@ -7,6 +7,7 @@ from toolkit.logger import Logger
 import csv
 import subprocess
 subprocess.run(['python3', 'buyoptpxy.py']) 
+print("━" * 42)
 import os
 import logging
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
