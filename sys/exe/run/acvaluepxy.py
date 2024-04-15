@@ -26,7 +26,8 @@ def process_acvalue(acvalue):
             record_exists = True
             break
 
-    if record_exists:
+    if not record_exists:
+        rows.append({'date': current_date, 'acvalue': acvalue})
         with open(CSV_FILENAME, mode='w', newline='') as csvfile:
             fieldnames = ['date', 'acvalue']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
