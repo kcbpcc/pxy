@@ -142,13 +142,13 @@ async def main():
     position_exists = check_existing_positions(broker, symbol)
     resp = broker.kite.ltp(symbol)
     if resp and isinstance(resp, dict):
-        ltp = resp[symbol]['last_price']
-    if not position_exists:
-        buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
-        if buy_order_placed:
-
+        ltp = resp[symbol]['last_price']  # Assigning ltp only when resp is valid
+        if not position_exists:
+            buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
+            if buy_order_placed:
                 await send_telegram_message(f"{symbol} BUY order @ {ltp} placed successfully.")
                 print(f"{symbol} BUY order @ {ltp} placed successfully.")
+
     else:
         print(f"Existing {symbol}, So not buying")
     
