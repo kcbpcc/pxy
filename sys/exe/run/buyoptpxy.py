@@ -140,13 +140,13 @@ async def main():
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
     position_exists = check_existing_positions(broker, symbol)
-
+    resp = broker.kite.ltp(symbol)
+    if resp and isinstance(resp, dict):
+        ltp = resp[symbol]['last_price']
     if not position_exists:
         buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
         if buy_order_placed:
-            resp = broker.kite.ltp(symbol)
-            if resp and isinstance(resp, dict):
-                ltp = resp[symbol]['last_price']
+
                 await send_telegram_message(f"{symbol} BUY order @ {ltp} placed successfully.")
                 print(f"{symbol} BUY order @ {ltp} placed successfully.")
     else:
