@@ -60,10 +60,10 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
 def exit_options(key, pl_percentage, quantity, pnl):
     if (key.endswith('CE') and pl_percentage >= mvtrgt_ce and quantity > 0) or (key.endswith('PE') and pl_percentage >= mvtrgt_pe and quantity > 0):
         try:
-            place_order(key, quantity, 'SELL', 'MARKET', 'NRML')  
             resp = broker.kite.ltp(key)
             if resp and isinstance(resp, dict):
                 ltp = resp[key]['last_price']
+            place_order(key, quantity, 'SELL', 'MARKET', 'NRML')  
             message = f"Exit order placed for {key} @ {ltp} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
             print(message)
             send_telegram_message(message)
