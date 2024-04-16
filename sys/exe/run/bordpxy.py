@@ -27,12 +27,12 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
         left_aligned_format.format(
             f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(18.51, 2)).zfill(5)}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
-            f"     {BOLD}{UNDERLINE}PXY{RESET}"
+            f"      {BOLD}{UNDERLINE}PXY{RESET}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
         ) +
         right_aligned_format.format(
             f"{BRIGHT_GREEN if mktpxy in ['Buy'] else (BRIGHT_RED if mktpxy in ['Sell'] else GREY)}"
-            f"{BOLD}{UNDERLINE}®{RESET} {arrow_map.get(mktpxy, '')}       "  # Insert arrow_map here
+            f"{BOLD}{UNDERLINE}®{RESET}{arrow_map.get(mktpxy, '')}       "  # Insert arrow_map here
             f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue_to_print, 2)).zfill(5)}{RESET}"
         )
     )
