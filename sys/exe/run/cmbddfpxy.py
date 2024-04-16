@@ -51,15 +51,19 @@ def process_data():
         holdings_df = get_holdingsinfo(holdings_response, broker)
         positions_df = get_positionsinfo(positions_response, broker)
 
-        # Save holdings_df to holdings.csv
-        holdings_df.to_csv('holdings.csv', index=False)
-
-        # Save positions_df to positions.csv
-        positions_df.to_csv('positions.csv', index=False)
-
         holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
         positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
         combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
+
+        # Calculate average price separately for holdings and positions
+        holdings_average = holdings_df['average_price'].mean() if not holdings_df.empty else None
+        positions_average = positions_df['average_price'].mean() if not positions_df.empty else None
+
+        # Add additional columns for average prices
+        combined_df['holdings_average'] = holdings_average
+        combined_df['positions_average'] = positions_average
+
+        # Fetch OHLC data for the symbols in the combined dataframe
         lst = combined_df['key'].tolist()
         resp = broker.kite.ohlc(lst)
         dct = {
@@ -72,6 +76,8 @@ def process_data():
             }
             for k, v in resp.items()
         }
+
+        # Perform further calculations and data manipulation...
         combined_df['ltp'] = combined_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row['last_price']), axis=1)
         combined_df['open'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('open', 0))
         combined_df['high'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('high', 0))
@@ -80,9 +86,8 @@ def process_data():
         combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
         combined_df['oPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['open']) / row['open']) * 100), 2) if row['open'] != 0 else 0, axis=1)
         combined_df['dPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['close']) / row['close']) * 100), 2) if row['close'] != 0 else 0, axis=1)
-        
         combined_df['pnl'] = combined_df['pnl'].astype(int)
-        combined_df['avg'] = combined_df['average_price']
+        combined_df['avg'] = combined_df.apply(lambda row: holdings_average if row['source'] == 'holdings' else positions_average if row['source'] == 'positions' else None, axis=1)
         combined_df['Invested'] = (combined_df['qty'] * combined_df['avg']).round(0).astype(int)
         combined_df['value'] = combined_df['qty'] * combined_df['ltp']
         combined_df['PnL'] = (combined_df['value'] - combined_df['Invested']).astype(int)
@@ -104,4 +109,3 @@ def process_data():
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
-
