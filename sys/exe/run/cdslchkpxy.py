@@ -22,6 +22,9 @@ def cdslcheck(combined_df):
     today_datetime = datetime.combine(today, datetime.min.time())
 
     # Filter the DataFrame based on the conditions: authorised_date is not today's date
-    check_cdsl_df = cdsl_df[(cdsl_df['cdsldate'].dt.date != today_datetime.date()) & (cdsl_df['qty'] != cdsl_df['cdslqty'])]
+    check_cdsl_df = cdsl_df[(cdsl_df['cdsldate'].dt.date == today_datetime.date()) & 
+                            (cdsl_df['qty'] != cdsl_df['cdslqty']) &
+                            (cdsl_df['product'] == 'CNC') & 
+                            (cdsl_df['source'] == 'holdings')]
 
     return check_cdsl_df
