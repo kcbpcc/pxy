@@ -88,7 +88,7 @@ def process_data():
         cnc_exit_df['used_quantity'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
         cnc_exit_df['buy_price'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
         cnc_exit_df['sell_price'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])  # Mapping sell price with key
-        cnc_exit_df.loc[cnc_exit_df['used_quantity'] == 0, ['used_quantity', 'buy_price', 'sell_price']] = 0
+        cnc_exit_df.loc[cnc_exit_df['used_quantity'] == 0, ['key','used_quantity', 'buy_price', 'sell_price']] = 0
         
         # Apply filter where used_quantity > 0
         cnc_exit_df = cnc_exit_df[cnc_exit_df['used_quantity'] > 0]
