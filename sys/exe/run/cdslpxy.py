@@ -26,4 +26,5 @@ def cdslcheck(combined_df):
     check_cdsl_df = cdsl_df[((cdsl_df['cdsldate'].dt.date != today_datetime.date()) | 
                              (cdsl_df['qty'] != cdsl_df['cdslqty'])) & 
                             (cdsl_df['source'] == 'holdings')]
+    return check_cdsl_df
 print(check_cdsl_df[['cdsldate', 'cdslqty', 'qty', 'tradingsymbol']])
