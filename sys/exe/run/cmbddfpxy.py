@@ -83,7 +83,16 @@ def process_data():
         combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100).round(2)
         combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
-      
+
+        cnc_exit_df['used_quantity'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
+        cnc_exit_df['buy_price'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
+        cnc_exit_df['sell_price'] = positions_df['buy_price']
+        cnc_exit_df = positions_df[['key', 'buy_price', 'sell_price', 'used_quantity']]
+        cnc_exit_df.loc[cnc_exit_df['used_quantity'] == 0, ['used_quantity', 'buy_price', 'sell_price']] = 0
+        
+        print(cnc_exit_df)
+        
+     
         # Handle conversion of 'm2m' column to int if it exists
         if "m2m" in combined_df.columns:
             try:
@@ -93,6 +102,7 @@ def process_data():
                 pass
 
         return combined_df
+        
 
     except Exception as e:
         print(f"An error occurred: {e}")
