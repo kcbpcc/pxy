@@ -9,7 +9,7 @@ CSV_FILENAME = 'acvalue.csv'
 def process_acvalue(acvalue):
     peak = peak_time()
 
-    if peak != 'NONMKT':
+    if peak != 'PREPEAK':
         # Do nothing if peak != 'PREPEAK'
         return
 
