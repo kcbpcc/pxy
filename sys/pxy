@@ -23,6 +23,7 @@ while true; do
     echo "   -pxypnl                💰        pl"
     echo "   -pxyopt                🛸        op"
     echo "   -pxytail               📜        lg"
+    echo "   -pxycdsl               🔐        cd"
     echo "   -pxyosell              🔴        so"
     echo "   -pxyvalue              📊        vl"
     echo "   -pxyclean              🚿        cl"
@@ -38,6 +39,10 @@ while true; do
     # Perform actions based on user input
     case $choice in
 
+        cd)
+            echo "        🔐🔐🔐.pip install.🔐🔐🔐"
+            pxycdsl
+            ;;   
         pp)
             echo "        🎉🎉🎉.pip install.🎉🎉🎉"
             pyp
