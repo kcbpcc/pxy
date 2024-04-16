@@ -51,12 +51,6 @@ def process_data():
         holdings_df = get_holdingsinfo(holdings_response, broker)
         positions_df = get_positionsinfo(positions_response, broker)
 
-        # Save holdings_df to holdings.csv
-        holdings_df.to_csv('holdings.csv', index=False)
-
-        # Save positions_df to positions.csv
-        positions_df.to_csv('positions.csv', index=False)
-
         holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
         positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
         combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
