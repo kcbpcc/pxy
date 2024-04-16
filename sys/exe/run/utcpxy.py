@@ -6,10 +6,10 @@ def peak_time():
 
     # Define the peak time ranges
     peak_time_0_start = datetime.strptime("00:00", "%H:%M").time()
-    peak_time_0_end = datetime.strptime("03:44", "%H:%M").time()
+    peak_time_0_end = datetime.strptime("03:00", "%H:%M").time()
     #print("Peak Time 0 Range:", peak_time_0_start, "-", peak_time_0_end)
 
-    peak_time_1a_start = datetime.strptime("03:15", "%H:%M").time()
+    peak_time_1a_start = datetime.strptime("03:00", "%H:%M").time()
     peak_time_1a_end = datetime.strptime("03:44", "%H:%M").time()
     #print("Peak Time 1 Range:", peak_time_1_start, "-", peak_time_1_end)
 
