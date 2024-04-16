@@ -6,7 +6,6 @@ from cnstpxy import dir_path
 from toolkit.logger import Logger
 import csv
 import subprocess
-subprocess.run(['python3', 'buyoptpxy.py']) 
 print("━" * 42)
 import os
 import logging
