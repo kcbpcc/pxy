@@ -15,6 +15,7 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
     capital = 18.50
     hide = 5
     profit = (acvalue_to_print - capital)
+    arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
@@ -31,7 +32,7 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
         ) +
         right_aligned_format.format(
             f"{BRIGHT_GREEN if mktpxy in ['Buy'] else (BRIGHT_RED if mktpxy in ['Sell'] else GREY)}"
-            f"{BOLD}{UNDERLINE}®{RESET}        "
+            f"{BOLD}{UNDERLINE}®{RESET}{arrow_map.get(mktpxy, '')}        "  # Insert arrow_map here
             f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue_to_print, 2)).zfill(5)}{RESET}"
         )
     )
