@@ -1,6 +1,7 @@
 import pandas as pd
 from datetime import datetime
 from cmbddfpxy import process_data
+
 combined_df = process_data()
 
 def cdslcheck(combined_df):
@@ -27,4 +28,6 @@ def cdslcheck(combined_df):
                              (cdsl_df['qty'] != cdsl_df['cdslqty'])) & 
                             (cdsl_df['source'] == 'holdings')]
     return check_cdsl_df
-print(check_cdsl_df[['cdsldate', 'cdslqty', 'qty', 'tradingsymbol']])
+
+# Call the function and print the output
+print(cdslcheck(combined_df)[['cdsldate', 'cdslqty', 'qty', 'tradingsymbol']])
