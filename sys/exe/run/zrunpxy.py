@@ -157,11 +157,10 @@ async def main():
 
     print(f"{BRIGHT_YELLOW}🔥CE positions:{count_CE} 📈━{weight}━📉 PE positions:{count_PE}💧{RESET}".rjust(42))
 
-
-    
+   
     expiry_year, expiry_month, expiry_day = get_this_thursday()
 
-    option_type = 'PE' if (mktpxy == 'Bull') else ('CE' if (mktpxy == 'Bull') else (print(f"Market-{mktpxy} or not a time-let's wait 🔍👀".rjust(39)) or sys.exit(1)))
+    option_type = 'PE' if (mktpxy == 'Buy') else ('CE' if (mktpxy == 'Sell') else (print(f"Market-{mktpxy} or not a time-let's wait 🔍👀".rjust(39)) or sys.exit(1)))
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
     position_exists = check_existing_positions(broker, symbol)
@@ -176,7 +175,7 @@ async def main():
                 print(f"{symbol} ETRY order @ {ltp} placed successfully.")
             elif sell_order_placed:
                 await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {key} @ {ltp} placed successfully.")
-                print(f"{symbol} ETRY order @ {ltp} placed successfully.")
+                print(f"{symbol} ENTRY order @ {ltp} placed successfully.")
     else:
         print(f"Existing {symbol}, So not buying")
     
