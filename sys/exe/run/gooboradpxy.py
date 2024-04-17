@@ -24,8 +24,8 @@ def update_google_sheet(cleaned_text):
     # Clear existing content from the sheet
     sheet.clear()
 
-    # Write the cleaned text to a single cell
-    sheet.update('A1', cleaned_text)
+    # Update cell A1 with the cleaned text
+    sheet.update('A1', [[cleaned_text]])
 
     print("Google Sheet updated successfully")
 
@@ -43,6 +43,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 if __name__ == "__main__":
