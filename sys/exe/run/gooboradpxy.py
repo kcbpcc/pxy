@@ -24,17 +24,8 @@ def update_google_sheet(cleaned_text):
     # Clear existing content from the sheet
     sheet.clear()
 
-    # Convert the cleaned text to a list of rows
-    rows = cleaned_text.split('\n')
-
-    # Write the cleaned text to the sheet
-    for i, row in enumerate(rows):
-        # Split the row into cells based on comma or semicolon (adjust as needed)
-        cells = re.split(r'[;,]', row.strip())
-        # Ensure we have exactly three cells
-        cells = cells[:3] + [''] * (3 - len(cells))
-        # Insert the row into the sheet
-        sheet.insert_row(cells, i+1)
+    # Write the cleaned text to a single cell
+    sheet.update('A1', cleaned_text)
 
     print("Google Sheet updated successfully")
 
@@ -49,6 +40,10 @@ def main():
 
     # Update Google Sheet with the cleaned text
     update_google_sheet(cleaned_text)
+
+if __name__ == "__main__":
+    main()
+
 
 if __name__ == "__main__":
     main()
