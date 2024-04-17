@@ -8,7 +8,7 @@ from utcpxy import peak_time
 GOOGLE_SHEET_TITLE = 'pxy/accvalue'
 SCOPES = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
-def process_acvalue(acvalue):
+def gsheet_acvalue(acvalue):
     # Determine peak time
     peak = peak_time()
     if peak != 'PREPEAK':
