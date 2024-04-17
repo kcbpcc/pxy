@@ -12,8 +12,7 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
     #print(f"all_Stocks_worth_lacks: {all_Stocks_worth_lacks}, optworth: {optworth}, available_cash: {available_cash}")
     #print("acvalue:", acvalue)
     gsheet_acvalue(acvalue)
-    current_acvalue, ydaypnl = get_ac_values()
-    acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
+    acvalue_to_print, ydaypnl_to_print = get_ac_values()
     capital = 18.50
     hide = 5
     profit = (acvalue_to_print - capital)
