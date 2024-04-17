@@ -25,7 +25,7 @@ def update_google_sheet(cleaned_text):
     sheet.clear()
 
     # Update cell A1 with the cleaned text
-    sheet.update('A1', [[cleaned_text]])
+    sheet.update([[cleaned_text]], 'A1')
 
     print("Google Sheet updated successfully")
 
