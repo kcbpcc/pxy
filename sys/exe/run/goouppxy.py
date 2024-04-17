@@ -2,13 +2,19 @@ import csv
 from datetime import datetime
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from utcpxy import peak_time
 
 # Global variables
 GOOGLE_SHEET_TITLE = 'accvalue'  # Adjusted Google Sheet title
 SCOPES = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
 def gsheet_acvalue(acvalue):
-    # Get current date
+
+    peak = peak_time()
+
+    if peak != 'PREPEAK':
+        # Do nothing if peak != 'PREPEAK'
+        return
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
 
     # Authenticate with Google Sheets API
