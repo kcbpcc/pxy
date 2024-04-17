@@ -32,7 +32,7 @@ def parse_text_to_table(text):
             part_3 = ""
         
         # Append the parsed parts to the table
-        table.append([parts[0], part_1.strip(), part_2.strip(), part_3.strip(), parts[2]])
+        table.append([parts[0], part_1.strip(), part_2.strip() + part_3.strip(), parts[2]])
     
     return table
 
@@ -59,7 +59,9 @@ def update_google_sheet(table):
     sheet.clear()
 
     # Update the Google Sheet with the table data
-    sheet.update('A1', table)
+    for row_index, row in enumerate(table):
+        for col_index, value in enumerate(row):
+            sheet.update_cell(row_index + 1, col_index + 1, value)
 
     print("Google Sheet updated successfully")
 
@@ -77,10 +79,6 @@ def main():
 
     # Update Google Sheet with the parsed table data
     update_google_sheet(table)
-
-if __name__ == "__main__":
-    main()
-
 
 if __name__ == "__main__":
     main()
