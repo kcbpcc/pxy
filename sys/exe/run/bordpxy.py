@@ -2,8 +2,7 @@ import subprocess
 from bukdpxy import sum_last_numerical_value_in_each_row
 file_path = 'filePnL.csv'
 booked = sum_last_numerical_value_in_each_row(file_path)
-from acvaluepxy import process_acvalue, get_current_acvalue
-from updgdrvpxy import gsheet_acvalue
+from goouppxy import gsheet_acvalue
 
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
@@ -11,7 +10,6 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
     acvalue = ((all_Stocks_worth_lacks) + (optworth / 100000) + (available_cash / 100000))  
     #print(f"all_Stocks_worth_lacks: {all_Stocks_worth_lacks}, optworth: {optworth}, available_cash: {available_cash}")
     #print("acvalue:", acvalue)
-    process_acvalue(acvalue)
     gsheet_acvalue(acvalue)
     acvalue_to_print, ydaypnl_to_print = get_current_acvalue()           
     capital = 18.50
