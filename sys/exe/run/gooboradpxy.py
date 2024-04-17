@@ -16,7 +16,7 @@ def update_google_sheet(cleaned_text):
     # Load Google Sheets credentials from a service account file
     creds = service_account.Credentials.from_service_account_file(
         'accvalue.json',
-        scopes=['https://www.googleapis.com/auth/spreadsheets']
+        scopes=['https://www.googleapis.com/auth/spreadsheets']  # Ensure the correct scope is included
     )
 
     # Initialize the Google Sheets API
@@ -53,3 +53,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
