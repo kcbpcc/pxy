@@ -4,7 +4,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Global variables
-GOOGLE_SHEET_TITLE = 'pxy/accvalue'  # Adjusted Google Sheet title
+GOOGLE_SHEET_TITLE = 'accvalue'  # Adjusted Google Sheet title
 SCOPES = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
 def gsheet_acvalue(acvalue):
