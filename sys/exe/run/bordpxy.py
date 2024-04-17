@@ -12,12 +12,16 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
     #print(f"all_Stocks_worth_lacks: {all_Stocks_worth_lacks}, optworth: {optworth}, available_cash: {available_cash}")
     #print("acvalue:", acvalue)
     gsheet_acvalue(acvalue)
-    acvalue_to_print = 0
-    ydaypnl_to_print = 0
     try:
         acvalue_to_print, ydaypnl_to_print = get_ac_values()
+        if acvalue_to_print is None or ydaypnl_to_print is None:
+            # Handle the case where either value is None
+            acvalue_to_print = 0
+            ydaypnl_to_print = 0
     except Exception:
-        pass  # Handle the exception here if needed
+        # Handle any exceptions that occur during the execution of get_ac_values()
+        acvalue_to_print = 0
+        ydaypnl_to_print = 0
     capital = 18.50
     hide = 5
     profit = (acvalue_to_print - capital)
