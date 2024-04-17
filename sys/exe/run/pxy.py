@@ -56,6 +56,7 @@ while True:
     subprocess.run(['python3', 'selfpxy.py'])
     print("━" * 42)
     subprocess.run(['python3', 'cntrloptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
+    subprocess.run(['python3', 'gooboradpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     progress_bar(cycle, mktpxy)
 
