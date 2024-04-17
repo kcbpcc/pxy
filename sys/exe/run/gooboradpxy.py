@@ -1,4 +1,5 @@
 import re
+import datetime
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 
@@ -25,7 +26,12 @@ def update_google_sheet(cleaned_text):
     sheet.clear()
 
     # Update cell A1 with the cleaned text
-    sheet.update([[cleaned_text]], 'A1')
+    sheet.update('A1', [[cleaned_text]])
+
+    # Update cell A2 with date and timestamp
+    now = datetime.datetime.now()
+    timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+    sheet.update('A2', [[timestamp]])
 
     print("Google Sheet updated successfully")
 
@@ -38,14 +44,8 @@ def main():
     # Remove color codes
     cleaned_text = remove_color_codes(text_with_color_codes)
 
-    # Update Google Sheet with the cleaned text
+    # Update Google Sheet with the cleaned text and timestamp
     update_google_sheet(cleaned_text)
 
 if __name__ == "__main__":
     main()
-
-
-
-if __name__ == "__main__":
-    main()
-
