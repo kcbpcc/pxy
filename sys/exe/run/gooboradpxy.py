@@ -37,7 +37,7 @@ def update_google_sheet(cleaned_text):
     # Update cell A2 with timestamp in Singapore time
     sheet.update(range_name='A2', values=[[timestamp_singapore]])
 
-    print("Google Sheet updated successfully")
+    #print("Google Sheet updated successfully")
 
 def main():
     input_file = 'bordpxy.csv'
