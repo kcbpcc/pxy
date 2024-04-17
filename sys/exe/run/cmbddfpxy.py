@@ -89,7 +89,7 @@ def process_data():
         cnc_exit_df['outqty'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
         cnc_exit_df['in'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
         cnc_exit_df['out'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])  # Mapping sell price with key
-        cnc_exit_df.loc[cnc_exit_df['oty'] == 0, ['outqty', 'in', 'out']] = 0
+        cnc_exit_df.loc[cnc_exit_df['outqty'] == 0, ['outqty', 'in', 'out']] = 0
         cnc_exit_df = cnc_exit_df[cnc_exit_df['outqty'] > 0]
         
         print(cnc_exit_df)
