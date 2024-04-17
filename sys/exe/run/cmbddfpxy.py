@@ -87,7 +87,7 @@ def process_data():
         combined_df['outqty'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
         combined_df['in'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
         combined_df['out'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])  # Mapping sell price with key
-        combined_df.loc[cnc_exit_df['outqty'] == 0, ['outqty', 'in', 'out']] = 0
+        combined_df.loc[combined_df['outqty'] == 0, ['outqty', 'in', 'out']] = 0
      
      
         # Handle conversion of 'm2m' column to int if it exists
