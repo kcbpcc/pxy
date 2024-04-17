@@ -1,5 +1,6 @@
 import re
 import datetime
+import pytz
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 
@@ -25,13 +26,16 @@ def update_google_sheet(cleaned_text):
     # Clear existing content from the sheet
     sheet.clear()
 
-    # Update cell A1 with the cleaned text
+    # Update cell A1 with the cleaned text and cell A2 with timestamp
     sheet.update('A1', [[cleaned_text]])
 
-    # Update cell A2 with date and timestamp
-    now = datetime.datetime.now()
-    timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
-    sheet.update('A2', [[timestamp]])
+    # Get Singapore time
+    singapore = pytz.timezone('Asia/Singapore')
+    now_singapore = datetime.datetime.now(singapore)
+    timestamp_singapore = now_singapore.strftime("%Y-%m-%d %H:%M:%S")
+
+    # Update cell A2 with timestamp in Singapore time
+    sheet.update('A2', [[timestamp_singapore]])
 
     print("Google Sheet updated successfully")
 
