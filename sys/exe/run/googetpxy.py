@@ -46,9 +46,5 @@ def get_ac_values():
 # Call the function to get the values
 current_acvalue, ydaypnl = get_ac_values()
 
-if current_acvalue is not None and ydaypnl is not None:
-    print("Current AC Value:", current_acvalue)
-    print("Day-to-Day Change in Value:", ydaypnl)
-else:
-    print("No record found for today's date.")
+
 
