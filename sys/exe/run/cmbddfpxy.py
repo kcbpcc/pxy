@@ -84,16 +84,11 @@ def process_data():
         combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
 
-        cnc_exit_df = pd.DataFrame()
-        cnc_exit_df['key'] = positions_df['key']  # Assuming 'key' is already present in positions_df or holdings_df
-        cnc_exit_df['outqty'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
-        cnc_exit_df['in'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
-        cnc_exit_df['out'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])  # Mapping sell price with key
-        cnc_exit_df.loc[cnc_exit_df['outqty'] == 0, ['outqty', 'in', 'out']] = 0
-        cnc_exit_df = cnc_exit_df[cnc_exit_df['outqty'] > 0]
-        
-        print(cnc_exit_df)
-        
+        combined_df['outqty'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
+        combined_df'in'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
+        combined_df['out'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])  # Mapping sell price with key
+        combined_df.loc[cnc_exit_df['outqty'] == 0, ['outqty', 'in', 'out']] = 0
+     
      
         # Handle conversion of 'm2m' column to int if it exists
         if "m2m" in combined_df.columns:
