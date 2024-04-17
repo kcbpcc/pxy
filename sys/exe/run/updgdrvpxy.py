@@ -9,13 +9,7 @@ GOOGLE_SHEET_TITLE = 'pxy/accvalue'
 SCOPES = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
 def gsheet_acvalue(acvalue):
-    # Determine peak time
-    peak = peak_time()
-    if peak != 'PREPEAK':
-        # Do nothing if peak != 'PREPEAK'
-        return
 
-    # Get current date
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
 
     # Authenticate with Google Sheets API
