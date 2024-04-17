@@ -27,7 +27,7 @@ def update_google_sheet(cleaned_text):
     sheet.clear()
 
     # Update cell A1 with the cleaned text and cell A2 with timestamp
-    sheet.update('A1', [[cleaned_text]])
+    sheet.update(range_name='A1', values=[[cleaned_text]])
 
     # Get Singapore time
     singapore = pytz.timezone('Asia/Singapore')
@@ -35,7 +35,7 @@ def update_google_sheet(cleaned_text):
     timestamp_singapore = now_singapore.strftime("%Y-%m-%d %H:%M:%S")
 
     # Update cell A2 with timestamp in Singapore time
-    sheet.update('A2', [[timestamp_singapore]])
+    sheet.update(range_name='A2', values=[[timestamp_singapore]])
 
     print("Google Sheet updated successfully")
 
@@ -53,3 +53,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
