@@ -21,3 +21,4 @@ colorama
 aiohttp
 tabulate
 pyarrow
+gspread
