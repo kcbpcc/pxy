@@ -80,8 +80,33 @@ def check_existing_positions(broker, symbol):
             return True
     return False
 
-
-async def place_order(broker, symbol, transaction_type, product_type, quantity, order_type, price=None):
+async def sell_place_order(broker, symbol, transaction_type, product_type, quantity, order_type, price=None):
+    try:
+        if price is None:
+            order_id = broker.order_place(
+                tradingsymbol=symbol,
+                quantity=quantity,
+                exchange="NFO",
+                transaction_type=transaction_type,
+                order_type=order_type,
+                product=product_type
+            )
+        else:
+            order_id = broker.order_place(
+                tradingsymbol=symbol,
+                quantity=quantity,
+                exchange="NFO",
+                transaction_type=transaction_type,
+                order_type=order_type,
+                product=product_type,
+                price=price
+            )
+        return True, order_id
+    except Exception as e:
+        print(f"Error placing order for {symbol}: {e}")
+        return False, None
+        
+async def buy_place_order(broker, symbol, transaction_type, product_type, quantity, order_type, price=None):
     try:
         if price is None:
             order_id = broker.order_place(
@@ -144,11 +169,14 @@ async def main():
     if resp and isinstance(resp, dict):
         ltp = resp[symbol]['last_price']  # Assigning ltp only when resp is valid
         if not position_exists:
-            buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
+            buy_order_placed, buy_order_id = await buy_place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
+            sell_order_placed, sell_order_id = await sell_place_order(broker, symbol, 'SELL', 'MIS', 50, 'MARKET')
             if buy_order_placed:
                 await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {key} @ {ltp} placed successfully.")
-                print(f"{symbol} BUY order @ {ltp} placed successfully.")
-
+                print(f"{symbol} ETRY order @ {ltp} placed successfully.")
+            elif sell_order_placed:
+                await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {key} @ {ltp} placed successfully.")
+                print(f"{symbol} ETRY order @ {ltp} placed successfully.")
     else:
         print(f"Existing {symbol}, So not buying")
     
