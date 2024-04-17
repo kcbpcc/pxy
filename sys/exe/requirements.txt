@@ -22,3 +22,4 @@ aiohttp
 tabulate
 pyarrow
 gspread
+oauth2client
