@@ -31,6 +31,9 @@ def update_google_sheet(cleaned_text):
     for i, row in enumerate(rows):
         # Split the row into cells based on comma or semicolon (adjust as needed)
         cells = re.split(r'[;,]', row.strip())
+        # Ensure we have exactly three cells
+        cells = cells[:3] + [''] * (3 - len(cells))
+        # Insert the row into the sheet
         sheet.insert_row(cells, i+1)
 
     print("Google Sheet updated successfully")
