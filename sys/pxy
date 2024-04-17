@@ -24,7 +24,6 @@ while true; do
     echo "   -pxyopt                🛸        op"
     echo "   -pxytail               📜        lg"
     echo "   -pxycdsl               🔐        cd"
-    echo "   -pxyosell              🔴        so"
     echo "   -pxyvalue              📊        vl"
     echo "   -pxyclean              🚿        cl"
     echo "   -pxycheck              🧪        ck"
@@ -54,10 +53,6 @@ while true; do
         lg)
             echo "        📜📜📜.pxy log.📜📜📜"
             pxytail
-            ;;   
-        so)
-            echo "        🔴🔴🔴selling options🔴🔴🔴"
-            pxyso
             ;;   
         pl)
             echo "        💰💰💰.pip install.💰💰💰"
