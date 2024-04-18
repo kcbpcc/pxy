@@ -43,7 +43,7 @@ while true; do
             pxyzrun
             ;;   
         cd)
-            echo "        🔐🔐🔐.pip install.🔐🔐🔐"
+            echo "        🔐🔐🔐.Check CDSL.🔐🔐🔐"
             pxycdsl
             ;;   
         pp)
