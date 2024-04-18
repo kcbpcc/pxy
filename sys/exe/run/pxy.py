@@ -47,7 +47,7 @@ while True:
     subprocess.run(['python3', 'daypxy.py'])
     #subprocess.run(['python3', 'buyoptpxy.py']) if mktpxy in ["Buy", "Sell"] else None
     subprocess.run(['python3', 'cntrloptpxy.py'])
-    subprocess.run(['python3', 'buycncpxy.py']) if (not (Open_Change < 0 and Day_Change < 0 and nsma == 'down') and mktpxy == 'Buy' and peak == 'NONPEAK') or peak == 'PEAKEND' else None
+    subprocess.run(['python3', 'buycncpxy.py']) if (not (Open_Change < 0 and Day_Change < 0 and nsma == 'down') and mktpxy in ['Buy', 'Bull'] and peak == 'NONPEAK') or peak == 'PEAKEND' else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'cntrlcncpxy.py'])
     print("━" * 42)
