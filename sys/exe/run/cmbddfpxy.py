@@ -6,6 +6,8 @@ from cnstpxy import dir_path
 from toolkit.logger import Logger
 import csv
 import os
+import sys
+import traceback
 import logging
 
 logging = Logger(30, dir_path + "main.log")
@@ -16,7 +18,7 @@ def get_holdingsinfo(resp_list, broker):
         df['source'] = 'holdings'
         return df
     except Exception as e:
-        logging.error(f"An error occurred in holdings: {e}")
+        print(f"An error occurred in holdings: {e}")
         return None
 
 def get_positionsinfo(resp_list, broker):
@@ -25,7 +27,7 @@ def get_positionsinfo(resp_list, broker):
         df['source'] = 'positions'
         return df
     except Exception as e:
-        logging.error(f"An error occurred in positions: {e}")
+        print(f"An error occurred in positions: {e}")
         return None
 
 try:
@@ -34,7 +36,7 @@ try:
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
-    logging.error(f"Unable to get holdings: {str(e)}")
+    logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 finally:
     # Ensure to close the file and restore stdout
@@ -84,28 +86,23 @@ def process_data():
 
         combined_df['outqty'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
         combined_df['in'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
-        if not positions_df.empty:
-            combined_df['out'] = positions_df.set_index('key')['buy_price'].fillna(0).reindex(combined_df['key']).values
-        else:
-            combined_df['out'] = 0
-            combined_df.loc[combined_df['outqty'] == 0, ['outqty', 'in', 'out']] = 0
-            combined_df['booked'] = ( (combined_df['outqty'] * combined_df['out']) -  (combined_df['outqty'] * combined_df['in']))
+        combined_df['out'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])  # Mapping sell price with key
+        combined_df.loc[combined_df['outqty'] == 0, ['outqty', 'in', 'out']] = 0
+        combined_df['booked'] = ( (combined_df['outqty'] * combined_df['out']) -  (combined_df['outqty'] * combined_df['in']))
+     
+     
         # Handle conversion of 'm2m' column to int if it exists
-        # Handle conversion of 'm2m' column to int if it exists
-        try:
-            if "m2m" in combined_df.columns:
+        if "m2m" in combined_df.columns:
+            try:
                 combined_df['m2m'] = combined_df['m2m'].astype(int)
-            else:
-                combined_df['m2m'] = 0
-        except Exception as e:
-            logging.error(f"An error occurred while converting 'm2m' column: {e}")
-        
-        return combined_df
+            except ValueError:
+                # Handle the case where some values cannot be converted to int
+                pass
 
+        return combined_df
+        
 
     except Exception as e:
-        logging.error(f"An error occurred: {e}")
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
-
