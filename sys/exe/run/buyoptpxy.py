@@ -32,12 +32,14 @@ async def send_telegram_message(message_text):
 
 # Define function to get this week's Thursday date
 
+from datetime import datetime, timedelta
+
 def get_this_thursday(adjest=7):
     current_date = datetime.now()
     days_until_this_thursday = (3 - current_date.weekday() + 7) % 7
     if days_until_this_thursday == 0:
         expiry_year = current_date.strftime("%y")
-        expiry_month = current_date.strftime("%b")  # Abbreviated month name
+        expiry_month = current_date.strftime("%b").upper()  # Convert to all caps
         expiry_day = current_date.strftime("%d").zfill(2)
         return expiry_year, expiry_month, expiry_day
     this_thursday = current_date + timedelta(days=days_until_this_thursday)
@@ -45,11 +47,11 @@ def get_this_thursday(adjest=7):
     if this_thursday.month != (this_thursday + timedelta(days=7)).month:
         if this_thursday.day > last_day_of_month.day - 7:
             expiry_year = this_thursday.strftime("%y")
-            expiry_month = this_thursday.strftime("%b")
+            expiry_month = this_thursday.strftime("%b").upper()  # Convert to all caps
             expiry_day = ''  # Empty day
             return expiry_year, expiry_month, expiry_day
     expiry_year = this_thursday.strftime("%y")
-    expiry_month = this_thursday.strftime("%b")
+    expiry_month = this_thursday.strftime("%b").upper()  # Convert to all caps
     expiry_day_adjust = timedelta(days=adjest)  # Adjustment of days
     expiry_day = (this_thursday - expiry_day_adjust).strftime("%d").zfill(2)
     return expiry_year, expiry_month, expiry_day
