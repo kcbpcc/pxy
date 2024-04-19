@@ -96,7 +96,7 @@ def process_data():
                 combined_df['m2m'] = combined_df['m2m'].astype(int)
             except ValueError:
                 # Handle the case where some values cannot be converted to int
-                pass
+                combined_df['m2m'] = 0
 
         return combined_df
 
