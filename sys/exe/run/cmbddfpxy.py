@@ -97,8 +97,11 @@ def process_data():
             except ValueError:
                 # Handle the case where some values cannot be converted to int
                 combined_df['m2m'] = 0
-
+        else:
+            combined_df['m2m'] = 0
+        
         return combined_df
+
 
     except Exception as e:
         logging.error(f"An error occurred: {e}")
