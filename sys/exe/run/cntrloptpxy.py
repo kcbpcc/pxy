@@ -86,23 +86,16 @@ finally:
 from cmbddfpxy import process_data
 combined_df = process_data()
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
-if not opt_df.empty:
-    opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
-    opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
-    opt_df['PL%'] = opt_df['PL%'].fillna(0)
-    opt_df['PL%'] = opt_df['PL%'].astype(int) 
-    opt_df['m2m'] = opt_df['m2m'].astype(int)
-    opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','pnl','product','m2m']]
-    total_invested = opt_df['Invested'].sum()
-    total_pl = opt_df['PnL'].sum()
-    total_opt_m2m = opt_df['m2m'].sum()
-    total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
-else:
-    # Handle the case where opt_df is empty
-    total_invested = 0
-    total_pl = 0
-    total_opt_m2m = 0
-    total_pl_percentage = 0
+opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
+opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
+opt_df['PL%'] = opt_df['PL%'].fillna(0)
+opt_df['PL%'] = opt_df['PL%'].astype(int) 
+opt_df['m2m'] = opt_df['m2m'].astype(int)
+opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','pnl','product','m2m']]
+total_invested = opt_df['Invested'].sum()
+total_pl = opt_df['PnL'].sum()
+total_opt_m2m = opt_df['m2m'].sum()
+total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
 
 ######################################PXY® PreciseXceleratedYield Pvt Ltd™############################################
 print_df = opt_df.copy()
