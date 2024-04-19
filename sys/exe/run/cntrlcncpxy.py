@@ -214,8 +214,8 @@ try:
     total_opt_real = combined_df[(combined_df['qty'] == 0) & (combined_df['key'].str.contains('NFO:'))]['pnl'].sum()
     filtered_df = combined_df[(combined_df['product'] == 'CNC') & (combined_df['qty'] != 0)]
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
-    have = get_holdingsinfo(combined_df)
-    if have is not None:
+    result = get_holdingsinfo(combined_df)
+    if result is not None:
         extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = result
     else:
         # Handle the case where get_holdingsinfo returns None
@@ -305,4 +305,4 @@ except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
     logging.error(f"{str(e)} in the main loop")
-###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
