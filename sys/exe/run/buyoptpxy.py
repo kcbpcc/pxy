@@ -159,5 +159,4 @@ async def main():
 async def run_main():
     await main()
 
-# Run the asynchronous function directly
-await run_main()
+
