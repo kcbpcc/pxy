@@ -87,13 +87,10 @@ def process_data():
         combined_df['outqty'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
         combined_df['in'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
         if positions_df.empty:
-            combined_df['in'] = combined_df['out']
+            combined_df['in'] = combined_df.get('out', None)
         else:
             combined_df['out'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])
-        combined_df.loc[combined_df['outqty'] == 0, ['outqty', 'in', 'out']] = 0
-        combined_df['booked'] = ( (combined_df['outqty'] * combined_df['out']) -  (combined_df['outqty'] * combined_df['in']))
-     
-     
+    
         # Handle conversion of 'm2m' column to int if it exists
         if "m2m" in combined_df.columns:
             try:
