@@ -114,7 +114,7 @@ async def place_order(broker, symbol, transaction_type, product_type, quantity, 
         print(f"Error placing order for {symbol}: {e}")
         return False, None
 
-def main():
+async def main():
     try:
         # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
@@ -147,7 +147,8 @@ def main():
     position_exists = check_existing_positions(broker, symbol)
     
     if not position_exists:
-        buy_order_placed, buy_order_id = place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
+        # await the coroutine
+        buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
         if buy_order_placed:
             # Send Telegram message
             send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {symbol} placed successfully.")
@@ -155,8 +156,7 @@ def main():
     else:
         print(f"Existing {symbol}, So not buying")
 
-def run_main():
-    main()
+async def run_main():
+    await main()
 
-run_main()
-
+await run_main()
