@@ -61,7 +61,7 @@ def exit_options(key, pl_percentage, quantity, pnl):
         resp = broker.kite.ltp(key)
         if resp and isinstance(resp, dict):
             ltp = resp[key]['last_price']
-            if (key.endswith('CE') and pl_percentage >= 200 and quantity > 0) or (key.endswith('PE') and pl_percentage >= 200 and quantity > 0):
+            if (key.endswith('CE') and pl_percentage >= 148 and quantity > 0) or (key.endswith('PE') and pl_percentage >= 148 and quantity > 0):
                 place_order(key, quantity, 'SELL', 'MARKET', 'NRML')  
                 message = f"🛬🛬🛬 👈👈👈 EXIT order placed for {key} @ {ltp} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
                 print(message)
