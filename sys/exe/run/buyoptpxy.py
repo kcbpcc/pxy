@@ -138,20 +138,17 @@ async def main():
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
     position_exists = check_existing_positions(broker, symbol)
-    resp = broker.kite.ltp(symbol)
-    if resp and isinstance(resp, dict):
-        ltp = resp[symbol]['last_price']  # Assigning ltp only when resp is valid
-        if not position_exists:
-            buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
-            if buy_order_placed:
-                await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {key} @ {ltp} placed successfully.")
-                print(f"{symbol} BUY order @ {ltp} placed successfully.")
-        else:
-            print(f"Existing {symbol}, So not buying")
+    
+    if not position_exists:
+        buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
+        if buy_order_placed:
+            await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {key} placed successfully.")
+            print(f"{symbol} BUY order placed successfully.")
     else:
-        print(f"Unable to get LTP for {symbol}")
+        print(f"Existing {symbol}, So not buying")
 
 async def run_main():
     await main()
 
 asyncio.run(run_main())
+
