@@ -151,7 +151,7 @@ async def main():
         buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
         if buy_order_placed:
             # Send Telegram message
-            send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {symbol} placed successfully.")
+            await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {symbol} placed successfully.")
             print(f"{symbol} BUY order placed successfully.")
     else:
         print(f"Existing {symbol}, So not buying")
@@ -159,4 +159,5 @@ async def main():
 async def run_main():
     await main()
 
-
+# Run the asynchronous function using asyncio.run()
+asyncio.run(run_main())
