@@ -38,7 +38,7 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
             f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(18.51, 2)).zfill(5)}"
             f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
             f"      {BOLD}{UNDERLINE}PXY{RESET}"
-            f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
+            #f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
         ) +
         right_aligned_format.format(
             f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
