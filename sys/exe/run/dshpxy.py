@@ -58,8 +58,12 @@ def get_holdingsinfo(combined_df):
         total_opts_invested_lacks = selected_opts_df['Invested'].sum() / 100000
 
         optworth = combined_df.loc[combined_df['key'].str.contains('NFO:'), 'value'].sum()
-        extras = combined_df.loc[(combined_df['key'].str.contains('NFO:')) & (combined_df['qty'] == 0), 'unrealised'].sum()
+        nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
 
+        if not nfo_df.empty:
+            extras = nfo_df.loc[nfo_df['qty'] == 0, 'unrealised'].sum()
+        else:
+            extras = 0  # or any default value you prefer when there are no rows matching the condition
 
         return extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
 
