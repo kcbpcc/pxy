@@ -98,6 +98,9 @@ def process_data():
             except ValueError:
                 # Handle the case where some values cannot be converted to int
                 pass
+        else:
+            # Create the 'm2m' column and set all row values to 0
+            combined_df['m2m'] = 0
 
         return combined_df
         
