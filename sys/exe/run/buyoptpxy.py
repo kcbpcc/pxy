@@ -132,11 +132,9 @@ async def main():
 
     print(f"{BRIGHT_YELLOW}🔥CE positions:{count_CE} 📈━{weight}━📉 PE positions:{count_PE}💧{RESET}".rjust(42))
 
-
-    
     expiry_year, expiry_month, expiry_day = get_this_thursday()
 
-    option_type = 'CE' if (mktpxy == 'Buy' and CE_weight < 1 and count_CE < 4) else ('PE' if (mktpxy == 'Sell' and PE_weight < 1 and count_PE < 4) else (print(f"Market-{mktpxy} or Unbalanced-let's wait 🔍👀".rjust(39)) or sys.exit(1)))
+    option_type = 'CE' if (mktpxy == 'Buy' and CE_weight < 1 and count_CE < 4) else ('PE' if (mktpxy == 'Sell' and PE_weight < 1 and count_PE < 4) else (print(f"Market-{mktpxy} or Unbalanced-let's wait 🔍👀".rjust(39))) or sys.exit(1))
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
     position_exists = check_existing_positions(broker, symbol)
@@ -148,12 +146,12 @@ async def main():
             if buy_order_placed:
                 await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {key} @ {ltp} placed successfully.")
                 print(f"{symbol} BUY order @ {ltp} placed successfully.")
-
+        else:
+            print(f"Existing {symbol}, So not buying")
     else:
-        print(f"Existing {symbol}, So not buying")
-    
+        print(f"Unable to get LTP for {symbol}")
+
 async def run_main():
     await main()
 
 asyncio.run(run_main())
-
