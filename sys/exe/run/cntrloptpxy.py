@@ -85,6 +85,7 @@ finally:
 
 from cmbddfpxy import process_data
 combined_df = process_data()
+opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 if not opt_df.empty:
     opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
     opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
