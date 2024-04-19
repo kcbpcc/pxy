@@ -19,7 +19,7 @@ combined_df = process_data()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 file_path = 'filePnL.csv'
-result = sum_last_numerical_value_in_each_row(file_path)  
+booked = sum_last_numerical_value_in_each_row(file_path)  
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 logging = Logger(30, dir_path + "main.log")
 try:
@@ -83,7 +83,7 @@ def stocks_sell_order_place(index, row):
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
-                        message_text = f"📊 Let's Book {exchsym[1]}!\n💰 Profit: {row['PnL']}\n💹 Profit %: {row['PL%']}\n🔢 H/P: {row['source']}\n📈 LTP: {row['ltp']}\n📉 Avg: {row['avg']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}\nBooked profit until now: {result}"
+                        message_text = f"📊 Let's Book {exchsym[1]}!\n💰 Profit: {row['PnL']}\n💹 Profit %: {row['PL%']}\n🔢 H/P: {row['source']}\n📈 LTP: {row['ltp']}\n📉 Avg: {row['avg']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}\nBooked profit until now: {booked}"
                         bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
                         user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
                         # Function to send a message to Telegram
@@ -183,7 +183,7 @@ try:
     random_message = get_random_spiritual_message()
     switch = analyze_stock()
     file_path = 'filePnL.csv'
-    result = sum_last_numerical_value_in_each_row(file_path)  
+    booked = sum_last_numerical_value_in_each_row(file_path)  
     nsma = check_index_status('^NSEI')
     peak = peak_time()
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
