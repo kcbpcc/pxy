@@ -93,16 +93,18 @@ def process_data():
             combined_df.loc[combined_df['outqty'] == 0, ['outqty', 'in', 'out']] = 0
             combined_df['booked'] = ( (combined_df['outqty'] * combined_df['out']) -  (combined_df['outqty'] * combined_df['in']))
         # Handle conversion of 'm2m' column to int if it exists
-        if "m2m" in combined_df.columns:
-            try:
-                combined_df['m2m'] = combined_df['m2m'].astype(int)
-            except ValueError:
-                # Handle the case where some values cannot be converted to int
-                pass
+    if "m2m" in combined_df.columns:
+        try:
+            combined_df['m2m'] = combined_df['m2m'].astype(int)
+        except ValueError:
+            # Handle the case where some values cannot be converted to int
+            pass
 
         return combined_df
-        
 
+except Exception as e:
+    # Log the error and continue or handle it as appropriate
+    logging.error(f"An error occurred: {e}")
     except Exception as e:
         print(f"An error occurred: {e}")
         traceback.print_exc()
