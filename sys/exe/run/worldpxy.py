@@ -68,7 +68,7 @@ for exchange, name_weight in exchanges.items():
 # Concatenate index_info and price_today into a single string
 output = index_info
 # Print the concatenated string using console.print()
-from clorpxy import UNDERLINE, RESET
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 def print_underline(text):
     print(UNDERLINE + text + RESET)
 print_underline(output)
