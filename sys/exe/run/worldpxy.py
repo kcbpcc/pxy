@@ -60,8 +60,4 @@ for name, price_today in closing_prices_today.items():
 def print_underline(text):
     print(UNDERLINE + text + RESET)
 
-print_underline(index_info)
-
-
-
-
+print_underline(index_info[:-1])  # excluding the last '|'
