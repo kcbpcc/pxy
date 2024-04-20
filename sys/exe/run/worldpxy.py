@@ -1,6 +1,7 @@
 import yfinance as yf
 from rich.console import Console
 import warnings
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 # Suppress warnings
 warnings.filterwarnings("ignore")
@@ -52,7 +53,7 @@ for name, price_today in closing_prices_today.items():
     if name in closing_prices_yesterday:
         price_yesterday = closing_prices_yesterday[name]
         sentiment = calculate_sentiment(price_today, price_yesterday)
-        sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
+        sentiment_style = "BRIGHT_GREEN" if sentiment == "Bullish" else "BRIGHT_RED" if sentiment == "Bearish" else "default"
         index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]|"
 
 price_today = None
@@ -68,7 +69,6 @@ for exchange, name_weight in exchanges.items():
 # Concatenate index_info and price_today into a single string
 output = index_info
 # Print the concatenated string using console.print()
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 def print_underline(text):
     print(UNDERLINE + text + RESET)
 print_underline(output)
