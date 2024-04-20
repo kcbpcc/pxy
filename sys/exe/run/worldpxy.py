@@ -1,7 +1,6 @@
 import yfinance as yf
 from rich.console import Console
 import warnings
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 # Suppress warnings
 warnings.filterwarnings("ignore")
@@ -53,12 +52,23 @@ for name, price_today in closing_prices_today.items():
     if name in closing_prices_yesterday:
         price_yesterday = closing_prices_yesterday[name]
         sentiment = calculate_sentiment(price_today, price_yesterday)
-        sentiment_style = BRIGHT_GREEN if sentiment == "Bullish" else BRIGHT_RED if sentiment == "Bearish" else RESET
-        index_info += f"{sentiment_style}{name}{RESET}|"
+        sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
+        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}]|"
 
-# Print the index names with underline
-def print_underline(text):
-    print(UNDERLINE + text + RESET)
+price_today = None
 
-print_underline(index_info[:-1])  # excluding the last '|'
+for exchange, name_weight in exchanges.items():
+    ticker = yf.Ticker(exchange)
+    if exchange == "^NSEI":  # Check if the exchange is NIFTY
+        price_today_float = ticker.history(period="1d")['Close'].iloc[-1]  # Fetch today's last trade price
+        # Extract the last four digits of the integer part
+        price_today = int(str(int(price_today_float))[-4:])
+        break  # Exit loop once NIFTY price is found
+
+# Concatenate index_info and price_today into a single string
+output = index_info
+# Print the concatenated string using console.print()
+console.print(output)
+
+
 
