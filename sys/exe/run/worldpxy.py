@@ -61,3 +61,4 @@ def print_underline(text):
     print(UNDERLINE + text + RESET)
 
 print_underline(index_info[:-1])  # excluding the last '|'
+
