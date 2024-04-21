@@ -1,3 +1,21 @@
+import sys
+import traceback
+import pandas as pd
+from login_get_kite import get_kite, remove_token
+from cnstpxy import dir_path
+from toolkit.logger import Logger
+try:
+    sys.stdout = open('output.txt', 'w')
+    broker = get_kite(api="bypass", sec_dir=dir_path)
+except Exception as e:
+    remove_token(dir_path)
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} unable to get holdings")
+    sys.exit(1)
+finally:
+    if sys.stdout != sys.__stdout__:
+        sys.stdout.close()
+        sys.stdout = sys.__stdout__
 import importlib
 import subprocess
 import time
