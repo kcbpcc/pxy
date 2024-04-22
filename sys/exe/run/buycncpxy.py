@@ -86,7 +86,7 @@ if decision == "YES":
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
                     transaction_type='BUY',
-                    quantity = max(1, int(float(dct['QTY']))), 
+                    quantity = max(1, round(float(dct['QTY']))) ,
                     order_type='LIMIT',
                     product='CNC',
                     variety='regular',
