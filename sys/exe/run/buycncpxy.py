@@ -92,7 +92,7 @@ if decision == "YES":
                     variety='regular',
                     price=round_to_paise(ltp_nse, 0.2)  # Use the NSE LTP for price calculation
                 )
-                logging.getLogger('httpx').setLevel(logging.WARNING)
+                #logging.getLogger('httpx').setLevel(logging.WARNING)
                 if order_id:
                     logging.info(f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
                     # Update remaining cash if the order is successful
