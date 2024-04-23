@@ -69,7 +69,7 @@ if decision == "YES":
         resistance = round_to_paise(ltp, perc)
         target = round_to_paise(ltp, max_target)
         return max(resistance, target)
-    def transact(dct, remaining_cash_get, broker):
+    def transact(dct, remaining_cash, broker):
         ltp = -1
         try:
             def get_ltp(exchange):
@@ -86,18 +86,16 @@ if decision == "YES":
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
                     transaction_type='BUY',
-                    quantity = max(1, round(float(dct['QTY']))) ,
+                    quantity=int(float(dct['QTY'].replace(',', ''))), 
                     order_type='LIMIT',
                     product='CNC',
                     variety='regular',
                     price=round_to_paise(ltp_nse, 0.2)  # Use the NSE LTP for price calculation
                 )
-                #logging.getLogger('httpx').setLevel(logging.WARNING)
                 if order_id:
                     logging.info(f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
                     # Update remaining cash if the order is successful
-                    remaining_cash_get -= int(float(dct['QTY'].replace(',', ''))) * ltp_nse
-                    remaining_cash = f"{remaining_cash_get / 1000:.0f}K"
+                    remaining_cash -= int(float(dct['QTY'].replace(',', ''))) * ltp_nse
                     print(f"Order placed successfully for {dct['tradingsymbol']} and cash remained {remaining_cash}")
                     try:
                         message_text = f"📊 Let's Buy {dct['tradingsymbol']}!\n📈 Current Price (LTP): {ltp}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={dct['tradingsymbol']}"
