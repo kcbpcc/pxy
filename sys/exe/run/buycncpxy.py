@@ -69,7 +69,7 @@ if decision == "YES":
         resistance = round_to_paise(ltp, perc)
         target = round_to_paise(ltp, max_target)
         return max(resistance, target)
-    def transact(dct, remaining_cash, broker):
+    def transact(dct, remaining_cash_get, broker):
         ltp = -1
         try:
             def get_ltp(exchange):
