@@ -14,6 +14,7 @@ import requests
 import numpy as np
 import importlib
 from timetgtpxy import timetgt
+from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
 importlib.reload(sys.modules['timetgtpxy'])
 timetgt = timetgt()
 from mktpxy import get_market_check
@@ -61,7 +62,7 @@ def exit_options(key, pl_percentage, quantity, pnl):
         resp = broker.kite.ltp(key)
         if resp and isinstance(resp, dict):
             ltp = resp[key]['last_price']
-            if (key.endswith('CE') and pl_percentage >= 200 and quantity > 0) or (key.endswith('PE') and pl_percentage >= 200 and quantity > 0):
+            if (key.endswith('CE') and ((pl_percentage >= 200 and quantity > 0) or (pl_percentage >= 20 and quantity > 0 and nse_power > 0.99))) or (key.endswith('PE') and ((pl_percentage >= 200 and quantity > 0) or (pl_percentage >= 20 and quantity > 0 and nse_power < 0.01))):
                 place_order(key, quantity, 'SELL', 'MARKET', 'NRML')  
                 message = f"🛬🛬🛬 👈👈👈 EXIT order placed for {key} @ {ltp} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
                 print(message)
