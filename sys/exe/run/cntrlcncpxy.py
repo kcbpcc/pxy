@@ -280,7 +280,7 @@ try:
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
                          row['Invested'] < 20000 and
-                         available_cash > 30000 and
+                         available_cash > 3000 and
                          peak == 'PEAKEND' and
                          row['PL%'] < -20)
                     ):
