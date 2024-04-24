@@ -34,7 +34,7 @@ async def send_telegram_message(message_text):
 
 from datetime import datetime, timedelta
 
-def get_this_thursday(adjest):
+def get_this_thursday(adjest=7):
     current_date = datetime.now()
     days_until_this_thursday = (3 - current_date.weekday() + 7) % 7
     if days_until_this_thursday == 0:
