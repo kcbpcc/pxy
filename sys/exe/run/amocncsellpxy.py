@@ -67,7 +67,7 @@ def stocks_sell_order_place(index, row):
                 quantity=int(row['qty']),
                 order_type='LIMIT',
                 product='CNC',
-                variety='amo',
+                variety=variety,
                 price=round_to_paise(row['ltp'], -0.2)
             )
 ######################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################            
@@ -232,17 +232,17 @@ try:
         print("Exiting...")
         sys.exit(1)
     
-    variety = input(BRIGHT_YELLOW + "Enter the variety (amo/regular/no): " + RESET)
+    variety_input = input(BRIGHT_YELLOW + "Enter the variety (amo/regular/no): " + RESET)
     
-    if variety.lower() == 'no':
+    if variety_input.lower() == 'no':
         print("Exiting...")
         sys.exit(1)
-    elif variety.lower() == 'amo':
-        order_type = input(BRIGHT_YELLOW + "Enter the order type for AMO (type1/type2): " + RESET)
-        print("Order type for AMO:", order_type)
-    elif variety.lower() == 'regular':
-        order_type = input(BRIGHT_YELLOW + "Enter the order type for Regular (type1/type2): " + RESET)
-        print("Order type for Regular:", order_type)
+    elif variety_input.lower() == 'amo':
+        order_type_input = input(BRIGHT_YELLOW + "Enter the order type for AMO (type1/type2): " + RESET)
+        variety = 'amo'
+    elif variety_input.lower() == 'regular':
+        order_type_input = input(BRIGHT_YELLOW + "Enter the order type for Regular (type1/type2): " + RESET)
+        variety = 'regular'
     else:
         print("Invalid input. Exiting...")
         sys.exit(1)
