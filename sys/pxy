@@ -21,7 +21,7 @@ while true; do
     echo "   -pxytp                 🚛        tp"
     echo "   -pxybuy                🌱        by"
     echo "   -pxypnl                💰        pl"
-    echo "   -pxyopt                🛸        op"
+    echo "   -pxyman                🛸        mn"
     echo "   -pxytail               📜        lg"
     echo "   -pxycdsl               🔐        cd"
     echo "   -pxyzrun               💊        rn"
@@ -70,8 +70,8 @@ while true; do
             echo "        🌱🌱🌱..Buy Now.🌱🌱🌱"
             pxybuy
             ;;   
-        op)
-            echo "        🛸🛸🛸..Opt Now..🛸🛸🛸"
+        mn)
+            echo "        🛸🛸🛸..Manual Drive..🛸🛸🛸"
             pxyopt
             ;;           
         up)
