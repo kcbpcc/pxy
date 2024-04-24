@@ -1,11 +1,11 @@
 import pandas as pd
 from asciichartpy import plot
-from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN
+from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Reset terminal color to default
-print("\033[0m")
+print(RESET)
 
 # Define the scope and credentials for Google Sheets API
 SCOPES = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
@@ -50,5 +50,9 @@ delta_color = BRIGHT_GREEN if delta >= 0 else BRIGHT_RED
 
 # Print delta
 print("📊📊📊📊📊📊 Delta: {}{}📊📊📊📊📊📊".format(delta_color, str(delta).zfill(10)))
+
+# Reset terminal color to default
+print(RESET)
+
 
 
