@@ -26,3 +26,8 @@ def get_this_thursday(period='weekly', adjust=7):
 
     else:
         return None
+# Test weekly
+print("Weekly expiry:", get_this_thursday('weekly'))
+
+# Test monthly
+print("Monthly expiry:", get_this_thursday('monthly'))
