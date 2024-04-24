@@ -123,7 +123,7 @@ def stocks_avg_order_place(index, row):
                 quantity=qty,
                 order_type='LIMIT',
                 product='CNC',
-                variety='regular',
+                variety=variety.lower(),
                 price=round_to_paise(row['ltp'], +0.3)
             )
             if order_id:
@@ -231,6 +231,18 @@ try:
     if proceed.lower() == "no":
         print("Exiting...")
         sys.exit(1)
+
+    variety = input(BRIGHT_YELLOW + "Enter the variety (amo/regular/no): " + RESET)
+
+    if variety.lower() == 'no':
+        print("Exiting...")
+        sys.exit(1)
+    elif variety.lower() == 'amo':
+        order_type = input(BRIGHT_YELLOW + "Enter the order type for AMO (type1/type2): " + RESET)
+        print("Order type for AMO:", order_type)
+    elif variety.lower() == 'regular':
+        order_type = input(BRIGHT_YELLOW + "Enter the order type for Regular (type1/type2): " + RESET)
+        print("Order type for Regular:", order_type)
 
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     lstchk_file = "fileHPdf.csv"
