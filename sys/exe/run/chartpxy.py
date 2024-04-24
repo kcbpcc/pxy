@@ -4,6 +4,9 @@ from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+# Reset terminal color to default
+print("\033[0m")
+
 # Define the scope and credentials for Google Sheets API
 SCOPES = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('accvalue.json', SCOPES)
@@ -39,14 +42,13 @@ chart = plot(df['acvalue'].tolist(), {'height': 10, 'format': "{:,.2f}", 'color'
 # Print ASCII chart
 print(chart)
 
-# Reset terminal color to default
-print("\033[0m")
-
 # Calculate delta
 latest_record = df['acvalue'].iloc[-1]
 previous_record = df['acvalue'].iloc[-2]
 delta = int((latest_record - previous_record) * 100000)
 delta_color = BRIGHT_GREEN if delta >= 0 else BRIGHT_RED
+
+# Print delta
 print("📊📊📊📊📊📊 Delta: {}{}📊📊📊📊📊📊".format(delta_color, str(delta).zfill(10)))
 
 
