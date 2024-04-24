@@ -29,12 +29,8 @@ for i in range(1, len(df)):
     else:
         trend_direction.append(SILVER)
 
-# Function to plot chart with Y-axis on the right side
-def plot_with_yaxis_right(data, color):
-    return plot(data, {'height': 10, 'format': "{:.0f}", 'color': color, 'padding': '           ', 'min': min(data), 'max': max(data)})
-
 # Create ASCII chart with colored trend
-chart = plot_with_yaxis_right(df.tolist(), trend_direction)
+chart = plot(df.tolist(), {'height': 10, 'format': "{:.0f}", 'color': trend_direction, 'padding': '           ', 'hide_y_axis': False})
 
 # Print ASCII chart
 print(chart)
