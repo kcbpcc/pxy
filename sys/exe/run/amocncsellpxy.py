@@ -227,13 +227,13 @@ try:
     print(BRIGHT_YELLOW + "green_Stocks_capital_percentage:", green_Stocks_capital_percentage, "%" + RESET)
     
     proceed = input(BRIGHT_RED + "Do you want to execute the next part of the code? (yes/no): " + RESET)
-
-    if proceed.lower() == "no":
+    
+    if proceed.lower() != "yes":
         print("Exiting...")
         sys.exit(1)
-
+    
     variety = input(BRIGHT_YELLOW + "Enter the variety (amo/regular/no): " + RESET)
-
+    
     if variety.lower() == 'no':
         print("Exiting...")
         sys.exit(1)
@@ -243,6 +243,9 @@ try:
     elif variety.lower() == 'regular':
         order_type = input(BRIGHT_YELLOW + "Enter the order type for Regular (type1/type2): " + RESET)
         print("Order type for Regular:", order_type)
+    else:
+        print("Invalid input. Exiting...")
+        sys.exit(1)
 
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     lstchk_file = "fileHPdf.csv"
