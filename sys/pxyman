@@ -1,5 +1,4 @@
 #!/bin/bash
-
 source ~/env/bin/activate
 
 # Change to the script's directory
