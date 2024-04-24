@@ -30,7 +30,7 @@ for i in range(1, len(df)):
         trend_direction.append(SILVER)
 
 # Create ASCII chart with colored trend
-chart = plot(df.tolist(), {'height': 10, 'format': "{:.0f}", 'color': trend_direction, 'padding': '           ', 'hide_y_axis': False})
+chart = plot(df.tolist(), {'height': 10, 'format': "{:.0f}", 'color': trend_direction})
 
 # Print ASCII chart
 print(chart)
