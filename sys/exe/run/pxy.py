@@ -43,7 +43,7 @@ while True:
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py']) 
-    subprocess.run(['python3', 'buyoptpxy.py']) if mktpxy in ["Buy", "Sell"] else None
+    #subprocess.run(['python3', 'buyoptpxy.py']) if mktpxy in ["Buy", "Sell"] else None
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'daypxy.py'])
     print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
