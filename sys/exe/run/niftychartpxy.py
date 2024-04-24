@@ -10,11 +10,11 @@ print(RESET)
 # Define the ticker symbol for NIFTY
 ticker_symbol = "^NSEI"
 
-# Get data from Yahoo Finance for the last 2 days
+# Get data from Yahoo Finance for the last 2 hours
 nifty_data = yf.Ticker(ticker_symbol)
 
 # Fetch historical data
-nifty_hist = nifty_data.history(period="1d", interval="5m")
+nifty_hist = nifty_data.history(period="2h", interval="5m")
 
 # Select only the 'Close' prices
 df = nifty_hist['Close']
