@@ -38,7 +38,7 @@ print(chart)
 # Calculate delta
 yesterday_close = df.iloc[-13]
 today_close = df.iloc[-1]
-delta = int((today_close - yesterday_close) * 100)
+delta = int((today_close - yesterday_close) )
 delta_color = BRIGHT_GREEN if delta >= 0 else BRIGHT_RED
 
 # Print delta
