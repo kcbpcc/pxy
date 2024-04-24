@@ -238,10 +238,8 @@ try:
         print("Exiting...")
         sys.exit(1)
     elif variety_input.lower() == 'amo':
-        order_type_input = input(BRIGHT_YELLOW + "Enter the order type for AMO (type1/type2): " + RESET)
         variety = 'amo'
     elif variety_input.lower() == 'regular':
-        order_type_input = input(BRIGHT_YELLOW + "Enter the order type for Regular (type1/type2): " + RESET)
         variety = 'regular'
     else:
         print("Invalid input. Exiting...")
