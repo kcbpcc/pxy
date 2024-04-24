@@ -10,11 +10,11 @@ print(RESET)
 # Define the ticker symbol for NIFTY
 ticker_symbol = "^NSEI"
 
-# Get data from Yahoo Finance for the last 2 hours
+# Get data from Yahoo Finance for the last 2.5 hours
 nifty_data = yf.Ticker(ticker_symbol)
 
 # Fetch historical data
-nifty_hist = nifty_data.history(period="2h", interval="5m")
+nifty_hist = nifty_data.history(period="2d", interval="5m")[-31:]
 
 # Select only the 'Close' prices
 df = nifty_hist['Close']
@@ -35,8 +35,5 @@ chart = plot(df.tolist(), {'height': 10, 'format': "{:.0f}", 'color': trend_dire
 # Print ASCII chart
 print(chart)
 
-
-
 # Reset terminal color to default
 print(RESET)
-
