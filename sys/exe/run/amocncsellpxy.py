@@ -225,6 +225,12 @@ try:
     print(BRIGHT_YELLOW + "green_Stocks_count:", green_Stocks_count, RESET)
     print(BRIGHT_YELLOW + "green_Stocks_profit_loss:", green_Stocks_profit_loss, RESET)
     print(BRIGHT_YELLOW + "green_Stocks_capital_percentage:", green_Stocks_capital_percentage, "%" + RESET)
+    
+    proceed = input(BRIGHT_RED + "Do you want to execute the next part of the code? (yes/no): " + RESET)
+
+    if proceed.lower() == "no":
+        print("Exiting...")
+        sys.exit(1)
 
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     lstchk_file = "fileHPdf.csv"
