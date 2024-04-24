@@ -37,12 +37,11 @@ def calculate_decision():
         # Use the 'margins' method to get margin data without specifying a segment
         try:
             response = broker.kite.margins()
-            print(response)
-            available_cash = response["equity"]["available"]["live_balance"]
+            available_cash = response["delivery"]
         except Exception as e:
             print(f"An error occurred: {e}")
             available_cash = 0
-        limit = 60000 if peak == 'NONPEAK' else 11000 if peak == 'PEAKEND' else 50
+        limit = 20000 if peak == 'NONPEAK' else 11000 if peak == 'PEAKEND' else 50
         decision = "YES" if available_cash > limit else "NO"
         optdecision = "YES" if available_cash > 10000 else "NO"
         # Only return the decision, not available_cash
