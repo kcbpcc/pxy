@@ -31,7 +31,7 @@ for i in range(1, len(df)):
 
 # Function to plot chart with Y-axis on the right side
 def plot_with_yaxis_right(data, color):
-    return plot(data, {'height': 10, 'format': "{:.0f}", 'color': color, 'padding': '           '})
+    return plot(data, {'height': 10, 'format': "{:.0f}", 'color': color, 'padding': '           ', 'min': min(data), 'max': max(data)})
 
 # Create ASCII chart with colored trend
 chart = plot_with_yaxis_right(df.tolist(), trend_direction)
@@ -41,4 +41,3 @@ print(chart)
 
 # Reset terminal color to default
 print(RESET)
-
