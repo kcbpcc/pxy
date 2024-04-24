@@ -221,9 +221,11 @@ try:
         # Handle the case where get_holdingsinfo returns None
         print("Error: Unable to retrieve holdings information.")
     extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = get_holdingsinfo(combined_df)    
-    print("green_Stocks_count:", green_Stocks_count)
-    print("green_Stocks_profit_loss:", green_Stocks_profit_loss)
-    print("green_Stocks_capital_percentage:", green_Stocks_capital_percentage, "%")
+
+    print(BRIGHT_YELLOW + "green_Stocks_count:", green_Stocks_count + RESET_COLOR)
+    print(BRIGHT_YELLOW + "green_Stocks_profit_loss:", green_Stocks_profit_loss + RESET_COLOR)
+    print(BRIGHT_YELLOW + "green_Stocks_capital_percentage:", green_Stocks_capital_percentage, "%" + RESET_COLOR)
+
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
