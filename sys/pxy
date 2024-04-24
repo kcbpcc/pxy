@@ -72,7 +72,7 @@ while true; do
             ;;   
         mn)
             echo "        🛸🛸🛸..Manual Drive..🛸🛸🛸"
-            pxyopt
+            pxyman
             ;;           
         up)
             echo "       🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
