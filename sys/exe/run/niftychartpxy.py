@@ -36,6 +36,8 @@ chart = plot(df.tolist(), {'height': 10, 'format': "{:.0f}", 'color': trend_dire
 print(chart)
 
 # Calculate delta
+yesterday_close = df.iloc[-13]
+today_close = df.iloc[-1]
 delta = int((today_close - yesterday_close) * 100)
 delta_color = BRIGHT_GREEN if delta >= 0 else BRIGHT_RED
 
@@ -44,3 +46,4 @@ print("📊📊📊📊📊📊 Delta: {}{}📊📊📊📊📊📊".format(delt
 
 # Reset terminal color to default
 print(RESET)
+
