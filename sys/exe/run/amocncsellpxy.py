@@ -268,7 +268,7 @@ try:
     csv_file_path = "filePnL.csv"
     total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks)*100000)
     selected_rows = []
-    if mktpxy == "Sell" or mktpxy == "Bear":
+    if mktpxy != "none":
         try:
             for index, row in EXE_df.iterrows():
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
