@@ -37,6 +37,7 @@ def calculate_decision():
         # Use the 'margins' method to get margin data without specifying a segment
         try:
             response = broker.kite.margins()
+            print(response.keys())
             available_cash = response["delivery"]
         except Exception as e:
             print(f"An error occurred: {e}")
