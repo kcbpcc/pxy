@@ -14,6 +14,8 @@ nsma = check_index_status('^NSEI')
 from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 from datetime import datetime, timedelta
+from thudaypxy import get_this_thursday
+expiry_year, expiry_month, expiry_day = get_this_thursday()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 print("━" * 42)
 async def send_telegram_message(message_text):
@@ -28,10 +30,6 @@ async def send_telegram_message(message_text):
     except Exception as e:
         # Handle the exception (e.g., log it) and continue with your code
         print(f"Error sending message to Telegram: {e}")
-
-# Define function to get this week's Thursday date
-from thudaypxy import get_this_thursday
-expiry_year, expiry_month, expiry_day = get_this_thursday()
     
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     # Convert expiry_month to a single digit string if it's less than or equal to 9
