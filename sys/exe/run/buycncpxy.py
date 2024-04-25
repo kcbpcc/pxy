@@ -122,7 +122,7 @@ if decision == "YES":
         logging.info(f"Ignored symbols: {lst_failed_symbols}")
         lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
         response = broker.kite.margins()
-        remaining_cash = response['equity']['utilised']['delivery']
+        remaining_cash = response["equity"]["available"]["live_balance"]
         for d in lst_orders:
             symbol, remaining_cash = transact(d, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
