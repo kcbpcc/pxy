@@ -40,15 +40,27 @@ def get_this_thursday():
 
     if days_until_this_thursday == 0:  # If today is Thursday
         this_thursday = current_date + timedelta(days=7)
-        expiry_day = (this_thursday + timedelta(days=7)).strftime("%d").zfill(2)
+        if this_thursday.month != (this_thursday + timedelta(days=7)).month:
+            expiry_month = this_thursday.strftime("%m")
+            expiry_day = ''
+        else:
+            expiry_month = ''
+            expiry_day = ''
     else:
         this_thursday = current_date + timedelta(days=days_until_this_thursday)
+        last_day_of_month = (this_thursday.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+        if this_thursday.month != (this_thursday + timedelta(days=7)).month:
+            if this_thursday.day > last_day_of_month.day - 7:
+                expiry_month = this_thursday.strftime("%m")
+                expiry_day = ''
+                return this_thursday.strftime("%y"), expiry_month, expiry_day
+        if int(this_thursday.strftime("%m")) <= 9:  # Single digit month representation
+            expiry_month = str(int(this_thursday.strftime("%m")))
+        else:  # Double digit month representation
+            expiry_month = this_thursday.strftime("%m")
         expiry_day = (this_thursday - timedelta(days=7)).strftime("%d").zfill(2)
 
-    expiry_year = this_thursday.strftime("%y")
-    expiry_month = this_thursday.strftime("%b").upper()
-
-    return expiry_year, expiry_month, expiry_day
+    return this_thursday.strftime("%y"), expiry_month, expiry_day
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     # Convert expiry_month to a single digit string if it's less than or equal to 9
