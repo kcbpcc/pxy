@@ -1,4 +1,5 @@
 #buyoptpxy.py
+adjest = 0
 import traceback
 import sys
 import logging
@@ -14,8 +15,6 @@ nsma = check_index_status('^NSEI')
 from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 from datetime import datetime, timedelta
-from thudaypxy import get_this_thursday
-expiry_year, expiry_month, expiry_day = get_this_thursday()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 print("━" * 42)
 async def send_telegram_message(message_text):
@@ -30,7 +29,33 @@ async def send_telegram_message(message_text):
     except Exception as e:
         # Handle the exception (e.g., log it) and continue with your code
         print(f"Error sending message to Telegram: {e}")
-    
+
+# Define function to get this week's Thursday date
+
+from datetime import datetime, timedelta
+
+def get_this_thursday(adjest=7):
+    current_date = datetime.now()
+    days_until_this_thursday = (3 - current_date.weekday() + 7) % 7
+    if days_until_this_thursday == 0:
+        expiry_year = current_date.strftime("%y")
+        expiry_month = current_date.strftime("%b").upper()  # Convert to all caps
+        expiry_day = current_date.strftime("%d").zfill(2)
+        return expiry_year, expiry_month, expiry_day
+    this_thursday = current_date + timedelta(days=days_until_this_thursday)
+    last_day_of_month = (this_thursday.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+    if this_thursday.month != (this_thursday + timedelta(days=7)).month:
+        if this_thursday.day > last_day_of_month.day - 7:
+            expiry_year = this_thursday.strftime("%y")
+            expiry_month = this_thursday.strftime("%b").upper()  # Convert to all caps
+            expiry_day = ''  # Empty day
+            return expiry_year, expiry_month, expiry_day
+    expiry_year = this_thursday.strftime("%y")
+    expiry_month = this_thursday.strftime("%b").upper()  # Convert to all caps
+    expiry_day_adjust = timedelta(days=adjest)  # Adjustment of days
+    expiry_day = (this_thursday - expiry_day_adjust).strftime("%d").zfill(2)
+    return expiry_year, expiry_month, expiry_day
+
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     # Convert expiry_month to a single digit string if it's less than or equal to 9
     if len(expiry_month) == 2 and expiry_month.startswith("0"):
