@@ -34,6 +34,8 @@ async def send_telegram_message(message_text):
 
 from datetime import datetime, timedelta
 
+from datetime import datetime, timedelta
+
 def get_this_thursday():
     current_date = datetime.now()
     days_until_this_thursday = (3 - current_date.weekday() + 7) % 7
@@ -53,14 +55,12 @@ def get_this_thursday():
             if this_thursday.day > last_day_of_month.day - 7:
                 expiry_month = this_thursday.strftime("%m")
                 expiry_day = ''
-                return this_thursday.strftime("%y"), expiry_month, expiry_day
-        if int(this_thursday.strftime("%m")) <= 9:  # Single digit month representation
-            expiry_month = str(int(this_thursday.strftime("%m")))
-        else:  # Double digit month representation
-            expiry_month = this_thursday.strftime("%m")
+                return this_thursday.strftime("%y%m"), expiry_month, expiry_day
+        expiry_month = str((this_thursday - timedelta(days=7)).month)
+
         expiry_day = (this_thursday - timedelta(days=7)).strftime("%d").zfill(2)
 
-    return this_thursday.strftime("%y"), expiry_month, expiry_day
+    return this_thursday.strftime("%y") + expiry_month, expiry_month, expiry_day
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     # Convert expiry_month to a single digit string if it's less than or equal to 9
