@@ -34,26 +34,20 @@ async def send_telegram_message(message_text):
 
 from datetime import datetime, timedelta
 
-def get_this_thursday(adjest=7):
+def get_this_thursday():
     current_date = datetime.now()
     days_until_this_thursday = (3 - current_date.weekday() + 7) % 7
-    if days_until_this_thursday == 0:
-        expiry_year = current_date.strftime("%y")
-        expiry_month = current_date.strftime("%b").upper()  # Convert to all caps
-        expiry_day = current_date.strftime("%d").zfill(2)
-        return expiry_year, expiry_month, expiry_day
-    this_thursday = current_date + timedelta(days=days_until_this_thursday)
-    last_day_of_month = (this_thursday.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
-    if this_thursday.month != (this_thursday + timedelta(days=7)).month:
-        if this_thursday.day > last_day_of_month.day - 7:
-            expiry_year = this_thursday.strftime("%y")
-            expiry_month = this_thursday.strftime("%b").upper()  # Convert to all caps
-            expiry_day = ''  # Empty day
-            return expiry_year, expiry_month, expiry_day
+
+    if days_until_this_thursday == 0:  # If today is Thursday
+        this_thursday = current_date + timedelta(days=7)
+        expiry_day = (this_thursday + timedelta(days=7)).strftime("%d").zfill(2)
+    else:
+        this_thursday = current_date + timedelta(days=days_until_this_thursday)
+        expiry_day = (this_thursday - timedelta(days=7)).strftime("%d").zfill(2)
+
     expiry_year = this_thursday.strftime("%y")
-    expiry_month = this_thursday.strftime("%b").upper()  # Convert to all caps
-    expiry_day_adjust = timedelta(days=adjest)  # Adjustment of days
-    expiry_day = (this_thursday - expiry_day_adjust).strftime("%d").zfill(2)
+    expiry_month = this_thursday.strftime("%b").upper()
+
     return expiry_year, expiry_month, expiry_day
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
