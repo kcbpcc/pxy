@@ -14,7 +14,7 @@ ticker_symbol = "^NSEI"
 nifty_data = yf.Ticker(ticker_symbol)
 
 # Fetch historical data
-nifty_hist = nifty_data.history(period="5d", interval="15m")[-32:]
+nifty_hist = nifty_data.history(period="5d", interval="5m")[-32:]
 
 # Select only the 'Close' prices
 df = nifty_hist['Close']
