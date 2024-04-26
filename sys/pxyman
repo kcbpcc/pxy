@@ -12,7 +12,7 @@ display_menu() {
     echo "2. 🔂 -Strangle"
     echo "3. 💵 -Targeted Call Sell"
     echo "4. 🧱 -Targeted Put Buy"
-    echo "5. ⚡️ -Flash Falsh AMO/REGULAR"
+    echo "5. ⚡️-Flash Falsh AMO/REGULAR"
     echo "u. 📥 -PXY Update"
     echo "Q. 👈 -Exit"
 }
