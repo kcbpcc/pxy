@@ -3,6 +3,17 @@ import numpy as np
 from asciichartpy import plot
 from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
 import yfinance as yf
+import sys
+
+# Check if terminal supports ANSI color codes
+if not hasattr(sys.stdout, "isatty") or not sys.stdout.isatty():
+    print("Terminal does not support ANSI color codes. Please use a compatible terminal.")
+    sys.exit(1)
+
+# Check if asciichartpy library supports color rendering
+if not plot([1, 2], {'color': [BRIGHT_RED, BRIGHT_GREEN]}):
+    print("asciichartpy library does not support color rendering. Please check if there's an update.")
+    sys.exit(1)
 
 # Reset terminal color to default
 print(RESET)
@@ -11,29 +22,27 @@ print(RESET)
 ticker_symbol = "^NSEI"
 
 # Get data from Yahoo Finance for the last 2.5 hours
-nifty_data = yf.Ticker(ticker_symbol)
+nifty_data = yf.download(ticker_symbol, period="1d", interval="15m")
 
-# Fetch historical data
-nifty_hist = nifty_data.history(period="5d", interval="15m")[-32:]
+# Fetch latest data (current 15-minute interval)
+latest_data = nifty_data.iloc[-1]
 
 # Calculate Heikin-Ashi (HA) close prices
-ha_close = (nifty_hist['Open'] + nifty_hist['High'] + nifty_hist['Low'] + nifty_hist['Close']) / 4
+ha_close = (latest_data['Open'] + latest_data['High'] + latest_data['Low'] + latest_data['Close']) / 4
 
 # Calculate Heikin-Ashi (HA) open prices
-ha_open = (nifty_hist['Open'].shift(1) + nifty_hist['Close'].shift(1)) / 2
+ha_open = (latest_data['Open'] + latest_data['Close']) / 2
 
 # Calculate trend direction based on HA open-close
-trend_direction = []
-for i in range(1, len(ha_close)):
-    if ha_close.iloc[i] > ha_open.iloc[i]:
-        trend_direction.append(BRIGHT_GREEN)
-    elif ha_close.iloc[i] < ha_open.iloc[i]:
-        trend_direction.append(BRIGHT_RED)
-    else:
-        trend_direction.append(SILVER)
+if ha_close > ha_open:
+    trend_direction = BRIGHT_GREEN
+elif ha_close < ha_open:
+    trend_direction = BRIGHT_RED
+else:
+    trend_direction = SILVER
 
-# Create ASCII chart with colored trend
-chart = plot(ha_close.tolist(), {'height': 10, 'format': "{:.0f}", 'color': trend_direction})
+# Create ASCII chart with colored trend for the latest 15-minute interval
+chart = plot([ha_close], {'height': 10, 'format': "{:.0f}", 'color': [trend_direction]})
 
 # Print ASCII chart
 print(chart)
