@@ -76,9 +76,9 @@ def count_positions_by_type(broker):
     count_CE = 0
     count_PE = 0
     for position in positions_net:
-        if position['tradingsymbol'].endswith('CE') and abs(position['quantity']) >= 50:
+        if position['tradingsymbol'].endswith('CE') and abs(position['quantity']) >= 25:
             count_CE += 1
-        elif position['tradingsymbol'].endswith('PE') and abs(position['quantity']) >= 50:
+        elif position['tradingsymbol'].endswith('PE') and abs(position['quantity']) >= 25:
             count_PE += 1
     return count_CE, count_PE
 
@@ -86,7 +86,7 @@ def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
     for position in positions_net:
-        if position['tradingsymbol'] == symbol and abs(position['quantity']) >= 50:
+        if position['tradingsymbol'] == symbol and abs(position['quantity']) >= 25:
             return True
     return False
 
@@ -150,7 +150,7 @@ async def main():
     PE_position_exists = check_existing_positions(broker, PE_symbol)
 
     if not CE_position_exists:
-        buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', 50, 'MARKET')
+        buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', 25, 'MARKET')
         if buy_order_placed_CE:
             await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {CE_symbol} placed successfully.")
             print(f"{CE_symbol} BUY order placed successfully.")
@@ -158,7 +158,7 @@ async def main():
         print(f"Existing {CE_symbol}, So not buying")
 
     if not PE_position_exists:
-        buy_order_placed_PE, buy_order_id_PE = await place_order(broker, PE_symbol, 'BUY', 'NRML', 50, 'MARKET')
+        buy_order_placed_PE, buy_order_id_PE = await place_order(broker, PE_symbol, 'BUY', 'NRML', 25, 'MARKET')
         if buy_order_placed_PE:
             await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {PE_symbol} placed successfully.")
             print(f"{PE_symbol} BUY order placed successfully.")
