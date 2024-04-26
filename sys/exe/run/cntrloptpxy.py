@@ -158,4 +158,3 @@ if not opt_df.empty:
 
 print("━" * 42)
 
-
