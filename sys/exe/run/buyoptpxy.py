@@ -143,7 +143,7 @@ async def main():
 
     expiry_year, expiry_month, expiry_day = get_this_thursday()
 
-    option_type = 'CE' if (mktpxy == 'Buy' and CE_weight < 1 and count_CE < 4) else ('PE' if (mktpxy == 'Sell' and PE_weight < 1 and count_PE < 4) else (print(f"Market-{mktpxy} or Unbalanced-let's wait 🔍👀".rjust(39))) or sys.exit(1))
+    option_type = 'CE' if (mktpxy == 'Bull' and CE_weight < 1 and count_CE < 4) else ('PE' if (mktpxy == 'Sell' and PE_weight < 1 and count_PE < 4) else (print(f"Market-{mktpxy} or Unbalanced-let's wait 🔍👀".rjust(39))) or sys.exit(1))
     symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
 
     position_exists = check_existing_positions(broker, symbol)
