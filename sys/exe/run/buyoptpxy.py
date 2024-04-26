@@ -1,4 +1,3 @@
-#buyoptpxy.py
 adjest = 0
 import traceback
 import sys
@@ -16,12 +15,14 @@ from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 from datetime import datetime, timedelta
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+
 print("━" * 42)
+
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
-        bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'  # Replace with your actual bot token
-        user_usernames = '-4128494197'  # Replace with your Telegram username or ID
+        bot_token = 'YOUR_BOT_TOKEN_HERE'  # Replace with your actual bot token
+        user_usernames = 'YOUR_TELEGRAM_USERNAME_HERE'  # Replace with your Telegram username or ID
         # Create a Telegram bot
         bot = telegram.Bot(token=bot_token)
         # Send the message to Telegram
@@ -31,7 +32,6 @@ async def send_telegram_message(message_text):
         print(f"Error sending message to Telegram: {e}")
 
 # Define function to get this week's Thursday date
-
 from datetime import datetime, timedelta
 
 def get_this_thursday(adjust=7):
@@ -82,7 +82,6 @@ def count_positions_by_type(broker):
             count_PE += 1
     return count_CE, count_PE
 
-
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
@@ -90,7 +89,6 @@ def check_existing_positions(broker, symbol):
         if position['tradingsymbol'] == symbol and abs(position['quantity']) >= 50:
             return True
     return False
-
 
 async def place_order(broker, symbol, transaction_type, product_type, quantity, order_type, price=None):
     try:
@@ -145,24 +143,32 @@ async def main():
 
     expiry_year, expiry_month, expiry_day = get_this_thursday()
 
-    option_type = 'CE' if (mktpxy == 'Bull' and CE_weight < 1 and count_CE < 4) else ('PE' if (mktpxy == 'Sell' and PE_weight < 1 and count_PE < 4) else (print(f"Market-{mktpxy} or Unbalanced-let's wait 🔍👀".rjust(39))) or sys.exit(1))
-    symbol = construct_symbol(expiry_year, expiry_month, expiry_day, option_type)
+    CE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'CE')
+    PE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'PE')
 
-    position_exists = check_existing_positions(broker, symbol)
-    
-    if not position_exists:
-        # await the coroutine
-        buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', 50, 'MARKET')
-        if buy_order_placed:
-            # Send Telegram message
-            await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {symbol} placed successfully.")
-            print(f"{symbol} BUY order placed successfully.")
+    CE_position_exists = check_existing_positions(broker, CE_symbol)
+    PE_position_exists = check_existing_positions(broker, PE_symbol)
+
+    if not CE_position_exists:
+        buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', 50, 'MARKET')
+        if buy_order_placed_CE:
+            await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {CE_symbol} placed successfully.")
+            print(f"{CE_symbol} BUY order placed successfully.")
     else:
-        print(f"Existing {symbol}, So not buying")
+        print(f"Existing {CE_symbol}, So not buying")
+
+    if not PE_position_exists:
+        buy_order_placed_PE, buy_order_id_PE = await place_order(broker, PE_symbol, 'BUY', 'NRML', 50, 'MARKET')
+        if buy_order_placed_PE:
+            await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {PE_symbol} placed successfully.")
+            print(f"{PE_symbol} BUY order placed successfully.")
+    else:
+        print(f"Existing {PE_symbol}, So not buying")
 
 async def run_main():
     await main()
 
 # Run the asynchronous function using asyncio.run()
 asyncio.run(run_main())
+
 
