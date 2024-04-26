@@ -43,7 +43,7 @@ while True:
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py']) 
-    #subprocess.run(['python3', 'buyoptpxy.py']) if mktpxy in ["Buy", "Sell"] else None
+    subprocess.run(['python3', 'buyoptpxy.py']) if nse_power > 0.90 or nse_power < 0.10 else None
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
     print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
@@ -55,7 +55,7 @@ while True:
     print("━" * 42)
     subprocess.run(['python3', 'selfpxy.py'])
     print("━" * 42)
-    #subprocess.run(['python3', 'cntrloptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
+    subprocess.run(['python3', 'cntrloptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
     subprocess.run(['python3', 'gooboradpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     progress_bar(cycle, mktpxy)
