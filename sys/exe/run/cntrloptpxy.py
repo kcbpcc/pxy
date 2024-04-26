@@ -132,25 +132,27 @@ if not print_open_sell_df.empty:
     print_formatted_df(print_open_sell_df)
 
 # Print individual PE and CE options with one single strike and their respective group summaries
-for index, row in opt_df.iterrows():
-    if row['qty'] != 0:
-        option_type = 'PE' if row['key'].endswith('PE') else 'CE'
-        individual_summary = f"🔢  Strike: {row['Strike']} | {option_type} | 💰: {row['Invested']} | P&L%: {row['PL']} | Qty : {row['qty']}"
-        print(individual_summary)
+if not opt_df.empty:
+    for index, row in opt_df.iterrows():
+        if row['qty'] != 0:
+            option_type = 'PE' if row['key'].endswith('PE') else 'CE'
+            individual_summary = f"🔢  Strike: {row['Strike']} | {option_type} | 💰: {row['Invested']} | P&L%: {row['PL%']} | Qty : {row['qty']}"
+            print(individual_summary)
 
-for (strike, option_type), group_summary in summary_df.groupby(level=[0, 1]):
-    group_summary_str = f"🛑  Summary for {strike}  | P&L: {group_summary['PnL'].values[0]} | P&L%: {group_summary['PL%'].values[0]:.0f}%"
-    print(group_summary_str)
+    for (strike, option_type), group_summary in summary_df.groupby(level=[0, 1]):
+        group_summary_str = f"🛑  Summary for {strike}  | P&L: {group_summary['PnL'].values[0]} | P&L%: {group_summary['PL%'].values[0]:.0f}%"
+        print(group_summary_str)
 
-    # Print group summary only once per strike price
-    if option_type == 'CE':
-        ce_group_summary = summary_df.loc[(strike, 'CE')]
-        pe_group_summary = summary_df.loc[(strike, 'PE')]
-        strike_group_summary_str = f"🛑  Summary for {strike}  | P&L: {ce_group_summary['PnL'] + pe_group_summary['PnL']} | P&L%: {((ce_group_summary['PnL'] + pe_group_summary['PnL']) / (ce_group_summary['Invested'] + pe_group_summary['Invested'])) * 100:.0f}%"
-        print(strike_group_summary_str)
+        # Print group summary only once per strike price
+        if option_type == 'CE':
+            ce_group_summary = summary_df.loc[(strike, 'CE')]
+            pe_group_summary = summary_df.loc[(strike, 'PE')]
+            strike_group_summary_str = f"🛑  Summary for {strike}  | P&L: {ce_group_summary['PnL'] + pe_group_summary['PnL']} | P&L%: {((ce_group_summary['PnL'] + pe_group_summary['PnL']) / (ce_group_summary['Invested'] + pe_group_summary['Invested'])) * 100:.0f}%"
+            print(strike_group_summary_str)
 
-for index, row in opt_df.iterrows():
-    exit_options(row['key'], row['PL%'], row['qty'], row['PnL'])
+    for index, row in opt_df.iterrows():
+        exit_options(row['key'], row['PL%'], row['qty'], row['PnL'])
 
 print("━" * 42)
+
 
