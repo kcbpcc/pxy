@@ -101,10 +101,10 @@ print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
 
 # Set MultiIndex for DataFrame
-opt_df.set_index(['key', 'CP'], inplace=True)
+opt_df.set_index(['key'], inplace=True)
 
 # Group by Strike and Option_Type and calculate total Invested, PnL, qty for each group
-summary_df = opt_df.groupby(level=[0, 1]).agg({'Invested': 'sum', 'PnL': 'sum', 'qty': 'sum'})
+summary_df = opt_df.groupby(['key', 'CP']).agg({'Invested': 'sum', 'PnL': 'sum', 'qty': 'sum'})
 
 # Calculate P&L percentage for each group
 summary_df['PL%'] = (summary_df['PnL'] / summary_df['Invested']) * 100
@@ -138,23 +138,24 @@ if not print_open_sell_df.empty:
 if not opt_df.empty:
     for index, row in opt_df.iterrows():
         if row['qty'] != 0:
-            option_type = 'PE' if row.name[1].endswith('PE') else 'CE'
-            individual_summary = f"🔢  Strike: {row.name[0]} | {option_type} | 💰: {row['Invested']} | P&L%: {row['PL%']} | Qty : {row['qty']}"
+            option_type = 'PE' if row.name.endswith('PE') else 'CE'
+            individual_summary = f"🔢  Strike: {row.name} | {option_type} | 💰: {row['Invested']} | P&L%: {row['PL%']} | Qty : {row['qty']}"
             print(individual_summary)
 
-    for (strike, option_type), group_summary in summary_df.iterrows():
-        group_summary_str = f"🛑  Summary for {strike}  | P&L: {group_summary['PnL']} | P&L%: {group_summary['PL%']:.0f}%"
+    for (key, option_type), group_summary in summary_df.iterrows():
+        group_summary_str = f"🛑  Summary for {key}  | P&L: {group_summary['PnL']} | P&L%: {group_summary['PL%']:.0f}%"
         print(group_summary_str)
 
         # Print group summary only once per strike price
-        if option_type == 'CE':
-            ce_group_summary = summary_df.loc[(strike, '🟩')]
-            pe_group_summary = summary_df.loc[(strike, '🟥')]
-            strike_group_summary_str = f"🛑  Summary for {strike}  | P&L: {ce_group_summary['PnL'] + pe_group_summary['PnL']} | P&L%: {((ce_group_summary['PnL'] + pe_group_summary['PnL']) / (ce_group_summary['Invested'] + pe_group_summary['Invested'])) * 100:.0f}%"
+        if option_type == '🟩':
+            ce_group_summary = summary_df.loc[(key, '🟩')]
+            pe_group_summary = summary_df.loc[(key, '🟥')]
+            strike_group_summary_str = f"🛑  Summary for {key}  | P&L: {ce_group_summary['PnL'] + pe_group_summary['PnL']} | P&L%: {((ce_group_summary['PnL'] + pe_group_summary['PnL']) / (ce_group_summary['Invested'] + pe_group_summary['Invested'])) * 100:.0f}%"
             print(strike_group_summary_str)
 
     for index, row in opt_df.iterrows():
-        exit_options(row.name[0], row['PL%'], row['qty'], row['PnL'])
+        exit_options(row.name, row['PL%'], row['qty'], row['PnL'])
 
 print("━" * 42)
+
 
