@@ -14,27 +14,26 @@ ticker_symbol = "^NSEI"
 nifty_data = yf.Ticker(ticker_symbol)
 
 # Fetch historical data
-nifty_hist = nifty_data.history(period="1d", interval="15m")
-
-# Fetch latest data (current 15-minute interval)
-latest_data = nifty_hist.iloc[-1]
+nifty_hist = nifty_data.history(period="5d", interval="5m")[-32:]
 
 # Calculate Heikin-Ashi (HA) close prices
-ha_close = (latest_data['Open'] + latest_data['High'] + latest_data['Low'] + latest_data['Close']) / 4
+ha_close = (nifty_hist['Open'] + nifty_hist['High'] + nifty_hist['Low'] + nifty_hist['Close']) / 4
 
 # Calculate Heikin-Ashi (HA) open prices
-ha_open = (latest_data['Open'] + latest_data['Close']) / 2
+ha_open = (nifty_hist['Open'].shift(1) + nifty_hist['Close'].shift(1)) / 2
 
 # Calculate trend direction based on HA open-close
-if ha_close > ha_open:
-    trend_direction = BRIGHT_GREEN
-elif ha_close < ha_open:
-    trend_direction = BRIGHT_RED
-else:
-    trend_direction = SILVER
+trend_direction = []
+for i in range(1, len(ha_close)):
+    if ha_close.iloc[i] > ha_open.iloc[i]:
+        trend_direction.append(BRIGHT_GREEN)
+    elif ha_close.iloc[i] < ha_open.iloc[i]:
+        trend_direction.append(BRIGHT_RED)
+    else:
+        trend_direction.append(SILVER)
 
-# Create ASCII chart with colored trend for the latest 15-minute interval
-chart = plot([ha_close], {'height': 10, 'format': "{:.0f}", 'color': [trend_direction]})
+# Create ASCII chart with colored trend
+chart = plot(ha_close.tolist(), {'height': 10, 'format': "{:.0f}", 'color': trend_direction})
 
 # Print ASCII chart
 print(chart)
