@@ -36,7 +36,8 @@ def get_expiry_date():
     next_month = current_date.month + 1 if current_date.month < 12 else 1
     next_year = current_date.year if current_date.month < 12 else current_date.year + 1
     expiry_date = last_thursday_of_month(next_year, next_month)
-    return expiry_date.year, expiry_date.strftime("%b").upper()
+    expiry_year = str(expiry_date.year)[-2:]  # Get last two digits of the year
+    return expiry_year, expiry_date.strftime("%b").upper()
 
 def construct_symbol(expiry_year, expiry_month, option_type):
     if len(expiry_month) == 2 and expiry_month.startswith("0"):
@@ -123,3 +124,4 @@ async def run_main():
     await main()
 
 asyncio.run(run_main())
+
