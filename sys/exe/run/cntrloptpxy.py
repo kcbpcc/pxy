@@ -92,11 +92,6 @@ opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
 opt_df['PL%'] = opt_df['PL%'].fillna(0)
 opt_df['PL%'] = opt_df['PL%'].astype(int) 
 opt_df['m2m'] = opt_df['m2m'].astype(int)
-opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','pnl','product','m2m']]
-total_invested = opt_df['Invested'].sum()
-total_pl = opt_df['PnL'].sum()
-total_opt_m2m = opt_df['m2m'].sum()
-total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
 
 ######################################PXY® PreciseXceleratedYield Pvt Ltd™############################################
 print_df = opt_df.copy()
@@ -104,17 +99,30 @@ print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else (
 print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N')
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
+
+# Group by Strike and Option_Type and calculate total Invested, PnL, qty for each group
+summary_df = opt_df.groupby(['Strike', 'Option_Type']).agg({'Invested': 'sum', 'PnL': 'sum', 'qty': 'sum'})
+
+# Calculate P&L percentage for each group
+summary_df['PL%'] = (summary_df['PnL'] / summary_df['Invested']) * 100
+
+# Format summary sentence
+total_invested = summary_df['Invested'].sum()
+total_pl = summary_df['PnL'].sum()
+total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
 summary_sentence = f"CAP:{total_invested} P&L:{total_pl} P&L%:{total_pl_percentage:.0f}% TGT:{mvtrgt_ce}{mvtrgt_pe}"
 
 pd.set_option('display.max_colwidth', 42)
 print_open_buy_df = print_df.loc[print_df['qty'] > 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 print_close_df = print_df.loc[print_df['qty'] == 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'pnl','CP']]
 print_open_sell_df = print_df.loc[print_df['qty'] < 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+
 def print_formatted_df(df):
     formatted_lines = df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
     for line in formatted_lines:
         color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
         print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(40) + RESET)
+
 if not print_open_buy_df.empty:
     print_formatted_df(print_open_buy_df)
 print(f"{BRIGHT_YELLOW}{summary_sentence.rjust(42)}{RESET}")
@@ -122,6 +130,27 @@ if not print_close_df.empty:
     print_formatted_df(print_close_df)
 if not print_open_sell_df.empty:
     print_formatted_df(print_open_sell_df)
+
+# Print individual PE and CE options with one single strike and their respective group summaries
+for index, row in opt_df.iterrows():
+    if row['qty'] != 0:
+        option_type = 'PE' if row['key'].endswith('PE') else 'CE'
+        individual_summary = f"🔢  Strike: {row['Strike']} | {option_type} | 💰: {row['Invested']} | P&L%: {row['PL']} | Qty : {row['qty']}"
+        print(individual_summary)
+
+for (strike, option_type), group_summary in summary_df.groupby(level=[0, 1]):
+    group_summary_str = f"🛑  Summary for {strike}  | P&L: {group_summary['PnL'].values[0]} | P&L%: {group_summary['PL%'].values[0]:.0f}%"
+    print(group_summary_str)
+
+    # Print group summary only once per strike price
+    if option_type == 'CE':
+        ce_group_summary = summary_df.loc[(strike, 'CE')]
+        pe_group_summary = summary_df.loc[(strike, 'PE')]
+        strike_group_summary_str = f"🛑  Summary for {strike}  | P&L: {ce_group_summary['PnL'] + pe_group_summary['PnL']} | P&L%: {((ce_group_summary['PnL'] + pe_group_summary['PnL']) / (ce_group_summary['Invested'] + pe_group_summary['Invested'])) * 100:.0f}%"
+        print(strike_group_summary_str)
+
 for index, row in opt_df.iterrows():
     exit_options(row['key'], row['PL%'], row['qty'], row['PnL'])
+
 print("━" * 42)
+
