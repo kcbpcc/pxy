@@ -101,7 +101,8 @@ print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
 
 # Group by Strike and Option_Type and calculate total Invested, PnL, qty for each group
-summary_df = opt_df.groupby(['Strike', 'Option_Type']).agg({'Invested': 'sum', 'PnL': 'sum', 'qty': 'sum'})
+opt_df.set_index(['Strike', 'Option_Type'], inplace=True)
+summary_df = opt_df.groupby(level=[0, 1]).agg({'Invested': 'sum', 'PnL': 'sum', 'qty': 'sum'})
 
 # Calculate P&L percentage for each group
 summary_df['PL%'] = (summary_df['PnL'] / summary_df['Invested']) * 100
@@ -136,11 +137,11 @@ if not opt_df.empty:
     for index, row in opt_df.iterrows():
         if row['qty'] != 0:
             option_type = 'PE' if row['key'].endswith('PE') else 'CE'
-            individual_summary = f"🔢  Strike: {row['Strike']} | {option_type} | 💰: {row['Invested']} | P&L%: {row['PL%']} | Qty : {row['qty']}"
+            individual_summary = f"🔢  Strike: {row.name[0]} | {option_type} | 💰: {row['Invested']} | P&L%: {row['PL%']} | Qty : {row['qty']}"
             print(individual_summary)
 
-    for (strike, option_type), group_summary in summary_df.groupby(level=[0, 1]):
-        group_summary_str = f"🛑  Summary for {strike}  | P&L: {group_summary['PnL'].values[0]} | P&L%: {group_summary['PL%'].values[0]:.0f}%"
+    for (strike, option_type), group_summary in summary_df.iterrows():
+        group_summary_str = f"🛑  Summary for {strike}  | P&L: {group_summary['PnL']} | P&L%: {group_summary['PL%']:.0f}%"
         print(group_summary_str)
 
         # Print group summary only once per strike price
