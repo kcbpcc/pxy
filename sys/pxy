@@ -11,10 +11,10 @@ while true; do
     sudo cp ~/pxy/sys/pxy* /usr/local/bin/
     # Change the permissions of copied files to make them executable
     sudo chmod +x /usr/local/bin/pxy*
+
+    # Display menu
     echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
     echo "******************************************" 
-    📊📊📊📊📊📊📊..A/C Chart..📊📊📊📊📊📊📊
-    pxyvalue
     echo "   -pxy                   🔘        🔥"
     echo "   -pyp                   🎉        pp"
     echo "   -pxypy                 🐍        py"
@@ -25,6 +25,7 @@ while true; do
     echo "   -pxytail               📜        lg"
     echo "   -pxycdsl               🔐        cd"
     echo "   -pxyzrun               💊        rn"
+    echo "   -pxyvalue              📊        vl"
     echo "   -pxyclean              🚿        cl"
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
@@ -48,6 +49,10 @@ while true; do
         pp)
             echo "        🎉🎉🎉.pip install.🎉🎉🎉"
             pyp
+            ;;   
+        vl)
+            echo " 📊📊📊📊📊📊📊..A/C Chart..📊📊📊📊📊📊📊"
+            pxyvalue
             ;;   
         lg)
             echo "        📜📜📜.pxy log.📜📜📜"
