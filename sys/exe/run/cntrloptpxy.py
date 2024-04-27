@@ -128,3 +128,4 @@ for group, data in grouped_df:
     print(data.to_string(header=False, index=False).rjust(42))
     print(f"{group} {summary_sentence}".rjust(42))
     print("━" * 42)
+
