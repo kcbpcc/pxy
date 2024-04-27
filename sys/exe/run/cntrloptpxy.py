@@ -85,8 +85,7 @@ finally:
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
 import pandas as pd
 import numpy as np
-
-# Assuming combined_df is your DataFrame
+from cmbddfpxy import process_data
 combined_df = process_data()
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
