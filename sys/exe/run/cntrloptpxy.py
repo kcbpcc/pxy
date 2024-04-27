@@ -109,7 +109,6 @@ for group, data in grouped_df:
     total_pl_group = data['PnL'].sum()
     total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
     summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group} P&L%:{total_pl_percentage_group:.0f}%"
-    print(f"Group: {group}".rjust(42))
     print(data.to_string(header=False, index=False).rjust(42))
-    print(summary_sentence.rjust(42))
+    print(f"Group: {group} {summary_sentence}".rjust(42))
     print("-" * 42)
