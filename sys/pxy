@@ -11,6 +11,7 @@ while true; do
     sudo cp ~/pxy/sys/pxy* /usr/local/bin/
     # Change the permissions of copied files to make them executable
     sudo chmod +x /usr/local/bin/pxy*
+    echo " 📊📊📊📊📊📊📊..A/C Chart..📊📊📊📊📊📊📊"
     pxyvalue
     # Display menu
     echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
