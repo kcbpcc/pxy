@@ -6,7 +6,6 @@ from cnstpxy import dir_path
 from toolkit.logger import Logger
 import csv
 import subprocess
-print("━" * 42)
 import os
 import logging
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
@@ -15,16 +14,11 @@ import numpy as np
 import importlib
 from timetgtpxy import timetgt
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
-importlib.reload(sys.modules['timetgtpxy'])
-timetgt = timetgt()
-from mktpxy import get_market_check
-importlib.reload(sys.modules['mktpxy'])  # Correct the usage
-onemincandlesequance, mktpxy = get_market_check('^NSEI')
-mvtrgt_pe = 10 if mktpxy == "Bear" else 5
-mvtrgt_ce = 10 if mktpxy == "Bull" else 5
-############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
+
+print("━" * 43)
 bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
 user_usernames = ('-4128494197',)  
+
 def send_telegram_message(message):
     try:
         for username in user_usernames:
@@ -40,7 +34,7 @@ def send_telegram_message(message):
                 print("Telegram message sent successfully.")
     except Exception as e:
         print(f"Error sending Telegram message: {e}")
-############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
+
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
     try:
         order_id = broker.order_place(
@@ -56,7 +50,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
     except Exception as e:
         print(f"Error placing order: {e}")
         return None
-############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
+
 def exit_options(key, pl_percentage, quantity, pnl):
     try:
         resp = broker.kite.ltp(key)
@@ -82,10 +76,11 @@ finally:
     if sys.stdout != sys.__stdout__:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
-############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
+
 import pandas as pd
 import numpy as np
 from cmbddfpxy import process_data
+
 combined_df = process_data()
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
@@ -114,8 +109,7 @@ for group, data in grouped_df:
     total_pl_group = data['PnL'].sum()
     total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
     summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group} P&L%:{total_pl_percentage_group:.0f}%"
-    print(data.to_string(header=False, index=False))
-    print(f"Group: {group} {summary_sentence}")
-    print("-" * 50)
-
-
+    print(f"Group: {group}".rjust(43))
+    print(data.to_string(header=False, index=False).rjust(43))
+    print(summary_sentence.rjust(43))
+    print("-" * 43)
