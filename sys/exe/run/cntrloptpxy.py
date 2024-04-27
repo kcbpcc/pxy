@@ -3,21 +3,16 @@ import traceback
 import pandas as pd
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
-from toolkit.logger import Logger
 import csv
-import subprocess
 import os
 import logging
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-import requests  
+import requests
 import numpy as np
-import importlib
 from timetgtpxy import timetgt
-from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
+from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 
-print("━" * 42)
 bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
-user_usernames = ('-4128494197',)  
+user_usernames = ('-4128494197',)
 
 def send_telegram_message(message):
     try:
@@ -51,37 +46,53 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
         print(f"Error placing order: {e}")
         return None
 
-def exit_options(key, pl_percentage, quantity, pnl):
+def exit_options(exe_opt_df):
     try:
-        resp = broker.kite.ltp(key)
-        if resp and isinstance(resp, dict):
-            ltp = resp[key]['last_price']
-            if (key.endswith('CE') and ((pl_percentage >= 200 and quantity > 0) or (pl_percentage >= 20 and quantity > 0 and nse_power > 0.97))) or (key.endswith('PE') and ((pl_percentage >= 200 and quantity > 0) or (pl_percentage >= 20 and quantity > 0 and nse_power < 0.03))):
-                place_order(key, quantity, 'SELL', 'MARKET', 'NRML')  
-                message = f"🛬🛬🛬 👈👈👈 EXIT order placed for {key} @ {ltp} successfully.\nPL: {pnl}, PL%: {pl_percentage}%"
+        for strike_price, data in exe_opt_df:
+            total_invested_group = data['Invested'].sum()
+            total_pl_group = data['PnL'].sum()
+            total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
+            
+            print(f"Strike Price: {strike_price}")
+            print(data)
+            
+            if total_pl_percentage_group > 10:
+                for index, row in data.iterrows():
+                    place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
+                    
+                message = f"🛬🛬🛬 👈👈👈 EXIT order placed for all options with strike price {strike_price} successfully.\nPL: {total_pl_group}, PL%: {total_pl_percentage_group}%"
                 print(message)
                 send_telegram_message(message)
+                
     except Exception as e:
-        print(f"Error placing exit order for {key}: {e}")
+        print(f"Error placing exit order: {e}")
 
 try:
-    sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
-finally:
-    if sys.stdout != sys.__stdout__:
-        sys.stdout.close()
-        sys.stdout = sys.__stdout__
 
 import pandas as pd
-import numpy as np
 from cmbddfpxy import process_data
 
 combined_df = process_data()
+exe_opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
+exe_opt_df['key'] = exe_opt_df['key'].str.replace('NFO:', '') 
+exe_opt_df['PL%'] = (exe_opt_df['PnL'] / exe_opt_df['Invested']) * 100
+exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
+
+# Define the 'strike' column
+exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
+
+# Grouping by 'strike' column
+exe_opt_df = exe_opt_df.groupby('strike')
+
+# Call exit_options with exe_opt_df
+exit_options(exe_opt_df)
+
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
 opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
