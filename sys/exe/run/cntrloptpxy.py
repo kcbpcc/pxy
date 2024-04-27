@@ -83,8 +83,10 @@ finally:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
 ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
+import pandas as pd
+import numpy as np
 
-from cmbddfpxy import process_data
+# Assuming combined_df is your DataFrame
 combined_df = process_data()
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
@@ -93,36 +95,30 @@ opt_df['PL%'] = opt_df['PL%'].fillna(0)
 opt_df['PL%'] = opt_df['PL%'].astype(int) 
 opt_df['m2m'] = opt_df['m2m'].astype(int)
 opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','pnl','product','m2m']]
+
 total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
 total_opt_m2m = opt_df['m2m'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
 
-######################################PXY® PreciseXceleratedYield Pvt Ltd™############################################
+# Grouping by 'strike' column
 print_df = opt_df.copy()
 print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
 print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N')
+print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
-print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
-summary_sentence = f"CAP:{total_invested} P&L:{total_pl} P&L%:{total_pl_percentage:.0f}% TGT:{mvtrgt_ce}{mvtrgt_pe}"
+print_df = print_df[['MN', 'strike', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
 
-pd.set_option('display.max_colwidth', 42)
-print_open_buy_df = print_df.loc[print_df['qty'] > 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
-print_close_df = print_df.loc[print_df['qty'] == 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'pnl','CP']]
-print_open_sell_df = print_df.loc[print_df['qty'] < 0, ['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
-def print_formatted_df(df):
-    formatted_lines = df.to_string(index=False, header=False, justify='left', col_space=1, line_width=42).split('\n')
-    for line in formatted_lines:
-        color_code = (GREEN if (float(line.split()[-2]) > 0) else (RED if (float(line.split()[-2]) < 0) else (YELLOW if (float(line.split()[-2]) == 0) else RESET))) if (len(line.split()) >= 2 and line.split()[-2].replace('.', '').isdigit()) else RESET
-        print(color_code + (line[:-3] + line[-3:].rjust(3)).rjust(40) + RESET)
-if not print_open_buy_df.empty:
-    print_formatted_df(print_open_buy_df)
-print(f"{BRIGHT_YELLOW}{summary_sentence.rjust(42)}{RESET}")
-if not print_close_df.empty:
-    print_formatted_df(print_close_df)
-if not print_open_sell_df.empty:
-    print_formatted_df(print_open_sell_df)
-for index, row in opt_df.iterrows():
-    exit_options(row['key'], row['PL%'], row['qty'], row['PnL'])
-print("━" * 42)
+# Summary for each group
+grouped_df = print_df.groupby('strike')
+for group, data in grouped_df:
+    total_invested_group = data['Invested'].sum()
+    total_pl_group = data['PnL'].sum()
+    total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
+    summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group} P&L%:{total_pl_percentage_group:.0f}%"
+    print(f"Group: {group}")
+    print(data)
+    print(summary_sentence)
+    print("-" * 50)
+
 
