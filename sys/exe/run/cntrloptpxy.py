@@ -106,7 +106,7 @@ print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else (
 print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N')
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
-print_df = print_df[['MN', 'strike', 'key', 'Invested', 'qty', 'PL%', 'PnL','pnl', 'm2m', 'CP']]
+print_df = print_df[['MN', 'key', 'Invested', 'qty', 'PL%', 'PnL','CP']]
 
 grouped_df = print_df.groupby('strike')
 for group, data in grouped_df:
