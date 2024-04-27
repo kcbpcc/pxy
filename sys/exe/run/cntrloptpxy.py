@@ -15,7 +15,7 @@ import importlib
 from timetgtpxy import timetgt
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
 
-print("━" * 43)
+print("━" * 42)
 bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
 user_usernames = ('-4128494197',)  
 
@@ -109,7 +109,7 @@ for group, data in grouped_df:
     total_pl_group = data['PnL'].sum()
     total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
     summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group} P&L%:{total_pl_percentage_group:.0f}%"
-    print(f"Group: {group}".rjust(43))
-    print(data.to_string(header=False, index=False).rjust(43))
-    print(summary_sentence.rjust(43))
-    print("-" * 43)
+    print(f"Group: {group}".rjust(42))
+    print(data.to_string(header=False, index=False).rjust(42))
+    print(summary_sentence.rjust(42))
+    print("-" * 42)
