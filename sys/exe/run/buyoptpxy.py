@@ -7,6 +7,9 @@ import asyncio
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
+from teloptpxy import send_telegram_message
+from datetime import datetime, timedelta
+from thupxy import get_this_thursday
 _, CE_Strike, PE_Strike, _ = get_prices()
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
@@ -18,23 +21,7 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 
 print("━" * 42)
 
-async def send_telegram_message(message_text):
-    try:
-        # Define the bot token and your Telegram username or ID
-        bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'  # Replace with your actual bot token
-        user_usernames = ('-4128494197',)  # Replace with your Telegram username or ID
-        # Create a Telegram bot
-        bot = telegram.Bot(token=bot_token)
-        # Send the message to Telegram
-        await bot.send_message(chat_id=user_usernames, text=message_text)
-    except Exception as e:
-        # Handle the exception (e.g., log it) and continue with your code
-        print(f"Error sending message to Telegram: {e}")
-
 # Define function to get this week's Thursday date
-from datetime import datetime, timedelta
-
-from thupxy import get_this_thursday
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     # Convert expiry_month to a single digit string if it's less than or equal to 9
