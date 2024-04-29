@@ -129,7 +129,7 @@ async def main():
         CE_position_exists = check_existing_positions(broker, CE_symbol)
         PE_position_exists = check_existing_positions(broker, PE_symbol)
 
-        if available_cash > 10000:
+        if available_cash > 1000:
             if not CE_position_exists:
                 buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', 25, 'MARKET')
                 if buy_order_placed_CE:
