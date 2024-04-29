@@ -126,12 +126,7 @@ for group, data in grouped_df:
     total_pl_group = data['PnL'].sum()
     total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
     summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group} P&L%:{total_pl_percentage_group:.0f}%"
-
-    if total_pl_percentage_group > 0:
-        color_code = BRIGHT_GREEN
-    else:
-        color_code = BRIGHT_RED
-
+    color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
     print(data.to_string(header=False, index=False).rjust(42))
     print(f"{group} {color_code}{summary_sentence}{RESET}".rjust(42))
     print("━" * 42)
