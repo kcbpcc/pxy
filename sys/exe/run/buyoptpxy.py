@@ -170,7 +170,7 @@ async def main():
             else:
                 print(f"Existing {PE_symbol}, So not buying")
         else:
-            print("No funds available to place orders")
+            print("No 💰💰 funds available to place orders")
 
         print("━" * 42)
 
