@@ -133,42 +133,58 @@ async def main():
     finally:
         # Reset sys.stdout to its default value
         sys.stdout = sys.__stdout__
-    
-    count_CE, count_PE = count_positions_by_type(broker)
-    PE_weight = count_PE - count_CE
-    CE_weight = count_CE - count_PE
-    weight = abs(count_PE - count_CE)
 
-    print(f"{BRIGHT_YELLOW}🔥CE positions:{count_CE} 📈━{weight}━📉 PE positions:{count_PE}💧{RESET}".rjust(42))
+    try:
+        response = broker.kite.margins()
+        available_cash = response["equity"]["available"]["live_balance"]
 
-    expiry_year, expiry_month, expiry_day = get_this_thursday()
+        count_CE, count_PE = count_positions_by_type(broker)
+        PE_weight = count_PE - count_CE
+        CE_weight = count_CE - count_PE
+        weight = abs(count_PE - count_CE)
 
-    CE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'CE')
-    PE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'PE')
+        print(f"{BRIGHT_YELLOW}🔥CE positions:{count_CE} 📈━{weight}━📉 PE positions:{count_PE}💧{RESET}".rjust(42))
 
-    CE_position_exists = check_existing_positions(broker, CE_symbol)
-    PE_position_exists = check_existing_positions(broker, PE_symbol)
+        expiry_year, expiry_month, expiry_day = get_this_thursday()
 
-    if not CE_position_exists:
-        buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', 25, 'MARKET')
-        if buy_order_placed_CE:
-            await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {CE_symbol} placed successfully.")
-            print(f"{CE_symbol} BUY order placed successfully.")
-    else:
-        print(f"Existing {CE_symbol}, So not buying")
+        CE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'CE')
+        PE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'PE')
 
-    if not PE_position_exists:
-        buy_order_placed_PE, buy_order_id_PE = await place_order(broker, PE_symbol, 'BUY', 'NRML', 25, 'MARKET')
-        if buy_order_placed_PE:
-            await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {PE_symbol} placed successfully.")
-            print(f"{PE_symbol} BUY order placed successfully.")
-    else:
-        print(f"Existing {PE_symbol}, So not buying")
-    print("━" * 42)
+        CE_position_exists = check_existing_positions(broker, CE_symbol)
+        PE_position_exists = check_existing_positions(broker, PE_symbol)
+
+        if available_cash > 10000:
+            if not CE_position_exists:
+                buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', 25, 'MARKET')
+                if buy_order_placed_CE:
+                    await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {CE_symbol} placed successfully.")
+                    print(f"{CE_symbol} BUY order placed successfully.")
+            else:
+                print(f"Existing {CE_symbol}, So not buying")
+
+            if not PE_position_exists:
+                buy_order_placed_PE, buy_order_id_PE = await place_order(broker, PE_symbol, 'BUY', 'NRML', 25, 'MARKET')
+                if buy_order_placed_PE:
+                    await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {PE_symbol} placed successfully.")
+                    print(f"{PE_symbol} BUY order placed successfully.")
+            else:
+                print(f"Existing {PE_symbol}, So not buying")
+        else:
+            print("Insufficient available cash to place orders")
+
+        print("━" * 42)
+
+    except Exception as e:
+        print(f"Error: {e}")
+        logging.error(f"Error in main(): {e}")
+
 async def run_main():
     await main()
 
 # Run the asynchronous function using asyncio.run()
-asyncio.run(run_main())
+def sync_main():
+    asyncio.run(run_main())
+
+sync_main()
 
 
