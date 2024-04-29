@@ -34,7 +34,7 @@ async def send_telegram_message(message_text):
 # Define function to get this week's Thursday date
 from datetime import datetime, timedelta
 
-from expiry_util import get_this_thursday
+from thupxy import get_this_thursday
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     # Convert expiry_month to a single digit string if it's less than or equal to 9
