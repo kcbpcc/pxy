@@ -43,13 +43,13 @@ while True:
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py']) 
-    subprocess.run(['python3', 'buynoptpxy.py']) if nse_power > 0.80 or nse_power < 0.20 else None
+    subprocess.run(['python3', 'buynoptpxy.py']) if nse_power > 0.75 or nse_power < 0.25 else None
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
     print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
     subprocess.run(['python3', 'daypxy.py'])    
     print("━" * 42)
-    subprocess.run(['python3', 'buycncpxy.py']) if (mktpxy == "Buy" and peak == 'NONPEAK') or peak == 'PEAKEND' else None
+    subprocess.run(['python3', 'buycncpxy.py']) if (mktpxy == "Buy" and peak == 'NONPEAK' and nse_power < 0.20) or peak == 'PEAKEND' else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'cntrlcncpxy.py'])
     print("━" * 42)
