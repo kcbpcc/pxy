@@ -43,7 +43,7 @@ while True:
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py']) 
-    subprocess.run(['python3', 'buyoptpxy.py']) if nse_power > 0.80 or nse_power < 0.20 else None
+    subprocess.run(['python3', 'buynoptpxy.py']) if nse_power > 0.80 or nse_power < 0.20 else None
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
     print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
