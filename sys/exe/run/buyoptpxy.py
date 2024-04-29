@@ -10,6 +10,7 @@ from strikpxy import get_prices
 from teloptpxy import send_telegram_message
 from datetime import datetime, timedelta
 from thupxy import get_this_thursday
+from ordoptpxy import place_order
 _, CE_Strike, PE_Strike, _ = get_prices()
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
