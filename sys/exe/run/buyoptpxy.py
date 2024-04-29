@@ -21,8 +21,8 @@ print("━" * 42)
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
-        bot_token = 'YOUR_BOT_TOKEN_HERE'  # Replace with your actual bot token
-        user_usernames = 'YOUR_TELEGRAM_USERNAME_HERE'  # Replace with your Telegram username or ID
+        bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'  # Replace with your actual bot token
+        user_usernames = ('-4128494197',)  # Replace with your Telegram username or ID
         # Create a Telegram bot
         bot = telegram.Bot(token=bot_token)
         # Send the message to Telegram
@@ -170,7 +170,7 @@ async def main():
             else:
                 print(f"Existing {PE_symbol}, So not buying")
         else:
-            print("Insufficient funds available to place orders")
+            print("No funds available to place orders")
 
         print("━" * 42)
 
