@@ -10,11 +10,11 @@ print(RESET)
 # Define the ticker symbol for NIFTY
 ticker_symbol = "^NSEI"
 
-# Get data from Yahoo Finance for the last 50 days
+# Get data from Yahoo Finance for the last 2.5 hours
 nifty_data = yf.Ticker(ticker_symbol)
 
 # Fetch historical data
-nifty_hist = nifty_data.history(period="50d", interval="1d")
+nifty_hist = nifty_data.history(period="5d", interval="1m")[-32:]
 
 # Calculate Heikin-Ashi (HA) close prices
 ha_close = (nifty_hist['Open'] + nifty_hist['High'] + nifty_hist['Low'] + nifty_hist['Close']) / 4
@@ -32,13 +32,8 @@ for i in range(1, len(ha_close)):
     else:
         trend_direction.append(SILVER)
 
-# Calculate 50-day SMA
-sma_50 = ha_close.rolling(window=50).mean().dropna()
-
-# Create ASCII chart with colored trend and SMA line
-chart_data = [ha_close.tolist(), sma_50.tolist()]
-chart_opts = {'height': 10, 'format': "{:.0f}", 'color': [trend_direction, RESET]}
-chart = plot(chart_data, chart_opts)
+# Create ASCII chart with colored trend
+chart = plot(ha_close.tolist(), {'height': 10, 'format': "{:.0f}", 'color': trend_direction})
 
 # Print ASCII chart
 print(chart)
