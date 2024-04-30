@@ -36,7 +36,9 @@ for i in range(1, len(ha_close)):
 sma_50 = ha_close.rolling(window=50).mean().dropna()
 
 # Create ASCII chart with colored trend and SMA line
-chart = plot(ha_close.tolist(), {'height': 10, 'format': "{:.0f}", 'color': trend_direction}, sma_50.tolist())
+chart_data = [ha_close.tolist(), sma_50.tolist()]
+chart_opts = {'height': 10, 'format': "{:.0f}", 'color': [trend_direction, RESET]}
+chart = plot(chart_data, chart_opts)
 
 # Print ASCII chart
 print(chart)
