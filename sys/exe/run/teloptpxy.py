@@ -1,7 +1,10 @@
+import requests
 import telegram
-bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
+
+bot_token = 'YOUR_BOT_TOKEN_HERE'
 user_usernames = ('-4128494197',)
-def async send_telegram_message(message):
+
+async def send_telegram_message(message):
     try:
         for username in user_usernames:
             url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
@@ -16,3 +19,7 @@ def async send_telegram_message(message):
                 print("Telegram message sent successfully.")
     except Exception as e:
         print(f"Error sending Telegram message: {e}")
+
+# To call the function asynchronously
+await send_telegram_message("Your message here")
+
