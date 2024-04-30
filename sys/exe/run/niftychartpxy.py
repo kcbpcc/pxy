@@ -4,13 +4,10 @@ from asciichartpy import plot
 from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
 import yfinance as yf
 
-# Reset terminal color to default
-print(RESET)
-
 # Define the ticker symbol for NIFTY
 ticker_symbol = "^NSEI"
 
-# Get data from Yahoo Finance for the last 2.5 hours
+# Get data from Yahoo Finance for the last 5 days
 nifty_data = yf.Ticker(ticker_symbol)
 
 # Fetch historical data
@@ -26,17 +23,22 @@ ha_open = (nifty_hist['Open'].shift(1) + nifty_hist['Close'].shift(1)) / 2
 trend_direction = []
 for i in range(1, len(ha_close)):
     if ha_close.iloc[i] > ha_open.iloc[i]:
-        trend_direction.append(BRIGHT_GREEN)
+        trend_direction.append(BRIGHT_GREEN + "█")
     elif ha_close.iloc[i] < ha_open.iloc[i]:
-        trend_direction.append(BRIGHT_RED)
+        trend_direction.append(BRIGHT_RED + "█")
     else:
-        trend_direction.append(SILVER)
+        trend_direction.append(SILVER + "█")
 
 # Create ASCII chart with colored trend
-chart = plot(ha_close.tolist(), {'height': 10, 'format': "{:.0f}", 'color': trend_direction})
+chart = plot(ha_close.tolist(), {'height': 10, 'format': "{:.0f}"})
+
+# Apply trend direction colors to chart
+for i, color in enumerate(trend_direction):
+    chart = chart.replace("█", color, 1)
 
 # Print ASCII chart
 print(chart)
 
 # Reset terminal color to default
 print(RESET)
+
