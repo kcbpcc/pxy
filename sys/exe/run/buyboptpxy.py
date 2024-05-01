@@ -83,7 +83,7 @@ async def main():
 
         print(f"{BRIGHT_YELLOW}🔥CE positions:{count_CE} 📈━{weight}━📉 PE positions:{count_PE}💧{RESET}".rjust(42))
 
-        expiry_year, expiry_month, expiry_day = get_this_thursday()
+        expiry_year, expiry_month, expiry_day = get_this_wednesday()
 
         CE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'CE')
         PE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'PE')
