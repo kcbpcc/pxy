@@ -108,7 +108,7 @@ async def main():
                     await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {PE_symbol} placed successfully.")
                     print(f"{PE_symbol} BUY order placed successfully.")
             else:
-                print(f"Existing {PE_symbol}, So not buying")
+                print(f"Have {PE_symbol}, So not buying")
         else:
             print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
 
