@@ -40,11 +40,13 @@ def count_positions_by_type(broker):
     count_CE = 0
     count_PE = 0
     for position in positions_net:
-        if position['tradingsymbol'].endswith('CE') and abs(position['quantity']) >= 15:
-            count_CE += 1
-        elif position['tradingsymbol'].endswith('PE') and abs(position['quantity']) >= 15:
-            count_PE += 1
+        if position['tradingsymbol'].startswith('BANK') and abs(position['quantity']) >= 15:
+            if position['tradingsymbol'].endswith('CE'):
+                count_CE += 1
+            elif position['tradingsymbol'].endswith('PE'):
+                count_PE += 1
     return count_CE, count_PE
+
 
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
