@@ -137,5 +137,5 @@ for group, data in grouped_df:
         print(f"{group} {BRIGHT_YELLOW}CAP:{total_invested_group} P&L:{total_pl_group} P&L%:{total_pl_percentage_group:.0f}%{RESET}".rjust(41 + len(group)))  # Adjust alignment based on group length
         print("━" * 42)
 print(BRIGHT_YELLOW + "Summary Statement for All Groups:" + RESET)
-print(summary_statement)
+print(summary_statement.rjust(41))
 
