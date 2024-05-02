@@ -45,7 +45,7 @@ while True:
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'worldpxy.py']) 
     subprocess.run(['python3', 'buyboptpxy.py']) if (nse_power > 0.75 or nse_power < 0.25) and (mktpxy == "Sell" or mktpxy == "Buy") else None
-    subprocess.run(['python3', 'buynoptpxy.py']) if (nse_power > 0.75 or nse_power < 0.25) and (mktpxy == "Buy" or mktpxy == "Sell") else None
+    #subprocess.run(['python3', 'buynoptpxy.py']) if (nse_power > 0.75 or nse_power < 0.25) and (mktpxy == "Buy" or mktpxy == "Sell") else None
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
     print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
