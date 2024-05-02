@@ -120,7 +120,7 @@ print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']]
 
 from clorpxy import BRIGHT_RED, BRIGHT_GREEN, RESET
-
+summary_statement = ""
 grouped_df = print_df.groupby('strike')
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
@@ -132,4 +132,6 @@ for group, data in grouped_df:
         print(data.to_string(header=False, index=False).rjust(41))
         print(f"{group} {color_code}{summary_sentence}{RESET}".rjust(41 + len(group)))  # Adjust alignment based on group length
         print("━" * 42)
-
+        summary_statement += f"{group} {color_code}{summary_sentence}{RESET}\n"        
+print(BRIGHT_YELLOW + "Summary Statement for All Groups:" + RESET)
+print(summary_statement)
