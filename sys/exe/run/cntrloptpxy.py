@@ -140,6 +140,7 @@ for group, data in grouped_df:
         print("━" * 42)
 
 print(BRIGHT_YELLOW + "Summary Statement for All Groups:" + RESET)
-print(summary_statement.rjust(41))
+print(summary_statement.rstrip().rjust(41))
+
 
 
