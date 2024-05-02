@@ -142,4 +142,5 @@ for group, data in grouped_df:
         print(f"{group} {color_code}{summary_sentence}{RESET}".rjust(41 + len(group)))  # Adjust alignment based on group length
         print("━" * 42)
 
-print(summary_statement.rstrip().rjust(41))
+print(summary_statement.rstrip().rjust(41 + len(summary_statement)))
+
