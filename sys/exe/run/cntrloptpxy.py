@@ -119,7 +119,7 @@ print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']]
 
-from clorpxy import BRIGHT_RED, BRIGHT_GREEN, RESET
+from clorpxy import BRIGHT_RED, BRIGHT_GREEN, BRIGHT_YELLOW, RESET
 summary_statement = ""
 grouped_df = print_df.groupby('strike')
 for group, data in grouped_df:
