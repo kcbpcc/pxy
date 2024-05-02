@@ -114,7 +114,7 @@ total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 e
 # Grouping by 'strike' column
 print_df = opt_df.copy()
 print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
-print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N').str.replace('BANKNIFTY24', 'B')
+print_df['key'] = print_df['key'].str.replace('NIFTY24', 'N').str.replace('BANK', 'B')
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']]
