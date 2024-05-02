@@ -120,6 +120,7 @@ print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']]
 
 from clorpxy import BRIGHT_RED, BRIGHT_GREEN, BRIGHT_YELLOW, RESET
+
 summary_statement = ""
 total_invested_all = print_df['Invested'].sum()
 total_pl_all = print_df['PnL'].sum()
@@ -127,6 +128,7 @@ total_pl_percentage_all = (total_pl_all / total_invested_all) * 100 if total_inv
 summary_sentence = f"Total: CAP:{total_invested_all} P&L:{total_pl_all} P&L%:{total_pl_percentage_all:.0f}%"
 color_code = BRIGHT_GREEN if total_pl_percentage_all > 0 else BRIGHT_RED
 summary_statement += f"{color_code}{summary_sentence}{RESET}\n"
+
 grouped_df = print_df.groupby('strike')
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
@@ -136,6 +138,8 @@ for group, data in grouped_df:
         print(data.to_string(header=False, index=False).rjust(41))
         print(f"{group} {BRIGHT_YELLOW}CAP:{total_invested_group} P&L:{total_pl_group} P&L%:{total_pl_percentage_group:.0f}%{RESET}".rjust(41 + len(group)))  # Adjust alignment based on group length
         print("━" * 42)
+
 print(BRIGHT_YELLOW + "Summary Statement for All Groups:" + RESET)
 print(summary_statement.rjust(41))
+
 
