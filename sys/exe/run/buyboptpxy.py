@@ -100,7 +100,7 @@ async def main():
                     await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {CE_symbol} placed successfully.")
                     print(f"{CE_symbol} BUY order placed successfully.")
             else:
-                print(f"Existing {CE_symbol}, So not buying")
+                print(f"Have {CE_symbol}, So not buying")
 
             if not PE_position_exists:
                 buy_order_placed_PE, buy_order_id_PE = await place_order(broker, PE_symbol, 'BUY', 'NRML', 15, 'MARKET')
