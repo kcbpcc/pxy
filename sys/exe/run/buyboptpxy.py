@@ -112,7 +112,7 @@ async def main():
         else:
             print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
 
-        print("━" * 42)
+        #print("━" * 42)
 
     except Exception as e:
         print(f"Error: {e}")
