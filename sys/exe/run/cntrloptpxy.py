@@ -131,6 +131,12 @@ color_code = BRIGHT_YELLOW if total_pl_percentage_all > 0 else YELLOW
 summary_statement += f"{color_code}{summary_sentence}{RESET}"
 
 grouped_df = print_df.groupby('strike')
+
+# Sort the groups by total_pl_percentage_group
+grouped_df = grouped_df.apply(lambda x: x.sort_values(by='total_pl_percentage_group', ascending=False))
+
+summary_statement = ""
+
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
     total_pl_group = data['PnL'].sum()
@@ -141,6 +147,9 @@ for group, data in grouped_df:
         print(data.to_string(header=False, index=False).rjust(41))
         print(f"{group} {color_code}{summary_sentence}{RESET}".rjust(41 + len(group)))  # Adjust alignment based on group length
 
+    summary_statement += f"Strike {group} : CAP:{total_invested_group}, P&L:{total_pl_group}, P&L%:{total_pl_percentage_group:.0f}%\n"
+
 print(summary_statement.rstrip().rjust(3 + len(summary_statement)))
 print("━" * 42)
+
 
