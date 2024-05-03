@@ -35,7 +35,7 @@ while True:
         ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
     except Exception as e:
         print("An error occurred:", e)
-        ha_nse_action = nse_power = Day_Change = Open_Change = 0
+        ha_nse_action = nse_power = Day_Change = Open_Change = 0.5
     from cyclepxy import cycle
     importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
     from macdpxy import calculate_macd_signal
