@@ -136,4 +136,6 @@ if decision == "YES":
 elif decision == "NO":
     # Perform actions for "NO"
     print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
-    print("-" * 42)
+print(f"Remaining Cash💰: {int(round(remaining_cash/1000))}K")
+print("-" * 42)
+    
