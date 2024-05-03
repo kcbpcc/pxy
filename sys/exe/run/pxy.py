@@ -27,8 +27,12 @@ while True:
     importlib.reload(sys.modules['predictpxy'])  # Correct the usage
     mktpredict = predict_market_sentiment()
     from mktpxy import get_market_check
-    importlib.reload(sys.modules['mktpxy'])  # Correct the usage
-    onemincandlesequance, mktpxy = get_market_check('^NSEI')
+    try:
+        importlib.reload(sys.modules['mktpxy'])  # Correct the usage
+        onemincandlesequance, mktpxy = get_market_check('^NSEI')
+    except Exception as e:
+        print("An error occurred:", e)
+        onemincandlesequance = mktpxy = "Buy"
     from nftpxy import get_nse_action
     try:
         importlib.reload(sys.modules['nftpxy'])  # Correct the usage
