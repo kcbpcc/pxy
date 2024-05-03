@@ -30,8 +30,12 @@ while True:
     importlib.reload(sys.modules['mktpxy'])  # Correct the usage
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
     from nftpxy import get_nse_action
-    importlib.reload(sys.modules['nftpxy'])  # Correct the usage
-    ha_nse_action, nse_power, Day_Change, Open_Change  = get_nse_action()
+    try:
+        importlib.reload(sys.modules['nftpxy'])  # Correct the usage
+        ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
+    except Exception as e:
+        print("An error occurred:", e)
+        ha_nse_action = nse_power = Day_Change = Open_Change = 0
     from cyclepxy import cycle
     importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
     from macdpxy import calculate_macd_signal
