@@ -94,7 +94,7 @@ async def main():
         PE_position_exists = check_existing_positions(broker, PE_symbol)
 
         if available_cash > 10000:
-            if not CE_position_exists:
+            if not CE_position_exists and (mktpxy == 'Buy' or mktpxy == 'Bull'):
                 buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', 15, 'MARKET')
                 if buy_order_placed_CE:
                     await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {CE_symbol} placed successfully.")
@@ -102,7 +102,7 @@ async def main():
             else:
                 print(f"Have {CE_symbol}, So not buying")
 
-            if not PE_position_exists:
+            if not PE_position_exists and (mktpxy == 'Sell' or mktpxy == 'Bear'):
                 buy_order_placed_PE, buy_order_id_PE = await place_order(broker, PE_symbol, 'BUY', 'NRML', 15, 'MARKET')
                 if buy_order_placed_PE:
                     await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {PE_symbol} placed successfully.")
