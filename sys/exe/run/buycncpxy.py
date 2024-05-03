@@ -1,4 +1,4 @@
-print("PXY® Trying to check if anything to buy")
+#print("PXY® Trying to check if anything to buy")
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
