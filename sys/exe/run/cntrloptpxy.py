@@ -90,7 +90,7 @@ exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
 # Grouping by 'strike' column
-exe_opt_df = exe_opt_df.groupby('strike')
+exe_opt_df = exe_opt_df.groupby('strike', as_index=False)
 
 # Call exit_options with exe_opt_df
 exit_options(exe_opt_df)
@@ -110,7 +110,7 @@ total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 e
 
 # Grouping by 'strike' column
 print_df = opt_df.copy()
-print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
+print_df['CP'] = print_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
 print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('NIFTY24', 'N')
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
