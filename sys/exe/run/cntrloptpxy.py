@@ -140,7 +140,7 @@ for group, data in grouped_df:
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         print(data.to_string(header=False, index=False).rjust(41))
         print(f"{group} {color_code}{summary_sentence}{RESET}".rjust(41 + len(group)))  # Adjust alignment based on group length
-        #print("━" * 42)
-
 print(summary_statement.rstrip().rjust(3 + len(summary_statement)))
+print("━" * 42)
+
 
