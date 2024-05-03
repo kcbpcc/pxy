@@ -138,7 +138,7 @@ for group, data in grouped_df:
     if total_invested_group != 0:  # Check if capital is not zero
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group} P&L%:{total_pl_percentage_group:.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
-        print(data.to_string(header=False, index=False).rjust(41))
+        print(data.to_string(header=False, index=False).rjust(38)
         print(f"{group} {color_code}{summary_sentence}{RESET}".rjust(38 + len(group)))  # Adjust alignment based on group length
 print(summary_statement.rstrip().rjust(3 + len(summary_statement)))
 print("━" * 42)
