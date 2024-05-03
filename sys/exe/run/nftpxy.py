@@ -12,6 +12,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
 def get_nse_action():
+    ha_nse_action = None  # Initialize ha_nse_action
     try:
         # Download data for a fixed 5-day period
         data = yf.Ticker('^NSEI').history(period="7d")
@@ -46,11 +47,13 @@ def get_nse_action():
     except Exception as e:
         print(f"Error during data download for 5 days: {e}")
 
-    except Exception as e:
-        print(f"Error during data download for 5 days: {e}")
-
     return ha_nse_action, nse_power, Day_Change, Open_Change  # Return calculated values
 
 # Call the get_nse_action function
-ha_nse_action, nse_power, Day_Change, Open_Change  = get_nse_action()
+ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
 
+# Printing the results
+print(f"Heikin-Ashi Action: {ha_nse_action}")
+print(f"NSE Power: {nse_power}")
+print(f"Day Change: {Day_Change}%")
+print(f"Open Change: {Open_Change}%")
