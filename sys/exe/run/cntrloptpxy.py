@@ -10,6 +10,7 @@ import requests
 import numpy as np
 from timetgtpxy import timetgt
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
 user_usernames = ('-4128494197',)
@@ -53,9 +54,6 @@ def exit_options(exe_opt_df):
             total_pl_group = data['PnL'].sum()
             total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
             
-            #print(f"Strike Price: {strike_price}")
-            #print(data)
-            
             if total_pl_percentage_group > 10:
                 for index, row in data.iterrows():
                     place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
@@ -80,7 +78,6 @@ finally:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
 
-import pandas as pd
 from cmbddfpxy import process_data
 
 combined_df = process_data()
@@ -119,9 +116,6 @@ print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']]
 
-
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-
 summary_statement = ""
 total_invested_all = print_df['Invested'].sum()
 total_pl_all = print_df['PnL'].sum()
@@ -132,8 +126,8 @@ summary_statement += f"{color_code}{summary_sentence}{RESET}"
 
 grouped_df = print_df.groupby('strike')
 
-# Sort the groups by total_pl_percentage_group
-grouped_df = grouped_df.apply(lambda x: x.sort_values(by='total_pl_percentage_group', ascending=False))
+# Sort the groups by PL%
+grouped_df = grouped_df.apply(lambda x: x.sort_values(by='PL%', ascending=False))
 
 summary_statement = ""
 
