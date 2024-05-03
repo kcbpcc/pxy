@@ -53,7 +53,7 @@ def get_nse_action():
 ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
 
 # Printing the results
-print(f"Heikin-Ashi Action: {ha_nse_action}")
-print(f"NSE Power: {nse_power}")
-print(f"Day Change: {Day_Change}%")
-print(f"Open Change: {Open_Change}%")
+#print(f"Heikin-Ashi Action: {ha_nse_action}")
+#print(f"NSE Power: {nse_power}")
+#print(f"Day Change: {Day_Change}%")
+#print(f"Open Change: {Open_Change}%")
