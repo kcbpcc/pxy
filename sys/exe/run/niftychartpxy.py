@@ -11,7 +11,7 @@ ticker_symbol = "^NSEI"
 nifty_data = yf.Ticker(ticker_symbol)
 
 # Fetch historical data
-nifty_hist = nifty_data.history(period="5d", interval="1m")[-32:]
+nifty_hist = nifty_data.history(period="5d", interval="5m")[-32:]
 
 # Calculate Heikin-Ashi (HA) close prices
 ha_close = (nifty_hist['Open'] + nifty_hist['High'] + nifty_hist['Low'] + nifty_hist['Close']) / 4
