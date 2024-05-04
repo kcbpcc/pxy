@@ -119,13 +119,11 @@ print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']]
 
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-
 summary_statement = ""
 total_invested_all = print_df['Invested'].sum()
 total_pl_all = print_df['PnL'].sum()
 total_pl_percentage_all = (total_pl_all / total_invested_all) * 100 if total_invested_all != 0 else 0
-summary_sentence = f"Total: CAP:{total_invested_all} P&L:{total_pl_all} P&L%:{total_pl_percentage_all:.0f}%"
+summary_sentence = f"Total: CAP:{total_invested_all} P&L:{total_pl_all:5.0f} P&L%:{total_pl_percentage_all:3.0f}%"
 color_code = BRIGHT_YELLOW if total_pl_percentage_all > 0 else YELLOW
 summary_statement += f"{color_code}{summary_sentence}{RESET}"
 
@@ -135,7 +133,7 @@ for group, data in grouped_df:
     total_pl_group = data['PnL'].sum()
     total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
     if total_invested_group != 0:  # Check if capital is not zero
-        summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group} P&L%:{total_pl_percentage_group:.0f}%"
+        summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:5.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         print(data.to_string(header=False, index=False))
         if len(data) >= 2:  # Check if group has two or more entries
