@@ -136,7 +136,7 @@ for group, data in grouped_df:
     if total_invested_group != 0:  # Check if capital is not zero
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:5.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
-        print(data[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']].to_string(header=False, index=False, col_space=[2, 10, 5, 3, 3, 5, 2]))
+        print(data[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']].to_string(header=False, index=False, col_space=[2, 11, 5, 3, 3, 5, 5]))
         if len(data) >= 2:  # Check if group has two or more entries
             print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
 
