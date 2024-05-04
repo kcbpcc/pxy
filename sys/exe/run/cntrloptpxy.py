@@ -133,6 +133,9 @@ summary_statement += f"{color_code}{summary_sentence}{RESET}"
 # Calculate P&L percentage within each group
 print_df['PnL_percentage'] = print_df['PnL'] / print_df['Invested']
 
+# Reset index before grouping
+print_df.reset_index(drop=True, inplace=True)
+
 grouped_df = print_df.groupby('strike')
 
 # Sort grouped_df by P&L percentage
