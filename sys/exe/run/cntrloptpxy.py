@@ -125,7 +125,7 @@ total_invested_all = print_df['Invested'].sum()
 total_pl_all = print_df['PnL'].sum()
 total_pl_percentage_all = (total_pl_all / total_invested_all) * 100 if total_invested_all != 0 else 0
 summary_sentence = f"Total: CAP:{total_invested_all} P&L:{total_pl_all:5.0f} P&L%:{total_pl_percentage_all:3.0f}%"
-color_code = BRIGHT_YELLOW if total_pl_percentage_all > 0 else YELLOW
+color_code = BRIGHT_GREEN if total_pl_percentage_all > 0 else BRIGHT_RED
 summary_statement += f"{color_code}{summary_sentence}{RESET}"
 
 grouped_df = print_df.groupby('strike')
@@ -134,7 +134,7 @@ for group, data in grouped_df:
     total_pl_group = data['PnL'].sum()
     total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
     if total_invested_group != 0:  # Check if capital is not zero
-        summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:5.0f} P&L%:{total_pl_percentage_group:3.0f}%"
+        summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         print(data[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']].to_string(header=False, index=False, col_space=[2, 11, 5, 3, 3, 6, 4]))
         if len(data) >= 2:  # Check if group has two or more entries
