@@ -121,7 +121,6 @@ print_df = print_df[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']]
 
 
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-import pandas as pd
 
 summary_statement = ""
 total_invested_all = print_df['Invested'].sum()
@@ -136,17 +135,6 @@ for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
     total_pl_group = data['PnL'].sum()
     total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
-    
-    # Add 'M/D' column within each group
-    ce_count = data['CE Quantity'].sum()
-    pe_count = data['PE Quantity'].sum()
-    if ce_count > 0 and pe_count == 0:
-        data['M/D'] = 'M'
-    elif ce_count == 0 and pe_count > 0:
-        data['M/D'] = 'M'
-    else:
-        data['M/D'] = 'D'
-
     if total_invested_group != 0:  # Check if capital is not zero
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group} P&L%:{total_pl_percentage_group:.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
