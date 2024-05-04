@@ -131,7 +131,7 @@ color_code = BRIGHT_YELLOW if total_pl_percentage_all > 0 else YELLOW
 summary_statement += f"{color_code}{summary_sentence}{RESET}"
 
 grouped_df = print_df.groupby('strike')
-for group, data in grouped_df:
+for group, data in sorted(grouped_df, key=lambda x: (x[1]['PnL'] / x[1]['Invested'])):  # Sort by P&L percentage
     total_invested_group = data['Invested'].sum()
     total_pl_group = data['PnL'].sum()
     total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
@@ -144,4 +144,5 @@ for group, data in grouped_df:
 
 print(summary_statement.rstrip().rjust(3 + len(summary_statement)))
 print("━" * 42)
+
 
