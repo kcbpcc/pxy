@@ -20,7 +20,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
             reason = f"{'Y' if PE_position_exists else 'N'} | not Sell | " if not PE_position_exists else ""
             reason += "Have 3 " if count_PE >= 3 else ""
             if reason:
-                print(f"{PE_symbol} : {reason}")
+                print(f"{PE_symbol}:{reason}")
 
     else:
         print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
