@@ -17,7 +17,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
             reason += "Have 3" if count_CE >= 3 else ""
             if reason:
                 print(f"{CE_symbol}: {reason: >{39 - len(CE_symbol)}}")
-                print("━" * 42)
+                #print("━" * 42)
 
         if not PE_position_exists and mktpxy == 'Sell' and count_PE < 3:
             if PE_symbol.startswith('BANKNIFTY'):
@@ -36,7 +36,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
             reason += "Have 3" if count_PE >= 3 else ""
             if reason:
                 print(f"{PE_symbol}: {reason: >{39 - len(PE_symbol)}}")
-                print("━" * 42)
+                #print("━" * 42)
     else:
         print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
 
