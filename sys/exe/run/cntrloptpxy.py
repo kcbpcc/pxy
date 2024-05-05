@@ -141,5 +141,5 @@ for group, data in grouped_df:
         if len(data) >= 2:  # Check if group has two or more entries
             print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
 
-print(summary_statement.rstrip().rjust(3 + len(summary_statement)))
+print(summary_statement.rstrip().rjust(🔎 + len(summary_statement)))
 print("━" * 42)
