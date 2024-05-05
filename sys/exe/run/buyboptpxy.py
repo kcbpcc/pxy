@@ -18,7 +18,7 @@ nsma = check_index_status('^NSEBANK')
 from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEBANK')
 from datetime import datetime, timedelta
-from resonoptpxy import process_orders
+from rsnprntpxy import process_orders
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 print("━" * 42)
