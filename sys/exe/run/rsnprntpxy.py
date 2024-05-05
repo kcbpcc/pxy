@@ -8,7 +8,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
         else:
             reason = f"exists:{'Y' if CE_position_exists else 'N'} |" if CE_position_exists else ""
             reason += "not Buy | " if mktpxy != 'Buy' else ""
-            reason += "Have 3. " if count_CE >= 3 else ""
+            reason += "Have 3 " if count_CE >= 3 else ""
             print(f"{CE_symbol} : {reason}")
 
         if not PE_position_exists and mktpxy == 'Sell' and count_PE < 3:
