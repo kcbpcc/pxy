@@ -6,9 +6,10 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {CE_symbol} placed successfully.")
                 print(f"{CE_symbol} BUY order placed successfully.")
         else:
-            reason = f"exists:{'Y' if CE_position_exists else 'N'} | not Buy | " if CE_position_exists else "not Buy | "
+            reason = f": {'Y' if CE_position_exists else 'N'} | not Buy | " if not CE_position_exists else ""
             reason += "Have 3 " if count_CE >= 3 else ""
-            print(f"{CE_symbol} : {reason}")
+            if reason:
+                print(f"{CE_symbol} : {reason}")
 
         if not PE_position_exists and mktpxy == 'Sell' and count_PE < 3:
             buy_order_placed_PE, buy_order_id_PE = await place_order(broker, PE_symbol, 'BUY', 'NRML', 15, 'MARKET')
@@ -16,9 +17,10 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {PE_symbol} placed successfully.")
                 print(f"{PE_symbol} BUY order placed successfully.")
         else:
-            reason = f"exists:{'Y' if PE_position_exists else 'N'} | not Sell | " if PE_position_exists else "not Sell | "
+            reason = f": {'Y' if PE_position_exists else 'N'} | not Sell | " if not PE_position_exists else ""
             reason += "Have 3 " if count_PE >= 3 else ""
-            print(f"{PE_symbol} : {reason}")
+            if reason:
+                print(f"{PE_symbol} : {reason}")
 
     else:
         print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
