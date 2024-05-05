@@ -18,6 +18,7 @@ nsma = check_index_status('^NSEBANK')
 from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEBANK')
 from datetime import datetime, timedelta
+from resonoptpxy import process_orders
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 print("━" * 42)
@@ -93,26 +94,7 @@ async def main():
         CE_position_exists = check_existing_positions(broker, CE_symbol)
         PE_position_exists = check_existing_positions(broker, PE_symbol)
 
-        if available_cash > 10000:
-            if not CE_position_exists and (mktpxy == 'Buy') and count_CE < 3:
-                buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', 15, 'MARKET')
-                if buy_order_placed_CE:
-                    await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {CE_symbol} placed successfully.")
-                    print(f"{CE_symbol} BUY order placed successfully.")
-            else:
-                print(f"Have {CE_symbol}, So not buying")
-
-            if not PE_position_exists and (mktpxy == 'Sell') and count_PE < 3:
-                buy_order_placed_PE, buy_order_id_PE = await place_order(broker, PE_symbol, 'BUY', 'NRML', 15, 'MARKET')
-                if buy_order_placed_PE:
-                    await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {PE_symbol} placed successfully.")
-                    print(f"{PE_symbol} BUY order placed successfully.")
-            else:
-                print(f"Have {PE_symbol}, So not buying")
-        else:
-            print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
-
-        #print("━" * 42)
+        await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
 
     except Exception as e:
         print(f"Error: {e}")
