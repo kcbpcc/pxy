@@ -6,7 +6,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {CE_symbol} placed successfully.")
                 print(f"{CE_symbol} BUY order placed successfully.")
         else:
-            reason = f"{'Y' if CE_position_exists else 'N'}| not Buy| " if not CE_position_exists else ""
+            reason = f"{'Y' if CE_position_exists else 'N'}| not Buy | " if not CE_position_exists else ""
             reason += "Have 3" if count_CE >= 3 else ""
             if reason:
                 print(f"{CE_symbol}:{reason}")
