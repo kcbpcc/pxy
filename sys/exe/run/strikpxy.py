@@ -31,6 +31,6 @@ def get_prices():
     BPE_Strike = round_to_nearest_200(get_current_price('^NSEBANK'))
                                     
     return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
-    print("CE_Strike:", CE_Strike, "PE_Strike:", BPE_Strike)
+    #print("CE_Strike:", CE_Strike, "PE_Strike:", BPE_Strike)
 #print(get_prices())
 
