@@ -1,4 +1,3 @@
-from ordoptpxy import place_order
 async def process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy):
     if available_cash > 10000:
         if not CE_position_exists and mktpxy == 'Buy' and count_CE < 3:
@@ -40,4 +39,3 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 #print("━" * 42)
     else:
         print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
-
