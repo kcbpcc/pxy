@@ -28,7 +28,7 @@ nifty_hist_30m = nifty_data.history(period="5d", interval="30m")[-5:]
 nifty_hist_1d = nifty_data.history(period="5d", interval="1d")[-5:]
 
 # Combine all data to get the last 30 data points
-nifty_hist = pd.concat([nifty_hist_1d, nifty_hist_1h, nifty_hist_1m, nifty_hist_5m, nifty_hist_15m, nifty_hist_30m])
+nifty_hist = pd.concat([nifty_hist_1d, nifty_hist_1h, nifty_hist_30m, nifty_hist_15m, nifty_hist_5m, nifty_hist_1m])
 
 # Get the close prices
 close_prices = nifty_hist['Close']
