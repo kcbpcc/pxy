@@ -18,10 +18,10 @@ nifty_data = yf.Ticker(ticker_symbol)
 nifty_hist_1h = nifty_data.history(period="5d", interval="1h")[-5:]
 
 # Fetch historical data for the last 25 periods with 1-minute, 5-minute, 15-minute, and 30-minute intervals
-nifty_hist_1m = nifty_data.history(period="5d", interval="1m")[-12:]
-nifty_hist_5m = nifty_data.history(period="5d", interval="5m")[-8:]
-nifty_hist_15m = nifty_data.history(period="5d", interval="15m")[-6:]
-nifty_hist_30m = nifty_data.history(period="5d", interval="30m")[-4:]
+nifty_hist_1m = nifty_data.history(period="5d", interval="1m")[-10:]
+nifty_hist_5m = nifty_data.history(period="5d", interval="5m")[-5:]
+nifty_hist_15m = nifty_data.history(period="5d", interval="15m")[-4:]
+nifty_hist_30m = nifty_data.history(period="5d", interval="30m")[-3:]
 
 # Fetch historical data for the last 5 periods with 1-day interval
 nifty_hist_1d = nifty_data.history(period="5d", interval="1d")[-2:]
