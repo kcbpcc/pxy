@@ -29,8 +29,12 @@ def cdslcheck(combined_df):
                             (cdsl_df['source'] == 'holdings')]
     return check_cdsl_df
 
-# Call the function and print the output with 'tradingsymbol' renamed as 'stock' and limited to a maximum of 7 characters
 output_df = cdslcheck(combined_df)
 output_df.rename(columns={'tradingsymbol': 'stock'}, inplace=True)
 output_df['stock'] = output_df['stock'].str[:7]  # Limiting to a maximum of 7 characters
-print(output_df[['cdsldate', 'cdslqty', 'qty', 'stock']])
+
+if output_df.empty:
+    print("You are all set to fire")
+else:
+    print(output_df[['cdsldate', 'cdslqty', 'qty', 'stock']])
+
