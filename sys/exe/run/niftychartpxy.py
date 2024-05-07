@@ -7,11 +7,12 @@ import yfinance as yf
 # Define the ticker symbol for NIFTY
 ticker_symbol = "^NSEI"
 
-# Get data from Yahoo Finance for the last 5 days
+# Get data from Yahoo Finance for the last 5 days with 1-minute interval
 nifty_data = yf.Ticker(ticker_symbol)
+nifty_hist = nifty_data.history(period="5d", interval="1m")
 
-# Fetch historical data
-nifty_hist = nifty_data.history(period="5d", interval="5m")[-32:]
+# Fetch historical data for last 33 periods (32 periods of 5 minutes and 1 period of 1 minute)
+nifty_hist = nifty_hist[-33:]
 
 # Calculate Heikin-Ashi (HA) close prices
 ha_close = (nifty_hist['Open'] + nifty_hist['High'] + nifty_hist['Low'] + nifty_hist['Close']) / 4
@@ -38,6 +39,10 @@ for i, color in enumerate(trend_direction):
 
 # Print ASCII chart
 print(chart)
+
+# Reset terminal color to default
+print(RESET)
+
 
 # Reset terminal color to default
 print(RESET)
