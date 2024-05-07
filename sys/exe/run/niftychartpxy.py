@@ -1,9 +1,9 @@
+
 import pandas as pd
 import numpy as np
 from asciichartpy import plot
 from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
 import yfinance as yf
-import warnings
 
 # Suppress FutureWarning from yfinance library
 warnings.filterwarnings("ignore", message="'T' is deprecated", category=FutureWarning)
@@ -18,13 +18,13 @@ nifty_data = yf.Ticker(ticker_symbol)
 nifty_hist_1h = nifty_data.history(period="5d", interval="1h")[-5:]
 
 # Fetch historical data for the last 25 periods with 1-minute, 5-minute, 15-minute, and 30-minute intervals
-nifty_hist_1m = nifty_data.history(period="5d", interval="1m")[-10:]
+nifty_hist_1m = nifty_data.history(period="5d", interval="1m")[-5:]
 nifty_hist_5m = nifty_data.history(period="5d", interval="5m")[-5:]
-nifty_hist_15m = nifty_data.history(period="5d", interval="15m")[-4:]
-nifty_hist_30m = nifty_data.history(period="5d", interval="30m")[-3:]
+nifty_hist_15m = nifty_data.history(period="5d", interval="15m")[-5:]
+nifty_hist_30m = nifty_data.history(period="5d", interval="30m")[-5:]
 
 # Fetch historical data for the last 5 periods with 1-day interval
-nifty_hist_1d = nifty_data.history(period="5d", interval="1d")[-2:]
+nifty_hist_1d = nifty_data.history(period="5d", interval="1d")[-5:]
 
 # Combine all data to get the last 30 data points
 nifty_hist = pd.concat([nifty_hist_1d, nifty_hist_1h, nifty_hist_1m, nifty_hist_5m, nifty_hist_15m, nifty_hist_30m])
@@ -40,3 +40,4 @@ print(chart)
 
 # Reset terminal color to default
 print(RESET)
+
