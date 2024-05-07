@@ -10,23 +10,20 @@ ticker_symbol = "^NSEI"
 # Get data from Yahoo Finance for the last 5 days with different intervals
 nifty_data = yf.Ticker(ticker_symbol)
 
-# Fetch historical data for the last 5 periods with 1-minute interval
+# Fetch historical data for the last 5 periods with 1-hour interval
+nifty_hist_1h = nifty_data.history(period="5d", interval="1h")[-15:]
+
+# Fetch historical data for the last 25 periods with 1-minute, 5-minute, 15-minute, and 30-minute intervals
 nifty_hist_1m = nifty_data.history(period="5d", interval="1m")[-5:]
-
-# Fetch historical data for the last 25 periods with 5-minute interval
 nifty_hist_5m = nifty_data.history(period="5d", interval="5m")[-5:]
-
-# Fetch historical data for the last 20 periods with 15-minute interval
 nifty_hist_15m = nifty_data.history(period="5d", interval="15m")[-5:]
-
-# Fetch historical data for the last 15 periods with 30-minute interval
 nifty_hist_30m = nifty_data.history(period="5d", interval="30m")[-5:]
 
-# Fetch historical data for the last 5 periods with 1-hour interval
-nifty_hist_1h = nifty_data.history(period="5d", interval="1h")[-5:]
+# Fetch historical data for the last 5 periods with 1-day interval
+nifty_hist_1d = nifty_data.history(period="5d", interval="1d")[-1:]
 
 # Combine all data to get the last 30 data points
-nifty_hist = pd.concat([nifty_hist_1h, nifty_hist_1m, nifty_hist_5m, nifty_hist_15m, nifty_hist_30m])
+nifty_hist = pd.concat([nifty_hist_1d, nifty_hist_1h, nifty_hist_1m, nifty_hist_5m, nifty_hist_15m, nifty_hist_30m])
 
 # Get the close prices
 close_prices = nifty_hist['Close']
