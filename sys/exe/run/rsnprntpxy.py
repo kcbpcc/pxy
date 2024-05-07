@@ -14,8 +14,8 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {CE_symbol} placed successfully.")
                 print(f"{CE_symbol} BUY order placed successfully.")
         else:
-            reason = f"{'Y' if CE_position_exists else 'N'}|not Buy |" if not CE_position_exists else ""
-            reason += "Have 3" if count_CE >= 3 else ""
+            reason = f"{'Yes' if CE_position_exists else ' No'}|HoldBuy |" if not CE_position_exists else ""
+            reason += "MaxOut3" if count_CE >= 3 else ""
             if reason:
                 print(f"{CE_symbol}: {reason: >{39 - len(CE_symbol)}}")
                 #print("━" * 42)
@@ -33,8 +33,8 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 await send_telegram_message(f"🛫🛫🛫 👉👉👉 ENTRY order placed for {PE_symbol} placed successfully.")
                 print(f"{PE_symbol} BUY order placed successfully.")
         else:
-            reason = f"{'Y' if PE_position_exists else 'N'}|not Sell|" if not PE_position_exists else ""
-            reason += "Have 3" if count_PE >= 3 else ""
+            reason = f"{'Y' if PE_position_exists else 'N'}|HoldSell|" if not PE_position_exists else ""
+            reason += "MaxOut3" if count_PE >= 3 else ""
             if reason:
                 print(f"{PE_symbol}: {reason: >{39 - len(PE_symbol)}}")
                 #print("━" * 42)
