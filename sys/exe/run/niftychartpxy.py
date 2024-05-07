@@ -4,6 +4,7 @@ import numpy as np
 from asciichartpy import plot
 from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
 import yfinance as yf
+import warnings
 
 # Suppress FutureWarning from yfinance library
 warnings.filterwarnings("ignore", message="'T' is deprecated", category=FutureWarning)
