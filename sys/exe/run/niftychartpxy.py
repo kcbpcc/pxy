@@ -7,42 +7,32 @@ import yfinance as yf
 # Define the ticker symbol for NIFTY
 ticker_symbol = "^NSEI"
 
-# Get data from Yahoo Finance for the last 5 days with 1-minute interval
+# Get data from Yahoo Finance for the last 5 days with different intervals
 nifty_data = yf.Ticker(ticker_symbol)
-nifty_hist = nifty_data.history(period="5d", interval="1m")
 
-# Fetch historical data for last 33 periods (32 periods of 5 minutes and 1 period of 1 minute)
-nifty_hist = nifty_hist[-33:]
+# Fetch historical data for the last 5 periods with 1-hour interval
+nifty_hist_1h = nifty_data.history(period="5d", interval="1h")[-5:]
 
-# Calculate Heikin-Ashi (HA) close prices
-ha_close = (nifty_hist['Open'] + nifty_hist['High'] + nifty_hist['Low'] + nifty_hist['Close']) / 4
+# Fetch historical data for the last 25 periods with 1-minute, 5-minute, 15-minute, and 30-minute intervals
+nifty_hist_1m = nifty_data.history(period="5d", interval="1m")[-5:]
+nifty_hist_5m = nifty_data.history(period="5d", interval="5m")[-5:]
+nifty_hist_15m = nifty_data.history(period="5d", interval="15m")[-5:]
+nifty_hist_30m = nifty_data.history(period="5d", interval="30m")[-5:]
 
-# Calculate Heikin-Ashi (HA) open prices
-ha_open = (nifty_hist['Open'].shift(1) + nifty_hist['Close'].shift(1)) / 2
+# Fetch historical data for the last 5 periods with 1-day interval
+nifty_hist_1d = nifty_data.history(period="5d", interval="1d")[-5:]
 
-# Calculate trend direction based on HA open-close
-trend_direction = []
-for i in range(1, len(ha_close)):
-    if ha_close.iloc[i] > ha_open.iloc[i]:
-        trend_direction.append(BRIGHT_GREEN + "█")
-    elif ha_close.iloc[i] < ha_open.iloc[i]:
-        trend_direction.append(BRIGHT_RED + "█")
-    else:
-        trend_direction.append(SILVER + "█")
+# Combine all data to get the last 30 data points
+nifty_hist = pd.concat([nifty_hist_1d, nifty_hist_1h, nifty_hist_1m, nifty_hist_5m, nifty_hist_15m, nifty_hist_30m])
+
+# Get the close prices
+close_prices = nifty_hist['Close']
 
 # Create ASCII chart with colored trend
-chart = plot(ha_close.tolist(), {'height': 10, 'format': "{:.0f}"})
-
-# Apply trend direction colors to chart
-for i, color in enumerate(trend_direction):
-    chart = chart.replace("█", color, 1)
+chart = plot(close_prices.tolist(), {'height': 10, 'format': "{:.0f}"})
 
 # Print ASCII chart
 print(chart)
-
-# Reset terminal color to default
-print(RESET)
-
 
 # Reset terminal color to default
 print(RESET)
