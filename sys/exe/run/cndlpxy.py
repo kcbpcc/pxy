@@ -55,12 +55,12 @@ def dayprinter(o, h, l, c, prev_close):
         x_length = round((x / 100) * max_total_length)
         m_length = max_total_length - n_length - x_length
         
-        print(Fore.LIGHTWHITE_EX + '█' * n_length, end='')
+        print(Fore.LIGHTYELLOW_EX + '█' * n_length, end='')
         if c > o:
             print(Fore.GREEN + '█' * x_length + Style.RESET_ALL, end='')
         elif o > c:
             print(Fore.RED + '█' * x_length + Style.RESET_ALL, end='')
-        print(Fore.LIGHTWHITE_EX + '█' * m_length)
+        print(Fore.LIGHTYELLOW_EX + '█' * m_length)
     
     except Exception as e:
         pass
