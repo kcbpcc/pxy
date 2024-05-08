@@ -10,6 +10,8 @@ from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
 from depthpxy import calculate_consecutive_candles
 
+init(autoreset=True)  # Initialize Colorama
+
 console = Console()
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -88,4 +90,6 @@ if previous_day_close is not None and today_close is not None:
     close_color = Fore.GREEN if close > open_price else Fore.RED
 else:
     close_color = Fore.YELLOW
+
+deinit()  # Reset Colorama settings
 
