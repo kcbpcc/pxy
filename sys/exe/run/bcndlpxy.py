@@ -88,3 +88,5 @@ if previous_day_close is not None and today_close is not None:
 else:
     close_color = Fore.YELLOW
 
+deinit()
+
