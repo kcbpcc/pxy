@@ -2,18 +2,16 @@ import warnings
 import yfinance as yf
 import pandas as pd
 from rich.console import Console
-from colorama import Fore, Style
+from colorama import Fore, Style, init, deinit
 from mktpxy import get_market_check
 from utcpxy import peak_time
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
 from depthpxy import calculate_consecutive_candles
 
-
 init(autoreset=True)  # Initialize Colorama
 
 console = Console()
-
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -94,4 +92,5 @@ else:
     close_color = Fore.YELLOW
 
 deinit()  # Reset Colorama settings
+
 
