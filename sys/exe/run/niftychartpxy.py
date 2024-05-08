@@ -33,7 +33,7 @@ for i in range(1, len(ha_close)):
 latest_close_price = nifty_hist['Close'].iloc[-1]
 
 # Create ASCII chart with colored trend
-chart = plot(ha_close.tolist()[:-1] + [latest_close_price], {'height': 20, 'format': "{:.0f}"})
+chart = plot(ha_close.tolist()[:-1] + [latest_close_price], {'height': 12, 'format': "{:.0f}"})
 
 # Apply trend direction colors to chart
 for i, color in enumerate(trend_direction):
