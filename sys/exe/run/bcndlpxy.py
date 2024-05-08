@@ -14,8 +14,8 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
 
-def get_nifty50_data(period="7d"):
-    ticker_symbol = "^NSEBANK"  # NIFTY50 index symbol on Yahoo Finance
+def get_niftybank_data(period="7d"):
+    ticker_symbol = "^NSEBANK"  # niftybank index symbol on Yahoo Finance
     try:
         nifty_data = yf.Ticker(ticker_symbol).history(period=period)
         ohlc_data = nifty_data[OHLC_COLUMNS]
@@ -31,10 +31,10 @@ def get_previous_day_close(df):
         return None
 
 def get_today_close():
-    nifty50_ohlc = get_nifty50_data(period="1d")
-    if not nifty50_ohlc.empty:
-        prev_close = get_previous_day_close(nifty50_ohlc)
-        return nifty50_ohlc.iloc[-1]['Close'], prev_close
+    niftybank_ohlc = get_niftybank_data(period="1d")
+    if not niftybank_ohlc.empty:
+        prev_close = get_previous_day_close(niftybank_ohlc)
+        return niftybank_ohlc.iloc[-1]['Close'], prev_close
     else:
         return None, None
 
@@ -66,24 +66,24 @@ def dayprinter(o, h, l, c, prev_close):
         pass
 
 def option_to_trade():
-    today_data = get_nifty50_data().iloc[-1][OHLC_COLUMNS]
+    today_data = get_niftybank_data().iloc[-1][OHLC_COLUMNS]
     today_close = today_data['Close']
     option_value = round(today_close / 50) * 50
     return option_value
 
-previous_day_close = get_previous_day_close(get_nifty50_data())
+previous_day_close = get_previous_day_close(get_niftybank_data())
 today_close = get_today_close()
 
 if previous_day_close is not None and today_close is not None:
-    nifty50_ohlc = get_nifty50_data(period="1d")
-    today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
+    niftybank_ohlc = get_niftybank_data(period="1d")
+    today_data = niftybank_ohlc.iloc[-1][OHLC_COLUMNS]
     dayprinter(*today_data, previous_day_close)
 else:
     print("Unable to fetch data.")
 
 if previous_day_close is not None and today_close is not None:
     close = today_close[0]
-    open_price = nifty50_ohlc.iloc[-1]['Open']
+    open_price = niftybank_ohlc.iloc[-1]['Open']
     close_color = Fore.GREEN if close > open_price else Fore.RED
 else:
     close_color = Fore.YELLOW
