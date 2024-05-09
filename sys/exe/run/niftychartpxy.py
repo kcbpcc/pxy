@@ -1,17 +1,11 @@
 import pandas as pd
 import numpy as np
 from asciichartpy import plot
+from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
 import yfinance as yf
 
 # Define the ticker symbol for NIFTY
 ticker_symbol = "^NSEI"
-
-# Download data for a fixed 7-day period
-data = yf.Ticker(ticker_symbol).history(period="7d")
-
-# Extract today's open, yesterday's close, and current price
-today_open = data['Open'].iloc[-1]
-yesterday_close = data['Close'].iloc[-2]
 
 # Get data from Yahoo Finance for the last 2 days (to ensure enough data for 15-minute candles)
 nifty_data = yf.Ticker(ticker_symbol)
@@ -27,39 +21,16 @@ close_15min = nifty_hist['Close'].resample('15min').ohlc()['close'].dropna().tol
 last_1min_close = close_1min[-15:]
 
 # Extract the last 20 15-minute close prices
-last_20_15min_close = close_15min[-22:-2]  # Excluding the last one
-
-# Calculate 50 SMA for the last 1-minute close prices
-sma_1min = np.mean(close_1min[-50:])
+last_20_15min_close = close_15min[-22:-2]  # Corrected index to -2
 
 # Combine the last 20 15-minute close prices and the last 15 1-minute close prices
 data_points = last_20_15min_close + last_1min_close
 
-# Create ASCII chart
+# Create ASCII chart with colored trend
 chart = plot(data_points, {'height': 12, 'format': "{:.0f}"})
-
-# Calculate the nearest y-axis values for yesterday's close and today's open
-min_val = min(data_points)
-max_val = max(data_points)
-yesterday_close_nearest = min(data_points, key=lambda x: abs(x - yesterday_close))
-today_open_nearest = min(data_points, key=lambda x: abs(x - today_open))
-
-# Find index of yesterday's close and today's open
-yesterday_close_index = data_points.index(yesterday_close_nearest)
-today_open_index = data_points.index(today_open_nearest)
-
-# Add "-" to indicate 50 SMA for the latest 1-minute data point
-chart = chart[:-15] + '-' + chart[-14:]
-
-# Draw horizontal lines for yesterday's close and today's open at the respective positions
-chart = chart[:yesterday_close_index] + '/' + chart[yesterday_close_index + 1:]
-chart = chart[:today_open_index] + '\\' + chart[today_open_index + 1:]
-
-# Add the 50 SMA indicator at the last data point
-chart = chart[:-1] + str(int(sma_1min)) + chart[-1]  # Convert sma_1min to int and add it to the last data point
 
 # Print ASCII chart
 print(chart)
 
-
-
+# Reset terminal color to default
+print(RESET)
