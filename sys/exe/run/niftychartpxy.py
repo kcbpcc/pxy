@@ -37,11 +37,14 @@ data_points = last_20_15min_close + last_1min_close
 chart = plot(data_points, {'height': 12, 'format': "{:.0f}"})
 
 # Add color indicators for yesterday's close and today's open on Y-axis
-chart = chart.replace(str(int(yesterday_close)), BRIGHT_RED + str(int(yesterday_close)) + RESET)
-chart = chart.replace(str(int(today_open)), BRIGHT_GREEN + str(int(today_open)) + RESET)
+yesterday_close_str = str(int(round(yesterday_close)))
+today_open_str = str(int(round(today_open)))
+chart = chart.replace(yesterday_close_str, BRIGHT_RED + yesterday_close_str + RESET)
+chart = chart.replace(today_open_str, BRIGHT_GREEN + today_open_str + RESET)
 
 # Print ASCII chart
 print(chart)
 
 # Reset terminal color to default
 print(RESET)
+
