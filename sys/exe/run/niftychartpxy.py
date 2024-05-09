@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 from asciichartpy import plot
-from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
 import yfinance as yf
 
 # Define the ticker symbol for NIFTY
@@ -33,18 +32,22 @@ last_20_15min_close = close_15min[-22:-2]  # Excluding the last one
 # Combine the last 20 15-minute close prices and the last 15 1-minute close prices
 data_points = last_20_15min_close + last_1min_close
 
-# Create ASCII chart with colored trend
+# Create ASCII chart
 chart = plot(data_points, {'height': 12, 'format': "{:.0f}"})
 
-# Add color indicators for yesterday's close and today's open on Y-axis
-yesterday_close_str = str(int(round(yesterday_close)))
-today_open_str = str(int(round(today_open)))
-chart = chart.replace(yesterday_close_str, BRIGHT_RED + yesterday_close_str + RESET)
-chart = chart.replace(today_open_str, BRIGHT_GREEN + today_open_str + RESET)
+# Calculate the nearest y-axis values for yesterday's close and today's open
+min_val = min(data_points)
+max_val = max(data_points)
+yesterday_close_nearest = min(data_points, key=lambda x: abs(x - yesterday_close))
+today_open_nearest = min(data_points, key=lambda x: abs(x - today_open))
+
+# Draw horizontal lines for yesterday's close and today's open
+yesterday_close_index = data_points.index(yesterday_close_nearest)
+today_open_index = data_points.index(today_open_nearest)
+chart = chart.replace(str(yesterday_close_nearest), '-' + str(yesterday_close_nearest), 1)
+chart = chart.replace(str(today_open_nearest), '-' + str(today_open_nearest), 1)
 
 # Print ASCII chart
 print(chart)
 
-# Reset terminal color to default
-print(RESET)
 
