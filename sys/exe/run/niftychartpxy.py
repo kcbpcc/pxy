@@ -48,15 +48,16 @@ today_open_nearest = min(data_points, key=lambda x: abs(x - today_open))
 yesterday_close_index = data_points.index(yesterday_close_nearest)
 today_open_index = data_points.index(today_open_nearest)
 
-# Draw horizontal lines for yesterday's close and today's open
-chart = chart[:yesterday_close_index] + '/' * len(chart[yesterday_close_index]) + chart[yesterday_close_index + 1:]
-chart = chart[:today_open_index] + '\' * len(chart[today_open_index]) + chart[today_open_index + 1:]
-
 # Add "-" to indicate 50 SMA for the latest 1-minute data point
 chart = chart[:-15] + '-' + chart[-14:]
 
+# Draw horizontal lines for yesterday's close and today's open at the respective positions
+chart = chart[:yesterday_close_index] + '/' + chart[yesterday_close_index + 1:]
+chart = chart[:today_open_index] + '\\' + chart[today_open_index + 1:]
+
+# Add the 50 SMA indicator at the 36th data point
+chart = chart[:35] + '-' + chart[36:]
+
 # Print ASCII chart
 print(chart)
-
-
 
