@@ -53,7 +53,7 @@ chart = chart[:-15] + '-' + chart[-14:]
 
 # Draw horizontal lines for yesterday's close and today's open at the respective positions
 chart = chart[:yesterday_close_index] + '/' + chart[yesterday_close_index + 1:]
-chart = chart[:today_open_index] + '\\' + chart[today_open_index + 1:]
+chart = chart[:today_open_index] + '\' + chart[today_open_index + 1:]
 
 # Add the 50 SMA indicator at the 36th data point
 chart = chart[:35] + '-' + chart[36:]
