@@ -41,13 +41,16 @@ max_val = max(data_points)
 yesterday_close_nearest = min(data_points, key=lambda x: abs(x - yesterday_close))
 today_open_nearest = min(data_points, key=lambda x: abs(x - today_open))
 
-# Draw horizontal lines for yesterday's close and today's open
+# Find index of yesterday's close and today's open
 yesterday_close_index = data_points.index(yesterday_close_nearest)
 today_open_index = data_points.index(today_open_nearest)
-chart = chart.replace(str(yesterday_close_nearest), '-' + str(yesterday_close_nearest), 1)
-chart = chart.replace(str(today_open_nearest), '-' + str(today_open_nearest), 1)
+
+# Draw horizontal lines for yesterday's close and today's open
+chart = chart[:yesterday_close_index] + '-' * len(chart[yesterday_close_index]) + chart[yesterday_close_index + 1:]
+chart = chart[:today_open_index] + '-' * len(chart[today_open_index]) + chart[today_open_index + 1:]
 
 # Print ASCII chart
 print(chart)
+
 
 
