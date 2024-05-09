@@ -15,7 +15,7 @@ nifty_hist = nifty_data.history(period="2d", interval="1m")
 close_1min = nifty_hist['Close'].tolist()
 
 # Calculate close prices for 15-minute candles
-close_15min = nifty_hist['Close'].resample('15T').ohlc()['close'].dropna().tolist()
+close_15min = nifty_hist['Close'].resample('15min').ohlc()['close'].dropna().tolist()
 
 # Extract the last 15 1-minute close prices
 last_1min_close = close_1min[-15:]
