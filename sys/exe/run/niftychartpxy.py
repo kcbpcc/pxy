@@ -20,11 +20,11 @@ close_15min = nifty_hist['Close'].resample('15min').ohlc()['close'].dropna().tol
 # Extract the last 15 1-minute close prices
 last_1min_close = close_1min[-15:]
 
-# Extract the first 20 15-minute close prices
-first_15min_close = close_15min[-20:]
+# Extract the last 20 15-minute close prices
+last_20_15min_close = close_15min[-22:-2]  # Excluding the last one
 
-# Combine the last 15 1-minute close prices and the first 20 15-minute close prices
-data_points = first_15min_close + last_1min_close
+# Combine the last 20 15-minute close prices and the last 15 1-minute close prices
+data_points = last_20_15min_close + last_1min_close
 
 # Create ASCII chart with colored trend
 chart = plot(data_points, {'height': 12, 'format': "{:.0f}"})
@@ -34,7 +34,6 @@ print(chart)
 
 # Reset terminal color to default
 print(RESET)
-
 
 
 
