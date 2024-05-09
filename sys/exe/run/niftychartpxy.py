@@ -46,7 +46,7 @@ yesterday_close_index = data_points.index(yesterday_close_nearest)
 today_open_index = data_points.index(today_open_nearest)
 
 # Draw horizontal lines for yesterday's close and today's open
-chart = chart[:yesterday_close_index] + '-' * len(chart[yesterday_close_index]) + chart[yesterday_close_index + 1:]
+chart = chart[:yesterday_close_index] + '/' * len(chart[yesterday_close_index]) + chart[yesterday_close_index + 1:]
 chart = chart[:today_open_index] + '-' * len(chart[today_open_index]) + chart[today_open_index + 1:]
 
 # Print ASCII chart
