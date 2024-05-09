@@ -23,14 +23,14 @@ close_1min = nifty_hist['Close'].tolist()
 # Calculate close prices for 15-minute candles
 close_15min = nifty_hist['Close'].resample('15min').ohlc()['close'].dropna().tolist()
 
-# Calculate 50 SMA for the last 1-minute close prices
-sma_1min = np.mean(close_1min[-50:])
-
 # Extract the last 15 1-minute close prices
 last_1min_close = close_1min[-15:]
 
 # Extract the last 20 15-minute close prices
 last_20_15min_close = close_15min[-22:-2]  # Excluding the last one
+
+# Calculate 50 SMA for the last 1-minute close prices
+sma_1min = np.mean(close_1min[-50:])
 
 # Combine the last 20 15-minute close prices and the last 15 1-minute close prices
 data_points = last_20_15min_close + last_1min_close
@@ -55,10 +55,11 @@ chart = chart[:-15] + '-' + chart[-14:]
 chart = chart[:yesterday_close_index] + '/' + chart[yesterday_close_index + 1:]
 chart = chart[:today_open_index] + '\\' + chart[today_open_index + 1:]
 
-# Add the 50 SMA indicator at the 36th data point
-chart = chart[:35] + '-' + chart[36:]
+# Add the 50 SMA indicator at the last data point
+chart = chart[:-1] + str(int(sma_1min)) + chart[-1]  # Convert sma_1min to int and add it to the last data point
 
 # Print ASCII chart
 print(chart)
+
 
 
