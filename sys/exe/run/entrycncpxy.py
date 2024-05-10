@@ -104,11 +104,6 @@ symbols = ["ZOMATO", "PNB", "HDFCBANK", "SBIN", "ITC", "BEL", "JIOFIN", "IOC", "
 # Fetching decision and other details
 decision, optdecision, available_cash, limit = calculate_decision()
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logging = Logger(30, dir_path + "main.log")
-original_stdout = sys.stdout
-
 try:
     # Redirect sys.stdout to 'output.txt'
     with open('output.txt', 'w') as file:
