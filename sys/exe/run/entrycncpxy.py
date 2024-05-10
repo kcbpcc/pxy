@@ -4,7 +4,6 @@ from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
 from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path, fileutils, buybuff, max_target
 from trndlnpxy import Trendlyne
 import traceback
 import sys
@@ -103,7 +102,6 @@ decision, optdecision, available_cash, limit = calculate_decision()
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logging = Logger(30, dir_path + "main.log")
-black_file = dir_path + "blacklist.txt"
 original_stdout = sys.stdout
 
 try:
@@ -121,14 +119,6 @@ finally:
     sys.stdout = original_stdout
 
 # Fetch holdings, positions, and orders
-try:
-    df_fileHPdf = pd.read_csv('fileHPdf.csv')
-    holdings_symbols = df_fileHPdf['tradingsymbol'].tolist()
-except Exception as e:
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to read holdings")
-    holdings_symbols = []
-
 try:
     lst_dct_tlyne = Trendlyne().entry()
     if lst_dct_tlyne and any(lst_dct_tlyne):
@@ -152,7 +142,7 @@ except Exception as e:
     orders_symbols = []
 
 # Combine all symbols to skip
-skip_symbols = set(holdings_symbols + positions_symbols + orders_symbols)
+skip_symbols = set(positions_symbols + orders_symbols)
 
 # Check Heikin-Ashi candles for each symbol and place orders
 for symbol in symbols:
@@ -165,4 +155,5 @@ for symbol in symbols:
         else:
             logging.info(f"Skipping {symbol}: smbpxy is not 'Buy'")
     else:
-        logging.info(f"Skipping {symbol}: already part of holdings, positions, or orders")
+        logging.info(f"Skipping {symbol}: already part of positions or orders")
+
