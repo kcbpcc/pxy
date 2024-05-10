@@ -1,4 +1,3 @@
-# Import necessary modules
 import yfinance as yf
 import pandas as pd
 import traceback
@@ -15,10 +14,6 @@ from cnstpxy import dir_path, fileutils, buybuff, max_target
 from fundpxy import calculate_decision
 from trndlnpxy import Trendlyne
 
-# Fetching decision and other details
-decision, optdecision, available_cash, limit = calculate_decision()
-
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logging = Logger(30, dir_path + "main.log")
 
@@ -110,7 +105,6 @@ decision, optdecision, available_cash, limit = calculate_decision()
 
 try:
     original_stdout = sys.stdout
-    # Redirect sys.stdout to 'output.txt'
     with open('output.txt', 'w') as file:
         sys.stdout = file
         try:
@@ -174,3 +168,4 @@ for symbol in symbols:
             logging.info(f"Skipping {symbol}: already part of positions or orders")
     else:
         logging.info("Decision is not 'YES', skipping order placement.")
+
