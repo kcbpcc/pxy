@@ -120,10 +120,8 @@ finally:
 # Fetch holdings, positions, and orders
 try:
     lst_dct_tlyne = Trendlyne().entry()
-    if lst_dct_tlyne and any(lst_dct_tlyne):
-        positions_symbols = [dct['tradingsymbol'] for dct in lst_dct_tlyne]
-    else:
-        positions_symbols = []
+    positions_symbols = [dct.get('tradingsymbol') for dct in lst_dct_tlyne]
+
 except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to read positions")
@@ -131,10 +129,8 @@ except Exception as e:
 
 try:
     lst_dct_orders = broker.orders
-    if lst_dct_orders and any(lst_dct_orders):
-        orders_symbols = [dct['tradingsymbol'] for dct in lst_dct_orders]
-    else:
-        orders_symbols = []
+    orders_symbols = [dct.get('tradingsymbol') for dct in lst_dct_orders]
+
 except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to read orders")
