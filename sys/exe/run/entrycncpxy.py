@@ -109,6 +109,7 @@ symbols = ["ZOMATO", "PNB", "HDFCBANK", "SBIN", "ITC", "BEL", "JIOFIN", "IOC", "
 decision, optdecision, available_cash, limit = calculate_decision()
 
 try:
+    original_stdout = sys.stdout
     # Redirect sys.stdout to 'output.txt'
     with open('output.txt', 'w') as file:
         sys.stdout = file
