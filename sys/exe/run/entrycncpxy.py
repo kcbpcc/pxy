@@ -1,0 +1,166 @@
+import yfinance as yf
+import pandas as pd
+from toolkit.logger import Logger
+from toolkit.currency import round_to_paise
+from toolkit.utilities import Utilities
+from login_get_kite import get_kite, remove_token
+from cnstpxy import dir_path, fileutils, buybuff, max_target
+from trndlnpxy import Trendlyne
+import traceback
+import sys
+import os
+from fundpxy import calculate_decision
+import asyncio
+import logging
+import telegram
+
+def calculate_heikin_ashi_colors(data):
+    # Calculate Heikin-Ashi candles
+    ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
+    ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+
+    current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
+    last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
+    
+    return current_color, last_closed_color
+
+def check_ha_candles(symbol):
+    # Fetch historical data for the stock with daily interval
+    data = yf.Ticker(symbol).history(period="5d", interval="1d")
+
+    # Calculate Heikin-Ashi candles colors
+    current_color, last_closed_color = calculate_heikin_ashi_colors(data)
+
+    # Check for market position
+    if current_color == 'Bear' and last_closed_color == 'Bull':
+        smbpxy = 'Sell'
+    elif current_color == 'Bull' and last_closed_color == 'Bear':
+        smbpxy = 'Buy'
+    else:
+        smbpxy = 'Hold'
+
+    return smbpxy
+
+def place_order(symbol, broker):
+    try:
+        response = broker.kite.margins()
+        remaining_cash = response["equity"]["available"]["live_balance"]
+        
+        ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
+        
+        if ltp_nse > 0 and remaining_cash > limit:
+            order_id = broker.order_place(
+                tradingsymbol=symbol,
+                exchange='NSE',
+                transaction_type='BUY',
+                quantity=max(1, round(float(buybuff))),
+                order_type='LIMIT',
+                product='CNC',
+                variety='regular',
+                price=round_to_paise(ltp_nse, 0.2)  # Use the NSE LTP for price calculation
+            )
+            
+            if order_id:
+                logging.info(f"BUY {order_id} placed for {symbol} successfully")
+                remaining_cash -= int(float(buybuff.replace(',', ''))) * ltp_nse
+                print(f"Order placed successfully for {symbol} and cash remained {remaining_cash}")
+
+                message_text = f"📊 Let's Buy {symbol}!\n📈 Current Price (LTP): {ltp_nse}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={symbol}"
+                bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
+                user_id = '-4135910842'  # Replace with your Telegram user ID
+                
+                async def send_telegram_message(message_text):
+                    bot = telegram.Bot(token=bot_token)
+                    await bot.send_message(chat_id=user_id, text=message_text)
+
+                asyncio.run(send_telegram_message(message_text))
+            else:
+                logging.warning(f"Failed to place order for {symbol}")
+        else:
+            logging.warning(f"Skipping {symbol}: no LTP or no cash")
+    except Exception as e:
+        logging.error(f"Error while placing order: {str(e)}")
+
+# List of stock symbols
+symbols = ["ZOMATO", "PNB", "HDFCBANK", "SBIN", "ITC", "BEL", "JIOFIN", "IOC", "BANKBARODA", "TATASTEEL", 
+           "TATAPOWER", "HDFCLIFE", "ICICIBANK", "IRFC", "GAIL", "LT", "TATAMOTORS", "ADANIPOWER", "ONGC", 
+           "PFC", "COALINDIA", "MOTHERSON", "POWERGRID", "CANBK", "MARICO", "NTPC", "ICICIGI", "HCLTECH", 
+           "RECLTD", "BPCL", "HINDALCO", "INFY", "DABUR", "VEDL", "KOTAKBANK", "RELIANCE", "AXISBANK", 
+           "BHARTIARTL", "M&M", "INDUSINDBK", "WIPRO", "ASIANPAINT", "TECHM", "AMBUJACEM", "TATAMTRDVR", 
+           "DLF", "SBILIFE", "TITAN", "ADANIPORTS", "JSWSTEEL", "VBL", "BERGEPAINT", "HEROMOTOCO", "TATACONSUM", 
+           "LICI", "IRCTC", "HAVELLS", "TVSMOTOR", "HINDUNILVR", "HAL", "BAJFINANCE", "TCS", "SUNPHARMA", 
+           "BAJAJFINSV", "CHOLAFIN", "ZYDUSLIFE", "CIPLA", "GODREJCP", "ADANIENT", "SRF", "ICICIPRULI", "LTIM", 
+           "DMART", "ADANIENSOL", "APOLLOHOSP", "JINDALSTEL", "EICHERMOT", "SHRIRAMFIN", "INDIGO", "TRENT", 
+           "ATGL", "NESTLEIND", "DIVISLAB", "ADANIGREEN", "SBICARD", "PIDILITIND", "GRASIM", "DRREDDY", 
+           "BAJAJ-AUTO", "MARUTI", "SIEMENS", "ULTRACEMCO", "BRITANNIA", "MCDOWELL-N", "ABB", "COLPAL", 
+           "NAUKRI", "TORNTPHARM", "BAJAJHLDNG", "SHREECEM", "BOSCHLTD"]
+
+# Fetching decision and other details
+decision, optdecision, available_cash, limit = calculate_decision()
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logging = Logger(30, dir_path + "main.log")
+black_file = dir_path + "blacklist.txt"
+original_stdout = sys.stdout
+
+try:
+    # Redirect sys.stdout to 'output.txt'
+    with open('output.txt', 'w') as file:
+        sys.stdout = file
+        try:
+            broker = get_kite(api="bypass", sec_dir=dir_path)
+        except Exception as e:
+            remove_token(dir_path)
+            print(traceback.format_exc())
+            logging.error(f"{str(e)} unable to get holdings")
+            sys.exit(1)
+finally:
+    sys.stdout = original_stdout
+
+# Fetch holdings, positions, and orders
+try:
+    df_fileHPdf = pd.read_csv('fileHPdf.csv')
+    holdings_symbols = df_fileHPdf['tradingsymbol'].tolist()
+except Exception as e:
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} unable to read holdings")
+    holdings_symbols = []
+
+try:
+    lst_dct_tlyne = Trendlyne().entry()
+    if lst_dct_tlyne and any(lst_dct_tlyne):
+        positions_symbols = [dct['tradingsymbol'] for dct in lst_dct_tlyne]
+    else:
+        positions_symbols = []
+except Exception as e:
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} unable to read positions")
+    positions_symbols = []
+
+try:
+    lst_dct_orders = broker.orders
+    if lst_dct_orders and any(lst_dct_orders):
+        orders_symbols = [dct['tradingsymbol'] for dct in lst_dct_orders]
+    else:
+        orders_symbols = []
+except Exception as e:
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} unable to read orders")
+    orders_symbols = []
+
+# Combine all symbols to skip
+skip_symbols = set(holdings_symbols + positions_symbols + orders_symbols)
+
+# Check Heikin-Ashi candles for each symbol and place orders
+for symbol in symbols:
+    if symbol not in skip_symbols:
+        smbpxy = check_ha_candles(symbol)
+        if smbpxy == 'Buy':
+            # Place order
+            print(f"Placing order for {symbol}...")
+            place_order(symbol, broker)
+        else:
+            logging.info(f"Skipping {symbol}: smbpxy is not 'Buy'")
+    else:
+        logging.info(f"Skipping {symbol}: already part of holdings, positions, or orders")
