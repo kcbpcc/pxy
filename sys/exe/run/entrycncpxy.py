@@ -149,16 +149,18 @@ except Exception as e:
 # Combine all symbols to skip
 skip_symbols = set(positions_symbols + orders_symbols)
 
-# Check Heikin-Ashi candles for each symbol and place orders
 for symbol in symbols:
-    if symbol not in skip_symbols:
-        yf_symbol = symbol + ".NS"  # Add .NS for Yahoo Finance
-        smbpxy = check_ha_candles(yf_symbol)
-        if smbpxy == 'Buy':
-            # Place order without .NS
-            print(f"Placing order for {symbol}...")
-            place_order(symbol, broker)
+    if decision == "YES":
+        if symbol not in skip_symbols:
+            yf_symbol = symbol + ".NS"  # Add .NS for Yahoo Finance
+            smbpxy = check_ha_candles(yf_symbol)
+            if smbpxy == 'Buy':
+                # Place order without .NS
+                print(f"Placing order for {symbol}...")
+                place_order(symbol, broker)
+            else:
+                logging.info(f"Skipping {symbol}: smbpxy is not 'Buy'")
         else:
-            logging.info(f"Skipping {symbol}: smbpxy is not 'Buy'")
+            logging.info(f"Skipping {symbol}: already part of positions or orders")
     else:
-        logging.info(f"Skipping {symbol}: already part of positions or orders")
+        logging.info("Decision is not 'YES', skipping order placement.")
