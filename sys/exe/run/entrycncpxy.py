@@ -1,19 +1,23 @@
-#print("PXY® Trying to check if anything to buy")
+# Import necessary modules
+import yfinance as yf
+import pandas as pd
+import traceback
+import sys
+import os
+import asyncio
+import logging
+import telegram
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path, fileutils, buybuff, max_target
-from trndlnpxy import Trendlyne
-import pandas as pd
-import traceback
-import sys
-import os
 from fundpxy import calculate_decision
-decision, optdecision, available_cash , limit = calculate_decision()
-import asyncio
-import logging
-import telegram
+from trndlnpxy import Trendlyne
+
+# Fetching decision and other details
+decision, optdecision, available_cash, limit = calculate_decision()
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logging = Logger(30, dir_path + "main.log")
@@ -156,4 +160,5 @@ for symbol in symbols:
             logging.info(f"Skipping {symbol}: smbpxy is not 'Buy'")
     else:
         logging.info(f"Skipping {symbol}: already part of positions or orders")
+
 
