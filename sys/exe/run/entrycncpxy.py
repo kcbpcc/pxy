@@ -49,11 +49,13 @@ def place_order(symbol, broker):
         ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
         
         if ltp_nse > 0 and remaining_cash > limit:
+            quantity = int(10000 / ltp_nse)  # Calculate quantity based on available cash and LTP
+            
             order_id = broker.order_place(
                 tradingsymbol=symbol,
                 exchange='NSE',
                 transaction_type='BUY',
-                quantity=max(1, round(float(buybuff))),
+                quantity=quantity,
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
@@ -62,7 +64,7 @@ def place_order(symbol, broker):
             
             if order_id:
                 logging.info(f"BUY {order_id} placed for {symbol} successfully")
-                remaining_cash -= int(float(buybuff.replace(',', ''))) * ltp_nse
+                remaining_cash -= quantity * ltp_nse
                 print(f"Order placed successfully for {symbol} and cash remained {remaining_cash}")
 
                 message_text = f"📊 Let's Buy {symbol}!\n📈 Current Price (LTP): {ltp_nse}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={symbol}"
