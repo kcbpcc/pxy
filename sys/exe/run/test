@@ -87,18 +87,7 @@ def place_order(symbol, broker):
         logging.error(f"Error while placing order: {str(e)}")
 
 # List of stock symbols
-symbols = ["ZOMATO", "PNB", "HDFCBANK", "SBIN", "ITC", "BEL", "JIOFIN", "IOC", "BANKBARODA", "TATASTEEL", 
-           "TATAPOWER", "HDFCLIFE", "ICICIBANK", "IRFC", "GAIL", "LT", "TATAMOTORS", "ADANIPOWER", "ONGC", 
-           "PFC", "COALINDIA", "MOTHERSON", "POWERGRID", "CANBK", "MARICO", "NTPC", "ICICIGI", "HCLTECH", 
-           "RECLTD", "BPCL", "HINDALCO", "INFY", "DABUR", "VEDL", "KOTAKBANK", "RELIANCE", "AXISBANK", 
-           "BHARTIARTL", "M&M", "INDUSINDBK", "WIPRO", "ASIANPAINT", "TECHM", "AMBUJACEM", "TATAMTRDVR", 
-           "DLF", "SBILIFE", "TITAN", "ADANIPORTS", "JSWSTEEL", "VBL", "BERGEPAINT", "HEROMOTOCO", "TATACONSUM", 
-           "LICI", "IRCTC", "HAVELLS", "TVSMOTOR", "HINDUNILVR", "HAL", "BAJFINANCE", "TCS", "SUNPHARMA", 
-           "BAJAJFINSV", "CHOLAFIN", "ZYDUSLIFE", "CIPLA", "GODREJCP", "ADANIENT", "SRF", "ICICIPRULI", "LTIM", 
-           "DMART", "ADANIENSOL", "APOLLOHOSP", "JINDALSTEL", "EICHERMOT", "SHRIRAMFIN", "INDIGO", "TRENT", 
-           "ATGL", "NESTLEIND", "DIVISLAB", "ADANIGREEN", "SBICARD", "PIDILITIND", "GRASIM", "DRREDDY", 
-           "BAJAJ-AUTO", "MARUTI", "SIEMENS", "ULTRACEMCO", "BRITANNIA", "MCDOWELL-N", "ABB", "COLPAL", 
-           "NAUKRI", "TORNTPHARM", "BAJAJHLDNG", "SHREECEM", "BOSCHLTD"]
+symbols = ["HDFCBANK", "ICICIBANK", "AXISBANK", "SBIN", "KOTAKBANK", "INDUSINDBK", "BANKBARODA", "PNB", "FEDERALBNK", "IDFCFIRSTB"]
 
 # Fetching decision and other details
 decision, optdecision, available_cash, limit = calculate_decision()
