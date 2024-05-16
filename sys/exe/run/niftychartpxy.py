@@ -49,7 +49,9 @@ if current_sma_50 is not None:
         line_value = max_value - i * scale_step
         if abs(line_value - current_sma_50) < scale_step / 2:
             # Highlight the scale value
-            chart_lines[i] = line.replace(f"{int(line_value):.0f}", f"{BRIGHT_RED}{int(line_value):.0f}{RESET}")
+            line_parts = line.split(' ')
+            line_parts[0] = f"{BRIGHT_RED}{line_parts[0]}{RESET}"
+            chart_lines[i] = ' '.join(line_parts)
     
     highlighted_chart = "\n".join(chart_lines)
     print(highlighted_chart)
