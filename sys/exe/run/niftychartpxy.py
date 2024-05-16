@@ -44,11 +44,11 @@ chart = plot(data_points, {'height': 12, 'format': "{:.0f}"})
 
 # Prepare indicators for SMAs
 sma_50_indicator = f"Current 50 SMA: {current_sma_50:.2f}" if current_sma_50 is not None else "Current 50 SMA: Not enough data"
-sma_200_indicator = f"Current 200 SMA: {current_sma_200:.2f}" if current_sma_200 is not None else "Current 200 SMA: Not enough data"
 delta_points_50 = f"Delta Points 50 = {latest_close - current_sma_50:.2f}" if latest_close is not None and current_sma_50 is not None else ""
+sma_200_indicator = f"Current 200 SMA: {current_sma_200:.2f}" if current_sma_200 is not None else "Current 200 SMA: Not enough data"
 delta_points_200 = f"Delta Points 200 = {latest_close - current_sma_200:.2f}" if latest_close is not None and current_sma_200 is not None else ""
 
-# Find the approximate positions of the SMAs on the scale
+# Find the approximate position of the 50 SMA on the scale
 chart_lines = chart.split('\n')
 min_value = min(data_points)
 max_value = max(data_points)
@@ -56,16 +56,16 @@ scale_step = (max_value - min_value) / (len(chart_lines) - 1)
 
 for i, line in enumerate(chart_lines):
     line_value = max_value - i * scale_step
-    # Highlight the 50 SMA
+    # Highlight the 50 SMA and mark it with color based on its relationship with the 200 SMA
     if current_sma_50 is not None and abs(line_value - current_sma_50) < scale_step / 2:
-        line_parts = line.split(' ')
-        line_parts[0] = f"{BRIGHT_GREEN}{line_parts[0]}{RESET}"
-        chart_lines[i] = ' '.join(line_parts)
-    # Highlight the 200 SMA
-    if current_sma_200 is not None and abs(line_value - current_sma_200) < scale_step / 2:
-        line_parts = line.split(' ')
-        line_parts[0] = f"{BRIGHT_RED}{line_parts[0]}{RESET}"
-        chart_lines[i] = ' '.join(line_parts)
+        if current_sma_50 > current_sma_200:
+            line_parts = line.split(' ')
+            line_parts[0] = f"{BRIGHT_GREEN}{line_parts[0]}{RESET}"
+            chart_lines[i] = ' '.join(line_parts)
+        else:
+            line_parts = line.split(' ')
+            line_parts[0] = f"{BRIGHT_RED}{line_parts[0]}{RESET}"
+            chart_lines[i] = ' '.join(line_parts)
 
 highlighted_chart = "\n".join(chart_lines)
 print(highlighted_chart)
