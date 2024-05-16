@@ -36,17 +36,16 @@ current_sma_50 = sma_50[-1] if pd.notna(sma_50[-1]) else None
 # Create ASCII chart with colored trend
 chart = plot(data_points, {'height': 12, 'format': "{:.0f}"})
 
-# Print ASCII chart
-print(chart)
-
-# Indicate the current SMA value in the output if it is not NaN
+# If SMA value is not None, highlight it
 if current_sma_50 is not None:
     sma_indicator = f"Current 50 SMA: {current_sma_50:.2f}"
     # Highlight the current 50 SMA value on the chart
-    highlighted_chart = chart.replace(f"{int(current_sma_50):.0f}", f"{BRIGHT_RED}{int(current_sma_50):.0f}{RESET}")
+    sma_value_str = f"{int(current_sma_50):.0f}"
+    highlighted_chart = chart.replace(sma_value_str, f"{BRIGHT_RED}{sma_value_str}{RESET}")
     print(highlighted_chart)
     print(sma_indicator)
 else:
+    print(chart)
     print("Current 50 SMA: Not enough data to calculate 50 SMA")
 
 # Reset terminal color to default
