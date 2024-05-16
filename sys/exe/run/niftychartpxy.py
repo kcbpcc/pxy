@@ -36,12 +36,22 @@ current_sma_50 = sma_50[-1] if pd.notna(sma_50[-1]) else None
 # Create ASCII chart with colored trend
 chart = plot(data_points, {'height': 12, 'format': "{:.0f}"})
 
-# If SMA value is not None, highlight it
+# If SMA value is not None, highlight its approximate position on the scale
 if current_sma_50 is not None:
     sma_indicator = f"Current 50 SMA: {current_sma_50:.2f}"
-    # Highlight the current 50 SMA value on the chart
-    sma_value_str = f"{int(current_sma_50)}"  # Exact match without formatting
-    highlighted_chart = chart.replace(sma_value_str, f"{BRIGHT_RED}{sma_value_str}{RESET}")
+    # Find the approximate position of the SMA on the scale
+    chart_lines = chart.split('\n')
+    min_value = min(data_points)
+    max_value = max(data_points)
+    scale_step = (max_value - min_value) / (len(chart_lines) - 1)
+    
+    for i, line in enumerate(chart_lines):
+        line_value = max_value - i * scale_step
+        if abs(line_value - current_sma_50) < scale_step / 2:
+            # Highlight the scale value
+            chart_lines[i] = line.replace(f"{int(line_value):.0f}", f"{BRIGHT_RED}{int(line_value):.0f}{RESET}")
+    
+    highlighted_chart = "\n".join(chart_lines)
     print(highlighted_chart)
     print(sma_indicator)
 else:
@@ -50,5 +60,3 @@ else:
 
 # Reset terminal color to default
 print(RESET)
-
-
