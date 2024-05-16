@@ -26,12 +26,12 @@ last_20_15min_close = close_15min[-22:-2]  # Corrected index to -2
 # Combine the last 20 15-minute close prices and the last 15 1-minute close prices
 data_points = last_20_15min_close + last_1min_close
 
-# Calculate the 50-period Simple Moving Average (SMA)
-sma_50_series = pd.Series(data_points).rolling(window=50).mean()
+# Calculate the 50-period Simple Moving Average (SMA) on 1-minute interval data
+sma_50_series = pd.Series(close_1min).rolling(window=50).mean()
 sma_50 = sma_50_series.tolist()
 
-# Get the latest SMA value
-current_sma_50 = sma_50[-1]
+# Get the latest SMA value, ensuring it's not NaN
+current_sma_50 = sma_50[-1] if pd.notna(sma_50[-1]) else None
 
 # Create ASCII chart with colored trend
 chart = plot(data_points, {'height': 12, 'format': "{:.0f}"})
@@ -39,16 +39,17 @@ chart = plot(data_points, {'height': 12, 'format': "{:.0f}"})
 # Print ASCII chart
 print(chart)
 
-# Indicate the current SMA value in the output
-sma_indicator = f"Current 50 SMA: {current_sma_50:.2f}"
-
-# Highlight the current 50 SMA value on the chart
-highlighted_chart = chart.replace(f"{int(current_sma_50):.0f}", f"{BRIGHT_RED}{int(current_sma_50):.0f}{RESET}")
-
-# Print the highlighted chart and the SMA value
-print(highlighted_chart)
-print(sma_indicator)
+# Indicate the current SMA value in the output if it is not NaN
+if current_sma_50 is not None:
+    sma_indicator = f"Current 50 SMA: {current_sma_50:.2f}"
+    # Highlight the current 50 SMA value on the chart
+    highlighted_chart = chart.replace(f"{int(current_sma_50):.0f}", f"{BRIGHT_RED}{int(current_sma_50):.0f}{RESET}")
+    print(highlighted_chart)
+    print(sma_indicator)
+else:
+    print("Current 50 SMA: Not enough data to calculate 50 SMA")
 
 # Reset terminal color to default
 print(RESET)
+
 
