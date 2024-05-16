@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from asciichartpy import plot
-from clorpxy import SILVER, BRIGHT_RED,BRIGHT_YELLOW, BRIGHT_GREEN, RESET
+from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
 import yfinance as yf
 
 # Define the ticker symbol for NIFTY
@@ -26,39 +26,53 @@ last_20_15min_close = close_15min[-22:-2]  # Corrected index to -2
 # Combine the last 20 15-minute close prices and the last 15 1-minute close prices
 data_points = last_20_15min_close + last_1min_close
 
-# Calculate the 50-period Simple Moving Average (SMA) on 1-minute interval data
+# Calculate the 50-period and 200-period Simple Moving Averages (SMA) on 1-minute interval data
 sma_50_series = pd.Series(close_1min).rolling(window=50).mean()
+sma_200_series = pd.Series(close_1min).rolling(window=200).mean()
 sma_50 = sma_50_series.tolist()
+sma_200 = sma_200_series.tolist()
 
-# Get the latest SMA value, ensuring it's not NaN
+# Get the latest SMA values, ensuring they're not NaN
 current_sma_50 = sma_50[-1] if pd.notna(sma_50[-1]) else None
+current_sma_200 = sma_200[-1] if pd.notna(sma_200[-1]) else None
+
+# Get the latest close price
+latest_close = close_1min[-1] if close_1min else None
 
 # Create ASCII chart with colored trend
 chart = plot(data_points, {'height': 12, 'format': "{:.0f}"})
 
-# If SMA value is not None, highlight its approximate position on the scale
-if current_sma_50 is not None:
-    sma_indicator = f"Current 50 SMA: {current_sma_50:.2f}"
-    # Find the approximate position of the SMA on the scale
-    chart_lines = chart.split('\n')
-    min_value = min(data_points)
-    max_value = max(data_points)
-    scale_step = (max_value - min_value) / (len(chart_lines) - 1)
-    
-    for i, line in enumerate(chart_lines):
-        line_value = max_value - i * scale_step
-        if abs(line_value - current_sma_50) < scale_step / 2:
-            # Highlight the scale value
-            line_parts = line.split(' ')
-            line_parts[0] = f"{BRIGHT_YELLOW}{line_parts[0]}{RESET}"
-            chart_lines[i] = ' '.join(line_parts)
-    
-    highlighted_chart = "\n".join(chart_lines)
-    print(highlighted_chart)
-    #print(sma_indicator)
-else:
-    print(chart)
-    #print("Current 50 SMA: Not enough data to calculate 50 SMA")
+# Prepare indicators for SMAs
+sma_50_indicator = f"Current 50 SMA: {current_sma_50:.2f}" if current_sma_50 is not None else "Current 50 SMA: Not enough data"
+sma_200_indicator = f"Current 200 SMA: {current_sma_200:.2f}" if current_sma_200 is not None else "Current 200 SMA: Not enough data"
+delta_points_50 = f"Delta Points 50 = {latest_close - current_sma_50:.2f}" if latest_close is not None and current_sma_50 is not None else ""
+delta_points_200 = f"Delta Points 200 = {latest_close - current_sma_200:.2f}" if latest_close is not None and current_sma_200 is not None else ""
+
+# Find the approximate positions of the SMAs on the scale
+chart_lines = chart.split('\n')
+min_value = min(data_points)
+max_value = max(data_points)
+scale_step = (max_value - min_value) / (len(chart_lines) - 1)
+
+for i, line in enumerate(chart_lines):
+    line_value = max_value - i * scale_step
+    # Highlight the 50 SMA
+    if current_sma_50 is not None and abs(line_value - current_sma_50) < scale_step / 2:
+        line_parts = line.split(' ')
+        line_parts[0] = f"{BRIGHT_GREEN}{line_parts[0]}{RESET}"
+        chart_lines[i] = ' '.join(line_parts)
+    # Highlight the 200 SMA
+    if current_sma_200 is not None and abs(line_value - current_sma_200) < scale_step / 2:
+        line_parts = line.split(' ')
+        line_parts[0] = f"{BRIGHT_RED}{line_parts[0]}{RESET}"
+        chart_lines[i] = ' '.join(line_parts)
+
+highlighted_chart = "\n".join(chart_lines)
+print(highlighted_chart)
+print(sma_50_indicator)
+print(delta_points_50)
+print(sma_200_indicator)
+print(delta_points_200)
 
 # Reset terminal color to default
 print(RESET)
