@@ -58,7 +58,7 @@ if current_sma_50 is not None:
     print(sma_indicator)
 else:
     print(chart)
-    print("Current 50 SMA: Not enough data to calculate 50 SMA")
+    #print("Current 50 SMA: Not enough data to calculate 50 SMA")
 
 # Reset terminal color to default
 print(RESET)
