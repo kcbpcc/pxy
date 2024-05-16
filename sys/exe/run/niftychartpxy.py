@@ -69,10 +69,10 @@ for i, line in enumerate(chart_lines):
 
 highlighted_chart = "\n".join(chart_lines)
 print(highlighted_chart)
-print(sma_50_indicator)
-print(delta_points_50)
-print(sma_200_indicator)
-print(delta_points_200)
+#print(sma_50_indicator)
+#print(delta_points_50)
+#print(sma_200_indicator)
+#print(delta_points_200)
 
 # Reset terminal color to default
 print(RESET)
