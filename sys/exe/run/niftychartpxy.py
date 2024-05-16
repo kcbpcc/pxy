@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from asciichartpy import plot
-from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
+from clorpxy import SILVER, BRIGHT_RED,BRIGHT_YELLOW, BRIGHT_GREEN, RESET
 import yfinance as yf
 
 # Define the ticker symbol for NIFTY
@@ -50,7 +50,7 @@ if current_sma_50 is not None:
         if abs(line_value - current_sma_50) < scale_step / 2:
             # Highlight the scale value
             line_parts = line.split(' ')
-            line_parts[0] = f"{BRIGHT_RED}{line_parts[0]}{RESET}"
+            line_parts[0] = f"{BRIGHT_YELLOW}{line_parts[0]}{RESET}"
             chart_lines[i] = ' '.join(line_parts)
     
     highlighted_chart = "\n".join(chart_lines)
