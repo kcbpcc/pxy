@@ -40,7 +40,7 @@ chart = plot(data_points, {'height': 12, 'format': "{:.0f}"})
 if current_sma_50 is not None:
     sma_indicator = f"Current 50 SMA: {current_sma_50:.2f}"
     # Highlight the current 50 SMA value on the chart
-    sma_value_str = f"{int(current_sma_50):.0f}"
+    sma_value_str = f"{int(current_sma_50)}"  # Exact match without formatting
     highlighted_chart = chart.replace(sma_value_str, f"{BRIGHT_RED}{sma_value_str}{RESET}")
     print(highlighted_chart)
     print(sma_indicator)
