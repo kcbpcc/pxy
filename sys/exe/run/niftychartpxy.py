@@ -55,7 +55,7 @@ if current_sma_50 is not None:
     
     highlighted_chart = "\n".join(chart_lines)
     print(highlighted_chart)
-    print(sma_indicator)
+    #print(sma_indicator)
 else:
     print(chart)
     #print("Current 50 SMA: Not enough data to calculate 50 SMA")
