@@ -16,8 +16,7 @@ def get_this_thursday(adjust=7):
     if (last_day_of_month - this_thursday).days < 7:
         expiry_year = this_thursday.strftime("%y")
         expiry_month = this_thursday.strftime("%b").upper()  # Convert month to all caps
-        expiry_day = ''  # Empty day
-        return expiry_year, expiry_month, expiry_day
+        return expiry_year, expiry_month, ''
 
     # Adjust the date
     adjusted_date = this_thursday + timedelta(days=adjust)
