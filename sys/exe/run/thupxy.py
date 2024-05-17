@@ -14,16 +14,10 @@ def get_this_thursday(adjust=7):
 
     # Check if this Thursday falls in the last week of the month
     if (last_day_of_month - this_thursday).days < 7:
-        expiry_year = this_thursday.strftime("%y")
-        expiry_month = this_thursday.strftime("%b").upper()  # Convert month to all caps
-        return expiry_year, expiry_month, ''
+        return this_thursday.strftime("%y"), this_thursday.strftime("%b").upper(), ''
 
     # Adjust the date
     adjusted_date = this_thursday + timedelta(days=adjust)
 
     # Formatting
-    expiry_year = adjusted_date.strftime("%y")
-    expiry_month = adjusted_date.strftime("%b").upper()  # Convert month to all caps
-    expiry_day = adjusted_date.strftime("%d").zfill(2)
-
-    return expiry_year, expiry_month, expiry_day
+    return adjusted_date.strftime("%y"), adjusted_date.strftime("%b").upper(), adjusted_date.strftime("%d").zfill(2)
