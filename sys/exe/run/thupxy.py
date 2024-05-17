@@ -12,8 +12,11 @@ def get_this_thursday(adjust=7):
     next_month = this_thursday.replace(day=28) + timedelta(days=4)  # ensures getting to the next month
     last_day_of_month = next_month - timedelta(days=next_month.day)
 
-    # Check if this Thursday is the last day of the month
-    if this_thursday.date() == last_day_of_month.date():
+    # Calculate the start of the last week of the month
+    start_of_last_week = last_day_of_month - timedelta(days=last_day_of_month.weekday())
+
+    # Check if this Thursday falls in the last week of the month
+    if this_thursday >= start_of_last_week:
         expiry_year = this_thursday.strftime("%y")
         expiry_month = this_thursday.strftime("%b").upper()  # Convert month to all caps
         expiry_day = ''  # Empty day
