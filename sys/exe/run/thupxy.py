@@ -8,16 +8,20 @@ def get_this_thursday(adjust=7):
     else:
         this_thursday = current_date + timedelta(days=days_until_this_thursday)
 
-    # Calculate the last day of the month
-    next_month = this_thursday.replace(day=28) + timedelta(days=4)  # ensures getting to the next month
-    last_day_of_month = next_month - timedelta(days=next_month.day)
+    last_day_of_month = (this_thursday.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
 
-    # Check if this Thursday falls in the last week of the month
-    if (last_day_of_month - this_thursday).days < 7:
-        return this_thursday.strftime("%y"), this_thursday.strftime("%b").upper(), ''
+    if this_thursday == last_day_of_month:
+        expiry_year = this_thursday.strftime("%y")
+        expiry_month = this_thursday.strftime("%b").upper()  # Convert to all caps
+        expiry_day = ''  # Empty day
+        return expiry_year, expiry_month, expiry_day
 
     # Adjust the date
     adjusted_date = this_thursday + timedelta(days=adjust)
 
     # Formatting
-    return adjusted_date.strftime("%y"), adjusted_date.strftime("%b").upper(), adjusted_date.strftime("%d").zfill(2)
+    expiry_year = adjusted_date.strftime("%y")
+    expiry_month = adjusted_date.strftime("%-m") if adjusted_date.month < 10 else adjusted_date.strftime("%m")
+    expiry_day = adjusted_date.strftime("%d").zfill(2)
+
+    return expiry_year, expiry_month, expiry_day
