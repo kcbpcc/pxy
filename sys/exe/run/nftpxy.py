@@ -18,7 +18,7 @@ def get_nse_action():
     Open_Change = 0.0
     try:
         # Download data for a fixed 5-day period
-        data = yf.Ticker('^NSEI').history(period="7d")
+        data = yf.Ticker('^NSEI').history(period="5d")
 
         # Extract today's open, yesterday's close, and current price
         today_open = data['Open'].iloc[-1]
