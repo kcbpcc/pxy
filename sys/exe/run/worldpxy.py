@@ -41,7 +41,7 @@ closing_prices_yesterday = {}
 
 for exchange, name_weight in exchanges.items():
     ticker = yf.Ticker(exchange)
-    hist_data = ticker.history(period="2d")
+    hist_data = ticker.history(period="5d")
     if len(hist_data) >= 2:
         closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
         closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
