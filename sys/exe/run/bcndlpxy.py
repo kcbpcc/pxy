@@ -16,7 +16,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
 
-def get_niftyfifty_data(period="7d"):
+def get_niftyfifty_data(period="5d"):
     ticker_symbol = '^NSEI'  # niftyfifty index symbol on Yahoo Finance
     try:
         nifty_data = yf.Ticker(ticker_symbol).history(period=period)
