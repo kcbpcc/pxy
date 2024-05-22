@@ -31,7 +31,7 @@ def get_positionsinfo(resp_list, broker):
         return None
 
 try:
-    sys.stdout = open('output.txt', 'w')
+
     broker = get_kite(api="bypass", sec_dir=dir_path)
 except Exception as e:
     remove_token(dir_path)
@@ -40,9 +40,7 @@ except Exception as e:
     sys.exit(1)
 finally:
     # Ensure to close the file and restore stdout
-    if sys.stdout != sys.__stdout__:
-        sys.stdout.close()
-        sys.stdout = sys.__stdout__
+
 
 def process_data():
     try:
@@ -53,7 +51,7 @@ def process_data():
 
         holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
         positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
-        combined_df = holdings_df #pd.concat([holdings_df, positions_df], ignore_index=True)
+        combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
         lst = combined_df['key'].tolist()
         resp = broker.kite.ohlc(lst)
         dct = {
