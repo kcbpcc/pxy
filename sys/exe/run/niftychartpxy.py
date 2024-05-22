@@ -9,7 +9,7 @@ ticker_symbol = "^NSEI"
 
 # Get data from Yahoo Finance for the last 2 days (to ensure enough data for 15-minute candles)
 nifty_data = yf.Ticker(ticker_symbol)
-nifty_hist = nifty_data.history(period="2d", interval="1m")
+nifty_hist = nifty_data.history(period="5d", interval="1m")
 
 # Extract close prices for 1-minute candles
 close_1min = nifty_hist['Close'].tolist()
