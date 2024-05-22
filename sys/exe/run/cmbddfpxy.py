@@ -4,6 +4,7 @@ import pandas as pd
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from toolkit.logger import Logger
+import kiteconnect
 
 logging = Logger(30, dir_path + "main.log")
 
