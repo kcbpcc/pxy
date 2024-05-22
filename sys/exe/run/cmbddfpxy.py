@@ -4,11 +4,6 @@ import pandas as pd
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from toolkit.logger import Logger
-import csv
-import os
-import sys
-import traceback
-import logging
 
 logging = Logger(30, dir_path + "main.log")
 
@@ -48,14 +43,31 @@ def process_data():
     try:
         holdings_response = broker.kite.holdings()
         positions_response = broker.kite.positions()['net']
+        
         holdings_df = get_holdingsinfo(holdings_response, broker)
         positions_df = get_positionsinfo(positions_response, broker)
 
+        if holdings_df is None or positions_df is None:
+            raise ValueError("Error in fetching holdings or positions data")
+
         holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
         positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
+
         combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
-        lst = combined_df['key'].tolist()
-        resp = broker.kite.ohlc(lst)
+
+        if combined_df.empty:
+            raise ValueError("Combined dataframe is empty")
+
+        lst = combined_df['key'].dropna().tolist()  # Ensure lst does not contain None values
+
+        if not lst:
+            raise ValueError("No valid instrument tokens found")
+
+        try:
+            resp = broker.kite.ohlc(lst)
+        except kiteconnect.exceptions.InputException as e:
+            raise ValueError(f"Failed to fetch OHLC data: {e}")
+
         dct = {
             k: {
                 'ltp': v['ohlc'].get('ltp', v['last_price']),
@@ -66,6 +78,7 @@ def process_data():
             }
             for k, v in resp.items()
         }
+
         combined_df['ltp'] = combined_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row['last_price']), axis=1)
         combined_df['open'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('open', 0))
         combined_df['high'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('high', 0))
@@ -86,24 +99,21 @@ def process_data():
 
         combined_df['outqty'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
         combined_df['in'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
+
         if positions_df.empty:
             combined_df['in'] = combined_df.get('out', None)
         else:
             combined_df['out'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])
     
-        # Handle conversion of 'm2m' column to int if it exists
         if "m2m" in combined_df.columns:
             try:
                 combined_df['m2m'] = combined_df['m2m'].astype(int)
             except ValueError:
-                # Handle the case where some values cannot be converted to int
                 pass
         else:
-            # Create the 'm2m' column and set all row values to 0
             combined_df['m2m'] = 0
 
         return combined_df
-        
 
     except Exception as e:
         print(f"An error occurred: {e}")
