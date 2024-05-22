@@ -8,7 +8,7 @@ import kiteconnect
 
 logging = Logger(30, dir_path + "main.log")
 
-def get_holdingsinfo(resp_list, broker):
+def get_holdingsinfo(resp_list):
     try:
         df = pd.DataFrame(resp_list)
         df['source'] = 'holdings'
@@ -17,7 +17,7 @@ def get_holdingsinfo(resp_list, broker):
         print(f"An error occurred in holdings: {e}")
         return None
 
-def get_positionsinfo(resp_list, broker):
+def get_positionsinfo(resp_list):
     try:
         df = pd.DataFrame(resp_list)
         df['source'] = 'positions'
@@ -35,7 +35,6 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 finally:
-    # Ensure to close the file and restore stdout
     if sys.stdout != sys.__stdout__:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
@@ -45,21 +44,28 @@ def process_data():
         holdings_response = broker.kite.holdings()
         positions_response = broker.kite.positions()['net']
         
-        holdings_df = get_holdingsinfo(holdings_response, broker)
-        positions_df = get_positionsinfo(positions_response, broker)
+        holdings_df = get_holdingsinfo(holdings_response)
+        positions_df = get_positionsinfo(positions_response)
 
         if holdings_df is None or positions_df is None:
             raise ValueError("Error in fetching holdings or positions data")
 
-        holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
-        positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
+        if not holdings_df.empty:
+            holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol']
+        else:
+            holdings_df['key'] = None
+
+        if not positions_df.empty:
+            positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol']
+        else:
+            positions_df['key'] = None
 
         combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
 
         if combined_df.empty:
             raise ValueError("Combined dataframe is empty")
 
-        lst = combined_df['key'].dropna().tolist()  # Ensure lst does not contain None values
+        lst = combined_df['key'].dropna().tolist()
 
         if not lst:
             raise ValueError("No valid instrument tokens found")
@@ -80,15 +86,15 @@ def process_data():
             for k, v in resp.items()
         }
 
-        combined_df['ltp'] = combined_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row['last_price']), axis=1)
+        combined_df['ltp'] = combined_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row.get('last_price', 0)), axis=1)
         combined_df['open'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('open', 0))
         combined_df['high'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('high', 0))
         combined_df['low'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('low', 0))
         combined_df['close'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('close_price', 0))
-        combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
+        combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row.get('t1_quantity', 0)) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
         combined_df['oPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['open']) / row['open']) * 100), 2) if row['open'] != 0 else 0, axis=1)
         combined_df['dPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['close']) / row['close']) * 100), 2) if row['close'] != 0 else 0, axis=1)
-        
+
         combined_df['pnl'] = combined_df['pnl'].astype(int)
         combined_df['avg'] = combined_df['average_price']
         combined_df['Invested'] = (combined_df['qty'] * combined_df['avg']).round(0).astype(int)
@@ -105,7 +111,7 @@ def process_data():
             combined_df['in'] = combined_df.get('out', None)
         else:
             combined_df['out'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])
-    
+
         if "m2m" in combined_df.columns:
             try:
                 combined_df['m2m'] = combined_df['m2m'].astype(int)
