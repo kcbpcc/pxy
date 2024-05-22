@@ -9,7 +9,7 @@ def analyze_stock():
         sys.stdout = open(os.devnull, 'w')
 
         # Download data for the specified 2-day period
-        data = yf.Ticker('^NSEI').history(period="2d")
+        data = yf.Ticker('^NSEI').history(period="5d")
 
         # Extract today's open, yesterday's close, and current price
         today_open = data['Open'].iloc[-1]
