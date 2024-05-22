@@ -4,11 +4,15 @@ import pandas as pd
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from toolkit.logger import Logger
-import kiteconnect
+import csv
+import os
+import sys
+import traceback
+import logging
 
 logging = Logger(30, dir_path + "main.log")
 
-def get_holdingsinfo(resp_list):
+def get_holdingsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
         df['source'] = 'holdings'
@@ -17,7 +21,7 @@ def get_holdingsinfo(resp_list):
         print(f"An error occurred in holdings: {e}")
         return None
 
-def get_positionsinfo(resp_list):
+def get_positionsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
         df['source'] = 'positions'
@@ -35,6 +39,7 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 finally:
+    # Ensure to close the file and restore stdout
     if sys.stdout != sys.__stdout__:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
@@ -43,38 +48,14 @@ def process_data():
     try:
         holdings_response = broker.kite.holdings()
         positions_response = broker.kite.positions()['net']
-        
-        holdings_df = get_holdingsinfo(holdings_response)
-        positions_df = get_positionsinfo(positions_response)
+        holdings_df = get_holdingsinfo(holdings_response, broker)
+        positions_df = get_positionsinfo(positions_response, broker)
 
-        if holdings_df is None or positions_df is None:
-            raise ValueError("Error in fetching holdings or positions data")
-
-        if not holdings_df.empty:
-            holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol']
-        else:
-            holdings_df['key'] = None
-
-        if not positions_df.empty:
-            positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol']
-        else:
-            positions_df['key'] = None
-
+        holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
+        positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
         combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
-
-        if combined_df.empty:
-            raise ValueError("Combined dataframe is empty")
-
-        lst = combined_df['key'].dropna().tolist()
-
-        if not lst:
-            raise ValueError("No valid instrument tokens found")
-
-        try:
-            resp = broker.kite.ohlc(lst)
-        except kiteconnect.exceptions.InputException as e:
-            raise ValueError(f"Failed to fetch OHLC data: {e}")
-
+        lst = combined_df['key'].tolist()
+        resp = broker.kite.ohlc(lst)
         dct = {
             k: {
                 'ltp': v['ohlc'].get('ltp', v['last_price']),
@@ -85,16 +66,15 @@ def process_data():
             }
             for k, v in resp.items()
         }
-
-        combined_df['ltp'] = combined_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row.get('last_price', 0)), axis=1)
+        combined_df['ltp'] = combined_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row['last_price']), axis=1)
         combined_df['open'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('open', 0))
         combined_df['high'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('high', 0))
         combined_df['low'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('low', 0))
         combined_df['close'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('close_price', 0))
-        combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row.get('t1_quantity', 0)) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
+        combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
         combined_df['oPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['open']) / row['open']) * 100), 2) if row['open'] != 0 else 0, axis=1)
         combined_df['dPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['close']) / row['close']) * 100), 2) if row['close'] != 0 else 0, axis=1)
-
+        
         combined_df['pnl'] = combined_df['pnl'].astype(int)
         combined_df['avg'] = combined_df['average_price']
         combined_df['Invested'] = (combined_df['qty'] * combined_df['avg']).round(0).astype(int)
@@ -106,21 +86,24 @@ def process_data():
 
         combined_df['outqty'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
         combined_df['in'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
-
         if positions_df.empty:
             combined_df['in'] = combined_df.get('out', None)
         else:
             combined_df['out'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])
-
+    
+        # Handle conversion of 'm2m' column to int if it exists
         if "m2m" in combined_df.columns:
             try:
                 combined_df['m2m'] = combined_df['m2m'].astype(int)
             except ValueError:
+                # Handle the case where some values cannot be converted to int
                 pass
         else:
+            # Create the 'm2m' column and set all row values to 0
             combined_df['m2m'] = 0
 
         return combined_df
+        
 
     except Exception as e:
         print(f"An error occurred: {e}")
