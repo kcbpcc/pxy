@@ -55,6 +55,7 @@ def process_data():
         positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
         combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
         lst = combined_df['key'].tolist()
+        print(lst)
         resp = broker.kite.ohlc(lst)
         dct = {
             k: {
