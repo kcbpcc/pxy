@@ -17,10 +17,14 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 
-def process_data():
+def get_infy_ltp():
     try:
+        # Retrieve OHLC data for INFY
         resp = broker.kite.ohlc(['NSE:INFY'])
+
+        # Extract LTP from the response
         infy_ltp = resp.get('NSE:INFY', {}).get('ohlc', {}).get('open', 0)
+
         return infy_ltp
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -28,8 +32,9 @@ def process_data():
         return None
 
 if __name__ == "__main__":
-    infy_ltp = process_data()
+    infy_ltp = get_infy_ltp()
     if infy_ltp is not None:
         print(f"INFY LTP: {infy_ltp}")
     else:
         print("Failed to retrieve INFY LTP.")
+
