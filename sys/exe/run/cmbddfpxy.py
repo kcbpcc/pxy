@@ -86,7 +86,7 @@ def process_data():
         
         dct = {
             k: {
-                'ltp': v['ohlc'].get('ltp', v['last_price']),
+                'ltp': v['ohlc'].['last_price']),
                 'open': v['ohlc']['open'],
                 'high': v['ohlc']['high'],
                 'low': v['ohlc']['low'],
