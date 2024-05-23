@@ -5,6 +5,7 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from toolkit.logger import Logger
 import logging
+import kiteconnect
 
 logging = Logger(30, dir_path + "main.log")
 
@@ -130,3 +131,11 @@ def process_data():
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
+
+if __name__ == "__main__":
+    combined_df = process_data()
+    if combined_df is not None:
+        print("Data processing complete.")
+    else:
+        print("Data processing failed.")
+
