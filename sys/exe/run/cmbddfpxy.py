@@ -32,10 +32,11 @@ def batch_ohlc_requests(kite, lst, batch_size=50):
     results = {}
     for batch in batches:
         try:
+            print(f"Requesting OHLC data for batch: {batch}")
             resp = kite.ohlc(batch)
             results.update(resp)
         except kiteconnect.exceptions.InputException as e:
-            print(f"InputException: {e}")
+            print(f"InputException: {e} for batch: {batch}")
             # Handle exception (logging, retrying, skipping, etc.)
     return results
 
@@ -75,6 +76,11 @@ def process_data():
         lst = combined_df['key'].dropna().tolist()
         if not lst:
             raise ValueError("Instrument list is empty.")
+        
+        # Validate instrument list for any anomalies
+        invalid_entries = [item for item in lst if not isinstance(item, str) or ':' not in item]
+        if invalid_entries:
+            raise ValueError(f"Invalid entries in instrument list: {invalid_entries}")
         
         resp = batch_ohlc_requests(broker.kite, lst)
         
@@ -138,4 +144,5 @@ if __name__ == "__main__":
         print("Data processing complete.")
     else:
         print("Data processing failed.")
+
 
