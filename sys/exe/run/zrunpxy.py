@@ -17,24 +17,24 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 
-def get_infy_ltp():
+def get_TCS_ltp():
     try:
-        # Retrieve OHLC data for INFY
-        resp = broker.kite.ohlc(['NSE:INFY'])
+        # Retrieve OHLC data for TCS
+        resp = broker.kite.ohlc(['NSE:TCS'])
 
         # Extract LTP from the response
-        infy_ltp = resp.get('NSE:INFY', {}).get('ohlc', {}).get('open', 0)
+        TCS_ltp = resp.get('NSE:TCS', {}).get('ohlc', {}).get('open', 0)
 
-        return infy_ltp
+        return TCS_ltp
     except Exception as e:
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
 
 if __name__ == "__main__":
-    infy_ltp = get_infy_ltp()
-    if infy_ltp is not None:
-        print(f"INFY LTP: {infy_ltp}")
+    TCS_ltp = get_TCS_ltp()
+    if TCS_ltp is not None:
+        print(f"TCS LTP: {TCS_ltp}")
     else:
-        print("Failed to retrieve INFY LTP.")
+        print("Failed to retrieve TCS LTP.")
 
