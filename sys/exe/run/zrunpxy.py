@@ -38,7 +38,4 @@ if __name__ == "__main__":
     else:
         print("Failed to retrieve TCS LTP.")
 
-        print(f"TCS LTP: {TCS_ltp}")
-    else:
-        print("Failed to retrieve TCS LTP.")
 
