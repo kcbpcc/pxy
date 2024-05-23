@@ -138,11 +138,3 @@ def process_data():
         traceback.print_exc()
         return None
 
-if __name__ == "__main__":
-    combined_df = process_data()
-    if combined_df is not None:
-        print("Data processing complete.")
-    else:
-        print("Data processing failed.")
-
-
