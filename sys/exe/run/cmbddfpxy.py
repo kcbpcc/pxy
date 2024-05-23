@@ -7,6 +7,7 @@ from toolkit.logger import Logger
 import logging
 import kiteconnect
 
+# Initialize logging
 logging = Logger(30, dir_path + "main.log")
 
 def get_holdingsinfo(resp_list, broker):
@@ -49,7 +50,6 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 finally:
-    # Ensure to close the file and restore stdout
     if sys.stdout != sys.__stdout__:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
@@ -126,10 +126,8 @@ def process_data():
             try:
                 combined_df['m2m'] = combined_df['m2m'].astype(int)
             except ValueError:
-                # Handle the case where some values cannot be converted to int
                 pass
         else:
-            # Create the 'm2m' column and set all row values to 0
             combined_df['m2m'] = 0
 
         return combined_df
@@ -137,4 +135,13 @@ def process_data():
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
+
+if __name__ == "__main__":
+    result_df = process_data()
+    if result_df is not None:
+        print("Data processing completed successfully.")
+        result_df.to_csv("processed_data.csv", index=False)
+    else:
+        print("Data processing failed.")
+
 
