@@ -17,23 +17,27 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 
-def get_TCS_ltp():
+def get_tcs_ltp():
     try:
         # Retrieve OHLC data for TCS
         resp = broker.kite.ohlc(['NSE:TCS'])
 
         # Extract LTP from the response
-        TCS_ltp = resp.get('NSE:TCS', {}).get('ohlc', {}).get('open', 0)
+        tcs_ltp = resp.get('NSE:TCS', {}).get('ohlc', {}).get('open', 0)
 
-        return TCS_ltp
+        return tcs_ltp
     except Exception as e:
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
 
 if __name__ == "__main__":
-    TCS_ltp = get_TCS_ltp()
-    if TCS_ltp is not None:
+    tcs_ltp = get_tcs_ltp()
+    if tcs_ltp is not None:
+        print(f"TCS LTP: {tcs_ltp}")
+    else:
+        print("Failed to retrieve TCS LTP.")
+
         print(f"TCS LTP: {TCS_ltp}")
     else:
         print("Failed to retrieve TCS LTP.")
