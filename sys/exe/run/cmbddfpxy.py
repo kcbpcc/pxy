@@ -4,10 +4,6 @@ import pandas as pd
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from toolkit.logger import Logger
-import csv
-import os
-import sys
-import traceback
 import logging
 
 logging = Logger(30, dir_path + "main.log")
@@ -30,6 +26,18 @@ def get_positionsinfo(resp_list, broker):
         print(f"An error occurred in positions: {e}")
         return None
 
+def batch_ohlc_requests(kite, lst, batch_size=50):
+    batches = [lst[i:i + batch_size] for i in range(0, len(lst), batch_size)]
+    results = {}
+    for batch in batches:
+        try:
+            resp = kite.ohlc(batch)
+            results.update(resp)
+        except kiteconnect.exceptions.InputException as e:
+            print(f"InputException: {e}")
+            # Handle exception (logging, retrying, skipping, etc.)
+    return results
+
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite(api="bypass", sec_dir=dir_path)
@@ -50,13 +58,25 @@ def process_data():
         positions_response = broker.kite.positions()['net']
         holdings_df = get_holdingsinfo(holdings_response, broker)
         positions_df = get_positionsinfo(positions_response, broker)
+        
+        if holdings_df is None or positions_df is None:
+            raise ValueError("Holdings or positions DataFrame is None.")
 
-        holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
-        positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
+        if not holdings_df.empty:
+            holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol']
+        if not positions_df.empty:
+            positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol']
+
         combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
-        lst = combined_df['key'].tolist()
-        print(lst)
-        resp = broker.kite.ohlc(lst)
+        if combined_df.empty:
+            raise ValueError("Combined DataFrame is empty after concatenation.")
+        
+        lst = combined_df['key'].dropna().tolist()
+        if not lst:
+            raise ValueError("Instrument list is empty.")
+        
+        resp = batch_ohlc_requests(broker.kite, lst)
+        
         dct = {
             k: {
                 'ltp': v['ohlc'].get('ltp', v['last_price']),
@@ -67,15 +87,17 @@ def process_data():
             }
             for k, v in resp.items()
         }
-        combined_df['ltp'] = combined_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row['last_price']), axis=1)
+
+        combined_df['ltp'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('ltp', 0))
         combined_df['open'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('open', 0))
         combined_df['high'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('high', 0))
         combined_df['low'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('low', 0))
         combined_df['close'] = combined_df['key'].map(lambda x: dct.get(x, {}).get('close_price', 0))
+        
         combined_df['qty'] = combined_df.apply(lambda row: int(row['quantity'] + row['t1_quantity']) if row['source'] == 'holdings' else int(row['quantity']), axis=1)
         combined_df['oPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['open']) / row['open']) * 100), 2) if row['open'] != 0 else 0, axis=1)
         combined_df['dPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['close']) / row['close']) * 100), 2) if row['close'] != 0 else 0, axis=1)
-        
+
         combined_df['pnl'] = combined_df['pnl'].astype(int)
         combined_df['avg'] = combined_df['average_price']
         combined_df['Invested'] = (combined_df['qty'] * combined_df['avg']).round(0).astype(int)
@@ -91,7 +113,7 @@ def process_data():
             combined_df['in'] = combined_df.get('out', None)
         else:
             combined_df['out'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])
-    
+
         # Handle conversion of 'm2m' column to int if it exists
         if "m2m" in combined_df.columns:
             try:
@@ -104,8 +126,6 @@ def process_data():
             combined_df['m2m'] = 0
 
         return combined_df
-        
-
     except Exception as e:
         print(f"An error occurred: {e}")
         traceback.print_exc()
