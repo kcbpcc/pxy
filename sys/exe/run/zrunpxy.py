@@ -1,81 +1,50 @@
-import sys
-import traceback
-import requests
-from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path
-from toolkit.logger import Logger
-import logging
+from kiteconnect import KiteConnect
+import webbrowser
 
-# Initialize logging
-logging = Logger(30, dir_path + "main.log")
+# Step 1: Initialize API Key and Secret
+api_key = "avku59f296gcvrv0"  # Replace with your API key
+api_secret = "gip1xrf9mx5qtrg1ngb42svv8xl9xebp"  # Replace with your API secret
 
+# Step 2: Initialize Kite Connect
+kite = KiteConnect(api_key=api_key)
+
+# Step 3: Generate and open login URL
+login_url = kite.login_url()
+print(f"Login URL: {login_url}")
+webbrowser.open(login_url)
+
+# Step 4: After login, you need to manually extract the request_token from the redirected URL
+request_token = input("Enter the request token received from the redirected URL: ")
+
+# Step 5: Generate session and set access token
+data = kite.generate_session(request_token, api_secret=api_secret)
+access_token = data["access_token"]
+kite.set_access_token(access_token)
+print("Access Token: ", access_token)
+
+# Step 6: Fetch user profile
+profile = kite.profile()
+print("User Profile: ", profile)
+
+# Step 7: Get market quotes
+quote = kite.quote("NSE:RELIANCE")
+print("Market Quote for NSE:RELIANCE: ", quote)
+
+# Step 8: Place an order (Make sure you have sufficient balance and permissions for this)
 try:
-    # Bypass authentication method
-    broker = get_kite(api="bypass", sec_dir=dir_path)
+    order_id = kite.place_order(
+        tradingsymbol="RELIANCE",
+        exchange=kite.EXCHANGE_NSE,
+        transaction_type=kite.TRANSACTION_TYPE_BUY,
+        quantity=1,
+        order_type=kite.ORDER_TYPE_MARKET,
+        product=kite.PRODUCT_CNC
+    )
+    print("Order placed. ID is:", order_id)
 except Exception as e:
-    remove_token(dir_path)
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
-    sys.exit(1)
+    print(f"Error placing order: {e}")
 
-def ohlc(self, *instruments):
-    """
-    Retrieve OHLC and market depth for list of instruments.
-
-    - `instruments` is a list of instruments, Instrument are in the format of `exchange:tradingsymbol`. For example NSE:INFY
-    """
-    ins = list(instruments)
-
-    # If first element is a list then accept it as instruments list for legacy reason
-    if len(instruments) > 0 and type(instruments[0]) == list:
-        ins = instruments[0]
-
-    return self._get("market.quote.ohlc", params={"i": ins})
-
-def get_ltp(instrument_tokens, broker):
-    headers = {
-        "X-Kite-Version": "3",
-        "Authorization": f"token {broker['api_key']}:{broker['access_token']}"
-    }
-
-    try:
-        ltp_data = {}
-        for instrument_token in instrument_tokens:
-            url = f"https://api.kite.trade/quote/ltp?i={instrument_token}"
-            response = requests.get(url, headers=headers)
-            data = response.json()
-            if response.status_code == 200 and "data" in data:
-                ltp_data.update(data["data"])
-            else:
-                raise Exception(f"Failed to retrieve LTP for instrument token {instrument_token}")
-
-            # Retrieve OHLC data
-            ohlc_data = broker.ohlc(instrument_token)
-            if ohlc_data:
-                # Incorporate OHLC data into the ltp_data dictionary
-                ltp_data[instrument_token]["ohlc"] = ohlc_data
-            else:
-                logging.warning(f"Failed to retrieve OHLC data for {instrument_token}")
-
-        return ltp_data
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        traceback.print_exc()
-        return None
-
-if __name__ == "__main__":
-    try:
-        instrument_tokens = ['NSE:INFY', 'BSE:SENSEX', 'NSE:NIFTY+50']
-        ltp_data = get_ltp(instrument_tokens, broker)
-        if ltp_data:
-            for symbol, info in ltp_data.items():
-                ltp = info.get('last_price', 'N/A')
-                ohlc = info.get('ohlc', {})
-                print(f"{symbol}: Last Traded Price: {ltp}")
-                print("OHLC Data:", ohlc)
-        else:
-            print("Failed to retrieve LTP data.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        traceback.print_exc()
+# Step 9: Fetch order history
+orders = kite.orders()
+print("Order History: ", orders)
 
