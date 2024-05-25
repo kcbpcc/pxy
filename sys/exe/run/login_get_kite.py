@@ -1,4 +1,4 @@
-from constants import logging, CNFG, FUTL, dir_path
+from cnstpxy import logging, CNFG, FUTL, dir_path
 import os
 
 
