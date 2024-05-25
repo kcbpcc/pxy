@@ -1,8 +1,10 @@
 from toolkit.fileutils import Fileutils
+#PXY®
 from toolkit.logger import Logger
+from toolkit.fileutils import Fileutils
 
 FUTL = Fileutils()
-dir_path = "../data/"
+dir_path = "../"
 F_SETG = dir_path + "settings.yml"
 if not FUTL.is_file_exists(F_SETG):
     FUTL.add_path(F_SETG)
@@ -17,3 +19,6 @@ max_target = settings["max_target"]
 perc_col_name = f"perc_gr_{int(perc)}"
 
 CNFG = FUTL.get_lst_fm_yml("../../holdings_monitor.yml")
+
+
+
