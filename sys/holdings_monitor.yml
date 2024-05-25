@@ -1,0 +1,11 @@
+broker: zerodha
+zerodha:
+  userid: MM9168
+  password: T@tlako00
+  totp: VEO5JN6T565L345XZ5BA6NSI6G6UTNEW
+  api_key: avku59f296gcvrv0
+  secret: gip1xrf9mx5qtrg1ngb42svv8xl9xebp
+bypass:
+  userid: MM9168
+  password: T@tlako00
+  totp: VEO5JN6T565L345XZ5BA6NSI6G6UTNEW
