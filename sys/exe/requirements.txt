@@ -24,5 +24,5 @@ pyarrow
 gspread
 oauth2client
 asciichartpy
-pydantic
+pydantic==1.9.0
 pendulum
