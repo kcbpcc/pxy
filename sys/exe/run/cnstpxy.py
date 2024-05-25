@@ -2,7 +2,7 @@ from toolkit.fileutils import Fileutils
 from toolkit.logger import Logger
 
 FUTL = Fileutils()
-dir_path = "../"
+dir_path = "../data/"
 F_SETG = dir_path + "settings.yml"
 if not FUTL.is_file_exists(F_SETG):
     FUTL.add_path(F_SETG)
@@ -16,4 +16,4 @@ secs = settings["secs"]
 max_target = settings["max_target"]
 perc_col_name = f"perc_gr_{int(perc)}"
 
-CNFG = FUTL.get_lst_fm_yml("../../pxy.yml")
+CNFG = FUTL.get_lst_fm_yml("../../holdings_monitor.yml")
