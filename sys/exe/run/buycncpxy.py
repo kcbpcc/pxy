@@ -10,7 +10,7 @@ from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
 from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path, fileutils, buybuff, max_target
+from cnstpxy import dir_path
 from fundpxy import calculate_decision
 from trndlnpxy import Trendlyne
 
