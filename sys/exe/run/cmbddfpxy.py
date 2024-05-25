@@ -50,8 +50,6 @@ def process_data():
         positions_response = broker.kite.positions()['net']
         holdings_df = get_holdingsinfo(holdings_response, broker)
         positions_df = get_positionsinfo(positions_response, broker)
-        print(holdings_df)
-        print(positions_df)
 
         holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
         positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
