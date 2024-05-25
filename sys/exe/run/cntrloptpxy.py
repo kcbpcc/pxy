@@ -70,7 +70,7 @@ def exit_options(exe_opt_df):
 
 try:
     sys.stdout = open('output.txt', 'w')
-    broker = get_kite(api="bypass", sec_dir=dir_path)
+    broker = get_kite()
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
