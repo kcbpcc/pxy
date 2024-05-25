@@ -16,4 +16,4 @@ secs = settings["secs"]
 max_target = settings["max_target"]
 perc_col_name = f"perc_gr_{int(perc)}"
 
-CNFG = FUTL.get_lst_fm_yml("../../holdings_monitor.yml")
+CNFG = FUTL.get_lst_fm_yml("../../pxy.yml")
