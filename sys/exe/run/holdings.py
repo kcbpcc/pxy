@@ -1,5 +1,5 @@
 
-from constants import perc, perc_col_name
+from cnstpxy import perc, perc_col_name
 import pandas as pd
 
 
