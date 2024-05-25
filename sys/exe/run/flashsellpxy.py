@@ -24,7 +24,7 @@ booked = sum_last_numerical_value_in_each_row(file_path)
 logging = Logger(30, dir_path + "main.log")
 try:
     sys.stdout = open('output.txt', 'w')
-    broker = get_kite(api="bypass", sec_dir=dir_path)
+    broker = get_kite()
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
