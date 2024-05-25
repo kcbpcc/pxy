@@ -25,3 +25,4 @@ gspread
 oauth2client
 asciichartpy
 pydantic
+pendulum
