@@ -153,7 +153,7 @@ try:
     import datetime
     import time
     from login_get_kite import get_kite, remove_token
-    from cnstpxy import dir_path, sellbuff, secs, perc_col_name
+    from cnstpxy import dir_path, secs, perc_col_name
     from toolkit.logger import Logger
     from toolkit.currency import round_to_paise
     import csv
