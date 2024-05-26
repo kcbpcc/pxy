@@ -10,9 +10,9 @@ def remove_contents(directory):
         if os.path.exists(full_path):
             # Remove all contents of the directory
             shutil.rmtree(full_path)
-            print(f"Contents of '{full_path}' removed successfully.")
+            print("Let's clean up")
         else:
-            print(f"Directory '{full_path}' does not exist.")
+            print("Let's clean up")
     except Exception as e:
         print(f"Error occurred: {e}")
 
