@@ -6,6 +6,7 @@ source ~/env/bin/activate
 cd ~/pxy/sys/exe/run
 
 read -p "Press Enter to run trndlnpxy.py..."
+python3 rmtknpxy.py
 python3 trndlnpxy.py
 
 
