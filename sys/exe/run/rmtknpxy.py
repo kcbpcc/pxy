@@ -10,9 +10,9 @@ def remove_contents(directory):
         if os.path.exists(full_path):
             # Remove all contents of the directory
             shutil.rmtree(full_path)
-            print("Let's clean up📇and prepare to switch♻️")
+            print("Let's clean up 📇 and prepare to switch ♻️")
         else:
-            print("Let's clean up📇and prepare to switch♻️")
+            print("Let's clean up 📇 and prepare to switch ♻️")
     except Exception as e:
         print(f"Error occurred: {e}")
 
