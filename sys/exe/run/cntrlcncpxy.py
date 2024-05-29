@@ -283,7 +283,7 @@ try:
                          row['Invested'] < 20000 and
                          available_cash > 1000 and
                          peak == 'PEAKEND' and
-                         row['PL%'] < -20)
+                         row['PL%'] < -90)
                     ):
                         try:                            
                             is_placed = stocks_avg_order_place(key, row) if get_any_order_status(symbol_in_order) == "NO" else False
