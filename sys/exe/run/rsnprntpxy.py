@@ -17,7 +17,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 print(f"{CE_symbol} BUY order placed successfully.")
         else:
             reason = f"{'Yes' if CE_position_exists else ' No'}|HoldBuy |" if not CE_position_exists else ""
-            reason += "MaxOut" if count_CE >= 3 else ""
+            reason += "MaxOut" if count_CE >= 5 else ""
             if reason:
                 print(f"{CE_symbol}: {reason: >{39 - len(CE_symbol)}}")
                 #print("━" * 42)
@@ -36,7 +36,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 print(f"{PE_symbol} BUY order placed successfully.")
         else:
             reason = f"{'Yes' if PE_position_exists else ' No'}|HoldSell|" if not PE_position_exists else ""
-            reason += "MaxOut" if count_PE >= 3 else ""
+            reason += "MaxOut" if count_PE >= 5 else ""
             if reason:
                 print(f"{PE_symbol}: {reason: >{39 - len(PE_symbol)}}")
                 #print("━" * 42)
