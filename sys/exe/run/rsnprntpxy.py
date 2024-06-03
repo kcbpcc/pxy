@@ -3,7 +3,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
     from ordoptpxy import place_order
     from teloptpxy import send_telegram_message
     if available_cash > 10000:
-        if not CE_position_exists and mktpxy == 'Buy' and count_CE < 5:
+        if not CE_position_exists and mktpxy == 'Buy' and count_CE < 3:
             if CE_symbol.startswith('BANKNIFTY'):
                 quantity = 15
             elif CE_symbol.startswith('NIFTY'):
@@ -17,12 +17,12 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 print(f"{CE_symbol} BUY order placed successfully.")
         else:
             reason = f"{'Yes' if CE_position_exists else ' No'}|HoldBuy |" if not CE_position_exists else ""
-            reason += "MaxOut" if count_CE >= 5 else ""
+            reason += "MaxOut" if count_CE >= 3 else ""
             if reason:
                 print(f"{CE_symbol}: {reason: >{39 - len(CE_symbol)}}")
                 #print("━" * 42)
 
-        if not PE_position_exists and mktpxy == 'Sell' and count_PE < 5:
+        if not PE_position_exists and mktpxy == 'Sell' and count_PE < 3:
             if PE_symbol.startswith('BANKNIFTY'):
                 quantity = 15
             elif PE_symbol.startswith('NIFTY'):
@@ -36,7 +36,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 print(f"{PE_symbol} BUY order placed successfully.")
         else:
             reason = f"{'Yes' if PE_position_exists else ' No'}|HoldSell|" if not PE_position_exists else ""
-            reason += "MaxOut" if count_PE >= 5 else ""
+            reason += "MaxOut" if count_PE >= 3 else ""
             if reason:
                 print(f"{PE_symbol}: {reason: >{39 - len(PE_symbol)}}")
                 #print("━" * 42)
