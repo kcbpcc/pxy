@@ -57,10 +57,10 @@ while True:
     print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
     subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'cntrloptpxy.py'])
-    subprocess.run(['python3', 'bcndlpxy.py'])
+    #subprocess.run(['python3', 'bcndlpxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
     subprocess.run(['python3', 'daypxy.py'])  
-    subprocess.run(['python3', 'cndlpxy.py'])
+    #subprocess.run(['python3', 'cndlpxy.py'])
     #subprocess.run(['python3', 'buycncpxy.py']) if (mktpxy == "Buy" and peak == 'NONPEAK' and nse_power < 0.35) or peak == 'PEAKEND' else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'cntrlcncpxy.py'])
