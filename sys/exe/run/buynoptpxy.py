@@ -96,7 +96,7 @@ async def main():
         PE_position_exists = check_existing_positions(broker, PE_symbol)
 
         await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
-        print("━" * 42)
+        #print("━" * 42)
     except Exception as e:
         print(f"Error: {e}")
         logging.error(f"Error in main(): {e}")
