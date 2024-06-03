@@ -125,9 +125,8 @@ summary_statement = ""
 total_invested_all = print_df['Invested'].sum()
 total_pl_all = print_df['PnL'].sum()
 total_pl_percentage_all = (total_pl_all / total_invested_all) * 100 if total_invested_all != 0 else 0
-summary_sentence = f"{BRIGHT_YELLOW}SUMMARY: CAP:{total_invested_all} P&L:{total_pl_all:5.0f} {RESET}"
-color_code_pl_percentage = BRIGHT_GREEN if total_pl_percentage_all > 0 else BRIGHT_RED
-summary_sentence += f"P&L%:{color_code_pl_percentage}{total_pl_percentage_all:3.0f}%{RESET}"
+color_code_summary = BRIGHT_GREEN if total_pl_percentage_all > 0 else BRIGHT_RED
+summary_sentence = f"{color_code_summary}SUMMARY: CAP:{total_invested_all} P&L:{total_pl_all:5.0f} P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
 summary_statement = summary_sentence
 subprocess.run(['python3', 'bcndlpxy.py'])
 grouped_df = print_df.groupby('strike')
