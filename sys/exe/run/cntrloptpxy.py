@@ -128,7 +128,7 @@ summary_sentence = f"{BRIGHT_YELLOW}SUMMARY: CAP:{total_invested_all} P&L:{total
 color_code_pl_percentage = BRIGHT_GREEN if total_pl_percentage_all > 0 else BRIGHT_RED
 summary_sentence += f"P&L%:{color_code_pl_percentage}{total_pl_percentage_all:3.0f}%{RESET}"
 summary_statement = summary_sentence
-
+subprocess.run(['python3', 'bcndlpxy.py'])
 grouped_df = print_df.groupby('strike')
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
@@ -140,7 +140,7 @@ for group, data in grouped_df:
         print(data[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']].to_string(header=False, index=False, col_space=[2, 11, 5, 3, 3, 6, 4]))
         if len(data) >= 2:  # Check if group has two or more entries
             print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
-print("━" * 42)
+subprocess.run(['python3', 'cndlpxy.py'])
 print(summary_statement +"📊" )
 
 
