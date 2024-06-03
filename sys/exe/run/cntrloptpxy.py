@@ -143,4 +143,4 @@ for group, data in grouped_df:
 
 print(summary_statement +"📊" )
 
-#print("━" * 42)
+print("━" * 42)
