@@ -7,7 +7,6 @@ import asyncio
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
-from telinoptpxy import send_telegram_message
 from datetime import datetime, timedelta
 from wedpxy import get_this_wednesday
 from ordoptpxy import place_order
