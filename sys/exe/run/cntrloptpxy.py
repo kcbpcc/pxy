@@ -35,7 +35,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
         print(f"Error placing order: {e}")
         return None
 
-def exit_options(exe_opt_df):
+async def exit_options(exe_opt_df):
     try:
         grouped = exe_opt_df.groupby('strike')
         for strike_price, data in grouped:
@@ -55,6 +55,7 @@ def exit_options(exe_opt_df):
                 
     except Exception as e:
         print(f"Error placing exit order: {e}")
+
 
 try:
     sys.stdout = open('output.txt', 'w')
