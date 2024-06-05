@@ -36,7 +36,8 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
 
 def exit_options(exe_opt_df):
     try:
-        for strike_price, data in exe_opt_df.groupby('strike_price'):
+        grouped = exe_opt_df.groupby('strike_price')
+        for strike_price, data in grouped:
             total_invested_group = data['Invested'].sum()
             total_pl_group = data['PnL'].sum()
             total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
