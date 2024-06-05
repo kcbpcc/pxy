@@ -12,13 +12,25 @@ import numpy as np
 from timetgtpxy import timetgt
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-from mktpxy import get_market_check
-from teloutoptpxy import send_telegram_message
-import asyncio 
 
-onemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
-onemincandlesequance1, nmktpxy = get_market_check('^NSEI')
+bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
+user_usernames = ('-4128494197',)
 
+def send_telegram_message(message):
+    try:
+        for username in user_usernames:
+            url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+            payload = {
+                'chat_id': username,
+                'text': message
+            }
+            response = requests.post(url, data=payload)
+            if response.status_code != 200:
+                print(f"Failed to send Telegram message. Status code: {response.status_code}")
+            else:
+                print("Telegram message sent successfully.")
+    except Exception as e:
+        print(f"Error sending Telegram message: {e}")
 
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
     try:
@@ -36,42 +48,39 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
         print(f"Error placing order: {e}")
         return None
 
-async def exit_options(exe_opt_df):
+def exit_options(exe_opt_df):
     try:
-        grouped = exe_opt_df.groupby('strike')
-        for strike_price, data in grouped:
+        for strike_price, data in exe_opt_df:
             total_invested_group = data['Invested'].sum()
             total_pl_group = data['PnL'].sum()
             total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
             
+            #print(f"Strike Price: {strike_price}")
+            #print(data)
+            
             if total_pl_percentage_group > 5:
                 for index, row in data.iterrows():
-                    if (nmktpxy in ['Buy', 'Sell'] and row['key'].startswith('NIFTY')) or \
-                       (bmktpxy in ['Buy', 'Sell'] and row['key'].startswith('BANK')):
-                        place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
-                        
+                    place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
+                    
                 message = f"🛬🛬🛬 👈👈👈 EXIT order placed for all options with strike price {strike_price} successfully.\nPL: {total_pl_group}, PL%: {total_pl_percentage_group}%"
                 print(message)
-                await send_telegram_message(message)
+                send_telegram_message(message)
                 
     except Exception as e:
         print(f"Error placing exit order: {e}")
 
-
-async def main():  # Define an asynchronous main function to run asynchronous code
-    try:
-        sys.stdout = open('output.txt', 'w')
-        broker = get_kite()
-    except Exception as e:
-        remove_token(dir_path)
-        print(traceback.format_exc())
-        logging.error(f"{str(e)} unable to get holdings")
-        sys.exit(1)
-    finally:
-        if sys.stdout != sys.__stdout__:
-            sys.stdout.close()
-            sys.stdout = sys.__stdout__
-
+try:
+    sys.stdout = open('output.txt', 'w')
+    broker = get_kite()
+except Exception as e:
+    remove_token(dir_path)
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} unable to get holdings")
+    sys.exit(1)
+finally:
+    if sys.stdout != sys.__stdout__:
+        sys.stdout.close()
+        sys.stdout = sys.__stdout__
 
 import pandas as pd
 from cmbddfpxy import process_data
@@ -85,8 +94,11 @@ exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 # Define the 'strike' column
 exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
-# Call exit_options with exe_opt_df
+# Grouping by 'strike' column
+exe_opt_df = exe_opt_df.groupby('strike')
 
+# Call exit_options with exe_opt_df
+exit_options(exe_opt_df)
 
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
@@ -129,7 +141,7 @@ for group, data in grouped_df:
         if len(data) >= 2:  # Check if group has two or more entries
             print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
 subprocess.run(['python3', 'cndlpxy.py'])
-print(summary_statement + "📊")
+print(summary_statement +"📊" )
 
 await exit_options(exe_opt_df)
 
