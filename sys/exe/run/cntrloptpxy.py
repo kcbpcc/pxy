@@ -13,27 +13,10 @@ from timetgtpxy import timetgt
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from mktpxy import get_market_check
+from teloutoptpxy import send_telegram_message
 onemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 onemincandlesequance, nmktpxy = get_market_check('^NSEI')
 
-bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
-user_usernames = ('-4128494197',)
-
-def send_telegram_message(message):
-    try:
-        for username in user_usernames:
-            url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-            payload = {
-                'chat_id': username,
-                'text': message
-            }
-            response = requests.post(url, data=payload)
-            if response.status_code != 200:
-                print(f"Failed to send Telegram message. Status code: {response.status_code}")
-            else:
-                print("Telegram message sent successfully.")
-    except Exception as e:
-        print(f"Error sending Telegram message: {e}")
 
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
     try:
