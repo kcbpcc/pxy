@@ -15,7 +15,7 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 from mktpxy import get_market_check
 from teloutoptpxy import send_telegram_message
 
-1onemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
+onemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 2onemincandlesequance, nmktpxy = get_market_check('^NSEI')
 
 
