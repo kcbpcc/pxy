@@ -45,8 +45,8 @@ def exit_options(exe_opt_df):
             
             if total_pl_percentage_group > 5:
                 for index, row in data.iterrows():
-                    if (row['nmktpxy'] in ['Buy', 'Sell'] and row['key'].startswith('NIFTY')) or \
-                       (row['bmktpxy'] in ['Buy', 'Sell'] and row['key'].startswith('BANK')):
+                    if (nmktpxy in ['Buy', 'Sell'] and row['key'].startswith('NIFTY')) or \
+                       (bmktpxy in ['Buy', 'Sell'] and row['key'].startswith('BANK')):
                         place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
                         
                 message = f"🛬🛬🛬 👈👈👈 EXIT order placed for all options with strike price {strike_price} successfully.\nPL: {total_pl_group}, PL%: {total_pl_percentage_group}%"
