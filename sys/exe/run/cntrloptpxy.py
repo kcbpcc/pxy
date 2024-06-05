@@ -86,7 +86,7 @@ exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
 # Call exit_options with exe_opt_df
-await exit_options(exe_opt_df)
+
 
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
@@ -130,5 +130,7 @@ for group, data in grouped_df:
             print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
 subprocess.run(['python3', 'cndlpxy.py'])
 print(summary_statement + "📊")
+
+await exit_options(exe_opt_df)
 
 
