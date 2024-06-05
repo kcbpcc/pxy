@@ -2,8 +2,8 @@ import telegram
 async def send_telegram_message(message_text):
     try:
         # Define the bot token and your Telegram username or ID
-        bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'  # Replace with your actual bot token
-        user_usernames = '-4128494197'  # Replace with your Telegram username or ID
+        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+        user_usernames = '-4136531362'  # Replace with your Telegram username or ID
 
         # Create a Telegram bot
         bot = telegram.Bot(token=bot_token)
