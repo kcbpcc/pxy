@@ -12,6 +12,9 @@ import numpy as np
 from timetgtpxy import timetgt
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+from mktpxy import get_market_check
+onemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
+onemincandlesequance, nmktpxy = get_market_check('^NSEI')
 
 bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
 user_usernames = ('-4128494197',)
@@ -50,18 +53,17 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
 
 def exit_options(exe_opt_df):
     try:
-        for strike_price, data in exe_opt_df:
+        for strike_price, data in exe_opt_df.groupby('strike_price'):
             total_invested_group = data['Invested'].sum()
             total_pl_group = data['PnL'].sum()
             total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
             
-            #print(f"Strike Price: {strike_price}")
-            #print(data)
-            
             if total_pl_percentage_group > 5:
                 for index, row in data.iterrows():
-                    place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
-                    
+                    if (row['nmktpxy'] in ['Buy', 'Sell'] and row['key'].startswith('NIFTY')) or \
+                       (row['bmktpxy'] in ['Buy', 'Sell'] and row['key'].startswith('BANK')):
+                        place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
+                        
                 message = f"🛬🛬🛬 👈👈👈 EXIT order placed for all options with strike price {strike_price} successfully.\nPL: {total_pl_group}, PL%: {total_pl_percentage_group}%"
                 print(message)
                 send_telegram_message(message)
