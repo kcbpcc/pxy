@@ -14,6 +14,7 @@ from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from mktpxy import get_market_check
 from teloutoptpxy import send_telegram_message
+
 onemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 onemincandlesequance, nmktpxy = get_market_check('^NSEI')
 
@@ -36,7 +37,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
 
 def exit_options(exe_opt_df):
     try:
-        grouped = exe_opt_df.groupby('strike_price')
+        grouped = exe_opt_df.groupby('strike')
         for strike_price, data in grouped:
             total_invested_group = data['Invested'].sum()
             total_pl_group = data['PnL'].sum()
@@ -79,9 +80,6 @@ exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 
 # Define the 'strike' column
 exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
-
-# Grouping by 'strike' column
-exe_opt_df = exe_opt_df.groupby('strike')
 
 # Call exit_options with exe_opt_df
 exit_options(exe_opt_df)
@@ -127,6 +125,6 @@ for group, data in grouped_df:
         if len(data) >= 2:  # Check if group has two or more entries
             print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
 subprocess.run(['python3', 'cndlpxy.py'])
-print(summary_statement +"📊" )
+print(summary_statement + "📊")
 
 
