@@ -14,6 +14,7 @@ from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from mktpxy import get_market_check
 from teloutoptpxy import send_telegram_message
+import asyncio 
 
 onemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 onemincandlesequance1, nmktpxy = get_market_check('^NSEI')
@@ -57,18 +58,20 @@ async def exit_options(exe_opt_df):
         print(f"Error placing exit order: {e}")
 
 
-try:
-    sys.stdout = open('output.txt', 'w')
-    broker = get_kite()
-except Exception as e:
-    remove_token(dir_path)
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
-    sys.exit(1)
-finally:
-    if sys.stdout != sys.__stdout__:
-        sys.stdout.close()
-        sys.stdout = sys.__stdout__
+async def main():  # Define an asynchronous main function to run asynchronous code
+    try:
+        sys.stdout = open('output.txt', 'w')
+        broker = get_kite()
+    except Exception as e:
+        remove_token(dir_path)
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} unable to get holdings")
+        sys.exit(1)
+    finally:
+        if sys.stdout != sys.__stdout__:
+            sys.stdout.close()
+            sys.stdout = sys.__stdout__
+await exit_options(exe_opt_df)
 
 import pandas as pd
 from cmbddfpxy import process_data
