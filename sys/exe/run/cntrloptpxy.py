@@ -51,7 +51,7 @@ def exit_options(exe_opt_df):
                         
                 message = f"🛬🛬🛬 👈👈👈 EXIT order placed for all options with strike price {strike_price} successfully.\nPL: {total_pl_group}, PL%: {total_pl_percentage_group}%"
                 print(message)
-                send_telegram_message(message)
+                await send_telegram_message(message)
                 
     except Exception as e:
         print(f"Error placing exit order: {e}")
