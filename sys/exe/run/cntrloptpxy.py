@@ -16,7 +16,7 @@ from mktpxy import get_market_check
 from teloutoptpxy import send_telegram_message
 
 onemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
-2onemincandlesequance, nmktpxy = get_market_check('^NSEI')
+onemincandlesequance1, nmktpxy = get_market_check('^NSEI')
 
 
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
