@@ -143,6 +143,3 @@ for group, data in grouped_df:
 subprocess.run(['python3', 'cndlpxy.py'])
 print(summary_statement +"📊" )
 
-await exit_options(exe_opt_df)
-
-
