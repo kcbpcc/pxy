@@ -53,8 +53,6 @@ while True:
     print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'FALL' else (BRIGHT_YELLOW + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'SIDE' else ""))) + RESET)
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'worldpxy.py']) 
-    subprocess.run(['python3', 'buyboptpxy.py'])
-    subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'cntrloptpxy.py'])
     #subprocess.run(['python3', 'bcndlpxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
