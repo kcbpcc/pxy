@@ -142,4 +142,3 @@ for group, data in grouped_df:
             print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
 subprocess.run(['python3', 'cndlpxy.py'])
 print(summary_statement +"📊" )
-
