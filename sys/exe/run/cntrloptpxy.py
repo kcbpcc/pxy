@@ -138,7 +138,7 @@ for group, data in grouped_df:
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         print(data[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']].to_string(header=False, index=False, col_space=[2, 11, 5, 3, 3, 6, 4]))
-        if len(data) >= 2:  # Check if group has two or more entries
-            print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
+        #if len(data) >= 2:  # Check if group has two or more entries
+        print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
 subprocess.run(['python3', 'cndlpxy.py'])
 print(summary_statement +"📊" )
