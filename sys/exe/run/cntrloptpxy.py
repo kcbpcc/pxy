@@ -132,6 +132,7 @@ summary_statement = summary_sentence
 subprocess.run(['python3', 'bcndlpxy.py'])
 subprocess.run(['python3', 'bniftychartpxy.py'])
 bsma = check_index_status('^NSEBANK')
+subprocess.run(['python3', 'bdaypxy.py']) 
 print((GREEN if bsma == "up" else RED if bsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
 grouped_df = print_df.groupby('strike')
 for group, data in grouped_df:
