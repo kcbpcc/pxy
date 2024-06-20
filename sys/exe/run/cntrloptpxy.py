@@ -13,8 +13,6 @@ from timetgtpxy import timetgt
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from smapxy import check_index_status
-bsma = check_index_status('^NSEI')
-print((GREEN if bsma == "up" else RED if bsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
 
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)
@@ -133,6 +131,8 @@ summary_sentence = f"{color_code_summary}SUMMARY: CAP:{total_invested_all} P&L:{
 summary_statement = summary_sentence
 subprocess.run(['python3', 'bcndlpxy.py'])
 subprocess.run(['python3', 'bniftychartpxy.py'])
+bsma = check_index_status('^NSEI')
+print((GREEN if bsma == "up" else RED if bsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
 grouped_df = print_df.groupby('strike')
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
