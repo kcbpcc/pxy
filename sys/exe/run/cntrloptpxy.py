@@ -56,8 +56,8 @@ def exit_options(exe_opt_df):
             total_pl_group = data['PnL'].sum()
             total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
             
-            #print(f"Strike Price: {strike_price}")
-            #print(data)
+            print(f"Strike Price: {strike_price}")
+            print(data)
             
             if total_pl_percentage_group > 5:
                 for index, row in data.iterrows():
