@@ -12,6 +12,9 @@ import numpy as np
 from timetgtpxy import timetgt
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+from smapxy import check_index_status
+bsma = check_index_status('^NSEI')
+print((GREEN if bsma == "up" else RED if bsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
 
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)
@@ -144,7 +147,4 @@ for group, data in grouped_df:
 print("━" * 42)
 print(summary_statement +"📊" )
 subprocess.run(['python3', 'cndlpxy.py'])
-from smapxy import check_index_status
-bsma = check_index_status('^NSEI')
-print((GREEN if bsma == "up" else RED if bsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
 
