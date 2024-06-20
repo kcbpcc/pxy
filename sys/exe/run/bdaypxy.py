@@ -17,13 +17,13 @@ console = Console()
 warnings.simplefilter(action='ignore', category=FutureWarning)
 colorama.init(autoreset=True)
 
-onemincandlesequance, mktpxy = get_market_check("^NSEI")
+onemincandlesequance, mktpxy = get_market_check("^NSEBANK")
 peak = peak_time()
-macd = calculate_macd_signal("^NSEI")
-nsma = check_index_status("^NSEI")
-cedepth, pedepth = calculate_consecutive_candles("^NSEI")
+macd = calculate_macd_signal("^NSEBANK")
+nsma = check_index_status("^NSEBANK")
+cedepth, pedepth = calculate_consecutive_candles("^NSEBANK")
 
-nifty_data = yf.Ticker("^NSEI")
+nifty_data = yf.Ticker("^NSEBANK")
 nifty_today = nifty_data.history(period='1d')
 
 try:
