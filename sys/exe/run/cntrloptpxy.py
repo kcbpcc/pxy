@@ -93,10 +93,10 @@ exe_opt_df['PL%'] = (exe_opt_df['PnL'] / exe_opt_df['Invested']) * 100
 exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 
 # Define the 'strike' column
-exe_opt_df['tradingsymbol'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
+exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
 # Grouping by 'strike' column
-exe_opt_df = exe_opt_df.groupby('strike')
+exe_opt_df = exe_opt_df.groupby('tradingsymbol')
 
 # Call exit_options with exe_opt_df
 exit_options(exe_opt_df)
