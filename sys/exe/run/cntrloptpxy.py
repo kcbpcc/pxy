@@ -95,8 +95,11 @@ exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 # Define the 'strike' column
 exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
-# Grouping by 'strike' column
-exe_opt_df = exe_opt_df.groupby('tradingsymbol')
+# Grouping by 'strike / 'tradingsymbol' column dynamic
+from utcpxy import peak_time
+peak = peak_time()
+group_by_column = 'tradingsymbol' if peak == 'NONPEAK' else 'strike'
+exe_opt_df = exe_opt_df.groupby(group_by_column)
 
 # Call exit_options with exe_opt_df
 exit_options(exe_opt_df)
