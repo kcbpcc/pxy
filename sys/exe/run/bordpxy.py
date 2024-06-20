@@ -23,7 +23,7 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
         acvalue_to_print = 0
         ydaypnl_to_print = 0
     capital = 18.50
-    hide = 5
+    hide = 3.2
     profit = (acvalue_to_print - capital)
     arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
     column_width = 30
