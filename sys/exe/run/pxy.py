@@ -56,9 +56,7 @@ while True:
     subprocess.run(['python3', 'buyboptpxy.py'])
     #subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'cntrloptpxy.py'])
-    subprocess.run(['python3', 'bcndlpxy.py'])
     subprocess.run(['python3', 'bniftychartpxy.py'])
-    subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
     subprocess.run(['python3', 'daypxy.py']) 
     #subprocess.run(['python3', 'buycncpxy.py']) if (mktpxy == "Buy" and peak == 'NONPEAK' and nse_power < 0.35) or peak == 'PEAKEND' else None
