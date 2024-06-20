@@ -129,6 +129,7 @@ color_code_summary = BRIGHT_GREEN if total_pl_percentage_all > 0 else BRIGHT_RED
 summary_sentence = f"{color_code_summary}SUMMARY: CAP:{total_invested_all} P&L:{total_pl_all:5.0f} P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
 summary_statement = summary_sentence
 subprocess.run(['python3', 'bcndlpxy.py'])
+subprocess.run(['python3', 'bniftychartpxy.py'])
 grouped_df = print_df.groupby('strike')
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
