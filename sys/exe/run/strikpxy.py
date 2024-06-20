@@ -25,10 +25,10 @@ days_left_until_thursday = 4 #(3 - today.weekday()) % 7  # Thursday is weekday 3
 #print("Days remaining until Thursday:", days_left_until_thursday)    
 
 def get_prices():
-    BCE_Strike = round_to_nearest_200(get_current_price('^NSEBANK'))
+    BCE_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
     CE_Strike = round_to_nearest_100(get_current_price('^NSEI'))
     PE_Strike = round_to_nearest_100(get_current_price('^NSEI'))
-    BPE_Strike = round_to_nearest_200(get_current_price('^NSEBANK'))
+    BPE_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
                                     
     return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
     #print("CE_Strike:", CE_Strike, "PE_Strike:", BPE_Strike)
