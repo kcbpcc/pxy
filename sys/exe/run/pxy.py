@@ -54,7 +54,7 @@ while True:
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'worldpxy.py']) 
     subprocess.run(['python3', 'buyboptpxy.py'])
-    subprocess.run(['python3', 'buynoptpxy.py'])
+    #subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'cntrloptpxy.py'])
     #subprocess.run(['python3', 'bcndlpxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
