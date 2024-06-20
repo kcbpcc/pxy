@@ -146,3 +146,5 @@ print(summary_statement +"📊" )
 subprocess.run(['python3', 'cndlpxy.py'])
 from smapxy import check_index_status
 bsma = check_index_status('^NSEI')
+print((GREEN if bsma == "up" else RED if bsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
+
