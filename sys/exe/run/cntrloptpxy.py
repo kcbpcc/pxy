@@ -144,3 +144,5 @@ for group, data in grouped_df:
 print("━" * 42)
 print(summary_statement +"📊" )
 subprocess.run(['python3', 'cndlpxy.py'])
+from smapxy import check_index_status
+bsma = check_index_status('^NSEI')
