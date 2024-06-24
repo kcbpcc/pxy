@@ -54,6 +54,12 @@ min_value = min(data_points)
 max_value = max(data_points)
 scale_step = (max_value - min_value) / (len(chart_lines) - 1)
 
+# Prepare the right-side Y-axis labels
+right_axis_labels = []
+for i in range(len(chart_lines)):
+    line_value = max_value - i * scale_step
+    right_axis_labels.append(f"{line_value:.0f}")
+
 for i, line in enumerate(chart_lines):
     line_value = max_value - i * scale_step
     # Highlight the 50 SMA and mark it with color based on its relationship with the 200 SMA
@@ -66,6 +72,7 @@ for i, line in enumerate(chart_lines):
             line_parts = line.split(' ')
             line_parts[0] = f"{BRIGHT_RED}{line_parts[0]}{RESET}"
             chart_lines[i] = ' '.join(line_parts)
+    chart_lines[i] += f" {right_axis_labels[i]}"
 
 highlighted_chart = "\n".join(chart_lines)
 print(highlighted_chart)
@@ -76,3 +83,4 @@ print(highlighted_chart)
 
 # Reset terminal color to default
 print(RESET)
+
