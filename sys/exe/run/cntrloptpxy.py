@@ -50,23 +50,23 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
         print(f"Error placing order: {e}")
         return None
 
-def exit_options(exe_opt_df):
-    def determine_target(bsma, key):
-        if (bsma == "up" and "CE" in key) or (bsma == "down" and "PE" in key):
-            return 10
-        else:
-            return 5
+def determine_target(bsma, key):
+    if (bsma == "up" and "CE" in key) or (bsma == "down" and "PE" in key):
+        return 10
+    else:
+        return 5
 
+def exit_options(exe_opt_df):
     try:
         for strike_price, data in exe_opt_df:
             total_invested_group = data['Invested'].sum()
             total_pl_group = data['PnL'].sum()
             total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
             
-            # Determine the target for this group based on the first row (assuming all rows in data have the same bsma and key structure)
+            # Determine the target for this group based on the first row's key
             if not data.empty:
                 first_row = data.iloc[0]
-                target = determine_target(first_row['bsma'], first_row['key'])
+                target = determine_target(bsma, first_row['key'])
             else:
                 target = 5  # Default target if data is empty
             
