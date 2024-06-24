@@ -122,12 +122,8 @@ opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
 opt_df['PL%'] = opt_df['PL%'].fillna(0)
 opt_df['PL%'] = opt_df['PL%'].astype(int) 
 opt_df['m2m'] = opt_df['m2m'].astype(int)
-opt_df['target'] = opt_df.apply(
-    lambda row: 10 if ((bsma == 'up' and 'CE' in row['key']) or (bsma == 'down' and 'PE' in row['key'])) else 5,
-    axis=1
-)
-opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','pnl','product','m2m','target']]
-print(opt_df)
+opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL','pnl','product','m2m']]
+
 total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
 total_opt_m2m = opt_df['m2m'].sum()
@@ -161,5 +157,4 @@ for group, data in grouped_df:
             print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
 print("━" * 42)
 print(summary_statement +"📊" )
-
 
