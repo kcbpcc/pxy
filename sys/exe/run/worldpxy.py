@@ -1,10 +1,9 @@
+#PXY® 
 import yfinance as yf
 from rich.console import Console
 import warnings
-
 # Suppress warnings
 warnings.filterwarnings("ignore")
-
 # Function to determine sentiment based on closing prices
 def calculate_sentiment(today_close, yesterday_close):
     if today_close is not None and yesterday_close is not None:
@@ -16,7 +15,6 @@ def calculate_sentiment(today_close, yesterday_close):
             return "Neutral"
     else:
         return "Data Unavailable"
-
 # Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
     "^DJI": {"name": "D&J", "weight": 0.35},
@@ -69,6 +67,3 @@ for exchange, name_weight in exchanges.items():
 output = index_info
 # Print the concatenated string using console.print()
 console.print(output)
-
-
-
