@@ -108,7 +108,7 @@ def compute_tgtoptsma(row):
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
-print(exe_opt_df)
+#print(exe_opt_df)
 
 # Call exit_options with exe_opt_df and broker
 exit_options(exe_opt_df, broker)
