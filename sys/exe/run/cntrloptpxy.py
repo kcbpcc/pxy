@@ -122,6 +122,11 @@ exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 exit_options(exe_opt_df, broker)
 
 
+ #🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛
+
+
+
+
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
 opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
