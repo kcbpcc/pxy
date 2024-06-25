@@ -16,6 +16,17 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 from smapxy import check_index_status
 bsma = check_index_status('^NSEBANK')
 
+import sys
+import traceback
+import subprocess
+import pandas as pd
+import requests
+from login_get_kite import get_kite, remove_token
+from cnstpxy import dir_path
+import logging
+from cmbddfpxy import process_data  # Import process_data from cmbddfpxy module
+from smapxy import check_index_status
+
 # Function to send Telegram message
 def send_telegram_message(message):
     try:
@@ -53,7 +64,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
         print(f"Error placing order: {e}")
         return None
 
-# Function to process exit options
+# Function to handle exiting options
 def exit_options(exe_opt_df, broker):
     try:
         for index, row in exe_opt_df.iterrows():
@@ -96,10 +107,17 @@ exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
 # Calculate tgtoptsma for each row
+def compute_tgtoptsma(row):
+    if (row['bsma'] == "up" and "CE" in row['key']) or (row['bsma'] == "down" and "PE" in row['key']):
+        return 10
+    else:
+        return 5
+
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
 # Call exit_options with exe_opt_df and broker
 exit_options(exe_opt_df, broker)
+
 
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
