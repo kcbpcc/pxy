@@ -59,7 +59,7 @@ def exit_options(exe_opt_df):
             #print(f"Strike Price: {strike_price}")
             #print(data)
             
-            if total_pl_percentage_group > 10:
+            if total_pl_percentage_group > 7:
                 for index, row in data.iterrows():
                     place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
                     
