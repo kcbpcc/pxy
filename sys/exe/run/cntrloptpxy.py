@@ -15,11 +15,12 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 from smapxy import check_index_status
 bsma = check_index_status('^NSEBANK')
 
-bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
-user_usernames = ('-4136531362',)
-
+# Function to send Telegram message
 def send_telegram_message(message):
     try:
+        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
+        user_usernames = ('-4136531362',)
+
         for username in user_usernames:
             url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
             payload = {
@@ -34,7 +35,8 @@ def send_telegram_message(message):
     except Exception as e:
         print(f"Error sending Telegram message: {e}")
 
-def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
+# Function to place an order
+def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker):
     try:
         order_id = broker.order_place(
             tradingsymbol=tradingsymbol,
@@ -50,7 +52,8 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
         print(f"Error placing order: {e}")
         return None
 
-def exit_options(exe_opt_df):
+# Function to process exit options
+def exit_options(exe_opt_df, broker):
     try:
         for index, row in exe_opt_df.iterrows():
             total_invested = row['Invested']
@@ -59,7 +62,7 @@ def exit_options(exe_opt_df):
             tgtoptsma = row['tgtoptsma']
             
             if total_pl_percentage > tgtoptsma:
-                place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
+                place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 
                 message = f"🛬🛬🛬 👈👈👈 EXIT order placed for option with key {row['key']} successfully.\nPL: {total_pl}, PL%: {total_pl_percentage}%, Target PL%: {tgtoptsma}%"
                 print(message)
@@ -81,8 +84,7 @@ finally:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
 
-from cmbddfpxy import process_data
-
+# Process data and prepare exe_opt_df
 combined_df = process_data()
 exe_opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 exe_opt_df['key'] = exe_opt_df['key'].str.replace('NFO:', '') 
@@ -91,23 +93,12 @@ exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 
 # Define the 'strike' column
 exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
-# Grouping by 'strike / 'tradingsymbol' column dynamically
-from utcpxy import peak_time
-peak = peak_time()
-group_by_column = 'tradingsymbol' if peak == 'NONPEAK' else 'strike'
-exe_opt_df = exe_opt_df.groupby(group_by_column)
 
-def compute_tgtoptsma(row):
-    if (row['bsma'] == "up" and "CE" in row['key']) or (row['bsma'] == "down" and "PE" in row['key']):
-        return 10
-    else:
-        return 5
-
-# Apply the function to each row and create a new column 'tgtoptsma'
+# Calculate tgtoptsma for each row
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
-# Call exit_options with exe_opt_df
-exit_options(exe_opt_df)
+# Call exit_options with exe_opt_df and broker
+exit_options(exe_opt_df, broker)
 
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '') 
