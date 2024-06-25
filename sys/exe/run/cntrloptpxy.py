@@ -81,7 +81,6 @@ finally:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
 
-import pandas as pd
 from cmbddfpxy import process_data
 
 combined_df = process_data()
@@ -92,7 +91,7 @@ exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 
 # Define the 'strike' column
 exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
-# Grouping by 'strike / 'tradingsymbol' column dynamic
+# Grouping by 'strike / 'tradingsymbol' column dynamically
 from utcpxy import peak_time
 peak = peak_time()
 group_by_column = 'tradingsymbol' if peak == 'NONPEAK' else 'strike'
@@ -153,4 +152,3 @@ for group, data in grouped_df:
             print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
 print("━" * 42)
 print(summary_statement +"📊" )
-subprocess.run(['python3', 'cndlpxy.py'])
