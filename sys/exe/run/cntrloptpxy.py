@@ -51,19 +51,16 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
 
 def exit_options(exe_opt_df):
     try:
-        for strike_price, data in exe_opt_df:
-            total_invested_group = data['Invested'].sum()
-            total_pl_group = data['PnL'].sum()
-            total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
+        for index, row in exe_opt_df.iterrows():
+            total_invested = row['Invested']
+            total_pl = row['PnL']
+            total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
+            tgtoptsma = row['tgtoptsma']
             
-            #print(f"Strike Price: {strike_price}")
-            #print(data)
-            
-            if total_pl_percentage_group > 7:
-                for index, row in data.iterrows():
-                    place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
-                    
-                message = f"🛬🛬🛬 👈👈👈 EXIT order placed for all options with strike price {strike_price} successfully.\nPL: {total_pl_group}, PL%: {total_pl_percentage_group}%"
+            if total_pl_percentage > tgtoptsma:
+                place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
+                
+                message = f"🛬🛬🛬 👈👈👈 EXIT order placed for option with key {row['key']} successfully.\nPL: {total_pl}, PL%: {total_pl_percentage}%, Target PL%: {tgtoptsma}%"
                 print(message)
                 send_telegram_message(message)
                 
@@ -100,6 +97,15 @@ from utcpxy import peak_time
 peak = peak_time()
 group_by_column = 'tradingsymbol' if peak == 'NONPEAK' else 'strike'
 exe_opt_df = exe_opt_df.groupby(group_by_column)
+
+def compute_tgtoptsma(row):
+    if (row['bsma'] == "up" and "CE" in row['key']) or (row['bsma'] == "down" and "PE" in row['key']):
+        return 10
+    else:
+        return 5
+
+# Apply the function to each row and create a new column 'tgtoptsma'
+exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
 # Call exit_options with exe_opt_df
 exit_options(exe_opt_df)
