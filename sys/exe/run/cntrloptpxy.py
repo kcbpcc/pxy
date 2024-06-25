@@ -58,7 +58,7 @@ def determine_target(bsma, key):
         
 def exit_options(exe_opt_df):
     try:
-        for group_name, group_data in exe_opt_df_grouped:
+        for group_name, group_data in exe_opt_df:
             # Calculate target for each row in the group
             group_data['target'] = group_data.apply(
                 lambda row: determine_target(bsma, row['key']),
