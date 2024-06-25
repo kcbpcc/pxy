@@ -27,12 +27,14 @@ import logging
 from cmbddfpxy import process_data  # Import process_data from cmbddfpxy module
 from smapxy import check_index_status
 
+# Define global variables
+bsma = check_index_status('^NSEBANK')
+bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
+user_usernames = ('-4136531362',)
+
 # Function to send Telegram message
 def send_telegram_message(message):
     try:
-        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
-        user_usernames = ('-4136531362',)
-
         for username in user_usernames:
             url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
             payload = {
@@ -106,9 +108,10 @@ exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 # Define the 'strike' column
 exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
-# Calculate tgtoptsma for each row
+# Calculate tgtoptsma for each row using global variable bsma
 def compute_tgtoptsma(row):
-    if (row['bsma'] == "up" and "CE" in row['key']) or (row['bsma'] == "down" and "PE" in row['key']):
+    global bsma  # Access the global variable bsma
+    if (bsma == "up" and "CE" in row['key']) or (bsma == "down" and "PE" in row['key']):
         return 10
     else:
         return 5
