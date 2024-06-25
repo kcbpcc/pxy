@@ -145,7 +145,7 @@ total_pl_percentage_all = (total_pl_all / total_invested_all) * 100 if total_inv
 color_code_summary = BRIGHT_YELLOW
 summary_sentence = f"{color_code_summary}SUMMARY: CAP:{total_invested_all} P&L:{total_pl_all:5.0f} P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
 summary_statement = summary_sentence
-print(summary_statement.rjust(43) + "📊")
+print(summary_statement.rjust(45) + "📊")
 grouped_df = print_df.groupby('strike')
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
