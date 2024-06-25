@@ -13,6 +13,7 @@ from timetgtpxy import timetgt
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from smapxy import check_index_status
+bsma = check_index_status('^NSEBANK')
 
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)
@@ -48,7 +49,13 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
     except Exception as e:
         print(f"Error placing order: {e}")
         return None
-
+        
+def determine_target(bsma, key):
+    if (bsma == "up" and "CE" in key) or (bsma == "down" and "PE" in key):
+        return 10
+    else:
+        return 5
+        
 def exit_options(exe_opt_df):
     try:
         for strike_price, data in exe_opt_df:
