@@ -57,7 +57,11 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
     except Exception as e:
         print(f"Error placing order: {e}")
         return None
-
+def determine_target(bsma, key):
+    if (bsma == "up" and "CE" in key) or (bsma == "down" and "PE" in key):
+        return 10
+    else:
+        return 5
 def exit_options(exe_opt_df_grouped, broker):
     try:
         for group_name, group_data in exe_opt_df_grouped:
