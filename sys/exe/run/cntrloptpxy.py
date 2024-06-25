@@ -16,16 +16,6 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 from smapxy import check_index_status
 bsma = check_index_status('^NSEBANK')
 
-import sys
-import traceback
-import subprocess
-import pandas as pd
-import requests
-from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path
-import logging
-from cmbddfpxy import process_data  # Import process_data from cmbddfpxy module
-from smapxy import check_index_status
 
 # Define global variables
 bsma = check_index_status('^NSEBANK')
@@ -122,8 +112,8 @@ exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 exit_options(exe_opt_df, broker)
 
 
- #🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛
 
+ #--------------------------------------------------- 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 ---------------------------------------------------
 
 
 
