@@ -13,7 +13,6 @@ from timetgtpxy import timetgt
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from smapxy import check_index_status
-bsma = check_index_status('^NSEBANK')
 
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)
@@ -49,33 +48,25 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product):
     except Exception as e:
         print(f"Error placing order: {e}")
         return None
-        
-def determine_target(bsma, key):
-    if (bsma == "up" and "CE" in key) or (bsma == "down" and "PE" in key):
-        return 10
-    else:
-        return 5
-        
+
 def exit_options(exe_opt_df):
     try:
-        for group_name, group_data in exe_opt_df:
-            # Calculate target for each row in the group
-            group_data['target'] = group_data.apply(
-                lambda row: determine_target(bsma, row['key']),
-                axis=1
-            )
+        for strike_price, data in exe_opt_df:
+            total_invested_group = data['Invested'].sum()
+            total_pl_group = data['PnL'].sum()
+            total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
             
-            for index, row in group_data.iterrows():
-                if row['PL%'] > row['target']:
-                    order_id = place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
+            #print(f"Strike Price: {strike_price}")
+            #print(data)
+            
+            if total_pl_percentage_group > 10:
+                for index, row in data.iterrows():
+                    place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML')
                     
-                    if order_id:
-                        message = f"🛬🛬🛬 👈👈👈 EXIT order placed for option {row['key']} successfully.\nPL: {row['PnL']}, PL%: {row['PL%']}%"
-                        print(message)
-                        send_telegram_message(message)
-                    else:
-                        print(f"Failed to place order for option {row['key']}.")
-
+                message = f"🛬🛬🛬 👈👈👈 EXIT order placed for all options with strike price {strike_price} successfully.\nPL: {total_pl_group}, PL%: {total_pl_percentage_group}%"
+                print(message)
+                send_telegram_message(message)
+                
     except Exception as e:
         print(f"Error placing exit order: {e}")
 
@@ -138,10 +129,13 @@ summary_statement = ""
 total_invested_all = print_df['Invested'].sum()
 total_pl_all = print_df['PnL'].sum()
 total_pl_percentage_all = (total_pl_all / total_invested_all) * 100 if total_invested_all != 0 else 0
-color_code_summary = BRIGHT_YELLOW
+color_code_summary = BRIGHT_GREEN if total_pl_percentage_all > 0 else BRIGHT_RED
 summary_sentence = f"{color_code_summary}SUMMARY: CAP:{total_invested_all} P&L:{total_pl_all:5.0f} P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
 summary_statement = summary_sentence
-
+subprocess.run(['python3', 'bcndlpxy.py'])
+subprocess.run(['python3', 'bniftychartpxy.py'])
+bsma = check_index_status('^NSEBANK')
+subprocess.run(['python3', 'bdaypxy.py']) 
 print((GREEN if bsma == "up" else RED if bsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩ" + RESET)
 grouped_df = print_df.groupby('strike')
 for group, data in grouped_df:
@@ -156,3 +150,4 @@ for group, data in grouped_df:
             print(f"{group} {color_code}{summary_sentence}{RESET}")  # No need for .rjust here
 print("━" * 42)
 print(summary_statement +"📊" )
+subprocess.run(['python3', 'cndlpxy.py'])
