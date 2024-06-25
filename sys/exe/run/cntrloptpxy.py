@@ -143,7 +143,7 @@ total_invested_all = print_df['Invested'].sum()
 total_pl_all = print_df['PnL'].sum()
 total_pl_percentage_all = (total_pl_all / total_invested_all) * 100 if total_invested_all != 0 else 0
 color_code_summary = BRIGHT_YELLOW
-summary_sentence = f"{color_code_summary}SUMMARY❗CAP:{total_invested_all:6.0f} P&L:{total_pl_all:7.0f} P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
+summary_sentence = f"{color_code_summary}SUMMARY-CAP:{total_invested_all:6.0f} P&L:{total_pl_all:7.0f} P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
 summary_statement = summary_sentence
 print(summary_statement +"📊" )
 grouped_df = print_df.groupby('strike')
