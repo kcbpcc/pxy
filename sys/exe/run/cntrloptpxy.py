@@ -62,10 +62,10 @@ def determine_target(bsma, key):
         return 10
     else:
         return 5
-def exit_options(exe_opt_df_grouped, broker):
+def exit_options(exe_opt_df_grouped, bsma, broker):
     try:
         for group_name, group_data in exe_opt_df_grouped:
-            # Check if PL% exceeds the target for the current group
+            # Calculate target for each row in the group
             group_data['target'] = group_data.apply(
                 lambda row: determine_target(bsma, row['key']),
                 axis=1
@@ -84,6 +84,7 @@ def exit_options(exe_opt_df_grouped, broker):
 
     except Exception as e:
         print(f"Error placing exit order: {e}")
+
 
 try:
     sys.stdout = open('output.txt', 'w')
