@@ -59,15 +59,16 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
 def exit_options(exe_opt_df, broker):
     try:
         for index, row in exe_opt_df.iterrows():
-            total_invested = row['Invested']
-            total_pl = row['PnL']
-            total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
+            total_pl_percentage = row['PL%']
             tgtoptsma = row['tgtoptsma']
             
             if total_pl_percentage > tgtoptsma:
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 
-                message = f"🛬🛬🛬 👈👈👈 EXIT order placed for option with key {row['key']} successfully.\nPL: {total_pl}, PL%: {total_pl_percentage}%, Target PL%: {tgtoptsma}%"
+                message = (
+                    f"🛬🛬🛬 👈👈👈 EXIT order placed for option with key {row['key']} successfully.\n"
+                    f"PL%: {total_pl_percentage}%, Target PL%: {tgtoptsma}%"
+                )
                 print(message)
                 send_telegram_message(message)
                 
