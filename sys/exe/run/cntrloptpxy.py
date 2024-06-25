@@ -58,20 +58,26 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
         print(f"Error placing order: {e}")
         return None
 
-def exit_options(exe_opt_df, broker):
+def exit_options(exe_opt_df_grouped, broker):
     try:
-        for index, row in exe_opt_df.iterrows():
-            # Check if PL% exceeds the target for the current row
-            if row['PL%'] > row['target']:
-                order_id = place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
-                
-                if order_id:
-                    message = f"🛬🛬🛬 👈👈👈 EXIT order placed for option {row['key']} successfully.\nPL: {row['PnL']}, PL%: {row['PL%']}%"
-                    print(message)
-                    send_telegram_message(message)
-                else:
-                    print(f"Failed to place order for option {row['key']}.")
-                
+        for group_name, group_data in exe_opt_df_grouped:
+            # Check if PL% exceeds the target for the current group
+            group_data['target'] = group_data.apply(
+                lambda row: determine_target(bsma, row['key']),
+                axis=1
+            )
+            
+            for index, row in group_data.iterrows():
+                if row['PL%'] > row['target']:
+                    order_id = place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
+                    
+                    if order_id:
+                        message = f"🛬🛬🛬 👈👈👈 EXIT order placed for option {row['key']} successfully.\nPL: {row['PnL']}, PL%: {row['PL%']}%"
+                        print(message)
+                        send_telegram_message(message)
+                    else:
+                        print(f"Failed to place order for option {row['key']}.")
+
     except Exception as e:
         print(f"Error placing exit order: {e}")
 
