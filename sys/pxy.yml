@@ -1,4 +1,4 @@
-broker: bypass
+broker: zerodha
 zerodha:
   userid: MM9168
   password: PXY@tatlako00
