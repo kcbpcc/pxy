@@ -6,7 +6,7 @@ from goouppxy import gsheet_acvalue
 from googetpxy import get_ac_values
 
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-def printbord(released, extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
+def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
     output_lines = []
     acvalue = ((all_Stocks_worth_lacks) + (optworth / 100000) + (available_cash / 100000))  
     #print(f"all_Stocks_worth_lacks: {all_Stocks_worth_lacks}, optworth: {optworth}, available_cash: {available_cash}")
@@ -45,9 +45,9 @@ def printbord(released, extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stock
             f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue_to_print, 2)).zfill(5)}{RESET}"
         )
     )
-    output_lines.append(left_aligned_format.format(f"Open:{BRIGHT_GREEN if open > 0 else BRIGHT_RED}{int(open)}{RESET}") +
-                        right_aligned_format.format(f"Runs:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"CLOSED:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{str(int(extras)).zfill(5)}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Postions:{BRIGHT_GREEN if total_cnc_m2m > 0 else BRIGHT_RED}{int(total_cnc_m2m)}{RESET}") +
+                        right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Extras:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{str(int(extras)).zfill(5)}{RESET}") +
                         right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else RED}{str(round(booked)).zfill(5)}{RESET}"))
     full_output = '\n'.join(output_lines)
     with open("bordpxy.csv", "w") as file:
