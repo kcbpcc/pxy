@@ -216,11 +216,11 @@ try:
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     result = get_holdingsinfo(combined_df)
     if result is not None:
-        extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = result
+        open, extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = result
     else:
         # Handle the case where get_holdingsinfo returns None
         print("Error: Unable to retrieve holdings information.")
-    extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = get_holdingsinfo(combined_df)    
+    open, extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = get_holdingsinfo(combined_df)    
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
