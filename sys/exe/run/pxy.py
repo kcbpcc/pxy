@@ -13,7 +13,7 @@ import time
 from rich.console import Console
 from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 subprocess.run(['python3', 'rmtknpxy.py'])
-subprocess.run(['python3', 'rmtknpxy.py'])
+subprocess.run(['python3', 'loginpxy.py'])
 subprocess.run(['python3', 'cpritepxy.py'])
 while True:
     from utcpxy import peak_time
