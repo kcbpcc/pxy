@@ -22,7 +22,7 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
         # Handle any exceptions that occur during the execution of get_ac_values()
         acvalue_to_print = 0
         ydaypnl_to_print = 0
-    capital = 17.80
+    capital = 17.82
     hide = 0
     profit = (acvalue_to_print - capital)
     arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
