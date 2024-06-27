@@ -1,4 +1,4 @@
-from cnstpxy import logging, CNFG, FUTL, dir_path
+from constants import logging, CNFG, FUTL, dir_path
 import os
 
 
@@ -68,7 +68,8 @@ def _get_zerodha():
 def remove_token(dir_path):
     dct = CNFG["bypass"]
     tokpath = dir_path + dct["userid"] + ".txt"
-    os.remove(tokpath)
+    if FUTL.is_file_exists(tokpath):
+        os.remove(tokpath)
 
 
 if __name__ == "__main__":
