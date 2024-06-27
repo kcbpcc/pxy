@@ -7,7 +7,7 @@ NC='\033[0m' # No Color
 source ~/env/bin/activate
 cd ~/pxy/sys/exe/run
 python3 rmtknpxy.py
-loginpxy
+python3 loginpxy.py
 while true; do
     sudo timedatectl set-timezone UTC > /dev/null 2>&1
     # Copy pxy* files from ~/pxy/sys/ to /usr/local/bin/
