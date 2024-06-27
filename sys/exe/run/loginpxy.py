@@ -3,7 +3,7 @@ from login_get_kite import get_kite, remove_token
 import sys
 from time import sleep
 from traceback import print_exc
-from constants import logging, dir_path, buff, secs, perc_col_name
+from cnstpxy import dir_path
 from holdings import get
 
 try:
