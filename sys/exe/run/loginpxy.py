@@ -4,7 +4,6 @@ import sys
 from time import sleep
 from traceback import print_exc
 from cnstpxy import dir_path
-from holdings import get
 
 try:
     original_stdout = sys.stdout
