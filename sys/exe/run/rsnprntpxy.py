@@ -7,7 +7,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
             if CE_symbol.startswith('BANKNIFTY'):
                 quantity = 15
             elif CE_symbol.startswith('NIFTY'):
-                quantity = 25
+                quantity = 50
             else:
                 quantity = 0  # Default quantity
 
@@ -26,7 +26,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
             if PE_symbol.startswith('BANKNIFTY'):
                 quantity = 15
             elif PE_symbol.startswith('NIFTY'):
-                quantity = 25
+                quantity = 50
             else:
                 quantity = 0  # Default quantity
 
