@@ -66,7 +66,7 @@ def exit_options(exe_opt_df, broker):
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 
                 message = (
-                    f"🛬🛬🛬 👈👈👈 EXIT order placed for option with key {row['key']} successfully.\n"
+                    f"🛬🛬🛬 ↘️↘️↘️ EXIT order placed for option with key {row['key']} successfully.\n"
                     f"PL%: {total_pl_percentage}%, Target PL%: {tgtoptsma}%"
                 )
                 print(message)
