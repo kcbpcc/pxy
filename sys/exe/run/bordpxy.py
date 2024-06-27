@@ -45,11 +45,12 @@ def printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_l
             f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue_to_print, 2)).zfill(5)}{RESET}"
         )
     )
-    output_lines.append(left_aligned_format.format(f"Opts-P&L: {BRIGHT_GREEN if total_cnc_m2m > 0 else BRIGHT_RED}{str(total_cnc_m2m / 1000).zfill(6)}{RESET}")) +
-                        right_aligned_format.format(f"Day-P&L:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"CLOSED:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{str(int(extras)).zfill(5)}{RESET}") +
-                        right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else RED}{str(round(booked)).zfill(5)}{RESET}"))
-    full_output = '\n'.join(output_lines)
-    with open("bordpxy.csv", "w") as file:
-        file.write(full_output)
-    print(full_output)
+output_lines.append(left_aligned_format.format(f"Opts-P&L: {BRIGHT_GREEN if total_cnc_m2m > 0 else BRIGHT_RED}{str(total_cnc_m2m / 1000).zfill(6)}{RESET}") +
+                    right_aligned_format.format(f"Day-P&L: {BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
+output_lines.append(left_aligned_format.format(f"CLOSED: {BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{str(int(extras)).zfill(5)}{RESET}") +
+                    right_aligned_format.format(f"BOOKED: {GREEN if booked > 0 else RED}{str(round(booked)).zfill(5)}{RESET}"))
+full_output = '\n'.join(output_lines)
+with open("bordpxy.csv", "w") as file:
+    file.write(full_output)
+print(full_output)
+
