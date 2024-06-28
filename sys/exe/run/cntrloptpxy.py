@@ -116,13 +116,13 @@ ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
 
 def compute_depth(row):
     if "CE" in row['key'] and row['key'].startswith("BANK"):
-        return row['tgtoptsma'] + bcedepth
+        return row['tgtoptsma'] + (bcedepth/2)
     elif "PE" in row['key'] and row['key'].startswith("BANK"):
-        return row['tgtoptsma'] + bpedepth
+        return row['tgtoptsma'] + (bpedepth/2)
     elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
-        return row['tgtoptsma'] + ncedepth
+        return row['tgtoptsma'] + (ncedepth/2)
     elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
-        return row['tgtoptsma'] + npedepth
+        return row['tgtoptsma'] + (npedepth/2)
     else:
         return 5
 
