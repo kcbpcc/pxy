@@ -38,14 +38,14 @@ def calculate_consecutive_candles(tickerSymbol):
 
         # Calculate cedepth and pedepth
         if current_color is not None:
+            if consecutive_count > 9:
+                consecutive_count = 9
             if current_color == 'green':
                 cedepth = consecutive_count
                 pedepth = 1
             else:
                 cedepth = 1
                 pedepth = consecutive_count
-                
             return cedepth, pedepth
-
     except Exception as e:
         return f"An error occurred: {e}"
