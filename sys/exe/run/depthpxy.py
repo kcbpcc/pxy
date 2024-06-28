@@ -1,8 +1,10 @@
+# depthpxy.py
+
 import yfinance as yf
 import pandas as pd
 import warnings
 
-def calculate_consecutive_ha_candles(tickerSymbol):
+def calculate_consecutive_candles(tickerSymbol):
     # Suppress warnings
     warnings.filterwarnings("ignore")
 
