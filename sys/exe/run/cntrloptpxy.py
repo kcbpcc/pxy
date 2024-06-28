@@ -66,8 +66,8 @@ def exit_options(exe_opt_df, broker):
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 
                 message = (
-                    f"🛬🛬🛬 ↘️↘️↘️ EXIT order placed for option with key {row['key']} successfully.\n"
-                    f"PL%: {total_pl_percentage}%, Target PL%: {tgtoptsmadepth}%"
+                    f"🛬🛬🛬 🎯🎯🎯 EXIT order placed for option with key {row['key']} successfully.\n"
+                    f"Profit: {PnL}, PL%: {total_pl_percentage}%, Target PL%: {tgtoptsmadepth}%"
                 )
                 print(message)
                 send_telegram_message(message)
@@ -128,7 +128,7 @@ def compute_depth(row):
 
 # Applying the compute_depth function to the dataframe
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
-print(exe_opt_df[['tradingsymbol', 'm2m', 'unrealised']])
+#print(exe_opt_df[['tradingsymbol', 'm2m', 'unrealised']])
 
 # Call exit_options with exe_opt_df and broker
 exit_options(exe_opt_df, broker)
