@@ -108,14 +108,34 @@ def compute_tgtoptsma(row):
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
-#print(exe_opt_df)
+from depthpxy import calculate_consecutive_candles
+
+# Calculating depths for NSEBANK and NSEI indices
+bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
+ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
+
+def compute_depth(row):
+    if "CE" in row['key'] and row['key'].startswith("BANK"):
+        return row['tgtoptsma'] + bcedepth
+    elif "PE" in row['key'] and row['key'].startswith("BANK"):
+        return row['tgtoptsma'] + bpedepth
+    elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
+        return row['tgtoptsma'] + ncedepth
+    elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
+        return row['tgtoptsma'] + npedepth
+    else:
+        return 5
+
+# Applying the compute_depth function to the dataframe
+exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
+print(exe_opt_df)
 
 # Call exit_options with exe_opt_df and broker
 exit_options(exe_opt_df, broker)
 
 
 
- #--------------------------------------------------- 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 ---------------------------------------------------
+#--------------------------------------------------- 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 ---------------------------------------------------
 
 
 
