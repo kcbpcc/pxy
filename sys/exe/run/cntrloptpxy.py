@@ -102,9 +102,9 @@ exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True
 def compute_tgtoptsma(row):
     global bsma  # Access the global variable bsma
     if (bsma == "up" and "CE" in row['key']) or (bsma == "down" and "PE" in row['key']):
-        return 10
+        return 7
     else:
-        return 5
+        return 3.5
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
