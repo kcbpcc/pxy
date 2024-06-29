@@ -169,7 +169,7 @@ summary_sentence = f"{color_code_summary}SUMMARY-CAP:{total_invested_all:6.0f} P
 summary_statement = summary_sentence
 print(summary_statement +"📊" )
 filtered_df = print_df[print_df['qty'] > 0]
-filtered_df['group'] = filtered_df['key'].apply(lambda x: 'NIFTY' if x.startswith('NIFTY') else ('BANKNIFTY' if x.startswith('BANKNIFTY') else 'OTHER'))
+filtered_df['group'] = filtered_df['key'].apply(lambda x: 'NIFTY' if x.startswith('N') else ('BANKNIFTY' if x.startswith('B') else 'OTHER'))
 grouped_df = filtered_df.groupby('group')
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
