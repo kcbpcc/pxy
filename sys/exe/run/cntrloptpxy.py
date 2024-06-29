@@ -186,7 +186,8 @@ for group, data in grouped_df:
         print(data[data['qty'] > 0][['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']].to_string(header=False, index=False, col_space=[2, 11, 5, 3, 3, 6, 4]))
         
         if len(data) >= 2:
-            print(f"{(group + ' ' + color_code + summary_sentence + RESET):>43}")
+            formatted_output = f"{group} {color_code}{summary_sentence}{RESET}".rjust(43)
+            print(formatted_output)
 
 print("━" * 42)
 
