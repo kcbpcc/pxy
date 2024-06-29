@@ -84,7 +84,7 @@ def process_data():
         combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
 
-        combined_df['outqty'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
+        #combined_df['outqty'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
         combined_df['in'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
         if positions_df.empty:
             combined_df['in'] = combined_df.get('out', None)
