@@ -154,6 +154,7 @@ total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 e
 print_df = opt_df.copy()
 print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
 print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('NIFTY24', 'N')
+print_df['group'] = print_df['key'].str.extract(r'^(B|N)', expand=False)
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN','strike','Invested', 'qty', 'PL%', 'PnL','CP']]
@@ -167,7 +168,7 @@ summary_sentence = f"{color_code_summary}SUMMARY-CAP:{total_invested_all:6.0f} P
 summary_statement = summary_sentence
 print(summary_statement +"📊" )
 filtered_df = print_df[print_df['qty'] > 0]
-grouped_df = filtered_df.groupby('strike')
+grouped_df = filtered_df.groupby('group')
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
     total_pl_group = data['PnL'].sum()
