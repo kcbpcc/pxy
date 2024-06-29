@@ -155,7 +155,7 @@ total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 e
 # Create and process the print_df DataFrame
 print_df = opt_df.copy()
 print_df['CP'] = opt_df['key'].apply(lambda x: '🟥' if x.endswith('PE') else ('🟩' if x.endswith('CE') else None))
-print_df['group'] = print_df['key'].str.extract(r'^(BANKN|NIFTY)', expand=False)
+print_df['group'] = print_df['key'].str.extract(r'^(B|N)', expand=False)
 print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('NIFTY24', 'N')
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
@@ -186,7 +186,7 @@ for group, data in grouped_df:
         print(data[data['qty'] > 0][['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']].to_string(header=False, index=False, col_space=[2, 11, 5, 3, 3, 6, 4]))
         
         if len(data) >= 2:
-            formatted_output = f"{group} {color_code}{summary_sentence}{RESET}".rjust(50)
+            formatted_output = f"{group}{color_code}{summary_sentence}{RESET}".rjust(51)
             print(formatted_output)
 
 print("━" * 42)
