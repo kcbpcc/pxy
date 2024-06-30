@@ -15,13 +15,8 @@ from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from smapxy import check_index_status
 bsma = check_index_status('^NSEBANK')
-
-# Define global variables
-bsma = check_index_status('^NSEBANK')
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)
-
-# Function to send Telegram message
 def send_telegram_message(message):
     try:
         for username in user_usernames:
