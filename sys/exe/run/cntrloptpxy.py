@@ -96,18 +96,11 @@ exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True
 
 # Calculate tgtoptsma for each row using global variable bsma
 def compute_tgtoptsma(row):
-    global bsma
-    global nsma
-    
-    key = row['key']
-    
-    if (bsma == "up" and key.startswith("BANK") and "CE" in key) or (bsma == "down" and key.startswith("BANK") and "PE" in key):
-        return 7
-    elif (nsma == "up" and key.startswith("NIFTY") and "CE" in key) or (nsma == "down" and key.startswith("NIFTY") and "PE" in key):
-        return 7
+    global bsma  # Access the global variable bsma
+    if (bsma == "up" and "CE" in row['key']) or (bsma == "down" and "PE" in row['key']):
+        return 6
     else:
-        return 4
-
+        return 3
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
@@ -119,23 +112,22 @@ ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
 
 def compute_depth(row):
     if "CE" in row['key'] and row['key'].startswith("BANK"):
-        return row['tgtoptsma'] + (bcedepth)
+        return row['tgtoptsma'] + (bcedepth/2)
     elif "PE" in row['key'] and row['key'].startswith("BANK"):
-        return row['tgtoptsma'] + (bpedepth)
+        return row['tgtoptsma'] + (bpedepth/2)
     elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
-        return row['tgtoptsma'] + (ncedepth)
+        return row['tgtoptsma'] + (ncedepth/2)
     elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
-        return row['tgtoptsma'] + (npedepth)
+        return row['tgtoptsma'] + (npedepth/2)
     else:
         return 5
 
 # Applying the compute_depth function to the dataframe
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
-print(exe_opt_df[['tradingsymbol', 'm2m', 'unrealised','tgtoptsma']])
+#print(exe_opt_df[['tradingsymbol', 'm2m', 'unrealised']])
 
 # Call exit_options with exe_opt_df and broker
 exit_options(exe_opt_df, broker)
-
 
 
 #--------------------------------------------------- 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 ---------------------------------------------------
