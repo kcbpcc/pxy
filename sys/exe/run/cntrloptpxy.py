@@ -58,7 +58,7 @@ def exit_options(exe_opt_df, broker):
             total_pl_percentage = row['PL%']
             tgtoptsmadepth = row['tgtoptsmadepth']
             
-            if total_pl_percentage > tgtoptsmadepth and PnL > 500 :
+            if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 500 :
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 
                 message = (
