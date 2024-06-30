@@ -115,7 +115,7 @@ from depthpxy import calculate_consecutive_candles
 
 # Calculating depths for NSEBANK and NSEI indices
 bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
-ncedepth, npedepth = calcula4_consecutive_candles("^NSEI")
+ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
 
 def compute_depth(row):
     if "CE" in row['key'] and row['key'].startswith("BANK"):
