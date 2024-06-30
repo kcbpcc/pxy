@@ -137,6 +137,8 @@ import numpy as np
 # Filter and process the DataFrame
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '')
+print_df['tgtoptsma'] = print_df.apply(compute_tgtoptsma, axis=1)
+print_df['tgtoptsmadepth'] = print_df.apply(compute_depth, axis=1)
 opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
 opt_df['PL%'] = opt_df['PL%'].fillna(0)
 opt_df['PL%'] = opt_df['PL%'].astype(int)
@@ -155,8 +157,6 @@ print_df['group'] = print_df['key'].str.extract(r'^(B|N)', expand=False)
 print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('NIFTY24', 'N')
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
-print_df['tgtoptsma'] = print_df.apply(compute_tgtoptsma, axis=1)
-print_df['tgtoptsmadepth'] = print_df.apply(compute_depth, axis=1)
 print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP', 'group','tgtoptsmadepth']]
 
 # Summary calculations
