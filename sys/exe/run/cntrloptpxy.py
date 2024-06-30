@@ -102,9 +102,9 @@ exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True
 def compute_tgtoptsma(row):
     global bsma  # Access the global variable bsma
     if (bsma == "up" and "CE" in row['key']) or (bsma == "down" and "PE" in row['key']):
-        return 6
+        return 10
     else:
-        return 3
+        return 5
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
@@ -116,13 +116,13 @@ ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
 
 def compute_depth(row):
     if "CE" in row['key'] and row['key'].startswith("BANK"):
-        return row['tgtoptsma'] + (bcedepth/2)
+        return row['tgtoptsma'] + (bcedepth)
     elif "PE" in row['key'] and row['key'].startswith("BANK"):
-        return row['tgtoptsma'] + (bpedepth/2)
+        return row['tgtoptsma'] + (bpedepth)
     elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
-        return row['tgtoptsma'] + (ncedepth/2)
+        return row['tgtoptsma'] + (ncedepth)
     elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
-        return row['tgtoptsma'] + (npedepth/2)
+        return row['tgtoptsma'] + (npedepth)
     else:
         return 5
 
