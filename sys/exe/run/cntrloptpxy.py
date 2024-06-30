@@ -15,6 +15,7 @@ from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from smapxy import check_index_status
 bsma = check_index_status('^NSEBANK')
+nsma = check_index_status('^NIFTY')
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)
 def send_telegram_message(message):
@@ -95,11 +96,18 @@ exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True
 
 # Calculate tgtoptsma for each row using global variable bsma
 def compute_tgtoptsma(row):
-    global bsma  # Access the global variable bsma
-    if (bsma == "up" and "CE" in row['key']) or (bsma == "down" and "PE" in row['key']):
+    global bsma
+    global nsma
+    
+    key = row['key']
+    
+    if (bsma == "up" and key.startswith("BANK") and "CE" in key) or (bsma == "down" and key.startswith("BANK") and "PE" in key):
         return 10
+    elif (nsma == "up" and key.startswith("NIFTY") and "CE" in key) or (nsma == "down" and key.startswith("NIFTY") and "PE" in key):
+        return 10 
     else:
         return 5
+
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
