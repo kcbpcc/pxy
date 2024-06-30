@@ -162,7 +162,9 @@ print_df['group'] = print_df['key'].str.extract(r'^(B|N)', expand=False)
 print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('NIFTY24', 'N')
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
-print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP', 'group']]
+print_df['tgtoptsma'] = print_df.apply(compute_tgtoptsma, axis=1)
+print_df['tgtoptsmadepth'] = print_df.apply(compute_depth, axis=1)
+print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP', 'group','tgtoptsmadepth']]
 
 # Summary calculations
 summary_statement = ""
@@ -186,7 +188,7 @@ for group, data in grouped_df:
     if total_invested_group != 0:
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
-        print(data[data['qty'] > 0][['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']].to_string(header=False, index=False, col_space=[2, 11, 5, 3, 3, 6, 4]))
+        print(data[data['qty'] > 0][['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'tgtoptsmadepth', 'CP']].to_string(header=False, index=False, col_space=[2, 11, 5, 3, 3, 6, 2,2]))
         
         if len(data) >= 2:
             formatted_output = f"{group}{color_code}{summary_sentence}{RESET}".rjust(51)
