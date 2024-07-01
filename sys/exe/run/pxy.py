@@ -55,7 +55,6 @@ while True:
     subprocess.run(['python3', 'cntrloptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
     subprocess.run(['python3', 'buyboptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
     subprocess.run(['python3', 'buynoptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
-    subprocess.run(['python3', 'testpxy.py'])
     subprocess.run(['python3', 'buybcncpxy.py'])
     subprocess.run(['python3', 'worldpxy.py'])
     print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET)
