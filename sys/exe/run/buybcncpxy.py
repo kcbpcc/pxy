@@ -69,6 +69,7 @@ def place_order(symbol, broker, bot_token, user_id):
                 print(f"Order placed successfully for {symbol} and cash remained {remaining_cash}")
 
                 message_text = f"📊 Let's Buy {symbol}!\n📈 Current Price (LTP): {ltp_nse}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={symbol}"
+                
                 async def send_telegram_message(message_text):
                     bot = telegram.Bot(token=bot_token)
                     await bot.send_message(chat_id=user_id, text=message_text)
@@ -132,7 +133,7 @@ for symbol in symbols:
             smbpxy = check_ha_candles(yf_symbol)
             if smbpxy == 'Buy':
                 print(f"Placing order for {symbol}...")
-                place_order(symbol, broker, 'YOUR_BOT_TOKEN_HERE', 'YOUR_TELEGRAM_USER_ID')
+                place_order(symbol, broker, '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug', '-4135910842')
                 
                 response = broker.kite.margins()
                 remaining_cash = response["equity"]["available"]["live_balance"]
