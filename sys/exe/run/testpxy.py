@@ -14,12 +14,11 @@ from cnstpxy import dir_path
 from fundpxy import calculate_decision
 from trndlnpxy import Trendlyne
 
-# Setup logging configuration
 logging.basicConfig(level=logging.INFO)
 logging = Logger(30, dir_path + "main.log")
 
-# Function to calculate Heikin-Ashi candle colors
 def calculate_heikin_ashi_colors(data):
+    # Calculate Heikin-Ashi candles
     ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
     ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
@@ -28,12 +27,14 @@ def calculate_heikin_ashi_colors(data):
     
     return current_color, last_closed_color
 
-# Function to check Heikin-Ashi candles
 def check_ha_candles(symbol):
+    # Fetch historical data for the stock with daily interval
     data = yf.Ticker(symbol).history(period="5d", interval="1d")
 
+    # Calculate Heikin-Ashi candles colors
     current_color, last_closed_color = calculate_heikin_ashi_colors(data)
 
+    # Check for market position
     if current_color == 'Bear' and last_closed_color == 'Bull':
         smbpxy = 'Sell'
     elif current_color == 'Bull' and last_closed_color == 'Bear':
@@ -43,21 +44,16 @@ def check_ha_candles(symbol):
 
     return smbpxy
 
-# Function to place an order
 def place_order(symbol, broker):
     try:
-        # Retrieve equity margin information
         response = broker.kite.margins()
         remaining_cash = response["equity"]["available"]["live_balance"]
         
-        # Fetch latest trading price
         ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
         
-        # Check for valid price and sufficient funds
         if ltp_nse > 0 and remaining_cash > limit:
             quantity = int(10000 / ltp_nse)  # Calculate quantity based on available cash and LTP
             
-            # Place order parameters
             order_id = broker.order_place(
                 tradingsymbol=symbol,
                 exchange='NSE',
@@ -69,16 +65,14 @@ def place_order(symbol, broker):
                 price=round_to_paise(ltp_nse, 0.2)  # Use the NSE LTP for price calculation
             )
             
-            # If order is successful, log and update remaining cash
             if order_id:
                 logging.info(f"BUY {order_id} placed for {symbol} successfully")
                 remaining_cash -= quantity * ltp_nse
                 print(f"Order placed successfully for {symbol} and cash remained {remaining_cash}")
 
-                # Notify through Telegram
                 message_text = f"📊 Let's Buy {symbol}!\n📈 Current Price (LTP): {ltp_nse}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={symbol}"
-                bot_token = 'YOUR_TELEGRAM_BOT_TOKEN'
-                user_id = 'YOUR_TELEGRAM_USER_ID'
+                bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
+                user_id = '-4135910842'  # Replace with your Telegram user ID
                 
                 async def send_telegram_message(message_text):
                     bot = telegram.Bot(token=bot_token)
@@ -92,15 +86,16 @@ def place_order(symbol, broker):
     except Exception as e:
         logging.error(f"Error while placing order: {str(e)}")
 
-# Read symbols from CSV file
+# Read the CSV file containing the NSE codes
 csv_file = 'bankspxy.csv'
 df = pd.read_csv(csv_file)
+
+# Assuming the CSV file has a single column with header 'NSE Code'
 symbols = df['NSE Code'].tolist()
 
 # Fetching decision and other details
 decision, optdecision, available_cash, limit = calculate_decision()
 
-# Try to get Kite broker instance and handle exceptions
 try:
     original_stdout = sys.stdout
     with open('output.txt', 'w') as file:
@@ -115,7 +110,7 @@ try:
 finally:
     sys.stdout = original_stdout
 
-# Fetch holdings, positions, and orders from Trendlyne
+# Fetch holdings, positions, and orders
 try:
     lst_dct_tlyne = Trendlyne().entry()
     positions_symbols = [dct.get('tradingsymbol') for dct in lst_dct_tlyne]
@@ -125,7 +120,6 @@ except Exception as e:
     logging.error(f"{str(e)} unable to read positions")
     positions_symbols = []
 
-# Fetch current orders from broker
 try:
     lst_dct_orders = broker.orders
     orders_symbols = [dct.get('tradingsymbol') for dct in lst_dct_orders]
@@ -154,7 +148,6 @@ for symbol in symbols:
                 remaining_cash = response["equity"]["available"]["live_balance"]
                 print(f"Remaining Cash💰: {int(round(remaining_cash/1000))}K")
                 
-                # Stop further orders if cash is low
                 if remaining_cash < 6000:
                     print(f"Cash : {remaining_cash}, stopping further orders.")
                     break
@@ -164,3 +157,4 @@ for symbol in symbols:
             logging.info(f"Skipping {symbol}: already part of positions or orders")
     else:
         logging.info("Decision is not 'YES', skipping order placement.")
+
