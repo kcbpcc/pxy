@@ -15,8 +15,10 @@ current_prices = {}
 for code in nse_codes:
     ticker = f"{code}.NS"  # Append .NS to indicate NSE
     stock = yf.Ticker(ticker)
-    current_price = stock.history(period='1d')['Close'][0]
-    current_prices[code] = current_price
+    history = stock.history(period='1d')
+    if not history.empty:
+        current_price = history['Close'].iloc[0]
+        current_prices[code] = current_price
 
 # Print the current prices
 for code, price in current_prices.items():
