@@ -93,9 +93,6 @@ df = pd.read_csv(csv_file)
 # Assuming the CSV file has a single column with header 'NSE Code'
 symbols = df['NSE Code'].tolist()
 
-# Fetching decision and other details
-decision, optdecision, available_cash, limit = calculate_decision()
-
 try:
     original_stdout = sys.stdout
     with open('output.txt', 'w') as file:
@@ -132,29 +129,26 @@ except Exception as e:
 # Combine all symbols to skip
 skip_symbols = set(positions_symbols + orders_symbols)
 
-# Check Heikin-Ashi candles for each symbol and place orders if decision is "YES"
+# Check Heikin-Ashi candles for each symbol and place orders if conditions are met
 for symbol in symbols:
-    if decision == "YES":
-        if symbol not in skip_symbols:
-            yf_symbol = symbol + ".NS"  # Add .NS for Yahoo Finance
-            smbpxy = check_ha_candles(yf_symbol)
-            if smbpxy == 'Buy':
-                # Place order without .NS
-                print(f"Placing order for {symbol}...")
-                place_order(symbol, broker)
-                
-                # Check remaining cash
-                response = broker.kite.margins()
-                remaining_cash = response["equity"]["available"]["live_balance"]
-                print(f"Remaining Cash💰: {int(round(remaining_cash/1000))}K")
-                
-                if remaining_cash < 6000:
-                    print(f"Cash : {remaining_cash}, stopping further orders.")
-                    break
-            else:
-                logging.info(f"Skipping {symbol}: smbpxy is not 'Buy'")
+    if symbol not in skip_symbols:
+        yf_symbol = symbol + ".NS"  # Add .NS for Yahoo Finance
+        smbpxy = check_ha_candles(yf_symbol)
+        if smbpxy == 'Buy':
+            # Place order without .NS
+            print(f"Placing order for {symbol}...")
+            place_order(symbol, broker)
+            
+            # Check remaining cash
+            response = broker.kite.margins()
+            remaining_cash = response["equity"]["available"]["live_balance"]
+            print(f"Remaining Cash💰: {int(round(remaining_cash/1000))}K")
+            
+            if remaining_cash < 6000:
+                print(f"Cash : {remaining_cash}, stopping further orders.")
+                break
         else:
-            logging.info(f"Skipping {symbol}: already part of positions or orders")
+            logging.info(f"Skipping {symbol}: smbpxy is not 'Buy'")
     else:
-        logging.info("Decision is not 'YES', skipping order placement.")
+        logging.info(f"Skipping {symbol}: already part of positions or orders")
 
