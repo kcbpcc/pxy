@@ -50,11 +50,13 @@ while True:
     importlib.reload(sys.modules['smapxy'])  # Correct the usage
     nsma = check_index_status('^NSEI')
     bsma = check_index_status('^NSEBANK')
+    subprocess.run(['python3', 'testpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'FALL' else (BRIGHT_YELLOW + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'SIDE' else ""))) + RESET)
     subprocess.run(['python3', 'cntrloptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
     subprocess.run(['python3', 'buyboptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
     subprocess.run(['python3', 'buynoptpxy.py'], stdout=open('output.txt', 'w'), stderr=subprocess.PIPE)
+    subprocess.run(['python3', 'testpxy.py'])
     subprocess.run(['python3', 'tistpxy.py'])
     subprocess.run(['python3', 'worldpxy.py'])
     print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET)
