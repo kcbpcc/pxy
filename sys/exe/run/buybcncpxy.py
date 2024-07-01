@@ -17,8 +17,8 @@ from trndlnpxy import Trendlyne
 logging.basicConfig(level=logging.INFO)
 logging = Logger(30, dir_path + "main.log")
 
+# Function to calculate Heikin-Ashi candles colors
 def calculate_heikin_ashi_colors(data):
-    # Calculate Heikin-Ashi candles
     ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
     ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
@@ -27,14 +27,11 @@ def calculate_heikin_ashi_colors(data):
     
     return current_color, last_closed_color
 
+# Function to check Heikin-Ashi candles and decide action
 def check_ha_candles(symbol):
-    # Fetch historical data for the stock with daily interval
     data = yf.Ticker(symbol).history(period="5d", interval="1d")
-
-    # Calculate Heikin-Ashi candles colors
     current_color, last_closed_color = calculate_heikin_ashi_colors(data)
 
-    # Check for market position
     if current_color == 'Bear' and last_closed_color == 'Bull':
         smbpxy = 'Sell'
     elif current_color == 'Bull' and last_closed_color == 'Bear':
@@ -44,7 +41,8 @@ def check_ha_candles(symbol):
 
     return smbpxy
 
-def place_order(symbol, broker):
+# Function to place an order
+def place_order(symbol, broker, bot_token, user_id):
     try:
         response = broker.kite.margins()
         remaining_cash = response["equity"]["available"]["live_balance"]
@@ -52,7 +50,7 @@ def place_order(symbol, broker):
         ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
         
         if ltp_nse > 0 and remaining_cash > limit:
-            quantity = int(10000 / ltp_nse)  # Calculate quantity based on available cash and LTP
+            quantity = int(10000 / ltp_nse)
             
             order_id = broker.order_place(
                 tradingsymbol=symbol,
@@ -62,7 +60,7 @@ def place_order(symbol, broker):
                 order_type='LIMIT',
                 product='CNC',
                 variety='regular',
-                price=round_to_paise(ltp_nse, 0.2)  # Use the NSE LTP for price calculation
+                price=round_to_paise(ltp_nse, 0.2)
             )
             
             if order_id:
@@ -71,9 +69,6 @@ def place_order(symbol, broker):
                 print(f"Order placed successfully for {symbol} and cash remained {remaining_cash}")
 
                 message_text = f"📊 Let's Buy {symbol}!\n📈 Current Price (LTP): {ltp_nse}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={symbol}"
-                bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
-                user_id = '-4135910842'  # Replace with your Telegram user ID
-                
                 async def send_telegram_message(message_text):
                     bot = telegram.Bot(token=bot_token)
                     await bot.send_message(chat_id=user_id, text=message_text)
@@ -86,10 +81,11 @@ def place_order(symbol, broker):
     except Exception as e:
         logging.error(f"Error while placing order: {str(e)}")
 
-# List of stock symbols
-symbols = ["HDFCBANK", "ICICIBANK", "AXISBANK", "SBIN", "KOTAKBANK", "INDUSINDBK", "BANKBARODA", "PNB", "FEDERALBNK", "IDFCFIRSTB"]
+# Read symbols from CSV file
+symbols_df = pd.read_csv('bankspxy.csv')
+symbols = symbols_df['Symbol'].tolist()
 
-# Fetching decision and other details
+# Fetch decision and other details
 decision, optdecision, available_cash, limit = calculate_decision()
 
 try:
@@ -125,21 +121,19 @@ except Exception as e:
     logging.error(f"{str(e)} unable to read orders")
     orders_symbols = []
 
-# Combine all symbols to skip
+# Combine symbols to skip
 skip_symbols = set(positions_symbols + orders_symbols)
 
 # Check Heikin-Ashi candles for each symbol and place orders if decision is "YES"
 for symbol in symbols:
     if decision == "YES":
         if symbol not in skip_symbols:
-            yf_symbol = symbol + ".NS"  # Add .NS for Yahoo Finance
+            yf_symbol = symbol + ".NS"
             smbpxy = check_ha_candles(yf_symbol)
             if smbpxy == 'Buy':
-                # Place order without .NS
                 print(f"Placing order for {symbol}...")
-                place_order(symbol, broker)
+                place_order(symbol, broker, 'YOUR_BOT_TOKEN_HERE', 'YOUR_TELEGRAM_USER_ID')
                 
-                # Check remaining cash
                 response = broker.kite.margins()
                 remaining_cash = response["equity"]["available"]["live_balance"]
                 print(f"Remaining Cash💰: {int(round(remaining_cash/1000))}K")
