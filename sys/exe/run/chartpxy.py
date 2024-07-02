@@ -39,28 +39,34 @@ for i in range(1, len(df)):
 # Create ASCII chart with colored trend
 chart = plot(df['acvalue'].tolist(), {'height': 10, 'format': "{:,.2f}", 'color': trend_direction})
 
-# Adjust the ASCII chart to show weekly and daily intervals
-weekly_length = 20
-weekly_part_length = 10
-daily_part_length = 10
+# Adjust the ASCII chart to show monthly, weekly, and daily intervals
+monthly_length = 5
+weekly_length = 10
+daily_length = 10
 
 # Split chart into lines and format accordingly
 lines = chart.split('\n')
 for line in lines:
-    # Ensure weekly part
-    if len(line) >= weekly_length:
-        weekly_part = line[:weekly_part_length]
+    # Ensure monthly part
+    if len(line) >= monthly_length:
+        monthly_part = line[:monthly_length]
     else:
-        weekly_part = line.ljust(weekly_part_length)
+        monthly_part = line.ljust(monthly_length)
+
+    # Ensure weekly part
+    if len(line) >= monthly_length + weekly_length:
+        weekly_part = line[monthly_length:monthly_length + weekly_length]
+    else:
+        weekly_part = line[monthly_length:].ljust(weekly_length)
 
     # Ensure daily part
-    if len(line) > weekly_length:
-        daily_part = line[weekly_part_length:weekly_length + daily_part_length]
+    if len(line) > monthly_length + weekly_length:
+        daily_part = line[monthly_length + weekly_length:]
     else:
         daily_part = ""
 
     # Print formatted line
-    print(f"{weekly_part.ljust(weekly_part_length)} {daily_part}")
+    print(f"{monthly_part.ljust(monthly_length)} {weekly_part.ljust(weekly_length)} {daily_part}")
 
 # Calculate delta
 latest_record = df['acvalue'].iloc[-1]
