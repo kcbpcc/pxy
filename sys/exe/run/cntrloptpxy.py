@@ -106,7 +106,7 @@ def compute_tgtoptsma(row):
     elif (nsma == "up" and key.startswith("NIFTY") and "CE" in key) or (nsma == "down" and key.startswith("NIFTY") and "PE" in key):
         return 2
     else:
-        return 1
+        return 2
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
