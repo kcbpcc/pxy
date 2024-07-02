@@ -40,9 +40,9 @@ for i in range(1, len(df)):
 chart = plot(df['acvalue'].tolist(), {'height': 10, 'format': "{:,.2f}", 'color': trend_direction})
 
 # Adjust the ASCII chart to show weekly and daily intervals
-weekly_length = 30
-weekly_part_length = 15
-daily_part_length = 15
+weekly_length = 20
+weekly_part_length = 10
+daily_part_length = 10
 
 # Split chart into lines and format accordingly
 lines = chart.split('\n')
