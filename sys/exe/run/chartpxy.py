@@ -41,7 +41,7 @@ chart = plot(df['acvalue'].tolist(), {'height': 10, 'format': "{:,.2f}", 'color'
 
 # Adjust the ASCII chart to show monthly, weekly, and daily intervals
 monthly_length = 5
-weekly_length = 10
+weekly_length = 5
 daily_length = 10
 
 # Split chart into lines and format accordingly
@@ -65,8 +65,8 @@ for line in lines:
     else:
         daily_part = ""
 
-    # Print formatted line
-    print(f"{monthly_part.ljust(monthly_length)} {weekly_part.ljust(weekly_length)} {daily_part}")
+    # Print formatted line with maximum 20 characters
+    print(f"{monthly_part.ljust(monthly_length)} {weekly_part.ljust(weekly_length)} {daily_part[:daily_length]}")
 
 # Calculate delta
 latest_record = df['acvalue'].iloc[-1]
@@ -75,7 +75,8 @@ delta = int((latest_record - previous_record) * 100000)
 delta_color = BRIGHT_GREEN if delta >= 0 else BRIGHT_RED
 
 # Print delta
-print("📊📊📊📊📊📊 Delta: {}{}📊📊📊📊📊📊".format(delta_color, str(delta).zfill(10)))
+print("📊📊📊📊📊 Delta: {}{}📊📊📊📊📊".format(delta_color, str(delta).zfill(10)))
 
 # Reset terminal color to default
 print(RESET)
+
