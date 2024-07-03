@@ -29,12 +29,12 @@ def calculate_heikin_ashi_colors(data):
     last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
     last_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
     
-    return current_color, last_closed_color
+    return current_color, last_closed_color, last_last_closed_color
 
 # Function to check Heikin-Ashi candles and decide action
 def check_ha_candles(symbol):
     data = yf.Ticker(symbol).history(period="5d", interval="1d")
-    current_color, last_closed_color = calculate_heikin_ashi_colors(data)
+    current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(data)
 
     if current_color == 'Bear' and last_closed_color == 'Bull' and last_last_closed_color == 'Bull':
         smbpxy = 'Sell'
