@@ -117,13 +117,16 @@ except Exception as e:
     logging.error(f"{str(e)} unable to read positions")
     positions_symbols = []
 
+# Fetch orders
 try:
     lst_dct_orders = broker.orders  # Access the list directly
-    orders_symbols = [order["tradingsymbol"] for order in lst_dct_orders]
+    orders_symbols = [order.get("tradingsymbol", "Unknown Symbol") for order in lst_dct_orders]
+
 except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to read orders")
     orders_symbols = []
+
 
 try:
     holdings = broker.kite.holdings()
