@@ -16,6 +16,8 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 from smapxy import check_index_status
 bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
+from utcpxy import peak_time
+peak = peak_time()
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)
 def send_telegram_message(message):
@@ -137,8 +139,7 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 
 #print(exe_opt_df)
 # Call exit_options with exe_opt_df and broker
-exit_options(exe_opt_df, broker)
-
+exit_options(exe_opt_df, broker) if peak != 'PEAKSTART' else None
 
 #--------------------------------------------------- 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 ---------------------------------------------------
 import numpy as np
