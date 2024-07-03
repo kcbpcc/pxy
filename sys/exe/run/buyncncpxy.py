@@ -18,7 +18,6 @@ import telegram
 logging.basicConfig(level=logging.INFO)
 logging = Logger(30, dir_path + "main.log")
 
-
 # Save the original sys.stdout
 try:
     original_stdout = sys.stdout
@@ -45,7 +44,7 @@ if decision == "YES":
         # Extract tradingsymbols from df_fileHPdf
         lst = df_fileHPdf['tradingsymbol'].to_list()
 
-        # get list from Trendlyne
+        # Initialize lst_tlyne
         lst_tlyne = []
         lst_dct_tlyne = Trendlyne().entry()
         if lst_dct_tlyne and any(lst_dct_tlyne):
@@ -62,7 +61,7 @@ if decision == "YES":
             lst_tlyne = [x for x in lst_tlyne if x not in lst]
             logging.info(f"filtered from holdings and positions: {lst}")
 
-            # get lists from orders
+            # Get lists from orders
             lst_dct_orders = broker.orders
 
             if lst_dct_orders and any(lst_dct_orders):
@@ -72,9 +71,6 @@ if decision == "YES":
 
             # Combine symbols orders
             all_symbols = symbols_orders
-
-            # Assuming lst_tlyne is defined somewhere before this block
-            lst_tlyne = lst_tlyne if lst_tlyne else []  # Initialize lst_tlyne if not defined
 
             # Filter lst_tlyne based on combined symbols
             lst_tlyne = [x for x in lst_tlyne if x not in all_symbols]
@@ -188,8 +184,6 @@ if decision == "YES":
     
         # Print remaining cash after the loop completes
         print(f"Remaining Cash💰: {int(round(remaining_cash))}")
-
-
 
 elif decision == "NO":
     # Perform actions for "NO"
