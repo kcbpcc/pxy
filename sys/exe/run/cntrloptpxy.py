@@ -63,8 +63,11 @@ def exit_options(exe_opt_df, broker):
                 
                 message = (
                     f"🛬🛬🛬 🎯🎯🎯 EXIT order placed for option with key {row['key']} successfully.\n"
-                    f"Profit: {row['PnL']}, PL%: {round(total_pl_percentage, 2)}%, Target PL%: {tgtoptsmadepth}%"
+                    f"Target PL%: {tgtoptsmadepth}%\n"
+                    f"Achieved PL%: {round(total_pl_percentage, 2)}%\n"
+                    f"Booked Profit: {row['PnL']}"
                 )
+
                 print(message)
                 send_telegram_message(message)
                 
