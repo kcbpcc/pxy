@@ -15,7 +15,7 @@ from fundpxy import calculate_decision
 from trndlnpxy import Trendlyne
 
 logging.basicConfig(level=logging.INFO)
-logging = Logger(30, dir_path + "main.log")
+logging = Logger(30, os.path.join(dir_path, "main.log"))
 
 # Function to calculate Heikin-Ashi candles colors
 def calculate_heikin_ashi_colors(data):
@@ -42,7 +42,7 @@ def check_ha_candles(symbol):
     return smbpxy
 
 # Function to place an order
-def place_order(symbol, broker, bot_token, user_id):
+def place_order(symbol, broker, bot_token, user_id, limit):
     try:
         response = broker.kite.margins()
         remaining_cash = response["equity"]["available"]["live_balance"]
@@ -114,7 +114,7 @@ except Exception as e:
     positions_symbols = []
 
 try:
-    lst_dct_orders = broker.orders
+    lst_dct_orders = broker.orders()
     orders_symbols = [dct.get('tradingsymbol') for dct in lst_dct_orders]
 
 except Exception as e:
@@ -133,7 +133,7 @@ for symbol in symbols:
             smbpxy = check_ha_candles(yf_symbol)
             if smbpxy == 'Buy':
                 print(f"Placing order for {symbol}...")
-                place_order(symbol, broker, '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug', '-4135910842')
+                place_order(symbol, broker, '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug', '-4135910842', limit)
                 
                 response = broker.kite.margins()
                 remaining_cash = response["equity"]["available"]["live_balance"]
@@ -148,3 +148,4 @@ for symbol in symbols:
             logging.info(f"Skipping {symbol}: already part of positions or orders")
     else:
         logging.info("Decision is not 'YES', skipping order placement.")
+
