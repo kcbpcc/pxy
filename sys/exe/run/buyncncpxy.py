@@ -32,14 +32,12 @@ logging.basicConfig(level=logging.INFO)
 logging = Logger(30, dir_path + "main.log")
 black_file = dir_path + "blacklist.txt"
 # Save the original sys.stdout
-original_stdout = sys.stdout
-
 try:
-    # Redirect sys.stdout to 'output.txt'
+    original_stdout = sys.stdout
     with open('output.txt', 'w') as file:
         sys.stdout = file
         try:
-            broker = get_kite(api="bypass", sec_dir=dir_path)
+            broker = get_kite()
         except Exception as e:
             remove_token(dir_path)
             print(traceback.format_exc())
