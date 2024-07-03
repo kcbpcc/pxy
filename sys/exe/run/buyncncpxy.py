@@ -30,7 +30,18 @@ async def send_telegram_message(message_text):
 
 # Calculate decisions and set up variables
 decision, optdecision, available_cash, limit = calculate_decision()
+
+# Ensure blacklist_file points to the correct path
 blacklist_file = os.path.join(dir_path, "blacklist.txt")
+
+# Check if the file exists, create it if not
+if not os.path.exists(blacklist_file):
+    try:
+        with open(blacklist_file, 'w') as file:
+            pass  # Creating an empty file
+    except IOError as e:
+        logger.error(f"Error creating {blacklist_file}: {e}")
+        sys.exit(1)
 
 # Save the original sys.stdout
 original_stdout = sys.stdout
