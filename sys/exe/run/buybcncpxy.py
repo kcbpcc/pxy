@@ -118,9 +118,8 @@ except Exception as e:
     positions_symbols = []
 
 try:
-    lst_dct_orders = broker.orders
+    lst_dct_orders = broker.orders  # Access the list directly
     orders_symbols = [order["tradingsymbol"] for order in lst_dct_orders]
-
 except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to read orders")
