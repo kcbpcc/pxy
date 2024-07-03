@@ -42,7 +42,7 @@ if decision == "YES":
         df_fileHPdf = pd.read_csv('fileHPdf.csv')
 
         # Extract tradingsymbols from df_fileHPdf
-        lst = df_fileHPdf['tradingsymbol'].to_list()
+        lst = df_fileHPdf['tradingsymbol'].tolist()
 
         # Initialize lst_tlyne
         lst_tlyne = []
@@ -87,26 +87,22 @@ if decision == "YES":
         target = round_to_paise(ltp, max_target)
         return max(resistance, target)
 
-    def transact(dct, remaining_cash, broker):
+    def transact(dct, broker):
         response = broker.kite.margins()
         available_cash = response["equity"]["available"]["live_balance"]
-    
-        # Define ltp before the try block
-        ltp = -1
-    
+
         try:
             def get_ltp(exchange):
-                nonlocal ltp  # Use nonlocal to reference the outer ltp variable
                 key = f"{exchange}:{dct['tradingsymbol']}"
                 resp = broker.kite.ltp(key)
                 if resp and isinstance(resp, dict):
-                    ltp = resp[key]['last_price']
-                return ltp
-    
+                    return resp[key]['last_price']
+                return -1
+
             # Try getting LTP from NSE only
             ltp_nse = get_ltp('NSE')
             logging.info(f"LTP for {dct['tradingsymbol']} on NSE is {ltp_nse}")
-    
+
             # If LTP from NSE is available and greater than 0, proceed with the order
             if ltp_nse > 0 and available_cash > 2500000:
                 # Place the order on NSE
@@ -114,7 +110,7 @@ if decision == "YES":
                     tradingsymbol=dct['tradingsymbol'],
                     exchange='NSE',
                     transaction_type='BUY',
-                    quantity=int(float(dct['QTY'].replace(',', ''))), 
+                    quantity=int(float(dct['QTY'].replace(',', ''))),
                     order_type='LIMIT',
                     product='CNC',
                     variety='regular',
@@ -122,70 +118,29 @@ if decision == "YES":
                 )
                 if order_id:
                     logging.info(f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
-                    # Update remaining cash if the order is successful
-                    remaining_cash -= int(float(dct['QTY'].replace(',', ''))) * ltp_nse
-                    print(f"Order placed successfully for {dct['tradingsymbol']} and cash remained {remaining_cash}")
-                    try:
-                        message_text = f"{ltp} \nhttps://www.tradingview.com/chart/?symbol={dct['tradingsymbol']}"
-    
-                        # Define the bot token and your Telegram username or ID
-                        bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
-                        user_id = '-4135910842'  # Replace with your Telegram user ID
-                        # Function to send a message to Telegram
-                        async def send_telegram_message(message_text):
-                            bot = telegram.Bot(token=bot_token)
-                            await bot.send_message(chat_id=user_id, text=message_text)
-    
-                        # Send the 'row' content as a message to Telegram immediately after printing the row
-                        asyncio.run(send_telegram_message(message_text))
-                        
-                    except Exception as e:
-                        # Handle the exception (e.g., log it) and continue with your code
-                        print(f"Error sending message to Telegram: {e}")
-                    return dct['tradingsymbol'], remaining_cash
-    
+                    return f"Order placed successfully for {dct['tradingsymbol']}"
+                else:
+                    logging.warning(f"Failed to place order for {dct['tradingsymbol']}")
+                    return f"Failed to place order for {dct['tradingsymbol']}"
+
             else:
-                logging.warning(f"Skipping {dct['tradingsymbol']}:no LTP or no cash")
-                return dct['tradingsymbol'], remaining_cash
-    
+                logging.warning(f"Skipping {dct['tradingsymbol']}: no LTP or insufficient cash")
+                return f"Skipping {dct['tradingsymbol']}: no LTP or insufficient cash"
+
         except Exception as e:
             logging.error(f"Error while placing order: {str(e)}")
-            return dct['tradingsymbol'], remaining_cash
+            return f"Error while placing order: {str(e)}"
 
-    
     if any(lst_tlyne):
-        new_list = []
-    
-        # Filter the original list based on the subset of 'tradingsymbol' values
-        lst_all_orders = [d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
-    
-        # Read the list of previously failed symbols from the file
-        with open(black_file, 'r') as file:
-            lst_failed_symbols = [line.strip() for line in file.readlines()]
-        logging.info(f"Ignored symbols: {lst_failed_symbols}")
-        lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
-    
-        response = broker.kite.margins()
-        remaining_cash = response["equity"]["available"]["live_balance"]
-    
-        for d in lst_orders:
-            symbol, remaining_cash = transact(d, remaining_cash, broker)
-            Utilities().slp_til_nxt_sec()
-    
-            # Check if remaining cash falls below 25000 and exit the loop
-            if remaining_cash < 2500000:
-                break
-    
-        # Write the failed symbols to file, so we don't repeat them again
-        if any(new_list):
-            with open(black_file, 'w') as file:
-                for symbol in new_list:
-                    file.write(symbol + '\n')
-    
-        # Print remaining cash after the loop completes
-        print(f"Remaining Cash💰: {int(round(remaining_cash))}")
+        for dct in lst_dct_tlyne:
+            if dct['tradingsymbol'] in lst_tlyne:
+                result = transact(dct, broker)
+                print(result)
+                Utilities().slp_til_nxt_sec()
+                # Check if remaining cash falls below 25000 and exit the loop
+                if broker.kite.margins()["equity"]["available"]["live_balance"] < 2500000:
+                    break
 
 elif decision == "NO":
-    # Perform actions for "NO"
     print("\033[91mNo sufficient funds available \033[0m")
     print("-" * 42)
