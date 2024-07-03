@@ -12,7 +12,6 @@ from toolkit.utilities import Utilities
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from fundpxy import calculate_decision
-from trndlnpxy import Trendlyne
 
 logging.basicConfig(level=logging.INFO)
 logging = Logger(30, os.path.join(dir_path, "main.log"))
@@ -108,10 +107,10 @@ try:
 finally:
     sys.stdout = original_stdout
 
-# Fetch holdings, positions, and orders
+# Fetch positions and orders
 try:
-    lst_dct_tlyne = Trendlyne().entry()
-    positions_symbols = [dct.get('tradingsymbol') for dct in lst_dct_tlyne]
+    lst_dct_positions = broker.kite.positions()
+    positions_symbols = [pos["tradingsymbol"] for pos in lst_dct_positions["day"] + lst_dct_positions["net"]]
 
 except Exception as e:
     print(traceback.format_exc())
@@ -119,8 +118,8 @@ except Exception as e:
     positions_symbols = []
 
 try:
-    lst_dct_orders = broker.orders
-    orders_symbols = [dct.get('tradingsymbol') for dct in lst_dct_orders]
+    lst_dct_orders = broker.orders()
+    orders_symbols = [order["tradingsymbol"] for order in lst_dct_orders]
 
 except Exception as e:
     print(traceback.format_exc())
@@ -128,8 +127,8 @@ except Exception as e:
     orders_symbols = []
 
 try:
-    lst_dct_holdings = broker.holdings
-    holdings_symbols = [dct.get('tradingsymbol') for dct in lst_dct_holdings]
+    holdings = broker.kite.holdings()
+    holdings_symbols = [holding["tradingsymbol"] for holding in holdings]
 
 except Exception as e:
     print(traceback.format_exc())
@@ -146,6 +145,7 @@ for symbol in symbols:
         smbpxy = check_ha_candles(yf_symbol)
         
         if symbol not in skip_symbols:
+            ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
             if smbpxy == 'Buy':
                 print(f"Placing order for {symbol}...")
                 place_order(symbol, broker, limit, quantity=int(10000 / ltp_nse))
@@ -160,6 +160,7 @@ for symbol in symbols:
             else:
                 logging.info(f"Skipping {symbol}: smbpxy is not 'Buy'")
         elif symbol in holdings_symbols and symbol not in positions_symbols and symbol not in orders_symbols:
+            ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
             if smbpxy == 'Buy':
                 print(f"Placing order for {symbol} from holdings...")
                 place_order(symbol, broker, limit, quantity=int(1000 / ltp_nse))
@@ -177,3 +178,4 @@ for symbol in symbols:
             logging.info(f"Skipping {symbol}: already part of positions, orders, or holdings")
     else:
         logging.info("Decision is not 'YES', skipping order placement.")
+
