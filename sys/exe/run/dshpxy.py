@@ -62,7 +62,7 @@ def get_holdingsinfo(combined_df):
 
         if not nfo_df.empty:
             extras = nfo_df.loc[nfo_df['qty'] == 0, 'unrealised'].sum()
-            total_cnc_m2m = nfo_df['m2m'].sum() - nfo_df[nfo_df['qty'] == 0]['m2m'].sum()
+            total_cnc_m2m = nfo_df['m2m'].sum()
         else:
             extras = 0  # or any default value you prefer when there are no rows matching the condition
             total_cnc_m2m = 0
@@ -75,4 +75,4 @@ def get_holdingsinfo(combined_df):
 # Call the function with the combined_df
 # get_holdingsinfo(combined_df)
 # Call the function with the combined_df
-# get_holdingsinfo(combined_df)
+# get_holdingsinfo(combined_df))
