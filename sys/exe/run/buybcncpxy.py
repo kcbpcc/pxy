@@ -33,7 +33,7 @@ def calculate_heikin_ashi_colors(data):
 
 # Function to check Heikin-Ashi candles and decide action
 def check_ha_candles(symbol):
-    data = yf.Ticker(symbol).history(period="7d", interval="1d")
+    data = yf.Ticker(symbol).history(period="5d", interval="1d")
     current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(data)
 
     if last_closed_color == 'Bear' and last_last_closed_color == 'Bear' and current_color == 'Bull':
