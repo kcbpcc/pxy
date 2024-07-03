@@ -105,11 +105,11 @@ def compute_tgtoptsma(row):
     key = row['key']
     
     if (bsma == "up" and key.startswith("BANK") and "CE" in key) or (bsma == "down" and key.startswith("BANK") and "PE" in key):
-        return 2
+        return 4
     elif (nsma == "up" and key.startswith("NIFTY") and "CE" in key) or (nsma == "down" and key.startswith("NIFTY") and "PE" in key):
-        return 2
+        return 4
     else:
-        return 2
+        return 4
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
