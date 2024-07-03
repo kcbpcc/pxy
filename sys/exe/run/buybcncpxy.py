@@ -118,7 +118,7 @@ except Exception as e:
     positions_symbols = []
 
 try:
-    lst_dct_orders = broker.orders()
+    lst_dct_orders = broker.orders
     orders_symbols = [order["tradingsymbol"] for order in lst_dct_orders]
 
 except Exception as e:
