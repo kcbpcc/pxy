@@ -36,14 +36,13 @@ def check_ha_candles(symbol):
     data = yf.Ticker(symbol).history(period="5d", interval="1d")
     current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(data)
 
-    if current_color == 'Bear' and last_closed_color == 'Bull' and last_last_closed_color == 'Bull':
-        smbpxy = 'Sell'
-    elif current_color == 'Bull' and last_closed_color == 'Bear' and last_last_closed_color == 'Bear':
+    if last_closed_color == 'Bear' and last_last_closed_color == 'Bear' and current_color == 'Bull':
         smbpxy = 'Buy'
     else:
         smbpxy = 'Hold'
 
     return smbpxy
+
 
 # Function to send a Telegram message
 async def send_telegram_message(bot_token, user_id, message_text):
