@@ -22,7 +22,6 @@ USER_ID = '-4135910842'
 
 print("🌿🌿🌿 Lets try to buy Bank stocks  🌿🌿🌿")
 
-# Function to calculate Heikin-Ashi candles colors
 # Function to calculate Heikin-Ashi colors
 def calculate_heikin_ashi_colors(data):
     ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
@@ -33,6 +32,14 @@ def calculate_heikin_ashi_colors(data):
     last_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
     
     return current_color, last_closed_color, last_last_closed_color
+
+# Function to calculate MACD
+def calculate_macd(data):
+    short_ema = data['Close'].ewm(span=12, adjust=False).mean()  # 12-day EMA
+    long_ema = data['Close'].ewm(span=26, adjust=False).mean()   # 26-day EMA
+    macd = short_ema - long_ema
+    signal = macd.ewm(span=9, adjust=False).mean()               # 9-day EMA of MACD
+    return macd, signal
 
 # Function to check Heikin-Ashi candles and decide action
 def check_ha_candles(symbol):
@@ -48,8 +55,12 @@ def check_ha_candles(symbol):
     
     # Check if the current price is above the 50-day SMA
     above_50d_sma = current_price > sma_50
+    
+    # Calculate MACD and check if the MACD is greater than 0
+    macd, signal = calculate_macd(data)
+    macd_above_0 = macd.iloc[-1] > 0
 
-    if last_closed_color == 'Bear' and last_last_closed_color == 'Bear' and current_color == 'Bull' and above_50d_sma:
+    if last_closed_color == 'Bear' and last_last_closed_color == 'Bear' and current_color == 'Bull' and above_50d_sma and macd_above_0:
         smbpxy = 'Buy'
     else:
         smbpxy = 'Hold'
