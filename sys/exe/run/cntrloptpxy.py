@@ -93,7 +93,8 @@ finally:
 combined_df = process_data()
 exe_opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 exe_opt_df['key'] = exe_opt_df['key'].str.replace('NFO:', '') 
-exe_opt_df['PL%'] = (exe_opt_df['PnL'] / exe_opt_df['Invested']) * 100
+exe_opt_df['cPnL'] = exe_opt_df['unrealised'] - exe_opt_df['PnL'] 
+exe_opt_df['PL%'] = (exe_opt_df['cPnL'] / exe_opt_df['Invested']) * 100
 exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 
 # Define the 'strike' column
@@ -135,7 +136,7 @@ def compute_depth(row):
 
 # Applying the compute_depth function to the dataframe
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
-print(exe_opt_df[['tradingsymbol', 'm2m','PnL', 'unrealised']])
+print(exe_opt_df[['tradingsymbol', 'm2m','PnL', 'cPnL','unrealised']])
 
 #print(exe_opt_df)
 # Call exit_options with exe_opt_df and broker
