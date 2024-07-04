@@ -48,7 +48,7 @@ class Trendlyne:
                                 '6': row[5],
                                 '7': row[6],
                                 '8': row[7],
-                                '9': row[8],
+                                '9': row[8]
                             }
                             data_list_of_dicts.append(data_dict)
                         return data_list_of_dicts
