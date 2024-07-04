@@ -66,8 +66,8 @@ while True:
     subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'buyboptpxy.py'])
     subprocess.run(['python3', 'buycncpxy.py'])
-    subprocess.run(['python3', 'buycncpxy.py']) if (mktpxy == "Buy" and peak == 'NONPEAK' and nse_power < 0.25) or peak == 'PEAKEND' else None
-    subprocess.run(['python3', 'buyvolcncpxy.py']) if (mktpxy == "Buy" and peak == 'NONPEAK' and nse_power < 0.25) or peak == 'PEAKEND' else None
+    subprocess.run(['python3', 'buycncpxy.py']) #if (mktpxy == "Buy" and peak == 'NONPEAK' and nse_power < 0.25) or peak == 'PEAKEND' else None
+    subprocess.run(['python3', 'buyvolcncpxy.py']) #if (mktpxy == "Buy" and peak == 'NONPEAK' and nse_power < 0.25) or peak == 'PEAKEND' else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'cntrlcncpxy.py'])
     print("━" * 42)
