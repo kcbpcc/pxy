@@ -20,6 +20,8 @@ logging = Logger(30, os.path.join(dir_path, "main.log"))
 BOT_TOKEN = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'
 USER_ID = '-4135910842'
 
+print("Lets check if we can Bank stocks")
+
 # Function to calculate Heikin-Ashi candles colors
 def calculate_heikin_ashi_colors(data):
     ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
