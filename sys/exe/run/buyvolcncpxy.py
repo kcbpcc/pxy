@@ -95,7 +95,7 @@ if decision == "YES":
                     logging.info(f"BUY {order_id} placed for {dct['tradingsymbol']} successfully")
                     # Update remaining cash if the order is successful
                     remaining_cash -= int(float(dct['QTY'].replace(',', ''))) * ltp_nse
-                    print(f"Order placed successfully for {dct['tradingsymbol']} and cash remained {remaining_cash}")
+                    print(f"Order placed successfully for {dct['tradingsymbol']}")
                     try:
                         message_text = f"📊 Let's Buy {dct['tradingsymbol']}!\n📈 Current Price (LTP): {ltp}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={dct['tradingsymbol']}"
                         bot_token = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'  # Replace with your actual bot token
