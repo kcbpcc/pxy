@@ -135,7 +135,7 @@ def compute_depth(row):
 
 # Applying the compute_depth function to the dataframe
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
-#print(exe_opt_df[['tradingsymbol', 'm2m', 'unrealised']])
+print(exe_opt_df[['tradingsymbol', 'm2m','PnL', 'unrealised']])
 
 #print(exe_opt_df)
 # Call exit_options with exe_opt_df and broker
