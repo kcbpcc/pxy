@@ -97,7 +97,7 @@ def place_order(symbol, broker, limit, quantity):
             if order_id:
                 logging.info(f"BUY {order_id} placed for {symbol} successfully")
                 remaining_cash -= quantity * ltp_nse
-                print(f"Order placed successfully for {symbol} and cash remained {remaining_cash}")
+                print(f"Order placed successfully for {symbol}")
 
                 message_text = f"📊 Let's Buy {symbol}!\n📈 Current Price (LTP): {ltp_nse}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={symbol}"
                 
