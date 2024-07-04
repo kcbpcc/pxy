@@ -93,7 +93,7 @@ finally:
 combined_df = process_data()
 exe_opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 exe_opt_df['key'] = exe_opt_df['key'].str.replace('NFO:', '') 
-exe_opt_df['cPnL'] = exe_opt_df['unrealised'] - exe_opt_df['PnL'] 
+exe_opt_df['cPnL'] = exe_opt_df['unrealised'] - exe_opt_df['m2m'] 
 exe_opt_df['PL%'] = (exe_opt_df['cPnL'] / exe_opt_df['Invested']) * 100
 exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 
