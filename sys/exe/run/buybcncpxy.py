@@ -167,7 +167,7 @@ for symbol in symbols:
             ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
             if smbpxy == 'Buy':
                 print(f"Placing order for {symbol} from holdings...")
-                place_order(symbol, broker, limit, quantity=int(1000 / ltp_nse))
+                place_order(symbol, broker, limit, quantity=int(3000 / ltp_nse))
                 
                 response = broker.kite.margins()
                 remaining_cash = response["equity"]["available"]["live_balance"]
