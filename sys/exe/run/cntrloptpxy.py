@@ -140,7 +140,7 @@ print(exe_opt_df[['tradingsymbol', 'm2m','PnL', 'cPnL','unrealised']])
 
 #print(exe_opt_df)
 # Call exit_options with exe_opt_df and broker
-exit_options(exe_opt_df, broker) if peak != 'PEAKSTART' else None
+#exit_options(exe_opt_df, broker) if peak != 'PEAKSTART' else None
 
 #--------------------------------------------------- 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 ---------------------------------------------------
 import numpy as np
