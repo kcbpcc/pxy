@@ -23,6 +23,7 @@ USER_ID = '-4135910842'
 print("🌿🌿🌿 Lets try to buy Bank stocks  🌿🌿🌿")
 
 # Function to calculate Heikin-Ashi candles colors
+# Function to calculate Heikin-Ashi colors
 def calculate_heikin_ashi_colors(data):
     ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
     ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
@@ -35,7 +36,7 @@ def calculate_heikin_ashi_colors(data):
 
 # Function to check Heikin-Ashi candles and decide action
 def check_ha_candles(symbol):
-    data = yf.Ticker(symbol).history(period="60d", interval="1d")  # Get 60 days of data to calculate 50-day SMA
+    data = yf.Ticker(symbol).history(period="6mo", interval="1d")  # Use a valid period
     current_data = data.tail(5)  # Use the last 5 days of data for Heikin-Ashi calculations
     
     current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(current_data)
@@ -54,7 +55,6 @@ def check_ha_candles(symbol):
         smbpxy = 'Hold'
 
     return smbpxy
-
 
 # Function to send a Telegram message
 async def send_telegram_message(bot_token, user_id, message_text):
