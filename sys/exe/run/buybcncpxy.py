@@ -35,10 +35,20 @@ def calculate_heikin_ashi_colors(data):
 
 # Function to check Heikin-Ashi candles and decide action
 def check_ha_candles(symbol):
-    data = yf.Ticker(symbol).history(period="5d", interval="1d")
-    current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(data)
+    data = yf.Ticker(symbol).history(period="60d", interval="1d")  # Get 60 days of data to calculate 50-day SMA
+    current_data = data.tail(5)  # Use the last 5 days of data for Heikin-Ashi calculations
+    
+    current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(current_data)
 
-    if last_closed_color == 'Bear' and last_last_closed_color == 'Bear' and current_color == 'Bull':
+    # Calculate the 50-day SMA
+    data['50d_SMA'] = data['Close'].rolling(window=50).mean()
+    current_price = data['Close'].iloc[-1]
+    sma_50 = data['50d_SMA'].iloc[-1]
+    
+    # Check if the current price is above the 50-day SMA
+    above_50d_sma = current_price > sma_50
+
+    if last_closed_color == 'Bear' and last_last_closed_color == 'Bear' and current_color == 'Bull' and above_50d_sma:
         smbpxy = 'Buy'
     else:
         smbpxy = 'Hold'
