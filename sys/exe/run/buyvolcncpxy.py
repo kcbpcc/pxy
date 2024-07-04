@@ -14,6 +14,8 @@ decision, optdecision, available_cash , limit = calculate_decision()
 import asyncio
 import logging
 import telegram
+print("🌿🌿🌿 Lets Buy NIFTY50 & BANK Stocks 🌿🌿")
+print("🍃🍃🍃 Lets Buy NIFTY VOLUME Stocks 🍃🍃🍃")
 # Configure logging
 logging.basicConfig(level=logging.WARNING)
 logging = Logger(30, dir_path + "main.log")
