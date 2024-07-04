@@ -52,6 +52,7 @@ while True:
     bsma = check_index_status('^NSEBANK')
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'FALL' else (BRIGHT_YELLOW + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'SIDE' else ""))) + RESET)
+    subprocess.run(['python3', 'buyvolcncpxy.py']) if (mktpxy == "Buy" and peak == 'NONPEAK' and nse_power < 0.25) or peak == 'PEAKEND' else None
     subprocess.run(['python3', 'tistpxy.py'])
     print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET)
     subprocess.run(['python3', 'cndlpxy.py'])
@@ -65,9 +66,7 @@ while True:
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'buyboptpxy.py'])
-    subprocess.run(['python3', 'buycncpxy.py'])
-    subprocess.run(['python3', 'buycncpxy.py']) #if (mktpxy == "Buy" and peak == 'NONPEAK' and nse_power < 0.25) or peak == 'PEAKEND' else None
-    subprocess.run(['python3', 'buyvolcncpxy.py']) #if (mktpxy == "Buy" and peak == 'NONPEAK' and nse_power < 0.25) or peak == 'PEAKEND' else None
+    subprocess.run(['python3', 'buycncpxy.py']) if (mktpxy == "Buy" and peak == 'NONPEAK' and nse_power < 0.25) or peak == 'PEAKEND' else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'cntrlcncpxy.py'])
     print("━" * 42)
