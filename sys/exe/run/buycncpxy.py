@@ -20,7 +20,7 @@ logging = Logger(30, os.path.join(dir_path, "main.log"))
 BOT_TOKEN = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'
 USER_ID = '-4135910842'
 
-print("🌿🌿🌿 Lets buy nifty and bank stocks 🌿🌿")
+print("🌿🌿🌿 Lets buy NIFTY50 & BANK stocks 🌿🌿")
 
 # Function to calculate Heikin-Ashi colors
 def calculate_heikin_ashi_colors(data):
