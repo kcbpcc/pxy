@@ -17,7 +17,6 @@ import telegram
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logging = Logger(30, dir_path + "main.log")
-black_file = dir_path + "blacklist.txt"
 # Save the original sys.stdout
 original_stdout = sys.stdout
 
@@ -117,23 +116,18 @@ if decision == "YES":
     if any(lst_tlyne):
         new_list = []
         lst_all_orders = [d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
-        with open(black_file, 'r') as file:
-            lst_failed_symbols = [line.strip() for line in file.readlines()]
-        logging.info(f"Ignored symbols: {lst_failed_symbols}")
-        lst_orders = [d for d in lst_all_orders if d['tradingsymbol'] not in lst_failed_symbols]
         response = broker.kite.margins()
         remaining_cash = response["equity"]["available"]["live_balance"]
-        for d in lst_orders:
+        
+        for d in lst_all_orders:
             symbol, remaining_cash = transact(d, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
-            if remaining_cash < 9000 :
+            if remaining_cash < 9000:
                 break
-        if any(new_list):
-            with open(black_file, 'w') as file:
-                for symbol in new_list:
-                    file.write(symbol + '\n')
+                
         print(f"Remaining Cash💰: {int(round(remaining_cash/1000))}K")
-elif decision == "NO":
-    # Perform actions for "NO"
-    print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
-    print("-" * 42)
+    
+    elif decision == "NO":
+        # Perform actions for "NO"
+        print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
+        print("-" * 42)
