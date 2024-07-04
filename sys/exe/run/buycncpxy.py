@@ -13,14 +13,14 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from fundpxy import calculate_decision
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 logging = Logger(30, os.path.join(dir_path, "main.log"))
 
 # Constants
 BOT_TOKEN = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'
 USER_ID = '-4135910842'
 
-print("🌿🌿🌿 Lets try to buy Bank stocks  🌿🌿🌿")
+print("🌿🌿🌿 Lets buy nifty and bank stocks  🌿🌿🌿")
 
 # Function to calculate Heikin-Ashi colors
 def calculate_heikin_ashi_colors(data):
@@ -110,7 +110,7 @@ def place_order(symbol, broker, limit, quantity):
         logging.error(f"Error while placing order: {str(e)}")
 
 # Read symbols from CSV file
-symbols_df = pd.read_csv('bankspxy.csv')
+symbols_df = pd.read_csv('stocks.csv')
 symbols = symbols_df['Symbol'].tolist()
 
 # Fetch decision and other details
