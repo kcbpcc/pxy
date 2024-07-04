@@ -135,11 +135,11 @@ def compute_depth(row):
 
 # Applying the compute_depth function to the dataframe
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
-print(exe_opt_df[['tradingsymbol','PnL', 'm2m', 'unrealised']])
+#print(exe_opt_df[['tradingsymbol', 'm2m', 'unrealised']])
 
 #print(exe_opt_df)
 # Call exit_options with exe_opt_df and broker
-#exit_options(exe_opt_df, broker) if peak != 'PEAKSTART' else None
+exit_options(exe_opt_df, broker) if peak != 'PEAKSTART' else None
 
 #--------------------------------------------------- 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 ---------------------------------------------------
 import numpy as np
@@ -198,4 +198,3 @@ for group, data in grouped_df:
             print(formatted_output)
 
 print("━" * 42)
-
