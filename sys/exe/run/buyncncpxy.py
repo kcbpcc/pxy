@@ -15,7 +15,7 @@ import asyncio
 import logging
 import telegram
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 logging = Logger(30, dir_path + "main.log")
 # Save the original sys.stdout
 original_stdout = sys.stdout
