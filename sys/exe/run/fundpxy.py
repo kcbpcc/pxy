@@ -42,7 +42,7 @@ def calculate_decision():
         except Exception as e:
             print(f"An error occurred: {e}")
             available_cash = 0
-        limit = 30000 if peak == 'NONPEAK' else 6000 if peak == 'PEAKEND' else 0
+        limit = 50000 if peak == 'NONPEAK' else 6000 if peak == 'PEAKEND' else 0
         decision = "YES" if available_cash > limit else "NO"
         optdecision = "YES" if available_cash > 10000 else "NO"
         # Only return the decision, not available_cash
