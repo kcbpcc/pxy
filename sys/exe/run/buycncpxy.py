@@ -80,7 +80,7 @@ def place_order(symbol, broker, limit, quantity):
         
         ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
         
-        if ltp_nse > 0 and remaining_cash > limit:
+        if ltp_nse > 0 and ltp_nse < 15000 and remaining_cash > limit:
             quantity = max(quantity, 1)
             
             order_id = broker.order_place(
