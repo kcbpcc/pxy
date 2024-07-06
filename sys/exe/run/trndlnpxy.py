@@ -1,13 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
 import traceback
-
+from utcpxy import peak_time
+peak = peak_time()
 
 class Trendlyne:
 
     base_url = "https://trendlyne.com/"
-    entry_url = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-pxy/all/all/"
-    #https://trendlyne.com/fundamentals/stock-screener/432332/buy-plus-pxy/all/all/
+    nonpeakurl = base_url + "fundamentals/stock-screener/532067/buy-plus-nonpeak-pxy/" 
+    peakendurl = base_url + "fundamentals/stock-screener/432332/buy-plus-peakend-pxy/" 
+    entry_url = peakendurl if peak == 'peaked' else nonpeakurl
+
     
     def __init__(self):
         fake_response = requests.get(self.base_url)
