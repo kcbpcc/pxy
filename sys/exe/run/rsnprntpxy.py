@@ -1,4 +1,4 @@
-maxcount = 6
+bnkmaxcount = 6
 async def process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy):
     from ordoptpxy import place_order
     from telinoptpxy import send_telegram_message
