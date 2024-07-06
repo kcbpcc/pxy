@@ -9,7 +9,7 @@ class Trendlyne:
     base_url = "https://trendlyne.com/"
     nonpeakurl = base_url + "fundamentals/v1/stock-screener/532067/buy-plus-nonpeak-pxy/all/all/" 
     peakendurl = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-peakend-pxy/all/all/" 
-    entry_url = base_url + "fundamentals/v1/stock-screener/532067/buy-plus-nonpeak-pxy/all/all/" #peakendurl if peak == 'PEAKEND' else nonpeakurl
+    peakendurl if peak == 'PEAKEND' else nonpeakurl
 
     def __init__(self):
         fake_response = requests.get(self.base_url)
