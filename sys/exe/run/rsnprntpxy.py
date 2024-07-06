@@ -1,12 +1,13 @@
-bnkmaxcount = 6
+bnkmaxcount = 9
+nftmaxcount = 3
 async def process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy):
     from ordoptpxy import place_order
     from telinoptpxy import send_telegram_message
     if available_cash > 10000:
-        if not CE_position_exists and mktpxy == 'Buy' and count_CE < maxcount:
-            if CE_symbol.startswith('BANKNIFTY'):
+        if not CE_position_exists and mktpxy == 'Buy': 
+            if CE_symbol.startswith('BANKNIFTY') and count_CE < bnkmaxcount:
                 quantity = 15
-            elif CE_symbol.startswith('NIFTY'):
+            elif CE_symbol.startswith('NIFTY') and count_CE < nftmaxcount:
                 quantity = 50
             else:
                 quantity = 0  # Default quantity
@@ -22,10 +23,10 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 print(f"{CE_symbol}: {reason: >{39 - len(CE_symbol)}}")
                 #print("━" * 42)
 
-        if not PE_position_exists and mktpxy == 'Sell' and count_PE < maxcount:
-            if PE_symbol.startswith('BANKNIFTY'):
+        if not PE_position_exists and mktpxy == 'Sell':
+            if PE_symbol.startswith('BANKNIFTY') and count_CE < bnkmaxcount:
                 quantity = 15
-            elif PE_symbol.startswith('NIFTY'):
+            elif PE_symbol.startswith('NIFTY') and count_CE < nftmaxcount:
                 quantity = 50
             else:
                 quantity = 0  # Default quantity
