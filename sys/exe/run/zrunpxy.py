@@ -1,52 +1,110 @@
-import requests
-from bs4 import BeautifulSoup
+from selenium import webdriver
+import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+import re
 
-# URL of the target webpage
-url = "https://giftcitynifty.com/global-market/"
+message = ""
+OTP = 0
 
-# Send a GET request to the webpage
-response = requests.get(url)
-response.raise_for_status()  # Ensure the request was successful
+# URLs
+KITE_URL = "https://kite.zerodha.com/"
+HOLDINGS_URL = "https://kite.zerodha.com/holdings"
 
-# Parse the HTML content of the page
-soup = BeautifulSoup(response.content, 'html.parser')
+# Pattern for extracting OTP
+pattern_otp = "\d{6}"
 
-# Function to scrape the market data
-def scrape_market_data(soup):
-    market_data = []
-    index_to_country = {
-        'Dow 30': 'DUS',
-        'S&P 500': 'SUS',
-        'Nasdaq Composite': 'NUS',
-        'FTSE 100': 'UK',
-        'CAC 40': 'FR',
-        'DAX': 'DE',
-        'Nikkei 225': 'JP',
-        'Hang Seng': 'HK',
-        'Shanghai Composite': 'CN',
-        'STI': 'SG',
-        'Kospi': 'KR'
-    }
-    table_rows = soup.select('table tr')[1:]  # Select all table rows except the header
-    for row in table_rows:
-        columns = row.find_all('td')
-        if len(columns) > 1:
-            index_name = columns[0].text.strip()
-            country_code = index_to_country.get(index_name, 'Unknown')
-            market_data.append(country_code)
-    return market_data
+# Ask user for inputs
+WINDOWS_USER = input("Enter your Windows username: ")
+WEB_DRIVER_LOCATION = input("Enter the path to your ChromeDriver: ")
+KITE_PIN = input("Enter your Kite PIN: ")
+CDSL_PIN = input("Enter your CDSL PIN: ")
 
-# Extract the market data
-data = scrape_market_data(soup)
+option = Options()
+# Loading default Chrome Profile
+option.add_argument(fr"user-data-dir=C:\Users\{WINDOWS_USER}\AppData\Local\Google\Chrome\User Data")
+driver = webdriver.Chrome(executable_path=WEB_DRIVER_LOCATION, options=option)
+option.add_experimental_option("prefs", {"profile.default_content_setting_values.notifications": 2})
 
-# Print the scraped data with color formatting
-formatted_output = []
-for country_code in data:
-    formatted_output.append(f"\033[1;{32 if country_code == 'US' else 31}m{country_code}\033[0m")
+# Opening Messages Web app
+driver.get('https://messages.google.com/web/')
+driver.implicitly_wait(60)
+messages_window = driver.window_handles[0]
+driver.execute_script("window.open('https://kite.zerodha.com/');")
+time.sleep(2)
+driver.switch_to.window(driver.window_handles[1])
 
-print("|".join(formatted_output))
+# Clicking login button
+driver.find_element_by_class_name("button-orange").click()
+driver.implicitly_wait(60)
 
-# Reset terminal color
-print("\033[0m")
+# Entering security pin
+driver.find_element_by_id('pin').send_keys(KITE_PIN)
+driver.find_element_by_class_name("button-orange").click()
+driver.implicitly_wait(60)
+time.sleep(2)
+
+# Navigating to holding page
+driver.get(HOLDINGS_URL)
+driver.implicitly_wait(60)
+time.sleep(2)
+
+# Selecting "Authorisation" option
+driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[2]/div/div/section/div/div/div/span[2]/a[1]").click()
+time.sleep(2)
+driver.implicitly_wait(60)
+kite_window = driver.window_handles[1]
+
+# Selecting "Continue" in authorisation pop up
+try:
+    WebDriverWait(driver, 8).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div/div/div[3]/div/button[1]")))
+    driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div/div/div[3]/div/button[1]").click()
+except TimeoutException:
+    print("Page not loaded")
+time.sleep(2)
+driver.implicitly_wait(60)
+
+# Switching to CDSL page
+cdsl_window = driver.window_handles[2]
+driver.switch_to.window(cdsl_window)
+driver.implicitly_wait(120)
+time.sleep(3)
+
+try:
+    WebDriverWait(driver, 8).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/div[2]/div[2]/button")))
+    # Selecting "Continue to CDSL"
+    driver.find_element_by_xpath("/html/body/div[1]/div/div/div[2]/div[2]/button").click()
+except TimeoutException:
+    print("CDSL Page Not Loaded")
+
+time.sleep(3)
+
+# Entering TPIN
+driver.find_element_by_id("txtPIN").send_keys(CDSL_PIN)
+driver.find_element_by_id("btnCommit").click()
+driver.implicitly_wait(60)
+
+# Switching to Messages to read OTP
+driver.switch_to.window(messages_window)
+time.sleep(3)
+message = driver.find_element_by_xpath('(//span[@class="ng-star-inserted"])[1]').text
+print(message)
+OTP = re.search(pattern_otp, str(message)).group(0)
+print(OTP)
+driver.implicitly_wait(60)
+
+driver.switch_to.window(cdsl_window)
+driver.implicitly_wait(60)
+driver.find_element_by_id("OTP").send_keys(OTP)
+driver.implicitly_wait(60)
+driver.find_element_by_id("VerifyOTP").click()
+driver.implicitly_wait(60)
+time.sleep(2)
+print("Success")
+driver.quit()
+
 
 
