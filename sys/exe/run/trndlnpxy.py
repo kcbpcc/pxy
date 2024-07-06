@@ -9,7 +9,7 @@ class Trendlyne:
     base_url = "https://trendlyne.com/"
     nonpeakurl = base_url + "fundamentals/stock-screener/532067/buy-plus-nonpeak-pxy/" 
     peakendurl = base_url + "fundamentals/stock-screener/432332/buy-plus-peakend-pxy/" 
-    entry_url = peakendurl if peak == 'peaked' else nonpeakurl
+    entry_url = peakendurl if peak == 'PEAKEND' else nonpeakurl
 
     
     def __init__(self):
