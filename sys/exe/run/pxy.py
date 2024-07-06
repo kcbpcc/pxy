@@ -63,7 +63,7 @@ while True:
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'buyboptpxy.py'])
-    subprocess.run(['python3', 'buyvalvolcncpxy.py']) if (ha_nse_action == "Bullish" or nsma == "up") else None
+    subprocess.run(['python3', 'buycncpxy.py']) if (ha_nse_action == "Bullish" or nsma == "up") else None
     (lambda: print((GREEN if bsma == "up" else RED if bsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() if 'bsma' in locals() else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     subprocess.run(['python3', 'cntrlcncpxy.py'])
