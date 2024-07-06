@@ -1,4 +1,5 @@
 #print("PXY® Trying to check if anything to buy")
+print("🍃🍃🍃 Lets Buy NIFTY VOLUME Stocks 🍃🍃🍃")
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
@@ -14,7 +15,6 @@ decision, optdecision, available_cash , limit = calculate_decision()
 import asyncio
 import logging
 import telegram
-print("🍃🍃🍃 Lets Buy NIFTY VOLUME Stocks 🍃🍃🍃")
 # Configure logging
 logging.basicConfig(level=logging.WARNING)
 logging = Logger(30, dir_path + "main.log")
