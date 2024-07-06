@@ -205,7 +205,7 @@ try:
     combined_df['smb_power'] = combined_df.apply(calculate_smb_power, axis=1)
     threshold = 3
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
-    nsefactor = 5 if (ha_nse_action == "Bullish" or nsma == "up") else 0
+    nsefactor = 5 if (ha_nse_action == "Bullish") else 0
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + x) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + combined_df['fPL%']) / 2), -threshold, threshold)), 2)) * 1)
