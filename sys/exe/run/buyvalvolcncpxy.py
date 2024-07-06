@@ -10,21 +10,8 @@ import pandas as pd
 import traceback
 import sys
 import os
-try:
-    from fundpxy import calculate_decision
-    decision, optdecision, available_cash, limit = calculate_decision()
-    print(f"Decision: {decision}")
-    print(f"OptDecision: {optdecision}")
-    print(f"Available Cash: {available_cash}")
-    print(f"Limit: {limit}")
-except ImportError as e:
-    print(f"Error importing module: {e}")
-except AttributeError as e:
-    print(f"Error accessing function or variables: {e}")
-except TypeError as e:
-    print(f"Type error in function call: {e}")
-except Exception as e:
-    print(f"An unexpected error occurred: {e}")
+from fundpxy import calculate_decision
+decision, optdecision, available_cash , limit = calculate_decision()
 import asyncio
 import logging
 import telegram
