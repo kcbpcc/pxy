@@ -41,7 +41,7 @@ while true; do
     case $choice in
         rn)
             echo "        💊💊💊.Unit Test.💊💊💊"
-            pxyzrun
+            pxyztst
             ;;   
         cd)
             echo "        🔐🔐🔐.Check CDSL.🔐🔐🔐"
