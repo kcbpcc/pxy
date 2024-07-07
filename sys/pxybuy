@@ -5,3 +5,4 @@ source ~/env/bin/activate
 cd ~/pxy/sys/exe/run
 # Run the Python script
 python3 buycncpxy.py
+python3 buynftbnkpxy.py
