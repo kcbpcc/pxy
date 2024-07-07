@@ -39,7 +39,7 @@ while true; do
 
     # Perform actions based on user input
     case $choice in
-        rn)
+        ts)
             echo "        💊💊💊.Unit Test.💊💊💊"
             pxyztst
             ;;   
