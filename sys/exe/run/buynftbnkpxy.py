@@ -12,6 +12,7 @@ from toolkit.utilities import Utilities
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from fundpxy import calculate_decision
+decision, optdecision, available_cash, limit = calculate_decision()
 
 logging.basicConfig(level=logging.WARNING)
 logging = Logger(30, os.path.join(dir_path, "main.log"))
@@ -21,6 +22,7 @@ BOT_TOKEN = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'
 USER_ID = '-4135910842'
 
 print("🌿🌿🌿 Lets Buy NIFTY50 & BANK Stocks 🌿🌿")
+print(f"      Cash💲: {available_cash:07d} | {decision}🚉 to Buy")
 
 # Function to calculate Heikin-Ashi colors
 def calculate_heikin_ashi_colors(data):
@@ -114,7 +116,7 @@ symbols_df = pd.read_csv('stocks.csv')
 symbols = symbols_df['Symbol'].tolist()
 
 # Fetch decision and other details
-decision, optdecision, available_cash, limit = calculate_decision()
+
 
 try:
     original_stdout = sys.stdout
