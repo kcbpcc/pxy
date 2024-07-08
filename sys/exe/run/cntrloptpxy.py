@@ -62,20 +62,19 @@ def exit_options(exe_opt_df, broker):
             
             if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 500:
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
-                
                 message = (
                     f"🛬🛬🛬 🎯🎯🎯 EXIT order placed for option with key {row['key']} successfully.\n"
-                    f"Target PL%: {tgtoptsmadepth}%\n"
-                    f"Achieved PL%: {round(total_pl_percentage, 2)}%\n"
-                    f"Booked Profit: {row['PnL']}"
+                    f"🎯 Target PL%: {tgtoptsmadepth}%\n"
+                    f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
+                    f"📉 Sell Price: {row['ltp']}\n"
+                    f"📈 Buy Price: {row['avg']}\n"
+                    f"💰 Booked Profit: {row['PnL']}"
                 )
-
                 print(message)
                 send_telegram_message(message)
                 
     except Exception as e:
         print(f"Error placing exit order: {e}")
-
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite()
