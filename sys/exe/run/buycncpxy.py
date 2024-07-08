@@ -1,5 +1,5 @@
 #print("PXY® Trying to check if anything to buy")
-print("🍃🍃🍃 Lets Buy NIFTY VOLUME Stocks 🍃🍃🍃")
+
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
@@ -20,7 +20,8 @@ logging.basicConfig(level=logging.WARNING)
 logging = Logger(30, dir_path + "main.log")
 # Save the original sys.stdout
 original_stdout = sys.stdout
-
+print("🍃🍃🍃 Lets Buy NIFTY VOLUME Stocks 🍃🍃🍃")
+print(f"Cash: {available_cash} {decision} to Buy")
 try:
     # Redirect sys.stdout to 'output.txt'
     with open('output.txt', 'w') as file:
