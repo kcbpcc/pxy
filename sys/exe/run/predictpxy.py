@@ -7,9 +7,9 @@ def predict_market_sentiment():
     Bearish = "Bearish"
     Bullish = "Bullish"
 
-    if ha_nse_action == Bearish: and nsma == "down":
+    if ha_nse_action == Bearish and nsma == "down":
         mktpredict = "FALL"
-    elif ha_nse_action == Bullish: and nsma == "up":
+    elif ha_nse_action == Bullish and nsma == "up":
         mktpredict = "RISE"
     else:
         mktpredict = "SIDE"
