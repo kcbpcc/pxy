@@ -205,7 +205,16 @@ try:
     combined_df['smb_power'] = combined_df.apply(calculate_smb_power, axis=1)
     threshold = 3
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
-    nsefactor = 5 if (ha_nse_action == "Bullish") else 0
+    from predictpxy import predict_market_sentiment
+    mktpredict = predict_market_sentiment()
+    if mktpredict == "RISE":
+        nsefactor = 6
+    elif mktpredict == "FALL":
+        nsefactor = 0
+    elif mktpredict == "SIDE":
+        nsefactor = 3
+    else:
+        nsefactor = 3
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + x) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + combined_df['fPL%']) / 2), -threshold, threshold)), 2)) * 1)
