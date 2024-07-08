@@ -72,6 +72,5 @@ while True:
     subprocess.run(['python3', 'selfpxy.py'])
     print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'FALL' else (BRIGHT_YELLOW + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'SIDE' else ""))) + RESET)
     subprocess.run(['python3', 'gooboradpxy.py'])
-
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     progress_bar(cycle, mktpxy)
