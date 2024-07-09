@@ -172,25 +172,10 @@ for symbol in symbols:
         smbpxy = check_ha_candles(yf_symbol)
         
         if symbol not in skip_symbols:
-            ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
+            ltp_nse = broker.kite.ltp(f"NSE:{symbol}")[f"NSE:{symbol}"]['last_price']
             if smbpxy == 'Buy' and ltp_nse < 10000:
                 print(f"Placing order for {symbol}...")
                 place_order(symbol, broker, limit, quantity=int(10000 / ltp_nse))
-                
-                response = broker.kite.margins()
-                remaining_cash = response["equity"]["available"]["live_balance"]
-                print(f"Remaining Cash💰: {int(round(remaining_cash / 1000))}K")
-                
-                if remaining_cash < 6000:
-                    print(f"Cash: {remaining_cash}, stopping further orders.")
-                    break
-            else:
-                logging.info(f"Skipping {symbol}: smbpxy is not 'Buy'")
-        elif symbol in holdings_symbols and symbol not in positions_symbols and symbol not in orders_symbols:
-            ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
-            if smbpxy == 'Buy' and ltp_nse < 1000:
-                print(f"Placing order for {symbol} from holdings...")
-                place_order(symbol, broker, limit, quantity=int(1000 / ltp_nse))
                 
                 response = broker.kite.margins()
                 remaining_cash = response["equity"]["available"]["live_balance"]
@@ -205,3 +190,4 @@ for symbol in symbols:
             logging.info(f"Skipping {symbol}: already part of positions, orders, or holdings")
     else:
         logging.info("Decision is not 'YES', skipping order placement.")
+
