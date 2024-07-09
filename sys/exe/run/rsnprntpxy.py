@@ -1,5 +1,5 @@
 bnkmaxcount = 9
-nftmaxcount = 3
+nftmaxcount = 1
 
 async def process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy):
     from ordoptpxy import place_order
