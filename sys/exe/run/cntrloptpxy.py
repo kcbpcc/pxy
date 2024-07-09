@@ -20,6 +20,18 @@ from utcpxy import peak_time
 peak = peak_time()
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)
+
+import pandas as pd
+
+try:
+    # Read the file and calculate the sum of PnL
+    df = pd.read_csv("filePnL_nrml.csv", header=None, names=['key', 'PL%', 'PnL'])
+    total_pnl_sum = df['PnL'].sum()
+    print(f'Total PnL Sum: {total_pnl_sum}')
+except Exception as e:
+    print(f"Error reading from file or calculating sum: {e}")
+    total_pnl_sum = None
+
 def send_telegram_message(message):
     try:
         for username in user_usernames:
