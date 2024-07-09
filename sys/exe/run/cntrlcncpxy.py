@@ -283,6 +283,7 @@ try:
                         )
                     ):
                         try:
+                            print(row['key'])
                             is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 print(row)  # Optionally print the row after placing the order
