@@ -124,7 +124,7 @@ if decision == "YES":
         for d in lst_all_orders:
             symbol, remaining_cash = transact(d, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
-            if remaining_cash < 9000:
+            if remaining_cash < limit:
                 break
                 
         print(f"Remaining Cash💰: {int(round(remaining_cash/1000))}K")
