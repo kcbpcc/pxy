@@ -14,10 +14,16 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
             else:
                 quantity = 0  # Default quantity
 
-            buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', quantity, 'MARKET') if quantity > 0
-            if buy_order_placed_CE:
-                await send_telegram_message(f"🛫🛫🛫 🌱🌱🌱 ENTRY order placed for {CE_symbol} placed successfully.")
-                print(f"{CE_symbol} BUY order placed successfully.")
+            if quantity > 0:
+                buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', quantity, 'MARKET')
+                if buy_order_placed_CE:
+                    await send_telegram_message(f"🛫🛫🛫 🌱🌱🌱 ENTRY order placed for {CE_symbol} placed successfully.")
+                    print(f"{CE_symbol} BUY order placed successfully.")
+                else:
+                    print(f"Failed to place BUY order for {CE_symbol}")
+            else:
+                print(f"Not placing order for {CE_symbol} Maxedout.")
+
         else:
             reason = f"{'Yes' if CE_position_exists else 'No'}|HoldBuy |" if not CE_position_exists else ""
             reason += "MaxOut" if count_CE >= (bnkmaxcount if CE_symbol.startswith('BANKNIFTY') else nftmaxcount) else ""
@@ -33,10 +39,16 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
             else:
                 quantity = 0  # Default quantity
 
-            buy_order_placed_PE, buy_order_id_PE = await place_order(broker, PE_symbol, 'BUY', 'NRML', quantity, 'MARKET') if quantity > 0
-            if buy_order_placed_PE:
-                await send_telegram_message(f"🛫🛫🛫 🌱🌱🌱 ENTRY order placed for {PE_symbol} placed successfully.")
-                print(f"{PE_symbol} BUY order placed successfully.")
+            if quantity > 0:
+                buy_order_placed_PE, buy_order_id_PE = await place_order(broker, PE_symbol, 'BUY', 'NRML', quantity, 'MARKET')
+                if buy_order_placed_PE:
+                    await send_telegram_message(f"🛫🛫🛫 🌱🌱🌱 ENTRY order placed for {PE_symbol} placed successfully.")
+                    print(f"{PE_symbol} BUY order placed successfully.")
+                else:
+                    print(f"Failed to place BUY order for {PE_symbol}")
+            else:
+                print(f"Not placing order for {PE_symbol} Maxedout.")
+
         else:
             reason = f"{'Yes' if PE_position_exists else 'No'}|HoldSell|" if not PE_position_exists else ""
             reason += "MaxOut" if count_PE >= (bnkmaxcount if PE_symbol.startswith('BANKNIFTY') else nftmaxcount) else ""
@@ -45,4 +57,3 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 # print("━" * 42)
     else:
         print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
-
