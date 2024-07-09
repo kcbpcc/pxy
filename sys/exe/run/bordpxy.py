@@ -4,7 +4,8 @@ file_path = 'filePnL.csv'
 booked = sum_last_numerical_value_in_each_row(file_path)
 from goouppxy import gsheet_acvalue
 from googetpxy import get_ac_values
-
+from mktpxy import get_market_check
+onemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 def printbord(total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_opt_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
     output_lines = []
@@ -33,6 +34,8 @@ def printbord(total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, n
                         right_aligned_format.format(f"Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{str(int(ydaypnl_to_print * 100000)).zfill(6)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Real-P&L:{BRIGHT_GREEN if ((acvalue_to_print - capital)  + hide) > 0 else BRIGHT_RED}{round(((acvalue_to_print - capital)  + hide) , 2)}{RESET}") +
                         right_aligned_format.format(f"Run-P&L:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1), 2)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Flush#:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{round(green_Stocks_count)}{RESET}") +
+                        right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{green_Stocks_capital_percentage}{RESET}"))                                          
     output_lines.append(
         left_aligned_format.format(
             f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(capital, 2)).zfill(5)}"
