@@ -21,25 +21,22 @@ peak = peak_time()
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)
 
-import pandas as pd
+# Check index status
+bsma = check_index_status('^NSEBANK')
+nsma = check_index_status('^NSEI')
 
-try:
-    # Read the file and calculate the sum of PnL
-    df = pd.read_csv("filePnL_nrml.csv", header=None, names=['key', 'PL%', 'PnL'])
-    total_pnl_sum = df['PnL'].sum()
-    print(f'Total PnL Sum: {total_pnl_sum}')
-except Exception as e:
-    print(f"Error reading from file or calculating sum: {e}")
-    total_pnl_sum = None
+# Get peak time
+peak = peak_time()
+
+# Telegram bot token and user IDs
+bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
+user_usernames = ('-4136531362',)
 
 def send_telegram_message(message):
     try:
         for username in user_usernames:
             url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-            payload = {
-                'chat_id': username,
-                'text': message
-            }
+            payload = {'chat_id': username, 'text': message}
             response = requests.post(url, data=payload)
             if response.status_code != 200:
                 print(f"Failed to send Telegram message. Status code: {response.status_code}")
@@ -48,7 +45,6 @@ def send_telegram_message(message):
     except Exception as e:
         print(f"Error sending Telegram message: {e}")
 
-# Function to place an order
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker):
     try:
         order_id = broker.order_place(
@@ -65,7 +61,6 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
         print(f"Error placing order: {e}")
         return None
 
-# Function to handle exiting options
 def exit_options(exe_opt_df, broker):
     try:
         for index, row in exe_opt_df.iterrows():
@@ -74,19 +69,18 @@ def exit_options(exe_opt_df, broker):
             
             if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 500:
                 try:
-                    # Append key, PL%, and PnL to the file
                     with open("filePnL_nrml.csv", "a") as file:
                         file.write(f"{row['key']}, {row['PL%']}, {row['PnL']}\n")
                 except Exception as e:
                     print(f"Error writing to file: {e}")
-                
+
                 try:
-                    # Read the file and calculate the sum of PnL
                     df = pd.read_csv("filePnL_nrml.csv", header=None, names=['key', 'PL%', 'PnL'])
                     total_pnl_sum = df['PnL'].sum()
                 except Exception as e:
                     print(f"Error reading from file or calculating sum: {e}")
                     total_pnl_sum = None
+                
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
                     f"🛬🛬🛬 🎯🎯🎯 EXIT order placed {row['key']} successfully.\n"
@@ -99,9 +93,9 @@ def exit_options(exe_opt_df, broker):
                 )
                 print(message)
                 send_telegram_message(message)
-                
     except Exception as e:
         print(f"Error placing exit order: {e}")
+
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite()
@@ -141,31 +135,27 @@ def compute_tgtoptsma(row):
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
-from depthpxy import calculate_consecutive_candles
-
 # Calculating depths for NSEBANK and NSEI indices
 bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
 ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
 
 def compute_depth(row):
     if "CE" in row['key'] and row['key'].startswith("BANK"):
-        return max(row['tgtoptsma'], (3+bcedepth))
+        return max(row['tgtoptsma'], (3 + bcedepth))
     elif "PE" in row['key'] and row['key'].startswith("BANK"):
-        return max(row['tgtoptsma'], (3+bpedepth))
+        return max(row['tgtoptsma'], (3 + bpedepth))
     elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
-        return max(row['tgtoptsma'], (3+ncedepth))
+        return max(row['tgtoptsma'], (3 + ncedepth))
     elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
-        return max(row['tgtoptsma'], (3+npedepth))
+        return max(row['tgtoptsma'], (3 + npedepth))
     else:
         return 5
 
-# Applying the compute_depth function to the dataframe
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
-#print(exe_opt_df[['tradingsymbol', 'm2m', 'unrealised']])
 
-#print(exe_opt_df)
-# Call exit_options with exe_opt_df and broker
-exit_options(exe_opt_df, broker) if peak != 'PEAKSTART' else None
+# Call exit_options with exe_opt_df and broker if not peak time
+if peak != 'PEAKSTART':
+    exit_options(exe_opt_df, broker)
 
 #--------------------------------------------------- 🏛 🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛 ---------------------------------------------------
 import numpy as np
