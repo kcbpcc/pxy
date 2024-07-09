@@ -14,7 +14,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
             else:
                 quantity = 0  # Default quantity
 
-            buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', quantity, 'MARKET')
+            buy_order_placed_CE, buy_order_id_CE = await place_order(broker, CE_symbol, 'BUY', 'NRML', quantity, 'MARKET') if quantity > 0
             if buy_order_placed_CE:
                 await send_telegram_message(f"🛫🛫🛫 🌱🌱🌱 ENTRY order placed for {CE_symbol} placed successfully.")
                 print(f"{CE_symbol} BUY order placed successfully.")
