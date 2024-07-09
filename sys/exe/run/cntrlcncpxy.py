@@ -283,7 +283,7 @@ try:
                         )
                     ):
                         try:
-                            print(row['key'])
+                            print(f"Trying to close: {row['key']}")
                             is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 print(row)  # Optionally print the row after placing the order
@@ -292,20 +292,37 @@ try:
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
 ##############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#############################################################################################################     
                     elif (
-                        (row['qty'] > 0 and
-                         row['avg'] != 0 and
-                         row['Invested'] < 20000 and
-                         available_cash > 1000 and
-                         peak == 'PEAKEND' and
-                         row['PL%'] < -90)
+                        row['qty'] > 0 and
+                        row['avg'] != 0 and
+                        row['Invested'] < 25000 and
+                        available_cash > 1000 and
+                        row['PL%'] < -25
                     ):
-                        try:                            
-                            is_placed = stocks_avg_order_place(key, row) if get_any_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                print(row['key'])                                
+                        try:
+                            # Read the stock symbols from stocks.csv
+                            stocks_df = pd.read_csv('stocks.csv')
+                            stock_symbols = stocks_df['Symbol'].tolist()  # Assuming 'Symbol' is the column name in stocks.csv
+                    
+                            # Define a function to strip the prefix (NSE: or BSE:) from the symbol
+                            def strip_prefix(symbol):
+                                if ':' in symbol:
+                                    return symbol.split(':')[1]
+                                return symbol
+                    
+                            # Extract symbol part after ':' if any
+                            symbol_in_order = row['key'].split(":")[1]
+                    
+                            # Apply the function to strip the prefix from 'key' and check if it is in stock_symbols
+                            stripped_symbol = strip_prefix(row['key'])
+                            if stripped_symbol in stock_symbols:
+                                print(f"Trying to average: {row['key']}")
+                                is_placed = stocks_avg_order_place(key, row) if get_any_order_status(symbol_in_order) == "NO" else False
+                                if is_placed:
+                                    print(row['key'])
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
+
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")   
