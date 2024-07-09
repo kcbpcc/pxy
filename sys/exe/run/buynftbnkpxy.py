@@ -22,7 +22,7 @@ BOT_TOKEN = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'
 USER_ID = '-4135910842'
 
 print("🌿🌿🌿 Lets Buy NIFTY50 & BANK Stocks 🌿🌿")
-print(f"     Cash💰: {available_cash:.2f} | {decision}🛂 to Buy")
+print(f"     💰Cash:{available_cash:.2f} | 🛂{decision} to Buy")
 
 # Function to calculate Heikin-Ashi colors
 def calculate_heikin_ashi_colors(data):
