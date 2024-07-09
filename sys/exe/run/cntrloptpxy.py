@@ -61,6 +61,20 @@ def exit_options(exe_opt_df, broker):
             tgtoptsmadepth = row['tgtoptsmadepth']
             
             if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 500:
+                try:
+                    # Append key, PL%, and PnL to the file
+                    with open("filePnL_nrml.csv", "a") as file:
+                        file.write(f"{row['key']}, {row['PL%']}, {row['PnL']}\n")
+                except Exception as e:
+                    print(f"Error writing to file: {e}")
+                
+                try:
+                    # Read the file and calculate the sum of PnL
+                    df = pd.read_csv("filePnL_nrml.csv", header=None, names=['key', 'PL%', 'PnL'])
+                    total_pnl_sum = df['PnL'].sum()
+                except Exception as e:
+                    print(f"Error reading from file or calculating sum: {e}")
+                    total_pnl_sum = None
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
                     f"🛬🛬🛬 🎯🎯🎯 EXIT order placed for option with key {row['key']} successfully.\n"
@@ -68,7 +82,8 @@ def exit_options(exe_opt_df, broker):
                     f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
                     f"📉 Sell Price: {row['ltp']}\n"
                     f"📈 Buy Price: {row['avg']}\n"
-                    f"💰 Booked Profit: {row['PnL']}"
+                    f"💰 Booked Profit: {row['PnL']}\n"
+                    f"📣 Total Booked: {total_pnl_sum}"
                 )
                 print(message)
                 send_telegram_message(message)
