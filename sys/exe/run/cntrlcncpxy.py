@@ -296,7 +296,7 @@ try:
                         row['avg'] != 0 and
                         row['Invested'] < 25000 and
                         available_cash > 1000 and
-                        row['PL%'] < -25
+                        row['PL%'] < -1
                     ):
                         try:
                             # Read the stock symbols from stocks.csv
