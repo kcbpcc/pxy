@@ -52,7 +52,7 @@ while True:
     print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'FALL' else (BRIGHT_YELLOW + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'SIDE' else ""))) + RESET)
     subprocess.run(['python3', 'tistpxy.py'])
     (lambda: print((GREEN if nsma == "up" else RED if nsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() if 'nsma' in locals() else None
-    subprocess.run(['python3', 'buynftbnkpxy.py']) if mktpxy == 'Buy' and (mktpredict == 'RISE' or mktpredict == 'SIDE') else None
+    subprocess.run(['python3', 'buynftbnkpxy.py']) if mktpxy == 'Buy' and (mktpredict == 'FALL' or mktpredict == 'SIDE') else None
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'daypxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
