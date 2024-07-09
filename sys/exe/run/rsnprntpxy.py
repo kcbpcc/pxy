@@ -22,7 +22,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 else:
                     print(f"Failed to place BUY order for {CE_symbol}")
             else:
-                print(f"Not placing order for {CE_symbol} Maxedout.")
+                print(f"Not placing as {CE_symbol} Maxedout.")
 
         else:
             reason = f"{'Yes' if CE_position_exists else 'No'}|HoldBuy |" if not CE_position_exists else ""
@@ -47,7 +47,7 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
                 else:
                     print(f"Failed to place BUY order for {PE_symbol}")
             else:
-                print(f"Not placing order for {PE_symbol} Maxedout.")
+                print(f"Not placing as {PE_symbol} Maxedout.")
 
         else:
             reason = f"{'Yes' if PE_position_exists else 'No'}|HoldSell|" if not PE_position_exists else ""
