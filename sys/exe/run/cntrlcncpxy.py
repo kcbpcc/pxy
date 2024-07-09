@@ -296,7 +296,7 @@ try:
                         row['avg'] != 0 and
                         row['Invested'] < 25000 and
                         available_cash > 1000 and
-                        nse_power < 0.14 and
+                        nse_power < 0.9 and
                         row['PL%'] < -1
                     ):
                         try:
