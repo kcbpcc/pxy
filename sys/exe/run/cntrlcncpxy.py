@@ -279,7 +279,7 @@ try:
                         (
                             (row['PL%'] > row['tPL%'] and row['PnL'] > 200) or 
                             (row['dPL%'] < 0 and row['oPL%'] < 0 and row['source'] == 'holdings' and mktpredict == "FALL") or
-                            (row['PL%'] > 5 and row['source'] == 'holdings')
+                            (row['PL%'] > 5 and row['PnL'] > 200 and row['source'] == 'positions')
                         )
                     ):
                         try:
