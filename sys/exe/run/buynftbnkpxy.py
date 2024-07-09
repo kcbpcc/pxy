@@ -181,7 +181,7 @@ for symbol in symbols:
                 remaining_cash = response["equity"]["available"]["live_balance"]
                 print(f"Remaining Cash💰: {int(round(remaining_cash / 1000))}K")
                 
-                if remaining_cash < 6000:
+                if remaining_cash < limit:
                     print(f"Cash: {remaining_cash}, stopping further orders.")
                     break
             else:
