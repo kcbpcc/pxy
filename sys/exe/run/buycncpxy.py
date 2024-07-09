@@ -21,7 +21,7 @@ logging = Logger(30, dir_path + "main.log")
 # Save the original sys.stdout
 original_stdout = sys.stdout
 print("🍃🍃🍃 Lets Buy NIFTY VOLUME Stocks 🍃🍃🍃")
-print(f"     Cash💰: {available_cash:.2f} | {decision}🛂 to Buy")
+print(f"     💰Cash:{available_cash:.2f} | 🛂{decision} to Buy")
 try:
     # Redirect sys.stdout to 'output.txt'
     with open('output.txt', 'w') as file:
