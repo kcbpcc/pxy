@@ -77,7 +77,7 @@ def exit_options(exe_opt_df, broker):
                     total_pnl_sum = None
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
-                    f"🛬🛬🛬 🎯🎯🎯 EXIT order placed for option with key {row['key']} successfully.\n"
+                    f"🛬🛬🛬 🎯🎯🎯 EXIT order placed {row['key']} successfully.\n"
                     f"🎯 Target PL%: {tgtoptsmadepth}%\n"
                     f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
                     f"📉 Sell Price: {row['ltp']}\n"
