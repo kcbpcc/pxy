@@ -57,10 +57,7 @@ def calculate_profit(combined_df):
         print(f"Error: Missing expected column {e} in orders_df.")
     except Exception as e:
         print(f"Error: {e}")
-calculate_profit(combined_df)
-
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
-
 def get_open_order_status(symbol):
     try:
         orders = broker.kite.orders()
@@ -204,6 +201,8 @@ try:
     booked = sum_last_numerical_value_in_each_row(file_path)  
     nsma = check_index_status('^NSEI')
     peak = peak_time()
+
+    calculate_profit(combined_df)
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
     try:
         response = broker.kite.margins()
