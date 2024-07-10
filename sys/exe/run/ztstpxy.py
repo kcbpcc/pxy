@@ -13,23 +13,24 @@ if response.status_code == 200:
     # Parse the content of the page
     soup = BeautifulSoup(response.content, "html.parser")
     
-    # Use regular expressions to find the text and extract the numbers
-    text_to_search = "Net realised P&L Jul 9, 2024"
-    equity_pattern = re.compile(rf"{text_to_search} Equity:\s*([0-9,.-]+)")
-    fo_pattern = re.compile(rf"{text_to_search} F&O:\s*([0-9,.-]+)")
+    # Use regular expressions to find the specific text and extract the variables
+    pattern = re.compile(r"Net realised P&L ([\w\s]+) Equity:\s*([0-9,.-]+) F&O:\s*([0-9,.-]+)")
     
-    # Search the entire text of the soup object for the patterns
+    # Search the entire text of the soup object for the pattern
     page_text = soup.get_text()
     
-    # Extract the data using the patterns
-    equity_data = equity_pattern.search(page_text)
-    fo_data = fo_pattern.search(page_text)
+    # Extract the data using the pattern
+    match = pattern.search(page_text)
     
-    if equity_data and fo_data:
+    if match:
+        date = match.group(1)
+        equity = match.group(2)
+        fo = match.group(3)
+        
         # Print the captured data
-        print("Net realised P&L Jul 9, 2024")
-        print(f"Equity: {equity_data.group(1)}")
-        print(f"F&O: {fo_data.group(1)}")
+        print(f"Net realised P&L {date}")
+        print(f"Equity: {equity}")
+        print(f"F&O: {fo}")
     else:
         print("Failed to find the specified data on the page.")
 else:
