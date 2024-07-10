@@ -30,61 +30,40 @@ def printbord(total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, n
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
-    
-    output_lines.append(left_aligned_format.format(
-        f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}"
-    ) + right_aligned_format.format(
-        f"Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{str(int(ydaypnl_to_print * 100000)).zfill(6)}{RESET}"
-    ))
-    
-    output_lines.append(left_aligned_format.format(
-        f"Real-P&L:{BRIGHT_GREEN if ((acvalue_to_print - capital) + hide) > 0 else BRIGHT_RED}{round(((acvalue_to_print - capital) + hide), 2)}{RESET}"
-    ) + right_aligned_format.format(
-        f"Run-P&L:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks) * -1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks) * -1), 2)}{RESET}"
-    ))
-    
-    output_lines.append(left_aligned_format.format(
-        f"BIFTY:{BRIGHT_GREEN if bmktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{bmktpxy}{RESET}"
-    ) + right_aligned_format.format(
-        f"NIFTY:{BRIGHT_GREEN if mktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{mktpxy}{RESET}"
-    ))
-    
-    output_lines.append(left_aligned_format.format(
-        f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(capital, 2)).zfill(5)}"
-        f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
-        f"      {BOLD}{UNDERLINE}PXY{RESET}"
-    ) + right_aligned_format.format(
-        f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
-        f"{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(mktpxy, '')}{RESET}       "
-        f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue_to_print, 2)).zfill(5)}{RESET}"
-    ))
-    
-    output_lines.append(left_aligned_format.format(
-        f"Flush#:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_count)).zfill(4)}{RESET}(B:{BRIGHT_GREEN if bmktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{bmktpxy}{RESET})"
-    ) + right_aligned_format.format(
-        f"(N:{BRIGHT_GREEN if mktpxy == 'Bull' else BRIGHT_RED if mktpxy == 'Bear' else BRIGHT_YELLOW}{mktpxy}{RESET})Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(green_Stocks_capital_percentage).zfill(4)}{RESET}"
-    ))
-    
-    output_lines.append(left_aligned_format.format(
-        f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}"
-    ) + right_aligned_format.format(
-        f"Pp&l:{BRIGHT_GREEN if total_cnc_m2m_postions > 0 else BRIGHT_RED}{str(int(total_cnc_m2m_postions)).zfill(4)}{RESET}"
-    ))
-    
-    output_lines.append(left_aligned_format.format(
-        f"Op&l:{BRIGHT_GREEN if total_opt_m2m > 0 else BRIGHT_RED}{int(round(total_opt_m2m, 0))}{RESET}"
-    ) + right_aligned_format.format(
-        f"Hp&l:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"
-    ))
-    
-    output_lines.append(left_aligned_format.format(
-        f"CLOSED:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{str(int(extras)).zfill(5)}{RESET}"
-    ) + right_aligned_format.format(
-        f"BOOKED:{GREEN if booked > 0 else RED}{str(round(booked)).zfill(5)}{RESET}"
-    ))
-    
+    output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
+                        right_aligned_format.format(f"Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{str(int(ydaypnl_to_print * 100000)).zfill(6)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Real-P&L:{BRIGHT_GREEN if ((acvalue_to_print - capital)  + hide) > 0 else BRIGHT_RED}{round(((acvalue_to_print - capital)  + hide) , 2)}{RESET}") +
+                        right_aligned_format.format(f"Run-P&L:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks)*-1), 2)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"BIFTY:{BRIGHT_GREEN if bmktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{bmktpxy}{RESET}") +
+                        right_aligned_format.format(f"NIFTY:{BRIGHT_GREEN if mktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{mktpxy}{RESET}"))                                          
+    output_lines.append(
+        left_aligned_format.format(
+            f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(capital, 2)).zfill(5)}"
+            f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}"
+            f"      {BOLD}{UNDERLINE}PXY{RESET}"
+        ) +
+        right_aligned_format.format(
+            f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
+            f"{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(mktpxy, '')}{RESET}       "  # Insert arrow_map here
+            f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue_to_print, 2)).zfill(5)}{RESET}"
+        )
+    )
+    output_lines.append(
+        left_aligned_format.format(
+            f"Flush#:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_count)).zfill(3)}{RESET}(BIFTY:{BRIGHT_GREEN if bmktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{bmktpxy}{RESET})"
+        ) + right_aligned_format.format(
+            f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(green_Stocks_capital_percentage).zfill(4)}{RESET}(NIFTY:{BRIGHT_GREEN if mktpxy == 'Bull' else BRIGHT_RED if mktpxy == 'Bear' else BRIGHT_YELLOW}{mktpxy}{RESET})"
+        )
+    )
+
+                                     
+    output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
+                        right_aligned_format.format(f"Pp&l:{BRIGHT_GREEN if total_cnc_m2m_postions > 0 else BRIGHT_RED}{str(int(total_cnc_m2m_postions))}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"Op&l:{BRIGHT_GREEN if total_opt_m2m > 0 else BRIGHT_RED}{int(round(total_opt_m2m, 0))}{RESET}") +
+                        right_aligned_format.format(f"Hp&l:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"CLOSED:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{str(int(extras)).zfill(5)}{RESET}") +
+                        right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else RED}{str(round(booked)).zfill(5)}{RESET}"))
     full_output = '\n'.join(output_lines)
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
     print(full_output)
-
