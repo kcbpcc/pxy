@@ -186,6 +186,7 @@ print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('N
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP', 'group','tgtoptsmadepth']]
+print(print_df)
 
 # Summary calculations
 summary_statement = ""
