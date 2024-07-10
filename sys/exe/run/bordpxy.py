@@ -50,9 +50,9 @@ def printbord(total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, n
     )
     output_lines.append(
         left_aligned_format.format(
-            f"Flush#:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_count)).zfill(4)}{RESET}(BIFTY:{BRIGHT_GREEN if bmktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{bmktpxy}{RESET})"
+            f"Flush#:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_count)).zfill(4)}{RESET}(B:{BRIGHT_GREEN if bmktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{bmktpxy}{RESET})"
         ) + right_aligned_format.format(
-            f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(green_Stocks_capital_percentage).zfill(4)}{RESET}(NIFTY:{BRIGHT_GREEN if mktpxy == 'Bull' else BRIGHT_RED if mktpxy == 'Bear' else BRIGHT_YELLOW}{mktpxy}{RESET})"
+            f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(green_Stocks_capital_percentage).zfill(4)}{RESET}(N:{BRIGHT_GREEN if mktpxy == 'Bull' else BRIGHT_RED if mktpxy == 'Bear' else BRIGHT_YELLOW}{mktpxy}{RESET})"
         )
     )
 
