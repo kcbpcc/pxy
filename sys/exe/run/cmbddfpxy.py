@@ -110,3 +110,40 @@ def process_data():
         traceback.print_exc()
         return None
 
+def get_ordersinfo(broker):
+    try:
+        orders_response = broker.kite.orders()
+        orders_df = pd.DataFrame(orders_response)
+        orders_df['key'] = orders_df['exchange'] + ":" + orders_df['tradingsymbol'] if not orders_df.empty else None
+        return orders_df
+    except Exception as e:
+        print(f"An error occurred in fetching orders: {e}")
+        return pd.DataFrame()
+
+def extend_combined_with_orders(combined_df, broker):
+    try:
+        orders_df = get_ordersinfo(broker)
+        
+        # Merge orders_df with combined_df based on 'key'
+        if not orders_df.empty:
+            combined_df = pd.concat([combined_df, orders_df], ignore_index=True)
+            combined_df['key'] = combined_df['exchange'] + ":" + combined_df['tradingsymbol'] if not combined_df.empty else None
+        
+        # Return combined_df as ordcombined_df
+        ordcombined_df = combined_df.copy()  # Create a copy with the new name
+        return ordcombined_df
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return combined_df  # Return original combined_df if an error occurs
+    # Process data and extend combined_df with orders
+combined_df = process_data()
+ordcombined_df = extend_combined_with_orders(combined_df, broker)
+    
+    # Print ordcombined_df
+if ordcombined_df is not None:
+    print(ordcombined_df)
+else:
+    print("Error occurred during data processing.")
+
+
