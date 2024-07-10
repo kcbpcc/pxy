@@ -138,7 +138,7 @@ def stocks_avg_order_place(index, row):
                     asyncio.run(send_telegram_message(message_text))
                 except Exception as e:
                     print(f"Error sending message to Telegram: {e}")
-                return exchsym[1], remaining_cash  # Define remaining_cash appropriately
+                return exchsym[1]
             return True
         else:
             logging.error("Order placement failed")
