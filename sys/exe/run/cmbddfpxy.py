@@ -142,7 +142,8 @@ ordcombined_df = extend_combined_with_orders(combined_df, broker)
     
     # Print ordcombined_df
 if ordcombined_df is not None:
-    print(ordcombined_df)
+    filtered_df = ordcombined_df[ordcombined_df['qty'] == 0]
+    print(filtered_df)
 else:
     print("Error occurred during data processing.")
 
