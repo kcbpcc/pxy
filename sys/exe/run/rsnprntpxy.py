@@ -22,7 +22,7 @@ async def handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktp
         else:
             print(f"Not placing as {CE_symbol} Maxed")
     else:
-        print_order_reason(CE_symbol, CE_position_exists, count_CE, 'HoldOn')
+        print_order_reason(CE_symbol, CE_position_exists, count_CE, 'Hold')
 
 async def handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktpxy, place_order, send_telegram_message):
     if not PE_position_exists and mktpxy == 'Sell':
@@ -32,7 +32,7 @@ async def handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktp
         else:
             print(f"Not placing as {PE_symbol} Maxed")
     else:
-        print_order_reason(PE_symbol, PE_position_exists, count_PE, 'HoldOn')
+        print_order_reason(PE_symbol, PE_position_exists, count_PE, 'Hold')
 
 def determine_quantity(symbol, count, banknifty_prefix, nifty_prefix):
     if symbol.startswith(banknifty_prefix) and count < bnkmaxcount:
