@@ -49,15 +49,24 @@ def calculate_profit(combined_df):
         orders_df = pd.DataFrame(orders_list)
         orders_df.columns = ['o_' + col if col != 'tradingsymbol' else col for col in orders_df.columns]
         ordcombid_df = pd.merge(combined_df, orders_df, on='tradingsymbol', how='left')
-        ordcombid_df_filtered = ordcombid_df[ordcombid_df['o_product'] == 'CNC']
-        ordcombid_df_filtered['profit'] = (ordcombid_df_filtered['qty'] * ordcombid_df_filtered['o_average_price'] 
-                                           - ordcombid_df_filtered['qty'] * ordcombid_df_filtered['average_price'])
+        
+        # Filter rows where qty is negative
+        ordcombid_df_filtered = ordcombid_df[(ordcombid_df['o_product'] == 'CNC') & (ordcombid_df['qty'] < 0)]
+        
+        # Calculate profit
+        ordcombid_df_filtered['profit'] = (ordcombid_df_filtered['qty'] *(-1)* ordcombid_df_filtered['o_average_price'] 
+                                           - ordcombid_df_filtered['qty'] *(-1)* ordcombid_df_filtered['average_price'])
+        
+        # Select relevant columns for output
         ordcombid_df_filtered = ordcombid_df_filtered[['tradingsymbol', 'qty', 'o_average_price', 'average_price', 'profit']]
+        
         print(ordcombid_df_filtered)
+    
     except KeyError as e:
         print(f"Error: Missing expected column {e} in orders_df.")
     except Exception as e:
         print(f"Error: {e}")
+
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
 def get_open_order_status(symbol):
     try:
