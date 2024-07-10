@@ -114,14 +114,18 @@ def get_ordersinfo(broker):
     try:
         orders_response = broker.kite.orders()
         orders_df = pd.DataFrame(orders_response)
-        orders_df['key'] = orders_df['exchange'] + ":" + orders_df['tradingsymbol'] if not orders_df.empty else None
-        orders_df.columns = 'O_' + orders_df.columns
+        
+        if not orders_df.empty:
+            orders_df['key'] = orders_df['exchange'] + ":" + orders_df['tradingsymbol']
+            orders_df.columns = 'O_' + orders_df.columns
+        
+        print(orders_df)  # This will print the DataFrame only if it's not empty
+        
         return orders_df
-        print(orders_df)
+    
     except Exception as e:
         print(f"An error occurred in fetching orders: {e}")
         return pd.DataFrame()
-
 def extend_combined_with_orders(combined_df, broker):
     try:
         orders_df = get_ordersinfo(broker)
