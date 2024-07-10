@@ -255,7 +255,7 @@ try:
     csv_file_path = "filePnL.csv"
     total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks)*100000)
     selected_rows = []
-    if mktpxy == "Sell" or mktpxy == "Bear":
+    if True:
         try:
             for index, row in EXE_df.iterrows():
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
@@ -270,12 +270,13 @@ try:
                     nse_power != 0.50 and
                     row['ltp'] != 0 
                 ):                            
-############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
+    ############################################################################################
                     if (
-                        (row['qty'] > 0 and
-                         row['avg'] != 0 and
-                         row['product'] == 'CNC' and
-                         row['PL%'] > 1.4) and
+                        row['qty'] > 0 and
+                        row['avg'] != 0 and
+                        row['product'] == 'CNC' and
+                        row['PL%'] > 1.4 and 
+                        (mktpxy == "Sell" or mktpxy == "Bear") and
                         (
                             (row['PL%'] > row['tPL%'] and row['PnL'] > 200) or 
                             (row['dPL%'] < 0 and row['oPL%'] < 0 and row['source'] == 'holdings' and mktpredict == "FALL") or
@@ -290,14 +291,15 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-##############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#############################################################################################################     
+    ############################################################################################    
                     elif (
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['Invested'] < 25000 and
                         available_cash > 1000 and
+                        mktpxy == "Buy" and
                         nse_power < 0.15 and
-                        row['PL%'] < -5
+                        row['PL%'] < -0.5
                     ):
                         try:
                             # Read the stock symbols from stocks.csv
@@ -323,10 +325,11 @@ try:
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-
+    
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
-            print(f"An unexpected error occurred: {e}")   
+            print(f"An unexpected error occurred: {e}")
+
 ###########################################################################################################################################################################################################  
     if not stocks_filtered_df.empty:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))    
