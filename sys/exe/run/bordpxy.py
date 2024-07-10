@@ -48,13 +48,8 @@ def printbord(total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, n
             f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue_to_print, 2)).zfill(5)}{RESET}"
         )
     )
-    output_lines.append(
-        left_aligned_format.format(
-            f"Flush#:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_count)).zfill(3)}{RESET}"
-        ) + right_aligned_format.format(
-            f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(green_Stocks_capital_percentage).zfill(4)}{RESET}"
-        )
-    )
+    output_lines.append(left_aligned_format.format(f"Flush#:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{round(green_Stocks_count)}{RESET}") +
+                        right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{green_Stocks_capital_percentage}{RESET}"))                                          
     output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{round(green_Stocks_profit_loss)}{RESET}") +
                         right_aligned_format.format(f"Pp&l:{BRIGHT_GREEN if total_cnc_m2m_postions > 0 else BRIGHT_RED}{str(int(total_cnc_m2m_postions))}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Op&l:{BRIGHT_GREEN if total_opt_m2m > 0 else BRIGHT_RED}{int(round(total_opt_m2m, 0))}{RESET}") +
