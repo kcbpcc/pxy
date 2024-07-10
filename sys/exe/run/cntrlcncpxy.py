@@ -45,7 +45,8 @@ def get_any_order_status(symbol):
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
 def calculate_profit(combined_df):
     try:
-        orders_df = broker.kite.orders()
+        orders_list = broker.kite.orders()
+        orders_df = pd.DataFrame(orders_list)
         orders_df.columns = ['o_' + col if col != 'tradingsymbol' else col for col in orders_df.columns]
         ordcombid_df = pd.merge(combined_df, orders_df, on='tradingsymbol', how='left')
         ordcombid_df_filtered = ordcombid_df[ordcombid_df['o_product'] == 'CNC']
