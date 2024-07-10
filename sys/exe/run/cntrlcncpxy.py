@@ -50,9 +50,9 @@ def calculate_profit(combined_df):
         orders_df.columns = ['o_' + col if col != 'tradingsymbol' else col for col in orders_df.columns]
         ordcombid_df = pd.merge(combined_df, orders_df, on='tradingsymbol', how='left')
         ordcombid_df_filtered = ordcombid_df[ordcombid_df['o_product'] == 'CNC']
-        ordcombid_df_filtered['profit'] = (ordcombid_df_filtered['o_filled_quantity'] * ordcombid_df_filtered['o_average_price'] 
-                                           - ordcombid_df_filtered['o_filled_quantity'] * ordcombid_df_filtered['average_price'])
-        ordcombid_df_filtered = ordcombid_df_filtered[['tradingsymbol', 'o_filled_quantity', 'o_average_price', 'average_price', 'profit']]
+        ordcombid_df_filtered['profit'] = (ordcombid_df_filtered['qty'] * ordcombid_df_filtered['o_average_price'] 
+                                           - ordcombid_df_filtered['qty'] * ordcombid_df_filtered['average_price'])
+        ordcombid_df_filtered = ordcombid_df_filtered[['tradingsymbol', 'qty', 'o_average_price', 'average_price', 'profit']]
         print(ordcombid_df_filtered)
     except KeyError as e:
         print(f"Error: Missing expected column {e} in orders_df.")
