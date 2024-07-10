@@ -115,6 +115,7 @@ def get_ordersinfo(broker):
         orders_response = broker.kite.orders()
         orders_df = pd.DataFrame(orders_response)
         orders_df['key'] = orders_df['exchange'] + ":" + orders_df['tradingsymbol'] if not orders_df.empty else None
+        orders_df.columns = 'O_' + orders_df.columns
         return orders_df
     except Exception as e:
         print(f"An error occurred in fetching orders: {e}")
