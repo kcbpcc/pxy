@@ -1,12 +1,19 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 import re
 
 # Path to the ChromeDriver executable
-chromedriver_path = '/path/to/chromedriver'
+chromedriver_path = '/usr/local/bin/chromedriver'
+
+# Set up Chrome options
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')  # Run in headless mode (optional)
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 
 # Initialize the WebDriver
-driver = webdriver.Chrome(executable_path=chromedriver_path)
+driver = webdriver.Chrome(service=Service(executable_path=chromedriver_path), options=options)
 
 # URL of the web page
 url = "https://console.zerodha.com/verified/783d6dad"
