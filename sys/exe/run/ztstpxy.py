@@ -1,113 +1,27 @@
-from selenium import webdriver
-import time
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-import re
+import requests
+from bs4 import BeautifulSoup
 
-message = ""
-OTP = 0
+# URL of the web page
+url = "https://console.zerodha.com/verified/783d6dad"
 
-# URLs
-KITE_URL = "https://kite.zerodha.com/"
-HOLDINGS_URL = "https://kite.zerodha.com/holdings"
+# Send a GET request to the web page
+response = requests.get(url)
 
-# Pattern for extracting OTP
-pattern_otp = "\d{6}"
-
-# Ask user for inputs
-WINDOWS_USER = input("Enter your Linux username: ")
-WEB_DRIVER_LOCATION = input("Enter the path to your ChromeDriver: ")
-KITE_PIN = input("Enter your Kite PIN: ")
-CDSL_PIN = input("Enter your CDSL PIN: ")
-CHROME_PATH = input("Enter the path to your Chrome binary (if not in PATH): ")
-
-option = Options()
-# Loading default Chrome Profile
-option.add_argument(fr"user-data-dir=/home/{WINDOWS_USER}/.config/google-chrome")
-option.binary_location = CHROME_PATH if CHROME_PATH else '/usr/bin/google-chrome'
-option.add_experimental_option("prefs", {"profile.default_content_setting_values.notifications": 2})
-
-driver = webdriver.Chrome(executable_path=WEB_DRIVER_LOCATION, options=option)
-
-# Opening Messages Web app
-driver.get('https://messages.google.com/web/')
-driver.implicitly_wait(60)
-messages_window = driver.window_handles[0]
-driver.execute_script("window.open('https://kite.zerodha.com/');")
-time.sleep(2)
-driver.switch_to.window(driver.window_handles[1])
-
-# Clicking login button
-driver.find_element(By.CLASS_NAME, "button-orange").click()
-driver.implicitly_wait(60)
-
-# Entering security pin
-driver.find_element(By.ID, 'pin').send_keys(KITE_PIN)
-driver.find_element(By.CLASS_NAME, "button-orange").click()
-driver.implicitly_wait(60)
-time.sleep(2)
-
-# Navigating to holding page
-driver.get(HOLDINGS_URL)
-driver.implicitly_wait(60)
-time.sleep(2)
-
-# Selecting "Authorisation" option
-driver.find_element(By.XPATH, "/html/body/div[1]/div[2]/div[2]/div/div/section/div/div/div/span[2]/a[1]").click()
-time.sleep(2)
-driver.implicitly_wait(60)
-kite_window = driver.window_handles[1]
-
-# Selecting "Continue" in authorisation pop up
-try:
-    WebDriverWait(driver, 8).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div/div/div[3]/div/button[1]")))
-    driver.find_element(By.XPATH, "/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div/div/div[3]/div/button[1]").click()
-except TimeoutException:
-    print("Page not loaded")
-time.sleep(2)
-driver.implicitly_wait(60)
-
-# Switching to CDSL page
-cdsl_window = driver.window_handles[2]
-driver.switch_to.window(cdsl_window)
-driver.implicitly_wait(120)
-time.sleep(3)
-
-try:
-    WebDriverWait(driver, 8).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/div[2]/div[2]/button")))
-    # Selecting "Continue to CDSL"
-    driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div[2]/div[2]/button").click()
-except TimeoutException:
-    print("CDSL Page Not Loaded")
-
-time.sleep(3)
-
-# Entering TPIN
-driver.find_element(By.ID, "txtPIN").send_keys(CDSL_PIN)
-driver.find_element(By.ID, "btnCommit").click()
-driver.implicitly_wait(60)
-
-# Switching to Messages to read OTP
-driver.switch_to.window(messages_window)
-time.sleep(3)
-message = driver.find_element(By.XPATH, '(//span[@class="ng-star-inserted"])[1]').text
-print(message)
-OTP = re.search(pattern_otp, str(message)).group(0)
-print(OTP)
-driver.implicitly_wait(60)
-
-driver.switch_to.window(cdsl_window)
-driver.implicitly_wait(60)
-driver.find_element(By.ID, "OTP").send_keys(OTP)
-driver.implicitly_wait(60)
-driver.find_element(By.ID, "VerifyOTP").click()
-driver.implicitly_wait(60)
-time.sleep(2)
-print("Success")
-driver.quit()
+# Check if the request was successful
+if response.status_code == 200:
+    # Parse the content of the page
+    soup = BeautifulSoup(response.content, "html.parser")
+    
+    # Find the elements containing the desired data
+    equity_data = soup.find(text="Net realised P&L Jul 9, 2024 Equity:").find_next().text
+    fo_data = soup.find(text="Net realised P&L Jul 9, 2024 F&O:").find_next().text
+    
+    # Print the captured data
+    print("Net realised P&L Jul 9, 2024")
+    print(f"Equity: {equity_data}")
+    print(f"F&O: {fo_data}")
+else:
+    print(f"Failed to retrieve the web page. Status code: {response.status_code}")
 
 
 
