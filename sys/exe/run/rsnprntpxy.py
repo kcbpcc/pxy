@@ -20,7 +20,7 @@ async def handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktp
         if quantity > 0:
             await execute_order(broker, CE_symbol, quantity, place_order, send_telegram_message)
         else:
-            print(f"Not placing as {CE_symbol} Maxed out.")
+            print(f"Not placing as {CE_symbol} Maxed")
     else:
         print_order_reason(CE_symbol, CE_position_exists, count_CE, 'HoldBuy')
 
@@ -30,7 +30,7 @@ async def handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktp
         if quantity > 0:
             await execute_order(broker, PE_symbol, quantity, place_order, send_telegram_message)
         else:
-            print(f"Not placing as {PE_symbol} Maxed out.")
+            print(f"Not placing as {PE_symbol} Maxed")
     else:
         print_order_reason(PE_symbol, PE_position_exists, count_PE, 'HoldSell')
 
