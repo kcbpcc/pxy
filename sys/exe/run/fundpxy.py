@@ -31,15 +31,10 @@ def calculate_decision():
     try:
         # Assuming broker.kite is defined somewhere in the get_kite function
         try:
-            response = broker.kite.margins()
-            #total_cash_with_margin = response["equity"]["available"]["live_balance"]
-            #used_margin = response["equity"]["utilised"]["debits"]
-            #available_cash = total_cash_with_margin - used_margin
-
+            response = broker.kite.margins(segment="equity")
             total_balance = response["available"]["live_balance"]
             used_margin = response["utilised"]["debits"]
             available_cash = total_balance - used_margin
-
 
 
         
