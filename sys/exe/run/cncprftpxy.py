@@ -26,7 +26,7 @@ def get_positions_info(resp_list, broker):
         logging.error(f"Error occurred in get_positions_info: {e}")
         return None
 
-def process_data():
+def process_data_total_profit():
     # Redirect stdout to output.txt
     sys.stdout = open('output.txt', 'w')
 
