@@ -17,6 +17,8 @@ from bukdpxy import sum_last_numerical_value_in_each_row
 from cmbddfpxy import process_data
 combined_df = process_data()
 file_path = 'filePnL.csv'
+from cncprftpxy import process_data_total_profit
+booked = process_data_total_profit()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
@@ -29,9 +31,6 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
-###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
-from cncprftpxy import process_data_total_profit
-booked = process_data_total_profit()
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
 def get_any_order_status(symbol):
     try:
