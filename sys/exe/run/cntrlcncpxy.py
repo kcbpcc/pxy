@@ -30,8 +30,8 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
- from cncprftpxy import process_data_total_profit
- booked = process_data_total_profit()
+from cncprftpxy import process_data_total_profit
+booked = process_data_total_profit()
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
 def get_any_order_status(symbol):
     try:
