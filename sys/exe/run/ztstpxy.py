@@ -76,7 +76,7 @@ def process_data():
         # Set column widths for printing
         col_widths = [15, 8, 8, 8]
 
-        # Convert DataFrame to formatted string
+        # Convert DataFrame to formatted string with left-aligned headers and values
         formatted_str = merged_df_filtered.to_string(index=False, col_space=col_widths, justify='left')
 
         # Print formatted string
