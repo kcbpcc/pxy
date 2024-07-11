@@ -218,8 +218,6 @@ try:
     booked = sum_last_numerical_value_in_each_row(file_path)  
     nsma = check_index_status('^NSEI')
     peak = peak_time()
-
-    calculate_profit(combined_df)
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
     try:
         response = broker.kite.margins()
