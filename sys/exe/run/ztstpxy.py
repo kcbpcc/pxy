@@ -1,7 +1,6 @@
 import sys
 import traceback
 import pandas as pd
-from tabulate import tabulate
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from toolkit.logger import Logger
@@ -94,12 +93,8 @@ def main():
         result_df = process_data()
         
         if result_df is not None:
-            # Convert dataframe to list of lists for tabulate
-            data = result_df.values.tolist()
-            headers = ["Stock", "Qty", "Buy", "Sell", "Profit"]
-
-            # Print the result as a formatted table with integers only
-            print(tabulate(data, headers=headers, tablefmt="fancy_grid", numalign="right"))
+            # Print the dataframe directly without using tabulate
+            print(result_df)
 
             # Save the result to a CSV file
             save_to_csv(result_df, 'output.csv')
@@ -110,3 +105,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
