@@ -185,7 +185,6 @@ try:
     random_message = get_random_spiritual_message()
     switch = analyze_stock()
     file_path = 'filePnL.csv'
-    booked = sum_last_numerical_value_in_each_row(file_path)  
     nsma = check_index_status('^NSEI')
     peak = peak_time()
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
