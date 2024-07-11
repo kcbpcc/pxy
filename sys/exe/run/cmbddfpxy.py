@@ -80,7 +80,8 @@ def process_data():
         combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
 
         if not orders_df.empty:
-            orders_df.columns = ['o_' + col if col != 'tradingsymbol' else col for col in orders_df.columns]  # Prefix columns with 'o_'
+            # Rename columns from orders_df to prefix with 'o_'
+            orders_df = orders_df.rename(columns=lambda x: 'o_' + x if x != 'tradingsymbol' else x)
             combined_df = pd.merge(combined_df, orders_df, on='tradingsymbol', how='left')
 
         lst = combined_df['key'].tolist()
