@@ -64,20 +64,21 @@ def process_data():
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)].copy()
 
         # Calculate PL% and PnL
+        merged_df_filtered['SN'] = range(1, len(merged_df_filtered) + 1)  # Serial number starting from 1
         merged_df_filtered['STOCK'] = merged_df_filtered['tradingsymbol']
         merged_df_filtered['QTY'] = merged_df_filtered['used_quantity'].astype(int)
         merged_df_filtered['PL%'] = ((merged_df_filtered['average_price_y'] - merged_df_filtered['average_price_x']) / merged_df_filtered['average_price_y']) * 100
         merged_df_filtered['PL%'] = merged_df_filtered['PL%'].round(2)
         merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
         
-        # Select specific columns from filtered merged_df
-        merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
+        # Select specific columns from filtered merged_df and reorder
+        merged_df_filtered = merged_df_filtered[['SN', 'STOCK', 'QTY', 'PL%', 'PnL']]
 
         # Set column widths for printing
-        col_widths = [15, 8, 8, 8]
+        col_widths = [2, 15, 8, 8, 8]
 
-        # Convert DataFrame to formatted string with left-aligned headers and values
-        formatted_str = merged_df_filtered.to_string(index=False, col_space=col_widths, justify='left')
+        # Convert DataFrame to formatted string with aligned headers and values
+        formatted_str = merged_df_filtered.to_string(index=False, col_space=col_widths)
 
         # Print formatted string
         print(formatted_str)
