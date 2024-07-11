@@ -46,7 +46,7 @@ def calculate_decision():
         decision = "YES" if available_cash > limit else "NO"
         optdecision = "YES" if available_cash > 10000 else "NO"
         
-        return decision, optdecision, total_cash_with_margin, limit
+        return decision, optdecision, available_cash, limit
 
     except Exception as e:
         remove_token(dir_path)
