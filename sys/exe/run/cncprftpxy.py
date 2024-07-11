@@ -1,22 +1,19 @@
 import pandas as pd
 
-# Read the CSV files
+# Read the CSV file
 hp_df = pd.read_csv('fileHPdf.csv')
-ord_df = pd.read_csv('fileORDdf.csv')
 
-# Rename columns to avoid confusion
-hp_df = hp_df.add_prefix('hp_')
-ord_df = ord_df.add_prefix('ord_')
+# Separate the rows based on the 'source' column
+holdings_df = hp_df[hp_df['source'] == 'holdings']
+positions_df = hp_df[hp_df['source'] == 'positions']
 
-# Remove the prefix from the 'tradingsymbol' column to match it for merging
-hp_df = hp_df.rename(columns={'hp_tradingsymbol': 'tradingsymbol'})
-ord_df = ord_df.rename(columns={'ord_tradingsymbol': 'tradingsymbol'})
+# Find the common 'tradingsymbol' in both dataframes
+common_symbols = set(holdings_df['tradingsymbol']).intersection(set(positions_df['tradingsymbol']))
 
-# Merge the dataframes based on 'tradingsymbol'
-merged_df = pd.merge(hp_df, ord_df, on='tradingsymbol', how='left')
+# Filter the original dataframe to get the entries where 'tradingsymbol' exists in both sources
+common_entries_df = hp_df[hp_df['tradingsymbol'].isin(common_symbols)]
 
-# Dump the merged dataframe to a CSV file
-merged_df.to_csv('merged_result.csv', index=False)
+# Save the result to a new CSV file
+common_entries_df.to_csv('common_entries.csv', index=False)
 
-print("Merged dataframe has been saved to 'merged_result.csv'")
-
+print("Filtered entries have been saved to 'common_entries.csv'")
