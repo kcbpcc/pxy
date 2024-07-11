@@ -4,14 +4,28 @@ import pandas as pd
 hp_df = pd.read_csv('fileHPdf.csv')
 ord_df = pd.read_csv('fileORDdf.csv')
 
+# Display the column names to check for discrepancies
+print("Columns in fileHPdf.csv:", hp_df.columns)
+print("Columns in fileORDdf.csv:", ord_df.columns)
+
 # Filter rows where product is 'CNC' and qty is negative
 cnc_df = hp_df[(hp_df['product'] == 'CNC') & (hp_df['qty'] < 0)].copy()
 
 # Convert qty to positive
 cnc_df['qty'] = cnc_df['qty'].abs()
 
+# Verify the columns before merging
+print("Filtered CNC DataFrame:\n", cnc_df.head())
+
 # Merge with ord_df to get the average_price for the corresponding tradingsymbol
 merged_df = pd.merge(cnc_df, ord_df[['tradingsymbol', 'average_price']], on='tradingsymbol', how='left')
+
+# Verify the merged DataFrame
+print("Merged DataFrame:\n", merged_df.head())
+
+# Check if 'average_price' column exists in the merged DataFrame
+if 'average_price' not in merged_df.columns:
+    raise KeyError("The column 'average_price' does not exist in the merged DataFrame. Please check your input files.")
 
 # Calculate sold_amount and investment
 merged_df['sold_amount'] = merged_df['qty'] * merged_df['average_price']
