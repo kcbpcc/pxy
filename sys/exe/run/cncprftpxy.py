@@ -74,7 +74,7 @@ def process_data_total_profit():
         # Select specific columns from filtered merged_df and reorder
         merged_df_filtered = merged_df_filtered[['SN', 'STOCK', 'QTY', 'PL%', 'PnL']]
         
-        nfo_df = positions_df.loc[(merged_df['key'].str.contains('NFO:'))]
+        nfo_df = positions_df.loc[(positions_df['key'].str.contains('NFO:'))]
         nfo_df_filtered = nfo_df[['key', 'm2m']]
 
         # Convert DataFrame to formatted string with aligned headers and values
@@ -95,10 +95,10 @@ def process_data_total_profit():
         return total_profit
 
     except Exception as e:
-        logging.error(f"Error occurred in process_data: {e}")
+        logging.error(f"Error occurred in process_data_total_profit: {e}")
         print(f"An error occurred: {e}")
         traceback.print_exc()
-        return None
+        return 0
 
 def main():
     try:
@@ -110,4 +110,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
