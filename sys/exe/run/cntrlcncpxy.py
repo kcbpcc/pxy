@@ -43,38 +43,6 @@ def get_any_order_status(symbol):
         return "ERROR"  # Unable to fetch orders due to error
     return "NO"  # No orders found for the symbol
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
-import pandas as pd
-
-def calculate_profit_sum(combined_df):
-    try:
-        if combined_df.empty:
-            return 0
-        orders_list = broker.kite.orders()
-        if not orders_list:
-            return 0
-        orders_df = pd.DataFrame(orders_list)
-        orders_df.columns = ['o_' + col if col != 'tradingsymbol' else col for col in orders_df.columns]
-        ordcombid_df = pd.merge(combined_df, orders_df, on='tradingsymbol', how='left')
-        if ordcombid_df.empty:
-            return 0
-        ordcombid_df_filtered = ordcombid_df[(ordcombid_df['o_product'] == 'CNC') & (ordcombid_df['qty'] < 0)]
-        if ordcombid_df_filtered.empty:
-            return 0
-        ordcombid_df_filtered['profit'] = (ordcombid_df_filtered['qty'] * (-1) * ordcombid_df_filtered['o_average_price'] - ordcombid_df_filtered['qty'] * (-1) * ordcombid_df_filtered['average_price'])
-        profit_sum = ordcombid_df_filtered['profit'].sum()
-        return profit_sum
-    except KeyError as e:
-        print(f"Error: Missing expected column {e} in orders_df.")
-        return 0
-    except Exception as e:
-        print(f"Error: {e}")
-        return 0
-
-# Example usage
-combined_df = pd.DataFrame()  # replace with your actual DataFrame
-profit_sum = calculate_profit_sum(combined_df)
-print(f"Total profit: {profit_sum}")
-####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
 def get_open_order_status(symbol):
     try:
         orders = broker.kite.orders()
