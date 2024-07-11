@@ -59,38 +59,6 @@ def get_holdingsinfo(combined_df):
 
         optworth = combined_df.loc[combined_df['key'].str.contains('NFO:'), 'value'].sum()
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
-        try:
-            filtered_df = combined_df[combined_df['product'] == 'CNC'].copy()  # Filter rows where product is 'CNC' and make a copy
-            print(f"Number of rows after product filter: {len(filtered_df)}")  # Debugging: Print number of rows after filtering
-            
-            prft_df = filtered_df.loc[filtered_df['qty'] < 0].copy()  # Further filter rows where qty is less than 0 and make a copy
-            print(f"Number of rows after qty filter: {len(prft_df)}")  # Debugging: Print number of rows after qty filter
-            
-            if len(prft_df) == 0:
-                raise ValueError("No rows matching criteria found.")
-            
-            prft_df['qty_abs'] = prft_df['qty'].abs()
-            
-            def calculate_profit(row):
-                if 'o_average_price' in row and not pd.isna(row['o_average_price']):
-                    o_avg_price = row['o_average_price']
-                else:
-                    o_avg_price = 0  # Treat as 0 if o_average_price is NaN or not present
-                
-                return (row['qty_abs'] * o_avg_price) - (row['qty_abs'] * row['average_price'])
-            
-            prft_df['prft'] = prft_df.apply(calculate_profit, axis=1)
-            
-            total_prft = prft_df['prft'].sum()
-            print(f"Total profit for CNC products: {total_prft}")
-        except Exception as e:
-            print(f"An error occurred: {str(e)}")
-
-
-
-
-
-
         if not nfo_df.empty:
             extras = nfo_df.loc[nfo_df['qty'] == 0, 'unrealised'].sum()
             total_opt_m2m = nfo_df['m2m'].sum()
