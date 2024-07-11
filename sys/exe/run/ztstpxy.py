@@ -47,13 +47,13 @@ def process_data():
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)]
         
         # Select specific columns from filtered merged_df
-        merged_df_filtered = merged_df_filtered[['tradingsymbol', 'average_price_x', 'average_price_y']]
+        merged_df_filtered = merged_df_filtered[['tradingsymbol', 'used_quantity', 'average_price_x', 'average_price_y']]
         
-        # Calculate profit percentage for each row
-        merged_df_filtered['PL%'] = ((merged_df_filtered['average_price_y'] - merged_df_filtered['average_price_x']) / merged_df_filtered['average_price_x']) * 100
-        merged_df_filtered['PL%'] = merged_df_filtered['PL%'].astype(float)
-
-        print(f"Total Profit Percentage: {merged_df_filtered['PL%'].sum()}")
+        # Calculate profit for each row and sum all profits
+        merged_df_filtered['Profit'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1)
+        total_profit = merged_df_filtered['Profit'].sum()
+        
+        print(f"Total Profit: {total_profit}")
 
         return merged_df_filtered
 
@@ -69,13 +69,17 @@ def save_to_csv(df, filename):
         # Rename columns as per specified format
         df.rename(columns={
             'tradingsymbol': 'Stock',
+            'used_quantity': 'Qty',
             'average_price_x': 'Buy',
-            'average_price_y': 'PL%'
+            'average_price_y': 'Sell',
+            'Profit': 'Profit'
         }, inplace=True)
 
         # Convert numeric columns to integers
+        df['Qty'] = df['Qty'].astype(int)
         df['Buy'] = df['Buy'].astype(int)
-        df['PL%'] = df['PL%'].astype(int)
+        df['Sell'] = df['Sell'].astype(int)
+        df['Profit'] = df['Profit'].astype(int)
 
         # Remove index and save to CSV
         df.to_csv(filename, index=False)
@@ -90,15 +94,12 @@ def main():
         result_df = process_data()
         
         if result_df is not None:
-            # Adjust stock codes to max 5 characters
-            result_df['tradingsymbol'] = result_df['tradingsymbol'].apply(lambda x: x[:5])
-
             # Convert dataframe to list of lists for tabulate
             data = result_df.values.tolist()
-            headers = ["Stock", "Buy", "PL%"]
+            headers = ["Stock", "Qty", "Buy", "Sell", "Profit"]
 
-            # Print the result as a formatted table with integers only, without row lines
-            print(tabulate(data, headers=headers, tablefmt="fancy_grid", numalign="right", stralign="right", floatfmt=".0f", showindex=False))
+            # Print the result as a formatted table with integers only
+            print(tabulate(data, headers=headers, tablefmt="fancy_grid", numalign="right"))
 
             # Save the result to a CSV file
             save_to_csv(result_df, 'output.csv')
