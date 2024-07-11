@@ -64,7 +64,6 @@ def process_data_total_profit():
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)].copy()
 
         # Calculate PL% and PnL
-        merged_df_filtered['SN'] = range(1, len(merged_df_filtered) + 1)  # Serial number starting from 1
         merged_df_filtered['STOCK'] = merged_df_filtered['tradingsymbol']
         merged_df_filtered['QTY'] = merged_df_filtered['used_quantity'].astype(int)
         merged_df_filtered['PL%'] = ((merged_df_filtered['average_price_y'] - merged_df_filtered['average_price_x']) / merged_df_filtered['average_price_y']) * 100
@@ -72,7 +71,7 @@ def process_data_total_profit():
         merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
         
         # Select specific columns from filtered merged_df and reorder
-        merged_df_filtered = merged_df_filtered[['SN', 'STOCK', 'QTY', 'PL%', 'PnL']]
+        merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
 
         formatted_str = merged_df_filtered.to_string(index=False, header=False)
         
@@ -80,6 +79,11 @@ def process_data_total_profit():
         for line in formatted_str.split('\n'):
             print(f"{line:>42}")
 
+        # Print "Stocks Booked Profit" right-aligned with 42 spaces
+        total_profit = merged_df_filtered['PnL'].sum()
+        print(f"\033[92m{total_profit:>42}\033[0m")
+
+        # Processing NFO data
         mergedfo_df_filtered = merged_df[(merged_df['exchange_y'] == 'NFO') & (merged_df['quantity_y'] == 0)].copy()
         
         mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
@@ -87,10 +91,10 @@ def process_data_total_profit():
         
         for line in formatted_str_fo.split('\n'):
             print(f"{line:>42}")
-        
+            
         # Print "Stocks Booked Profit" right-aligned with 42 spaces
-        total_profit = merged_df_filtered['PnL'].sum()
-        print(f"\033[92m{total_profit:>42}\033[0m")
+        total_profit_fo = mergedfo_df_filtered['pnl_y'].sum()
+        print(f"\033[92m{total_profit_fo:>42}\033[0m")        
 
         return total_profit
 
@@ -110,3 +114,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
