@@ -138,7 +138,7 @@ def stocks_avg_order_place(index, row):
                     asyncio.run(send_telegram_message(message_text))
                 except Exception as e:
                     print(f"Error sending message to Telegram: {e}")
-                return exchsym[1], remaining_cash  # Define remaining_cash appropriately
+                return exchsym[1] # Define remaining_cash appropriately
             return True
         else:
             logging.error("Order placement failed")
@@ -187,9 +187,9 @@ try:
     nsma = check_index_status('^NSEI')
     peak = peak_time()
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
+    from fundpxy import calculate_decision
     try:
-        response = broker.kite.margins()
-        available_cash = response["equity"]["available"]["live_balance"]
+        decision, optdecision, available_cash , limit = calculate_decision()
     except Exception as e:
         print(f"An error occurred: {e}")
         available_cash = 0
