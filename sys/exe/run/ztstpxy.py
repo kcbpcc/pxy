@@ -93,7 +93,7 @@ def process_data():
 
         # Print "Stocks Booked Profit" right-aligned with 42 spaces
         total_profit = merged_df_filtered['PnL'].sum()
-        print(f"{'Stocks Booked Profit':>42} {total_profit:>42}")
+        print(f"{total_profit:>42}")
 
         return merged_df_filtered
 
