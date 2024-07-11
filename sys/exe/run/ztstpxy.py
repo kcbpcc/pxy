@@ -41,18 +41,19 @@ def process_data():
         if 'tradingsymbol' not in holdings_df.columns or 'tradingsymbol' not in positions_df.columns:
             raise KeyError("'tradingsymbol' column not found in holdings_df or positions_df")
 
-        # Filter holdings_df to include only rows where product_x == 'CNC' and used_quantity > 0
-        holdings_df_filtered = holdings_df[(holdings_df['product_x'] == 'CNC') & (holdings_df['used_quantity'] > 0)]
+        # Merge holdings_df and positions_df on 'tradingsymbol'
+        merged_df = pd.merge(holdings_df, positions_df, on='tradingsymbol', how='outer')
 
-        # Merge holdings_df_filtered and positions_df on 'tradingsymbol'
-        merged_df = pd.merge(holdings_df_filtered, positions_df, on='tradingsymbol', how='outer')
+        # Filter merged_df to include only rows where product_x == 'CNC' and used_quantity > 0
+        merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)]
 
-        return merged_df
+        return merged_df_filtered
 
     except Exception as e:
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
+
 
 
 def save_to_csv(df, filename):
