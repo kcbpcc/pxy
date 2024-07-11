@@ -46,7 +46,16 @@ def process_data():
 
         # Filter merged_df to include only rows where product_x == 'CNC' and used_quantity > 0
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)]
+        
+        # Select specific columns from filtered merged_df
         merged_df_filtered = merged_df_filtered[['tradingsymbol', 'used_quantity', 'average_price_x', 'average_price_y']]
+        
+        # Calculate profit for each row and sum all profits
+        merged_df_filtered['profit'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1)
+        total_profit = merged_df_filtered['profit'].sum()
+        
+        print(f"Total Profit: {total_profit}")
+
         return merged_df_filtered
 
     except Exception as e:
