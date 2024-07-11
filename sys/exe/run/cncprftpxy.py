@@ -82,7 +82,7 @@ def process_data_total_profit():
 
         # Print "Stocks Booked Profit" right-aligned with 42 spaces
         total_profit = merged_df_filtered['PnL'].sum()
-        print(f"\033[92m{f'F&O Closed :: {total_profit}':>42}\033[0m")   
+        print(f"\033[92m{'F&O Closed :: ' + str(total_profit):>42}\033[0m")   
 
         # Processing NFO data
         mergedfo_df_filtered = merged_df[(merged_df['exchange_y'] == 'NFO') & (merged_df['quantity_y'] == 0)].copy()
@@ -93,11 +93,9 @@ def process_data_total_profit():
         for line in formatted_str_fo.split('\n'):
             print(f"{line:>42}")
             
-        # Print "Stocks Booked Profit" right-aligned with 42 spaces
+        # Print "F&O Closed" with total profit right-aligned with 42 spaces
         total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum())
-        print(f"\033[92m{f'F&O Closed :: {total_profit_fo}':>42}\033[0m")   
-
-        current_date = datetime.now().date()
+        print(f"\033[92m{'F&O Closed :: ' + str(total_profit_fo):>42}\033[0m")   
 
         # Calculate total profit including CNC and NFO
         total_profit_combined = total_profit + total_profit_fo
@@ -105,12 +103,14 @@ def process_data_total_profit():
         # Format the entire message with right alignment and magenta color
         formatted_value = f"\033[95m{total_profit_combined:>42,}\033[0m"
         
+        # Get current date
+        current_date = datetime.now().date()
+
         # Construct the complete message
         output_message = f"As of {current_date}, total profit is {formatted_value}"
         
         # Print the formatted message
-        print(formatted_output)
-
+        print(output_message)
 
         return total_profit
 
