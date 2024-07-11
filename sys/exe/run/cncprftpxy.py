@@ -81,7 +81,7 @@ def process_data_total_profit():
 
         # Print "Stocks Booked Profit" right-aligned with 42 spaces
         total_profit = merged_df_filtered['PnL'].sum()
-        print(f"\033[92m{total_profit:>42}\033[0m")
+        print(f"\033[92mBooked CNC : {total_profit}\033[0m")  
 
         # Processing NFO data
         mergedfo_df_filtered = merged_df[(merged_df['exchange_y'] == 'NFO') & (merged_df['quantity_y'] == 0)].copy()
@@ -94,7 +94,7 @@ def process_data_total_profit():
             
         # Print "Stocks Booked Profit" right-aligned with 42 spaces
         total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum())
-        print(f"\033[92m{total_profit_fo:>42}\033[0m")        
+        print(f"\033[92mClosed F&O : {total_profit_fo}\033[0m")      
 
         return total_profit
 
