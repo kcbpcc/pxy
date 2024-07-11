@@ -1,5 +1,5 @@
 import sys
-import traceback
+import traceback  # Add this import statement
 from toolkit.logger import Logger
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
@@ -28,72 +28,25 @@ def calculate_decision():
                 logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
     
-            try:
-                response = broker.kite.margins()
-                print(response)  # Print the response to the output file
-                
-                # Calculate available and utilized margins
-                available_margin = response["equity"]["available"]["live_balance"]
-                utilized_margin = (
-                    response["equity"]["utilised"]["debits"]
-                    + response["equity"]["utilised"]["delivery"]
-                    + response["equity"]["utilised"]["option_premium"]
-                    + response["equity"]["utilised"]["payout"]
-                    + response["equity"]["utilised"]["liquid_collateral"]
-                    + response["equity"]["utilised"]["stock_collateral"]
-                    + response["equity"]["utilised"]["span"]
-                    + response["equity"]["utilised"]["exposure"]
-                    + response["equity"]["utilised"]["additional"]
-                    + response["equity"]["utilised"]["holding_sales"]
-                    + response["equity"]["utilised"]["m2m_realised"]
-                    + response["equity"]["utilised"]["m2m_unrealised"]
-                )
-                leftover_margin = available_margin - utilized_margin
-                
-                print(f"Available margin: {available_margin}")
-                print(f"Utilized margin: {utilized_margin}")
-                print(f"Leftover margin: {leftover_margin}")
-            except Exception as e:
-                print(f"An error occurred: {e}")
-                available_margin = 0
-                utilized_margin = 0
-                leftover_margin = 0
-
     finally:
         # Reset sys.stdout to its original value
         sys.stdout = original_stdout
 
     try:
-        # Print the information again to the console
-        response = broker.kite.margins()
-        available_margin = response["equity"]["available"]["live_balance"]
-        utilized_margin = (
-            response["equity"]["utilised"]["debits"]
-            + response["equity"]["utilised"]["delivery"]
-            + response["equity"]["utilised"]["option_premium"]
-            + response["equity"]["utilised"]["payout"]
-            + response["equity"]["utilised"]["liquid_collateral"]
-            + response["equity"]["utilised"]["stock_collateral"]
-            + response["equity"]["utilised"]["span"]
-            + response["equity"]["utilised"]["exposure"]
-            + response["equity"]["utilised"]["additional"]
-            + response["equity"]["utilised"]["holding_sales"]
-            + response["equity"]["utilised"]["m2m_realised"]
-            + response["equity"]["utilised"]["m2m_unrealised"]
-        )
-        leftover_margin = available_margin - utilized_margin
-        
-        print(f"Response: {response}")
-        print(f"Available margin: {available_margin}")
-        print(f"Utilized margin: {utilized_margin}")
-        print(f"Leftover margin: {leftover_margin}")
-
+        # Assuming kite is defined somewhere in the get_kite function
+        # Use the 'margins' method to get margin data without specifying a segment
+        try:
+            response = broker.kite.margins()
+            available_cash = response["equity"]["available"]["live_balance"]
+            #print(f"I have 💰💰💰💰{available_cash/1000:.0f}K💰💰💰 to buy stocks")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            available_cash = 0
         limit = 50000 if peak == 'NONPEAK' else 10000 if peak == 'PEAKEND' else 0
-        decision = "YES" if leftover_margin > limit else "NO"
-        optdecision = "YES" if leftover_margin > 10000 else "NO"
-        
-        # Only return the decision, not available_margin
-        return decision, optdecision, leftover_margin, limit
+        decision = "YES" if available_cash > limit else "NO"
+        optdecision = "YES" if available_cash > 10000 else "NO"
+        # Only return the decision, not available_cash
+        return decision, optdecision, available_cash, limit
 
     except Exception as e:
         remove_token(dir_path)
