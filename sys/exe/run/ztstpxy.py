@@ -97,7 +97,7 @@ def process_data():
 
 
 
-        return merged_df_filtered
+        return total_profit
 
     except Exception as e:
         logging.error(f"Error occurred in process_data: {e}")
