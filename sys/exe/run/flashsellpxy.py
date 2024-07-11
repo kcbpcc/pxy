@@ -244,7 +244,7 @@ try:
     csv_file_path = "filePnL.csv"
     total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks)*100000)
     selected_rows = []
-    if mktpxy != "none":
+    if mktpxy == "Sell" or mktpxy == "Bear":
         try:
             for index, row in EXE_df.iterrows():
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
@@ -256,6 +256,7 @@ try:
                     row['high'] > 0 and
                     row['low'] > 0 and
                     row['close'] > 0 and
+                    nse_power != 0.50 and
                     row['ltp'] != 0 
                 ):                            
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
@@ -263,7 +264,10 @@ try:
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 0.5)
+                         row['PL%'] > 1.4) and
+                        (
+                            (((row['PL%'] > row['tPL%']) and (row['PnL'] > 200 )) or (total_dPnL < 0 and (row['oPL%'] < 0 ) and row['source'] == 'holdings'))
+                        )
                     ):
                         try:
                             is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -277,7 +281,7 @@ try:
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
                          row['Invested'] < 20000 and
-                         available_cash > 30000 and
+                         available_cash > 1000 and
                          peak == 'PEAKEND' and
                          row['PL%'] < -20)
                     ):
