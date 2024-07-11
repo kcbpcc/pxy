@@ -117,8 +117,3 @@ def process_data():
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        traceback.print_exc()
-        return None
