@@ -44,13 +44,21 @@ def process_data():
 
         # Filter merged_df to include only rows where product_x == 'CNC' and used_quantity > 0
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)]
+
+        # Calculate PL% and PnL
+        merged_df_filtered['STOCK'] = merged_df_filtered['tradingsymbol']
+        merged_df_filtered['QTY'] = merged_df_filtered['used_quantity']
+        merged_df_filtered['PL%'] = ((merged_df_filtered['average_price_y'] - merged_df_filtered['average_price_x']) / merged_df_filtered['average_price_y']) * 100
+        merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1)
         
         # Select specific columns from filtered merged_df
-        merged_df_filtered = merged_df_filtered[['tradingsymbol', 'used_quantity', 'average_price_x', 'average_price_y']]
-        
-        # Calculate profit for each row and sum all profits
-        merged_df_filtered['Profit'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1)
-        total_profit = merged_df_filtered['Profit'].sum()
+        merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
+
+        # Print filtered dataframe
+        print(merged_df_filtered)
+
+        # Calculate total profit
+        total_profit = merged_df_filtered['PnL'].sum()
         
         print(f"Total Profit: {total_profit}")
 
@@ -62,47 +70,4 @@ def process_data():
         return None
 
 
-
-def save_to_csv(df, filename):
-    try:
-        # Rename columns as per specified format
-        df.rename(columns={
-            'tradingsymbol': 'Stock',
-            'used_quantity': 'Qty',
-            'average_price_x': 'Buy',
-            'average_price_y': 'Sell',
-            'Profit': 'Profit'
-        }, inplace=True)
-
-        # Convert numeric columns to integers
-        df['Qty'] = df['Qty'].astype(int)
-        df['Buy'] = df['Buy'].astype(int)
-        df['Sell'] = df['Sell'].astype(int)
-        df['Profit'] = df['Profit'].astype(int)
-
-        # Remove index and save to CSV
-        df.to_csv(filename, index=False)
-        print(f"Dataframe saved to {filename}")
-
-    except Exception as e:
-        print(f"Error saving dataframe to CSV: {e}")
-        traceback.print_exc()
-
-def main():
-    try:
-        result_df = process_data()
-        
-        if df is not None:
-            # Print the dataframe directly without using tabulate
-            print(df)
-
-            # Save the result to a CSV file
-            save_to_csv(result_df, 'output.csv')
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        traceback.print_exc()
-
-if __name__ == "__main__":
-    main()
 
