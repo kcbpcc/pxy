@@ -270,7 +270,12 @@ try:
                     row['close'] > 0 and
                     row['ltp'] != 0 
                 ):                            
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################################################################################### 
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
+
                     if (
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
@@ -278,33 +283,26 @@ try:
                          row['PL%'] > 0.5)
                     ):
                         try:
-                            is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                print(row)  # Optionally print the row after placing the order
+                            confirm = input(f"Do you want to place a sell order for key {key}? (Y/N): ")
+                            if confirm.strip().upper() == 'Y':
+                                is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                                if is_placed:
+                                    print(row)  # Optionally print the row after placing the order
+                            else:
+                                print(f"Order for key {key} was not placed.")
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-##############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#############################################################################################################     
-                    elif (
-                        (row['qty'] > 0 and
-                         row['avg'] != 0 and
-                         row['Invested'] < 20000 and
-                         available_cash > 30000 and
-                         peak == 'PEAKEND' and
-                         row['PL%'] < -20)
-                    ):
-                        try:                            
-                            is_placed = stocks_avg_order_place(key, row) if get_any_order_status(symbol_in_order) == "NO" else False
-                            if is_placed:
-                                print(row['key'])                                
-                        except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
-                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-        except Exception as e:
-            # Handle any other exceptions that may occur during the loop
-            print(f"An unexpected error occurred: {e}")   
-###########################################################################################################################################################################################################  
-    if not stocks_filtered_df.empty:
+                    
+                    except Exception as e:
+                        # Handle any other exceptions that may occur during the loop
+                        print(f"An unexpected error occurred: {e}")
+
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################################################################################### 
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                if not stocks_filtered_df.empty:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))    
     print("━" * 42)
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
