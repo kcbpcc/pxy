@@ -101,7 +101,9 @@ def process_data():
         else:
             # Create the 'm2m' column and set all row values to 0
             combined_df['m2m'] = 0
-
+        combined_df = combined_df.merge(positions_df[['key', 'average_price']], on='key', how='left')
+        combined_df['savg'] = combined_df['average_price'].fillna(0)
+        
         return combined_df
         
 
