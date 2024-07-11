@@ -77,8 +77,9 @@ def process_data_total_profit():
         # Convert DataFrame to formatted string with aligned headers and values
         formatted_str = merged_df_filtered.to_string(index=False, header=False)
 
-        # Print the formatted string (values) without headers
-        print(formatted_str)
+        # Print each line right-aligned within 42 characters
+        for line in formatted_str.split('\n'):
+            print(f"{line:>42}")
 
         # Print "Stocks Booked Profit" right-aligned with 42 spaces
         total_profit = merged_df_filtered['PnL'].sum()
