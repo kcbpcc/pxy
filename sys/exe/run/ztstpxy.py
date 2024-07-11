@@ -27,20 +27,25 @@ def get_positions_info(resp_list, broker):
         return None
 
 def process_data():
+    # Redirect stdout to output.txt
+    sys.stdout = open('output.txt', 'w')
+
+    # Attempt to get broker instance
+    broker = None
     try:
-        # Redirect stdout to output.txt
-        sys.stdout = open('output.txt', 'w')
+        broker = get_kite()
+    except Exception as e:
+        remove_token(dir_path)
+        logging.error(f"Error in getting kite instance: {e}")
+        print(traceback.format_exc())
+        sys.exit(1)
+    finally:
+        # Ensure to close the file and restore stdout
+        if sys.stdout != sys.__stdout__:
+            sys.stdout.close()
+            sys.stdout = sys.__stdout__
 
-        # Attempt to get broker instance
-        broker = None
-        try:
-            broker = get_kite()
-        except Exception as e:
-            remove_token(dir_path)
-            logging.error(f"Error in getting kite instance: {e}")
-            print(traceback.format_exc())
-            sys.exit(1)
-
+    try:
         # If broker is obtained successfully, proceed with data processing
         holdings_response = broker.kite.holdings()
         positions_response = broker.kite.positions()['net']
@@ -82,12 +87,6 @@ def process_data():
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
-
-    finally:
-        # Ensure to close the file and restore stdout
-        if sys.stdout != sys.__stdout__:
-            sys.stdout.close()
-            sys.stdout = sys.__stdout__
 
 def main():
     try:
