@@ -318,7 +318,7 @@ try:
                             # Apply the function to strip the prefix from 'key' and check if it is in stock_symbols
                             stripped_symbol = strip_prefix(row['key'])
                             if stripped_symbol in stock_symbols:
-                                print(f"Trying to average: {row['key']}")
+                                #print(f"Trying to average: {row['key']}")
                                 is_placed = stocks_avg_order_place(key, row) if get_any_order_status(symbol_in_order) == "NO" else False
                                 if is_placed:
                                     print(row['key'])
