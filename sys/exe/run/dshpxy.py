@@ -60,61 +60,6 @@ def get_holdingsinfo(combined_df):
         optworth = combined_df.loc[combined_df['key'].str.contains('NFO:'), 'value'].sum()
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
 
-        try:
-            # Redirect sys.stdout to 'output.txt'
-            with open('output.txt', 'w') as file:
-                sys.stdout = file
-    
-                try:
-                    broker = get_kite()
-                except Exception as e:
-                    remove_token(dir_path)
-                    print(traceback.format_exc())
-                    logging.error(f"{str(e)} unable to get holdings")
-                    sys.exit(1)
-    
-        finally:
-            # Reset sys.stdout to its default value
-            sys.stdout = sys.__stdout__       
-        try:
-            # Assuming the definition of get_ordersinfo function is available
-            def get_ordersinfo(broker):
-                try:
-                    orders_response = broker.kite.orders()
-                    orders_df = pd.DataFrame(orders_response)
-                    orders_df['key'] = orders_df['exchange'] + ":" + orders_df['tradingsymbol'] if not orders_df.empty else None
-                    return orders_df
-                except Exception as e:
-                    print(f"An error occurred in fetching orders: {e}")
-                    return pd.DataFrame()
-        
-            # Fetch orders information
-            orders_df = get_ordersinfo(broker)
-            orders_df = orders_df.rename(columns=lambda x: 'o_' + x)
-            orders_df['o_key'] = orders_df['o_exchange'] + ":" + orders_df['o_tradingsymbol'] if not orders_df.empty else None
-            
-            if not orders_df.empty:
-                prft_df = pd.merge(combined_df, orders_df, left_on='key', right_on='o_key', how='left', suffixes=('', '_order'))
-            else:
-                prft_df = combined_df.copy()
-        
-            # Filter where qty < 0 and product == 'CNC'
-            mask = (prft_df['qty'] < 0) & (prft_df['product'] == 'CNC')
-            prft_df.loc[mask, 'qty'] = prft_df.loc[mask, 'qty'].abs()
-        
-            # Create 'prft' column
-            prft_df['prft'] = prft_df['qty'] * (prft_df['average_price'] - prft_df['o_price'])
-        
-            # Print sum of the 'prft' column
-            total_profit = prft_df['prft'].sum()
-            print(f"Total profit: {total_profit}")
-        
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            prft_df = combined_df  # Return original combined_df if an error occurs
-
-
-    
         if not nfo_df.empty:
             extras = nfo_df.loc[nfo_df['qty'] == 0, 'unrealised'].sum()
             total_opt_m2m = nfo_df['m2m'].sum()
