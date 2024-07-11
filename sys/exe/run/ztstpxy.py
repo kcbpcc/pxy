@@ -58,11 +58,11 @@ def process_data():
         # Filter merged_df to include only rows where product_x == 'CNC' and used_quantity > 0
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)]
 
-        # Calculate PL% and PnL
-        merged_df_filtered['STOCK'] = merged_df_filtered['tradingsymbol']
-        merged_df_filtered['QTY'] = merged_df_filtered['used_quantity']
-        merged_df_filtered['PL%'] = ((merged_df_filtered['average_price_y'] - merged_df_filtered['average_price_x']) / merged_df_filtered['average_price_y']) * 100
-        merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1)
+        # Correct assignment using .loc
+        merged_df_filtered.loc[:, 'STOCK'] = merged_df_filtered['tradingsymbol']
+        merged_df_filtered.loc[:, 'QTY'] = merged_df_filtered['used_quantity']
+        merged_df_filtered.loc[:, 'PL%'] = ((merged_df_filtered['average_price_y'] - merged_df_filtered['average_price_x']) / merged_df_filtered['average_price_y']) * 100
+        merged_df_filtered.loc[:, 'PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1)
         
         # Select specific columns from filtered merged_df
         merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
@@ -98,6 +98,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
 
