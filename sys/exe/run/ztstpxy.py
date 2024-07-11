@@ -94,6 +94,9 @@ def main():
         result_df = process_data()
         
         if result_df is not None:
+            # Adjust stock codes to max 5 characters
+            result_df['tradingsymbol'] = result_df['tradingsymbol'].apply(lambda x: x[:5])
+
             # Convert dataframe to list of lists for tabulate
             data = result_df.values.tolist()
             headers = ["Stock", "Qty", "Buy", "Sell", "Profit"]
@@ -110,5 +113,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
