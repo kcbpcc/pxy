@@ -44,15 +44,6 @@ def get_any_order_status(symbol):
         return "ERROR"  # Unable to fetch orders due to error
     return "NO"  # No orders found for the symbol
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
-file_path_ord = "fileORDdf.csv"
-try:
-    orders = broker.kite.orders()
-    orders_df = pd.DataFrame(orders)
-    orders_df.to_csv(file_path_ord, index=False)
-    print("Orders dumped to CSV successfully.")
-except Exception as e:
-    print(f"Error dumping orders to CSV: {str(e)}")
-####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
 def get_open_order_status(symbol):
     try:
         orders = broker.kite.orders()
