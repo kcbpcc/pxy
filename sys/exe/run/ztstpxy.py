@@ -92,9 +92,9 @@ def main():
     try:
         result_df = process_data()
         
-        if result_df is not None:
+        if df is not None:
             # Print the dataframe directly without using tabulate
-            print(result_df)
+            print(df)
 
             # Save the result to a CSV file
             save_to_csv(result_df, 'output.csv')
