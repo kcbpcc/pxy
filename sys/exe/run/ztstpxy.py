@@ -1,5 +1,3 @@
-# main.py
-
 import sys
 import traceback
 import pandas as pd
@@ -51,8 +49,8 @@ def process_data():
         merged_df_filtered = merged_df_filtered[['tradingsymbol', 'used_quantity', 'average_price_x', 'average_price_y']]
         
         # Calculate profit for each row and sum all profits
-        merged_df_filtered['profit'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1)
-        total_profit = merged_df_filtered['profit'].sum()
+        merged_df_filtered['Profit'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1)
+        total_profit = merged_df_filtered['Profit'].sum()
         
         print(f"Total Profit: {total_profit}")
 
@@ -67,8 +65,19 @@ def process_data():
 
 def save_to_csv(df, filename):
     try:
+        # Rename columns as per specified format
+        df.rename(columns={
+            'tradingsymbol': 'Stock',
+            'used_quantity': 'Qty',
+            'average_price_x': 'Buy',
+            'average_price_y': 'Sell',
+            'Profit': 'Profit'
+        }, inplace=True)
+
+        # Remove index and save to CSV
         df.to_csv(filename, index=False)
         print(f"Dataframe saved to {filename}")
+
     except Exception as e:
         print(f"Error saving dataframe to CSV: {e}")
         traceback.print_exc()
@@ -78,9 +87,10 @@ def main():
         result_df = process_data()
         
         if result_df is not None:
-            # Print the result to console
-            print("Merged and prefixed dataframe:")
-            print(result_df)
+            # Print the result to console in tabular form
+            print("Stock, Qty, Buy, Sell, Profit")
+            for index, row in result_df.iterrows():
+                print(f"{row['tradingsymbol']}, {row['used_quantity']}, {row['average_price_x']}, {row['average_price_y']}, {row['Profit']}")
 
             # Save the result to a CSV file
             save_to_csv(result_df, 'output.csv')
@@ -91,4 +101,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
