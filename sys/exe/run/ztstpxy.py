@@ -73,6 +73,9 @@ def process_data():
         # Select specific columns from filtered merged_df
         merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
 
+        # Set display option for column width
+        pd.set_option('display.max_colwidth', 42)
+
         # Print filtered dataframe without index
         print(merged_df_filtered.to_string(index=False))
 
