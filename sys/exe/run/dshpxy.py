@@ -60,11 +60,11 @@ def get_holdingsinfo(combined_df):
         optworth = combined_df.loc[combined_df['key'].str.contains('NFO:'), 'value'].sum()
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
         try:
-            prft_df = combined_df.loc[combined_df['qty'] < 0].copy()  # Make a copy to avoid SettingWithCopyWarning
-            prft_df['qty'] = prft_df['qty'].abs()
-            prft_df['prft'] = prft_df.apply(lambda row: (row['qty'] * row['o_average_price']) - (row['qty'] * row['average_price']), axis=1)
-            total_prft = prft_df['prft'].sum()
-            print(f"Total profit: {total_prft}")
+            cnc_buked_df = combined_df.loc[combined_df['qty'] < 0].copy()  # Make a copy to avoid SettingWithCopyWarning
+            cnc_buked_df['qty'] = cnc_buked_df['qty'].abs()
+            cnc_buked_df['cnc_buked'] = cnc_buked_df.apply(lambda row: (row['qty'] * row['o_average_price']) - (row['qty'] * row['average_price']), axis=1)
+            total_cnc_buked = cnc_buked_df['cnc_buked'].sum()
+            print(f"Total profit: {total_cnc_buked}")
         except Exception as e:
             print(f"An error occurred: {str(e)}")
 
