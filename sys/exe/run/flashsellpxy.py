@@ -83,7 +83,7 @@ def stocks_sell_order_place(index, row):
                         for column in columns_to_drop:
                             if column in row:
                                 del row[column]
-                        message_text = f"📊 Let's Book {exchsym[1]}!\n💰 Profit: {row['PnL']}\n💹 Profit %: {row['PL%']}\n🔢 H/P: {row['source']}\n📉 Sell Price: {row['ltp']}\n📈 Buy Price: {row['avg']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}\nProfits until:{booked} 📣"
+                        message_text = f"📊 Let's Book {exchsym[1]}!\n💰 Profit: {row['PnL']}\n💹 Profit %: {row['PL%']}\n🔢 H/P: {row['source']}\n📈 LTP: {row['ltp']}\n📉 Avg: {row['avg']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}\nBooked profit until now: {booked}"
                         bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
                         user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
                         # Function to send a message to Telegram
@@ -138,7 +138,7 @@ def stocks_avg_order_place(index, row):
                     asyncio.run(send_telegram_message(message_text))
                 except Exception as e:
                     print(f"Error sending message to Telegram: {e}")
-                return exchsym[1]
+                return exchsym[1], remaining_cash  # Define remaining_cash appropriately
             return True
         else:
             logging.error("Order placement failed")
@@ -187,9 +187,9 @@ try:
     nsma = check_index_status('^NSEI')
     peak = peak_time()
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
-    from fundpxy import calculate_decision
     try:
-        decision, optdecision, available_cash , limit = calculate_decision()
+        response = broker.kite.margins()
+        available_cash = response["equity"]["available"]["live_balance"]
     except Exception as e:
         print(f"An error occurred: {e}")
         available_cash = 0
@@ -205,20 +205,9 @@ try:
     combined_df['smb_power'] = combined_df.apply(calculate_smb_power, axis=1)
     threshold = 3
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
-    from predictpxy import predict_market_sentiment
-    mktpredict = predict_market_sentiment()
-    if mktpredict == "RISE":
-        nsefactor = 6
-    elif mktpredict == "FALL":
-        nsefactor = 0
-    elif mktpredict == "SIDE":
-        nsefactor = 3
-    else:
-        nsefactor = 3
-###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + x) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + combined_df['fPL%']) / 2), -threshold, threshold)), 2)) * 1)
-    combined_df['tPL%'] = np.where(nsma == 'up', np.maximum(1 * (combined_df['tPL%'] * nse_power), 1.4), np.where(nsma == 'down', np.maximum((combined_df['tPL%'] * nse_power) * 0.5, 1.4), 1.4)) + 1.4 + nsefactor
+    combined_df['tPL%'] = np.where(nsma == 'up', np.maximum(1 * (combined_df['tPL%'] * nse_power), 1.4), np.where(nsma == 'down', np.maximum((combined_df['tPL%'] * nse_power) * 0.5, 1.4), 1.4)) + 1.4
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     numeric_columns = ['fPL%','tPL%','smb_power','oPL%','qty', 'average_price', 'Invested','Yvalue', 'ltp','close', 'open', 'high', 'low','value', 'PnL', 'PL%', 'dPnL', 'dPL%']
     combined_df[numeric_columns] = combined_df[numeric_columns].round(2)
@@ -227,11 +216,11 @@ try:
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     result = get_holdingsinfo(combined_df)
     if result is not None:
-        total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_opt_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = result
+        extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = result
     else:
         # Handle the case where get_holdingsinfo returns None
         print("Error: Unable to retrieve holdings information.")
-    total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_opt_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = get_holdingsinfo(combined_df)    
+    extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = get_holdingsinfo(combined_df)    
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
@@ -250,63 +239,71 @@ try:
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
     pd.set_option('display.max_colwidth', 1)
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-    stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
+    stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > (PRINT_df_sorted_display['tPL%'] * 0.50)].sort_values(by='PL%')
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
-########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
-
     csv_file_path = "filePnL.csv"
-    total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks) * 100000)
+    total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks)*100000)
     selected_rows = []
-    
-    if mktpxy != "none":
+    if mktpxy == "Sell" or mktpxy == "Bear":
         try:
             for index, row in EXE_df.iterrows():
-                excluded_keys = set(pd.read_csv(csv_file_path, header=None).iloc[:, -3])
+                excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
                 key = row['key']  # Get the 'key' value
                 symbol_in_order = row['key'].split(":")[1]
-    
                 if (
                     row['key'] not in excluded_keys and
                     row['open'] > 0 and
                     row['high'] > 0 and
                     row['low'] > 0 and
                     row['close'] > 0 and
-                    row['ltp'] != 0
-                ): 
+                    nse_power != 0.50 and
+                    row['ltp'] != 0 
+                ):                            
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
                     if (
-                        row['qty'] > 0 and
-                        row['avg'] != 0 and
-                        row['product'] == 'CNC' and
-                        row['PL%'] > 0.5
+                        (row['qty'] > 0 and
+                         row['avg'] != 0 and
+                         row['product'] == 'CNC' and
+                         row['PL%'] > 1.4) and
+                        (
+                            (((row['PL%'] > row['tPL%']) and (row['PnL'] > 200 )) or (total_dPnL < 0 and (row['oPL%'] < 0 ) and row['source'] == 'holdings'))
+                        )
                     ):
                         try:
-                            confirm = input(f"Do you want to place a sell order for key {key}? (Y/N): ")
-                            if confirm.strip().upper() == 'Y':
-                                is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
-                                if is_placed:
-                                    print(row)  # Optionally print the row after placing the order
-                            else:
-                                print(f"Order for key {key} was not placed.")
+                            is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
+                            if is_placed:
+                                print(row)  # Optionally print the row after placing the order
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
-    
-            if not stocks_filtered_df.empty:
-                print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))
-    
-            print("━" * 42)
-            
-            printbord(
-                total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, nsma,
-                all_Stocks_yworth_lacks, total_opt_m2m, mktpxy, available_cash, ha_nse_action,
-                nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count,
-                green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks,
-                zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
-            )
+##############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#############################################################################################################     
+                    elif (
+                        (row['qty'] > 0 and
+                         row['avg'] != 0 and
+                         row['Invested'] < 20000 and
+                         available_cash > 1000 and
+                         peak == 'PEAKEND' and
+                         row['PL%'] < -20)
+                    ):
+                        try:                            
+                            is_placed = stocks_avg_order_place(key, row) if get_any_order_status(symbol_in_order) == "NO" else False
+                            if is_placed:
+                                print(row['key'])                                
+                        except Exception as e:
+                            # Handle any other exceptions that may occur during order placement
+                            print(f"An unexpected error occurred while placing an order for key {key}: {e}")
         except Exception as e:
-            remove_token(dir_path)
-            print(traceback.format_exc())
-            logging.error(f"{str(e)} in the main loop")
-    ########################################################################################
-    # PXY® PreciseXceleratedYield Pvt Ltd™
-    ########################################################################################
+            # Handle any other exceptions that may occur during the loop
+            print(f"An unexpected error occurred: {e}")   
+###########################################################################################################################################################################################################  
+    if not stocks_filtered_df.empty:
+        print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))    
+    print("━" * 42)
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
+    printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
+#############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
+except Exception as e:
+    remove_token(dir_path)
+    print(traceback.format_exc())
+    logging.error(f"{str(e)} in the main loop")
+#############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
