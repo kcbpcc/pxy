@@ -59,7 +59,14 @@ def get_holdingsinfo(combined_df):
 
         optworth = combined_df.loc[combined_df['key'].str.contains('NFO:'), 'value'].sum()
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
-
+        try:
+            prft_df = combined_df.loc[combined_df['qty'] < 0]
+            prft_df['qty'] = prft_df['qty'].abs()
+            prft_df['prft'] = prft_df.apply(lambda row: (row['qty'] * row['o_average_price']) - (row['qty'] * row['average_price']), axis=1)
+            total_prft = prft_df['prft'].sum()
+            print(f"Total prft: {total_prft}")
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
         if not nfo_df.empty:
             extras = nfo_df.loc[nfo_df['qty'] == 0, 'unrealised'].sum()
             total_opt_m2m = nfo_df['m2m'].sum()
