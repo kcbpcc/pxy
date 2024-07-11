@@ -65,15 +65,16 @@ def process_data():
 
         # Calculate PL% and PnL
         merged_df_filtered['STOCK'] = merged_df_filtered['tradingsymbol']
-        merged_df_filtered['QTY'] = merged_df_filtered['used_quantity']
+        merged_df_filtered['QTY'] = merged_df_filtered['used_quantity'].astype(int)
         merged_df_filtered['PL%'] = ((merged_df_filtered['average_price_y'] - merged_df_filtered['average_price_x']) / merged_df_filtered['average_price_y']) * 100
-        merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1)
+        merged_df_filtered['PL%'] = merged_df_filtered['PL%'].round(2)
+        merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
         
         # Select specific columns from filtered merged_df
         merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
 
-        # Print filtered dataframe
-        print(merged_df_filtered)
+        # Print filtered dataframe without index
+        print(merged_df_filtered.to_string(index=False))
 
         # Calculate total profit
         total_profit = merged_df_filtered['PnL'].sum()
