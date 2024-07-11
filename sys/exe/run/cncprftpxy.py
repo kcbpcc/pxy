@@ -100,12 +100,12 @@ def process_data_total_profit():
         # Calculate total profit including CNC and NFO
         total_profit_combined = total_profit + total_profit_fo
 
-        # Format the entire message with right alignment and magenta color
-        formatted_value = f"\033[95m{total_profit_combined:>42,}\033[0m"
-        
         # Get current date
         current_date = datetime.now().date()
 
+        # Format the entire message with right alignment and magenta color
+        formatted_value = f"\033[95m{total_profit_combined:>42,}\033[0m"
+        
         # Construct the complete message
         output_message = f"As of {current_date}, total profit is {formatted_value}"
         
@@ -130,4 +130,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
