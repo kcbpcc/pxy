@@ -60,7 +60,22 @@ def get_holdingsinfo(combined_df):
         optworth = combined_df.loc[combined_df['key'].str.contains('NFO:'), 'value'].sum()
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
 
-       
+        try:
+            # Redirect sys.stdout to 'output.txt'
+            with open('output.txt', 'w') as file:
+                sys.stdout = file
+    
+                try:
+                    broker = get_kite()
+                except Exception as e:
+                    remove_token(dir_path)
+                    print(traceback.format_exc())
+                    logging.error(f"{str(e)} unable to get holdings")
+                    sys.exit(1)
+    
+        finally:
+            # Reset sys.stdout to its default value
+            sys.stdout = sys.__stdout__       
         try:
             # Assuming the definition of get_ordersinfo function is available
             def get_ordersinfo(broker):
