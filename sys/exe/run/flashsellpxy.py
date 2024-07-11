@@ -67,7 +67,7 @@ def stocks_sell_order_place(index, row):
                 quantity=int(row['qty']),
                 order_type='LIMIT',
                 product='CNC',
-                variety='regular',
+                variety=variety,
                 price=round_to_paise(row['ltp'], -0.2)
             )
 ######################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################            
@@ -123,7 +123,7 @@ def stocks_avg_order_place(index, row):
                 quantity=qty,
                 order_type='LIMIT',
                 product='CNC',
-                variety='regular',
+                variety=variety.lower(),
                 price=round_to_paise(row['ltp'], +0.3)
             )
             if order_id:
@@ -153,7 +153,7 @@ try:
     import datetime
     import time
     from login_get_kite import get_kite, remove_token
-    from cnstpxy import dir_path, secs, perc_col_name
+    from cnstpxy import dir_path
     from toolkit.logger import Logger
     from toolkit.currency import round_to_paise
     import csv
@@ -221,6 +221,30 @@ try:
         # Handle the case where get_holdingsinfo returns None
         print("Error: Unable to retrieve holdings information.")
     extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = get_holdingsinfo(combined_df)    
+
+    print(BRIGHT_YELLOW + "green_Stocks_count:", green_Stocks_count, RESET)
+    print(BRIGHT_YELLOW + "green_Stocks_profit_loss:", green_Stocks_profit_loss, RESET)
+    print(BRIGHT_YELLOW + "green_Stocks_capital_percentage:", green_Stocks_capital_percentage, "%" + RESET)
+    
+    proceed = input(BRIGHT_RED + "Do you want to execute the next part of the code? (yes/no): " + RESET)
+    
+    if proceed.lower() != "yes":
+        print("Exiting...")
+        sys.exit(1)
+    
+    variety_input = input(BRIGHT_YELLOW + "Enter the variety (amo/regular/no): " + RESET)
+    
+    if variety_input.lower() == 'no':
+        print("Exiting...")
+        sys.exit(1)
+    elif variety_input.lower() == 'amo':
+        variety = 'amo'
+    elif variety_input.lower() == 'regular':
+        variety = 'regular'
+    else:
+        print("Invalid input. Exiting...")
+        sys.exit(1)
+
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
     lstchk_file = "fileHPdf.csv"
     combined_df.to_csv(lstchk_file, index=False)
@@ -239,12 +263,12 @@ try:
     PRINT_df_sorted = PRINT_df_sorted.sort_values(by='PL%', ascending=True)
     pd.set_option('display.max_colwidth', 1)
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
-    stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > (PRINT_df_sorted_display['tPL%'] * 0.50)].sort_values(by='PL%')
+    stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
     csv_file_path = "filePnL.csv"
     total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks)*100000)
     selected_rows = []
-    if mktpxy == "Sell" or mktpxy == "Bear":
+    if mktpxy != "none":
         try:
             for index, row in EXE_df.iterrows():
                 excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
@@ -256,7 +280,6 @@ try:
                     row['high'] > 0 and
                     row['low'] > 0 and
                     row['close'] > 0 and
-                    nse_power != 0.50 and
                     row['ltp'] != 0 
                 ):                            
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################                    
@@ -264,10 +287,7 @@ try:
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
                          row['product'] == 'CNC' and
-                         row['PL%'] > 1.4) and
-                        (
-                            (((row['PL%'] > row['tPL%']) and (row['PnL'] > 200 )) or (total_dPnL < 0 and (row['oPL%'] < 0 ) and row['source'] == 'holdings'))
-                        )
+                         row['PL%'] > 0.5)
                     ):
                         try:
                             is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
@@ -281,7 +301,7 @@ try:
                         (row['qty'] > 0 and
                          row['avg'] != 0 and
                          row['Invested'] < 20000 and
-                         available_cash > 1000 and
+                         available_cash > 30000 and
                          peak == 'PEAKEND' and
                          row['PL%'] < -20)
                     ):
@@ -306,4 +326,4 @@ except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
     logging.error(f"{str(e)} in the main loop")
-#############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
