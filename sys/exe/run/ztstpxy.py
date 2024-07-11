@@ -101,8 +101,8 @@ def main():
             data = result_df.values.tolist()
             headers = ["Stock", "Qty", "Buy", "Sell", "Profit"]
 
-            # Print the result as a formatted table with integers only
-            print(tabulate(data, headers=headers, tablefmt="fancy_grid", numalign="right", stralign="right", floatfmt=".0f"))
+            # Print the result as a formatted table with integers only, without row lines
+            print(tabulate(data, headers=headers, tablefmt="fancy_grid", numalign="right", stralign="right", floatfmt=".0f", showindex=False))
 
             # Save the result to a CSV file
             save_to_csv(result_df, 'output.csv')
