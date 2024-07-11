@@ -73,11 +73,14 @@ def process_data():
         # Select specific columns from filtered merged_df
         merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
 
-        # Set display option for column width
-        pd.set_option('display.max_colwidth', 42)
+        # Set column widths for printing
+        col_widths = [15, 8, 8, 8]
 
-        # Print filtered dataframe without index
-        print(merged_df_filtered.to_string(index=False))
+        # Convert DataFrame to formatted string
+        formatted_str = merged_df_filtered.to_string(index=False, col_space=col_widths)
+
+        # Print formatted string
+        print(formatted_str)
 
         # Calculate total profit
         total_profit = merged_df_filtered['PnL'].sum()
