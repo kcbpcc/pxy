@@ -78,8 +78,10 @@ async def send_telegram_message(bot_token, user_id, message_text):
 def place_order(symbol, broker, limit, quantity):
     try:
         response = broker.kite.margins()
-        remaining_cash = response["equity"]["available"]["live_balance"]
-        
+        total_cash_with_margin = response["equity"]["available"]["live_balance"]
+        used_margin = response["equity"]["utilised"]["debits"]
+        remaining_cash = total_cash_with_margin - used_margin
+
         ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
         
         if ltp_nse > 0 and remaining_cash > limit:
