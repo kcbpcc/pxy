@@ -103,8 +103,10 @@ def process_data_total_profit():
         total_profit_combined = total_profit + total_profit_fo
 
         # Format the entire message with right alignment and magenta color
-        output_message = f"{current_date}'s total profit is {total_profit_combined}"
-        formatted_output = f"\033[95m{output_message:>42}\033[0m"
+        formatted_value = f"\033[95m{total_profit_combined:>42,}\033[0m"
+        
+        # Construct the complete message
+        output_message = f"As of {current_date}, total profit is {formatted_value}"
         
         # Print the formatted message
         print(formatted_output)
