@@ -16,11 +16,9 @@ import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
 from cmbddfpxy import process_data
 combined_df = process_data()
-from cncprftpxy import process_data_total_profit
-booked = process_data_total_profit()
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 file_path = 'filePnL.csv'
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 logging = Logger(30, dir_path + "main.log")
 try:
@@ -31,8 +29,13 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
-file_path = 'filePnL.csv'
-
+###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
+try:
+    from cncprftpxy import process_data_total_profit
+    booked = process_data_total_profit()
+except Exception as e:
+    booked = 0
+    print(f"An error occurred: {e}")
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
 def get_any_order_status(symbol):
     try:
