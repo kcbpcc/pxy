@@ -38,8 +38,7 @@ def calculate_decision():
         try:
             response = broker.kite.margins()
             available_margin = response["equity"]["available"]["live_balance"]
-            utilized_margin = sum(response["equity"]["utilised"].values())
-            available_cash = available_margin - utilized_margin
+            available_cash  = sum(response["equity"]["utilised"].values())
         except Exception as e:
             print(f"An error occurred: {e}")
             available_cash = 0
