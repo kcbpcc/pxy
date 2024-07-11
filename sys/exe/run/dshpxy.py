@@ -61,7 +61,14 @@ def get_holdingsinfo(combined_df):
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
         try:
             filtered_df = combined_df[combined_df['product'] == 'CNC'].copy()  # Filter rows where product is 'CNC' and make a copy
+            print(f"Number of rows after product filter: {len(filtered_df)}")  # Debugging: Print number of rows after filtering
+            
             prft_df = filtered_df.loc[filtered_df['qty'] < 0].copy()  # Further filter rows where qty is less than 0 and make a copy
+            print(f"Number of rows after qty filter: {len(prft_df)}")  # Debugging: Print number of rows after qty filter
+            
+            if len(prft_df) == 0:
+                raise ValueError("No rows matching criteria found.")
+            
             prft_df['qty_abs'] = prft_df['qty'].abs()
             
             def calculate_profit(row):
@@ -78,6 +85,7 @@ def get_holdingsinfo(combined_df):
             print(f"Total profit for CNC products: {total_prft}")
         except Exception as e:
             print(f"An error occurred: {str(e)}")
+
 
 
 
