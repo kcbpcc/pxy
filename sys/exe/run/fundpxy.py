@@ -45,6 +45,14 @@ def calculate_decision():
         sys.stdout = original_stdout
 
     try:
+        # Print the information again to the console
+        response = broker.kite.margins()
+        available_cash = response["equity"]["available"]["live_balance"]
+        delivery_utilised = response["equity"]["utilised"]["delivery"]
+        cash_for_delivery = available_cash - delivery_utilised
+        print(f"Response: {response}")
+        print(f"Cash available for delivery: {cash_for_delivery}")
+
         limit = 50000 if peak == 'NONPEAK' else 10000 if peak == 'PEAKEND' else 0
         decision = "YES" if available_cash > limit else "NO"
         optdecision = "YES" if available_cash > 10000 else "NO"
@@ -56,3 +64,4 @@ def calculate_decision():
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get available cash")
         return "NO", "NO", 0, 0
+
