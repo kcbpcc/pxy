@@ -18,7 +18,7 @@ cnc_df['qty'] = cnc_df['qty'].abs()
 print("Filtered CNC DataFrame:\n", cnc_df.head())
 
 # Merge with ord_df to get the average_price for the corresponding tradingsymbol
-merged_df = pd.merge(cnc_df, ord_df[['tradingsymbol', 'average_price']], on='tradingsymbol', how='left', suffixes=('', '_ord'))
+merged_df = pd.merge(cnc_df, ord_df[['tradingsymbol']], on='tradingsymbol', how='left', suffixes=('', '_ord'))
 
 # Verify the merged DataFrame
 print("Merged DataFrame:\n", merged_df.head())
