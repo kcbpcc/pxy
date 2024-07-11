@@ -18,24 +18,20 @@ cnc_df['qty'] = cnc_df['qty'].abs()
 print("Filtered CNC DataFrame:\n", cnc_df.head())
 
 # Merge with ord_df to get the average_price for the corresponding tradingsymbol
-merged_df = pd.merge(cnc_df, ord_df[['tradingsymbol', 'average_price']], on='tradingsymbol', how='left')
+merged_df = pd.merge(cnc_df, ord_df[['tradingsymbol', 'average_price']], on='tradingsymbol', how='left', suffixes=('_hp', '_ord'))
 
 # Verify the merged DataFrame
 print("Merged DataFrame:\n", merged_df.head())
 
-# Check if 'average_price' column exists in the merged DataFrame
-if 'average_price' not in merged_df.columns:
-    raise KeyError("The column 'average_price' does not exist in the merged DataFrame. Please check your input files.")
-
 # Calculate sold_amount and investment
-merged_df['sold_amount'] = merged_df['qty'] * merged_df['average_price']
-merged_df['investment'] = merged_df['qty'] * merged_df['avg']  # Assuming 'avg' column exists in hp_df
+merged_df['sold_amount'] = merged_df['qty'] * merged_df['average_price_ord']
+merged_df['investment'] = merged_df['qty'] * merged_df['avg_hp']  # Assuming 'avg' column exists in hp_df
 
 # Calculate profit
 merged_df['profit'] = merged_df['sold_amount'] - merged_df['investment']
 
 # Display the result
-print(merged_df[['tradingsymbol', 'qty', 'average_price', 'sold_amount', 'investment', 'profit']])
+print(merged_df[['tradingsymbol', 'qty', 'average_price_ord', 'sold_amount', 'investment', 'profit']])
 
 # If you want to save the result to a CSV file
 merged_df.to_csv('result.csv', index=False)
