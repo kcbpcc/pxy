@@ -62,9 +62,22 @@ def get_holdingsinfo(combined_df):
 
        
         try:
+            # Assuming the definition of get_ordersinfo function is available
+            def get_ordersinfo(broker):
+                try:
+                    orders_response = broker.kite.orders()
+                    orders_df = pd.DataFrame(orders_response)
+                    orders_df['key'] = orders_df['exchange'] + ":" + orders_df['tradingsymbol'] if not orders_df.empty else None
+                    return orders_df
+                except Exception as e:
+                    print(f"An error occurred in fetching orders: {e}")
+                    return pd.DataFrame()
+        
+            # Fetch orders information
             orders_df = get_ordersinfo(broker)
             orders_df = orders_df.rename(columns=lambda x: 'o_' + x)
             orders_df['o_key'] = orders_df['o_exchange'] + ":" + orders_df['o_tradingsymbol'] if not orders_df.empty else None
+            
             if not orders_df.empty:
                 prft_df = pd.merge(combined_df, orders_df, left_on='key', right_on='o_key', how='left', suffixes=('', '_order'))
             else:
@@ -84,6 +97,7 @@ def get_holdingsinfo(combined_df):
         except Exception as e:
             print(f"An error occurred: {e}")
             prft_df = combined_df  # Return original combined_df if an error occurs
+
 
     
         if not nfo_df.empty:
