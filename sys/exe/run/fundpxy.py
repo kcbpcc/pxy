@@ -32,9 +32,17 @@ def calculate_decision():
         # Assuming broker.kite is defined somewhere in the get_kite function
         try:
             response = broker.kite.margins()
-            total_cash_with_margin = response["equity"]["available"]["live_balance"]
-            used_margin = response["equity"]["utilised"]["debits"]
-            available_cash = total_cash_with_margin - used_margin
+            #total_cash_with_margin = response["equity"]["available"]["live_balance"]
+            #used_margin = response["equity"]["utilised"]["debits"]
+            #available_cash = total_cash_with_margin - used_margin
+
+            total_balance = margins["available"]["live_balance"]
+            used_margin = margins["utilised"]["debits"]
+            available_cash = total_balance - used_margin
+
+
+
+        
             # print(f"I have 💰💰💰💰{total_cash_with_margin/1000:.0f}K💰💰💰 to buy stocks")
         except Exception as e:
             print(f"An error occurred: {e}")
