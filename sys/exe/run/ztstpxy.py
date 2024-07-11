@@ -75,18 +75,25 @@ def process_data():
         merged_df_filtered = merged_df_filtered[['SN', 'STOCK', 'QTY', 'PL%', 'PnL']]
 
         # Set column widths for printing
-        col_widths = [2, 15, 7, 6, 7]
+        col_widths = [2, 15, 8, 8, 8]
 
         # Convert DataFrame to formatted string with aligned headers and values
         formatted_str = merged_df_filtered.to_string(index=False, col_space=col_widths)
 
-        # Print formatted string
-        print(formatted_str)
+        # ANSI escape sequence for bright yellow color
+        bright_yellow = '\033[93m'
+        reset_color = '\033[0m'
 
-        # Calculate total profit
+        # Print headers with bright yellow color
+        headers_str = formatted_str.split('\n', 1)[0]  # Extract headers
+        print(f"{bright_yellow}{headers_str}{reset_color}")
+
+        # Print the rest of the formatted string (values)
+        print(formatted_str[len(headers_str):])
+
+        # Print "Stocks Booked Profit" right-aligned with 42 spaces
         total_profit = merged_df_filtered['PnL'].sum()
-        
-        print(f"Total Profit: {total_profit}")
+        print(f"{'Stocks Booked Profit':>42} {total_profit:>42}")
 
         return merged_df_filtered
 
@@ -106,3 +113,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
