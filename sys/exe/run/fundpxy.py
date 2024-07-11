@@ -36,8 +36,8 @@ def calculate_decision():
             #used_margin = response["equity"]["utilised"]["debits"]
             #available_cash = total_cash_with_margin - used_margin
 
-            total_balance = margins["available"]["live_balance"]
-            used_margin = margins["utilised"]["debits"]
+            total_balance = response["available"]["live_balance"]
+            used_margin = response["utilised"]["debits"]
             available_cash = total_balance - used_margin
 
 
