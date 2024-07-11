@@ -1,6 +1,7 @@
 import sys
 import traceback
 import pandas as pd
+from tabulate import tabulate
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from toolkit.logger import Logger
@@ -76,9 +77,9 @@ def save_to_csv(df, filename):
 
         # Convert numeric columns to integers
         df['Qty'] = df['Qty'].astype(int)
-        df['Buy'] = df['Buy'].astype(int)
-        df['Sell'] = df['Sell'].astype(int)
-        df['Profit'] = df['Profit'].astype(int)
+        df['Buy'] = df['Buy'].astype(float)  # Or int if Buy is always whole numbers
+        df['Sell'] = df['Sell'].astype(float)  # Or int if Sell is always whole numbers
+        df['Profit'] = df['Profit'].astype(float)  # Or int if Profit is always whole numbers
 
         # Remove index and save to CSV
         df.to_csv(filename, index=False)
@@ -93,10 +94,12 @@ def main():
         result_df = process_data()
         
         if result_df is not None:
-            # Print the result to console in tabular form
-            print("Stock, Qty, Buy, Sell, Profit")
-            for index, row in result_df.iterrows():
-                print(f"{row['tradingsymbol']}, {int(row['used_quantity'])}, {int(row['average_price_x'])}, {int(row['average_price_y'])}, {int(row['Profit'])}")
+            # Convert dataframe to list of lists for tabulate
+            data = result_df.values.tolist()
+            headers = ["Stock", "Qty", "Buy", "Sell", "Profit"]
+
+            # Print the result as a formatted table
+            print(tabulate(data, headers=headers, tablefmt="fancy_grid"))
 
             # Save the result to a CSV file
             save_to_csv(result_df, 'output.csv')
