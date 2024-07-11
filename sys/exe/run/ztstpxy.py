@@ -74,6 +74,12 @@ def save_to_csv(df, filename):
             'Profit': 'Profit'
         }, inplace=True)
 
+        # Convert numeric columns to integers
+        df['Qty'] = df['Qty'].astype(int)
+        df['Buy'] = df['Buy'].astype(int)
+        df['Sell'] = df['Sell'].astype(int)
+        df['Profit'] = df['Profit'].astype(int)
+
         # Remove index and save to CSV
         df.to_csv(filename, index=False)
         print(f"Dataframe saved to {filename}")
@@ -90,7 +96,7 @@ def main():
             # Print the result to console in tabular form
             print("Stock, Qty, Buy, Sell, Profit")
             for index, row in result_df.iterrows():
-                print(f"{row['tradingsymbol']}, {row['used_quantity']}, {row['average_price_x']}, {row['average_price_y']}, {row['Profit']}")
+                print(f"{row['tradingsymbol']}, {int(row['used_quantity'])}, {int(row['average_price_x'])}, {int(row['average_price_y'])}, {int(row['Profit'])}")
 
             # Save the result to a CSV file
             save_to_csv(result_df, 'output.csv')
