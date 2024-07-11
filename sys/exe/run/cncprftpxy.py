@@ -104,10 +104,10 @@ def process_data_total_profit():
         current_date = datetime.now().date()
 
         # Format the entire message with right alignment and magenta color
-        formatted_value = f"\033[95m{total_profit_combined:>42,}\033[0m"
+        formatted_value = f"\033[95mAs of {current_date}, total profit is {total_profit_combined:,}\033[0m"
         
-        # Construct the complete message
-        output_message = f"As of {current_date}, total profit is {formatted_value}"
+        # Print the formatted message
+        print(formatted_value)
         
         # Print the formatted message
         print(output_message)
