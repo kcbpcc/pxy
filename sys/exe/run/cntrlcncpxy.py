@@ -187,9 +187,9 @@ try:
     nsma = check_index_status('^NSEI')
     peak = peak_time()
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
+    from fundpxy import calculate_decision
     try:
-        response = broker.kite.margins()
-        available_cash = response["equity"]["available"]["live_balance"]
+        decision, optdecision, available_cash , limit = calculate_decision()
     except Exception as e:
         print(f"An error occurred: {e}")
         available_cash = 0
