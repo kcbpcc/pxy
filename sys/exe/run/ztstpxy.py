@@ -33,11 +33,19 @@ def process_data():
         broker = get_kite()
         holdings_response = broker.kite.holdings()
         positions_response = broker.kite.positions()['net']
+        
         holdings_df = get_holdingsinfo(holdings_response, broker)
         positions_df = get_positionsinfo(positions_response, broker)
 
-        # Merge holdings and positions dataframes on 'tradingsymbol'
-        merged_df = pd.merge(holdings_df.add_prefix('h_'), positions_df.add_prefix('p_'), on='tradingsymbol', how='outer')
+        # Ensure both dataframes have the 'tradingsymbol' column
+        if 'tradingsymbol' not in holdings_df.columns or 'tradingsymbol' not in positions_df.columns:
+            raise KeyError("'tradingsymbol' column not found in holdings_df or positions_df")
+
+        # Filter holdings_df to include only rows where tradingsymbol exists in positions_df
+        holdings_df_filtered = holdings_df[holdings_df['tradingsymbol'].isin(positions_df['tradingsymbol'])]
+
+        # Merge holdings_df_filtered and positions_df on 'tradingsymbol'
+        merged_df = pd.merge(holdings_df_filtered, positions_df, on='tradingsymbol', how='outer')
 
         return merged_df
 
@@ -45,6 +53,7 @@ def process_data():
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
+
 
 def save_to_csv(df, filename):
     try:
