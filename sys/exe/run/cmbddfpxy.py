@@ -84,26 +84,7 @@ def process_data():
         combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
 
-        #combined_df['outqty'] = positions_df['key'].map(holdings_df.set_index('key')['used_quantity'])
-        combined_df['in'] = positions_df['key'].map(holdings_df.set_index('key')['average_price'])
-        if positions_df.empty:
-            combined_df['in'] = combined_df.get('out', None)
-        else:
-            combined_df['out'] = positions_df['key'].map(positions_df.set_index('key')['buy_price'])
-    
-        # Handle conversion of 'm2m' column to int if it exists
-        if "m2m" in combined_df.columns:
-            try:
-                combined_df['m2m'] = combined_df['m2m'].astype(int)
-            except ValueError:
-                # Handle the case where some values cannot be converted to int
-                pass
-        else:
-            # Create the 'm2m' column and set all row values to 0
-            combined_df['m2m'] = 0
-        combined_df = combined_df.merge(positions_df[['key', 'average_price']], on='key', how='left')
-        combined_df['savg'] = combined_df['average_price'].fillna(0)
-        
+
         return combined_df
         
 
