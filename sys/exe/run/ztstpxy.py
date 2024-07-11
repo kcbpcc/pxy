@@ -41,11 +41,7 @@ def process_data():
         positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
 
         # Merge holdings and positions dataframes on 'key'
-        merged_df = pd.merge(holdings_df, positions_df, on='key', how='outer', suffixes=('_h', '_p'))
-
-        # Additional prefixing of columns
-        merged_df = merged_df.add_prefix('h_')
-        merged_df = merged_df.add_prefix('p_')
+        merged_df = pd.merge(holdings_df.add_prefix('h_'), positions_df.add_prefix('p_'), on='key', how='outer')
 
         return merged_df
 
