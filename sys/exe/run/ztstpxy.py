@@ -28,7 +28,20 @@ def get_positionsinfo(resp_list, broker):
 
 def process_data():
     try:
-        broker = get_kite()
+        # Redirect stdout to output.txt
+        sys.stdout = open('output.txt', 'w')
+
+        # Attempt to get broker instance
+        broker = None
+        try:
+            broker = get_kite()
+        except Exception as e:
+            remove_token(dir_path)
+            print(traceback.format_exc())
+            logging.error(f"{str(e)} unable to get holdings")
+            sys.exit(1)
+
+        # If broker is obtained successfully, proceed with data processing
         holdings_response = broker.kite.holdings()
         positions_response = broker.kite.positions()['net']
         
@@ -68,6 +81,23 @@ def process_data():
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
+
+    finally:
+        # Ensure to close the file and restore stdout
+        if sys.stdout != sys.__stdout__:
+            sys.stdout.close()
+            sys.stdout = sys.__stdout__
+
+def main():
+    try:
+        process_data()
+    except Exception as e:
+        print(f"An error occurred in main: {e}")
+        logging.error(f"An error occurred in main: {e}")
+        traceback.print_exc()
+
+if __name__ == "__main__":
+    main()
 
 
 
