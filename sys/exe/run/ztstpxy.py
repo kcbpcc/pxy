@@ -36,12 +36,8 @@ def process_data():
         holdings_df = get_holdingsinfo(holdings_response, broker)
         positions_df = get_positionsinfo(positions_response, broker)
 
-        # Ensure there are keys for merging
-        holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
-        positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
-
-        # Merge holdings and positions dataframes on 'key'
-        merged_df = pd.merge(holdings_df.add_prefix('h_'), positions_df.add_prefix('p_'), on='key', how='outer')
+        # Merge holdings and positions dataframes on 'tradingsymbol'
+        merged_df = pd.merge(holdings_df.add_prefix('h_'), positions_df.add_prefix('p_'), on='tradingsymbol', how='outer')
 
         return merged_df
 
