@@ -93,7 +93,7 @@ def process_data_total_profit():
             print(f"{line:>42}")
             
         # Print "Stocks Booked Profit" right-aligned with 42 spaces
-        total_profit_fo = mergedfo_df_filtered['pnl_y'].sum()
+        total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum())
         print(f"\033[92m{total_profit_fo:>42}\033[0m")        
 
         return total_profit
