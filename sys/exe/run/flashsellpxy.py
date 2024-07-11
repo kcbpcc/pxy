@@ -214,14 +214,6 @@ try:
     total_opt_real = combined_df[(combined_df['qty'] == 0) & (combined_df['key'].str.contains('NFO:'))]['pnl'].sum()
     filtered_df = combined_df[(combined_df['product'] == 'CNC') & (combined_df['qty'] != 0)]
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
-    result = get_holdingsinfo(combined_df)
-    if result is not None:
-        extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = result
-    else:
-        # Handle the case where get_holdingsinfo returns None
-        print("Error: Unable to retrieve holdings information.")
-    extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_cnc_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage = get_holdingsinfo(combined_df)    
-
     print(BRIGHT_YELLOW + "green_Stocks_count:", green_Stocks_count, RESET)
     print(BRIGHT_YELLOW + "green_Stocks_profit_loss:", green_Stocks_profit_loss, RESET)
     print(BRIGHT_YELLOW + "green_Stocks_capital_percentage:", green_Stocks_capital_percentage, "%" + RESET)
@@ -320,7 +312,6 @@ try:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))    
     print("━" * 42)
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
-    printbord(extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_cnc_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
 #############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
 except Exception as e:
     remove_token(dir_path)
