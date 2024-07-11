@@ -80,6 +80,7 @@ def get_holdingsinfo(combined_df):
             print(f"An error occurred: {str(e)}")
 
 
+
         if not nfo_df.empty:
             extras = nfo_df.loc[nfo_df['qty'] == 0, 'unrealised'].sum()
             total_opt_m2m = nfo_df['m2m'].sum()
