@@ -96,6 +96,14 @@ def process_data_total_profit():
         total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum())
         print(f"\033[92m{f'F&O Closed :: {total_profit_fo}':>42}\033[0m")   
 
+        current_date = datetime.now().date()
+
+        # Calculate total profit including CNC and NFO
+        total_profit_combined = total_profit + total_profit_fo
+
+        # Print the message with bright yellow color
+        print(f"\033[93mAs of {current_date}, total profit is {total_profit_combined}\033[0m")
+
         return total_profit
 
     except Exception as e:
