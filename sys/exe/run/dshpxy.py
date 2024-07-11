@@ -64,17 +64,21 @@ def get_holdingsinfo(combined_df):
             prft_df = filtered_df.loc[filtered_df['qty'] < 0].copy()  # Further filter rows where qty is less than 0 and make a copy
             prft_df['qty_abs'] = prft_df['qty'].abs()
             
-            # Calculate separate columns
-            prft_df['qty_times_o_avg_price'] = prft_df['qty_abs'] * prft_df['o_average_price'].fillna(0)
-            prft_df['qty_times_avg_price'] = prft_df['qty_abs'] * prft_df['average_price']
+            def calculate_profit(row):
+                if 'o_average_price' in row and not pd.isna(row['o_average_price']):
+                    o_avg_price = row['o_average_price']
+                else:
+                    o_avg_price = 0  # Treat as 0 if o_average_price is NaN or not present
+                
+                return (row['qty_abs'] * o_avg_price) - (row['qty_abs'] * row['average_price'])
             
-            # Calculate profit
-            prft_df['prft'] = prft_df['qty_times_o_avg_price'] - prft_df['qty_times_avg_price']
+            prft_df['prft'] = prft_df.apply(calculate_profit, axis=1)
             
             total_prft = prft_df['prft'].sum()
             print(f"Total profit for CNC products: {total_prft}")
         except Exception as e:
             print(f"An error occurred: {str(e)}")
+
 
 
 
