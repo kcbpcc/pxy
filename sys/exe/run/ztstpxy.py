@@ -74,7 +74,7 @@ def process_data():
         merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
 
         # Set column widths for printing
-        col_widths = [15, 8, 8, 8]
+        col_widths = [15, 7, 7, 7]
 
         # Convert DataFrame to formatted string
         formatted_str = merged_df_filtered.to_string(index=False, col_space=col_widths)
