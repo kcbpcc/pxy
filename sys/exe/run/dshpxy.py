@@ -59,6 +59,7 @@ def get_holdingsinfo(combined_df):
 
         optworth = combined_df.loc[combined_df['key'].str.contains('NFO:'), 'value'].sum()
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
+
         if not nfo_df.empty:
             extras = nfo_df.loc[nfo_df['qty'] == 0, 'unrealised'].sum()
             total_opt_m2m = nfo_df['m2m'].sum()
