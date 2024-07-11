@@ -77,9 +77,9 @@ def save_to_csv(df, filename):
 
         # Convert numeric columns to integers
         df['Qty'] = df['Qty'].astype(int)
-        df['Buy'] = df['Buy'].astype(float)  # Or int if Buy is always whole numbers
-        df['Sell'] = df['Sell'].astype(float)  # Or int if Sell is always whole numbers
-        df['Profit'] = df['Profit'].astype(float)  # Or int if Profit is always whole numbers
+        df['Buy'] = df['Buy'].astype(int)
+        df['Sell'] = df['Sell'].astype(int)
+        df['Profit'] = df['Profit'].astype(int)
 
         # Remove index and save to CSV
         df.to_csv(filename, index=False)
@@ -98,8 +98,8 @@ def main():
             data = result_df.values.tolist()
             headers = ["Stock", "Qty", "Buy", "Sell", "Profit"]
 
-            # Print the result as a formatted table
-            print(tabulate(data, headers=headers, tablefmt="fancy_grid"))
+            # Print the result as a formatted table with integers only
+            print(tabulate(data, headers=headers, tablefmt="fancy_grid", numalign="right"))
 
             # Save the result to a CSV file
             save_to_csv(result_df, 'output.csv')
@@ -110,3 +110,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
