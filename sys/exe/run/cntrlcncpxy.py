@@ -16,10 +16,11 @@ import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
 from cmbddfpxy import process_data
 combined_df = process_data()
+from cncprftpxy import process_data_total_profit
+booked = process_data_total_profit()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 file_path = 'filePnL.csv'
-booked = sum_last_numerical_value_in_each_row(file_path)  
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 logging = Logger(30, dir_path + "main.log")
 try:
