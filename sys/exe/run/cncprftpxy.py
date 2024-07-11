@@ -73,21 +73,21 @@ def process_data_total_profit():
         
         # Select specific columns from filtered merged_df and reorder
         merged_df_filtered = merged_df_filtered[['SN', 'STOCK', 'QTY', 'PL%', 'PnL']]
-        
-        nfo_df = positions_df.loc[(positions_df['key'].str.contains('NFO:'))]
-        nfo_df_filtered = nfo_df[['key', 'm2m']]
 
-        # Convert DataFrame to formatted string with aligned headers and values
         formatted_str = merged_df_filtered.to_string(index=False, header=False)
-        formatted_str_fo = nfo_df_filtered.to_string(index=False, header=False)
-
+        
         # Print each line right-aligned within 42 characters
         for line in formatted_str.split('\n'):
             print(f"{line:>42}")
 
+        mergedfo_df_filtered = merged_df[(merged_df['exchange_y'] == 'NFO') & (merged_df['quantity_y'] == 0)].copy()
+        
+        mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
+        formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
+        
         for line in formatted_str_fo.split('\n'):
             print(f"{line:>42}")
-
+        
         # Print "Stocks Booked Profit" right-aligned with 42 spaces
         total_profit = merged_df_filtered['PnL'].sum()
         print(f"\033[92m{total_profit:>42}\033[0m")
