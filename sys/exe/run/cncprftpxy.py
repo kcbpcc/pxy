@@ -103,7 +103,8 @@ def process_data_total_profit():
         total_profit_combined = total_profit + total_profit_fo
 
         # Print the message with bright yellow color
-        print(f"\033[93mAs of {current_date}, total profit is {total_profit_combined}\033[0m")
+        print(f"\033[96m{'As of ' + str(current_date) + ', total profit is ' + str(total_profit_combined):>42}\033[0m")
+
 
         return total_profit
 
