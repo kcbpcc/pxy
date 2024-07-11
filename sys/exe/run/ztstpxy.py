@@ -44,10 +44,10 @@ def process_data():
         # Merge holdings_df and positions_df on 'tradingsymbol'
         merged_df = pd.merge(holdings_df, positions_df, on='tradingsymbol', how='outer')
 
-        # Filter merged_df to include only rows where product_x == 'CNC' and used_quantity > 0
-        merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)]
+        # Select specific columns from merged_df
+        selected_df = merged_df[['tradingsymbol', 'used_quantity', 'average_price_x', 'average_price_y']]
 
-        return merged_df_filtered
+        return selected_df
 
     except Exception as e:
         print(f"An error occurred: {e}")
