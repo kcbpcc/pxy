@@ -31,17 +31,21 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 file_path = 'filePnL.csv'
+
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
+file_path_ord = "fileORDdf.csv"
 def get_any_order_status(symbol):
     try:
         orders = broker.kite.orders()
+        orders_df = pd.DataFrame(orders)
+        orders_df.to_csv(file_path_ord, index=False)
         for order in orders:
             if order['tradingsymbol'] == symbol:
                 return "YES"  # There is at least one order for the symbol
+        return "NO"   # No orders found for the symbol
     except Exception as e:
         logging.error(f"Error fetching orders: {str(e)}")
         return "ERROR"  # Unable to fetch orders due to error
-    return "NO"  # No orders found for the symbol
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
 def get_open_order_status(symbol):
     try:
