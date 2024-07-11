@@ -37,12 +37,12 @@ def process_data():
         holdings_df = get_holdingsinfo(holdings_response, broker)
         positions_df = get_positionsinfo(positions_response, broker)
 
-        # Ensure both dataframes have the 'tradingsymbol' column
+        # Ensure both dataframes have the necessary columns
         if 'tradingsymbol' not in holdings_df.columns or 'tradingsymbol' not in positions_df.columns:
             raise KeyError("'tradingsymbol' column not found in holdings_df or positions_df")
 
-        # Filter holdings_df to include only rows where tradingsymbol exists in positions_df
-        holdings_df_filtered = holdings_df[holdings_df['tradingsymbol'].isin(positions_df['tradingsymbol'])]
+        # Filter holdings_df to include only rows where product_x == 'CNC' and used_quantity > 0
+        holdings_df_filtered = holdings_df[(holdings_df['product_x'] == 'CNC') & (holdings_df['used_quantity'] > 0)]
 
         # Merge holdings_df_filtered and positions_df on 'tradingsymbol'
         merged_df = pd.merge(holdings_df_filtered, positions_df, on='tradingsymbol', how='outer')
