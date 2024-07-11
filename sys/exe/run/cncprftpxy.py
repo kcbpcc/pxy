@@ -1,31 +1,3 @@
-import sys
-import traceback
-import pandas as pd
-from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path
-from toolkit.logger import Logger
-
-# Define logging
-logging = Logger(30, dir_path + "main.log")
-
-def get_holdings_info(resp_list, broker):
-    try:
-        df = pd.DataFrame(resp_list)
-        df['source'] = 'holdings'
-        return df
-    except Exception as e:
-        logging.error(f"Error occurred in get_holdings_info: {e}")
-        return None
-
-def get_positions_info(resp_list, broker):
-    try:
-        df = pd.DataFrame(resp_list)
-        df['source'] = 'positions'
-        return df
-    except Exception as e:
-        logging.error(f"Error occurred in get_positions_info: {e}")
-        return None
-
 def process_data_total_profit():
     # Redirect stdout to output.txt
     sys.stdout = open('output.txt', 'w')
@@ -74,7 +46,7 @@ def process_data_total_profit():
         # Select specific columns from filtered merged_df and reorder
         merged_df_filtered = merged_df_filtered[['SN', 'STOCK', 'QTY', 'PL%', 'PnL']]
 
-        # Convert DataFrame to formatted string with aligned headers and values
+        # Create formatted string with aligned headers and values
         formatted_str = merged_df_filtered.to_string(index=False)
 
         # ANSI escape sequence for bright yellow color
@@ -83,17 +55,20 @@ def process_data_total_profit():
 
         # Print headers with bright yellow color
         headers_str = formatted_str.split('\n', 1)[0].strip()  # Extract and strip headers
-        print(f"{bright_yellow}{headers_str}{reset_color}")
+        headers_list = headers_str.split()
+        aligned_headers = " ".join([header.rjust(10) for header in headers_list])
+        print(f"{bright_yellow}{aligned_headers}{reset_color}")
 
-        # Print the rest of the formatted string (values) without leading/trailing spaces
-        values_str = formatted_str.split('\n', 1)[1].strip()
-        print(values_str)
+        # Print the rest of the formatted string (values) with right alignment
+        values_str = formatted_str.split('\n', 1)[1].strip().split('\n')
+        for line in values_str:
+            values_list = line.split()
+            aligned_values = " ".join([value.rjust(10) for value in values_list])
+            print(aligned_values)
 
         # Print "Stocks Booked Profit" right-aligned with 42 spaces
         total_profit = merged_df_filtered['PnL'].sum()
-        print(f"\033[92m{total_profit:>42}\033[0m")
-
-
+        print(f"\033[92m{'Total Profit:':>32} {total_profit:>10}\033[0m")
 
         return total_profit
 
@@ -102,14 +77,3 @@ def process_data_total_profit():
         print(f"An error occurred: {e}")
         traceback.print_exc()
         return None
-
-def main():
-    try:
-        process_data()
-    except Exception as e:
-        logging.error(f"Error occurred in main: {e}")
-        print(f"An error occurred in main: {e}")
-        traceback.print_exc()
-
-if __name__ == "__main__":
-    main()
