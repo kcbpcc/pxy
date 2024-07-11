@@ -118,13 +118,8 @@ if decision == "YES":
     if any(lst_tlyne):
         new_list = []
         lst_all_orders = [d for d in lst_dct_tlyne if d['tradingsymbol'] in lst_tlyne]
-
-        response = broker.kite.margins()
-        total_cash_with_margin = response["equity"]["available"]["live_balance"]
-        used_margin = response["equity"]["utilised"]["debits"]
-        remaining_cash = total_cash_with_margin - used_margin
-        
-        
+        remaining_cash = available_cash
+      
         for d in lst_all_orders:
             symbol, remaining_cash = transact(d, remaining_cash, broker)
             Utilities().slp_til_nxt_sec()
