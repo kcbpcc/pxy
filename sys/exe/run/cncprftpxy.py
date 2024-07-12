@@ -93,6 +93,7 @@ def process_data_total_profit():
         total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum()) if not mergedfo_df_filtered.empty else 0
         print(f"\033[92m{'💸  F&O exit positions Profit::' + str(total_profit_fo):>41}\033[0m")   
         if not mergedfo_df_filtered.empty:
+            mergedfo_df_filtered['pnl_y'] = mergedfo_df_filtered['pnl_y'].astype(int)
             mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
             formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
             
