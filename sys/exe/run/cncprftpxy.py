@@ -101,7 +101,8 @@ def process_data_total_profit():
             print("No NFO exit positions found.")
         
         # Calculate and print total profit for NFO positions
-
+        total_profit_all = total_profit_fo + total_profit
+        print(f"\033[92m{'All exit positions Profit :: ' + str(total_profit_all):>42}\033[0m")  
 
         return total_profit
 
