@@ -58,8 +58,8 @@ def get_holdingsinfo(combined_df):
         total_opts_invested_lacks = selected_opts_df['Invested'].sum() / 100000
 
 
-        sum_CE = combined_df[combined_df['key'].str.contains('NFO:') & combined_df['key'].str.endswith('CE')]['value'].sum()
-        sum_PE = combined_df[combined_df['key'].str.contains('NFO:') & combined_df['key'].str.endswith('PE')]['value'].sum()
+        sum_CE = combined_df[combined_df['key'].str.contains('NFO:') & combined_df['key'].str.endswith('CE')]['Invested'].sum()
+        sum_PE = combined_df[combined_df['key'].str.contains('NFO:') & combined_df['key'].str.endswith('PE')]['Invested'].sum()
         optworth = sum_CE / sum_PE if sum_PE != 0 else None
 
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
