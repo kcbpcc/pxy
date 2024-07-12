@@ -22,7 +22,6 @@ from utcpxy import peak_time
 peak = peak_time()
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)
-
 # Check index status
 bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
@@ -33,6 +32,14 @@ peak = peak_time()
 # Telegram bot token and user IDs
 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
 user_usernames = ('-4136531362',)
+
+def calculate_totals(combined_df):
+    if not combined_df.empty:
+        extras_df = combined_df[(combined_df['key'].str.contains('NFO:', case=False)) & (combined_df['qty'] == 0)].copy()
+        total_opt_m2m = extras_df['m2m'].sum()
+    else:
+        total_opt_m2m = 0
+    return total_opt_m2m
 
 def send_telegram_message(message):
     try:
@@ -64,6 +71,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
         return None
 
 def exit_options(exe_opt_df, broker):
+    total_opt_m2m = calculate_totals(combined_df)
     try:
         for index, row in exe_opt_df.iterrows():
             total_pl_percentage = row['PL%']
