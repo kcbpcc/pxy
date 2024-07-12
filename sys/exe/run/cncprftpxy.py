@@ -72,7 +72,7 @@ def process_data_total_profit():
             merged_df_filtered['QTY'] = merged_df_filtered['used_quantity'].astype(int)
             merged_df_filtered['PL%'] = ((merged_df_filtered['average_price_y'] - merged_df_filtered['average_price_x']) / merged_df_filtered['average_price_y']) * 100
             merged_df_filtered['PL%'] = merged_df_filtered['PL%'].round(2)
-            merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
+            #merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
             
             # Select specific columns from filtered merged_df and reorder
             merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
