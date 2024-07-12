@@ -85,7 +85,7 @@ def process_data_total_profit():
 
         # Calculate and print total profit for CNC positions
         total_profit = merged_df_filtered['PnL'].sum() if not merged_df_filtered.empty else 0
-        print(f"\033[92m{'F&O Closed :: ' + str(total_profit):>42}\033[0m")   
+        print(f"\033[92m{'CNC Profit :: ' + str(total_profit):>42}\033[0m")   
 
         # Processing NFO data
         mergedfo_df_filtered = merged_df[(merged_df['exchange_y'] == 'NFO') & (merged_df['quantity_y'] == 0)].copy()
@@ -101,7 +101,7 @@ def process_data_total_profit():
         
         # Calculate and print total profit for NFO positions
         total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum()) if not mergedfo_df_filtered.empty else 0
-        print(f"\033[92m{'F&O Closed :: ' + str(total_profit_fo):>42}\033[0m")   
+        print(f"\033[92m{'F&O Profit :: ' + str(total_profit_fo):>42}\033[0m")   
 
         return total_profit
 
