@@ -91,7 +91,9 @@ def process_data_total_profit():
         # Processing NFO data
         mergedfo_df_filtered = merged_df[(merged_df['exchange_y'] == 'NFO') & (merged_df['quantity_y'] == 0)].copy()
         total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum()) if not mergedfo_df_filtered.empty else 0
-        print(f"{'F&O exit positions Profit :: ':>42}\033[92m{total_profit_fo}\033[0m")
+        base_text = 'F&O exit positions Profit :: '
+        formatted_text = f"{base_text}\033[92m{total_profit_fo}\033[0m"
+        print(f"{formatted_text:>42}")
         if not mergedfo_df_filtered.empty:
             mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
             formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
