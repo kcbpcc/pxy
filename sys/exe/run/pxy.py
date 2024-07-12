@@ -60,7 +60,7 @@ while True:
     #subprocess.run(['python3', 'bniftychartpxy.py'])
     #subprocess.run(['python3', 'bdaypxy.py']) 
     #subprocess.run(['python3', 'bcndlpxy.py'])
-    (lambda: print((GREEN if bsma == "up" else RED if bsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))() if 'bsma' in locals() else None    
+    #(lambda: print((GREEN if bsma == "up" else RED if bsma == "down" else YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))() if 'bsma' in locals() else None    
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'buyboptpxy.py'])
