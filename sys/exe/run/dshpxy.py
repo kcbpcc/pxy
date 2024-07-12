@@ -62,6 +62,8 @@ def get_holdingsinfo(combined_df):
         sum_PE = combined_df[combined_df['key'].str.contains('NFO:') & combined_df['key'].str.endswith('PE')]['value'].sum()
         optworth = sum_CE / sum_PE if sum_PE != 0 else None
 
+        print(f"Sum of CE values: {sum_CE}")
+        print(f"Sum of PE values: {sum_PE}")
 
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
 
