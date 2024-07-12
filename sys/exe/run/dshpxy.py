@@ -64,6 +64,7 @@ def get_holdingsinfo(combined_df):
 
         print(f"Sum of CE values: {sum_CE}")
         print(f"Sum of PE values: {sum_PE}")
+        print(f"Ratio of CE to PE values (optworth): {optworth}")
 
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
 
