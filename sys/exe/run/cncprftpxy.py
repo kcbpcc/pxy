@@ -64,37 +64,43 @@ def process_data_total_profit():
         # Filter merged_df to include only rows where product_x == 'CNC' and used_quantity > 0
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)].copy()
 
-        # Calculate PL% and PnL
-        merged_df_filtered['STOCK'] = merged_df_filtered['tradingsymbol']
-        merged_df_filtered['QTY'] = merged_df_filtered['used_quantity'].astype(int)
-        merged_df_filtered['PL%'] = ((merged_df_filtered['average_price_y'] - merged_df_filtered['average_price_x']) / merged_df_filtered['average_price_y']) * 100
-        merged_df_filtered['PL%'] = merged_df_filtered['PL%'].round(2)
-        merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
-        
-        # Select specific columns from filtered merged_df and reorder
-        merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
+        if not merged_df_filtered.empty:
+            # Calculate PL% and PnL
+            merged_df_filtered['STOCK'] = merged_df_filtered['tradingsymbol']
+            merged_df_filtered['QTY'] = merged_df_filtered['used_quantity'].astype(int)
+            merged_df_filtered['PL%'] = ((merged_df_filtered['average_price_y'] - merged_df_filtered['average_price_x']) / merged_df_filtered['average_price_y']) * 100
+            merged_df_filtered['PL%'] = merged_df_filtered['PL%'].round(2)
+            merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
+            
+            # Select specific columns from filtered merged_df and reorder
+            merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
+            
+            formatted_str = merged_df_filtered.to_string(index=False, header=False)
+            
+            # Print each line right-aligned within 42 characters
+            for line in formatted_str.split('\n'):
+                print(f"{line:>42}")
+        else:
+            print("No CNC positions found.")
 
-        formatted_str = merged_df_filtered.to_string(index=False, header=False)
-        
-        # Print each line right-aligned within 42 characters
-        for line in formatted_str.split('\n'):
-            print(f"{line:>42}")
-
-        # Print "Stocks Booked Profit" right-aligned with 42 spaces
-        total_profit = merged_df_filtered['PnL'].sum()
+        # Calculate and print total profit for CNC positions
+        total_profit = merged_df_filtered['PnL'].sum() if not merged_df_filtered.empty else 0
         print(f"\033[92m{'F&O Closed :: ' + str(total_profit):>42}\033[0m")   
 
         # Processing NFO data
         mergedfo_df_filtered = merged_df[(merged_df['exchange_y'] == 'NFO') & (merged_df['quantity_y'] == 0)].copy()
-        
-        mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
-        formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
-        
-        for line in formatted_str_fo.split('\n'):
-            print(f"{line:>42}")
+
+        if not mergedfo_df_filtered.empty:
+            mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
+            formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
             
-        # Print "F&O Closed" with total profit right-aligned with 42 spaces
-        total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum())
+            for line in formatted_str_fo.split('\n'):
+                print(f"{line:>42}")
+        else:
+            print("No NFO positions found.")
+        
+        # Calculate and print total profit for NFO positions
+        total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum()) if not mergedfo_df_filtered.empty else 0
         print(f"\033[92m{'F&O Closed :: ' + str(total_profit_fo):>42}\033[0m")   
 
         return total_profit
