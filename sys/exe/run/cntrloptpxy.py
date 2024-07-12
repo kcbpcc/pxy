@@ -99,7 +99,7 @@ def exit_options(exe_opt_df, broker):
                     f"📉 Sell Price: {row['ltp']}\n"
                     f"📈 Buy Price: {row['avg']}\n"
                     f"💰 Booked Profit: {row['PnL']}\n"
-                    f"Total Booked: {total_pnl_sum} 📣"
+                    f"Total Booked: {total_opt_m2m} 📣"
                 )
                 print(message)
                 send_telegram_message(message)
