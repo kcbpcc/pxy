@@ -81,7 +81,7 @@ def process_data_total_profit():
             for line in formatted_str.split('\n'):
                 print(f"{line:>42}")
         else:
-            print("No CNC positions found.")
+            print("No CNC exit positions found.")
 
         # Calculate and print total profit for CNC positions
         total_profit = merged_df_filtered['PnL'].sum() if not merged_df_filtered.empty else 0
@@ -97,7 +97,7 @@ def process_data_total_profit():
             for line in formatted_str_fo.split('\n'):
                 print(f"{line:>42}")
         else:
-            print("No NFO positions found.")
+            print("No NFO exit positions found.")
         
         # Calculate and print total profit for NFO positions
         total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum()) if not mergedfo_df_filtered.empty else 0
