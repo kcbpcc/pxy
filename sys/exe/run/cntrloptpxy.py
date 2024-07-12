@@ -35,11 +35,11 @@ user_usernames = ('-4136531362',)
 
 def calculate_totals(combined_df):
     if not combined_df.empty:
-        extras_df = combined_df[(combined_df['key'].str.contains('NFO:', case=False)) & (combined_df['qty'] == 0)].copy()
-        total_opt_m2m = extras_df['m2m'].sum()
+        extras_df = combined_df[(combined_df['exchange'] == 'NFO') & (combined_df['qty'] == 0)].copy()
+        total_opt_pnl = extras_df['pnl'].sum()
     else:
-        total_opt_m2m = 0
-    return total_opt_m2m
+        total_opt_pnl = 0
+    return total_opt_pnl
 
 def send_telegram_message(message):
     try:
@@ -71,7 +71,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
         return None
 
 def exit_options(exe_opt_df, broker):
-    total_opt_m2m = calculate_totals(combined_df)
+    total_opt_pnl = calculate_totals(combined_df)
     try:
         for index, row in exe_opt_df.iterrows():
             total_pl_percentage = row['PL%']
@@ -99,7 +99,7 @@ def exit_options(exe_opt_df, broker):
                     f"📉 Sell Price: {row['ltp']}\n"
                     f"📈 Buy Price: {row['avg']}\n"
                     f"💰 Booked Profit: {row['PnL']}\n"
-                    f"Total Booked: {total_opt_m2m} 📣"
+                    f"Total Booked: {total_opt_pnl} 📣"
                 )
                 print(message)
                 send_telegram_message(message)
@@ -183,7 +183,7 @@ opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL', 'pnl', 'product', 'm2m'
 
 total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
-total_opt_m2m = opt_df['m2m'].sum()
+total_opt_pnl = opt_df['m2m'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
 
 # Create and process the print_df DataFrame
