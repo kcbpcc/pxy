@@ -5,6 +5,10 @@ from goouppxy import gsheet_acvalue
 from googetpxy import get_ac_values
 from mktpxy import get_market_check
 onemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
+from predictpxy import predict_market_sentiment
+mktpredict = predict_market_sentiment()
+from bpredictpxy import predict_bnk_sentiment
+bmktpredict = predict_bnk_sentiment()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_opt_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
     output_lines = []
@@ -29,6 +33,8 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
+    output_lines.append(left_aligned_format.format(f"NIFTY:{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{mktpredict}{RESET}") +
+                        right_aligned_format.format(f"BANKNIFTY:{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
                         right_aligned_format.format(f"Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{str(int(ydaypnl_to_print * 100000)).zfill(6)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Real-P&L:{BRIGHT_GREEN if ((acvalue_to_print - capital)  + hide) > 0 else BRIGHT_RED}{round(((acvalue_to_print - capital)  + hide) , 2)}{RESET}") +
