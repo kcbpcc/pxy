@@ -4,12 +4,7 @@ from predictpxy import predict_market_sentiment
 mktpredict = predict_market_sentiment()
 from bpredictpxy import predict_bnk_sentiment
 bmktpredict = predict_bnk_sentiment()
-from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-def color_text(text, color):
-    return f"{color}{text}{RESET}"
-mkt_color = BRIGHT_GREEN if mktpredict == "RISE" else BRIGHT_RED if mktpredict == "FALL" else BRIGHT_YELLOW
-bmk_color = BRIGHT_GREEN if bmktpredict == "RISE" else BRIGHT_RED if bmktpredict == "FALL" else BRIGHT_YELLOW
-print(f"NIFTY:{color_text(mktpredict, mkt_color)}                  BANKNIFTY:{color_text(bmktpredict, bmk_color)}")
+
 async def process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy):
     from ordoptpxy import place_order
     from telinoptpxy import send_telegram_message
