@@ -1,4 +1,4 @@
-
+print(mktpxy)
 def hand(mktpxy):
     if mktpxy == 'Buy':
         return '👆'  # Up arrow + handshake
