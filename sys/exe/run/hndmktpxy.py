@@ -5,8 +5,8 @@ def hand(mktpxy):
     elif mktpxy == 'Sell':
         return '👇'  # Down arrow + handshake
     elif mktpxy == 'Bull':
-        return '👉'  # Right arrow + handshake
+        return '🟢'  # Right arrow + handshake
     elif mktpxy == 'Bear':
-        return '👈'  # Left arrow + handshake
+        return '🔴'  # Left arrow + handshake
     else:
         return '🤝'  # Neutral with handshake
