@@ -38,12 +38,18 @@ async def handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktp
     else:
         print_order_reason(PE_symbol, PE_position_exists, count_PE, 'Hold')
 
-def determine_quantity(symbol, count, banknifty_prefix, nifty_prefix):
+def determine_quantity(symbol, count, banknifty_prefix, nifty_prefix, bnkmaxcount, nftmaxcount, bmktpredict):
     if symbol.startswith(banknifty_prefix) and count < bnkmaxcount:
-        return 15
+        if symbol.endswith("PE") and bmktpredict == "FALL":
+            return 30
+        elif symbol.endswith("CE") and bmktpredict == "RISE":
+            return 30
+        else:
+            return 15
     elif symbol.startswith(nifty_prefix) and count < nftmaxcount:
         return 50
-    return 0
+    else:
+        return 0
 
 async def execute_order(broker, symbol, quantity, place_order, send_telegram_message):
     buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', quantity, 'MARKET')
