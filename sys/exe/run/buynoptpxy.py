@@ -19,6 +19,8 @@ onemincandlesequance, mktpxy = get_market_check('^NSEI')
 from datetime import datetime, timedelta
 from rsnprntpxy import process_orders
 from exprpxy import month_expiry_date
+from hndmktpxy import hand
+showhand = hand('mktpxy')
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 #print("━" * 42)
@@ -84,7 +86,7 @@ async def main():
         CE_weight = count_CE - count_PE
         weight = abs(count_PE - count_CE)
 
-        print(f"{BRIGHT_YELLOW}📈{count_CE:02}:CE positions🔥{mktpxy:<4}💧PE positions:{count_PE:02}📉{RESET}")
+        print(f"{BRIGHT_YELLOW}📈{count_CE:02}:CE positions🔥 {showhand} 💧PE positions:{count_PE:02}📉{RESET}")
         
         expiry_year, expiry_month, expiry_day = month_expiry_date()
 
