@@ -16,6 +16,4 @@ def predict_bnk_sentiment():
 
     return mktpredict
 
-# Call the function to predict market sentiment and print the result
-predicted_sentiment = predict_market_sentiment()
-#print(predicted_sentiment)
+
