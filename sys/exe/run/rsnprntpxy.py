@@ -9,7 +9,7 @@ def color_text(text, color):
     return f"{color}{text}{RESET}"
 mkt_color = BRIGHT_GREEN if mktpredict == "RISE" else BRIGHT_RED if mktpredict == "FALL" else BRIGHT_YELLOW
 bmk_color = BRIGHT_GREEN if bmktpredict == "RISE" else BRIGHT_RED if bmktpredict == "FALL" else BRIGHT_YELLOW
-print(f"NIFTY Predict:{color_text(mktpredict, mkt_color)}  BANKNIFTY Predict:{color_text(bmktpredict, bmk_color)}")
+print(f"NIFTY:{color_text(mktpredict, mkt_color)}                  BANKNIFTY:{color_text(bmktpredict, bmk_color)}")
 
 
 async def process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy):
