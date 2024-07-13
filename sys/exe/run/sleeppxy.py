@@ -11,9 +11,9 @@ def progress_bar(duration, mktpxy):
         elif mktpxy == 'Sell':
             console.print('[red]🏛 PXY®[/]👇', end='')  # Down arrow + handshake
         elif mktpxy == 'Bull':
-            console.print('[green]🏛 PXY®[/]👉', end='')  # Right arrow + handshake
+            console.print('[green]🏛 PXY®[/]🟢', end='')  # Right arrow + handshake
         elif mktpxy == 'Bear':
-            console.print('[red]🏛 PXY®[/]👈', end='')  # Left arrow + handshake
+            console.print('[red]🏛 PXY®[/]🔴', end='')  # Left arrow + handshake
         else:
             console.print('[yellow]🏛 PXY®[/]🤝', end='')  # Neutral with handshake
     console.print()
