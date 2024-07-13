@@ -21,8 +21,9 @@ from rsnprntpxy import process_orders
 from exprpxy import month_expiry_date
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from hndmktpxy import hand
+print(mktpxy)
 showhand = hand('mktpxy')
-
+print(mktpxy)
 #print("━" * 42)
 
 # Define function to get this week's Thursday date
