@@ -1,5 +1,9 @@
 bnkmaxcount = 9
 nftmaxcount = 1
+from predictpxy import predict_market_sentiment
+mktpredict = predict_market_sentiment()
+from predictpxy import predict_bnk_sentiment
+bmktpredict = predict_bnk_sentiment()
 
 async def process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy):
     from ordoptpxy import place_order
