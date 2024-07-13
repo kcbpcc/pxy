@@ -10,6 +10,3 @@ def hand(mktpxy):
         return '👈'  # Left arrow + handshake
     else:
         return '🤝'  # Neutral with handshake
-
-    print(mktpxy)
-
