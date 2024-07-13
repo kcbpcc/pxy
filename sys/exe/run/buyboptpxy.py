@@ -84,7 +84,7 @@ async def main():
         CE_weight = count_CE - count_PE
         weight = abs(count_PE - count_CE)
 
-        print(f"{BRIGHT_YELLOW}🔥CE positions:{count_CE:02} 📈{mktpxy:<4}📉 PE positions:{count_PE:02}💧{RESET}")
+        print(f"{BRIGHT_YELLOW}🔥CE positions:{count_CE:02}📈{mktpxy:<4}📉PE positions:{count_PE:02}💧{RESET}")
         
         expiry_year, expiry_month, expiry_day = month_expiry_date()
 
