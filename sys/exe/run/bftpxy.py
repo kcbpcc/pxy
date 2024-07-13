@@ -11,7 +11,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-def get_nse_action():
+def get_bnk_action():
     ha_nse_action = None
     nse_power = 0.0
     Day_Change = 0.0
