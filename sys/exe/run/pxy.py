@@ -137,4 +137,5 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
     from sleeppxy import progress_bar
     from cyclepxy import cycle
-    progress_bar(cycle, mktpxy)
+    progress_bar(cycle)
+    #progress_bar(cycle, mktpxy)
