@@ -70,10 +70,8 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
                         right_aligned_format.format(f"Hp&l:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Op&l:{BRIGHT_GREEN if total_opt_m2m > 0 else BRIGHT_RED}{int(round(total_opt_m2m, 0))}{RESET}") +
                         right_aligned_format.format(f"Booked:{GREEN if booked > 0 else RED}{str(round(booked)).zfill(5)}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"BANK:{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict}{bmktpxy}{RESET}") +
-                        right_aligned_format.format(f"NIFTY:{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{mktpredict}{mktpxy}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"Closed:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{str(int(extras)).zfill(5)}{RESET}") +
-                        right_aligned_format.format(f"PROFIT:{GREEN if booked > 0 else RED}₹ {str(round(booked+extras)).zfill(5)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"BANK:{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict}{BRIGHT_GREEN if bmktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{bmktpxy}{RESET}") +
+                        right_aligned_format.format(f"NIFTY:{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{mktpredict}{BRIGHT_GREEN if mktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{mktpxy}{RESET}"))
     full_output = '\n'.join(output_lines)
     with open("bordpxy.csv", "w") as file:
         file.write(full_output)
