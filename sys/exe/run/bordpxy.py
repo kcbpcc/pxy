@@ -33,8 +33,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
-    output_lines.append(left_aligned_format.format(f"BANK:{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict}{RESET}") +
-                        right_aligned_format.format(f"NIFTY:{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{mktpredict}{RESET}"))
+
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
                         right_aligned_format.format(f"Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{str(int(ydaypnl_to_print * 100000)).zfill(6)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Real-P&L:{BRIGHT_GREEN if ((acvalue_to_print - capital)  + hide) > 0 else BRIGHT_RED}{round(((acvalue_to_print - capital)  + hide) , 2)}{RESET}") +
@@ -71,6 +70,8 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
                         right_aligned_format.format(f"Hp&l:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Op&l:{BRIGHT_GREEN if total_opt_m2m > 0 else BRIGHT_RED}{int(round(total_opt_m2m, 0))}{RESET}") +
                         right_aligned_format.format(f"Booked:{GREEN if booked > 0 else RED}{str(round(booked)).zfill(5)}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"BANK:{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict}{bmktpxy}{RESET}") +
+                        right_aligned_format.format(f"NIFTY:{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{mktpredict}{mktpxy}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Closed:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{str(int(extras)).zfill(5)}{RESET}") +
                         right_aligned_format.format(f"PROFIT:{GREEN if booked > 0 else RED}₹ {str(round(booked+extras)).zfill(5)}{RESET}"))
     full_output = '\n'.join(output_lines)
