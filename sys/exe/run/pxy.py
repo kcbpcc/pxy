@@ -52,12 +52,7 @@ while True:
         importlib.reload(sys.modules['nftpxy'])  # Reload module after import
         return get_nse_action()
     
-    @handle_exceptions
-    def cycle_handler():
-        from cyclepxy import cycle
-        importlib.reload(sys.modules['cyclepxy'])  # Reload module after import
-        return cycle()
-    
+  
     @handle_exceptions
     def calculate_macd_signal_handler(symbol):
         from macdpxy import calculate_macd_signal
@@ -101,13 +96,8 @@ while True:
     except Exception as e:
         print(f"Error handling NSE action: {e}")
         ha_nse_action, nse_power, Day_Change, Open_Change = 0.5, 0.5, 0.5, 0.5
-    
-    try:
-        cycle = cycle_handler()
-    except Exception as e:
-        print(f"Error handling cycle: {e}")
-        cycle = 1
-    
+  
+   
     try:
         macd = calculate_macd_signal_handler("^NSEI")
     except Exception as e:
