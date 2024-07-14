@@ -7,8 +7,6 @@ import sys
 import os
 from clorpxy import RED, GREEN
 console = Console()
-from sleeppxy import progress_bar
-from cyclepxy import cycle
 import time
 from rich.console import Console
 from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
