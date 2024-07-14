@@ -23,8 +23,16 @@ while True:
         if peak == 'NONPEAK':
             os.system('clear -x')
     from predictpxy import predict_market_sentiment
-    importlib.reload(sys.modules['predictpxy'])  # Correct the usage
-    mktpredict = predict_market_sentiment()
+    try:
+        import importlib
+        importlib.reload(sys.modules['predictpxy'])  # Correct the usage
+        mktpredict = predict_market_sentiment()
+    except ImportError as e:
+        print(f"Import error: {e}")
+        # Handle ImportError if needed
+    except Exception as ex:
+        print(f"An error occurred: {ex}")
+        mktpredict = None  # Assign mktpredict to None in case of any exception
     from mktpxy import get_market_check
     try:
         importlib.reload(sys.modules['mktpxy'])  # Correct the usage
