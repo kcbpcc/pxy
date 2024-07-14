@@ -147,4 +147,6 @@ while True:
     subprocess.run(['python3', 'selfpxy.py'])
     subprocess.run(['python3', 'gooboradpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################
+    from sleeppxy import progress_bar
+    from cyclepxy import cycle
     progress_bar(cycle, mktpxy)
