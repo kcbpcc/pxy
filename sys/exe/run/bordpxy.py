@@ -33,8 +33,8 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
-    output_lines.append(left_aligned_format.format(f"BANK:{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict}{RESET}") +
-                        right_aligned_format.format(f"NIFTY:{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{mktpredict}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"BANK:{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict}{RESET}"){bmktpxy} +
+                        right_aligned_format.format(f"NIFTY:{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{mktpredict}{RESET}"){mktpxy})
     output_lines.append(left_aligned_format.format(f"BIFTY:{BRIGHT_GREEN if bmktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{bmktpxy}{RESET}") +
                         right_aligned_format.format(f"NIFTY:{BRIGHT_GREEN if mktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{mktpxy}{RESET}"))  
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
