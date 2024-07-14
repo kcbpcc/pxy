@@ -31,7 +31,15 @@ while True:
         onemincandlesequance, mktpxy = get_market_check('^NSEI')
     except Exception as e:
         print("An error occurred:", e)
-        onemincandlesequance = mktpxy = "Buy"
+        onemincandlesequance = mktpxy = "none"
+
+    try:
+        importlib.reload(sys.modules['mktpxy'])  # Correct the usage
+        bnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
+    except Exception as e:
+        print("An error occurred:", e)
+        onemincandlesequance = mktpxy = "none"
+    
     from nftpxy import get_nse_action
     try:
         importlib.reload(sys.modules['nftpxy'])  # Correct the usage
