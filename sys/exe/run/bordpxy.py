@@ -33,10 +33,11 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
-    output_lines.append(left_aligned_format.format(f"BANK Predict:{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict}{RESET}") +
-                        right_aligned_format.format(f"NIFTY Predict:{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{mktpredict}{RESET}"))
-    output_lines.append(left_aligned_format.format(f"BANK Trend:{BRIGHT_GREEN if bmktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{bmktpxy}{RESET}") +
-                        right_aligned_format.format(f"NIFTY Trend:{BRIGHT_GREEN if mktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{mktpxy}{RESET}"))  
+    output_lines.append(
+        left_aligned_format.format(f"BANK:{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict}{RESET}") +
+        right_aligned_format.format(f"NIFTY:{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{mktpredict}{RESET}"))
+    output_lines.append(left_aligned_format.format(f"BIFTY:{BRIGHT_GREEN if bmktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{bmktpxy}{RESET}") +
+                        right_aligned_format.format(f"NIFTY:{BRIGHT_GREEN if mktpxy == 'Bull' else BRIGHT_RED if bmktpxy == 'Bear' else BRIGHT_YELLOW}{mktpxy}{RESET}"))  
     output_lines.append(left_aligned_format.format(f"Funds:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
                         right_aligned_format.format(f"Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{str(int(ydaypnl_to_print * 100000)).zfill(6)}{RESET}"))
     output_lines.append(left_aligned_format.format(f"Real-P&L:{BRIGHT_GREEN if ((acvalue_to_print - capital)  + hide) > 0 else BRIGHT_RED}{round(((acvalue_to_print - capital)  + hide) , 2)}{RESET}") +
