@@ -56,7 +56,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
                        right_aligned_format.format(f"Hp&l:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
 
     output_lines.append(left_aligned_format.format(f"Op&l:{BRIGHT_GREEN if total_opt_m2m > 0 else BRIGHT_RED}{str(int(total_opt_m2m)).zfill(6)}{RESET}") +
-                       right_aligned_format.format(f"Booked:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
+                       right_aligned_format.format(f"P&L:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
 
     output_lines.append(left_aligned_format.format(f"Closed:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{str(int(extras)).zfill(5)}{RESET}") +
                        right_aligned_format.format(f"PROFIT:{GREEN if booked > 0 else RED}₹ {str(round(booked + extras)).zfill(5)}{RESET}"))
