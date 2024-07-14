@@ -63,10 +63,6 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
 
     full_output = '\n'.join(output_lines)
 
-    # Write formatted output to a CSV file
-    with open("bordpxy.csv", "w") as file:
-        file.write(full_output)
-
     # Print the formatted output
     print(full_output)
 
