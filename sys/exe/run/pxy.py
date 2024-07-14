@@ -5,7 +5,6 @@ import warnings
 from rich.console import Console
 import sys
 import os
-from cyclepxy import cycle
 from clorpxy import RED, GREEN
 console = Console()
 from sleeppxy import progress_bar
@@ -16,112 +15,112 @@ subprocess.run(['python3', 'cpritepxy.py'])
 import os
 import importlib
 while True:
-
-    try:
+    import os
+    import sys
+    import importlib
+    
+    def handle_exceptions(func):
+        def wrapper(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except ImportError as e:
+                print(f"Import error: {e}")
+            except Exception as ex:
+                print(f"An error occurred: {ex}")
+        return wrapper
+    
+    @handle_exceptions
+    def peak_time_handler():
         from utcpxy import peak_time
-        importlib.reload(sys.modules['utcpxy'])  # Correct the usage
-        peak = peak_time()
+        importlib.reload(sys.modules['utcpxy'])  # Reload module after import
+        return peak_time()
+    
+    @handle_exceptions
+    def predict_market_sentiment_handler():
+        from predictpxy import predict_market_sentiment
+        importlib.reload(sys.modules['predictpxy'])  # Reload module after import
+        return predict_market_sentiment()
+    
+    @handle_exceptions
+    def get_market_check_handler(symbol):
+        from mktpxy import get_market_check
+        importlib.reload(sys.modules['mktpxy'])  # Reload module after import
+        return get_market_check(symbol)
+    
+    @handle_exceptions
+    def get_nse_action_handler():
+        from nftpxy import get_nse_action
+        importlib.reload(sys.modules['nftpxy'])  # Reload module after import
+        return get_nse_action()
+    
+    @handle_exceptions
+    def cycle_handler():
+        from cyclepxy import cycle
+        importlib.reload(sys.modules['cyclepxy'])  # Reload module after import
+        return cycle()
+    
+    @handle_exceptions
+    def calculate_macd_signal_handler(symbol):
+        from macdpxy import calculate_macd_signal
+        return calculate_macd_signal(symbol)
+    
+    @handle_exceptions
+    def check_index_status_handler(symbol):
+        from smapxy import check_index_status
+        return check_index_status(symbol)
+    
+    try:
+        peak = peak_time_handler()
         if os.name == 'nt':
             os.system('cls')
         else:
             if peak == 'NONPEAK':
                 os.system('clear -x')
-    except ImportError as e:
-        print(f"Import error for utcpxy: {e}")
-        # Handle ImportError for utcpxy if needed
-    except Exception as ex:
-        print(f"An error occurred for utcpxy: {ex}")
-        # Handle other exceptions for utcpxy if needed
-    
-    try:
-        from predictpxy import predict_market_sentiment
-        importlib.reload(sys.modules['predictpxy'])  # Correct the usage
-        mktpredict = predict_market_sentiment()
-    except ImportError as e:
-        print(f"Import error for predictpxy: {e}")
-        # Handle ImportError for predictpxy if needed
-    except Exception as ex:
-        print(f"An error occurred for predictpxy: {ex}")
-        mktpredict = None  # Assign mktpredict to None in case of any exception
-    
-    try:
-        from mktpxy import get_market_check
-        importlib.reload(sys.modules['mktpxy'])  # Correct the usage
-        onemincandlesequance, mktpxy = get_market_check('^NSEI')
     except Exception as e:
-        print("An error occurred for mktpxy:", e)
+        print(f"Error handling peak time: {e}")
+    
+    try:
+        mktpredict = predict_market_sentiment_handler()
+    except Exception as e:
+        print(f"Error handling market sentiment prediction: {e}")
+        mktpredict = None
+    
+    try:
+        onemincandlesequance, mktpxy = get_market_check_handler('^NSEI')
+    except Exception as e:
+        print(f"Error handling market check for ^NSEI: {e}")
         onemincandlesequance, mktpxy = "none", "none"
     
     try:
-        bnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
+        bnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK')
     except Exception as e:
-        print("An error occurred for mktpxy (NSEBANK):", e)
+        print(f"Error handling market check for ^NSEBANK: {e}")
         bnkonemincandlesequance, bmktpxy = "none", "none"
     
     try:
-        from nftpxy import get_nse_action
-        importlib.reload(sys.modules['nftpxy'])  # Correct the usage
-        ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
+        ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action_handler()
     except Exception as e:
-        print("An error occurred for nftpxy:", e)
+        print(f"Error handling NSE action: {e}")
         ha_nse_action, nse_power, Day_Change, Open_Change = 0.5, 0.5, 0.5, 0.5
     
     try:
-        from cyclepxy import cycle
-    except ImportError as e:
-        print(f"Import error for cyclepxy: {e}")
-        # Handle ImportError for cyclepxy if needed
-    except Exception as ex:
-        print(f"An error occurred for cyclepxy: {ex}")
-        # Handle other exceptions for cyclepxy if needed
+        cycle = cycle_handler()
+    except Exception as e:
+        print(f"Error handling cycle: {e}")
+        cycle = 1
     
     try:
-        importlib.reload(sys.modules['cyclepxy'])  # Correct the usage
-    except ImportError as e:
-        print(f"Import error for cyclepxy reload: {e}")
-        # Handle ImportError for cyclepxy reload if needed
-    except Exception as ex:
-        print(f"An error occurred for cyclepxy reload: {ex}")
-        # Handle other exceptions for cyclepxy reload if needed
+        macd = calculate_macd_signal_handler("^NSEI")
+    except Exception as e:
+        print(f"Error handling MACD signal calculation: {e}")
+        macd = None
     
     try:
-        from macdpxy import calculate_macd_signal
-        macd = calculate_macd_signal("^NSEI")
-    except ImportError as e:
-        print(f"Import error for macdpxy: {e}")
-        # Handle ImportError for macdpxy if needed
-    except Exception as ex:
-        print(f"An error occurred for macdpxy: {ex}")
-        # Handle other exceptions for macdpxy if needed
-    
-    try:
-        importlib.reload(sys.modules['macdpxy'])  # Correct the usage
-    except ImportError as e:
-        print(f"Import error for macdpxy reload: {e}")
-        # Handle ImportError for macdpxy reload if needed
-    except Exception as ex:
-        print(f"An error occurred for macdpxy reload: {ex}")
-        # Handle other exceptions for macdpxy reload if needed
-    
-    try:
-        from smapxy import check_index_status
-        nsma = check_index_status('^NSEI')
-        bsma = check_index_status('^NSEBANK')
-    except ImportError as e:
-        print(f"Import error for smapxy: {e}")
-        # Handle ImportError for smapxy if needed
-    except Exception as ex:
-        print(f"An error occurred for smapxy: {ex}")
-        # Handle other exceptions for smapxy if needed
-    
-    try:
-        importlib.reload(sys.modules['smapxy'])  # Correct the usage
-    except ImportError as e:
-        print(f"Import error for smapxy reload: {e}")
-        # Handle ImportError for smapxy reload if needed
-    except Exception as ex:
-        print(f"An error occurred for smapxy reload: {ex}")
-        # Handle other exceptions for smapxy reload if needed
+        nsma = check_index_status_handler('^NSEI')
+        bsma = check_index_status_handler('^NSEBANK')
+    except Exception as e:
+        print(f"Error handling index status: {e}")
+        nsma, bsma = None, None
 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'FALL' else (BRIGHT_YELLOW + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'SIDE' else ""))) + RESET)
