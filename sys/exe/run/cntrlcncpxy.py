@@ -16,7 +16,6 @@ import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
 from cmbddfpxy import process_data
 combined_df = process_data()
-file_path = 'filePnL.csv'
 print("━" * 42)
 from cncprftpxy import process_data_total_profit
 booked = process_data_total_profit()
@@ -184,7 +183,6 @@ try:
     macd = calculate_macd_signal("^NSEI")
     random_message = get_random_spiritual_message()
     switch = analyze_stock()
-    file_path = 'filePnL.csv'
     nsma = check_index_status('^NSEI')
     peak = peak_time()
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
