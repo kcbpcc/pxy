@@ -253,24 +253,28 @@ try:
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
-    csv_file_path = "filePnL.csv"
-    total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks)*100000)
+    csv_file_path = "filePnl.csv"
+    df = pd.read_csv(csv_file_path, header=None)
+    df.columns = ["STOCK", "QTY", "PL%", "PnL"]
+    total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks) * 100000)
     selected_rows = []
+    
     if True:
         try:
             for index, row in EXE_df.iterrows():
-                excluded_keys = set(pd.read_csv("filePnL.csv", header=None).iloc[:, -3])
-                key = row['key']  # Get the 'key' value
-                symbol_in_order = row['key'].split(":")[1]
+                excluded_keys = set(df['STOCK'])
+                key = row['key']
+                symbol_in_order = key.split(":")[1]
+    
                 if (
-                    row['key'] not in excluded_keys and
+                    symbol_in_order not in excluded_keys and
                     row['open'] > 0 and
                     row['high'] > 0 and
                     row['low'] > 0 and
                     row['close'] > 0 and
                     nse_power != 0.50 and
-                    row['ltp'] != 0 
-                ):                            
+                    row['ltp'] != 0
+                ):
     ############################################################################################
                     if (
                         row['qty'] > 0 and
