@@ -31,7 +31,7 @@ def display_csv_contents(filename, custom_header):
     # Print table with custom header and subtotal
     print(f"{custom_header}:")
     print(table)
-    print(f"{YELLOW}Subtotal: {subtotal}{RESET}")
+    print(f"                           {YELLOW}Subtotal: {subtotal}{RESET}")
     print("\n")  # Adding two-line row space
     
     return subtotal
