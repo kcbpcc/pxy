@@ -37,12 +37,13 @@ def display_csv_contents(filename, custom_header):
     return subtotal
 
 # Display contents of filePnL_nrml.csv
-subtotal1 = display_csv_contents('filePnL_nrml.csv', custom_header='')
+subtotal1 = display_csv_contents('filePnL_nrml.csv', custom_header='123')
 
 # Display contents of filePnL.csv
-subtotal2 = display_csv_contents('filePnL.csv', custom_header='')
+subtotal2 = display_csv_contents('filePnL.csv', custom_header='233')
 
 # Calculate and print total of all tables
 total = subtotal1 + subtotal2
 print(f"\033[92mTotal: {total}\033[0m")
+print("\n")
 
