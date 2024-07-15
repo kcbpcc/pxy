@@ -44,4 +44,5 @@ subtotal2 = display_csv_contents('filePnL.csv', custom_header='')
 
 # Calculate and print total of all tables
 total = subtotal1 + subtotal2
-print(f"{YELLOW}Total: {total}{RESET}")
+print(f"\033[92mTotal: {total}\033[0m")
+
