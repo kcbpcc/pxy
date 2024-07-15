@@ -246,6 +246,8 @@ try:
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
+    from prftpxy import process_data_total_profit
+    booked = process_data_total_profit()
     csv_file_path = "filePnL.csv"
     df = pd.read_csv(csv_file_path, header=None)
     df.columns = ["STOCK", "QTY", "PL%", "PnL"]
@@ -333,9 +335,6 @@ try:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))    
     print("━" * 42)
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
-    from prftpxy import process_data_total_profit
-    booked = process_data_total_profit()
-    #print("━" * 42)
     printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_opt_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
     print("━" * 42)
 #############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
