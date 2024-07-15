@@ -113,7 +113,7 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'FALL' else (BRIGHT_YELLOW + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'SIDE' else ""))) + RESET)
     subprocess.run(['python3', 'tistpxy.py'])
-    subprocess.run(['python3', 'cntrloptpxy.py'])
+    subprocess.run(['python3', 'cntrloptpxy.py']) if mktpxy in ['Bear', 'Bull'] or bmktpxy in ['Bear', 'Bull'] else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     (lambda: print((BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() if 'nsma' in locals() else None
     subprocess.run(['python3', 'cndlpxy.py'])
@@ -130,6 +130,7 @@ while True:
     (lambda: print((BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))() if 'bsma' in locals() else None    
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'cntrloptprntpxy.py']) 
+    subprocess.run(['python3', 'cntrloptpxy.py']) if mktpxy in ['Bear', 'Bull'] or bmktpxy in ['Bear', 'Bull'] else None
     subprocess.run(['python3', 'buynoptpxy.py']) if mktpxy in ['Buy', 'Sell']  else None
     subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy in ['Buy', 'Sell'] else None
     subprocess.run(['python3', 'cntrlcncpxy.py'])
