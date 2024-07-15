@@ -1,7 +1,9 @@
 bnkmaxcount = 9
 nftmaxcount = 1
+
 from predictpxy import predict_market_sentiment
 mktpredict = predict_market_sentiment()
+
 from bpredictpxy import predict_bnk_sentiment
 bmktpredict = predict_bnk_sentiment()
 
@@ -11,8 +13,8 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
 
     try:
         if available_cash > 10000:
-            await handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktpxy, place_order, send_telegram_message)
-            await handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktpxy, place_order, send_telegram_message)
+            await handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
+            await handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
         else:
             log_insufficient_funds(available_cash)
     except Exception as e:
@@ -51,7 +53,6 @@ def determine_quantity(symbol, count, banknifty_prefix, nifty_prefix, bnkmaxcoun
     else:
         return 0
 
-
 async def execute_order(broker, symbol, quantity, place_order, send_telegram_message):
     buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', quantity, 'MARKET')
     if buy_order_placed:
@@ -68,4 +69,3 @@ def print_order_reason(symbol, position_exists, count, action):
 
 def log_insufficient_funds(available_cash):
     print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
-
