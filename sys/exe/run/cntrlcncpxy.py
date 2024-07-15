@@ -16,10 +16,6 @@ import asyncio
 from bukdpxy import sum_last_numerical_value_in_each_row
 from cmbddfpxy import process_data
 combined_df = process_data()
-print("━" * 42)
-from cncprftpxy import process_data_total_profit
-booked = process_data_total_profit()
-print("━" * 42)
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
@@ -338,6 +334,10 @@ try:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))    
     print("━" * 42)
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
+    print("━" * 42)
+    from prftpxy import process_data_total_profit
+    booked = process_data_total_profit()
+    print("━" * 42)
     printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_opt_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
 #############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
 except Exception as e:
