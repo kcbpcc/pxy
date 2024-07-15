@@ -3,4 +3,4 @@ source ~/env/bin/activate
 # Change to the script's directory
 cd ~/pxy/sys/exe/run
 # Run the Python script
-python3 prftpxy.py
+python3 plpxy.py
