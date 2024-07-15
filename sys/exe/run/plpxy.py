@@ -21,7 +21,7 @@ def display_csv_contents(filename, custom_header):
     col_widths = [max(len(str(row[i])) for row in [headers] + data) + 2 for i in range(len(headers))]
     
     # Format table
-    table = tabulate(data, headers=headers, tablefmt='plain', colalign=("left", "right", "right", "right"), numalign="left")
+    table = tabulate(data, headers=headers, tablefmt='plain')
     
     # Calculate subtotal for PnL
     pnl_column_index = headers.index('PnL')
