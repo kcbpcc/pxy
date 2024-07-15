@@ -60,7 +60,7 @@ while true; do
             pxytail
             ;;   
         pl)
-            echo "        💰💰💰.pip install.💰💰💰"
+            echo "        💰💰💰.My Profits.💰💰💰"
             pxypnl
             ;;           
         tp)
