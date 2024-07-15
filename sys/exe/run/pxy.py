@@ -33,35 +33,29 @@ while True:
         from utcpxy import peak_time
         importlib.reload(sys.modules['utcpxy'])  # Reload module after import
         return peak_time()
-    
     @handle_exceptions
     def predict_market_sentiment_handler():
         from predictpxy import predict_market_sentiment
         importlib.reload(sys.modules['predictpxy'])  # Reload module after import
         return predict_market_sentiment()
-    
     @handle_exceptions
     def get_market_check_handler(symbol):
         from mktpxy import get_market_check
         importlib.reload(sys.modules['mktpxy'])  # Reload module after import
         return get_market_check(symbol)
-    
     @handle_exceptions
     def get_nse_action_handler():
         from nftpxy import get_nse_action
         importlib.reload(sys.modules['nftpxy'])  # Reload module after import
         return get_nse_action()
-    
     @handle_exceptions
     def calculate_macd_signal_handler(symbol):
         from macdpxy import calculate_macd_signal
         return calculate_macd_signal(symbol)
-    
     @handle_exceptions
     def check_index_status_handler(symbol):
         from smapxy import check_index_status
         return check_index_status(symbol)
-    
     try:
         peak = peak_time_handler()
         if os.name == 'nt':
@@ -71,38 +65,31 @@ while True:
                 os.system('clear -x')
     except Exception as e:
         print(f"Error handling peak time: {e}")
-    
     try:
         mktpredict = predict_market_sentiment_handler()
     except Exception as e:
         print(f"Error handling market sentiment prediction: {e}")
         mktpredict = None
-    
     try:
         onemincandlesequance, mktpxy = get_market_check_handler('^NSEI')
     except Exception as e:
         print(f"Error handling market check for ^NSEI: {e}")
         onemincandlesequance, mktpxy = "none", "none"
-    
     try:
         bnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK')
     except Exception as e:
         print(f"Error handling market check for ^NSEBANK: {e}")
         bnkonemincandlesequance, bmktpxy = "none", "none"
-    
     try:
         ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action_handler()
     except Exception as e:
         print(f"Error handling NSE action: {e}")
         ha_nse_action, nse_power, Day_Change, Open_Change = 0.5, 0.5, 0.5, 0.5
-  
-   
     try:
         macd = calculate_macd_signal_handler("^NSEI")
     except Exception as e:
         print(f"Error handling MACD signal calculation: {e}")
         macd = None
-    
     try:
         nsma = check_index_status_handler('^NSEI')
         bsma = check_index_status_handler('^NSEBANK')
@@ -136,7 +123,6 @@ while True:
     subprocess.run(['python3', 'cntrlcncpxy.py'])
     print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'FALL' else (BRIGHT_YELLOW + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'SIDE' else ""))) + RESET)
     subprocess.run(['python3', 'selfpxy.py'])
-    #subprocess.run(['python3', 'gooboradpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     from sleeppxy import progress_bar
     from cyclepxy import cycle
