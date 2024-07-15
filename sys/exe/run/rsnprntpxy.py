@@ -7,6 +7,7 @@ from ordoptpxy import place_order
 from telinoptpxy import send_telegram_message
 
 async def process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE):
+    # Get market sentiment predictions
     mktpxy = predict_market_sentiment()
     bmktpredict = predict_bnk_sentiment()
 
@@ -61,3 +62,4 @@ def print_order_reason(symbol, position_exists, count, action):
 
 def log_insufficient_funds(available_cash):
     print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
+
