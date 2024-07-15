@@ -14,26 +14,26 @@ def display_csv_contents(filename, custom_header):
     data = rows[1:]
     table = tabulate(data, headers=headers, tablefmt='plain')
     
-    # Printing table with custom header and underlines
-    print(f"{custom_header}:")
-    print(table)
-    
-    # Calculate subtotal and total for PnL
+    # Calculate subtotal for PnL
     pnl_column_index = headers.index('PnL')
     pnl_values = [int(row[pnl_column_index]) for row in data]
     subtotal = sum(pnl_values)
-    total = sum(pnl_values)
     
-    # Print subtotals
+    # Print table with custom header and subtotal
+    print(f"{custom_header}:")
+    print(table)
     print(f"Subtotal: {subtotal}")
-    print(f"Total: {total}")
-    
-    # Add an underline
-    print(f"{'-' * len(custom_header)}")
     print("\n")  # Adding two-line row space
+    
+    return subtotal
 
 # Display contents of filePnL_nrml.csv
-display_csv_contents('filePnL_nrml.csv', custom_header='Options Profits')
+subtotal1 = display_csv_contents('filePnL_nrml.csv', custom_header='Options Profits')
 
 # Display contents of filePnL.csv
-display_csv_contents('filePnL.csv', custom_header='Stocks Profits')
+subtotal2 = display_csv_contents('filePnL.csv', custom_header='Stocks Profits')
+
+# Calculate and print total of all tables
+total = subtotal1 + subtotal2
+print(f"Total: {total}")
+
