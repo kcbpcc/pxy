@@ -96,6 +96,8 @@ def process_data_total_profit():
         if not mergedfo_df_filtered.empty:
             mergedfo_df_filtered['pnl_y'] = mergedfo_df_filtered['pnl_y'].astype(int)
             mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
+            mergedfo_df_filtered.to_csv('filePnL_nrml.csv', index=False)
+            
             formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
             
             for line in formatted_str_fo.split('\n'):
