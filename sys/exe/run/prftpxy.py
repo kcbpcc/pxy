@@ -122,3 +122,5 @@ def main():
         print(f"An error occurred in main: {e}")
         traceback.print_exc()
 
+if __name__ == "__main__":
+    main()
