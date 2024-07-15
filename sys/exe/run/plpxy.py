@@ -17,11 +17,11 @@ def display_csv_contents(filename, custom_header):
     
     data = rows[1:]
     
-    # Set column widths for 43 characters each
-    col_widths = [min(43, max(len(str(row[i])) for row in [headers] + data)) for i in range(len(headers))]
+    # Calculate column widths
+    col_widths = [max(len(str(row[i])) for row in [headers] + data) + 2 for i in range(len(headers))]
     
     # Format table
-    table = tabulate(data, headers=headers, tablefmt='plain', colalign=("left", "right", "right", "right"), stralign="left", width=col_widths)
+    table = tabulate(data, headers=headers, tablefmt='plain', colalign=("left", "right", "right", "right"), numalign="left")
     
     # Calculate subtotal for PnL
     pnl_column_index = headers.index('PnL')
