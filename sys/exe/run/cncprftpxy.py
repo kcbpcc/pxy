@@ -63,7 +63,6 @@ def process_data_total_profit():
 
         # Filter merged_df to include only rows where product_x == 'CNC' and used_quantity > 0
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)].copy()
-        print(merged_df_filtered)
         merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
         total_profit = merged_df_filtered['PnL'].sum() if not merged_df_filtered.empty else 0
         print(f"\033[92m{'💵  CNC exit positions Profit:' + str(total_profit):>41}\033[0m")   
@@ -77,6 +76,7 @@ def process_data_total_profit():
             
             # Select specific columns from filtered merged_df and reorder
             merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
+            print(merged_df_filtered)
             
             formatted_str = merged_df_filtered.to_string(index=False, header=False)
             
