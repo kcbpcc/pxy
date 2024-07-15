@@ -105,7 +105,7 @@ def process_data_total_profit():
         
         # Calculate and print total profit for NFO positions
         total_profit_all = total_profit_fo + total_profit
-        print(f"\033[92m{'💰  All Profits:' + str(total_profit_all):>41}\033[0m")  
+        print(f"\033[92m{'💰  All Profits:' + str(total_profit_all)}\033[0m")  
 
         return total_profit
 
