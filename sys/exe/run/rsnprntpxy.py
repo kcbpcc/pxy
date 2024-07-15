@@ -18,9 +18,9 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
-async def handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktpxy, place_order, send_telegram_message):
+async def handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict):
     if not CE_position_exists and mktpxy == 'Buy':
-        quantity = determine_quantity(CE_symbol, count_CE, 'BANKNIFTY', 'NIFTY')
+        quantity = determine_quantity(CE_symbol, count_CE, 'BANKNIFTY', 'NIFTY', bnkmaxcount, nftmaxcount, bmktpredict)
         if quantity > 0:
             await execute_order(broker, CE_symbol, quantity, place_order, send_telegram_message)
         else:
@@ -28,9 +28,9 @@ async def handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktp
     else:
         print_order_reason(CE_symbol, CE_position_exists, count_CE, 'Hold')
 
-async def handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktpxy, place_order, send_telegram_message):
+async def handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict):
     if not PE_position_exists and mktpxy == 'Sell':
-        quantity = determine_quantity(PE_symbol, count_PE, 'BANKNIFTY', 'NIFTY')
+        quantity = determine_quantity(PE_symbol, count_PE, 'BANKNIFTY', 'NIFTY', bnkmaxcount, nftmaxcount, bmktpredict)
         if quantity > 0:
             await execute_order(broker, PE_symbol, quantity, place_order, send_telegram_message)
         else:
@@ -50,6 +50,7 @@ def determine_quantity(symbol, count, banknifty_prefix, nifty_prefix, bnkmaxcoun
         return 50
     else:
         return 0
+
 
 async def execute_order(broker, symbol, quantity, place_order, send_telegram_message):
     buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', quantity, 'MARKET')
