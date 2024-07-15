@@ -81,7 +81,7 @@ def process_data_total_profit():
             
             # Print each line right-aligned within 42 characters
             for line in formatted_str.split('\n'):
-                print(f"{line}")
+                print(f"{line}:>41")
         else:
             print("No CNC exit positions found.")
 
@@ -98,7 +98,7 @@ def process_data_total_profit():
             formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
             
             for line in formatted_str_fo.split('\n'):
-                print(f"{line}")
+                print(f"{line}:>41")
         else:
             print("No NFO exit positions found.")
         
