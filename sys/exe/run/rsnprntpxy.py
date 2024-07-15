@@ -1,5 +1,5 @@
 bnkmaxcount = 9
-nftmaxcount = 1
+nftmaxcount = 3
 
 from predictpxy import predict_market_sentiment
 mktpredict = predict_market_sentiment()
