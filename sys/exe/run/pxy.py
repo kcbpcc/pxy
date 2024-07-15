@@ -121,7 +121,7 @@ while True:
     subprocess.run(['python3', 'niftychartpxy.py'])
     subprocess.run(['python3', 'buynoptpxy.py']) if mktpxy in ['Buy', 'Sell']  else None
     subprocess.run(['python3', 'buyvolcncpxy.py']) if (peak == 'PEAKEND' and (mktpredict == 'RISE' or mktpredict == 'SIDE')) else None
-    subprocess.run(['python3', 'worldpxy.py']) & subprocess.run(['python3', 'cntrloptpxy.py'])
+    subprocess.run(['python3', 'worldpxy.py']); subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'buynftbnkpxy.py']) if (peak == 'PEAKEND' and (mktpredict == 'RISE' or mktpredict == 'SIDE')) else None 
     subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy in ['Buy', 'Sell'] else None
     subprocess.run(['python3', 'bniftychartpxy.py'])
