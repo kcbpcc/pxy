@@ -1,6 +1,10 @@
 import csv
 from tabulate import tabulate
 
+# ANSI color codes for bright green
+GREEN = '\033[92m'
+RESET = '\033[0m'
+
 def display_csv_contents(filename, custom_header):
     with open(filename, 'r', newline='') as file:
         reader = csv.reader(file)
@@ -12,7 +16,7 @@ def display_csv_contents(filename, custom_header):
         headers[headers.index('pnl_y')] = 'PnL'
     
     data = rows[1:]
-    table = tabulate(data, headers=headers, tablefmt='plain')
+    table = tabulate(data, headers=headers, tablefmt='grid')
     
     # Calculate subtotal for PnL
     pnl_column_index = headers.index('PnL')
@@ -35,5 +39,4 @@ subtotal2 = display_csv_contents('filePnL.csv', custom_header='Stocks Profits')
 
 # Calculate and print total of all tables
 total = subtotal1 + subtotal2
-print(f"Total: {total}")
-
+print(f"{GREEN}Total: {total}{RESET}")
