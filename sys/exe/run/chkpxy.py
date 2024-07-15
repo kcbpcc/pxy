@@ -37,8 +37,8 @@ else:
     print("\033[92mNo files ran successfully.\033[0m")
 
 if failed_files:
-    print(f"\033[91m{len(failed_files)}❌❌❌❌❌❌PXY® got problems❌❌❌❌❌❌ :\033[0m")
+    print(f"\033[91m{len(failed_files)}❌❌❌❌❌❌ PXY® got problems❌❌❌❌❌❌ :\033[0m")
     for file, error_message in failed_files.items():
         print(f"\033[91m{file}:\033[0m {error_message}")
 else:
-    print("\033[91m✅✅✅✅✅✅ PXY® Ready to GO✅✅✅✅✅✅\033[0m")
+    print("\033[91m✅✅✅✅✅✅ PXY® Ready to GO ✅✅✅✅✅✅\033[0m")
