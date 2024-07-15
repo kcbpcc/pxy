@@ -115,13 +115,3 @@ def process_data_total_profit():
         traceback.print_exc()
         return 0
 
-def main():
-    try:
-        process_data_total_profit()
-    except Exception as e:
-        logging.error(f"Error occurred in main: {e}")
-        print(f"An error occurred in main: {e}")
-        traceback.print_exc()
-
-if __name__ == "__main__":
-    main()
