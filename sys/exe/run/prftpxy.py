@@ -65,7 +65,7 @@ def process_data_total_profit():
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)].copy()
         merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
         total_profit = merged_df_filtered['PnL'].sum() if not merged_df_filtered.empty else 0
-        print(f"{BRIGHT_YELLOW}{'💵  CNC Profits:' + str(total_profit):>41}{RESET}")
+        print(f"{BRIGHT_YELLOW}{'CNC Profits 💵 :' + str(total_profit):>41}{RESET}")
         if not merged_df_filtered.empty:
             # Calculate PL% and PnL
             merged_df_filtered['STOCK'] = merged_df_filtered['tradingsymbol']
@@ -92,7 +92,7 @@ def process_data_total_profit():
         # Processing NFO data
         mergedfo_df_filtered = merged_df[(merged_df['exchange_y'] == 'NFO') & (merged_df['quantity_y'] == 0)].copy()
         total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum()) if not mergedfo_df_filtered.empty else 0
-        print(f"{BRIGHT_YELLOW}{'💸  F&O Profits:' + str(total_profit_fo):>41}{RESET}")
+        print(f"{BRIGHT_YELLOW}{'F&O Profits 💸 :' + str(total_profit_fo):>41}{RESET}")
         if not mergedfo_df_filtered.empty:
             mergedfo_df_filtered['pnl_y'] = mergedfo_df_filtered['pnl_y'].astype(int)
             mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
@@ -105,7 +105,7 @@ def process_data_total_profit():
         
         # Calculate and print total profit for NFO positions
         total_profit_all = total_profit_fo + total_profit
-        print(f"{BRIGHT_GREEN}{'💰  All Profits:' + str(total_profit_all):>41}{RESET}")
+        print(f"{BRIGHT_GREEN}{'All Profits 💰 :' + str(total_profit_all):>41}{RESET}")
 
         return total_profit
 
