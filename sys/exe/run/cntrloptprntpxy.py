@@ -41,11 +41,17 @@ def compute_depth(row):
         return 5
 
 try:
+    sys.stdout = open('output.txt', 'w')
     broker = get_kite()
 except Exception as e:
     remove_token(dir_path)
+    print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
+finally:
+    if sys.stdout != sys.__stdout__:
+        sys.stdout.close()
+        sys.stdout = sys.__stdout__
 
 # Process data and prepare opt_df
 combined_df = process_data()
