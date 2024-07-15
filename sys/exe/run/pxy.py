@@ -119,7 +119,7 @@ while True:
     subprocess.run(['python3', 'buyboptpxy.py']) if bmktpxy in ['Buy', 'Sell'] else None
     (lambda: print((BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() if 'nsma' in locals() else None
     subprocess.run(['python3', 'buynftbnkpxy.py']) if (peak == 'PEAKEND' and (mktpredict == 'RISE' or mktpredict == 'SIDE')) else None
-    subprocess.run(['python3', 'cndlpxy.py']
+    subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'daypxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
     subprocess.run(['python3', 'worldpxy.py'])
