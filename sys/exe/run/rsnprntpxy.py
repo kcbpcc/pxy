@@ -61,5 +61,3 @@ def print_order_reason(symbol, position_exists, count, action):
 
 def log_insufficient_funds(available_cash):
     print(f"\033[91mNo sufficient funds available Cash💰: {int(round(available_cash/1000))}K\033[0m")
-
-
