@@ -334,7 +334,6 @@ try:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))    
     print("━" * 42)
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
-    print("━" * 42)
     from prftpxy import process_data_total_profit
     booked = process_data_total_profit()
     print("━" * 42)
