@@ -245,6 +245,8 @@ try:
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
+    from prftpxy import process_data_total_profit
+    booked = process_data_total_profit()
     import pandas as pd
     import os
     
