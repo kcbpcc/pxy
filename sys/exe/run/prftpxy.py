@@ -84,7 +84,7 @@ def process_data_total_profit():
             #for line in formatted_str.split('\n'):
                 #print(f"{line:>41}")
         else:
-            print("No CNC exit positions found.")
+            print("I did not exit any CNC positions today.")
 
         # Calculate and print total profit for CNC positions
 
@@ -103,7 +103,7 @@ def process_data_total_profit():
             #for line in formatted_str_fo.split('\n'):
                 #print(f"{line:>41}")
         else:
-            print("No NFO exit positions found.")
+            print("I did not exit any FNO positions today.")
         
         # Calculate and print total profit for NFO positions
         total_profit_all = total_profit_fo + total_profit
