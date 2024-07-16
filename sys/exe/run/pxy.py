@@ -17,7 +17,6 @@ while True:
     import os
     import sys
     import importlib
-    
     def handle_exceptions(func):
         def wrapper(*args, **kwargs):
             try:
@@ -27,7 +26,6 @@ while True:
             except Exception as ex:
                 print(f"An error occurred: {ex}")
         return wrapper
-    
     @handle_exceptions
     def peak_time_handler():
         from utcpxy import peak_time
@@ -96,7 +94,6 @@ while True:
     except Exception as e:
         print(f"Error handling index status: {e}")
         nsma, bsma = None, None
-
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'FALL' else (BRIGHT_YELLOW + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'SIDE' else ""))) + RESET)
     subprocess.run(['python3', 'tistpxy.py'])
