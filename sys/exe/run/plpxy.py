@@ -5,7 +5,7 @@ from tabulate import tabulate
 YELLOW = '\033[93m'  # Bright yellow
 RESET = '\033[0m'    # Reset color
 
-#print("\n")
+print("\n")
 
 def display_csv_contents(filename, custom_header=''):
     try:
