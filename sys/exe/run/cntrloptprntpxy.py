@@ -9,8 +9,7 @@ from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
 from clorpxy import BRIGHT_YELLOW, BRIGHT_GREEN, BRIGHT_RED, RESET
-
-from lstdymnthexppxy.py import get_last_weekday_of_current_month
+from lstdymnthexppxy import get_last_weekday_of_current_month
 import calendar
 
 last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
