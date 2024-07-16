@@ -13,7 +13,7 @@ from colorama import Fore, Style
 import csv
 import telegram
 import asyncio
-from bukdpxy import sum_last_numerical_value_in_each_row
+#from bukdpxy import sum_last_numerical_value_in_each_row
 from cmbddfpxy import process_data
 combined_df = process_data()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
