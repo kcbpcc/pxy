@@ -256,10 +256,7 @@ try:
     if True:
         try:
             for index, row in EXE_df.iterrows():
-                excluded_keys = set(df['STOCK'])
-                key = row['key']
-                symbol_in_order = key.split(":")[1]
-    
+   
                 if (
                     symbol_in_order not in excluded_keys and
                     row['open'] > 0 and
