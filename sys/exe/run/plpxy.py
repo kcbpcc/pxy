@@ -4,8 +4,10 @@ from tabulate import tabulate
 # ANSI color codes
 YELLOW = '\033[93m'  # Bright yellow
 RESET = '\033[0m'    # Reset color
+
 print("\n")
-def display_csv_contents(filename, custom_header):
+
+def display_csv_contents(filename, custom_header=''):
     with open(filename, 'r', newline='') as file:
         reader = csv.reader(file)
         rows = list(reader)
@@ -29,7 +31,8 @@ def display_csv_contents(filename, custom_header):
     subtotal = sum(pnl_values)
     
     # Print table with custom header and subtotal
-    print(f"{custom_header}:")
+    if custom_header:
+        print(f"{custom_header}:")
     print(table)
     print(f"                           {YELLOW}Subtotal:{subtotal}{RESET}")
     print("\n")  # Adding two-line row space
@@ -42,9 +45,7 @@ subtotal1 = display_csv_contents('filePnL_nrml.csv')
 # Display contents of filePnL.csv
 subtotal2 = display_csv_contents('filePnL.csv')
 
-
 # Calculate and print total of all tables
 total = subtotal1 + subtotal2
 print(f"\033[92m                              Total:{total}\033[0m")
 print("\n")
-
