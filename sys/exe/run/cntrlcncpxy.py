@@ -330,6 +330,7 @@ try:
             print(f"An unexpected error occurred: {e}")
 
 ###########################################################################################################################################################################################################  
+    print("━" * 42)
     if not stocks_filtered_df.empty:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))    
     print("━" * 42)
