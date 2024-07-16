@@ -26,7 +26,7 @@ def display_csv_contents(filename, custom_header=''):
             
             # Check if there's data beyond headers
             if not data:
-                print(f"{custom_header}🫙 Nothing has been booked yetin C&C...🫙")
+                print(f"{custom_header}🫙 Nothing has been booked yet in C&C...🫙")
                 return 0
             
             # Calculate column widths
