@@ -13,7 +13,6 @@ from colorama import Fore, Style
 import csv
 import telegram
 import asyncio
-#from bukdpxy import sum_last_numerical_value_in_each_row
 from cmbddfpxy import process_data
 combined_df = process_data()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
@@ -246,8 +245,6 @@ try:
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
-    from prftpxy import process_data_total_profit
-    booked = process_data_total_profit()
     csv_file_path = "filePnL.csv"
     df = pd.read_csv(csv_file_path, header=None)
     df.columns = ["STOCK", "QTY", "PL%", "PnL"]
