@@ -13,6 +13,7 @@ from colorama import Fore, Style
 import csv
 import telegram
 import asyncio
+from bukdpxy import sum_last_numerical_value_in_each_row
 from cmbddfpxy import process_data
 combined_df = process_data()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
@@ -247,16 +248,19 @@ try:
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
     from prftpxy import process_data_total_profit
     booked = process_data_total_profit()
-
-########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
-
+    csv_file_path = "filePnL.csv"
+    df = pd.read_csv(csv_file_path, header=None)
+    df.columns = ["STOCK", "QTY", "PL%", "PnL"]
     total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks) * 100000)
     selected_rows = []
     
     if True:
         try:
             for index, row in EXE_df.iterrows():
-   
+                excluded_keys = set(df['STOCK'])
+                key = row['key']
+                symbol_in_order = key.split(":")[1]
+    
                 if (
                     symbol_in_order not in excluded_keys and
                     row['open'] > 0 and
