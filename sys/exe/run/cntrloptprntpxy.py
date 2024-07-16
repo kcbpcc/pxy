@@ -9,6 +9,8 @@ from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
 from clorpxy import BRIGHT_YELLOW, BRIGHT_GREEN, BRIGHT_RED, RESET
+import subprocess
+
 
 # Check index status
 bsma = check_index_status('^NSEBANK')
@@ -113,6 +115,8 @@ for group, data in grouped_df:
         if len(data) >= 2:
             formatted_output = f"{group}{color_code}{summary_sentence}{RESET}".rjust(51)
             print(formatted_output)
+
+subprocess.run(['python3', 'lstdymnthexppxy.py']) 
 
 print("━" * 42)
 
