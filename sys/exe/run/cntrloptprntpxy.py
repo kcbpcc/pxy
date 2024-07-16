@@ -10,6 +10,12 @@ from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
 from clorpxy import BRIGHT_YELLOW, BRIGHT_GREEN, BRIGHT_RED, RESET
 
+from lstdymnthexppxy.py import get_last_weekday_of_current_month
+import calendar
+
+last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
+last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
+
 # Check index status
 bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
@@ -100,13 +106,20 @@ print(summary_statement + "📊")
 filtered_df = print_df[print_df['qty'] > 0]
 grouped_df = filtered_df.groupby('group')
 
+if group.startswith('N'):
+    weekday_text = f"Last Thursday: {last_thursday}"
+elif group.startswith('B'):
+    weekday_text = "No weekday info for group starting with 'B'"
+else:
+    weekday_text = f"Last Wednesday: {last_wednesday}"
+
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
     total_pl_group = data['PnL'].sum()
     total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
     
     if total_invested_group != 0:
-        summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
+        summary_sentence = f"{weekday_text} CAP: {total_invested_group} P&L: {total_pl_group:6.0f} P&L%: {total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         print(data[data['qty'] > 0][['MN', 'strike', 'Invested', 'qty','tgtoptsmadepth', 'PL%', 'PnL', 'CP']].to_string(header=False, index=False, col_space=[2, 10, 5, 3, 2, 3, 6,2]))
         
