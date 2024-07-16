@@ -1,7 +1,7 @@
 #!/bin/bash
 cd $HOME/pxy
-mv $HOME/pxy/sys/exe/run/filePnL.csv $HOME/pxy/sys/exe/run/_filePnL.csv 
-mv $HOME/pxy/sys/exe/run/filePnL_nrml.csv $HOME/pxy/sys/exe/run/_filePnL_nrml.csv 
+#mv $HOME/pxy/sys/exe/run/filePnL.csv $HOME/pxy/sys/exe/run/_filePnL.csv 
+#mv $HOME/pxy/sys/exe/run/filePnL_nrml.csv $HOME/pxy/sys/exe/run/_filePnL_nrml.csv 
 echo '                                 '
 echo "       ******** GET UPDATES *******"
 echo '                                 '
@@ -17,5 +17,5 @@ echo '                                 '
 echo "       ***** UPDATE COMPLETED *****"
 echo '                                 '
 #rm $HOME/pxy/sys/exe/run/filePnL.csv
-mv $HOME/pxy/sys/exe/run/_filePnL.csv $HOME/pxy/sys/exe/run/filePnL.csv 
-mv $HOME/pxy/sys/exe/run/_filePnL_nrml.csv $HOME/pxy/sys/exe/run/filePnL_nrml.csv
+#mv $HOME/pxy/sys/exe/run/_filePnL.csv $HOME/pxy/sys/exe/run/filePnL.csv 
+#mv $HOME/pxy/sys/exe/run/_filePnL_nrml.csv $HOME/pxy/sys/exe/run/filePnL_nrml.csv
