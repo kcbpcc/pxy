@@ -5,7 +5,7 @@ from tabulate import tabulate
 YELLOW = '\033[93m'  # Bright yellow
 RESET = '\033[0m'    # Reset color
 
-print("\n")
+#print("\n")
 
 def display_csv_contents(filename, custom_header=''):
     try:
@@ -64,5 +64,5 @@ subtotal2 = display_csv_contents('filePnL.csv')
 # Calculate and print total of all tables
 total = subtotal1 + subtotal2
 print(f"\033[92m                              Total:{total}\033[0m")
-print("\n")
+#print("\n")
 
