@@ -37,6 +37,6 @@ def get_last_weekday_of_current_month(weekday):
 last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
 last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
 
-print(f"NIFTY Expiry {last_thursday} BANKNIFTY Expiry {last_wednesday}")
+print(f"NIFTY Expiry {last_thursday} | BANKNIFTY Expiry {last_wednesday}")
 
 
