@@ -100,6 +100,8 @@ while True:
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'buyboptpxy.py'])
+    subprocess.run(['python3', 'buyvolcncpxy.py']) if (peak == 'PEAKEND' and (mktpredict == 'RISE' or mktpredict == 'SIDE')) else None
+    subprocess.run(['python3', 'buynftbnkpxy.py']) if (peak == 'PEAKEND' and (mktpredict == 'RISE' or mktpredict == 'SIDE')) else None 
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     (lambda: print((BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() if 'nsma' in locals() else None
     subprocess.run(['python3', 'cndlpxy.py'])
