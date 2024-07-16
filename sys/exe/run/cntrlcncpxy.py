@@ -245,27 +245,9 @@ try:
     PRINT_df_sorted_display = PRINT_df_sorted.copy()
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
-    from prftpxy import process_data_total_profit
-    booked = process_data_total_profit()
     csv_file_path = "filePnL.csv"
-    
-    if not os.path.exists(csv_file_path) or os.path.getsize(csv_file_path) == 0:
-        print("The CSV file does not exist or is empty. Creating an empty file.")
-        with open(csv_file_path, 'w') as f:
-            f.write("STOCK,QTY,PL%,PnL\n")
-    
-    try:
-        df = pd.read_csv(csv_file_path)
-        if df.empty:
-            print("The CSV file is empty.")
-            df = pd.DataFrame(columns=["STOCK", "QTY", "PL%", "PnL"])
-        else:
-            df.columns = ["STOCK", "QTY", "PL%", "PnL"]
-            print("CSV file loaded successfully.")
-    except pd.errors.EmptyDataError:
-        print("The CSV file is empty or no columns to parse.")
-    df = pd.DataFrame(columns=["STOCK", "QTY", "PL%", "PnL"])
-
+    df = pd.read_csv(csv_file_path, header=None)
+    df.columns = ["STOCK", "QTY", "PL%", "PnL"]
     total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks) * 100000)
     selected_rows = []
     
@@ -350,6 +332,9 @@ try:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))    
     print("━" * 42)
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
+    from prftpxy import process_data_total_profit
+    booked = process_data_total_profit()
+    print("━" * 42)
     printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_opt_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
     print("━" * 42)
 #############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
@@ -357,4 +342,4 @@ except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
     logging.error(f"{str(e)} in the main loop")
-#############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
+#############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
