@@ -248,8 +248,24 @@ try:
     from prftpxy import process_data_total_profit
     booked = process_data_total_profit()
     csv_file_path = "filePnL.csv"
-    df = pd.read_csv(csv_file_path, header=None)
-    df.columns = ["STOCK", "QTY", "PL%", "PnL"]
+    
+    if not os.path.exists(csv_file_path) or os.path.getsize(csv_file_path) == 0:
+        print("The CSV file does not exist or is empty. Creating an empty file.")
+        with open(csv_file_path, 'w') as f:
+            f.write("STOCK,QTY,PL%,PnL\n")
+    
+    try:
+        df = pd.read_csv(csv_file_path)
+        if df.empty:
+            print("The CSV file is empty.")
+            df = pd.DataFrame(columns=["STOCK", "QTY", "PL%", "PnL"])
+        else:
+            df.columns = ["STOCK", "QTY", "PL%", "PnL"]
+            print("CSV file loaded successfully.")
+    except pd.errors.EmptyDataError:
+        print("The CSV file is empty or no columns to parse.")
+    df = pd.DataFrame(columns=["STOCK", "QTY", "PL%", "PnL"])
+
     total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks) * 100000)
     selected_rows = []
     
