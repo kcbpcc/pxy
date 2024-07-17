@@ -7,10 +7,11 @@ from cnstpxy import dir_path
 from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
+from lstdymnthexppxy import get_last_weekday_of_current_month
 from clorpxy import BRIGHT_YELLOW, BRIGHT_GREEN, BRIGHT_RED, RESET
 import subprocess
-
-
+last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
+last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
 # Check index status
 bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
