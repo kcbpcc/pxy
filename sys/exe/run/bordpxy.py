@@ -52,7 +52,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
     output_lines.append(left_aligned_format.format(f"CE/PE%:{BRIGHT_GREEN if 0.9 <= optworth <= 1.1 else BRIGHT_RED}{optworth:.2f}%{RESET}") +
                        right_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{int(green_Stocks_profit_loss)}{RESET}"))
 
-    output_lines.append(left_aligned_format.format(f"Positions:{BRIGHT_GREEN if total_cnc_m2m_postions > 0 else BRIGHT_RED}{str(int(total_cnc_m2m_postions)).zfill(5)}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"Positions:{BRIGHT_GREEN if total_cnc_m2m_postions > 0 else BRIGHT_RED}{int(round(total_cnc_m2m_postions, 0))}{RESET}") +
                        right_aligned_format.format(f"Holdings:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
 
     output_lines.append(left_aligned_format.format(f"Options:{BRIGHT_GREEN if total_opt_m2m > 0 else BRIGHT_RED}{str(int(total_opt_m2m)).zfill(5)}{RESET}") +
