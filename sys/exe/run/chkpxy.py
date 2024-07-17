@@ -4,41 +4,64 @@ import subprocess
 # Get the current directory
 directory = os.path.dirname(os.path.realpath(__file__))
 
-# Get a list of all Python files in the directory (excluding pxy.py)
-
-python_files = [f for f in os.listdir(directory) if f.endswith(".py") and f != "pxy.py" and f != "chkpxy.py" and f != "login_get_kite.py" and f != "rmtknpxy.py"]
+# Get a list of all Python files in the directory (excluding specific files)
+exclude_files = ["pxy.py", "chkpxy.py", "login_get_kite.py", "rmtknpxy.py"]
+python_files = [f for f in os.listdir(directory) if f.endswith(".py") and f not in exclude_files]
 
 # Variables to track success and failure
 success_files = []
-failed_files = {}
+initial_failures = {}
+
+# Function to run a Python script and handle initial failures
+def run_script(file_path):
+    try:
+        subprocess.check_call(["python", file_path])
+        print(f"{file_path} executed successfully.")
+        success_files.append(file_path)
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"Error running {file_path}: {e}")
+        initial_failures[file_path] = str(e)
+        return False
+    except Exception as e:
+        print(f"An unexpected error occurred while running {file_path}: {e}")
+        initial_failures[file_path] = str(e)
+        return False
 
 # Run each Python file and check for errors
 for file in python_files:
     file_path = os.path.join(directory, file)
     print(f"Running {file}...")
 
-    try:
-        # Use subprocess to run the Python script
-        subprocess.check_call(["python", file_path])
-        print(f"{file} executed successfully.\n")
-        success_files.append(file)
-    except subprocess.CalledProcessError as e:
-        print(f"Error running {file}: {e}\n")
-        failed_files[file] = str(e)
-    except Exception as e:
-        print(f"An unexpected error occurred while running {file}: {e}\n")
-        failed_files[file] = str(e)
+    run_script(file_path)
+
+# Retry failed scripts at the end
+retry_failures = {}
+for file, error_message in initial_failures.items():
+    print(f"Retrying {file}...")
+    if run_script(file):
+        print(f"{file} ran successfully after retrying.")
+    else:
+        retry_failures[file] = error_message
 
 # Print summary
 print("\nSummary:")
 if success_files:
-    print(f"\033[92m{len(success_files)} files ran successfully: {', '.join(success_files)}\033[0m")
+    print(f"\033[92m{len(success_files)} files ran successfully:\033[0m")
+    for file in success_files:
+        print(f"\033[92m{file}\033[0m")
 else:
     print("\033[92mNo files ran successfully.\033[0m")
 
-if failed_files:
-    print(f"\033[91m{len(failed_files)}❌❌❌❌❌❌ PXY® got problems❌❌❌❌❌❌ :\033[0m")
-    for file, error_message in failed_files.items():
-        print(f"\033[91m{file}:\033[0m {error_message}")
-else:
-    print("\033[91m✅✅✅✅✅✅ PXY® Ready to GO ✅✅✅✅✅✅\033[0m")
+if initial_failures:
+    print(f"\033[91m{len(initial_failures)} files failed initially:\033[0m")
+    for file, error_message in initial_failures.items():
+        print(f"\033[91m{file}: {error_message}\033[0m")
+
+if retry_failures:
+    print(f"\033[91m{len(retry_failures)} files failed after retrying:\033[0m")
+    for file, error_message in retry_failures.items():
+        print(f"\033[91m{file}: {error_message}\033[0m")
+
+if not success_files and not initial_failures and not retry_failures:
+    print("\033[91mNo files were processed.\033[0m")
