@@ -45,7 +45,9 @@ def process_data():
         holdings_response = broker.kite.holdings()
         positions_response = broker.kite.positions()['net']
         holdings_df = get_holdingsinfo(holdings_response, broker)
+        holdings_df.to_csv('holdings.csv', index=False)
         positions_df = get_positionsinfo(positions_response, broker)
+        positions_df.to_csv('positions.csv', index=False)
         holdings_df['key'] = holdings_df['exchange'] + ":" + holdings_df['tradingsymbol'] if not holdings_df.empty else None
         positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
         combined_df = pd.concat([holdings_df, positions_df], ignore_index=True)
