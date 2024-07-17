@@ -1,5 +1,7 @@
 import calendar
 from datetime import datetime, timedelta
+from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+
 
 # List of public holidays
 public_holidays = [
@@ -37,6 +39,12 @@ def get_last_weekday_of_current_month(weekday):
 last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
 last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
 
-print(f"NIFTY Expiry {last_thursday}   |   BANK Expiry {last_wednesday}")
+formatted_string = (
+    f"NIFTY Expiry {UNDERLINE}{BRIGHT_YELLOW}{last_thursday}{RESET}   |   "
+    f"BANK Expiry {UNDERLINE}{BRIGHT_YELLOW}{last_wednesday}{RESET}"
+)
+
+# Print the formatted string
+print(formatted_string)
 
 
