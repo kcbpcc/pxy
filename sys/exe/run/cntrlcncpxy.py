@@ -296,7 +296,6 @@ try:
                         row['avg'] != 0 and
                         row['Invested'] < 25000 and
                         available_cash > 1000 and
-                        mktpxy == "Buy" and
                         row['PL%'] < -5
                     ):
                         try:
