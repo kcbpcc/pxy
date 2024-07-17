@@ -35,16 +35,6 @@ def get_last_weekday_of_current_month(weekday):
     
     return last_weekday.strftime("%m-%d")
 
-# Get the last Wednesday and Thursday of the current month
-last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
-last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
 
-formatted_string = (
-    f"NIFTY Expiry {UNDERLINE}{BRIGHT_YELLOW}{last_thursday}{RESET}   |   "
-    f"BANK Expiry {UNDERLINE}{BRIGHT_YELLOW}{last_wednesday}{RESET}"
-)
-
-# Print the formatted string
-print(formatted_string)
 
 
