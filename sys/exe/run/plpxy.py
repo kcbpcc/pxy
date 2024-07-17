@@ -59,7 +59,7 @@ def display_csv_contents(filename, custom_header=''):
 subtotal1 = display_csv_contents('pxycncprofit.csv')
 
 # Display contents of filePnL.csv
-subtotal2 = display_csv_contents('pxycncprofit.csv')
+subtotal2 = display_csv_contents('pxyoptprofit.csv')
 
 # Calculate and print total of all tables
 total = subtotal1 + subtotal2
