@@ -266,6 +266,7 @@ try:
                     row['high'] > 0 and
                     row['low'] > 0 and
                     row['close'] > 0 and
+                    nse_power != 0.50 and
                     row['ltp'] != 0
                 ):
     ############################################################################################
@@ -273,7 +274,6 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] == 'CNC' and
-                        nse_power != 0.50 and
                         row['PL%'] > 1.4 and 
                         (mktpxy == "Sell" or mktpxy == "Bear") and
                         (
@@ -296,7 +296,8 @@ try:
                         row['avg'] != 0 and
                         row['Invested'] < 25000 and
                         available_cash > 1000 and
-                        row['smb_power'] < 0.10 and 
+                        mktpxy == "Buy" and
+                        (nse_power < 0.15 or peak == 'PEAKEND') and
                         row['PL%'] < -5
                     ):
                         try:
