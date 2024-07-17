@@ -73,7 +73,7 @@ def process_data_total_profit():
             
             # Select specific columns from filtered merged_df and reorder
             merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
-            merged_df_filtered.to_csv('filePnL.csv', index=False)
+            merged_df_filtered.to_csv('pxycncprofit.csv'', index=False)
             
             formatted_str = merged_df_filtered.to_string(index=False, header=False)
             
@@ -101,7 +101,7 @@ def process_data_total_profit():
                 #print(f"{line:>41}")
         else:
             empty_df = pd.DataFrame(columns=['STOCK', 'QTY', 'PL%', 'PnL'])
-            empty_df.to_csv('filePnL.csv', index=False)
+            empty_df.to_csv('pxycncprofit.csv'', index=False)
             print("I did not exit any FNO positions today.🤔")
         
         # Calculate and print total profit for NFO positions
