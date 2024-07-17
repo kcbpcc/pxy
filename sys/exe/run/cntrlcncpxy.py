@@ -297,7 +297,6 @@ try:
                         row['Invested'] < 25000 and
                         available_cash > 1000 and
                         mktpxy == "Buy" and
-                        (nse_power < 0.15 or peak == 'PEAKEND') and
                         row['PL%'] < -5
                     ):
                         try:
