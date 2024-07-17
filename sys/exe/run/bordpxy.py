@@ -1,5 +1,4 @@
 import subprocess
-from bukdpxy import sum_last_numerical_value_in_each_row
 from goouppxy import gsheet_acvalue
 from googetpxy import get_ac_values
 from mktpxy import get_market_check
