@@ -57,6 +57,8 @@ def stocks_sell_order_place(index, row):
         exchsym = str(index).split(":")
         if len(exchsym) >= 2:
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
+            
+            # Assuming broker and round_to_paise are defined elsewhere
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
                 exchange=exchsym[0],
@@ -67,37 +69,45 @@ def stocks_sell_order_place(index, row):
                 variety='regular',
                 price=round_to_paise(row['ltp'], -0.2)
             )
-######################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################            
+            
             if order_id:
-                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")                                
-                with open(csv_file_path, 'a', newline='') as csvfile:
-                    csvwriter = csv.writer(csvfile)
-                    csvwriter.writerow(row.tolist())  # Write the selected row to the CSV file
-                    try:
-                        import telegram
-                        import asyncio
-                        columns_to_drop = ['fPL%','smb_power','oPL%', 'qty', 'close',  'open', 'high', 'low', 'dPL%','product']
-                        for column in columns_to_drop:
-                            if column in row:
-                                del row[column]
-                        message_text = f"📊 Let's Book {exchsym[1]}!\n💰 Profit: {row['PnL']}\n💹 Profit %: {row['PL%']}\n🔢 H/P: {row['source']}\n📉 Sell Price: {row['ltp']}\n📈 Buy Price: {row['avg']}\n🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}\nProfits until:{booked} 📣"
-                        bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
-                        user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
-                        # Function to send a message to Telegram
-                        async def send_telegram_message(message_text):
-                            bot = telegram.Bot(token=bot_token)
-                            await bot.send_message(chat_id=user_usernames, text=message_text)
-                    except Exception as e:
-                        print(f"Error sending message to Telegram: {e}")
-                    loop = asyncio.get_event_loop()
-                    loop.run_until_complete(send_telegram_message(message_text))
-                return True                
+                logging.info(f"Order {order_id} placed for {exchsym[1]} successfully")
+                
+                # Prepare and send Telegram message
+                columns_to_drop = ['fPL%', 'smb_power', 'oPL%', 'qty', 'close', 'open', 'high', 'low', 'dPL%', 'product']
+                for column in columns_to_drop:
+                    if column in row:
+                        del row[column]
+                
+                message_text = (
+                    f"📊 Let's Book {exchsym[1]}!\n"
+                    f"💰 Profit: {row['PnL']}\n"
+                    f"💹 Profit %: {row['PL%']}\n"
+                    f"🔢 H/P: {row['source']}\n"
+                    f"📉 Sell Price: {row['ltp']}\n"
+                    f"📈 Buy Price: {row['avg']}\n"
+                    f"🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}\n"
+                    f"Profits until:{booked} 📣"
+                )
+                
+                bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
+                user_usernames = ('-4136531362')  # Replace with your Telegram username or ID
+                
+                async def send_telegram_message(message_text):
+                    bot = telegram.Bot(token=bot_token)
+                    await bot.send_message(chat_id=user_usernames, text=message_text)
+                
+                loop = asyncio.get_event_loop()
+                loop.run_until_complete(send_telegram_message(message_text))
+                
+                return True
             else:
-                logging.error("Order placement failed")       
+                logging.error("Order placement failed")
         else:
-            logging.error("Invalid format for 'index'")    
+            logging.error("Invalid format for 'index'")
     except Exception as e:
-        logging.error(f"{str(e)} while placing order")
+        logging.error(f"Error: {str(e)} while placing order")
+    
     return False
 ############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
 def stocks_avg_order_place(index, row):
