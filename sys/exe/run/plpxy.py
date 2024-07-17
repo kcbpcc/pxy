@@ -26,7 +26,7 @@ def display_csv_contents(filename, custom_header=''):
             
             # Check if there's data beyond headers
             if not data:
-                print(f"{custom_header}🫙 Nothing has been booked yet in C&C...🫙")
+                print(f"{custom_header}🫙 Nothing has been booked yet .......🫙")
                 return 0
             
             # Calculate column widths
@@ -49,7 +49,7 @@ def display_csv_contents(filename, custom_header=''):
             
             return subtotal
     except FileNotFoundError:
-        print(f"{custom_header}🫙 Nothing has been booked yet in F&O...🫙")
+        print(f"{custom_header}🫙 Nothing has been booked yet .......🫙")
         return 0
     except Exception as e:
         print(f"{custom_header}: An error occurred while processing the file '{filename}': {e}")
