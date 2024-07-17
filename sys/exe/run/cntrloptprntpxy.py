@@ -58,7 +58,7 @@ finally:
         sys.stdout = sys.__stdout__
 
 # Process data and prepare opt_df
-combined_df = process_data()
+combined_df = pd.read_csv('pxycombined.csv')
 bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
 ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
 
