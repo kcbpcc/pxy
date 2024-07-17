@@ -2,7 +2,6 @@ import calendar
 from datetime import datetime, timedelta
 from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
-
 # List of public holidays
 public_holidays = [
     "22-Jan-2024", "26-Jan-2024", "08-Mar-2024", "25-Mar-2024", "29-Mar-2024", 
@@ -33,8 +32,4 @@ def get_last_weekday_of_current_month(weekday):
     while last_weekday in public_holidays:
         last_weekday -= timedelta(days=1)
     
-    return last_weekday.strftime("%m-%d")
-
-
-
-
+    return last_weekday.strftime("%d-%b").upper()
