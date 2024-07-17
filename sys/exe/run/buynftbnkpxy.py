@@ -12,6 +12,7 @@ from toolkit.utilities import Utilities
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from fundpxy import calculate_decision
+
 decision, optdecision, available_cash, limit = calculate_decision()
 
 logging.basicConfig(level=logging.WARNING)
@@ -77,7 +78,6 @@ async def send_telegram_message(bot_token, user_id, message_text):
 # Function to place an order
 def place_order(symbol, broker, limit, quantity):
     try:
-
         remaining_cash = available_cash
 
         ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
@@ -111,13 +111,20 @@ def place_order(symbol, broker, limit, quantity):
     except Exception as e:
         logging.error(f"Error while placing order: {str(e)}")
 
-# Read symbols from CSV file
-symbols_df = pd.read_csv('stocks.csv')
-symbols = symbols_df['Symbol'].tolist()
+# Define the list of symbols to include
+symbols = [
+    "KARURVYSYA", "KOTAKBANK", "KTKBANK", "MAHABANK", "PNB", "PSB", "RBLBANK", "SBIN", "SOUTHBANK", "SURYODAY",
+    "TMB", "UCOBANK", "UJJIVANSFB", "UNIONBANK", "UTKARSHBNK", "YESBANK", "AUBANK", "AXISBANK", "BANDHANBNK", 
+    "BANKBARODA", "BANKINDIA", "CANBK", "CAPITALSFB", "CENTRALBK", "CSBBANK", "CUB", "DCBBANK", "DHANBANK", 
+    "EQUITASBNK", "ESAFSFB", "FEDERALBNK", "FINOPB", "HDFCBANK", "ICICIBANK", "IDBI", "IDFCFIRSTB", "INDIANB", 
+    "INDUSINDBK", "IOB", "J&KBANK", "JSFB", "WIPRO", "ULTRACEMCO", "TITAN", "TECHM", "TCS", "TATASTEEL", 
+    "TATAMOTORS", "TATACONSUM", "SUNPHARMA", "SHRIRAMFIN", "SBILIFE", "RELIANCE", "POWERGRID", "ONGC", "NTPC", 
+    "NESTLEIND", "MARUTI", "M&M", "LTIM", "LT", "JSWSTEEL", "ITC", "INFY", "HINDUNILVR", "HINDALCO", "HEROMOTOCO", 
+    "HDFCLIFE", "HCLTECH", "GRASIM", "EICHERMOT", "DRREDDY", "DIVISLAB", "COALINDIA", "CIPLA", "BRITANNIA", "BPCL", 
+    "BHARTIARTL", "BAJFINANCE", "BAJAJFINSV", "BAJAJ-AUTO", "ASIANPAINT", "APOLLOHOSP", "ADANIPORTS", "ADANIENT"
+]
 
 # Fetch decision and other details
-
-
 try:
     original_stdout = sys.stdout
     with open('output.txt', 'w') as file:
@@ -152,7 +159,7 @@ except Exception as e:
     logging.error(f"{str(e)} unable to read orders")
     orders_symbols = []
 
-
+# Fetch holdings
 try:
     holdings = broker.kite.holdings()
     holdings_symbols = [holding["tradingsymbol"] for holding in holdings]
