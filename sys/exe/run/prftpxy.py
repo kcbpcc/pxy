@@ -48,8 +48,8 @@ def process_data_total_profit():
 
     try:
         # If broker is obtained successfully, proceed with data processing
-        holdings_df = get_holdings_info('holdings.csv')
-        positions_df = get_positions_info('positions.csv')
+        holdings_df = get_holdings_info('pxyholdings.csv')
+        positions_df = get_positions_info('pxypositions.csv')
 
         # Check if 'tradingsymbol' is present in both dataframes
         if 'tradingsymbol' not in holdings_df.columns or 'tradingsymbol' not in positions_df.columns:
