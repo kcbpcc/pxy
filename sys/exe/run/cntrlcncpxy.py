@@ -295,7 +295,7 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['Invested'] < 25000 and
-                        row['smbpower'] < 0.10 and
+                        row['smb_power'] < 0.10 and
                         available_cash > 1000 and
                         row['PL%'] < -5
                     ):
