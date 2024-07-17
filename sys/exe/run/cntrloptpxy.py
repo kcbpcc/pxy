@@ -18,8 +18,8 @@ nsma = check_index_status('^NSEI')
 peak = peak_time()
 
 # Telegram bot token and user IDs
-bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
-user_usernames = ('-4136531362',)
+bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
+user_usernames = ('-4282665161',)
 
 def calculate_totals(combined_df):
     if not combined_df.empty:
