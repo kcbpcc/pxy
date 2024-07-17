@@ -117,7 +117,7 @@ for group, data in grouped_df:
         if len(data) >= 2:
             formatted_output = f"{group}{color_code}{summary_sentence}{RESET}".rjust(51)
             # Assuming you already have the values for last_wednesday, last_thursday, group, color_code, summary_sentence, and RESET
-            formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}{color_code}{summary_sentence}{RESET}".rjust(51)
+            formatted_output = f"{last_wednesday if group == 'B' else last_thursday} {group}{color_code}{summary_sentence}{RESET}".rjust(51)
             print(formatted_output)
 
 subprocess.run(['python3', 'lstdymnthexppxy.py']) 
