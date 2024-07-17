@@ -246,11 +246,9 @@ try:
     stocks_filtered_df = PRINT_df_sorted_display[PRINT_df_sorted_display['PL%'] > 1.4].sort_values(by='PL%')
 ########################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###################################################################################################################   
     csv_file_path = "filePnL.csv"
-    df = pd.read_csv(csv_file_path, header=None)
-    df.columns = ["STOCK", "QTY", "PL%", "PnL"]
+    df = pd.read_csv(csv_file_path, header=None) if not pd.read_csv(csv_file_path, header=None).empty else pd.DataFrame(columns=["STOCK", "QTY", "PL%", "PnL"])
     total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks) * 100000)
     selected_rows = []
-    
     if True:
         try:
             for index, row in EXE_df.iterrows():
