@@ -9,18 +9,18 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 
 logging = Logger(30, dir_path + "main.log")
 
-def get_holdings_info(resp_list, broker):
+def get_holdings_info(file_path):
     try:
-        df = pd.DataFrame(resp_list)
+        df = pd.read_csv(file_path)
         df['source'] = 'holdings'
         return df
     except Exception as e:
         logging.error(f"Error occurred in get_holdings_info: {e}")
         return None
 
-def get_positions_info(resp_list, broker):
+def get_positions_info(file_path):
     try:
-        df = pd.DataFrame(resp_list)
+        df = pd.read_csv(file_path)
         df['source'] = 'positions'
         return df
     except Exception as e:
@@ -48,11 +48,8 @@ def process_data_total_profit():
 
     try:
         # If broker is obtained successfully, proceed with data processing
-        holdings_response = broker.kite.holdings()
-        positions_response = broker.kite.positions()['net']
-        
-        holdings_df = get_holdings_info(holdings_response, broker)
-        positions_df = get_positions_info(positions_response, broker)
+        holdings_df = get_holdings_info('holdings.csv')
+        positions_df = get_positions_info('positions.csv')
 
         # Check if 'tradingsymbol' is present in both dataframes
         if 'tradingsymbol' not in holdings_df.columns or 'tradingsymbol' not in positions_df.columns:
