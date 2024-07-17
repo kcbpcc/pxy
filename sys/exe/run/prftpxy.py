@@ -100,6 +100,8 @@ def process_data_total_profit():
             #for line in formatted_str_fo.split('\n'):
                 #print(f"{line:>41}")
         else:
+            empty_df = pd.DataFrame(columns=['STOCK', 'QTY', 'PL%', 'PnL'])
+            empty_df.to_csv('filePnL.csv', index=False)
             print("I did not exit any FNO positions today.🤔")
         
         # Calculate and print total profit for NFO positions
