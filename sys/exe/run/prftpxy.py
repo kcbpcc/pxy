@@ -95,15 +95,14 @@ def process_data_total_profit():
         if not mergedfo_df_filtered.empty:
             mergedfo_df_filtered['pnl_y'] = mergedfo_df_filtered['pnl_y'].astype(int)
             mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
-            mergedfo_df_filtered.to_csv('filePnL_nrml.csv', index=False)
-            
+            mergedfo_df_filtered.to_csv('pxyoptprofit.csv', index=False)
             formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
             
             #for line in formatted_str_fo.split('\n'):
                 #print(f"{line:>41}")
         else:
             print("I did not exit any FNO positions today.🤔")
-        
+            empty_df.to_csv('pxyoptprofit.csv', index=False)
         # Calculate and print total profit for NFO positions
         total_profit_all = total_profit_fo + total_profit
         #print(f"{BRIGHT_GREEN}{'All Profits 💰 :' + str(total_profit_all):>41}{RESET}")
