@@ -38,7 +38,7 @@ finally:
 # Call the calculate_decision function to get the decision
 if decision == "YES":
     try:
-        df_fileHPdf = pd.read_csv('fileHPdf.csv')
+        df_fileHPdf = pd.read_csv('pxycombined.csv')
         lst = df_fileHPdf['tradingsymbol'].to_list()
         lst_tlyne = []
         lst_dct_tlyne = Trendlyne().entry()
