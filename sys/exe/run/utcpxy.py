@@ -25,7 +25,11 @@ def peak_time():
     peak_time_3_end = datetime.strptime("10:01", "%H:%M").time()
     #print("Peak Time 3 Range:", peak_time_3_start, "-", peak_time_3_end)
 
-    peak_time_4_start = datetime.strptime("10:02", "%H:%M").time()
+    peak_time_3a_start = datetime.strptime("10:01", "%H:%M").time()
+    peak_time_3a_end = datetime.strptime("10:03", "%H:%M").time()
+    #print("Peak Time 3 Range:", peak_time_3_start, "-", peak_time_3_end)
+
+    peak_time_4_start = datetime.strptime("10:03", "%H:%M").time()
     peak_time_4_end = datetime.strptime("23:59", "%H:%M").time()
     #print("Peak Time 4 Range:", peak_time_4_start, "-", peak_time_4_end)
 
@@ -40,6 +44,8 @@ def peak_time():
         return "NONPEAK"
     elif peak_time_3_start <= current_utc_time <= peak_time_3_end:
         return "PEAKEND"
+    elif peak_time_3a_start <= current_utc_time <= peak_time_3a_end:
+        return "MKTEND"
     elif peak_time_4_start <= current_utc_time <= peak_time_4_end:
         return "NONMKT"
 
