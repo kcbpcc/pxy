@@ -25,10 +25,10 @@ def update_log_file(file_path, source):
         # Append new entry if not already present
         if (source, today_date) not in entries:
             with open(file_path, 'a') as file:
-                file.write(f"{source},{today_date}\n")
+                file.write(f"{new_entry}\n")
 
 # Function to send summary to Telegram with custom message
-def send_summary_to_telegram(message):
+def send_summary_to_telegram(message, source):
     current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     TELEGRAM_BOT_TOKEN = "7163187536:AAG4UaLEj-iUlHENQmnNVE6080E1fZ_Wxtc"
     TELEGRAM_CHAT_ID = "-4143295985"
@@ -51,7 +51,7 @@ def send_summary_to_telegram(message):
         print("Message sent successfully!")
         # Update the log file with today's date and source
         log_file = "pxysummary.csv"
-        update_log_file(log_file, "bordpxy")
+        update_log_file(log_file, source)
     else:
         print(f"Failed to send message: {response.status_code} - {response.text}")
 
@@ -69,7 +69,8 @@ def check_and_send_summary(message, source):
                     return
         
         # Send summary if not already sent today
-        send_summary_to_telegram(message)
+        send_summary_to_telegram(message, source)
     else:
-        send_summary_to_telegram(message)
+        send_summary_to_telegram(message, source)
+
 
