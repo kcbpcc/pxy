@@ -23,7 +23,7 @@ def read_csv_and_sum(filename):
         print(f"{first.ljust(max_first_col_width)}: {str(last).rjust(max_last_col_width)}")
         total_sum += last
 
-    print(f"\nSubtotal for {filename}: {total_sum}\n")
+    print(f"\nSubtotal: {total_sum}\n")
     return total_sum
 
 # File paths
@@ -31,11 +31,11 @@ pxycncprofit_file = 'pxycncprofit.csv'
 pxyoptprofit_file = 'pxyoptprofit.csv'
 
 # Reading and processing pxycncprofit.csv
-print("Reading pxycncprofit.csv:")
+print("C&C Profits")
 subtotal_cnc = read_csv_and_sum(pxycncprofit_file)
 
 # Reading and processing pxyoptprofit.csv
-print("Reading pxyoptprofit.csv:")
+print("F&0 Profits")
 subtotal_opt = read_csv_and_sum(pxyoptprofit_file)
 
 # Calculating total sum
