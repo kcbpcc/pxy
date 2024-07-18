@@ -1,4 +1,6 @@
-from utcpxy import peak_time
+from datetime import datetime
+import requests
+from utcpxy import peak_time  # Assuming peak_time() function is defined in utcpxy module
 
 # Function to check if it's peak end
 def is_peak_end():
@@ -34,8 +36,6 @@ if is_peak_end():
     )
     
     # Send summary to Telegram
-    import requests
-    
     TELEGRAM_BOT_TOKEN = "7163187536:AAG4UaLEj-iUlHENQmnNVE6080E1fZ_Wxtc"
     TELEGRAM_CHAT_ID = "-4143295985"
     message = summary
@@ -54,7 +54,5 @@ if is_peak_end():
         print("Message sent successfully!")
         # Update the log file with today's date
         update_log_file(log_file)
-    else:
-        None
-else:
-    None
+    # Else block removed intentionally to ensure nothing is printed or done
+
