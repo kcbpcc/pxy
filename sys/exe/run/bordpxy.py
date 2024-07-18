@@ -94,10 +94,10 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
         f"Flush: {green_Stocks_profit_loss}\n"
         f"Positions: {int(total_cnc_m2m_postions)}\n"
         f"Holdings: {int(all_Stocks_worth_dpnl)}\n"
-        f"Options: 💸{int(total_cnc_m2m_postions)}\n"
-        f"BOOKED: ✍🏻{booked}\n"
-        f"CLOSED: 💵{extras}\n"
-        f"PROFIT: 💰{booked + extras}\n"
+        f"💸 Options: {int(total_opt_m2m)}\n"
+        f"✍🏻 BOOKED: {booked}\n"
+        f"💵 CLOSED: {extras}\n"
+        f"💰 PROFIT: {booked + extras}\n"
     )
     check_and_send_summary(summary,'bordpxy')
 
