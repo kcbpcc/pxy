@@ -108,6 +108,11 @@ def process_data_total_profit():
         #print(f"{BRIGHT_GREEN}{'All Profits 💰 :' + str(total_profit_all):>41}{RESET}")
 
         return total_profit
+        print(f"All Profits 💰 : {total_profit_all}")
+
+        
+        
+        
 
     except Exception as e:
         logging.error(f"Error occurred in process_data_total_profit: {e}")
