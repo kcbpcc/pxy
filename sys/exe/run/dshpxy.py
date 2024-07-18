@@ -64,7 +64,8 @@ def get_holdingsinfo(combined_df):
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
 
         if not nfo_df.empty:
-            extras = nfo_df.loc[nfo_df['sell_quantity'] > 0, 'unrealised'].sum()
+            #extras = nfo_df.loc[nfo_df['sell_quantity'] > 0, 'unrealised'].sum()
+            extras = int(nfo_df.loc[nfo_df['sell_quantity'] > 0, 'unrealised'].sum()) + ((-1) * int(nfo_df.loc[nfo_df['sell_quantity'] > 0, 'PnL'].sum()))
             total_opt_m2m = nfo_df['m2m'].sum()
         else:
             extras = 0  # or any default value you prefer when there are no rows matching the condition
