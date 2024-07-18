@@ -94,8 +94,15 @@ def process_data_total_profit():
         total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum()) if not mergedfo_df_filtered.empty else 0
         #print(f"{BRIGHT_YELLOW}{'F&O Profits 💸 :' + str(total_profit_fo):>41}{RESET}")
         if not mergedfo_df_filtered.empty:
+            # Convert 'pnl_y' column to integer type
             mergedfo_df_filtered['pnl_y'] = mergedfo_df_filtered['pnl_y'].astype(int)
-            mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
+            
+            # Create a new column 'new_pnl_y' with the calculated values
+            mergedfo_df_filtered['new_pnl_y'] = mergedfo_df_filtered.loc[mergedfo_df_filtered['sell_quantity'] > 0, 'unrealised'] + (
+                (-1) * mergedfo_df_filtered.loc[mergedfo_df_filtered['sell_quantity'] > 0, 'pnl_y']
+            ).astype(int)
+
+            mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'new_pnl_y']]
             mergedfo_df_filtered.to_csv('pxyoptprofit.csv', index=False)
             formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
             
