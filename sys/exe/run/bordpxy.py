@@ -99,7 +99,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
         f"CLOSED: {extras}\n"
         f"PROFIT: {booked + extras}\n"
     )
-    check_and_send_summary(summary,dashboard)
+    check_and_send_summary(summary,'bordpxy')
 
     
 
