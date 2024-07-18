@@ -55,6 +55,6 @@ if is_peak_end():
         # Update the log file with today's date
         update_log_file(log_file)
     else:
-        print(f"Failed to send message: {response.status_code} - {response.text}")
+        None
 else:
-    print("Not PEAKEND, skipping...")
+    None
