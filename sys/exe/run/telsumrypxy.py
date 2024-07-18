@@ -58,19 +58,24 @@ def send_summary_to_telegram(message, source):
 # Function to check if summary has already been sent today
 def check_and_send_summary(message, source):
     log_file = "pxysummary.csv"
+    today_date = datetime.now().strftime('%Y-%m-%d')
+    already_sent = False
+    
     if os.path.exists(log_file):
         with open(log_file, 'r') as file:
             lines = file.readlines()
-            if len(lines) > 1:  # Check if file has more than header
-                last_entry = lines[-1].strip().split(',')
-                last_date = last_entry[1] if len(last_entry) > 1 else ''
-                if last_date == datetime.now().strftime('%Y-%m-%d'):
-                    print("Summary already sent today. Skipping...")
-                    return
+            for line in lines[1:]:  # Skip header line
+                parts = line.strip().split(',')
+                if len(parts) >= 2:
+                    log_source, log_date = parts
+                    if log_source == source and log_date == today_date:
+                        already_sent = True
+                        break
         
-        # Send summary if not already sent today
-        send_summary_to_telegram(message, source)
+    if already_sent:
+        print("Summary already sent today for this source. Skipping...")
     else:
         send_summary_to_telegram(message, source)
 
-
+# Example usage
+check_and_send_summary("Your custom message here", "bordpxy")
