@@ -5,14 +5,19 @@ from mktpxy import get_market_check
 from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+from datetime import datetime
+import requests
+import csv
+from utcpxy import peak_time  # Assuming peak_time() function is defined in utcpxy module
 
 def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_opt_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
-    output_lines = []
     try:
+        # Fetch market and sentiment data
         onemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
         mktpredict = predict_market_sentiment()
         bmktpredict = predict_bnk_sentiment()
 
+        # Calculate and update values
         acvalue = (all_Stocks_worth_lacks + optworth / 100000 + available_cash / 100000)
         gsheet_acvalue(acvalue)
 
@@ -20,19 +25,24 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
         if acvalue_to_print is None or ydaypnl_to_print is None:
             acvalue_to_print = 0
             ydaypnl_to_print = 0
-    except Exception:
+    except Exception as e:
+        print(f"Error fetching data: {e}")
         acvalue_to_print = 0
         ydaypnl_to_print = 0
 
+    # Fixed values for calculation
     capital = 17.82
     hide = 0
     profit = acvalue_to_print - capital
 
+    # Mapping for arrows and formatting
     arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
     column_width = 30
     left_aligned_format = "{:<" + str(column_width) + "}"
     right_aligned_format = "{:>" + str(column_width) + "}"
 
+    # Prepare output lines
+    output_lines = []
     output_lines.append(left_aligned_format.format(f"BANKNIFTY:{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
                        right_aligned_format.format(f"NIFTYNDEX:{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{mktpredict} {arrow_map.get(mktpxy, '')}{RESET}"))
 
@@ -64,60 +74,68 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
 
     # Print the formatted output
     print(full_output)
-    from datetime import datetime
-    import requests
-    from utcpxy import peak_time  # Assuming peak_time() function is defined in utcpxy module
-    
-    # Function to check if it's peak end
-    def is_peak_end():
-        peak = peak_time()
-        return peak == 'PEAKEND'
-    
-    # Check if it's peak end
-    if not is_peak_end(): #if is_peak_end(): 
-        # Generate current date and time
-        current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        
-        # Generate a summary for Telegram
-        summary = (
-            f"Date and Time: {current_datetime}\n"
-            f"BANKNIFTY: {bmktpredict} {arrow_map.get(bmktpxy, '')}\n"
-            f"NIFTYNDEX: {mktpredict} {arrow_map.get(mktpxy, '')}\n"
-            f"Margin: {available_cash}\n"
-            f"Delta: {ydaypnl_to_print * 100000}\n"
-            f"Real-P&L: {round((acvalue_to_print - capital + hide), 2)}\n"
-            f"Run-P&L: {round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks) * -1), 2)}\n"
-            f"Capital: {capital}\n"
-            f"Value: {acvalue_to_print}\n"
-            f"Flush#: {green_Stocks_count}\n"
-            f"Flush%: {green_Stocks_capital_percentage}%\n"
-            f"CE/PE%: {optworth:.2f}%\n"
-            f"Flush: {green_Stocks_profit_loss}\n"
-            f"Positions: {total_cnc_m2m_postions}\n"
-            f"Holdings: {all_Stocks_worth_dpnl}\n"
-            f"Options: {total_opt_m2m}\n"
-            f"BOOKED: {booked}\n"
-            f"CLOSED: {extras}\n"
-            f"PROFIT: {booked + extras}\n"
-        )
-        
-        # Send summary to Telegram
+
+    def update_log_file(file_path):
+        today_date = datetime.now().strftime('%Y-%m-%d')
+        with open(file_path, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([today_date])
+
+    def send_telegram_message(summary):
         TELEGRAM_BOT_TOKEN = "7163187536:AAG4UaLEj-iUlHENQmnNVE6080E1fZ_Wxtc"
         TELEGRAM_CHAT_ID = "-4143295985"
         message = summary
-        
+
         telegram_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
         params = {
             "chat_id": TELEGRAM_CHAT_ID,
             "text": message,
             "parse_mode": "Markdown"
         }
-        
+
         response = requests.get(telegram_url, params=params)
-        
+
         # Check if the message was sent successfully
         if response.status_code == 200:
             print("Message sent successfully!")
-            # Update the log file with today's date
-            update_log_file(log_file)
-        # Else block removed intentionally to ensure nothing is printed or done
+            update_log_file('pxysummary.csv')  # Update log file after sending message
+        else:
+            print(f"Failed to send message: {response.status_code} - {response.text}")
+
+    # Main program logic
+    if __name__ == "__main__":
+        try:
+            # Check if it's peak end
+            if not peak_time() == 'PEAKEND':
+                # Generate current date and time
+                current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+                # Generate a summary for Telegram
+                summary = (
+                    f"Date and Time: {current_datetime}\n"
+                    f"BANKNIFTY: {bmktpredict} {arrow_map.get(bmktpxy, '')}\n"
+                    f"NIFTYNDEX: {mktpredict} {arrow_map.get(mktpxy, '')}\n"
+                    f"Margin: {available_cash}\n"
+                    f"Delta: {ydaypnl_to_print * 100000}\n"
+                    f"Real-P&L: {round((acvalue_to_print - capital + hide), 2)}\n"
+                    f"Run-P&L: {round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks) * -1), 2)}\n"
+                    f"Capital: {capital}\n"
+                    f"Value: {acvalue_to_print}\n"
+                    f"Flush#: {green_Stocks_count}\n"
+                    f"Flush%: {green_Stocks_capital_percentage}%\n"
+                    f"CE/PE%: {optworth:.2f}%\n"
+                    f"Flush: {green_Stocks_profit_loss}\n"
+                    f"Positions: {total_cnc_m2m_postions}\n"
+                    f"Holdings: {all_Stocks_worth_dpnl}\n"
+                    f"Options: {total_opt_m2m}\n"
+                    f"BOOKED: {booked}\n"
+                    f"CLOSED: {extras}\n"
+                    f"PROFIT: {booked + extras}\n"
+                )
+
+                # Send summary to Telegram
+                send_telegram_message(summary)
+
+        except Exception as e:
+            print(f"Error occurred: {e}")
+
