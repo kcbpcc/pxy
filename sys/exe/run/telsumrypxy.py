@@ -77,7 +77,7 @@ def check_and_send_summary(message, source):
                         break
         
     if already_sent:
-        print("Summary already sent this hour for this source. Skipping...")
+        print("Update already sent for this hour 🔔")
     else:
         send_summary_to_telegram(message, source)
 
