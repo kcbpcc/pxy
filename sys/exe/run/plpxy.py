@@ -42,7 +42,7 @@ pxycncprofit_file = 'pxycncprofit.csv'
 pxyoptprofit_file = 'pxyoptprofit.csv'
 
 # Reading and processing pxycncprofit.csv
-print(f"Summary Report ({current_datetime})")
+print(f"P&L- Stocks & Options")
 print("C&C Profits")
 subtotal_cnc = read_csv_and_sum(pxycncprofit_file)
 
