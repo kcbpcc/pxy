@@ -57,6 +57,7 @@ def process_data_total_profit():
 
         # Merge holdings_df and positions_df on 'tradingsymbol'
         merged_df = pd.merge(holdings_df, positions_df, on='tradingsymbol', how='outer')
+        merged_df.to_csv('pxymergedcsv.csv', index=False)
 
         # Filter merged_df to include only rows where product_x == 'CNC' and used_quantity > 0
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)].copy()
@@ -93,7 +94,8 @@ def process_data_total_profit():
         total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum()) if not mergedfo_df_filtered.empty else 0
         #print(f"{BRIGHT_YELLOW}{'F&O Profits 💸 :' + str(total_profit_fo):>41}{RESET}")
         if not mergedfo_df_filtered.empty:
-            mergedfo_df_filtered['pnl_y'] = mergedfo_df_filtered['pnl_y'].astype(int)
+            
+            mergedfo_df_filtered['pnl_y'] = int(extras_df['unrealised_y'] + ((-1) * int(extras_df['PnL']
             mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
             mergedfo_df_filtered.to_csv('pxyoptprofit.csv', index=False)
             formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
