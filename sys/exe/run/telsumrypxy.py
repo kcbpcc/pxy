@@ -57,6 +57,4 @@ def check_and_send_summary(message):
     else:
         send_summary_to_telegram(message)
 
-# Example usage:
-custom_message = "Custom message content here."
-check_and_send_summary(custom_message)
+
