@@ -10,6 +10,8 @@ import requests
 import csv
 from utcpxy import peak_time  # Assuming peak_time() function is defined in utcpxy module
 from telsumrypxy import check_and_send_summary
+from datetime import datetime
+current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_opt_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
