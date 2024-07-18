@@ -60,6 +60,6 @@ sys.stdout = sys.__stdout__
 # Get the captured output
 profitinfo = output.getvalue()
 output.close()
-
+print(profitinfo)
 # Send the summary
 check_and_send_summary(profitinfo, 'plpxy')
