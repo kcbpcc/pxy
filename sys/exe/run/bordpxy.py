@@ -76,6 +76,13 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
     print(full_output)
     
     # Function to check if it's peak end
+
+    def update_log_file(file_path):
+        today_date = datetime.now().strftime('%Y-%m-%d')
+        with open(file_path, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([today_date])
+            
     def is_peak_end():
         peak = peak_time()
         return peak == 'PEAKEND'
