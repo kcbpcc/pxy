@@ -25,7 +25,7 @@ def update_log_file(file_path, source):
         # Append new entry if not already present
         if (source, today_date) not in entries:
             with open(file_path, 'a') as file:
-                file.write(f"{new_entry}\n")
+                file.write(f"{source},{today_date}\n")
 
 # Function to send summary to Telegram with custom message
 def send_summary_to_telegram(message):
@@ -51,7 +51,7 @@ def send_summary_to_telegram(message):
         print("Message sent successfully!")
         # Update the log file with today's date and source
         log_file = "pxysummary.csv"
-        update_log_file(log_file, "AutoUpdate")
+        update_log_file(log_file, "bordpxy")
     else:
         print(f"Failed to send message: {response.status_code} - {response.text}")
 
@@ -72,9 +72,4 @@ def check_and_send_summary(message, source):
         send_summary_to_telegram(message)
     else:
         send_summary_to_telegram(message)
-
-# Example usage:
-# message = "Your summary message here."
-# source = "AutoUpdate"  # Replace with your source identifier
-# check_and_send_summary(message, source)
 
