@@ -77,5 +77,3 @@ def check_and_send_summary(message, source):
     else:
         send_summary_to_telegram(message, source)
 
-# Example usage
-check_and_send_summary("Your custom message here", "bordpxy")
