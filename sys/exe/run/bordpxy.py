@@ -64,3 +64,4 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
 
     # Print the formatted output
     print(full_output)
+    import telsumrypxy
