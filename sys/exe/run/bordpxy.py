@@ -93,7 +93,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
         f"CE/PE%: {optworth:.2f}%\n"
         f"Flush: {green_Stocks_profit_loss}\n"
         f"Positions: {int(total_cnc_m2m_postions)}\n"
-        f"Holdings: {int(all_stocks_worth_dpnl)}\n"
+        f"Holdings: {int(all_Stocks_worth_dpnl)}\n"
         f"Options: 💸{int(total_cnc_m2m_postions)}\n"
         f"BOOKED: ✍🏻{booked}\n"
         f"CLOSED: 💵{extras}\n"
