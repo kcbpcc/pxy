@@ -57,7 +57,6 @@ def process_data_total_profit():
 
         # Merge holdings_df and positions_df on 'tradingsymbol'
         merged_df = pd.merge(holdings_df, positions_df, on='tradingsymbol', how='outer')
-        merged_df.to_csv('pxymergedcsv.csv', index=False)
 
         # Filter merged_df to include only rows where product_x == 'CNC' and used_quantity > 0
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)].copy()
@@ -90,40 +89,25 @@ def process_data_total_profit():
 
 
         # Processing NFO data
-        mergedfo_df = get_positions_info('pxycombined.csv')
-        mergedfo_df_filtered = mergedfo_df[(mergedfo_df['exchange'] == 'NFO') & (mergedfo_df['sell_quantity'] > 0)].copy()
-        nfo_df = mergedfo_df_filtered 
-        
-        # Calculate total profit for NFO positions
-        total_profit_fo = int(nfo_df.loc[nfo_df['sell_quantity'] > 0, 'unrealised'].sum()) + (-1 * int(nfo_df.loc[nfo_df['sell_quantity'] > 0, 'PnL'].sum()))
-        
+        mergedfo_df_filtered = merged_df[(merged_df['exchange_y'] == 'NFO') & (merged_df['quantity_y'] == 0)].copy()
+        total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum()) if not mergedfo_df_filtered.empty else 0
+        #print(f"{BRIGHT_YELLOW}{'F&O Profits 💸 :' + str(total_profit_fo):>41}{RESET}")
         if not mergedfo_df_filtered.empty:
-            # Convert 'PnL' column to integer type
-            mergedfo_df_filtered['PnL'] = mergedfo_df_filtered['PnL'].astype(int)
-            
-            # Create a new column 'new_pnl_y' with the calculated values
-            mergedfo_df_filtered['new_pnl_y'] = (mergedfo_df_filtered['unrealised'] + (-1 * mergedfo_df_filtered['PnL'])).astype(int)
-          
-            # Select relevant columns and save to CSV
-            mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'new_pnl_y']]
+            mergedfo_df_filtered['pnl_y'] = mergedfo_df_filtered['pnl_y'].astype(int)
+            mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'pnl_y']]
             mergedfo_df_filtered.to_csv('pxyoptprofit.csv', index=False)
-            
             formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
-            # Uncomment and adjust print formatting if needed
-            # for line in formatted_str_fo.split('\n'):
-            #     print(f"{line:>41}")
+            
+            #for line in formatted_str_fo.split('\n'):
+                #print(f"{line:>41}")
         else:
             print("I did not exit any FNO positions today.🤔")
-            empty_df = pd.DataFrame(columns=['tradingsymbol', 'new_pnl_y'])  # Ensure 'empty_df' is defined
             empty_df.to_csv('pxyoptprofit.csv', index=False)
-        
         # Calculate and print total profit for NFO positions
         total_profit_all = total_profit_fo + total_profit
-        # Uncomment and adjust print formatting if needed
-        # print(f"{BRIGHT_GREEN}{'All Profits 💰 :' + str(total_profit_all):>41}{RESET}")
-        
-        return total_profit_all
+        #print(f"{BRIGHT_GREEN}{'All Profits 💰 :' + str(total_profit_all):>41}{RESET}")
 
+        return total_profit
 
     except Exception as e:
         logging.error(f"Error occurred in process_data_total_profit: {e}")
