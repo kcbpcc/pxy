@@ -15,8 +15,6 @@ if not is_peak_end(): #if is_peak_end():
     # Generate a summary for Telegram
     summary = (
         f"Date and Time: {current_datetime}\n"
-        f"BANKNIFTY: {bmktpredict} {arrow_map.get(bmktpxy, '')}\n"
-        f"NIFTYNDEX: {mktpredict} {arrow_map.get(mktpxy, '')}\n"
         f"Margin: {available_cash}\n"
         f"Delta: {ydaypnl_to_print * 100000}\n"
         f"Real-P&L: {round((acvalue_to_print - capital + hide), 2)}\n"
