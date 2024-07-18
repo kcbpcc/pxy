@@ -35,14 +35,15 @@ if [ -z "$profile_ids" ]; then
     exit 1
 fi
 
-# Define the gray color
-gray_color="rgb(211,211,211)"
+# Define the red color
+red_color="rgb(255,0,0)"
 
 # Change the background color for the first profile ID found
 for profile_id in $profile_ids; do
-    change_bg_color "$profile_id" "$gray_color"
-    echo "Background color changed to gray for profile ID: $profile_id"
+    change_bg_color "$profile_id" "$red_color"
+    echo "Background color changed to red for profile ID: $profile_id"
     break
 done
 
 echo "Script execution completed."
+
