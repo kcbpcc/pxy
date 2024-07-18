@@ -52,7 +52,7 @@ def send_summary_to_telegram(message, source):
     response = requests.get(telegram_url, params=params)
     
     if response.status_code == 200:
-        print("Message sent successfully!")
+        print("📢📢  Update just sent successfully   📢📢")
         # Update the log file with current date and hour and source
         log_file = "pxysummary.csv"
         update_log_file(log_file, source)
@@ -77,6 +77,6 @@ def check_and_send_summary(message, source):
                         break
         
     if already_sent:
-        print("🔔🔔Update already sent for this hour 🔔")
+        print("🔔🔔Update already sent for this hour 🔔🔔")
     else:
         send_summary_to_telegram(message, source)
