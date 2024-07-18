@@ -4,7 +4,7 @@ from datetime import datetime
 
 # Function to update log file with current date and hour and source
 def update_log_file(file_path, source):
-    current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M')
+    current_datetime = datetime.now().strftime('%Y-%m-%d %H')  # Only include the hour
     new_entry = f"{source},{current_datetime}"
     
     if not os.path.exists(file_path):
@@ -24,7 +24,7 @@ def update_log_file(file_path, source):
         
         # Remove entries older than the current hour
         current_hour = datetime.now().strftime('%Y-%m-%d %H')
-        entries = {entry for entry in entries if not entry[1].startswith(current_hour)}
+        entries = {entry for entry in entries if entry[1] == current_hour}
         
         # Append new entry if not already present
         if (source, current_datetime) not in entries:
@@ -62,7 +62,7 @@ def send_summary_to_telegram(message, source):
 # Function to check if summary has already been sent this hour
 def check_and_send_summary(message, source):
     log_file = "pxysummary.csv"
-    current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M')
+    current_hour = datetime.now().strftime('%Y-%m-%d %H')
     already_sent = False
     
     if os.path.exists(log_file):
@@ -71,8 +71,8 @@ def check_and_send_summary(message, source):
             for line in lines[1:]:  # Skip header line
                 parts = line.strip().split(',')
                 if len(parts) >= 2:
-                    log_source, log_datetime = parts
-                    if log_source == source and log_datetime.startswith(current_datetime):
+                    log_source, log_hour = parts
+                    if log_source == source and log_hour == current_hour:
                         already_sent = True
                         break
         
@@ -80,5 +80,3 @@ def check_and_send_summary(message, source):
         print("🔔🔔Update already sent for this hour 🔔")
     else:
         send_summary_to_telegram(message, source)
-
-
