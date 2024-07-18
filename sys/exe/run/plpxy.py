@@ -12,7 +12,7 @@ def read_csv_and_sum(filename):
             if row:  # Check if row is not empty
                 first_columns.append(row[0])
                 try:
-                    last_columns.append(float(row[-1]))  # Assuming last column contains numbers
+                    last_columns.append(int(row[-1]))  # Convert last column to integer
                 except ValueError:
                     print(f"Warning: Non-numeric value found in last column: {row[-1]}")
 
