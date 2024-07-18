@@ -81,7 +81,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
         return peak == 'PEAKEND'
     
     # Check if it's not peak end
-    if not is_peak_end():
+    if is_peak_end():
         # Execute code here when peak_time() is not 'PEAKEND'
         print("Not PEAKEND, skipping...")
     else:
