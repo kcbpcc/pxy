@@ -5,23 +5,27 @@ from datetime import datetime
 # Function to update log file with today's date and source
 def update_log_file(file_path, source):
     today_date = datetime.now().strftime('%Y-%m-%d')
+    new_entry = f"{source},{today_date}"
+    
     if not os.path.exists(file_path):
         with open(file_path, 'w', newline='') as file:
             file.write("source,date\n")  # Write header
-            file.write(f"{source},{today_date}\n")  # Initial entry
+            file.write(f"{new_entry}\n")  # Initial entry
     else:
+        # Read existing entries and check for duplicates
+        entries = set()
         with open(file_path, 'r') as file:
             lines = file.readlines()
-            if len(lines) > 1:  # Check if file has more than header
-                last_entry = lines[-1].strip().split(',')
-                last_date = last_entry[1] if len(last_entry) > 1 else ''
-                if last_date == today_date:
-                    print("Summary already sent today. Skipping...")
-                    return
+            for line in lines[1:]:  # Skip header line
+                parts = line.strip().split(',')
+                if len(parts) >= 2:
+                    entry = (parts[0], parts[1])  # (source, date)
+                    entries.add(entry)
         
-        # Append new entry
-        with open(file_path, 'a') as file:
-            file.write(f"{source},{today_date}\n")
+        # Append new entry if not already present
+        if (source, today_date) not in entries:
+            with open(file_path, 'a') as file:
+                file.write(f"{new_entry}\n")
 
 # Function to send summary to Telegram with custom message
 def send_summary_to_telegram(message):
@@ -56,12 +60,21 @@ def check_and_send_summary(message, source):
     log_file = "pxysummary.csv"
     if os.path.exists(log_file):
         with open(log_file, 'r') as file:
-            last_date = file.read().strip()
-        today_date = datetime.now().strftime('%Y-%m-%d')
-        if last_date == today_date:
-            print("Summary already sent today. Skipping...")
-        else:
-            send_summary_to_telegram(message)
+            lines = file.readlines()
+            if len(lines) > 1:  # Check if file has more than header
+                last_entry = lines[-1].strip().split(',')
+                last_date = last_entry[1] if len(last_entry) > 1 else ''
+                if last_date == datetime.now().strftime('%Y-%m-%d'):
+                    print("Summary already sent today. Skipping...")
+                    return
+        
+        # Send summary if not already sent today
+        send_summary_to_telegram(message)
     else:
         send_summary_to_telegram(message)
+
+# Example usage:
+# message = "Your summary message here."
+# source = "AutoUpdate"  # Replace with your source identifier
+# check_and_send_summary(message, source)
 
