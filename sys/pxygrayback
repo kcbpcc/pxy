@@ -21,7 +21,9 @@ fi
 # Get the default profile ID
 profile_id=$(get_default_profile_id)
 if [ -z "$profile_id" ]; then
-    echo "Could not find the default profile ID. Exiting."
+    echo "Could not find the default profile ID. Listing available profiles:"
+    dconf list /org/gnome/terminal/legacy/profiles:/
+    echo "Please update the script with one of the above profile IDs."
     exit 1
 fi
 
