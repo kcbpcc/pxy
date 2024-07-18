@@ -3,6 +3,8 @@ import io
 import sys
 from telsumrypxy import check_and_send_summary
 from datetime import datetime
+
+# Get the current datetime
 current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 def read_csv_and_sum(filename):
@@ -31,10 +33,6 @@ def read_csv_and_sum(filename):
     print(f"\nSubtotal: {total_sum}\n")
     return total_sum
 
-def check_and_send_summary(profitinfo, tag):
-    # Your existing implementation for sending to Telegram
-    print(f"Sending summary to Telegram with tag {tag}:\n{profitinfo}")
-
 # Capture the output in a StringIO object
 output = io.StringIO()
 sys.stdout = output
@@ -44,6 +42,7 @@ pxycncprofit_file = 'pxycncprofit.csv'
 pxyoptprofit_file = 'pxyoptprofit.csv'
 
 # Reading and processing pxycncprofit.csv
+print(f"Summary Report ({current_datetime})")
 print("C&C Profits")
 subtotal_cnc = read_csv_and_sum(pxycncprofit_file)
 
