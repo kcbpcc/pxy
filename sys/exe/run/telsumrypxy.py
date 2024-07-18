@@ -8,7 +8,7 @@ def is_peak_end():
     return peak =! 'PEAKEND'
 
 # Check if it's peak end
-if is_peak_end():
+if not is_peak_end(): #if is_peak_end(): 
     # Generate current date and time
     current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
