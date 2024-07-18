@@ -2,14 +2,14 @@ import os
 import requests
 from datetime import datetime
 
-# Function to update log file with today's date and source
+# Function to update log file with current date and hour and source
 def update_log_file(file_path, source):
-    today_date = datetime.now().strftime('%Y-%m-%d')
-    new_entry = f"{source},{today_date}"
+    current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M')
+    new_entry = f"{source},{current_datetime}"
     
     if not os.path.exists(file_path):
         with open(file_path, 'w', newline='') as file:
-            file.write("source,date\n")  # Write header
+            file.write("source,datetime\n")  # Write header
             file.write(f"{new_entry}\n")  # Initial entry
     else:
         # Read existing entries and check for duplicates
@@ -19,11 +19,11 @@ def update_log_file(file_path, source):
             for line in lines[1:]:  # Skip header line
                 parts = line.strip().split(',')
                 if len(parts) >= 2:
-                    entry = (parts[0], parts[1])  # (source, date)
+                    entry = (parts[0], parts[1])  # (source, datetime)
                     entries.add(entry)
         
         # Append new entry if not already present
-        if (source, today_date) not in entries:
+        if (source, current_datetime) not in entries:
             with open(file_path, 'a') as file:
                 file.write(f"{new_entry}\n")
 
@@ -49,16 +49,16 @@ def send_summary_to_telegram(message, source):
     
     if response.status_code == 200:
         print("Message sent successfully!")
-        # Update the log file with today's date and source
+        # Update the log file with current date and hour and source
         log_file = "pxysummary.csv"
         update_log_file(log_file, source)
     else:
         print(f"Failed to send message: {response.status_code} - {response.text}")
 
-# Function to check if summary has already been sent today
+# Function to check if summary has already been sent this hour
 def check_and_send_summary(message, source):
     log_file = "pxysummary.csv"
-    today_date = datetime.now().strftime('%Y-%m-%d')
+    current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M')
     already_sent = False
     
     if os.path.exists(log_file):
@@ -67,13 +67,12 @@ def check_and_send_summary(message, source):
             for line in lines[1:]:  # Skip header line
                 parts = line.strip().split(',')
                 if len(parts) >= 2:
-                    log_source, log_date = parts
-                    if log_source == source and log_date == today_date:
+                    log_source, log_datetime = parts
+                    if log_source == source and log_datetime == current_datetime:
                         already_sent = True
                         break
         
     if already_sent:
-        print("Summary already sent today for this source. Skipping...")
+        print("Summary already sent this hour for this source. Skipping...")
     else:
         send_summary_to_telegram(message, source)
-
