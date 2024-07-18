@@ -9,6 +9,8 @@ from datetime import datetime
 import requests
 import csv
 from utcpxy import peak_time  # Assuming peak_time() function is defined in utcpxy module
+from telsumrypxy import check_and_send_summary
+
 
 def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_opt_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage):
     try:
@@ -75,63 +77,6 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
     # Print the formatted output
     print(full_output)
     
-    # Function to check if it's peak end
 
-    import os
-    
-    # Function to update log file with today's date
-    def update_log_file(file_path):
-        today_date = datetime.now().strftime('%Y-%m-%d')
-        if not os.path.exists(file_path):
-            with open(file_path, 'w', newline='') as file:
-                file.write(today_date)
-        else:
-            with open(file_path, 'r') as file:
-                last_date = file.read().strip()
-            if last_date != today_date:
-                with open(file_path, 'w') as file:
-                    file.write(today_date)
-    
-    # Function to send summary to Telegram
-    def send_summary_to_telegram():
-        # Your existing summary generation and Telegram sending code here
-        current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        summary = (
-            f"Date and Time: {current_datetime}\n"
-            # Include other summary details as needed
-        )
-        TELEGRAM_BOT_TOKEN = "7163187536:AAG4UaLEj-iUlHENQmnNVE6080E1fZ_Wxtc"
-        TELEGRAM_CHAT_ID = "-4143295985"
-        message = summary
-        
-        telegram_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-        params = {
-            "chat_id": TELEGRAM_CHAT_ID,
-            "text": message,
-            "parse_mode": "Markdown"
-        }
-        
-        response = requests.get(telegram_url, params=params)
-        
-        if response.status_code == 200:
-            print("Message sent successfully!")
-            # Update the log file with today's date
-            log_file = "pxysummary.csv"
-            update_log_file(log_file)
-        else:
-            print(f"Failed to send message: {response.status_code} - {response.text}")
-    
-    # Check if summary has already been sent today
-    log_file = "pxysummary.csv"
-    if os.path.exists(log_file):
-        with open(log_file, 'r') as file:
-            last_date = file.read().strip()
-        today_date = datetime.now().strftime('%Y-%m-%d')
-        if last_date == today_date:
-            print("Summary already sent today. Skipping...")
-        else:
-            send_summary_to_telegram()
-    else:
-        send_summary_to_telegram()
 
     
