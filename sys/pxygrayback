@@ -1,45 +1,32 @@
 #!/bin/bash
 
-# Function to get the default profile ID
-get_default_profile_id() {
-    dconf read /org/gnome/terminal/legacy/profiles:/default | tr -d "'"
-}
-
-# Function to list all profile IDs
-list_profile_ids() {
-    dconf list /org/gnome/terminal/legacy/profiles:/ | tr -d ':/'
+# Function to get the list of profile IDs
+get_profile_ids() {
+    gsettings get org.gnome.Terminal.ProfilesList list | tr -d "[],' " | tr -d '\n' | tr ' ' '\n'
 }
 
 # Function to change the background color
 change_bg_color() {
     local profile_id="$1"
     local color="$2"
-    dconf write /org/gnome/terminal/legacy/profiles:/:${profile_id}/background-color "'${color}'"
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${profile_id}/ background-color "'${color}'"
 }
 
-# Ensure dconf-cli is installed
-if ! command -v dconf &> /dev/null; then
-    echo "dconf-cli is not installed. Installing it now..."
-    sudo apt update && sudo apt install -y dconf-cli
-fi
+# Get the profile IDs
+profile_ids=$(get_profile_ids)
 
-# Get the default profile ID
-profile_id=$(get_default_profile_id)
-
-# If no default profile ID is found, try to use the first available profile
-if [ -z "$profile_id" ]; then
-    echo "Default profile ID not found. Trying to find any available profile ID..."
-    profile_id=$(list_profile_ids | head -n 1)
-    if [ -z "$profile_id" ]; then
-        echo "No profiles found. Exiting."
-        exit 1
-    fi
+# Check if any profile IDs were found
+if [ -z "$profile_ids" ]; then
+    echo "No profiles found. Exiting."
+    exit 1
 fi
 
 # Define the gray color
 gray_color="rgb(211,211,211)"
 
-# Change the background color to gray
-change_bg_color "$profile_id" "$gray_color"
-
-echo "Background color changed to gray for profile ID: $profile_id"
+# Change the background color for the first profile ID found
+for profile_id in $profile_ids; do
+    change_bg_color "$profile_id" "$gray_color"
+    echo "Background color changed to gray for profile ID: $profile_id"
+    break
+done
