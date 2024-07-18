@@ -108,5 +108,5 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
         print("Message sent successfully!")
     else:
         print(f"Failed to send message: {response.status_code} - {response.text}")
-    Replace "7163187536:AAG4UaLEj-iUlHENQmnNVE6080E1fZ_Wxtc" with your Telegram bot token and 
+  
 
