@@ -80,7 +80,6 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
     print(full_output)
 
     summary = (
-        f"Date and Time: {current_datetime}\n"
         f"BANKNIFTY: {bmktpredict} {arrow_map.get(bmktpxy, '')}\n"
         f"NIFTYNDEX: {mktpredict} {arrow_map.get(mktpxy, '')}\n"
         f"Margin: {available_cash}\n"
