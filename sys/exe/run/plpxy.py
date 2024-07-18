@@ -16,11 +16,14 @@ def read_csv_and_sum(filename):
                 except ValueError:
                     print(f"Warning: Non-numeric value found in last column: {row[-1]}")
 
+    max_first_col_width = max(len(str(first)) for first in first_columns)
+    max_last_col_width = max(len(str(last)) for last in last_columns)
+    
     for first, last in zip(first_columns, last_columns):
-        print(f"{first}: {last}")
+        print(f"{first.ljust(max_first_col_width)}: {str(last).rjust(max_last_col_width)}")
         total_sum += last
 
-    print(f"Subtotal for {filename}: {total_sum}\n")
+    print(f"\nSubtotal for {filename}: {total_sum}\n")
     return total_sum
 
 # File paths
