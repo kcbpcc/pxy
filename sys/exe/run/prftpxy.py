@@ -90,7 +90,7 @@ def process_data_total_profit():
 
 
         # Processing NFO data
-        mergedfo_df_filtered = merged_df[(merged_df['exchange_y'] == 'NFO') & (merged_df['quantity_y'] == 0)].copy()
+        mergedfo_df_filtered = merged_df[(merged_df['exchange_y'] == 'NFO') & (merged_df['sell_quantity'] > 0)].copy()
         total_profit_fo = int(mergedfo_df_filtered['pnl_y'].sum()) if not mergedfo_df_filtered.empty else 0
         #print(f"{BRIGHT_YELLOW}{'F&O Profits 💸 :' + str(total_profit_fo):>41}{RESET}")
         if not mergedfo_df_filtered.empty:
