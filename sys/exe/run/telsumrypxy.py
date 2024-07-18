@@ -5,7 +5,7 @@ from utcpxy import peak_time  # Assuming peak_time() function is defined in utcp
 # Function to check if it's peak end
 def is_peak_end():
     peak = peak_time()
-    return peak =! 'PEAKEND'
+    return peak == 'PEAKEND'
 
 # Check if it's peak end
 if not is_peak_end(): #if is_peak_end(): 
