@@ -26,7 +26,7 @@ def calculate_totals(combined_df):
         extras_df = combined_df[(combined_df['exchange'] == 'NFO') & (combined_df['sell_quantity'] > 0)].copy()
         #total_opt_pnl = int(extras_df['unrealised'].sum())
         total_opt_pnl = int(extras_df['unrealised'].sum()) + ((-1) * int(extras_df['PnL'].sum()))
-        print(total_opt_pnl)
+        #print(total_opt_pnl)
     else:
         total_opt_pnl = 0
     return total_opt_pnl
