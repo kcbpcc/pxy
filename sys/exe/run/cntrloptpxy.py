@@ -24,7 +24,7 @@ user_usernames = ('-4282665161',)
 def calculate_totals(combined_df):
     if not combined_df.empty:
         extras_df = combined_df[(combined_df['exchange'] == 'NFO') & (combined_df['sell_quantity'] > 0)].copy()
-        total_opt_pnl = extras_df['unrealised'].sum()
+        total_opt_pnl = int(extras_df['unrealised'].sum())
     else:
         total_opt_pnl = 0
     return total_opt_pnl
@@ -74,7 +74,7 @@ def exit_options(exe_opt_df, broker):
                     f"📉 Sell Price: {row['ltp']}\n"
                     f"📈 Buy Price: {row['avg']}\n"
                     f"💰 Booked Profit: {row['PnL']}\n"
-                    f"Total Booked: {total_opt_pnl} 📣"
+                    f"Total Booked:💰 {total_opt_pnl} 📣"
                 )
                 print(message)
                 send_telegram_message(message)
