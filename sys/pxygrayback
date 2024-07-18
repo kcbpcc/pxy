@@ -1,8 +1,13 @@
 #!/bin/bash
 
-# Function to find the default profile ID
+# Function to get the default profile ID
 get_default_profile_id() {
     dconf read /org/gnome/terminal/legacy/profiles:/default | tr -d "'"
+}
+
+# Function to list all profile IDs
+list_profile_ids() {
+    dconf list /org/gnome/terminal/legacy/profiles:/ | tr -d ':/'
 }
 
 # Function to change the background color
@@ -20,11 +25,15 @@ fi
 
 # Get the default profile ID
 profile_id=$(get_default_profile_id)
+
+# If no default profile ID is found, try to use the first available profile
 if [ -z "$profile_id" ]; then
-    echo "Could not find the default profile ID. Listing available profiles:"
-    dconf list /org/gnome/terminal/legacy/profiles:/
-    echo "Please update the script with one of the above profile IDs."
-    exit 1
+    echo "Default profile ID not found. Trying to find any available profile ID..."
+    profile_id=$(list_profile_ids | head -n 1)
+    if [ -z "$profile_id" ]; then
+        echo "No profiles found. Exiting."
+        exit 1
+    fi
 fi
 
 # Define the gray color
