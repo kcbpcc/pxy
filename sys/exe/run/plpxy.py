@@ -56,7 +56,7 @@ pxycncprofit_file = 'pxycncprofit.csv'
 pxyoptprofit_file = 'pxyoptprofit.csv'
 
 # Reading and processing pxycncprofit.csv
-print("-------PXY® Dash Board--------")
+print("---------PXY® Dash Board----------")
 print("PreciseXceleratedYield Pvt Ltd")
 print("******************************")
 
