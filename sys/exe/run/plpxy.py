@@ -56,7 +56,7 @@ pxycncprofit_file = 'pxycncprofit.csv'
 pxyoptprofit_file = 'pxyoptprofit.csv'
 
 # Reading and processing pxycncprofit.csv
-print("---------PXY® Dash Board----------")
+print("---------PXY® Score Board--------")
 print("PreciseXceleratedYield Pvt Ltd")
 print("******************************")
 
@@ -70,7 +70,7 @@ subtotal_opt = read_csv_and_sum(pxyoptprofit_file)
 # Calculating total sum
 total_sum = subtotal_cnc + subtotal_opt
 print(f"💰💰💰 Total Sum: {total_sum}")
-
+print("---------PXY® Score Board--------")
 # Reset stdout
 sys.stdout = sys.__stdout__
 
