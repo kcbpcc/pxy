@@ -306,7 +306,7 @@ try:
                         row['Invested'] < 25000 and
                         row['smb_power'] < 0.10 and
                         available_cash > 1000 and
-                        row['PL%'] < -5
+                        row['PL%'] < -3
                     ):
                         try:
                             # Read the stock symbols from stocks.csv
