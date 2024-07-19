@@ -9,12 +9,11 @@ import os
 current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 def trim_first_column(value):
-    if value.startswith('B'):
+    if value.startswith('BANKNIFTY24'):
         return 'B' + value.replace('BANKNIFTY24', '')
-    elif value.startswith('N'):
+    elif value.startswith('NIFTY24'):
         return 'N' + value.replace('NIFTY24', '')
     return value
-
 
 def read_csv_and_sum(filename):
     if not os.path.exists(filename) or os.path.getsize(filename) == 0:
