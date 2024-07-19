@@ -37,7 +37,6 @@ def send_summary_to_telegram(message, source):
     TELEGRAM_BOT_TOKEN = "7163187536:AAG4UaLEj-iUlHENQmnNVE6080E1fZ_Wxtc"
     TELEGRAM_CHAT_ID = "-4143295985"
     summary = (
-        f"Date and Time: {current_datetime}\n"
         f"{message}\n"  # Append the custom message here
     )
     message = summary
