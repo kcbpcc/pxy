@@ -12,8 +12,9 @@ def trim_first_column(value):
     if value.startswith('B'):
         return 'B' + value.replace('BANKNIFTY24', '')
     elif value.startswith('N'):
-        return value.replace('NIFTY24', '')
+        return 'N' + value.replace('NIFTY24', '')
     return value
+
 
 def read_csv_and_sum(filename):
     if not os.path.exists(filename) or os.path.getsize(filename) == 0:
