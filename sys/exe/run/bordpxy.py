@@ -80,7 +80,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
     print(full_output)
 
     summary = (
-        f"-------PXY® Dash Board--------\n"
+        f"---------PXY® Dash Board----------\n"
         f"PreciseXceleratedYield Pvt Ltd\n"
         f"******************************\n"
         f"📌 Positions: {int(total_cnc_m2m_postions)}\n"
