@@ -69,7 +69,9 @@ subtotal_opt = read_csv_and_sum(pxyoptprofit_file)
 
 # Calculating total sum
 total_sum = subtotal_cnc + subtotal_opt
+
 print(f"💰💰💰 Total Sum: {total_sum}")
+print("******************************")
 print("---------PXY® Score Board--------")
 # Reset stdout
 sys.stdout = sys.__stdout__
