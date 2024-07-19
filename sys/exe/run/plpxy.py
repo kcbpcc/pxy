@@ -56,7 +56,8 @@ pxycncprofit_file = 'pxycncprofit.csv'
 pxyoptprofit_file = 'pxyoptprofit.csv'
 
 # Reading and processing pxycncprofit.csv
-print("🏛 🏛 🏛 PXY® 🏛 🏛 🏛")
+print("PXY® PreciseXceleratedYield Pvt Ltd")
+
       
 print("💵C&C Profits💵")
 subtotal_cnc = read_csv_and_sum(pxycncprofit_file)
