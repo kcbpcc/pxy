@@ -8,6 +8,13 @@ import os
 # Get the current datetime
 current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+def trim_first_column(value):
+    if value.startswith('B'):
+        return 'B' + value.replace('BANKNIFTY24', '')
+    elif value.startswith('N'):
+        return value.replace('NIFTY24', '')
+    return value
+
 def read_csv_and_sum(filename):
     if not os.path.exists(filename) or os.path.getsize(filename) == 0:
         print(f"File '{filename}' is empty or does not exist.")
@@ -22,7 +29,8 @@ def read_csv_and_sum(filename):
         header = next(reader)  # Skip the header row
         for row in reader:
             if row:  # Check if row is not empty
-                first_columns.append(row[0])
+                trimmed_first_col = trim_first_column(row[0])
+                first_columns.append(trimmed_first_col)
                 try:
                     last_columns.append(int(row[-1]))  # Convert last column to integer
                 except ValueError:
