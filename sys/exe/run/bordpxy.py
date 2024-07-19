@@ -80,7 +80,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
     print(full_output)
 
     summary = (
-        f"🏛 🏛 🏛 PXY® 🏛 🏛 🏛  \n"
+        f"PXY® PreciseXceleratedYield Pvt Ltd\n"
         f"📌 Positions: {int(total_cnc_m2m_postions)}\n"
         f"💼 Holdings: {int(all_Stocks_worth_dpnl)}\n"
         f"💸 Options: {int(total_opt_m2m)}\n"
