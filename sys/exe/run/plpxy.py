@@ -56,11 +56,11 @@ pxycncprofit_file = 'pxycncprofit.csv'
 pxyoptprofit_file = 'pxyoptprofit.csv'
 
 # Reading and processing pxycncprofit.csv
-print("💵💵C&C Profits💵💵")
+print("💵C&C Profits💵")
 subtotal_cnc = read_csv_and_sum(pxycncprofit_file)
 
 # Reading and processing pxyoptprofit.csv
-print("💵💵F&O Profits💵💵")
+print("💸F&O Profits💸")
 subtotal_opt = read_csv_and_sum(pxyoptprofit_file)
 
 # Calculating total sum
