@@ -83,7 +83,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
         f"SUMMARY DASH BOARD \n"
         f"BANKNIFTY: {bmktpredict} {arrow_map.get(bmktpxy, '')}\n"
         f"NIFTYNDEX: {mktpredict} {arrow_map.get(mktpxy, '')}\n"
-        f"Margin: {available_cash}\n"
+        f"Margin: {int(available_cash)}\n"
         f"Delta: {int(ydaypnl_to_print * 100000)}\n"
         f"Real-P&L: {round((acvalue_to_print - capital + hide), 2)}\n"
         f"Run-P&L: {round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks) * -1), 2)}\n"
