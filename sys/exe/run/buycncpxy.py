@@ -167,7 +167,7 @@ def main():
             ltp_nse = broker.kite.ltp(f"NSE:{symbol}")[f"NSE:{symbol}"]['last_price']
             if smbpxy == 'Buy' and ltp_nse < 10000:
                 if symbol in holdings_symbols:
-                    purchase_limit = 2000
+                    purchase_limit = 2500
                 else:
                     purchase_limit = 10000
 
