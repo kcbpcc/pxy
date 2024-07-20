@@ -105,7 +105,6 @@ while True:
     subprocess.run(['python3', 'daypxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
     (lambda: print((BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() if 'nsma' in locals() else None
-    subprocess.run(['python3', 'plpxy.py'])
     subprocess.run(['python3', 'worldpxy.py']); subprocess.run(['python3', 'cntrlcncpxy.py'])
     subprocess.run(['python3', 'bniftychartpxy.py'])
     subprocess.run(['python3', 'bdaypxy.py']) 
@@ -119,6 +118,7 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     from sleeppxy import progress_bar
     from cyclepxy import cycle
+    subprocess.run(['python3', 'plpxy.py'])
     progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
 
