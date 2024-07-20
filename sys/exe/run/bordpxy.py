@@ -49,7 +49,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, optworth, all_Stocks_worth
     
     output_lines = []
     
-    output_lines.append(left_aligned_format.format(f"BANKNIFTY-------{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
+    output_lines.append(left_aligned_format.format(f"BANKNIFTY------{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
                        right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(mktpxy, '')} {mktpredict}{RESET}-----NIFTYNDEX"))
 
     output_lines.append(left_aligned_format.format(f"Margin:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
