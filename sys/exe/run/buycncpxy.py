@@ -121,12 +121,21 @@ def main():
     ]
 
     try:
-        broker = get_kite()
-    except Exception as e:
-        remove_token(dir_path)
-        logger.error(f"{str(e)} unable to get holdings")
-        sys.exit(1)
+        # Redirect sys.stdout to 'output.txt'
+        with open('output.txt', 'w') as file:
+            sys.stdout = file
+            try:
+                broker = get_kite()
+            except Exception as e:
+                remove_token(dir_path)
+                print(traceback.format_exc())
+                logging.error(f"{str(e)} unable to get holdings")
+                sys.exit(1)
+    finally:
+        # Reset sys.stdout to its default value
+        sys.stdout = sys.__stdout__
 
+    
     try:
         lst_dct_positions = broker.kite.positions()
         positions_symbols = [pos["tradingsymbol"] for pos in lst_dct_positions["day"] + lst_dct_positions["net"]]
