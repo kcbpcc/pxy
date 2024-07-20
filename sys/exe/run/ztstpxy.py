@@ -9,7 +9,7 @@ async def send_test_message():
     bot = Bot(token=bot_token)
     message = (
 
-    f"🔍 Check it out on TradingView: [TradingView](https://www.tradingview.com/chart/?symbol={exchsym[1]})\n"
+    f"🔍 Check it out on TradingView: [TradingView](https://www.tradingview.com/chart/?symbol={TCS})\n"
 
     )
 
