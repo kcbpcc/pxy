@@ -87,7 +87,7 @@ def stocks_sell_order_place(index, row):
                     f"📉 Sell Price: {row['ltp']}\n"
                     f"📈 Buy Price: {row['avg']}\n"
                     f"🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}\n"
-                    f"💰💰💰 Profits until:{booked} 📣"
+                    f"Profits until:{booked} 📣"
                 )
                 
                 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
@@ -95,7 +95,7 @@ def stocks_sell_order_place(index, row):
                 
                 async def send_telegram_message(message_text):
                     bot = telegram.Bot(token=bot_token)
-                    await bot.send_message(chat_id=user_usernames, text=message_text, parse_mode='Markdown')
+                    await bot.send_message(chat_id=user_usernames, text=message_text)
                 
                 loop = asyncio.get_event_loop()
                 loop.run_until_complete(send_telegram_message(message_text))
