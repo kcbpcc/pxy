@@ -87,7 +87,7 @@ def stocks_sell_order_place(index, row):
                     f"📉 Sell Price: {row['ltp']}\n"
                     f"📈 Buy Price: {row['avg']}\n"
                     f"🔍 Check it out on TradingView: https://www.tradingview.com/chart/?symbol={exchsym[1]}\n"
-                    f"Profits until:{booked} 📣"
+                    f"💰💰💰 Profits until:{booked} 📣"
                 )
                 
                 bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'  # Replace with your actual bot token
