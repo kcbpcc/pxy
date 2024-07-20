@@ -43,9 +43,9 @@ async def handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktp
 def determine_quantity(symbol, count, banknifty_prefix, nifty_prefix, bnkmaxcount, nftmaxcount, bmktpredict):
     if symbol.startswith(banknifty_prefix) and count < bnkmaxcount:
         if symbol.endswith("PE") and bmktpredict == "FALL":
-            return 30
+            return 15
         elif symbol.endswith("CE") and bmktpredict == "RISE":
-            return 30
+            return 15
         else:
             return 15
     elif symbol.startswith(nifty_prefix) and count < nftmaxcount:
