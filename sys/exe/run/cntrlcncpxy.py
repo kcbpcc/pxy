@@ -95,7 +95,7 @@ def stocks_sell_order_place(index, row):
                 
                 async def send_telegram_message(message_text):
                     bot = telegram.Bot(token=bot_token)
-                    await bot.send_message(chat_id=user_usernames, text=message_text)
+                    await bot.send_message(chat_id=user_usernames, text=message_text, parse_mode='Markdown')
                 
                 loop = asyncio.get_event_loop()
                 loop.run_until_complete(send_telegram_message(message_text))
