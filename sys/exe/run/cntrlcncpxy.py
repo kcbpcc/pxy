@@ -303,10 +303,10 @@ try:
                     elif (
                         row['qty'] > 0 and
                         row['avg'] != 0 and
-                        row['Invested'] < 25000 and
+                        row['Invested'] < 30000 and
                         row['smb_power'] < 0.10 and
                         available_cash > 1000 and
-                        row['PL%'] < -3
+                        row['PL%'] < -1.4
                     ):
                         try:
                             # Read the stock symbols from stocks.csv
