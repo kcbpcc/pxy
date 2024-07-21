@@ -42,7 +42,7 @@ def compute_depth(row):
     elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
         return max(row['tgtoptsma'], (3 + ncedepth))
     elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
-        return max(row['tgtoptsma'], (70 + npedepth))
+        return max(row['tgtoptsma'], (3 + npedepth))
     else:
         return 5
 
