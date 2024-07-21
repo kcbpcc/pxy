@@ -35,16 +35,30 @@ def compute_tgtoptsma(row):
         return 4
 
 def compute_depth(row):
+
     if "CE" in row['key'] and row['key'].startswith("BANK"):
-        return max(row['tgtoptsma'], (9 - bcedepth))
+        if bcedepth > 1:
+            return max(row['tgtoptsma'], (9 - bcedepth))
+        else:
+            return 5
     elif "PE" in row['key'] and row['key'].startswith("BANK"):
-        return max(row['tgtoptsma'], (9 - bpedepth))
+        if bpedepth > 1:
+            return max(row['tgtoptsma'], (9 - bpedepth))
+        else:
+            return 5
     elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
-        return max(row['tgtoptsma'], (9 - ncedepth))
+        if ncedepth > 1:
+            return max(row['tgtoptsma'], (9 - ncedepth))
+        else:
+            return 5
     elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
-        return max(row['tgtoptsma'], (9 - npedepth))
+        if npedepth > 1:
+            return max(row['tgtoptsma'], (9 - npedepth))
+        else:
+            return 5
     else:
         return 5
+
 
 try:
     sys.stdout = open('output.txt', 'w')
