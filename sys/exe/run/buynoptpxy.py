@@ -25,8 +25,6 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 
 #print("━" * 42)
 
-# Define function to get this week's Thursday date
-
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     # Convert expiry_month to a single digit string if it's less than or equal to 9
     if len(expiry_month) == 2 and expiry_month.startswith("0"):
@@ -49,7 +47,6 @@ def count_positions_by_type(broker):
             elif position['tradingsymbol'].endswith('PE'):
                 count_PE += 1
     return count_CE, count_PE
-
 
 def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
@@ -96,8 +93,13 @@ async def main():
         CE_position_exists = check_existing_positions(broker, CE_symbol)
         PE_position_exists = check_existing_positions(broker, PE_symbol)
 
-        await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
+        # Additional conditions for placing PE and CE orders
+        if (Open_Change < 0 or nse_power > 0.85) and not PE_position_exists:
+            await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
+        elif (Open_Change > 0 or nse_power < 0.15) and not CE_position_exists:
+            await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
         #print("━" * 42)
+    
     except Exception as e:
         print(f"Error: {e}")
         logging.error(f"Error in main(): {e}")
@@ -110,5 +112,6 @@ def sync_main():
     asyncio.run(run_main())
 
 sync_main()
+
 
 
