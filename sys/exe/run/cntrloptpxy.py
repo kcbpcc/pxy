@@ -67,7 +67,7 @@ def exit_options(exe_opt_df, broker):
             total_pl_percentage = row['PL%']
             tgtoptsmadepth = row['tgtoptsmadepth']
             
-            if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 500:
+            if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 400:
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
                     f"🛬🛬🛬 🎯🎯🎯 EXIT order placed {row['key']} successfully.\n"
@@ -127,14 +127,27 @@ bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
 ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
 
 def compute_depth(row):
+
     if "CE" in row['key'] and row['key'].startswith("BANK"):
-        return max(row['tgtoptsma'], (9 - bcedepth))
+        if bcedepth > 1:
+            return max(row['tgtoptsma'], (9 - bcedepth))
+        else:
+            return 5
     elif "PE" in row['key'] and row['key'].startswith("BANK"):
-        return max(row['tgtoptsma'], (9 - bpedepth))
+        if bpedepth > 1:
+            return max(row['tgtoptsma'], (9 - bpedepth))
+        else:
+            return 5
     elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
-        return max(row['tgtoptsma'], (9 - ncedepth))
+        if ncedepth > 1:
+            return max(row['tgtoptsma'], (9 - ncedepth))
+        else:
+            return 5
     elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
-        return max(row['tgtoptsma'], (9 - npedepth))
+        if npedepth > 1:
+            return max(row['tgtoptsma'], (9 - npedepth))
+        else:
+            return 5
     else:
         return 5
 
