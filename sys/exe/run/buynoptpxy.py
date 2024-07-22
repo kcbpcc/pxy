@@ -99,7 +99,7 @@ async def main():
         elif (Open_Change > 0 or nse_power < 0.15) and not CE_position_exists:
             await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
         else:
-            await process_orders(broker, available_cash, None, None, None, None, None, None, mktpxy)
+            print("No orders placed. Conditions not met.")
 
     except Exception as e:
         print(f"Error: {e}")
