@@ -116,7 +116,7 @@ summary_balance = f"{color_code_summary}SUMMARY-CAP:{total_invested_all:6.0f} P&
 summary_sentence = f"{color_code_summary}SUMMARY-CAP:{total_invested_all:6.0f} P&L:{total_pl_all:7.0f} P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
 summary_statement = summary_sentence
 
-print(summary_statement + "📊")
+
 
 # Filter and group data
 filtered_df = print_df[print_df['qty'] > 0]
@@ -155,6 +155,6 @@ for group, data in grouped_df:
             print(formatted_balance)
 
 subprocess.run(['python3', 'lstdymnthexppxy.py']) 
-
+print(summary_statement + "📊")
 print("━" * 42)
 
