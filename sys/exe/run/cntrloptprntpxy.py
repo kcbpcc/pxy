@@ -178,6 +178,9 @@ for group, data in grouped_df:
 
 subprocess.run(['python3', 'lstdymnthexppxy.py']) 
 
+from colorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+
+# Define column width
 column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
@@ -185,15 +188,23 @@ right_aligned_format = "{:>" + str(column_width) + "}"
 # Prepare output lines
 output_lines = []
 
-# Append formatted lines to output
-output_lines.append(left_aligned_format.format("Nifty Profit:") + right_aligned_format.format(f"{int(nextras)}"))
-output_lines.append(left_aligned_format.format("Nifty Loss:") + right_aligned_format.format(f"{int(ntotal_opt_m2m)}"))
-output_lines.append(left_aligned_format.format("Bank Profit:") + right_aligned_format.format(f"{int(bextras)}"))
-output_lines.append(left_aligned_format.format("Bank Loss:") + right_aligned_format.format(f"{int(btotal_opt_m2m)}"))
+# Example values (replace these with your actual values or calculations)
+nifty_profit = int(nextras)
+nifty_loss = int(ntotal_opt_m2m)
+bank_profit = int(bextras)
+bank_loss = int(btotal_opt_m2m)
 
-# Print all lines
-for line in output_lines:
-    print(line)
+# Append formatted lines to output
+output_lines.append(left_aligned_format.format(f"Nifty Profit: {BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}") +
+                   right_aligned_format.format(f"Nifty Loss: {BRIGHT_GREEN if nifty_loss > 0 else BRIGHT_RED}{nifty_loss}{RESET}"))
+
+output_lines.append(left_aligned_format.format(f"Bank Profit: {BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}") +
+                   right_aligned_format.format(f"Bank Loss: {BRIGHT_GREEN if bank_loss > 0 else BRIGHT_RED}{bank_loss}{RESET}"))
+
+# Join and print the formatted output
+full_output = '\n'.join(output_lines)
+print(full_output)
+
 
 print(summary_statement + "📊")
 print("━" * 42)
