@@ -124,16 +124,31 @@ for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
     total_pl_group = data['PnL'].sum()
     total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
+    # Count occurrences of PE and CE using the 'CP' column
+    pe_count = data['CP'].value_counts().get('🟠', 0)
+    ce_count = data['CP'].value_counts().get('🟢', 0)
+
+    # Calculate total invested and PnL for PE options
+    pe_data = data[data['CP'] == '🟠']
+    total_invested_pe = pe_data['Invested'].sum()
+    total_pl_pe = pe_data['PnL'].sum()
+    value_pe = total_invested_pe - total_pl_pe
+
+    # Calculate total invested and PnL for CE options
+    ce_data = data[data['CP'] == '🟢']
+    total_invested_ce = ce_data['Invested'].sum()
+    total_pl_ce = ce_data['PnL'].sum()
+    value_ce = total_invested_ce - total_pl_ce
     
     if total_invested_group != 0:
-        summary_balance = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
+        value_statement = f"{ce_count}🟢{value_ce} ⚖️⚖️ {value_pe}🟠{pe_count}"
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         print(data[data['qty'] > 0][['MN', 'strike', 'Invested', 'qty','tgtoptsmadepth', 'PL%', 'PnL', 'CP']].to_string(header=False, index=False, col_space=[2, 10, 5, 3, 2, 3, 6,2]))
         
         if len(data) >= 2:
             formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_code}{summary_sentence}{RESET}".rjust(50)
-            formatted_balance = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_code}{summary_balance}{RESET}".rjust(50)
+            formatted_balance = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_code}{value_statement}{RESET}".rjust(50)
             print(formatted_balance)
             print(formatted_output)
 
