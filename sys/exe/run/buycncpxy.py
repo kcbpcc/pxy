@@ -185,7 +185,7 @@ def main():
                     remaining_cash = response["equity"]["available"]["live_balance"]
                     print(f"Remaining Cash💰: {int(round(remaining_cash / 1000))}K")
                     
-                    if remaining_cash < limit:
+                    if remaining_cash > limit:
                         print(f"Cash: {int(remaining_cash)}, stopping further orders.")
                         break
                 else:
