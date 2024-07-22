@@ -92,7 +92,7 @@ def get_holdingsinfo(combined_df):
             btotal_opt_m2m = 0
 
         
-        return total_opt_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_opt_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
+        return total_opt_m2m_postions, extras, nextras, bextras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_opt_m2m, ntotal_opt_m2m, btotal_opt_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
 
     except Exception as e:
         print(f"An error occurred: {e}")
