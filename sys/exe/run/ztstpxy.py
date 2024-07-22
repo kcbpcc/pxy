@@ -30,13 +30,13 @@ if os.path.exists(csv_file):
     # Check if 'Datetime' column is missing and add it
     if 'Datetime' not in existing_data.columns:
         print("Adding 'Datetime' column to existing data")
-        existing_data['Datetime'] = pd.date_range(end=pd.Timestamp.now(), periods=len(existing_data), freq='T')
+        existing_data['Datetime'] = pd.date_range(end=pd.Timestamp.now(), periods=len(existing_data), freq='min')
     
     # Ensure the 'Datetime' column is in datetime format
-    existing_data['Datetime'] = pd.to_datetime(existing_data['Datetime'])
+    existing_data['Datetime'] = pd.to_datetime(existing_data['Datetime'], format='%Y-%m-%d %H:%M:%S')
 
     # Ensure the 'Datetime' column in the new data is in datetime format
-    new_data['Datetime'] = pd.to_datetime(new_data['Datetime'])
+    new_data['Datetime'] = pd.to_datetime(new_data['Datetime'], format='%Y-%m-%d %H:%M:%S')
 
     # Concatenate the new data with the existing data, keeping only unique records
     combined_data = pd.concat([existing_data, new_data]).drop_duplicates(subset='Datetime').reset_index(drop=True)
@@ -54,7 +54,7 @@ print_column_names(combined_data, 'combined_data')
 data = pd.read_csv(csv_file)
 
 # Ensure the 'Datetime' column is in datetime format
-data['Datetime'] = pd.to_datetime(data['Datetime'])
+data['Datetime'] = pd.to_datetime(data['Datetime'], format='%Y-%m-%d %H:%M:%S')
 data.set_index('Datetime', inplace=True)
 
 # Calculate the 50-day SMA
