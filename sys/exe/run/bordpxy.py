@@ -74,7 +74,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, nextras, bextras, optworth
                        right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
     
     output_lines.append(left_aligned_format.format(f"B-CLOSED:{BRIGHT_GREEN if bextras >= 0 else BRIGHT_RED}{str(int(bextras)).zfill(5)}{RESET}") +
-                       right_aligned_format.format(f"N-CLOSED:{BRIGHT_GREEN if nextras >= 0 else BRIGHT_RED}{str(int(nextras)).zfill(5)}{RESET}"))
+                       right_aligned_format.format(f"N:{BRIGHT_GREEN if nextras >= 0 else BRIGHT_RED}{str(int(nextras)).zfill(5)}{RESET}B:{BRIGHT_GREEN if bextras >= 0 else BRIGHT_RED}{str(int(bextras)).zfill(5)}{RESET}"))
 
     output_lines.append(left_aligned_format.format(f"CLOSED:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{str(int(extras)).zfill(5)}{RESET}") +
                        right_aligned_format.format(f"PROFIT:{GREEN if (booked + extras) > 0 else RED}{str(round(booked + extras)).zfill(5)}{RESET}"))
