@@ -27,9 +27,12 @@ if os.path.exists(csv_file):
     # Debug: Print column names
     print_column_names(existing_data, 'existing_data')
 
-    # Ensure the 'Datetime' column is in datetime format
+    # Check if 'Datetime' column is missing and add it
     if 'Datetime' not in existing_data.columns:
-        print("Error: 'Datetime' column not found in the existing CSV file.")
+        print("Adding 'Datetime' column to existing data")
+        existing_data['Datetime'] = pd.date_range(end=pd.Timestamp.now(), periods=len(existing_data), freq='T')
+    
+    # Ensure the 'Datetime' column is in datetime format
     existing_data['Datetime'] = pd.to_datetime(existing_data['Datetime'])
 
     # Ensure the 'Datetime' column in the new data is in datetime format
@@ -97,3 +100,4 @@ with open(html_file, 'w') as file:
 
 print(f"CSV file saved as: {csv_file}")
 print(f"HTML file saved as: {html_file}")
+
