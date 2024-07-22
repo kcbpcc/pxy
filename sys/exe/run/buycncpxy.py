@@ -180,7 +180,7 @@ def main():
                 print(f"Remaining Cash💰: {int(round(remaining_cash / 1000))}K")
                 
                 if remaining_cash < limit:
-                    print(f"Cash: {remaining_cash}, stopping further orders.")
+                    print(f"Cash: {int(remaining_cash)}, stopping further orders.")
                     break
             else:
                 logger.info(f"Skipping {symbol}: smbpxy is not 'Buy'")
