@@ -55,15 +55,15 @@ banknifty_combined = prepare_data(banknifty_combined, "Bank Nifty")
 # Create subplots
 fig = sp.make_subplots(rows=2, cols=1, shared_xaxes=True, subplot_titles=("Nifty 50 Index", "Bank Nifty Index"))
 
-# Add Nifty 50 data to subplot
-fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['Close'], mode='lines', name='Nifty 50 Close', line=dict(color='cyan')), row=1, col=1)
-fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mode='lines', name='Nifty 50 50-Day SMA', line=dict(color='magenta')), row=1, col=1)
+# Add Nifty 50 data to subplot with softer colors
+fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['Close'], mode='lines', name='Nifty 50 Close', line=dict(color='gray')), row=1, col=1)
+fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mode='lines', name='Nifty 50 50-Day SMA', line=dict(color='darkgray')), row=1, col=1)
 
-# Add Bank Nifty data to subplot
-fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='lime')), row=2, col=1)
-fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA', line=dict(color='yellow')), row=2, col=1)
+# Add Bank Nifty data to subplot with softer colors
+fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='lightgray')), row=2, col=1)
+fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA', line=dict(color='darkgray')), row=2, col=1)
 
-# Update layout with dark mode and no grid lines
+# Update layout with gray mode and soft colors
 fig.update_layout(
     title='Nifty 50 and Bank Nifty Indices - 1 Minute Interval with 50-Day SMA',
     xaxis_title='Datetime',
@@ -72,26 +72,29 @@ fig.update_layout(
     yaxis=dict(
         side='right',
         range=[nifty_combined['Close'].min() - 10, nifty_combined['Close'].max() + 10],
-        showgrid=False  # Hide grid lines
+        showgrid=False,  # Hide grid lines
+        showline=False   # Hide axis lines
     ),
     yaxis2=dict(
         side='right',
         range=[banknifty_combined['Close'].min() - 10, banknifty_combined['Close'].max() + 10],
-        showgrid=False  # Hide grid lines
+        showgrid=False,  # Hide grid lines
+        showline=False   # Hide axis lines
     ),
     xaxis=dict(
-        showgrid=False  # Hide grid lines
+        showgrid=False,  # Hide grid lines
+        showline=False   # Hide axis lines
     ),
-    paper_bgcolor='black',  # Background color of the entire figure
-    plot_bgcolor='black',  # Background color of the plotting area
-    font_color='white'  # Color of the text
+    paper_bgcolor='lightgray',  # Background color of the entire figure
+    plot_bgcolor='white',       # Background color of the plotting area
+    font_color='black'          # Color of the text
 )
 
 # Disable range slider
 fig.update_xaxes(rangeslider_visible=False)
 
 # Save the plot to an HTML file
-html_file = 'nifty_and_banknifty_1min_dark.html'
+html_file = 'nifty_and_banknifty_1min_gray.html'
 fig.write_html(html_file)
 
 # Inject auto-refresh JavaScript
