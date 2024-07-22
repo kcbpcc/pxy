@@ -168,28 +168,32 @@ def main():
             smbpxy = check_ha_candles(yf_symbol)
             
             ltp_nse = broker.kite.ltp(f"NSE:{symbol}")[f"NSE:{symbol}"]['last_price']
+            purchase_limit = 0  # Default value in case no condition matches
+
             if smbpxy == 'Buy' and ltp_nse < 10000:
                 if symbol in holdings_symbols and symbol not in orders_symbols and symbol not in positions_symbols:
                     purchase_limit = 2000
                 elif symbol not in holdings_symbols and symbol not in orders_symbols and symbol not in positions_symbols:
                     purchase_limit = 10000
 
-                quantity = int(purchase_limit / ltp_nse)
-                print(f"Placing order for {symbol}...")
-                place_order(symbol, broker, purchase_limit, quantity)
-                
-                response = broker.kite.margins()
-                remaining_cash = response["equity"]["available"]["live_balance"]
-                print(f"Remaining Cash💰: {int(round(remaining_cash / 1000))}K")
-                
-                if remaining_cash < limit:
-                    print(f"Cash: {int(remaining_cash)}, stopping further orders.")
-                    break
+                if purchase_limit > 0:
+                    quantity = int(purchase_limit / ltp_nse)
+                    print(f"Placing order for {symbol}...")
+                    place_order(symbol, broker, purchase_limit, quantity)
+                    
+                    response = broker.kite.margins()
+                    remaining_cash = response["equity"]["available"]["live_balance"]
+                    print(f"Remaining Cash💰: {int(round(remaining_cash / 1000))}K")
+                    
+                    if remaining_cash < limit:
+                        print(f"Cash: {int(remaining_cash)}, stopping further orders.")
+                        break
+                else:
+                    logger.info(f"Skipping {symbol}: purchase_limit is not set")
             else:
-                logger.info(f"Skipping {symbol}: smbpxy is not 'Buy'")
+                logger.info(f"Skipping {symbol}: smbpxy is not 'Buy' or price is too high")
         else:
             logger.info("Decision is not 'YES', skipping order placement.")
 
 if __name__ == "__main__":
     main()
-
