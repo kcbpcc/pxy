@@ -183,7 +183,7 @@ def main():
                     remaining_cash = available_cash
                     print(f"Remaining Cash💰: {int(round(remaining_cash / 1000))}K")
                     
-                    if remaining_cash > limit:
+                    if remaining_cash < limit:
                         print(f"Cash: {int(remaining_cash)}, stopping further orders.")
                         break
                 else:
