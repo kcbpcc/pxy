@@ -56,18 +56,21 @@ banknifty_combined = prepare_data(banknifty_combined, "Bank Nifty")
 fig = sp.make_subplots(rows=2, cols=1, shared_xaxes=True, subplot_titles=("Nifty 50 Index", "Bank Nifty Index"))
 
 # Add Nifty 50 data to subplot
-fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['Close'], mode='lines', name='Nifty 50 Close'), row=1, col=1)
-fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mode='lines', name='Nifty 50 50-Day SMA'), row=1, col=1)
+fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['Close'], mode='lines', name='Nifty 50 Close', showlegend=False), row=1, col=1)
+fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mode='lines', name='Nifty 50 50-Day SMA', showlegend=False), row=1, col=1)
 
 # Add Bank Nifty data to subplot
-fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close'), row=2, col=1)
-fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA'), row=2, col=1)
+fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', showlegend=False), row=2, col=1)
+fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA', showlegend=False), row=2, col=1)
 
 # Update layout
 fig.update_layout(
     title='Nifty 50 and Bank Nifty Indices - 1 Minute Interval with 50-Day SMA',
     xaxis_title='Datetime',
-    yaxis_title='Price'
+    yaxis_title='Price',
+    showlegend=False,  # Hide the legend
+    yaxis=dict(side='right'),  # Price axis on the right for the first subplot
+    yaxis2=dict(side='right')  # Price axis on the right for the second subplot
 )
 
 # Disable range slider
