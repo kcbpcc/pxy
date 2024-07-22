@@ -63,13 +63,32 @@ def get_holdingsinfo(combined_df):
 
         nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
 
-        if not nfo_df.empty:
-            #extras = nfo_df.loc[nfo_df['sell_quantity'] > 0, 'unrealised'].sum()
-            extras = int(nfo_df.loc[nfo_df['sell_quantity'] > 0, 'unrealised'].sum()) + ((-1) * int(nfo_df.loc[nfo_df['sell_quantity'] > 0, 'PnL'].sum()))
-            total_opt_m2m = nfo_df[nfo_df['quantity'] > 0]['m2m'].sum()
+        # Assuming `nfo_df` is your DataFrame
+        nifty_df = nfo_df[nfo_df['key'].str.contains('NFO:NFTY')]
+        banknifty_df = nfo_df[nfo_df['key'].str.contains('NFO:BANKNFTY')]
+        
+        # Function to calculate extras and total_opt_m2m
+        def calculate_extras_and_m2m(df):
+            extras = int(df.loc[df['sell_quantity'] > 0, 'unrealised'].sum()) + ((-1) * int(df.loc[df['sell_quantity'] > 0, 'PnL'].sum()))
+            total_opt_m2m = df[df['quantity'] > 0]['m2m'].sum()
+            return extras, total_opt_m2m
+        
+        # Calculate for NIFTY
+        if not nifty_df.empty:
+            nifty_extras, nifty_total_opt_m2m = calculate_extras_and_m2m(nifty_df)
+            print(f"NIFTY Extras: {nifty_extras}, NIFTY Total Opt M2M: {nifty_total_opt_m2m}")
         else:
-            extras = 0  # or any default value you prefer when there are no rows matching the condition
-            total_opt_m2m = 0
+            nifty_extras = 0
+            nifty_total_opt_m2m = 0
+        
+        # Calculate for BANKNIFTY
+        if not banknifty_df.empty:
+            banknifty_extras, banknifty_total_opt_m2m = calculate_extras_and_m2m(banknifty_df)
+            print(f"BANKNIFTY Extras: {banknifty_extras}, BANKNIFTY Total Opt M2M: {banknifty_total_opt_m2m}")
+        else:
+            banknifty_extras = 0
+            banknifty_total_opt_m2m = 0
+
         return total_opt_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_opt_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
 
     except Exception as e:
