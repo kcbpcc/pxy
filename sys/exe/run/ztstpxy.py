@@ -1,17 +1,80 @@
-import asyncio
-from telegram import Bot
+import os
+import yfinance as yf
+import pandas as pd
+import plotly.graph_objects as go
 
-# Replace with your actual bot token and chat ID
-bot_token = '6867988078:AAGNBJqs4Rf8MR4xPGoL1-PqDOYouPan7b0'
-chat_id = '-4136531362'
+# Define the ticker symbol for Nifty 50
+ticker_symbol = "^NSEI"
 
-async def send_test_message():
-    bot = Bot(token=bot_token)
-    symbol = 'TCS'  # Define the trading symbol or replace with your desired value
-    message = (
-        f"🔍 Check it out on TradingView: [TradingView](https://www.tradingview.com/chart/?symbol={symbol})\n"
-    )
-    await bot.send_message(chat_id=chat_id, text=message, parse_mode='Markdown')
+# Fetch the new data
+new_data = yf.download(ticker_symbol, period='1d', interval='1m')
 
-if __name__ == "__main__":
-    asyncio.run(send_test_message())
+# Define the CSV file path
+csv_file = 'nifty50_1min.csv'
+
+if os.path.exists(csv_file):
+    # Read the existing data
+    existing_data = pd.read_csv(csv_file)
+
+    # Ensure the 'Datetime' column is in datetime format
+    existing_data['Datetime'] = pd.to_datetime(existing_data['Datetime'])
+    new_data.reset_index(inplace=True)
+    new_data['Datetime'] = pd.to_datetime(new_data['Datetime'])
+
+    # Concatenate the new data with the existing data, keeping only unique records
+    combined_data = pd.concat([existing_data, new_data]).drop_duplicates(subset='Datetime').reset_index(drop=True)
+else:
+    # If the CSV file does not exist, use the new data as the combined data
+    combined_data = new_data
+
+# Save the combined data back to the CSV file
+combined_data.to_csv(csv_file, index=False)
+
+# Read the CSV file for plotting
+data = pd.read_csv(csv_file)
+
+# Calculate the 50-day SMA
+data['Datetime'] = pd.to_datetime(data['Datetime'])
+data.set_index('Datetime', inplace=True)
+data['SMA_50'] = data['Close'].rolling(window=50, min_periods=1).mean()
+
+# Create a plot
+fig = go.Figure()
+
+# Add the line for the close prices
+fig.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Close'))
+
+# Add the line for the 50-day SMA
+fig.add_trace(go.Scatter(x=data.index, y=data['SMA_50'], mode='lines', name='50-Day SMA'))
+
+# Update the layout
+fig.update_layout(
+    title='Nifty 50 Index - 1 Minute Interval with 50-Day SMA',
+    xaxis_title='Datetime',
+    yaxis_title='Price',
+    xaxis_rangeslider_visible=True
+)
+
+# Save the plot to an HTML file
+html_file = 'nifty50_1min.html'
+fig.write_html(html_file)
+
+# Inject auto-refresh JavaScript
+with open(html_file, 'r') as file:
+    html_content = file.read()
+
+refresh_script = """
+<script>
+    setTimeout(function(){
+       window.location.reload(1);
+    }, 60000);  // Refresh every 60 seconds
+</script>
+"""
+
+html_content = html_content.replace("</body>", refresh_script + "</body>")
+
+with open(html_file, 'w') as file:
+    file.write(html_content)
+
+print(f"CSV file saved as: {csv_file}")
+print(f"HTML file saved as: {html_file}")
