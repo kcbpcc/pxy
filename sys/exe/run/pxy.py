@@ -104,10 +104,10 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'daypxy.py'])
-    subprocess.run(['python3', 'niftychartpxy.py'])
+    subprocess.run(['python3', 'niftychartpxy.py']) if mktpxy in ["Bull", "Bear"] else None
     (lambda: print((BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() if 'nsma' in locals() else None
     subprocess.run(['python3', 'worldpxy.py']); subprocess.run(['python3', 'cntrlcncpxy.py'])
-    subprocess.run(['python3', 'bniftychartpxy.py'])
+    subprocess.run(['python3', 'bniftychartpxy.py']) if bmktpxy in ["Bull", "Bear"] else None
     subprocess.run(['python3', 'bdaypxy.py']) 
     subprocess.run(['python3', 'bcndlpxy.py'])
     (lambda: print((BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))() if 'bsma' in locals() else None    
