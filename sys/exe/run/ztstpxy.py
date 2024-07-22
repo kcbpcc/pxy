@@ -16,12 +16,23 @@ new_data.rename(columns={'index': 'Datetime'}, inplace=True)
 # Define the CSV file path
 csv_file = 'nifty50_1min.csv'
 
+# Function to debug column names
+def print_column_names(df, name):
+    print(f"Columns in {name}: {df.columns.tolist()}")
+
 if os.path.exists(csv_file):
     # Read the existing data
     existing_data = pd.read_csv(csv_file)
 
+    # Debug: Print column names
+    print_column_names(existing_data, 'existing_data')
+
     # Ensure the 'Datetime' column is in datetime format
+    if 'Datetime' not in existing_data.columns:
+        print("Error: 'Datetime' column not found in the existing CSV file.")
     existing_data['Datetime'] = pd.to_datetime(existing_data['Datetime'])
+
+    # Ensure the 'Datetime' column in the new data is in datetime format
     new_data['Datetime'] = pd.to_datetime(new_data['Datetime'])
 
     # Concatenate the new data with the existing data, keeping only unique records
@@ -32,6 +43,9 @@ else:
 
 # Save the combined data back to the CSV file
 combined_data.to_csv(csv_file, index=False)
+
+# Debug: Print column names
+print_column_names(combined_data, 'combined_data')
 
 # Read the CSV file for plotting
 data = pd.read_csv(csv_file)
