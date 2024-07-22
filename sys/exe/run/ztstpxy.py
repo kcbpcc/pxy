@@ -2,83 +2,77 @@ import os
 import yfinance as yf
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.subplots as sp
 
-# Define the ticker symbol for Nifty 50
-ticker_symbol = "^NSEI"
+# Define ticker symbols for Nifty 50 and Bank Nifty
+ticker_symbols = {"Nifty 50": "^NSEI", "Bank Nifty": "^NSEBANK"}
 
-# Fetch the new data
-new_data = yf.download(ticker_symbol, period='1d', interval='1m')
+# Function to download data
+def download_data(ticker, period='1d', interval='1m'):
+    data = yf.download(ticker, period=period, interval=interval)
+    data.reset_index(inplace=True)
+    data.rename(columns={'index': 'Datetime'}, inplace=True)
+    return data
 
-# Ensure the column names are standardized
-new_data.reset_index(inplace=True)
-new_data.rename(columns={'index': 'Datetime'}, inplace=True)
+# Download data for both indices
+nifty_data = download_data(ticker_symbols["Nifty 50"])
+banknifty_data = download_data(ticker_symbols["Bank Nifty"])
 
-# Define the CSV file path
-csv_file = 'nifty50_1min.csv'
+# Define the CSV file paths
+nifty_csv = 'nifty50_1min.csv'
+banknifty_csv = 'banknifty_1min.csv'
 
-# Function to debug column names
-def print_column_names(df, name):
-    print(f"Columns in {name}: {df.columns.tolist()}")
+# Function to combine new data with existing CSV data
+def combine_data(new_data, csv_file):
+    if os.path.exists(csv_file):
+        existing_data = pd.read_csv(csv_file)
+        if 'Datetime' not in existing_data.columns:
+            print(f"Adding 'Datetime' column to existing data in {csv_file}")
+            existing_data['Datetime'] = pd.date_range(end=pd.Timestamp.now(), periods=len(existing_data), freq='min')
+        existing_data['Datetime'] = pd.to_datetime(existing_data['Datetime'], utc=True, format='mixed')
+        new_data['Datetime'] = pd.to_datetime(new_data['Datetime'], utc=True, format='mixed')
+        combined_data = pd.concat([existing_data, new_data]).drop_duplicates(subset='Datetime').reset_index(drop=True)
+    else:
+        combined_data = new_data
+    combined_data.to_csv(csv_file, index=False)
+    return combined_data
 
-if os.path.exists(csv_file):
-    # Read the existing data
-    existing_data = pd.read_csv(csv_file)
+# Combine data and save to CSV
+nifty_combined = combine_data(nifty_data, nifty_csv)
+banknifty_combined = combine_data(banknifty_data, banknifty_csv)
 
-    # Debug: Print column names
-    print_column_names(existing_data, 'existing_data')
+# Function to prepare data for plotting
+def prepare_data(data, title):
+    data['Datetime'] = pd.to_datetime(data['Datetime'], utc=True, format='mixed')
+    data.set_index('Datetime', inplace=True)
+    data['SMA_50'] = data['Close'].rolling(window=50, min_periods=1).mean()
+    return data
 
-    # Check if 'Datetime' column is missing and add it
-    if 'Datetime' not in existing_data.columns:
-        print("Adding 'Datetime' column to existing data")
-        existing_data['Datetime'] = pd.date_range(end=pd.Timestamp.now(), periods=len(existing_data), freq='min')
-    
-    # Ensure the 'Datetime' column is in datetime format
-    existing_data['Datetime'] = pd.to_datetime(existing_data['Datetime'], utc=True, format='mixed')
+# Prepare data for plotting
+nifty_combined = prepare_data(nifty_combined, "Nifty 50")
+banknifty_combined = prepare_data(banknifty_combined, "Bank Nifty")
 
-    # Ensure the 'Datetime' column in the new data is in datetime format
-    new_data['Datetime'] = pd.to_datetime(new_data['Datetime'], utc=True, format='mixed')
+# Create subplots
+fig = sp.make_subplots(rows=2, cols=1, shared_xaxes=True, subplot_titles=("Nifty 50 Index", "Bank Nifty Index"))
 
-    # Concatenate the new data with the existing data, keeping only unique records
-    combined_data = pd.concat([existing_data, new_data]).drop_duplicates(subset='Datetime').reset_index(drop=True)
-else:
-    # If the CSV file does not exist, use the new data as the combined data
-    combined_data = new_data
+# Add Nifty 50 data to subplot
+fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['Close'], mode='lines', name='Nifty 50 Close'), row=1, col=1)
+fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mode='lines', name='Nifty 50 50-Day SMA'), row=1, col=1)
 
-# Save the combined data back to the CSV file
-combined_data.to_csv(csv_file, index=False)
+# Add Bank Nifty data to subplot
+fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close'), row=2, col=1)
+fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA'), row=2, col=1)
 
-# Debug: Print column names
-print_column_names(combined_data, 'combined_data')
-
-# Read the CSV file for plotting
-data = pd.read_csv(csv_file)
-
-# Ensure the 'Datetime' column is in datetime format
-data['Datetime'] = pd.to_datetime(data['Datetime'], utc=True, format='mixed')
-data.set_index('Datetime', inplace=True)
-
-# Calculate the 50-day SMA
-data['SMA_50'] = data['Close'].rolling(window=50, min_periods=1).mean()
-
-# Create a plot
-fig = go.Figure()
-
-# Add the line for the close prices
-fig.add_trace(go.Scatter(x=data.index, y=data['Close'], mode='lines', name='Close'))
-
-# Add the line for the 50-day SMA
-fig.add_trace(go.Scatter(x=data.index, y=data['SMA_50'], mode='lines', name='50-Day SMA'))
-
-# Update the layout
+# Update layout
 fig.update_layout(
-    title='Nifty 50 Index - 1 Minute Interval with 50-Day SMA',
+    title='Nifty 50 and Bank Nifty Indices - 1 Minute Interval with 50-Day SMA',
     xaxis_title='Datetime',
     yaxis_title='Price',
     xaxis_rangeslider_visible=True
 )
 
 # Save the plot to an HTML file
-html_file = 'nifty50_1min.html'
+html_file = 'nifty_and_banknifty_1min.html'
 fig.write_html(html_file)
 
 # Inject auto-refresh JavaScript
@@ -98,5 +92,5 @@ html_content = html_content.replace("</body>", refresh_script + "</body>")
 with open(html_file, 'w') as file:
     file.write(html_content)
 
-print(f"CSV file saved as: {csv_file}")
+print(f"CSV files saved as: {nifty_csv}, {banknifty_csv}")
 print(f"HTML file saved as: {html_file}")
