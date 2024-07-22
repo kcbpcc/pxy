@@ -85,12 +85,9 @@ def printbord(booked, total_cnc_m2m_postions, extras, nextras, bextras, optworth
         f"---------PXY® Dash Board----------\n"
         f"PreciseXceleratedYield Pvt Ltd\n"
         f"******************************\n"
-
-
-        f"N- Options: {int(ntotal_opt_m2m)}\n"
-        f"B- Options: {int(btotal_opt_m2m)}\n"
-
-        
+        f"nOptions: {int(ntotal_opt_m2m)}\n"
+        f"bOptions: {int(btotal_opt_m2m)}\n"
+        f"Cash: {int(available_cash)}\n"
         f"💼 Holdings: {int(all_Stocks_worth_dpnl)}\n"
         f"📌 Positions: {int(total_cnc_m2m_postions)}\n"
         f"💸 Options: {int(total_opt_m2m)}\n"
