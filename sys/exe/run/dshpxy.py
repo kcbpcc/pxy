@@ -66,6 +66,14 @@ def get_holdingsinfo(combined_df):
         # Assuming `nfo_df` is your DataFrame
         nifty_df = nfo_df[nfo_df['key'].str.contains('NFO:NFTY')]
         banknifty_df = nfo_df[nfo_df['key'].str.contains('NFO:BANKNFTY')]
+
+        if not nfo_df.empty:
+            #extras = nfo_df.loc[nfo_df['sell_quantity'] > 0, 'unrealised'].sum()
+            extras = int(nfo_df.loc[nfo_df['sell_quantity'] > 0, 'unrealised'].sum()) + ((-1) * int(nfo_df.loc[nfo_df['sell_quantity'] > 0, 'PnL'].sum()))
+            total_opt_m2m = nfo_df['m2m'].sum()
+        else:
+            extras = 0  # or any default value you prefer when there are no rows matching the condition
+            total_opt_m2m = 0
         
         # Function to calculate extras and total_opt_m2m
         def calculate_extras_and_m2m(df):
