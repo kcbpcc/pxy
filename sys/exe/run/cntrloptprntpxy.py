@@ -132,7 +132,8 @@ for group, data in grouped_df:
         
         if len(data) >= 2:
             formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_code}{summary_sentence}{RESET}".rjust(50)
-            print(summary_balance)
+            formatted_balance = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_code}{summary_balance}{RESET}".rjust(50)
+            print(formatted_balance)
             print(formatted_output)
 
 subprocess.run(['python3', 'lstdymnthexppxy.py']) 
