@@ -178,11 +178,22 @@ for group, data in grouped_df:
 
 subprocess.run(['python3', 'lstdymnthexppxy.py']) 
 
-print(f"Nifty Profit: {int(nextras)}")
-print(f"Nifty Loss: {int(ntotal_opt_m2m)}")
+column_width = 30
+left_aligned_format = "{:<" + str(column_width) + "}"
+right_aligned_format = "{:>" + str(column_width) + "}"
 
-print(f"Bank Profit: {int(bextras)}")
-print(f"Bank Loss: {int(btotal_opt_m2m)}")
+# Prepare output lines
+output_lines = []
+
+# Append formatted lines to output
+output_lines.append(left_aligned_format.format("Nifty Profit:") + right_aligned_format.format(f"{int(nextras)}"))
+output_lines.append(left_aligned_format.format("Nifty Loss:") + right_aligned_format.format(f"{int(ntotal_opt_m2m)}"))
+output_lines.append(left_aligned_format.format("Bank Profit:") + right_aligned_format.format(f"{int(bextras)}"))
+output_lines.append(left_aligned_format.format("Bank Loss:") + right_aligned_format.format(f"{int(btotal_opt_m2m)}"))
+
+# Print all lines
+for line in output_lines:
+    print(line)
 
 print(summary_statement + "📊")
 print("━" * 42)
