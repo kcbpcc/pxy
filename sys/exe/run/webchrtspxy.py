@@ -52,16 +52,22 @@ def prepare_data(data, title):
 nifty_combined = prepare_data(nifty_combined, "Nifty 50")
 banknifty_combined = prepare_data(banknifty_combined, "Bank Nifty")
 
-# Create subplots
-fig = sp.make_subplots(rows=2, cols=1, shared_xaxes=True, subplot_titles=("Nifty 50 Index", "Bank Nifty Index"))
+# Create subplots with reduced vertical spacing
+fig = sp.make_subplots(
+    rows=2, 
+    cols=1, 
+    shared_xaxes=True, 
+    subplot_titles=("Nifty 50 Index", "Bank Nifty Index"),
+    vertical_spacing=0.03  # Reduce spacing between subplots
+)
 
 # Add Nifty 50 data to subplot with softer colors
-fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['Close'], mode='lines', name='Nifty 50 Close', line=dict(color='gray')), row=1, col=1)
-fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mode='lines', name='Nifty 50 50-Day SMA', line=dict(color='darkgray')), row=1, col=1)
+fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['Close'], mode='lines', name='Nifty 50 Close', line=dict(color='darkgray')), row=1, col=1)
+fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mode='lines', name='Nifty 50 50-Day SMA', line=dict(color='gray')), row=1, col=1)
 
 # Add Bank Nifty data to subplot with softer colors
-fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='lightgray')), row=2, col=1)
-fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA', line=dict(color='darkgray')), row=2, col=1)
+fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='darkgray')), row=2, col=1)
+fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA', line=dict(color='gray')), row=2, col=1)
 
 # Update layout with gray mode and soft colors
 fig.update_layout(
@@ -85,16 +91,16 @@ fig.update_layout(
         showgrid=False,  # Hide grid lines
         showline=False   # Hide axis lines
     ),
-    paper_bgcolor='lightgray',  # Background color of the entire figure
-    plot_bgcolor='white',       # Background color of the plotting area
-    font_color='black'          # Color of the text
+    paper_bgcolor='darkgray',  # Background color of the entire figure
+    plot_bgcolor='dimgray',    # Background color of the plotting area
+    font_color='white'         # Color of the text
 )
 
 # Disable range slider
 fig.update_xaxes(rangeslider_visible=False)
 
 # Save the plot to an HTML file
-html_file = 'nifty_and_banknifty_1min_gray.html'
+html_file = 'nifty_and_banknifty_1min_darkgray.html'
 fig.write_html(html_file)
 
 # Inject auto-refresh JavaScript
@@ -116,4 +122,3 @@ with open(html_file, 'w') as file:
 
 print(f"CSV files saved as: {nifty_csv}, {banknifty_csv}")
 print(f"HTML file saved as: {html_file}")
-
