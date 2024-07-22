@@ -63,14 +63,14 @@ fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mod
 fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='lime')), row=2, col=1)
 fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA', line=dict(color='yellow')), row=2, col=1)
 
-# Update layout
+# Update layout with dark mode
 fig.update_layout(
     title='Nifty 50 and Bank Nifty Indices - 1 Minute Interval with 50-Day SMA',
     xaxis_title='Datetime',
     yaxis_title='Price',
     showlegend=False,  # Hide the legend
-    yaxis=dict(side='right'),  # Price axis on the right for the first subplot
-    yaxis2=dict(side='right'),  # Price axis on the right for the second subplot
+    yaxis=dict(side='right', range=[nifty_combined['Close'].min() - 10, nifty_combined['Close'].max() + 10]),  # Add margin to y-axis
+    yaxis2=dict(side='right', range=[banknifty_combined['Close'].min() - 10, banknifty_combined['Close'].max() + 10]),  # Add margin to y-axis
     paper_bgcolor='black',  # Background color of the entire figure
     plot_bgcolor='black',  # Background color of the plotting area
     font_color='white'  # Color of the text
