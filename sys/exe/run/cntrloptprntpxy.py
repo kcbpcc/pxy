@@ -141,7 +141,7 @@ for group, data in grouped_df:
     value_ce = total_invested_ce + total_pl_ce
     
     if total_invested_group != 0:
-        value_statement = f"{ce_count:02d} -🟢- {value_ce:06d}  ⚖  {value_pe:06d} -🟠- {pe_count:02d}"
+        value_statement = f"{ce_count:02d} -🟢- {value_ce:06d}  ⚖   {value_pe:06d} -🟠- {pe_count:02d}"
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         print(data[data['qty'] > 0][['MN', 'strike', 'Invested', 'qty','tgtoptsmadepth', 'PL%', 'PnL', 'CP']].to_string(header=False, index=False, col_space=[2, 10, 5, 3, 2, 3, 6,2]))
