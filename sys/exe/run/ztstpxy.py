@@ -63,14 +63,25 @@ fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mod
 fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='lime')), row=2, col=1)
 fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA', line=dict(color='yellow')), row=2, col=1)
 
-# Update layout with dark mode
+# Update layout with dark mode and no grid lines
 fig.update_layout(
     title='Nifty 50 and Bank Nifty Indices - 1 Minute Interval with 50-Day SMA',
     xaxis_title='Datetime',
     yaxis_title='Price',
     showlegend=False,  # Hide the legend
-    yaxis=dict(side='right', range=[nifty_combined['Close'].min() - 10, nifty_combined['Close'].max() + 10]),  # Add margin to y-axis
-    yaxis2=dict(side='right', range=[banknifty_combined['Close'].min() - 10, banknifty_combined['Close'].max() + 10]),  # Add margin to y-axis
+    yaxis=dict(
+        side='right',
+        range=[nifty_combined['Close'].min() - 10, nifty_combined['Close'].max() + 10],
+        showgrid=False  # Hide grid lines
+    ),
+    yaxis2=dict(
+        side='right',
+        range=[banknifty_combined['Close'].min() - 10, banknifty_combined['Close'].max() + 10],
+        showgrid=False  # Hide grid lines
+    ),
+    xaxis=dict(
+        showgrid=False  # Hide grid lines
+    ),
     paper_bgcolor='black',  # Background color of the entire figure
     plot_bgcolor='black',  # Background color of the plotting area
     font_color='white'  # Color of the text
@@ -102,4 +113,5 @@ with open(html_file, 'w') as file:
 
 print(f"CSV files saved as: {nifty_csv}, {banknifty_csv}")
 print(f"HTML file saved as: {html_file}")
+
 
