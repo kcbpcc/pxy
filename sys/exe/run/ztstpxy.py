@@ -9,6 +9,10 @@ ticker_symbol = "^NSEI"
 # Fetch the new data
 new_data = yf.download(ticker_symbol, period='1d', interval='1m')
 
+# Ensure the column names are standardized
+new_data.reset_index(inplace=True)
+new_data.rename(columns={'index': 'Datetime'}, inplace=True)
+
 # Define the CSV file path
 csv_file = 'nifty50_1min.csv'
 
@@ -18,7 +22,6 @@ if os.path.exists(csv_file):
 
     # Ensure the 'Datetime' column is in datetime format
     existing_data['Datetime'] = pd.to_datetime(existing_data['Datetime'])
-    new_data.reset_index(inplace=True)
     new_data['Datetime'] = pd.to_datetime(new_data['Datetime'])
 
     # Concatenate the new data with the existing data, keeping only unique records
@@ -33,9 +36,11 @@ combined_data.to_csv(csv_file, index=False)
 # Read the CSV file for plotting
 data = pd.read_csv(csv_file)
 
-# Calculate the 50-day SMA
+# Ensure the 'Datetime' column is in datetime format
 data['Datetime'] = pd.to_datetime(data['Datetime'])
 data.set_index('Datetime', inplace=True)
+
+# Calculate the 50-day SMA
 data['SMA_50'] = data['Close'].rolling(window=50, min_periods=1).mean()
 
 # Create a plot
