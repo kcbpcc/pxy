@@ -16,7 +16,7 @@ def calculate_cycle(current_time):
 
     # Check if current time is within the defined intervals
     if interval_1_start <= current_time <= interval_1_end or interval_2_start <= current_time <= interval_2_end:
-        return 6
+        return 5
     elif interval_3_start <= current_time or current_time <= interval_3_end:
         # Convert interval end times to datetime objects
         interval_3_start_datetime = datetime.combine(datetime.today(), interval_3_start)
