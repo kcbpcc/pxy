@@ -58,7 +58,11 @@ def check_ha_candles(symbol):
     macd, signal = calculate_macd(data)
     macd_above_0 = macd.iloc[-1] > 0
 
-    if last_closed_color == 'Bear' and last_last_closed_color == 'Bear' and current_color == 'Bull' and above_50d_sma and macd_above_0:
+    if (last_closed_color == 'Bear' and 
+        last_last_closed_color == 'Bear' and 
+        current_color == 'Bull' and 
+        above_50d_sma and 
+        macd_above_0):
         smbpxy = 'Buy'
     else:
         smbpxy = 'Hold'
@@ -135,7 +139,6 @@ def main():
         # Reset sys.stdout to its default value
         sys.stdout = sys.__stdout__
 
-    
     try:
         lst_dct_positions = broker.kite.positions()
         positions_symbols = [pos["tradingsymbol"] for pos in lst_dct_positions["day"] + lst_dct_positions["net"]]
@@ -166,9 +169,9 @@ def main():
             
             ltp_nse = broker.kite.ltp(f"NSE:{symbol}")[f"NSE:{symbol}"]['last_price']
             if smbpxy == 'Buy' and ltp_nse < 10000:
-                if symbol in holdings_symbols:
-                    purchase_limit = 2500
-                else:
+                if symbol in holdings_symbols and symbol not in orders_symbols and symbol not in positions_symbols:
+                    purchase_limit = 2000
+                elif symbol not in holdings_symbols and symbol not in orders_symbols and symbol not in positions_symbols:
                     purchase_limit = 10000
 
                 quantity = int(purchase_limit / ltp_nse)
