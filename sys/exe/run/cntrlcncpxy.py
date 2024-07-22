@@ -306,7 +306,7 @@ try:
                         row['Invested'] < 30000 and
                         row['smb_power'] < 0.10 and
                         available_cash > 1000 and
-                        row['dPnL'] < 0 and
+                        row['dPL%'] < 0 and
                         row['PL%'] < -5
                     ):
                         try:
