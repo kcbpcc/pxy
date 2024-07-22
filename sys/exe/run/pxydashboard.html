@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Layout</title>
+    <title>CSV Display</title>
     <style>
         body {
             margin: 0;
@@ -88,7 +88,11 @@
                 download: true,
                 header: true,
                 complete: function(results) {
+                    console.log('CSV Data:', results.data);
                     displayCSV(results.data);
+                },
+                error: function(error) {
+                    console.error('Error loading CSV:', error);
                 }
             });
         }
