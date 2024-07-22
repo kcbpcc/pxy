@@ -62,7 +62,7 @@ async def execute_order(broker, symbol, quantity, place_order, send_telegram_mes
         print(f"Failed to place BUY order for {symbol}")
 
 def print_order_reason(symbol, position_exists, count, action):
-    reason = f"|{action}|{'🥚' if position_exists else '⬯'}|"
+    reason = f"|{action}|{'🥚' if position_exists else '⬜'}|"
     reason += "MaxOut" if count >= (bnkmaxcount if symbol.startswith('BANKNIFTY') else nftmaxcount) else ""
     if reason:
         print(f"{symbol}: {reason: >{39 - len(symbol)}}")
