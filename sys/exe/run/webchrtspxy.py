@@ -72,8 +72,6 @@ fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_5
 # Update layout with dark gray mode and unified colors
 fig.update_layout(
     title='Nifty 50 and Bank Nifty Indices - 1 Minute Interval with 50-Day SMA',
-    xaxis_title='Datetime',
-    yaxis_title='Price',
     showlegend=False,  # Hide the legend
     yaxis=dict(
         side='right',
@@ -89,7 +87,15 @@ fig.update_layout(
     ),
     xaxis=dict(
         showgrid=False,  # Hide grid lines
-        showline=False   # Hide axis lines
+        showline=False,  # Hide axis lines
+        title='',         # Hide x-axis title
+        tickvals=[]       # Hide x-axis tick labels
+    ),
+    xaxis2=dict(
+        showgrid=False,  # Hide grid lines
+        showline=False,  # Hide axis lines
+        title='',         # Hide x-axis title
+        tickvals=[]       # Hide x-axis tick labels
     ),
     paper_bgcolor='darkgray',  # Background color of the entire figure
     plot_bgcolor='darkgray',   # Background color of the plotting area
@@ -122,3 +128,4 @@ with open(html_file, 'w') as file:
 
 print(f"CSV files saved as: {nifty_csv}, {banknifty_csv}")
 print(f"HTML file saved as: {html_file}")
+
