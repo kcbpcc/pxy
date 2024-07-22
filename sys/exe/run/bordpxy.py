@@ -70,14 +70,14 @@ def printbord(booked, total_cnc_m2m_postions, extras, nextras, bextras, optworth
     output_lines.append(left_aligned_format.format(f"Positions:{BRIGHT_GREEN if total_cnc_m2m_postions > 0 else BRIGHT_RED}{int(round(total_cnc_m2m_postions, 0))}{RESET}") +
                        right_aligned_format.format(f"Holdings:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}"))
 
+    output_lines.append(left_aligned_format.format(f"N-opts:{BRIGHT_GREEN if ntotal_opt_m2m > 0 else BRIGHT_RED}{str(int(ntotal_opt_m2m)).zfill(5)}{RESET}") +
+                       right_aligned_format.format(f"N-closed:{BRIGHT_GREEN if nextras >= 0 else BRIGHT_RED}{str(int(nextras)).zfill(5)}{RESET}"))    
+    
+    output_lines.append(left_aligned_format.format(f"B-opts:{BRIGHT_GREEN if btotal_opt_m2m > 0 else BRIGHT_RED}{str(int(btotal_opt_m2m)).zfill(5)}{RESET}") +
+                       right_aligned_format.format(f"B-closed:{BRIGHT_GREEN if bextras >= 0 else BRIGHT_RED}{str(int(bextras)).zfill(5)}{RESET}"))
+
     output_lines.append(left_aligned_format.format(f"Options:{BRIGHT_GREEN if total_opt_m2m > 0 else BRIGHT_RED}{str(int(total_opt_m2m)).zfill(5)}{RESET}") +
                        right_aligned_format.format(f"BOOKED:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
-    
-    output_lines.append(left_aligned_format.format(f"N:{BRIGHT_GREEN if ntotal_opt_m2m > 0 else BRIGHT_RED}{str(int(ntotal_opt_m2m)).zfill(5)}{RESET}") +
-                       right_aligned_format.format(f"N:{BRIGHT_GREEN if nextras >= 0 else BRIGHT_RED}{str(int(nextras)).zfill(5)}{RESET}"))    
-    
-    output_lines.append(left_aligned_format.format(f"B:{BRIGHT_GREEN if btotal_opt_m2m > 0 else BRIGHT_RED}{str(int(btotal_opt_m2m)).zfill(5)}{RESET}") +
-                       right_aligned_format.format(f"B:{BRIGHT_GREEN if bextras >= 0 else BRIGHT_RED}{str(int(bextras)).zfill(5)}{RESET}"))
     
     output_lines.append(left_aligned_format.format(f"CLOSED:{BRIGHT_GREEN if extras >= 0 else BRIGHT_RED}{str(int(extras)).zfill(5)}{RESET}") +
                        right_aligned_format.format(f"PROFIT:{GREEN if (booked + extras) > 0 else RED}{str(round(booked + extras)).zfill(5)}{RESET}"))
