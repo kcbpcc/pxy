@@ -141,14 +141,14 @@ for group, data in grouped_df:
     value_ce = total_invested_ce - total_pl_ce
     
     if total_invested_group != 0:
-        value_statement = f"{ce_count}🟢{value_ce} ⚖️⚖️ {value_pe}🟠{pe_count}"
+        value_statement = f"{ce_count}-🟢-{value_ce}-⚖️-{value_pe}-🟠-{pe_count}"
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         print(data[data['qty'] > 0][['MN', 'strike', 'Invested', 'qty','tgtoptsmadepth', 'PL%', 'PnL', 'CP']].to_string(header=False, index=False, col_space=[2, 10, 5, 3, 2, 3, 6,2]))
         
         if len(data) >= 2:
             formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_code}{summary_sentence}{RESET}".rjust(50)
-            formatted_balance = f"{value_statement}{RESET}".center(40)
+            formatted_balance = f"{value_statement}{RESET}".center(42)
             print(formatted_balance)
             print(formatted_output)
 
