@@ -56,9 +56,8 @@ banknifty_combined = prepare_data(banknifty_combined, "Bank Nifty")
 fig = sp.make_subplots(
     rows=2, 
     cols=1, 
-    shared_xaxes=True, 
-    subplot_titles=("Nifty 50 Index", "Bank Nifty Index"),
-    vertical_spacing=0.01  # Reduce spacing between subplots
+    shared_xaxes=True,
+    vertical_spacing=0.05  # Adjust vertical spacing between subplots
 )
 
 # Add Nifty 50 data to subplot with unified dark gray color
@@ -100,6 +99,27 @@ fig.update_layout(
     paper_bgcolor='darkgray',  # Background color of the entire figure
     plot_bgcolor='darkgray',   # Background color of the plotting area
     font_color='white'         # Color of the text
+)
+
+# Add annotations for titles at the bottom of each subplot
+fig.add_annotation(
+    text="Nifty 50 Index",
+    xref="paper", yref="paper",
+    x=0.5, y=0.98,  # Adjust y position for the title
+    showarrow=False,
+    font=dict(size=14, color="white"),
+    align="center",
+    bgcolor='darkgray'  # Match background color
+)
+
+fig.add_annotation(
+    text="Bank Nifty Index",
+    xref="paper", yref="paper",
+    x=0.5, y=0.48,  # Adjust y position for the title
+    showarrow=False,
+    font=dict(size=14, color="white"),
+    align="center",
+    bgcolor='darkgray'  # Match background color
 )
 
 # Disable range slider
