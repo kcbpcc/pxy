@@ -67,9 +67,11 @@ fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_5
 fig.update_layout(
     title='Nifty 50 and Bank Nifty Indices - 1 Minute Interval with 50-Day SMA',
     xaxis_title='Datetime',
-    yaxis_title='Price',
-    xaxis_rangeslider_visible=True
+    yaxis_title='Price'
 )
+
+# Disable range slider
+fig.update_xaxes(rangeslider_visible=False)
 
 # Save the plot to an HTML file
 html_file = 'nifty_and_banknifty_1min.html'
