@@ -180,9 +180,7 @@ def main():
                     quantity = int(purchase_limit / ltp_nse)
                     print(f"Placing order for {symbol}...")
                     place_order(symbol, broker, purchase_limit, quantity)
-                    
-                    response = broker.kite.margins()
-                    remaining_cash = response["equity"]["available"]["live_balance"]
+                    remaining_cash = available_cash
                     print(f"Remaining Cash💰: {int(round(remaining_cash / 1000))}K")
                     
                     if remaining_cash > limit:
