@@ -149,8 +149,8 @@ for group, data in grouped_df:
         if len(data) >= 2:
             formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_code}{summary_sentence}{RESET}".rjust(50)
             formatted_balance = f"{value_statement}{RESET}".center(44)
-            print(formatted_balance)
             print(formatted_output)
+            print(formatted_balance)
 
 subprocess.run(['python3', 'lstdymnthexppxy.py']) 
 
