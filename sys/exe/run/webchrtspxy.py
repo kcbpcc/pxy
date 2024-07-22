@@ -60,12 +60,12 @@ fig = sp.make_subplots(
     vertical_spacing=0.05  # Adjust vertical spacing between subplots
 )
 
-# Add Nifty 50 data to subplot with unified dark gray color
-fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['Close'], mode='lines', name='Nifty 50 Close', line=dict(color='lightgray')), row=1, col=1)
+# Add Nifty 50 data to subplot with dark gray colors
+fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['Close'], mode='lines', name='Nifty 50 Close', line=dict(color='dimgray')), row=1, col=1)
 fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mode='lines', name='Nifty 50 50-Day SMA', line=dict(color='gray')), row=1, col=1)
 
-# Add Bank Nifty data to subplot with unified dark gray color
-fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='lightgray')), row=2, col=1)
+# Add Bank Nifty data to subplot with dark gray colors
+fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='dimgray')), row=2, col=1)
 fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA', line=dict(color='gray')), row=2, col=1)
 
 # Update layout with dark gray mode and unified colors
@@ -96,37 +96,37 @@ fig.update_layout(
         title='',         # Hide x-axis title
         tickvals=[]       # Hide x-axis tick labels
     ),
-    paper_bgcolor='darkgray',  # Background color of the entire figure
-    plot_bgcolor='darkgray',   # Background color of the plotting area
-    font_color='white'         # Color of the text
+    paper_bgcolor='black',  # Background color of the entire figure
+    plot_bgcolor='black',   # Background color of the plotting area
+    font_color='white'      # Color of the text
 )
 
 # Add annotations for titles at the bottom of each subplot
 fig.add_annotation(
     text="Nifty 50 Index",
     xref="paper", yref="paper",
-    x=0.5, y=0.98,  # Adjust y position for the title
+    x=0.5, y=0.02,  # Adjust y position for the title at the bottom
     showarrow=False,
     font=dict(size=14, color="white"),
     align="center",
-    bgcolor='darkgray'  # Match background color
+    bgcolor='black'  # Match background color
 )
 
 fig.add_annotation(
     text="Bank Nifty Index",
     xref="paper", yref="paper",
-    x=0.5, y=0.48,  # Adjust y position for the title
+    x=0.5, y=0.48,  # Adjust y position for the title at the bottom
     showarrow=False,
     font=dict(size=14, color="white"),
     align="center",
-    bgcolor='darkgray'  # Match background color
+    bgcolor='black'  # Match background color
 )
 
 # Disable range slider
 fig.update_xaxes(rangeslider_visible=False)
 
 # Save the plot to an HTML file
-html_file = 'nifty_and_banknifty_1min_darkgray.html'
+html_file = 'nifty_and_banknifty_1min_blackgray.html'
 fig.write_html(html_file)
 
 # Inject auto-refresh JavaScript
@@ -148,4 +148,5 @@ with open(html_file, 'w') as file:
 
 print(f"CSV files saved as: {nifty_csv}, {banknifty_csv}")
 print(f"HTML file saved as: {html_file}")
+
 
