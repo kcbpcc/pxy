@@ -178,11 +178,11 @@ for group, data in grouped_df:
 
 subprocess.run(['python3', 'lstdymnthexppxy.py']) 
 
-print(f"Nifty NFO extras: {nextras}")
-print(f"Nifty NFO total M2M: {ntotal_opt_m2m}")
+print(f"Nifty Profit: {int(nextras)}")
+print(f"Nifty Loss: {int(ntotal_opt_m2m)}")
 
-print(f"Bank NFO extras: {bextras}")
-print(f"Bank NFO total M2M: {btotal_opt_m2m}")
+print(f"Bank Profit: {int(bextras)}")
+print(f"Bank Loss: {int(btotal_opt_m2m)}")
 
 print(summary_statement + "📊")
 print("━" * 42)
