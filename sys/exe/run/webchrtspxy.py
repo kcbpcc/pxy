@@ -52,24 +52,24 @@ def prepare_data(data, title):
 nifty_combined = prepare_data(nifty_combined, "Nifty 50")
 banknifty_combined = prepare_data(banknifty_combined, "Bank Nifty")
 
-# Create subplots with reduced vertical spacing
+# Create subplots with minimal vertical spacing
 fig = sp.make_subplots(
     rows=2, 
     cols=1, 
     shared_xaxes=True, 
     subplot_titles=("Nifty 50 Index", "Bank Nifty Index"),
-    vertical_spacing=0.03  # Reduce spacing between subplots
+    vertical_spacing=0.01  # Reduce spacing between subplots
 )
 
-# Add Nifty 50 data to subplot with softer colors
-fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['Close'], mode='lines', name='Nifty 50 Close', line=dict(color='darkgray')), row=1, col=1)
+# Add Nifty 50 data to subplot with unified dark gray color
+fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['Close'], mode='lines', name='Nifty 50 Close', line=dict(color='lightgray')), row=1, col=1)
 fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mode='lines', name='Nifty 50 50-Day SMA', line=dict(color='gray')), row=1, col=1)
 
-# Add Bank Nifty data to subplot with softer colors
-fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='darkgray')), row=2, col=1)
+# Add Bank Nifty data to subplot with unified dark gray color
+fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='lightgray')), row=2, col=1)
 fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA', line=dict(color='gray')), row=2, col=1)
 
-# Update layout with gray mode and soft colors
+# Update layout with dark gray mode and unified colors
 fig.update_layout(
     title='Nifty 50 and Bank Nifty Indices - 1 Minute Interval with 50-Day SMA',
     xaxis_title='Datetime',
@@ -92,7 +92,7 @@ fig.update_layout(
         showline=False   # Hide axis lines
     ),
     paper_bgcolor='darkgray',  # Background color of the entire figure
-    plot_bgcolor='dimgray',    # Background color of the plotting area
+    plot_bgcolor='darkgray',   # Background color of the plotting area
     font_color='white'         # Color of the text
 )
 
