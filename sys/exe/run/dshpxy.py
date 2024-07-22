@@ -70,13 +70,31 @@ def get_holdingsinfo(combined_df):
         else:
             extras = 0  # or any default value you prefer when there are no rows matching the condition
             total_opt_m2m = 0
+
+        nifty_nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
+
+        if not nifty_nfo_df.empty:
+            #extras = nifty_nfo_df.loc[nifty_nfo_df['sell_quantity'] > 0, 'unrealised'].sum()
+            nextras = int(nifty_nfo_df.loc[nifty_nfo_df['sell_quantity'] > 0, 'unrealised'].sum()) + ((-1) * int(nifty_nfo_df.loc[nifty_nfo_df['sell_quantity'] > 0, 'PnL'].sum()))
+            ntotal_opt_m2m = nifty_nfo_df[nifty_nfo_df['quantity'] > 0]['m2m'].sum()
+        else:
+            nextras = 0  # or any default value you prefer when there are no rows matching the condition
+            ntotal_opt_m2m = 0
+
+        bank_nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
+
+        if not bank_nfo_df.empty:
+            #extras = bank_nfo_df.loc[bank_nfo_df['sell_quantity'] > 0, 'unrealised'].sum()
+            bextras = int(bank_nfo_df.loc[bank_nfo_df['sell_quantity'] > 0, 'unrealised'].sum()) + ((-1) * int(bank_nfo_df.loc[bank_nfo_df['sell_quantity'] > 0, 'PnL'].sum()))
+            btotal_opt_m2m = bank_nfo_df[bank_nfo_df['quantity'] > 0]['m2m'].sum()
+        else:
+            bextras = 0  # or any default value you prefer when there are no rows matching the condition
+            btotal_opt_m2m = 0
+
+        
         return total_opt_m2m_postions, extras, optworth, all_Stocks_worth_dpnl, all_Stocks_yworth_lacks, total_opt_m2m, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage
 
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
 
-# Call the function with the combined_df
-# get_holdingsinfo(combined_df)
-# Call the function with the combined_df
-# get_holdingsinfo(combined_df)
