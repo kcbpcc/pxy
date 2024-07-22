@@ -71,7 +71,7 @@ def get_holdingsinfo(combined_df):
             extras = 0  # or any default value you prefer when there are no rows matching the condition
             total_opt_m2m = 0
 
-        nifty_nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
+        nifty_nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:NIFTY'))]
 
         if not nifty_nfo_df.empty:
             #extras = nifty_nfo_df.loc[nifty_nfo_df['sell_quantity'] > 0, 'unrealised'].sum()
@@ -81,7 +81,7 @@ def get_holdingsinfo(combined_df):
             nextras = 0  # or any default value you prefer when there are no rows matching the condition
             ntotal_opt_m2m = 0
 
-        bank_nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:'))]
+        bank_nfo_df = combined_df.loc[(combined_df['key'].str.contains('NFO:BANK'))]
 
         if not bank_nfo_df.empty:
             #extras = bank_nfo_df.loc[bank_nfo_df['sell_quantity'] > 0, 'unrealised'].sum()
