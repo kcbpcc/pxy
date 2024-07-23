@@ -71,13 +71,14 @@ fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_5
 # Update layout with black background, unified colors, and additional padding
 fig.update_layout(
     title='Nifty 50 and Bank Nifty Indices - 1 Minute Interval with 50-Day SMA',
+    title_font=dict(size=16, color="gray"),
     showlegend=False,  # Hide the legend
     yaxis=dict(
         side='right',
         range=[nifty_combined['Close'].min() - 20, nifty_combined['Close'].max() + 20],  # Added padding for y-axis
         showgrid=False,  # Hide grid lines
         showline=True,  # Show y-axis line
-        linecolor='black',  # Color of the y-axis line
+        linecolor='gray',  # Color of the y-axis line
         linewidth=1  # Width of the y-axis line
     ),
     yaxis2=dict(
@@ -85,7 +86,7 @@ fig.update_layout(
         range=[banknifty_combined['Close'].min() - 20, banknifty_combined['Close'].max() + 20],  # Added padding for y-axis
         showgrid=False,  # Hide grid lines
         showline=True,  # Show y-axis line
-        linecolor='black',  # Color of the y-axis line
+        linecolor='gray',  # Color of the y-axis line
         linewidth=1  # Width of the y-axis line
     ),
     xaxis=dict(
@@ -93,7 +94,7 @@ fig.update_layout(
         showline=True,  # Show x-axis line
         title='',         # Hide x-axis title
         tickvals=[],      # Hide x-axis tick labels
-        linecolor='black',  # Color of the x-axis line
+        linecolor='gray',  # Color of the x-axis line
         linewidth=1  # Width of the x-axis line
     ),
     xaxis2=dict(
@@ -101,12 +102,12 @@ fig.update_layout(
         showline=True,  # Show x-axis line
         title='',         # Hide x-axis title
         tickvals=[],      # Hide x-axis tick labels
-        linecolor='black',  # Color of the x-axis line
+        linecolor='gray',  # Color of the x-axis line
         linewidth=1  # Width of the x-axis line
     ),
     paper_bgcolor='black',  # Background color of the entire figure
     plot_bgcolor='black',   # Background color of the plotting area
-    font_color='white',     # Color of the text
+    font_color='gray',      # Color of the text
     margin=dict(t=50, b=50, l=50, r=50),  # Adjust margins to reduce padding
 )
 
@@ -150,11 +151,14 @@ refresh_script = """
 </script>
 """
 
-# Add inline CSS to set body background color
+# Add inline CSS to set body background color and header color
 css_style = """
 <style>
     body {
         background-color: black;
+    }
+    .header {
+        color: gray;
     }
 </style>
 """
