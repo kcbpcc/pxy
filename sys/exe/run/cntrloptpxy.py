@@ -9,10 +9,11 @@ from cmbddfpxy import process_data
 from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
-
+from vixpxy import get_vixpxy
 # Check index status
 bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
+nvix, bvix = get_vixpxy()
 
 # Get peak time
 peak = peak_time()
