@@ -108,8 +108,8 @@ fig.update_layout(
     plot_bgcolor='black',   # Background color of the plotting area
     font_color='white',     # Color of the text
     margin=dict(t=50, b=50, l=50, r=50),  # Adjust margins to reduce padding
-    bordercolor='black',  # Border color of the entire figure
-    borderwidth=1  # Border width of the entire figure
+    bordercolor='black',  # Color of the border around the entire figure (remains black for consistency)
+    borderwidth=1  # Width of the border around the entire figure
 )
 
 # Add annotations for titles at the bottom of each subplot
