@@ -16,7 +16,7 @@ def get_vixpxy(nifty_symbol='^NSEI', bank_nifty_symbol='^NSEBANK'):
         latest_nifty_data = nifty_data.iloc[-1]
         nifty_price = latest_nifty_data['Close']
         sma50_nifty_price = latest_nifty_data['SMA50']
-        nvix = abs(nifty_price - sma50_nifty_price) / 10
+        nvix = abs(nifty_price - sma50_nifty_price) / 12.5
 
     # Calculate Bank Nifty absolute difference if data is fetched
     if not bank_nifty_data.empty:
