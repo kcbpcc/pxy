@@ -26,10 +26,20 @@ def get_positionsinfo(resp_list, broker):
         print(f"An error occurred in positions: {e}")
         return None
 
+def get_ordersinfo(resp_list, broker):
+    try:
+        df = pd.DataFrame(resp_list)
+        df['source'] = 'orders'
+        return df
+    except Exception as e:
+        print(f"An error occurred in orders: {e}")
+        return None
+
 def process_data(broker):
     try:
         holdings_response = broker.kite.holdings()
         positions_response = broker.kite.positions()['net']
+        orders_response = broker.kite.orders()  # Assuming this is the method for orders
         
         holdings_df = get_holdingsinfo(holdings_response, broker)
         if holdings_df is not None:
@@ -39,10 +49,10 @@ def process_data(broker):
         if positions_df is not None:
             positions_df.to_csv('webpositions.csv', index=False)
         
-        # Assuming you need to combine the DataFrames for some reason
-        combined_df = pd.concat([holdings_df, positions_df], ignore_index=True) if holdings_df is not None and positions_df is not None else None
+        orders_df = get_ordersinfo(orders_response, broker)
+        if orders_df is not None:
+            orders_df.to_csv('weborders.csv', index=False)
         
-        return combined_df
     except Exception as e:
         print(f"An error occurred: {e}")
         traceback.print_exc()
@@ -53,9 +63,7 @@ if __name__ == "__main__":
         sys.stdout = open('output.txt', 'w')
         broker = get_kite()
         
-        combined_df = process_data(broker)
-        
-        # Handle combined_df if necessary
+        process_data(broker)
         
     except Exception as e:
         remove_token(dir_path)
@@ -66,4 +74,3 @@ if __name__ == "__main__":
         if sys.stdout != sys.__stdout__:
             sys.stdout.close()
             sys.stdout = sys.__stdout__
-
