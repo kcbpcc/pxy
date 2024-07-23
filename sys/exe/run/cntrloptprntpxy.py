@@ -137,7 +137,7 @@ WEB_DF = print_df.rename(columns={
 })
 
 # Exclude 'CP', 'group', and 'tgtoptsmadepth' columns from the DataFrame
-WEB_DF = WEB_DF.drop(columns=['CP', 'group', 'tgtoptsmadepth'])
+WEB_DF = WEB_DF.drop(columns=['MN','CP', 'group', 'tgtoptsmadepth'])
 
 # Sort by 'PNL' in descending order
 WEB_DF = WEB_DF.sort_values(by='PNL', ascending=False)
