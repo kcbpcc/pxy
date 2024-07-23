@@ -1,4 +1,5 @@
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
+print("━" * 42)
 import pandas as pd
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
