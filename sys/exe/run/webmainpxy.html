@@ -134,13 +134,19 @@
             container.innerHTML = table;
         }
 
-        window.onload = function() {
-            console.log('Page loaded');
+        function refreshData() {
             loadCSV('optpxy.csv', data => displayCSV(data, 'csvTable1'));
             loadCSV('cncpxy.csv', data => displayCSV(data, 'csvTable2'));
             loadCSV('ordpxy.csv', data => displayCSV(data, 'csvTable3'));
             loadCSV('closepxy.csv', data => displayCSV(data, 'csvTable4'));
+        }
+
+        window.onload = function() {
+            console.log('Page loaded');
+            refreshData();
+            setInterval(refreshData, 5000); // Refresh every 5 seconds
         };
     </script>
 </body>
 </html>
+
