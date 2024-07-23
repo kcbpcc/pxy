@@ -38,9 +38,12 @@ for file in python_files:
 # Retry failed scripts at the end
 retry_failures = {}
 for file, error_message in initial_failures.items():
+    file_path = os.path.join(directory, file)
     print(f"Retrying {file}...")
-    if run_script(file):
+    if run_script(file_path):
         print(f"{file} ran successfully after retrying.")
+        success_files.append(file)
+        del initial_failures[file]  # Remove from initial_failures if succeeded on retry
     else:
         retry_failures[file] = error_message
 
@@ -51,7 +54,7 @@ if success_files:
     for file in success_files:
         print(f"\033[92m{file}\033[0m")
 else:
-    print("\033[92mNo files ran successfully.\033[0m")
+    print("\033[91mNo files ran successfully.\033[0m")
 
 if initial_failures:
     print(f"\033[91m{len(initial_failures)} files failed initially:\033[0m")
@@ -65,3 +68,4 @@ if retry_failures:
 
 if not success_files and not initial_failures and not retry_failures:
     print("\033[91mNo files were processed.\033[0m")
+
