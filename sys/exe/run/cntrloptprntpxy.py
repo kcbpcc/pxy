@@ -143,7 +143,7 @@ WEB_DF = WEB_DF.drop(columns=['CP', 'group', 'tgtoptsmadepth'])
 WEB_DF = WEB_DF.sort_values(by='PNL', ascending=False)
 
 # Save to CSV
-WEB_DF.to_csv('web/optpxy.csv', index=False)
+WEB_DF.to_csv('optpxy.csv', index=False)
 # Summary calculations
 summary_statement = ""
 total_invested_all = print_df['Invested'].sum()
