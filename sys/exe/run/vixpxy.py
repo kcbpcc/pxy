@@ -1,20 +1,26 @@
 import yfinance as yf
+import pandas as pd
 
-def get_vix_data(ticker):
+def get_hourly_vix_data(ticker, hours):
     vix = yf.Ticker(ticker)
-    data = vix.history(period="1d")  # Fetch historical data for 1 day
+    end_time = pd.Timestamp.now()
+    start_time = end_time - pd.Timedelta(hours=hours)
+    
+    # Fetch hourly data (Yahoo Finance might provide data in different intervals)
+    data = vix.history(start=start_time, end=end_time, interval="1h")
     return data
 
 def main():
     # Ticker for India VIX
     india_vix_ticker = "^INDIAVIX"
+    hours = 10
 
-    # Fetch VIX data
-    vix_data = get_vix_data(india_vix_ticker)
+    # Fetch hourly VIX data
+    vix_data = get_hourly_vix_data(india_vix_ticker, hours)
 
-    # Display the most recent data
-    print("India VIX Data:")
-    print(vix_data.tail())
+    # Display the hourly data
+    print("India VIX Data for the Last 10 Hours:")
+    print(vix_data)
 
 if __name__ == "__main__":
     main()
