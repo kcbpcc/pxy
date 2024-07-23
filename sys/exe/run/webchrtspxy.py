@@ -74,7 +74,7 @@ fig.update_layout(
     title_font=dict(size=16, color="gray"),
     showlegend=False,  # Hide the legend
     yaxis=dict(
-        side='right',
+        side='left',  # Shift Y-axis to the left
         range=[nifty_combined['Close'].min() - 20, nifty_combined['Close'].max() + 20],  # Added padding for y-axis
         showgrid=False,  # Hide grid lines
         showline=True,  # Show y-axis line
@@ -82,7 +82,7 @@ fig.update_layout(
         linewidth=1  # Width of the y-axis line
     ),
     yaxis2=dict(
-        side='right',
+        side='left',  # Shift Y-axis to the left
         range=[banknifty_combined['Close'].min() - 20, banknifty_combined['Close'].max() + 20],  # Added padding for y-axis
         showgrid=False,  # Hide grid lines
         showline=True,  # Show y-axis line
