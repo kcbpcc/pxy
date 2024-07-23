@@ -71,7 +71,7 @@ grouped_df = filtered_df.groupby('group')
 
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
-    total_pl_group = data['PnL'].sum()
+    total_pl_group = data['PnL'].sum() + int(data.loc[data['sell_quantity'] > 0, 'unrealised'].sum()) + ((-1) * int(data.loc[data['sell_quantity'] > 0, 'PnL'].sum())))
     total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
     pe_count = data['CP'].value_counts().get('🟠', 0)
     ce_count = data['CP'].value_counts().get('🟢', 0)
