@@ -7,6 +7,7 @@ cd ~/pxy/sys/exe/run
 
 read -p "Press Enter to run trndlnpxy.py..."
 python3 rmtknpxy.py
+python3 loginpxy.py
 python3 trndlnpxy.py
 
 
