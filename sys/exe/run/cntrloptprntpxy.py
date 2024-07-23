@@ -122,7 +122,7 @@ print_df['group'] = print_df['key'].str.extract(r'^(B|N)', expand=False)
 print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('NIFTY24', 'N')
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
-print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m','PnL', 'CP', 'group','tgtoptsmadepth']]
+print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP', 'group', 'tgtoptsmadepth']]
 WEB_DF = print_df.rename(columns={
     'MN': 'MN',
     'strike': 'STRIKE',
@@ -130,11 +130,12 @@ WEB_DF = print_df.rename(columns={
     'qty': 'QTY',
     'PL%': 'PL%',
     'm2m': 'M2M',
-    'PnL': 'PNL',
-    'CP': 'CP',
-    'group': 'GROUP',
-    'tgtoptsmadepth': 'TGT'
+    'PnL': 'PNL'
+    # Removed 'CP', 'group', and 'tgtoptsmadepth' from renaming
 })
+
+# Sort by 'PNL' in descending order
+WEB_DF = WEB_DF.sort_values(by='PNL', ascending=False)
 
 WEB_DF.to_csv('optpxy.csv', index=False)
 
