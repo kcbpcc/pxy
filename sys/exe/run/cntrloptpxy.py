@@ -160,12 +160,9 @@ def compute_depth(row):
 
 
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
-
-# Call exit_options with exe_opt_df and broker if not peak time
-# Call exit_options with exe_opt_df and broker if not peak time
+# Dump exe_opt_df to CSV file
+csv_filename = 'cntrloptpxy.csv'  # You can modify this filename as needed
+exe_opt_df.to_csv(csv_filename, index=False)
+#print(f"Data successfully dumped to {csv_filename}")
 if peak != 'PEAKSTART':
-    # Dump exe_opt_df to CSV file
-    csv_filename = 'cntrloptpxy.csv'  # You can modify this filename as needed
-    exe_opt_df.to_csv(csv_filename, index=False)
-    #print(f"Data successfully dumped to {csv_filename}")
     exit_options(exe_opt_df, broker)
