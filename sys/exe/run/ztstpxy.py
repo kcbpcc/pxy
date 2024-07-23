@@ -29,16 +29,5 @@ def get_vixpxy(nifty_symbol='^NSEI', bank_nifty_symbol='^NSEBANK'):
     # Return the values as a tuple
     return nvix, bvix
 
-# Example usage
-if __name__ == "__main__":
-    nvix, bvix = get_vixpxy()
-    if nvix is not None:
-        print(f"Nifty Absolute Difference (nvix): {nvix:.2f}")
-    else:
-        print("No data fetched for Nifty. Please check the ticker symbol or date range.")
-    
-    if bvix is not None:
-        print(f"Bank Nifty Absolute Difference (bvix): {bvix:.2f}")
-    else:
-        print("No data fetched for Bank Nifty. Please check the ticker symbol or date range.")
+
 
