@@ -76,28 +76,26 @@ fig.update_layout(
         side='right',
         range=[nifty_combined['Close'].min() - 20, nifty_combined['Close'].max() + 20],  # Added padding for y-axis
         showgrid=False,  # Hide grid lines
-        showline=False,  # Hide axis lines
-        zeroline=False,  # Hide zero line
+        showline=True,  # Show y-axis line
         linecolor='black'  # Outer frame color
     ),
     yaxis2=dict(
         side='right',
         range=[banknifty_combined['Close'].min() - 20, banknifty_combined['Close'].max() + 20],  # Added padding for y-axis
         showgrid=False,  # Hide grid lines
-        showline=False,  # Hide axis lines
-        zeroline=False,  # Hide zero line
+        showline=True,  # Show y-axis line
         linecolor='black'  # Outer frame color
     ),
     xaxis=dict(
         showgrid=False,  # Hide grid lines
-        showline=False,  # Hide axis lines
+        showline=True,  # Show x-axis line
         title='',         # Hide x-axis title
         tickvals=[],      # Hide x-axis tick labels
         linecolor='black'  # Outer frame color
     ),
     xaxis2=dict(
         showgrid=False,  # Hide grid lines
-        showline=False,  # Hide axis lines
+        showline=True,  # Show x-axis line
         title='',         # Hide x-axis title
         tickvals=[],      # Hide x-axis tick labels
         linecolor='black'  # Outer frame color
