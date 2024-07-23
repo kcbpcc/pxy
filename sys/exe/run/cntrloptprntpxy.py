@@ -24,59 +24,7 @@ nsma = check_index_status('^NSEI')
 # Get peak time
 peak = peak_time()
 
-def compute_tgtoptsma(row):
-    global bsma
-    global nsma
-    
-    key = row['key']
-    
-    if (bsma == "up" and key.startswith("BANK") and "CE" in key) or (bsma == "down" and key.startswith("BANK") and "PE" in key):
-        return 4
-    elif (nsma == "up" and key.startswith("NIFTY") and "CE" in key) or (nsma == "down" and key.startswith("NIFTY") and "PE" in key):
-        return 4
-    else:
-        return 4
 
-def compute_depth(row):
-
-    if "CE" in row['key'] and row['key'].startswith("BANK"):
-        if bcedepth == 1:
-            return max(row['tgtoptsma'], (bvix + 9 - bcedepth))
-        else:
-            return 5
-    elif "PE" in row['key'] and row['key'].startswith("BANK"):
-        if bpedepth == 1:
-            return max(row['tgtoptsma'], (bvix + 9 - bpedepth))
-        else:
-            return 5
-    elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
-        if ncedepth == 1:
-            return max(row['tgtoptsma'], (nvix + 9 - ncedepth))
-        else:
-            return 5
-    elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
-        if npedepth == 1:
-            return max(row['tgtoptsma'], (nvix + 9 - npedepth))
-        else:
-            return 5
-    else:
-        return 5
-
-
-try:
-    sys.stdout = open('output.txt', 'w')
-    broker = get_kite()
-except Exception as e:
-    remove_token(dir_path)
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
-    sys.exit(1)
-finally:
-    if sys.stdout != sys.__stdout__:
-        sys.stdout.close()
-        sys.stdout = sys.__stdout__
-
-# Process data and prepare opt_df
 combined_df = pd.read_csv('pxycombined.csv')
 bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
 ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
@@ -105,8 +53,8 @@ else:
 # Filter and process the DataFrame
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '')
-opt_df['tgtoptsma'] = opt_df.apply(compute_tgtoptsma, axis=1)
-opt_df['tgtoptsmadepth'] = opt_df.apply(compute_depth, axis=1).astype(int)
+opt_df['tgtoptsma'] = 1
+opt_df['tgtoptsmadepth'] = 1
 opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
 opt_df['PL%'] = opt_df['PL%'].fillna(0)
 opt_df['PL%'] = opt_df['PL%'].astype(int)
