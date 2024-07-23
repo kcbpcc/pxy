@@ -128,29 +128,36 @@ bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
 ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
 
 def compute_depth(row):
-
-    if "CE" in row['key'] and row['key'].startswith("BANK"):
-        if bcedepth > 1:
-            return max(row['tgtoptsma'], (bvix + 9 - bcedepth))
+    try:
+        # Ensure the following variables are defined and have appropriate values before this function call
+        global bcedepth, bpedepth, ncedepth, npedepth, bvix, nvix
+        
+        if "CE" in row['key'] and row['key'].startswith("BANK"):
+            if bcedepth > 1:
+                return max(row['tgtoptsma'], (bvix + 9 - bcedepth))
+            else:
+                return 5
+        elif "PE" in row['key'] and row['key'].startswith("BANK"):
+            if bpedepth > 1:
+                return max(row['tgtoptsma'], (bvix + 9 - bpedepth))
+            else:
+                return 5
+        elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
+            if ncedepth > 1:
+                return max(row['tgtoptsma'], (nvix + 9 - ncedepth))
+            else:
+                return 5
+        elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
+            if npedepth > 1:
+                return max(row['tgtoptsma'], (nvix + 9 - npedepth))
+            else:
+                return 5
         else:
             return 5
-    elif "PE" in row['key'] and row['key'].startswith("BANK"):
-        if bpedepth > 1:
-            return max(row['tgtoptsma'], (bvix + 9 - bpedepth))
-        else:
-            return 5
-    elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
-        if ncedepth > 1:
-            return max(row['tgtoptsma'], (nvix + 9 - ncedepth))
-        else:
-            return 5
-    elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
-        if npedepth > 1:
-            return max(row['tgtoptsma'], (nvix + 9 - npedepth))
-        else:
-            return 5
-    else:
+    except Exception as e:
+        # Optionally log the exception e if needed
         return 5
+
 
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 
