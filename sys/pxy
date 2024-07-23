@@ -7,6 +7,7 @@ NC='\033[0m' # No Color
 source ~/env/bin/activate
 cd ~/pxy/sys/exe/run
 pxylogin >/dev/null 2>&1
+nohup python3 -m http.server 8000 > server.log 2>&1 &
 while true; do
     sudo timedatectl set-timezone UTC > /dev/null 2>&1
     # Copy pxy* files from ~/pxy/sys/ to /usr/local/bin/
