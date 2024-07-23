@@ -306,7 +306,7 @@ try:
                         row['Invested'] < 30000 and
                         peak == 'PEAKEND' and
                         available_cash > 1000 and
-                        row['dPL%'] < -1.4 
+                        row['dPL%'] < -1.4
                     ):
                         try:
                             # Read the stock symbols from stocks.csv
