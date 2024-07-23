@@ -124,8 +124,7 @@ print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m','PnL', 'CP', 'group','tgtoptsmadepth']]
 #print(opt_df)
-print_df.to_csv('optpxy.csv', index=False)
-
+print_df.to_csv('optpxy.csv', index=False, header=False)
 
 # Summary calculations
 summary_statement = ""
