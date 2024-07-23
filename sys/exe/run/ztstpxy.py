@@ -1,6 +1,6 @@
 import yfinance as yf
 
-def get_absolute_differences(nifty_symbol='^NSEI', bank_nifty_symbol='^NSEBANK'):
+def get_vixpxy(nifty_symbol='^NSEI', bank_nifty_symbol='^NSEBANK'):
     # Fetch historical 1-minute data for the last 5 days for Nifty
     nifty_data = yf.Ticker(nifty_symbol).history(period="5d", interval="1m")
     # Fetch historical 1-minute data for the last 5 days for Bank Nifty
@@ -31,7 +31,7 @@ def get_absolute_differences(nifty_symbol='^NSEI', bank_nifty_symbol='^NSEBANK')
 
 # Example usage
 if __name__ == "__main__":
-    nvix, bvix = get_absolute_differences()
+    nvix, bvix = get_vixpxy()
     if nvix is not None:
         print(f"Nifty Absolute Difference (nvix): {nvix:.2f}")
     else:
