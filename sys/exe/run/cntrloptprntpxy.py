@@ -126,7 +126,7 @@ print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m','PnL', 'CP'
 WEB_DF = print_df.rename(columns={
     'MN': 'MN',
     'strike': 'STRIKE',
-    'Invested': 'INVESTED',
+    'Invested': 'INV',
     'qty': 'QTY',
     'PL%': 'PL%',
     'm2m': 'M2M',
