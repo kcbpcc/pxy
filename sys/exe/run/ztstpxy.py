@@ -18,10 +18,10 @@ else:
     nifty_price = latest_data['Close']
     sma50_price = latest_data['SMA50']
 
-    # Calculate the difference
-    difference = nifty_price - sma50_price
+    # Calculate the absolute difference
+    absolute_difference = abs(nifty_price - sma50_price)
 
     # Print the results
     print(f"Nifty Index Price: {nifty_price:.2f}")
     print(f"SMA50 Price: {sma50_price:.2f}")
-    print(f"Difference: {difference:.2f}")
+    print(f"Absolute Difference: {absolute_difference:.2f}")
