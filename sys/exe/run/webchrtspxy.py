@@ -68,7 +68,7 @@ fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mod
 fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='dimgray')), row=2, col=1)
 fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA', line=dict(color='gray')), row=2, col=1)
 
-# Update layout with dark gray mode and unified colors
+# Update layout with black background and minimal padding
 fig.update_layout(
     title='Nifty 50 and Bank Nifty Indices - 1 Minute Interval with 50-Day SMA',
     showlegend=False,  # Hide the legend
@@ -98,7 +98,8 @@ fig.update_layout(
     ),
     paper_bgcolor='black',  # Background color of the entire figure
     plot_bgcolor='black',   # Background color of the plotting area
-    font_color='white'      # Color of the text
+    font_color='white',     # Color of the text
+    margin=dict(t=50, b=50, l=0, r=0)  # Adjust margins to reduce padding
 )
 
 # Add annotations for titles at the bottom of each subplot
