@@ -136,7 +136,7 @@ WEB_DF = print_df.rename(columns={
     'tgtoptsmadepth': 'TGT'
 })
 
-WEB_DF.to_csv('optpxy_web.csv', index=False)
+WEB_DF.to_csv('optpxy.csv', index=False)
 
 # Summary calculations
 summary_statement = ""
