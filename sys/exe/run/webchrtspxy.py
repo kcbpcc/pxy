@@ -68,38 +68,44 @@ fig.add_trace(go.Scatter(x=nifty_combined.index, y=nifty_combined['SMA_50'], mod
 fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['Close'], mode='lines', name='Bank Nifty Close', line=dict(color='dimgray')), row=2, col=1)
 fig.add_trace(go.Scatter(x=banknifty_combined.index, y=banknifty_combined['SMA_50'], mode='lines', name='Bank Nifty 50-Day SMA', line=dict(color='gray')), row=2, col=1)
 
-# Update layout with black background and minimal padding
+# Update layout with black background, unified colors, and additional padding
 fig.update_layout(
     title='Nifty 50 and Bank Nifty Indices - 1 Minute Interval with 50-Day SMA',
     showlegend=False,  # Hide the legend
     yaxis=dict(
         side='right',
-        range=[nifty_combined['Close'].min() - 10, nifty_combined['Close'].max() + 10],
+        range=[nifty_combined['Close'].min() - 20, nifty_combined['Close'].max() + 20],  # Added padding for y-axis
         showgrid=False,  # Hide grid lines
-        showline=False   # Hide axis lines
+        showline=False,  # Hide axis lines
+        zeroline=False,  # Hide zero line
+        linecolor='black'  # Outer frame color
     ),
     yaxis2=dict(
         side='right',
-        range=[banknifty_combined['Close'].min() - 10, banknifty_combined['Close'].max() + 10],
+        range=[banknifty_combined['Close'].min() - 20, banknifty_combined['Close'].max() + 20],  # Added padding for y-axis
         showgrid=False,  # Hide grid lines
-        showline=False   # Hide axis lines
+        showline=False,  # Hide axis lines
+        zeroline=False,  # Hide zero line
+        linecolor='black'  # Outer frame color
     ),
     xaxis=dict(
         showgrid=False,  # Hide grid lines
         showline=False,  # Hide axis lines
         title='',         # Hide x-axis title
-        tickvals=[]       # Hide x-axis tick labels
+        tickvals=[],      # Hide x-axis tick labels
+        linecolor='black'  # Outer frame color
     ),
     xaxis2=dict(
         showgrid=False,  # Hide grid lines
         showline=False,  # Hide axis lines
         title='',         # Hide x-axis title
-        tickvals=[]       # Hide x-axis tick labels
+        tickvals=[],      # Hide x-axis tick labels
+        linecolor='black'  # Outer frame color
     ),
     paper_bgcolor='black',  # Background color of the entire figure
     plot_bgcolor='black',   # Background color of the plotting area
     font_color='white',     # Color of the text
-    margin=dict(t=50, b=50, l=0, r=0)  # Adjust margins to reduce padding
+    margin=dict(t=50, b=50, l=50, r=50)  # Adjust margins to reduce padding
 )
 
 # Add annotations for titles at the bottom of each subplot
@@ -149,5 +155,3 @@ with open(html_file, 'w') as file:
 
 print(f"CSV files saved as: {nifty_csv}, {banknifty_csv}")
 print(f"HTML file saved as: {html_file}")
-
-
