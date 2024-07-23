@@ -108,8 +108,6 @@ fig.update_layout(
     plot_bgcolor='black',   # Background color of the plotting area
     font_color='white',     # Color of the text
     margin=dict(t=50, b=50, l=50, r=50),  # Adjust margins to reduce padding
-    bordercolor='black',  # Color of the border around the entire figure (remains black for consistency)
-    borderwidth=1  # Width of the border around the entire figure
 )
 
 # Add annotations for titles at the bottom of each subplot
@@ -140,7 +138,7 @@ fig.update_xaxes(rangeslider_visible=False)
 html_file = 'nifty_and_banknifty_1min_blackgray.html'
 fig.write_html(html_file)
 
-# Inject auto-refresh JavaScript
+# Inject auto-refresh JavaScript and set the body background color to black
 with open(html_file, 'r') as file:
     html_content = file.read()
 
@@ -152,6 +150,16 @@ refresh_script = """
 </script>
 """
 
+# Add inline CSS to set body background color
+css_style = """
+<style>
+    body {
+        background-color: black;
+    }
+</style>
+"""
+
+html_content = html_content.replace("</head>", css_style + "</head>")
 html_content = html_content.replace("</body>", refresh_script + "</body>")
 
 with open(html_file, 'w') as file:
