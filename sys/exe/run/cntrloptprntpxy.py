@@ -12,7 +12,7 @@ last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
 last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
 
 # Read combined data from CSV
-combined_df = pd.read_csv('pxycombined.csv')
+combined_df = pd.read_csv('cntrloptpxy.csv')
 
 # Define a helper function to calculate extras and M2M
 def calculate_extras_and_m2m(df):
