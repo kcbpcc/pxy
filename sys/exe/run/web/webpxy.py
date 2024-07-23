@@ -3,13 +3,6 @@ import subprocess
 import sys
 import time
 
-def is_wsl():
-    try:
-        with open('/proc/version', 'r') as f:
-            return 'Microsoft' in f.read() or 'WSL' in f.read()
-    except FileNotFoundError:
-        return False
-
 def get_pid_on_port(port):
     result = subprocess.run(['lsof', '-t', f'-i:{port}'], capture_output=True, text=True)
     if result.stdout.strip():
@@ -28,11 +21,8 @@ def run_webchrtspxy():
         print(f"webchrtspxy.py encountered an error:\n{result.stderr}")
 
 def main():
-    if not is_wsl():
-        print("Not running on WSL. Exiting.")
-        sys.exit()
+    print("Starting script...")
 
-    print("Running on WSL")
     os.chdir(os.path.expanduser('~/pxy/sys/exe/run/web'))
 
     port = 8000
