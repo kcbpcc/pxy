@@ -40,7 +40,7 @@ def main():
     logging.info("Starting script...")
 
     try:
-        os.chdir(os.path.expanduser('~/pxy/sys/exe/run/web'))
+        os.chdir(os.path.expanduser('~/pxy/sys/exe/run'))
     except Exception as e:
         logging.error(f"Failed to change directory: {e}")
         sys.exit(1)
