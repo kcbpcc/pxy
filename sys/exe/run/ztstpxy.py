@@ -1,17 +1,16 @@
 import yfinance as yf
-import pandas as pd
 
 # Define the ticker for Nifty index
-ticker = '^NSEI'  # Or use 'NSEI' if '^NSEI' does not work
+index_symbol = '^NSEI'  # Or use 'NSEI' if '^NSEI' does not work
 
-# Fetch historical 1-minute data
-data = yf.download(ticker, period='2d', interval='1m')  # Fetch data for the last 2 days with 1-minute intervals
+# Fetch historical 1-minute data for the last 5 days
+data = yf.Ticker(index_symbol).history(period="5d", interval="1m")
 
 # Check if data is fetched correctly
 if data.empty:
     print("No data fetched. Please check the ticker symbol or date range.")
 else:
-    # Calculate the 50-period SMA
+    # Calculate the 50-period SMA (50 minutes in this case)
     data['SMA50'] = data['Close'].rolling(window=50).mean()
 
     # Get the most recent data point
