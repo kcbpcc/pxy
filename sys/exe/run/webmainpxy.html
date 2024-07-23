@@ -18,16 +18,19 @@
         }
         .content {
             flex: 2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 10px;
             padding: 20px;
             background-color: #000; /* Dark black background for the content area */
             box-sizing: border-box;
-            overflow-y: auto;
+            overflow: auto;
         }
         .section {
             background-color: #000; /* Dark black background for sections */
             border: 1px solid #444; /* Darker border color */
             padding: 10px;
-            margin-bottom: 10px; /* Add some space between sections */
             box-sizing: border-box;
             overflow: auto;
         }
