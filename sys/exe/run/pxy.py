@@ -104,6 +104,7 @@ while True:
     subprocess.run(['python3', 'cntrlcncpxy.py'])
     subprocess.run(['python3', 'buycncpxy.py']) if peak == 'PEAKEND' and (mktpredict in ['RISE'] or Day_Change > 0 or Open_Change > 0) else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
+    print("━" * 42)
     subprocess.run(['python3', 'niftychartpxy.py'])    
     subprocess.run(['python3', 'daypxy.py'])
     subprocess.run(['python3', 'cndlpxy.py'])
