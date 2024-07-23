@@ -136,7 +136,7 @@ fig.add_annotation(
 fig.update_xaxes(rangeslider_visible=False)
 
 # Save the plot to an HTML file
-html_file = 'nifty_and_banknifty_1min_blackgray.html'
+html_file = 'webchrtpxy.html'
 fig.write_html(html_file)
 
 # Inject auto-refresh JavaScript and set the body background color to black
