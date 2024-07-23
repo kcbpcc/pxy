@@ -104,7 +104,6 @@ right_aligned_format = "{:>" + str(column_width) + "}"
 #print("━" * 42)
 print(f"{summary_statement}📊")
 print("" * 42)
-print("━" * 42)
 # Prepare output lines
 output_lines = []
 
@@ -128,6 +127,6 @@ output_lines.append(
 # Join and print the formatted output
 full_output = '\n'.join(output_lines)
 print(full_output)
-#print("" * 42)
+print("" * 42)
 
 
