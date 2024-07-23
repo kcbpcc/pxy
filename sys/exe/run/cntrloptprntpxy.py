@@ -94,7 +94,7 @@ for group, data in grouped_df:
             print("" * 42)
             print(formatted_balance)
             print("" * 42)
-            print("━" * 42)
+            
 subprocess.run(['python3', 'lstdymnthexppxy.py'])
 
 # Define column width
@@ -104,6 +104,7 @@ right_aligned_format = "{:>" + str(column_width) + "}"
 #print("━" * 42)
 print(f"{summary_statement}📊")
 print("" * 42)
+print("━" * 42)
 # Prepare output lines
 output_lines = []
 
