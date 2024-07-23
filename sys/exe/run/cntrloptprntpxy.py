@@ -106,7 +106,7 @@ else:
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '')
 opt_df['tgtoptsma'] = opt_df.apply(compute_tgtoptsma, axis=1)
-opt_df['tgtoptsmadepth'] = opt_df.apply(compute_depth, axis=1)
+opt_df['tgtoptsmadepth'] = opt_df.apply(compute_depth, axis=1).astype(int)
 opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
 opt_df['PL%'] = opt_df['PL%'].fillna(0)
 opt_df['PL%'] = opt_df['PL%'].astype(int)
