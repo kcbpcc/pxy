@@ -204,7 +204,7 @@ subprocess.run(['python3', 'lstdymnthexppxy.py'])
 column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
-
+print("━" * 42)
 print(summary_statement + "📊")
 # Prepare output lines
 output_lines = []
