@@ -228,4 +228,4 @@ print(full_output)
 
 
 print(summary_statement + "📊")
-print("━" * 42)
+#print("━" * 42)
