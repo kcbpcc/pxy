@@ -123,8 +123,20 @@ print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('N
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m','PnL', 'CP', 'group','tgtoptsmadepth']]
-#print(opt_df)
-print_df.to_csv('optpxy.csv', index=False, header=False)
+WEB_DF = print_df.rename(columns={
+    'MN': 'MN',
+    'strike': 'STRIKE',
+    'Invested': 'INVESTED',
+    'qty': 'QTY',
+    'PL%': 'PL%',
+    'm2m': 'M2M',
+    'PnL': 'PNL',
+    'CP': 'CP',
+    'group': 'GROUP',
+    'tgtoptsmadepth': 'TGT'
+})
+
+WEB_DF.to_csv('optpxy_web.csv', index=False)
 
 # Summary calculations
 summary_statement = ""
