@@ -5,9 +5,8 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from toolkit.logger import Logger
 import os
-import logging
 
-logging = Logger(30, dir_path + "main.log")
+logging = Logger(30, os.path.join(dir_path, "main.log"))
 
 def get_holdingsinfo(broker):
     try:
@@ -23,7 +22,7 @@ def get_holdingsinfo(broker):
 def get_positionsinfo(broker):
     try:
         resp_list = broker.positions()
-        df = pd.DataFrame(resp_list)
+        df = pd.DataFrame(resp_list['net'])
         df['source'] = 'positions'
         return df
     except Exception as e:
@@ -43,7 +42,6 @@ def get_ordersinfo(broker):
         return None
 
 try:
-    sys.stdout = open('output.txt', 'w')
     broker = get_kite()
     
     holdings_df = get_holdingsinfo(broker)
@@ -51,18 +49,17 @@ try:
     orders_df = get_ordersinfo(broker)
 
     if holdings_df is not None:
-        holdings_df.to_csv('holdings.csv', index=False)
+        holdings_df.to_csv(os.path.join(dir_path, 'holdings.csv'), index=False)
+        print(f"Holdings data saved to {os.path.join(dir_path, 'holdings.csv')}")
     if positions_df is not None:
-        positions_df.to_csv('positions.csv', index=False)
+        positions_df.to_csv(os.path.join(dir_path, 'positions.csv'), index=False)
+        print(f"Positions data saved to {os.path.join(dir_path, 'positions.csv')}")
     if orders_df is not None:
-        orders_df.to_csv('orders.csv', index=False)
+        orders_df.to_csv(os.path.join(dir_path, 'orders.csv'), index=False)
+        print(f"Orders data saved to {os.path.join(dir_path, 'orders.csv')}")
     
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings, positions, or orders")
     sys.exit(1)
-finally:
-    if sys.stdout != sys.__stdout__:
-        sys.stdout.close()
-        sys.stdout = sys.__stdout__
