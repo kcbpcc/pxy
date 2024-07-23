@@ -1,12 +1,14 @@
-import pandas as pd
+import sys
 import traceback
+import pandas as pd
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from toolkit.logger import Logger
+import logging
 
 logging = Logger(30, dir_path + "main.log")
 
-def get_holdingsinfo(resp_list):
+def get_holdingsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
         df['source'] = 'holdings'
@@ -15,7 +17,7 @@ def get_holdingsinfo(resp_list):
         print(f"An error occurred in holdings: {e}")
         return None
 
-def get_positionsinfo(resp_list):
+def get_positionsinfo(resp_list, broker):
     try:
         df = pd.DataFrame(resp_list)
         df['source'] = 'positions'
@@ -24,35 +26,44 @@ def get_positionsinfo(resp_list):
         print(f"An error occurred in positions: {e}")
         return None
 
-def get_ordersinfo(resp_list):
+def process_data(broker):
     try:
-        df = pd.DataFrame(resp_list)
-        df['source'] = 'orders'
-        return df
-    except Exception as e:
-        print(f"An error occurred in orders: {e}")
-        return None
-
-def process_data():
-    try:
-        broker = get_kite()
         holdings_response = broker.kite.holdings()
         positions_response = broker.kite.positions()['net']
-        orders_response = broker.kite.orders()
         
-        holdings_df = get_holdingsinfo(holdings_response)
-        positions_df = get_positionsinfo(positions_response)
-        orders_df = get_ordersinfo(orders_response)
+        holdings_df = get_holdingsinfo(holdings_response, broker)
+        if holdings_df is not None:
+            holdings_df.to_csv('webholdings.csv', index=False)
         
-        # Save dataframes to CSV files with web<*>.csv naming
-        holdings_df.to_csv('webholdings.csv', index=False) if holdings_df is not None else pd.DataFrame().to_csv('webholdings.csv', index=False)
-        positions_df.to_csv('webpositions.csv', index=False) if positions_df is not None else pd.DataFrame().to_csv('webpositions.csv', index=False)
-        orders_df.to_csv('weborders.csv', index=False) if orders_df is not None else pd.DataFrame().to_csv('weborders.csv', index=False)
-
-        return holdings_df, positions_df, orders_df
+        positions_df = get_positionsinfo(positions_response, broker)
+        if positions_df is not None:
+            positions_df.to_csv('webpositions.csv', index=False)
         
+        # Assuming you need to combine the DataFrames for some reason
+        combined_df = pd.concat([holdings_df, positions_df], ignore_index=True) if holdings_df is not None and positions_df is not None else None
+        
+        return combined_df
     except Exception as e:
         print(f"An error occurred: {e}")
         traceback.print_exc()
-        return None, None, None
+        return None
+
+if __name__ == "__main__":
+    try:
+        sys.stdout = open('output.txt', 'w')
+        broker = get_kite()
+        
+        combined_df = process_data(broker)
+        
+        # Handle combined_df if necessary
+        
+    except Exception as e:
+        remove_token(dir_path)
+        print(traceback.format_exc())
+        logging.error(f"{str(e)} unable to get holdings")
+        sys.exit(1)
+    finally:
+        if sys.stdout != sys.__stdout__:
+            sys.stdout.close()
+            sys.stdout = sys.__stdout__
 
