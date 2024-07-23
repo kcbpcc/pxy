@@ -101,7 +101,7 @@ left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
 print("━" * 42)
 print(f"{summary_statement}📊")
-
+print("" * 42)
 # Prepare output lines
 output_lines = []
 
