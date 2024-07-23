@@ -110,13 +110,13 @@ fig.update_layout(
     margin=dict(t=50, b=50, l=50, r=50),  # Adjust margins to reduce padding
 )
 
-# Add annotations for titles at the bottom of each subplot
+# Add annotations for titles at the bottom of each subplot with gray color
 fig.add_annotation(
     text="Nifty 50 Index",
     xref="paper", yref="paper",
     x=0.5, y=0.02,  # Adjust y position for the title at the bottom
     showarrow=False,
-    font=dict(size=14, color="white"),
+    font=dict(size=14, color="gray"),
     align="center",
     bgcolor='black'  # Match background color
 )
@@ -126,7 +126,7 @@ fig.add_annotation(
     xref="paper", yref="paper",
     x=0.5, y=0.48,  # Adjust y position for the title at the bottom
     showarrow=False,
-    font=dict(size=14, color="white"),
+    font=dict(size=14, color="gray"),
     align="center",
     bgcolor='black'  # Match background color
 )
