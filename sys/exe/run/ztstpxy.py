@@ -1,76 +1,28 @@
-import sys
-import traceback
+import yfinance as yf
 import pandas as pd
-from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path
-from toolkit.logger import Logger
-import logging
 
-logging = Logger(30, dir_path + "main.log")
+# Define the ticker for Nifty index
+ticker = '^NSEI'  # Or use 'NSEI' if '^NSEI' does not work
 
-def get_holdingsinfo(resp_list, broker):
-    try:
-        df = pd.DataFrame(resp_list)
-        df['source'] = 'holdings'
-        return df
-    except Exception as e:
-        print(f"An error occurred in holdings: {e}")
-        return None
+# Fetch historical 1-minute data
+data = yf.download(ticker, period='2d', interval='1m')  # Fetch data for the last 2 days with 1-minute intervals
 
-def get_positionsinfo(resp_list, broker):
-    try:
-        df = pd.DataFrame(resp_list)
-        df['source'] = 'positions'
-        return df
-    except Exception as e:
-        print(f"An error occurred in positions: {e}")
-        return None
+# Check if data is fetched correctly
+if data.empty:
+    print("No data fetched. Please check the ticker symbol or date range.")
+else:
+    # Calculate the 50-period SMA
+    data['SMA50'] = data['Close'].rolling(window=50).mean()
 
-def get_ordersinfo(resp_list, broker):
-    try:
-        df = pd.DataFrame(resp_list)
-        df['source'] = 'orders'
-        return df
-    except Exception as e:
-        print(f"An error occurred in orders: {e}")
-        return None
+    # Get the most recent data point
+    latest_data = data.iloc[-1]
+    nifty_price = latest_data['Close']
+    sma50_price = latest_data['SMA50']
 
-def process_data(broker):
-    try:
-        holdings_response = broker.kite.holdings()
-        positions_response = broker.kite.positions()['net']
-        orders_response = broker.kite.orders()  # Assuming this is the method for orders
-        
-        holdings_df = get_holdingsinfo(holdings_response, broker)
-        if holdings_df is not None:
-            holdings_df.to_csv('webholdings.csv', index=False)
-        
-        positions_df = get_positionsinfo(positions_response, broker)
-        if positions_df is not None:
-            positions_df.to_csv('webpositions.csv', index=False)
-        
-        orders_df = get_ordersinfo(orders_response, broker)
-        if orders_df is not None:
-            orders_df.to_csv('weborders.csv', index=False)
-        
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        traceback.print_exc()
-        return None
+    # Calculate the difference
+    difference = nifty_price - sma50_price
 
-if __name__ == "__main__":
-    try:
-        sys.stdout = open('output.txt', 'w')
-        broker = get_kite()
-        
-        process_data(broker)
-        
-    except Exception as e:
-        remove_token(dir_path)
-        print(traceback.format_exc())
-        logging.error(f"{str(e)} unable to get holdings")
-        sys.exit(1)
-    finally:
-        if sys.stdout != sys.__stdout__:
-            sys.stdout.close()
-            sys.stdout = sys.__stdout__
+    # Print the results
+    print(f"Nifty Index Price: {nifty_price:.2f}")
+    print(f"SMA50 Price: {sma50_price:.2f}")
+    print(f"Difference: {difference:.2f}")
