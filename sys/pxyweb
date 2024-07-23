@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Check if the OS is WSL
+if grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null; then
+  echo "Running on WSL"
+
+  # Change to the specified directory
+  cd ~/pxy/sys/exe/run/web
+
+  PORT=8000
+  LOGFILE=server.log
+
+  # Check if any process is using the specified port
+  PID=$(lsof -t -i:$PORT)
+
+  if [ -n "$PID" ]; then
+    echo "Killing process $PID on port $PORT"
+    kill -9 $PID
+  else
+    echo "No process found running on port $PORT"
+  fi
+
+  # Start the server
+  echo "Starting server on port $PORT"
+  nohup python3 -m http.server $PORT > $LOGFILE 2>&1 &
+  echo "Server started and logging to $LOGFILE"
+else
+  echo "Not running on WSL. Exiting."
+fi
