@@ -101,13 +101,14 @@ while True:
     subprocess.run(['python3', 'buyboptpxy.py'])
     subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'cntrloptprntpxy.py'])
+    subprocess.run(['python3', 'cntrlcncpxy.py'])
     subprocess.run(['python3', 'buycncpxy.py']) if peak == 'PEAKEND' and (mktpredict in ['RISE'] or Day_Change > 0 or Open_Change > 0) else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'cndlpxy.py'])
     subprocess.run(['python3', 'daypxy.py'])
     subprocess.run(['python3', 'niftychartpxy.py'])
     (lambda: print((BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() if 'nsma' in locals() else None
-    subprocess.run(['python3', 'worldpxy.py']); subprocess.run(['python3', 'cntrlcncpxy.py'])
+    subprocess.run(['python3', 'worldpxy.py'])
     subprocess.run(['python3', 'bniftychartpxy.py'])
     subprocess.run(['python3', 'bdaypxy.py']) 
     subprocess.run(['python3', 'bcndlpxy.py'])
