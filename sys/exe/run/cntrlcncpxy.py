@@ -304,10 +304,9 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['Invested'] < 30000 and
-                        row['smb_power'] < 0.10 and
+                        peak == 'PEAKEND' and
                         available_cash > 1000 and
-                        row['dPL%'] < 0 and
-                        row['PL%'] < -5
+                        row['dPL%'] < -1.4 
                     ):
                         try:
                             # Read the stock symbols from stocks.csv
