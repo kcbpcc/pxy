@@ -123,6 +123,8 @@ print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('N
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP', 'group', 'tgtoptsmadepth']]
+
+# Rename columns as needed
 WEB_DF = print_df.rename(columns={
     'MN': 'MN',
     'strike': 'STRIKE',
@@ -134,10 +136,15 @@ WEB_DF = print_df.rename(columns={
     # Removed 'CP', 'group', and 'tgtoptsmadepth' from renaming
 })
 
+# Exclude 'CP', 'group', and 'tgtoptsmadepth' columns from the DataFrame
+WEB_DF = WEB_DF.drop(columns=['CP', 'group', 'tgtoptsmadepth'])
+
 # Sort by 'PNL' in descending order
 WEB_DF = WEB_DF.sort_values(by='PNL', ascending=False)
 
+# Save to CSV
 WEB_DF.to_csv('optpxy.csv', index=False)
+
 
 # Summary calculations
 summary_statement = ""
