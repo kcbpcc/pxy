@@ -77,33 +77,39 @@ fig.update_layout(
         range=[nifty_combined['Close'].min() - 20, nifty_combined['Close'].max() + 20],  # Added padding for y-axis
         showgrid=False,  # Hide grid lines
         showline=True,  # Show y-axis line
-        linecolor='black'  # Outer frame color
+        linecolor='black',  # Color of the y-axis line
+        linewidth=1  # Width of the y-axis line
     ),
     yaxis2=dict(
         side='right',
         range=[banknifty_combined['Close'].min() - 20, banknifty_combined['Close'].max() + 20],  # Added padding for y-axis
         showgrid=False,  # Hide grid lines
         showline=True,  # Show y-axis line
-        linecolor='black'  # Outer frame color
+        linecolor='black',  # Color of the y-axis line
+        linewidth=1  # Width of the y-axis line
     ),
     xaxis=dict(
         showgrid=False,  # Hide grid lines
         showline=True,  # Show x-axis line
         title='',         # Hide x-axis title
         tickvals=[],      # Hide x-axis tick labels
-        linecolor='black'  # Outer frame color
+        linecolor='black',  # Color of the x-axis line
+        linewidth=1  # Width of the x-axis line
     ),
     xaxis2=dict(
         showgrid=False,  # Hide grid lines
         showline=True,  # Show x-axis line
         title='',         # Hide x-axis title
         tickvals=[],      # Hide x-axis tick labels
-        linecolor='black'  # Outer frame color
+        linecolor='black',  # Color of the x-axis line
+        linewidth=1  # Width of the x-axis line
     ),
     paper_bgcolor='black',  # Background color of the entire figure
     plot_bgcolor='black',   # Background color of the plotting area
     font_color='white',     # Color of the text
-    margin=dict(t=50, b=50, l=50, r=50)  # Adjust margins to reduce padding
+    margin=dict(t=50, b=50, l=50, r=50),  # Adjust margins to reduce padding
+    bordercolor='black',  # Border color of the entire figure
+    borderwidth=1  # Border width of the entire figure
 )
 
 # Add annotations for titles at the bottom of each subplot
