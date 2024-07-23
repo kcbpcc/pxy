@@ -205,6 +205,7 @@ column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
 
+print(summary_statement + "📊")
 # Prepare output lines
 output_lines = []
 
@@ -227,5 +228,5 @@ full_output = '\n'.join(output_lines)
 print(full_output)
 
 
-print(summary_statement + "📊")
+
 #print("━" * 42)
