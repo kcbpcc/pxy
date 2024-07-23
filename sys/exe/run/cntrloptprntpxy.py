@@ -94,6 +94,7 @@ for group, data in grouped_df:
             print("" * 42)
             print(formatted_balance)
             print("" * 42)
+            print("━" * 42)
 subprocess.run(['python3', 'lstdymnthexppxy.py'])
 
 # Define column width
