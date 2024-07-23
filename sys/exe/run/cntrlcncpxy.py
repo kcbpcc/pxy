@@ -337,21 +337,14 @@ try:
         except Exception as e:
             # Handle any other exceptions that may occur during the loop
             print(f"An unexpected error occurred: {e}")
-
-
-############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
-    printbord(booked, total_cnc_m2m_postions, extras, nextras, bextras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_opt_m2m, btotal_opt_m2m, ntotal_opt_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
-    #print("━" * 42)
 #############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
-    print("━" * 42)
     if not stocks_filtered_df.empty:
         print('\n'.join([line.rjust(40) for line in stocks_filtered_df.to_string(index=False, header=False).split('\n')]))    
     print("━" * 42)
-
+############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™###############################################################################################################
+    printbord(booked, total_cnc_m2m_postions, extras, nextras, bextras, optworth, all_Stocks_worth_dpnl, nsma, all_Stocks_yworth_lacks, total_opt_m2m, btotal_opt_m2m, ntotal_opt_m2m, mktpxy, available_cash, ha_nse_action, nse_power, Day_Change, Open_Change, all_Stocks_count, red_Stocks_count, green_Stocks_count, all_Stocks_capital_lacks, all_Stocks_worth_lacks, zero_qty_count, green_Stocks_profit_loss, green_Stocks_capital_percentage)
+    print("━" * 42)
 #############################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™##############################################################################################################
-
-
-
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
