@@ -24,7 +24,7 @@ def get_vixpxy(nifty_symbol='^NSEI', bank_nifty_symbol='^NSEBANK'):
         latest_bank_nifty_data = bank_nifty_data.iloc[-1]
         bank_nifty_price = latest_bank_nifty_data['Close']
         sma50_bank_nifty_price = latest_bank_nifty_data['SMA50']
-        bvix = abs(bank_nifty_price - sma50_bank_nifty_price) / 20
+        bvix = abs(bank_nifty_price - sma50_bank_nifty_price) / 25
 
     # Return the values as a tuple
     return nvix, bvix
