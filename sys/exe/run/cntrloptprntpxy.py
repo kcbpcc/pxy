@@ -93,7 +93,7 @@ for group, data in grouped_df:
         print(data[data['qty'] > 0][['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']].to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
 
         if len(data) >= 2:
-            formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_code}{summary_sentence}{RESET}".rjust(50)
+            formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {summary_sentence}{RESET}".rjust(50)
             formatted_balance = f"{value_statement}{RESET}".center(44)
             print(formatted_output)
             print(formatted_balance)
