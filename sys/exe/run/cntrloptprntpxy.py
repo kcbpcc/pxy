@@ -49,11 +49,9 @@ else:
     bextras = 0  # or any default value you prefer when there are no rows matching the condition
     btotal_opt_m2m = 0
 
-
 # Filter and process the DataFrame
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '')
-opt_df['tgtoptsma'] = 1
 opt_df['tgtoptsmadepth'] = 1
 opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
 opt_df['PL%'] = opt_df['PL%'].fillna(0)
@@ -75,26 +73,6 @@ print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
 print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP', 'group', 'tgtoptsmadepth']]
 
-# Rename columns as needed
-WEB_DF = print_df.rename(columns={
-    #'MN': 'MN',
-    'strike': 'STRIKE',
-    'Invested': 'INV',
-    'qty': 'QTY',
-    'PL%': 'PL%',
-    'm2m': 'M2M',
-    'PnL': 'PNL'
-    # Removed 'CP', 'group', and 'tgtoptsmadepth' from renaming
-})
-
-# Exclude 'CP', 'group', and 'tgtoptsmadepth' columns from the DataFrame
-WEB_DF = WEB_DF.drop(columns=['MN','CP', 'group', 'tgtoptsmadepth'])
-
-# Sort by 'PNL' in descending order
-WEB_DF = WEB_DF.sort_values(by='PNL', ascending=False)
-
-# Save to CSV
-WEB_DF.to_csv('optpxy.csv', index=False)
 # Summary calculations
 summary_statement = ""
 total_invested_all = print_df['Invested'].sum()
@@ -104,8 +82,6 @@ color_code_summary = BRIGHT_YELLOW
 summary_balance = f"{color_code_summary}SUMMARY-CAP:{total_invested_all:6.0f} P&L:{total_pl_all:7.0f} P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
 summary_sentence = f"{color_code_summary}SUMMARY-CAP:{total_invested_all:6.0f} P&L:{total_pl_all:7.0f} P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
 summary_statement = summary_sentence
-
-
 
 
 # Filter and group data
