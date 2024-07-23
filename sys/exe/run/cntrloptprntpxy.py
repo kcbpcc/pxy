@@ -40,22 +40,22 @@ def compute_tgtoptsma(row):
 def compute_depth(row):
 
     if "CE" in row['key'] and row['key'].startswith("BANK"):
-        if bcedepth > 1:
+        if bcedepth == 1:
             return max(row['tgtoptsma'], (bvix + 9 - bcedepth))
         else:
             return 5
     elif "PE" in row['key'] and row['key'].startswith("BANK"):
-        if bpedepth > 1:
+        if bpedepth == 1:
             return max(row['tgtoptsma'], (bvix + 9 - bpedepth))
         else:
             return 5
     elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
-        if ncedepth > 1:
+        if ncedepth == 1:
             return max(row['tgtoptsma'], (nvix + 9 - ncedepth))
         else:
             return 5
     elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
-        if npedepth > 1:
+        if npedepth == 1:
             return max(row['tgtoptsma'], (nvix + 9 - npedepth))
         else:
             return 5
