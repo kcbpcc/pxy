@@ -37,15 +37,15 @@ def get_ordersinfo(resp_list, broker):
 
 try:
     sys.stdout = open('output.txt', 'w')
-    broker = get_kite()
+    kite = get_kite()  # Initialize the Kite Connect instance
     
-    holdings_response = broker.holdings()  # Assuming this method exists
-    positions_response = broker.positions()  # Assuming this method exists
-    orders_response = broker.orders()  # Assuming this method exists
+    holdings_response = kite.holdings()  # Fetch holdings
+    positions_response = kite.positions()['net']  # Fetch positions
+    orders_response = kite.orders()  # Fetch orders
     
-    holdings_df = get_holdingsinfo(holdings_response, broker)
-    positions_df = get_positionsinfo(positions_response, broker)
-    orders_df = get_ordersinfo(orders_response, broker)
+    holdings_df = get_holdingsinfo(holdings_response, kite)
+    positions_df = get_positionsinfo(positions_response, kite)
+    orders_df = get_ordersinfo(orders_response, kite)
     
     if holdings_df is not None:
         holdings_csv_path = os.path.join(dir_path, 'holdings.csv')
@@ -72,4 +72,3 @@ finally:
     if sys.stdout != sys.__stdout__:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
-
