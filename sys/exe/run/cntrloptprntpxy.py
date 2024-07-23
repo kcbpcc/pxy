@@ -127,6 +127,6 @@ output_lines.append(
 # Join and print the formatted output
 full_output = '\n'.join(output_lines)
 print(full_output)
-print("" * 42)
+#print("" * 42)
 
 
