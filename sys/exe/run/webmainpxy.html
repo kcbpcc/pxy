@@ -93,7 +93,7 @@
         function loadCSV(file, callback) {
             Papa.parse(file, {
                 download: true,
-                header: false, // Do not use headers
+                header: true,
                 complete: function(results) {
                     console.log(`Data from ${file}:`, results.data);
                     if (results.errors.length > 0) {
@@ -114,11 +114,15 @@
                 return;
             }
 
-            let table = '<table><tbody>';
+            let table = '<table><thead><tr>';
+            Object.keys(data[0]).forEach(key => {
+                table += `<th>${key}</th>`;
+            });
+            table += '</tr></thead><tbody>';
 
             data.forEach(row => {
                 table += '<tr>';
-                row.forEach(value => {
+                Object.values(row).forEach(value => {
                     table += `<td>${value}</td>`;
                 });
                 table += '</tr>';
@@ -138,8 +142,4 @@
     </script>
 </body>
 </html>
-
-</body>
-</html>
-
 
