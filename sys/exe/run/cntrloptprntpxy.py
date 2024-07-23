@@ -52,12 +52,12 @@ else:
 # Filter and process the DataFrame
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 opt_df['key'] = opt_df['key'].str.replace('NFO:', '')
-opt_df['tgtoptsmadepth'] = 1
+opt_df['cpdepth'] = 1
 opt_df['PL%'] = (opt_df['PnL'] / opt_df['Invested']) * 100
 opt_df['PL%'] = opt_df['PL%'].fillna(0)
 opt_df['PL%'] = opt_df['PL%'].astype(int)
 opt_df['m2m'] = opt_df['m2m'].astype(int)
-opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL', 'pnl', 'product', 'm2m','tgtoptsmadepth']]
+opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL', 'pnl', 'product', 'm2m','cpdepth']]
 
 total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
@@ -71,7 +71,7 @@ print_df['group'] = print_df['key'].str.extract(r'^(B|N)', expand=False)
 print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('NIFTY24', 'N')
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 print_df['MN'] = np.where(print_df['product'] == 'MIS', '⌛', '🔢')
-print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP', 'group', 'tgtoptsmadepth']]
+print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP', 'group', 'cpdepth']]
 
 # Summary calculations
 summary_statement = ""
@@ -112,7 +112,7 @@ for group, data in grouped_df:
         value_statement = f"{pe_count:02d} -🟥- {value_pe:06d}  ⚖   {value_ce:06d}  -🟩- {ce_count:02d}"
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
-        print(data[data['qty'] > 0][['MN', 'strike', 'Invested', 'qty','tgtoptsmadepth', 'PL%', 'PnL', 'CP']].to_string(header=False, index=False, col_space=[2, 10, 5, 3, 2, 3, 6,2]))
+        print(data[data['qty'] > 0][['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL','cpdepth', 'CP']].to_string(header=False, index=False, col_space=[2, 10, 5, 3, 2, 3, 6,2]))
         
         if len(data) >= 2:
             formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_code}{summary_sentence}{RESET}".rjust(50)
