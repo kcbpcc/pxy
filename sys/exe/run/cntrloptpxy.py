@@ -163,10 +163,10 @@ if peak != 'PEAKSTART':
 
 # Define column widths
 widths = {
-    'tradingsymbol': 26,
-    'm2m': 8,
-    'PnL': 4,
-    'PL%': 4
+    'tradingsymbol': 24,
+    'm2m': 10,
+    'PnL': 6,
+    'PL%': 6
 }
 
 # Function to format and truncate/pad each row
