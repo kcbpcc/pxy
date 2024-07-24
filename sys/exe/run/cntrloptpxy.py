@@ -159,6 +159,19 @@ def compute_depth(row):
         # Optionally log the exception e if needed
         return 5
 
+# Sample data with tgtoptsma hardcoded to 4
+data = {
+    'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
+    'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
+}
+
+vdf = pd.DataFrame(data)
+
+# Apply the function to populate the second column
+vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
+
+# Display the DataFrame
+print(vdf)
 
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 # Dump exe_opt_df to CSV file
