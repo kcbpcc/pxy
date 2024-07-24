@@ -164,7 +164,7 @@ widths = {'tradingsymbol': '24', 'm2m': '8', 'PnL': '4', 'PL%': '6'}
 
 def format_row(row):
     symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
-    m2m = f"{row['m2m']:.2f}".rjust(int(widths['m2m']))
+    m2m = f"{int(row['m2m'])}".rjust(int(widths['m2m']))
     pnl = f"{row['PnL']:.2f}".rjust(int(widths['PnL']))
     pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
     return f"{symbol}{m2m}{pnl}{pl_pct}"
@@ -176,6 +176,7 @@ if filtered_df.empty:
 else:
     formatted_rows = [format_row(row) for _, row in filtered_df.iterrows()]
     print('\n'.join(formatted_rows))
+
 
 
 # Sample data with tgtoptsma hardcoded to 4
