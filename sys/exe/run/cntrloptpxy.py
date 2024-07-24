@@ -223,10 +223,11 @@ left_aligned_format = f"{{:<{column_width}}}"
 right_aligned_format = f"{{:>{column_width}}}"
 
 # Fetch values for the formatted output
-bce_dpt_value = vdf['BCE-DPT'].dropna().values[0] if not vdf['BCE-DPT'].isna().all() else 'None'
-bpe_dpt_value = vdf['BPE-DPT'].dropna().values[0] if not vdf['BPE-DPT'].isna().all() else 'None'
-nce_dpt_value = vdf['NCE-DPT'].dropna().values[0] if not vdf['NCE-DPT'].isna().all() else 'None'
-npe_dpt_value = vdf['NPE-DPT'].dropna().values[0] if not vdf['NPE-DPT'].isna().all() else 'None'
+bce_dpt_value = round(vdf['BCE-DPT'].dropna().values[0], 2) if not vdf['BCE-DPT'].isna().all() else 'None'
+bpe_dpt_value = round(vdf['BPE-DPT'].dropna().values[0], 2) if not vdf['BPE-DPT'].isna().all() else 'None'
+nce_dpt_value = round(vdf['NCE-DPT'].dropna().values[0], 2) if not vdf['NCE-DPT'].isna().all() else 'None'
+npe_dpt_value = round(vdf['NPE-DPT'].dropna().values[0], 2) if not vdf['NPE-DPT'].isna().all() else 'None'
+
 
 # Prepare output lines
 output_lines = []
