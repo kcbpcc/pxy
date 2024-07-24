@@ -182,12 +182,12 @@ output_lines = []
 
 output_lines.append(
     left_aligned_format.format(f"BCE-DPT:{BRIGHT_RED if bcedepth < 2 else BRIGHT_GREEN}{bcedepth}{RESET}") +
-    right_aligned_format.format(f"NCE-DPT:{BRIGHT_GREEN if ncedepth < 2 else BRIGHT_RED}{ncedepth}{RESET}")
+    right_aligned_format.format(f"NCE-DPT:{BRIGHT_GREEN if ncedepth > 2 else BRIGHT_RED}{ncedepth}{RESET}")
 )
 # First line: BPE-DPT and NCE-DPT
 output_lines.append(
     left_aligned_format.format(f"BPE-DPT:{BRIGHT_RED if bpedepth < 2 else BRIGHT_GREEN}{bpedepth}{RESET}") +
-    right_aligned_format.format(f"NPE-DPT:{BRIGHT_GREEN if npedepth < 2 else BRIGHT_RED}{npedepth}{RESET}")
+    right_aligned_format.format(f"NPE-DPT:{BRIGHT_GREEN if npedepth > 2 else BRIGHT_RED}{npedepth}{RESET}")
 )
 
 # Join and print the formatted output
