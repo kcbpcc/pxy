@@ -234,20 +234,20 @@ output_lines = []
 
 output_lines.append(
     left_aligned_format.format(
-        f"BCE-DPT:{BRIGHT_RED if bce_dpt_value != 'None' and bce_dpt_value < 2 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
+        f"BCE-DPT:{GREY if bce_dpt_value != 'None' and bce_dpt_value < 6 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
     ) +
     right_aligned_format.format(
-        f"NCE-DPT:{BRIGHT_GREEN if nce_dpt_value != 'None' and nce_dpt_value > 2 else BRIGHT_RED}{nce_dpt_value}{RESET}"
+        f"NCE-DPT:{BRIGHT_GREEN if nce_dpt_value != 'None' and nce_dpt_value > 6 else GREY}{nce_dpt_value}{RESET}"
     )
 )
 
 # First line: BPE-DPT and NPE-DPT
 output_lines.append(
     left_aligned_format.format(
-        f"BPE-DPT:{BRIGHT_RED if bpe_dpt_value != 'None' and bpe_dpt_value < 2 else BRIGHT_GREEN}{bpe_dpt_value}{RESET}"
+        f"BPE-DPT:{GREY if bpe_dpt_value != 'None' and bpe_dpt_value < 6 else BRIGHT_GREEN}{bpe_dpt_value}{RESET}"
     ) +
     right_aligned_format.format(
-        f"NPE-DPT:{BRIGHT_GREEN if npe_dpt_value != 'None' and npe_dpt_value > 2 else BRIGHT_RED}{npe_dpt_value}{RESET}"
+        f"NPE-DPT:{BRIGHT_GREEN if npe_dpt_value != 'None' and npe_dpt_value > 6 else GREY}{npe_dpt_value}{RESET}"
     )
 )
 
