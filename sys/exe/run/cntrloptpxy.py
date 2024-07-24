@@ -181,7 +181,7 @@ output_lines = []
 # First line: BPE-TGT and NCE-TGT
 output_lines.append(
     left_aligned_format.format(f"BPE-TGT:{BRIGHT_RED if bpedepth < 6 else BRIGHT_GREEN}{bpedepth}{RESET}") +
-    right_aligned_format.format(f"NCE-TGT:{BRIGHT_GREEN if ncedepth < 6 else BRIGHT_RED}{ncedepth}{RESET}")
+    right_aligned_format.format(f"NPE-TGT:{BRIGHT_GREEN if ncedepth < 6 else BRIGHT_RED}{npedepth}{RESET}")
 )
 
 # Second line: BCE-TGT and NCE-TGT
