@@ -167,7 +167,7 @@ def format_row(row):
     symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
     pnl = f"{int(row['PnL'])}".rjust(int(widths['PnL']))
     pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
-    return f"{m2m}|{symbol}{pnl}{pl_pct}"
+    return f"{m2m}{symbol}{pnl}{pl_pct}"
 
 filtered_df = exe_opt_df.query('qty > 0 and `PL%` > 0')
 
