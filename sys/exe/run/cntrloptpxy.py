@@ -167,25 +167,7 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
-# Sample data with tgtoptsma hardcoded to 4
-data = {
-    'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
-    'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
-}
-
-vdf = pd.DataFrame(data)
-
-# Apply the function to populate the second column
-vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
-# Define computed depth columns for specific keys
-vdf['BCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKCE' else None, axis=1)
-vdf['BPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKPE' else None, axis=1)
-vdf['NCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYCE' else None, axis=1)
-vdf['NPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYPE' else None, axis=1)
-
-# Display the DataFrame
-print(vdf)
-# Define the column width
+# Define column width
 column_width = 30
 
 # Define left and right alignment format strings
@@ -194,19 +176,33 @@ right_aligned_format = f"{{:>{column_width}}}"
 
 # Prepare output lines
 output_lines = []
-# Second line: BCE-DPT and NCE-DPT
 
+# Fetch values for the formatted output
+bce_dpt_value = vdf['BCE-DPT'].dropna().values[0] if not vdf['BCE-DPT'].isna().all() else 'None'
+bpe_dpt_value = vdf['BPE-DPT'].dropna().values[0] if not vdf['BPE-DPT'].isna().all() else 'None'
+nce_dpt_value = vdf['NCE-DPT'].dropna().values[0] if not vdf['NCE-DPT'].isna().all() else 'None'
+npe_dpt_value = vdf['NPE-DPT'].dropna().values[0] if not vdf['NPE-DPT'].isna().all() else 'None'
+
+# Second line: BCE-DPT and NCE-DPT
 output_lines.append(
-    left_aligned_format.format(f"BCE-DPT:{BRIGHT_RED if vdf['BCE-DPT']  < 2 else BRIGHT_GREEN}{vdf['BCE-DPT'] }{RESET}") +
-    right_aligned_format.format(f"NCE-DPT:{BRIGHT_GREEN if vdf['NCE-DPT'] > 2 else BRIGHT_RED}{vdf['NCE-DPT']}{RESET}")
+    left_aligned_format.format(
+        f"BCE-DPT:{BRIGHT_RED if bce_dpt_value != 'None' and bce_dpt_value < 2 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
+    ) +
+    right_aligned_format.format(
+        f"NCE-DPT:{BRIGHT_GREEN if nce_dpt_value != 'None' and nce_dpt_value > 2 else BRIGHT_RED}{nce_dpt_value}{RESET}"
+    )
 )
-# First line: BPE-DPT and NCE-DPT
+
+# First line: BPE-DPT and NPE-DPT
 output_lines.append(
-    left_aligned_format.format(f"BPE-DPT:{BRIGHT_RED if vdf['BPE-DPT'] < 2 else BRIGHT_GREEN}{vdf['BPE-DPT']}{RESET}") +
-    right_aligned_format.format(f"NPE-DPT:{BRIGHT_GREEN if vdf['NPE-DPT'] > 2 else BRIGHT_RED}{vdf['NPE-DPT']}{RESET}")
+    left_aligned_format.format(
+        f"BPE-DPT:{BRIGHT_RED if bpe_dpt_value != 'None' and bpe_dpt_value < 2 else BRIGHT_GREEN}{bpe_dpt_value}{RESET}"
+    ) +
+    right_aligned_format.format(
+        f"NPE-DPT:{BRIGHT_GREEN if npe_dpt_value != 'None' and npe_dpt_value > 2 else BRIGHT_RED}{npe_dpt_value}{RESET}"
+    )
 )
 
 # Join and print the formatted output
 full_output = '\n'.join(output_lines)
 print(full_output)
-
