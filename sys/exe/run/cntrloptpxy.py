@@ -10,7 +10,6 @@ from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
 from vixpxy import get_vixpxy
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 # Check index status
 bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
@@ -167,30 +166,4 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 #print(f"Data successfully dumped to {csv_filename}")
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
-
-# Define the column width
-column_width = 30
-
-# Define left and right alignment format strings
-left_aligned_format = f"{{:<{column_width}}}"
-right_aligned_format = f"{{:>{column_width}}}"
-
-# Prepare output lines
-output_lines = []
-# Second line: BCE-TGT and NCE-TGT
-
-output_lines.append(
-    left_aligned_format.format(f"BCE-TGT:{BRIGHT_RED if bcedepth < 2 else BRIGHT_GREEN}{bcedepth}{RESET}") +
-    right_aligned_format.format(f"NCE-TGT:{BRIGHT_GREEN if ncedepth < 2 else BRIGHT_RED}{ncedepth}{RESET}")
-)
-# First line: BPE-TGT and NCE-TGT
-output_lines.append(
-    left_aligned_format.format(f"BPE-TGT:{BRIGHT_RED if bpedepth < 2 else BRIGHT_GREEN}{bpedepth}{RESET}") +
-    right_aligned_format.format(f"NPE-TGT:{BRIGHT_GREEN if npedepth < 2 else BRIGHT_RED}{npedepth}{RESET}")
-)
-
-# Join and print the formatted output
-full_output = '\n'.join(output_lines)
-print(full_output)
-
 
