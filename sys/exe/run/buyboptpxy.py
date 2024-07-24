@@ -19,6 +19,7 @@ onemincandlesequance, mktpxy = get_market_check('^NSEBANK')
 from datetime import datetime, timedelta
 from rsnprntpxy import process_orders
 from exprpxy import month_expiry_date
+from bftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from hndmktpxy import hand
 showhand = hand(mktpxy)
@@ -92,8 +93,14 @@ async def main():
         CE_position_exists = check_existing_positions(broker, CE_symbol)
         PE_position_exists = check_existing_positions(broker, PE_symbol)
 
-        await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy) if mktpxy in ("Buy", "Sell") else None
 
+        if (Open_Change < 0 or nse_power > 0.85) and not PE_position_exists:
+            await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
+        elif (Open_Change > 0 or nse_power < 0.15) and not CE_position_exists:
+            await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
+        else:
+            pass
+            
     except Exception as e:
         print(f"Error: {e}")
         logging.error(f"Error in main(): {e}")
