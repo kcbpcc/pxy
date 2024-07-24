@@ -18,7 +18,7 @@ combined_df = pd.read_csv('pxycombined.csv')
 def calculate_extras_and_m2m(df):
     if df.empty:
         return 0, 0
-    extras = int(df.loc[df['sell_quantity'] > 0, 'unrealised'].sum()) - int(df.loc[df['sell_quantity'] > 0, 'PnL'].sum())
+    extras = int(df.loc[df['sell_quantity'] > 0, 'pnl'].sum()) - int(df.loc[df['sell_quantity'] > 0, 'PnL'].sum())
     total_m2m = df[df['quantity'] > 0]['m2m'].sum()
     return extras, total_m2m
 
