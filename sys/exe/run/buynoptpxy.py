@@ -94,12 +94,7 @@ async def main():
         CE_position_exists = check_existing_positions(broker, CE_symbol)
         PE_position_exists = check_existing_positions(broker, PE_symbol)
 
-        if (Open_Change < 0 or nse_power > 0.85) and not PE_position_exists:
-            await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
-        elif (Open_Change > 0 or nse_power < 0.15) and not CE_position_exists:
-            await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
-        else:
-            pass
+        await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy) if mktpxy in ("Buy", "Sell") else None
 
     except Exception as e:
         print(f"Error: {e}")
