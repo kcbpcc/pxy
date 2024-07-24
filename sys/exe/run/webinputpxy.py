@@ -3,8 +3,8 @@ import pandas as pd
 # Read the CSV file
 combined_df = pd.read_csv('pxycombined.csv')
 
-# Filter for exchange 'BSE' or 'NSE' and sort by 'PL%' in descending order for cncpxy
-cncpxy_df = combined_df[(combined_df['exchange'].isin(['BSE', 'NSE']))]
+# Filter for exchange 'BSE' or 'NSE' and quantity greater than 0, then sort by 'PL%' in descending order for cncpxy
+cncpxy_df = combined_df[(combined_df['exchange'].isin(['BSE', 'NSE'])) & (combined_df['qty'] > 0)]
 cncpxy_df = cncpxy_df[['tradingsymbol', 'oPL%', 'dPL%', 'PnL', 'PL%']].sort_values(by='PL%', ascending=False)
 cncpxy_df.to_csv('cncpxy.csv', index=False)
 
