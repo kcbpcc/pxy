@@ -133,6 +133,9 @@
                 return;
             }
 
+            // Sort the data by PL% column in descending order
+            data.sort((a, b) => parseFloat(b['PL%']) - parseFloat(a['PL%']));
+
             let table = '<table><thead><tr>';
             Object.keys(data[0]).forEach(key => {
                 table += `<th>${key.toUpperCase()}</th>`;
