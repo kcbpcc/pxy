@@ -9,6 +9,8 @@ from cmbddfpxy import process_data
 from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+
 
 # Check index status
 bsma = check_index_status('^NSEBANK')
@@ -156,3 +158,74 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 # Call exit_options with exe_opt_df and broker if not peak time
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
+
+#############################################################################################################################################################################################################################
+import pandas as pd
+
+# Sample data with tgtoptsma hardcoded to 4
+data = {
+    'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
+    'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
+}
+
+vdf = pd.DataFrame(data)
+
+# Apply the function to populate the computed_depth column
+vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
+
+# Define computed depth columns for specific keys
+vdf['BCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKCE' else None, axis=1)
+vdf['BPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKPE' else None, axis=1)
+vdf['NCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYCE' else None, axis=1)
+vdf['NPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYPE' else None, axis=1)
+
+# Display the DataFrame to verify column creation
+print("DataFrame with computed columns:")
+print(vdf)
+
+# Ensure column names exist
+expected_columns = ['BCE-DPT', 'BPE-DPT', 'NCE-DPT', 'NPE-DPT']
+missing_columns = [col for col in expected_columns if col not in vdf.columns]
+if missing_columns:
+    raise ValueError(f"Missing columns in DataFrame: {missing_columns}")
+
+# Define column width
+column_width = 30
+
+# Define left and right alignment format strings
+left_aligned_format = f"{{:<{column_width}}}"
+right_aligned_format = f"{{:>{column_width}}}"
+
+# Fetch values for the formatted output
+bce_dpt_value = vdf['BCE-DPT'].dropna().values[0] if not vdf['BCE-DPT'].isna().all() else 'None'
+bpe_dpt_value = vdf['BPE-DPT'].dropna().values[0] if not vdf['BPE-DPT'].isna().all() else 'None'
+nce_dpt_value = vdf['NCE-DPT'].dropna().values[0] if not vdf['NCE-DPT'].isna().all() else 'None'
+npe_dpt_value = vdf['NPE-DPT'].dropna().values[0] if not vdf['NPE-DPT'].isna().all() else 'None'
+
+# Prepare output lines
+output_lines = []
+
+# Second line: BCE-DPT and NCE-DPT
+output_lines.append(
+    left_aligned_format.format(
+        f"BCE-DPT:{BRIGHT_RED if bce_dpt_value != 'None' and bce_dpt_value < 2 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
+    ) +
+    right_aligned_format.format(
+        f"NCE-DPT:{BRIGHT_GREEN if nce_dpt_value != 'None' and nce_dpt_value > 2 else BRIGHT_RED}{nce_dpt_value}{RESET}"
+    )
+)
+
+# First line: BPE-DPT and NPE-DPT
+output_lines.append(
+    left_aligned_format.format(
+        f"BPE-DPT:{BRIGHT_RED if bpe_dpt_value != 'None' and bpe_dpt_value < 2 else BRIGHT_GREEN}{bpe_dpt_value}{RESET}"
+    ) +
+    right_aligned_format.format(
+        f"NPE-DPT:{BRIGHT_GREEN if npe_dpt_value != 'None' and npe_dpt_value > 2 else BRIGHT_RED}{npe_dpt_value}{RESET}"
+    )
+)
+
+# Join and print the formatted output
+full_output = '\n'.join(output_lines)
+print(full_output)
+
