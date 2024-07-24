@@ -168,18 +168,23 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
+# Define the column width
 column_width = 30
+
 # Define left and right alignment format strings
-left_aligned_format = "{:<42}"
-right_aligned_format = "{:>42}"
+left_aligned_format = f"{{:<{column_width}}}"
+right_aligned_format = f"{{:>{column_width}}}"
 
 # Prepare output lines
 output_lines = []
 
+# First line: BPE-TGT and NCE-TGT
 output_lines.append(
     left_aligned_format.format(f"BPE-TGT:{BRIGHT_RED if bpedepth < 6 else BRIGHT_GREEN}{bpedepth}{RESET}") +
     right_aligned_format.format(f"NCE-TGT:{BRIGHT_GREEN if ncedepth < 6 else BRIGHT_RED}{ncedepth}{RESET}")
 )
+
+# Second line: BCE-TGT and NCE-TGT
 output_lines.append(
     left_aligned_format.format(f"BCE-TGT:{BRIGHT_RED if bcedepth < 6 else BRIGHT_GREEN}{bcedepth}{RESET}") +
     right_aligned_format.format(f"NCE-TGT:{BRIGHT_GREEN if ncedepth < 6 else BRIGHT_RED}{ncedepth}{RESET}")
@@ -188,4 +193,5 @@ output_lines.append(
 # Join and print the formatted output
 full_output = '\n'.join(output_lines)
 print(full_output)
+
 
