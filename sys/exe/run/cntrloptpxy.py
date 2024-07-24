@@ -160,31 +160,21 @@ if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
 #############################################################################################################################################################################################################################
+widths = {'tradingsymbol': '24', 'm2m': '8', 'PnL': '4', 'PL%': '6'}
 
-# Define column widths
-widths = {
-    'tradingsymbol': 24,
-    'm2m': 10,
-    'PnL': 6,
-    'PL%': 6
-}
-
-# Function to format and truncate/pad each row
 def format_row(row):
-    # Truncate or pad 'tradingsymbol' to fixed width
-    symbol = row['tradingsymbol'][:widths['tradingsymbol']].ljust(widths['tradingsymbol'])
-    # Format 'm2m', 'PnL', and 'PL%' with fixed widths
-    m2m = f"{row['m2m']:>{widths['m2m']}}"
-    pnl = f"{row['PnL']:>{widths['PnL']}}"
-    pl_pct = f"{row['PL%']:>{widths['PL%']}}"
+    symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
+    m2m = f"{row['m2m']:.2f}".rjust(int(widths['m2m']))
+    pnl = f"{row['PnL']:.2f}".rjust(int(widths['PnL']))
+    pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
     return f"{symbol}{m2m}{pnl}{pl_pct}"
 
-# Check if DataFrame is empty
-if exe_opt_df.empty:
+filtered_df = exe_opt_df.query('qty > 0 and `PL%` > 0')
+
+if filtered_df.empty:
     print("Still fishing, nothing surfaced yet.")
 else:
-    # Format and print each row
-    formatted_rows = [format_row(row) for _, row in exe_opt_df.iterrows()]
+    formatted_rows = [format_row(row) for _, row in filtered_df.iterrows()]
     print('\n'.join(formatted_rows))
 
 
