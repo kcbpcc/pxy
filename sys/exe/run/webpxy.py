@@ -34,8 +34,19 @@ def run_webchrtspxy():
     except Exception as e:
         logging.error(f"Failed to run webchrtspxy.py: {e}")
 
+def run_webinputpxy():
+    """Run the webinputpxy.py script."""
+    try:
+        result = subprocess.run(['python3', 'webinputpxy.py'], capture_output=True, text=True)
+        if result.returncode == 0:
+            logging.info("webinputpxy.py ran successfully.")
+        else:
+            logging.error(f"webinputpxy.py encountered an error:\n{result.stderr}")
+    except Exception as e:
+        logging.error(f"Failed to run webinputpxy.py: {e}")
+
 def main():
-    """Main function to manage the server and run the webchrtspxy script."""
+    """Main function to manage the server and run the webchrtspxy and webinputpxy scripts."""
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     logging.info("Starting script...")
 
@@ -59,6 +70,9 @@ def main():
         logging.info("Running webchrtspxy.py")
         run_webchrtspxy()
 
+        logging.info("Running webinputpxy.py")
+        run_webinputpxy()
+
         try:
             from cyclepxy import cycle
             logging.info("Waiting for 30 seconds...")
@@ -69,4 +83,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
