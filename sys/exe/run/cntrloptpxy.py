@@ -205,7 +205,6 @@ npe_dpt_value = vdf['NPE-DPT'].dropna().values[0] if not vdf['NPE-DPT'].isna().a
 # Prepare output lines
 output_lines = []
 
-# Second line: BCE-DPT and NCE-DPT
 output_lines.append(
     left_aligned_format.format(
         f"BCE-DPT:{BRIGHT_RED if bce_dpt_value != 'None' and bce_dpt_value < 2 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
@@ -225,7 +224,6 @@ output_lines.append(
     )
 )
 
-# Join and print the formatted output
 full_output = '\n'.join(output_lines)
 print(full_output)
 
