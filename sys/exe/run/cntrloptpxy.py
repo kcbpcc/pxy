@@ -10,7 +10,6 @@ from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
 from vixpxy import get_vixpxy
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 # Check index status
 bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
@@ -159,6 +158,7 @@ def compute_depth(row):
         # Optionally log the exception e if needed
         return 5
 
+
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 # Dump exe_opt_df to CSV file
 #csv_filename = 'cntrloptpxy.csv'  # You can modify this filename as needed
@@ -166,53 +166,3 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 #print(f"Data successfully dumped to {csv_filename}")
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
-
-
-data = {
-    'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
-    'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
-}
-
-vdf = pd.DataFrame(data)
-
-# Compute depth values using the compute_depth function
-vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
-# Define column width
-column_width = 30
-
-# Define left and right alignment format strings
-left_aligned_format = f"{{:<{column_width}}}"
-right_aligned_format = f"{{:>{column_width}}}"
-
-# Prepare output lines
-output_lines = []
-
-# Fetch values for the formatted output
-bce_dpt_value = vdf['BCE-DPT'].dropna().values[0] if not vdf['BCE-DPT'].isna().all() else 'None'
-bpe_dpt_value = vdf['BPE-DPT'].dropna().values[0] if not vdf['BPE-DPT'].isna().all() else 'None'
-nce_dpt_value = vdf['NCE-DPT'].dropna().values[0] if not vdf['NCE-DPT'].isna().all() else 'None'
-npe_dpt_value = vdf['NPE-DPT'].dropna().values[0] if not vdf['NPE-DPT'].isna().all() else 'None'
-
-# Second line: BCE-DPT and NCE-DPT
-output_lines.append(
-    left_aligned_format.format(
-        f"BCE-DPT:{BRIGHT_RED if bce_dpt_value != 'None' and bce_dpt_value < 2 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
-    ) +
-    right_aligned_format.format(
-        f"NCE-DPT:{BRIGHT_GREEN if nce_dpt_value != 'None' and nce_dpt_value > 2 else BRIGHT_RED}{nce_dpt_value}{RESET}"
-    )
-)
-
-# First line: BPE-DPT and NPE-DPT
-output_lines.append(
-    left_aligned_format.format(
-        f"BPE-DPT:{BRIGHT_RED if bpe_dpt_value != 'None' and bpe_dpt_value < 2 else BRIGHT_GREEN}{bpe_dpt_value}{RESET}"
-    ) +
-    right_aligned_format.format(
-        f"NPE-DPT:{BRIGHT_GREEN if npe_dpt_value != 'None' and npe_dpt_value > 2 else BRIGHT_RED}{npe_dpt_value}{RESET}"
-    )
-)
-
-# Join and print the formatted output
-full_output = '\n'.join(output_lines)
-print(full_output)
