@@ -165,7 +165,7 @@ widths = {'tradingsymbol': '22', 'm2m': '7', 'PnL': '7', 'PL%': '5'}
 def format_row(row):
     m2m = f"{int(row['m2m'])}".ljust(int(widths['m2m']))
     symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
-    pnl = f"{row['PnL']:.2f}".rjust(int(widths['PnL']))
+    pnl = f"{int(row['PnL'])}".rjust(int(widths['PnL']))
     pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
     return f"{m2m}|{symbol}{pnl}{pl_pct}"
 
