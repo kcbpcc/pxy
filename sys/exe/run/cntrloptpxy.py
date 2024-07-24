@@ -166,7 +166,11 @@ exe_opt_df['PL%'] = ((exe_opt_df['PnL'] / exe_opt_df['Invested']) * 100).fillna(
 exe_opt_df['m2m'] = exe_opt_df['m2m'].astype(int)
 exe_opt_df = exe_opt_df[['tradingsymbol', 'm2m', 'PnL', 'PL%']]
 exe_opt_df = exe_opt_df[exe_opt_df['PL%'] > 0]
-print(exe_opt_df.to_string(index=False, header=False))
+
+if exe_opt_df.empty:
+    print("Still fishing, nothing surfaced yet.")
+else:
+    print(exe_opt_df.to_string(index=False, header=False))
 
 
 # Sample data with tgtoptsma hardcoded to 4
