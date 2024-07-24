@@ -61,6 +61,8 @@
         }
         th {
             background-color: #333; /* Dark background for table headers */
+            text-align: left; /* Left align table headers */
+            text-transform: uppercase; /* Capitalize table headers */
         }
         /* Custom scrollbar styles */
         ::-webkit-scrollbar {
@@ -133,7 +135,7 @@
 
             let table = '<table><thead><tr>';
             Object.keys(data[0]).forEach(key => {
-                table += `<th>${key}</th>`;
+                table += `<th>${key.toUpperCase()}</th>`;
             });
             table += '</tr></thead><tbody>';
 
