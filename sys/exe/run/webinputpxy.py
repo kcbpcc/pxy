@@ -1,13 +1,16 @@
 import pandas as pd
 
-# Read the CSV files
+# Read the CSV file
 combined_df = pd.read_csv('pxycombined.csv')
 
-# Select specific columns (replace 'column1', 'column2', etc. with actual column names)
-selected_columns_combined = combined_df[['tradingsymbol', 'PnL', 'PL%']]
+# Filter for exchange 'BSE' or 'NSE' and sort by 'PL%' in descending order for cncpxy
+cncpxy_df = combined_df[(combined_df['exchange'].isin(['BSE', 'NSE']))]
+cncpxy_df = cncpxy_df[['tradingsymbol', 'PnL', 'PL%']].sort_values(by='PL%', ascending=False)
+cncpxy_df.to_csv('cncpxy.csv', index=False)
 
-# Write the selected columns to new CSV files
-selected_columns_combined.to_csv('optpxy.csv', index=False)
-selected_columns_combined.to_csv('cncpxy.csv', index=False)
+# Filter for exchange 'NFO' and sort by 'PL%' in descending order for optpxy
+optpxy_df = combined_df[combined_df['exchange'] == 'NFO']
+optpxy_df = optpxy_df[['tradingsymbol', 'PnL', 'PL%']].sort_values(by='PL%', ascending=False)
+optpxy_df.to_csv('optpxy.csv', index=False)
 
 print("Files have been created successfully.")
