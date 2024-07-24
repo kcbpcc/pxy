@@ -167,6 +167,16 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
+
+data = {
+    'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
+    'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
+}
+
+vdf = pd.DataFrame(data)
+
+# Compute depth values using the compute_depth function
+vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
 # Define column width
 column_width = 30
 
