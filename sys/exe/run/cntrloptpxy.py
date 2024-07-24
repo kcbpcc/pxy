@@ -180,8 +180,8 @@ vdf['NCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'N
 vdf['NPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYPE' else None, axis=1)
 
 # Display the DataFrame to verify column creation
-print("DataFrame with computed columns:")
-print(vdf)
+#print("DataFrame with computed columns:")
+#print(vdf)
 
 # Ensure column names exist
 expected_columns = ['BCE-DPT', 'BPE-DPT', 'NCE-DPT', 'NPE-DPT']
