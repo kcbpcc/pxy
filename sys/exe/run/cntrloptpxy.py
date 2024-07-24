@@ -160,7 +160,7 @@ if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
 #############################################################################################################################################################################################################################
-widths = {'tradingsymbol': '20', 'm2m': '8', 'PnL': '6', 'PL%': '6'}
+widths = {'tradingsymbol': '18', 'm2m': '10', 'PnL': '6', 'PL%': '6'}
 
 def format_row(row):
     symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
