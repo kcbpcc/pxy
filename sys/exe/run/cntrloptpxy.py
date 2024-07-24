@@ -167,7 +167,7 @@ def format_row(row):
     m2m = f"{int(row['m2m'])}".rjust(int(widths['m2m']))
     pnl = f"{row['PnL']:.2f}".rjust(int(widths['PnL']))
     pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
-    return f"{symbol}{m2m}{pnl}{pl_pct}"
+    return f"{symbol}{m2m}{pnl}{pl_pct}" 
 
 filtered_df = exe_opt_df.query('qty > 0 and `PL%` > 0')
 
