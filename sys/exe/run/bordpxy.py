@@ -97,8 +97,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, nextras, bextras, optworth
         f"✍🏻 BOOKED: {booked}\n"
         f"💰💰💰 PROFIT: {booked + extras}\n"
         f"******************************\n"
-        f"[View on Zerodha](https://console.zerodha.com/verified/783d6dad)\n"
-        f"---------PXY® Dash Board----------\n"
+        f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/783d6dad)\n"
     )
 
     check_and_send_summary(summary,'bordpxy')
