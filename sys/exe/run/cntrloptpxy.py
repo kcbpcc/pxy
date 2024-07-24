@@ -9,11 +9,10 @@ from cmbddfpxy import process_data
 from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
-from vixpxy import get_vixpxy
+
 # Check index status
 bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
-nvix, bvix = get_vixpxy()
 
 # Get peak time
 peak = peak_time()
@@ -128,41 +127,32 @@ bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
 ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
 
 def compute_depth(row):
-    try:
-        # Ensure the following variables are defined and have appropriate values before this function call
-        global bcedepth, bpedepth, ncedepth, npedepth, bvix, nvix
-        
-        if "CE" in row['key'] and row['key'].startswith("BANK"):
-            if bcedepth > 1:
-                return max(row['tgtoptsma'], (bvix + 9 - bcedepth))
-            else:
-                return 5
-        elif "PE" in row['key'] and row['key'].startswith("BANK"):
-            if bpedepth > 1:
-                return max(row['tgtoptsma'], (bvix + 9 - bpedepth))
-            else:
-                return 5
-        elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
-            if ncedepth > 1:
-                return max(row['tgtoptsma'], (nvix + 9 - ncedepth))
-            else:
-                return 5
-        elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
-            if npedepth > 1:
-                return max(row['tgtoptsma'], (nvix + 9 - npedepth))
-            else:
-                return 5
+
+    if "CE" in row['key'] and row['key'].startswith("BANK"):
+        if bcedepth > 1:
+            return max(row['tgtoptsma'], (9 - bcedepth))
         else:
             return 5
-    except Exception as e:
-        # Optionally log the exception e if needed
+    elif "PE" in row['key'] and row['key'].startswith("BANK"):
+        if bpedepth > 1:
+            return max(row['tgtoptsma'], (9 - bpedepth))
+        else:
+            return 5
+    elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
+        if ncedepth > 1:
+            return max(row['tgtoptsma'], (9 - ncedepth))
+        else:
+            return 5
+    elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
+        if npedepth > 1:
+            return max(row['tgtoptsma'], (9 - npedepth))
+        else:
+            return 5
+    else:
         return 5
 
-
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
-# Dump exe_opt_df to CSV file
-#csv_filename = 'cntrloptpxy.csv'  # You can modify this filename as needed
-#exe_opt_df.to_csv(csv_filename, index=False)
-#print(f"Data successfully dumped to {csv_filename}")
+
+# Call exit_options with exe_opt_df and broker if not peak time
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
