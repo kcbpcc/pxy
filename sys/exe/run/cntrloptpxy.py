@@ -168,7 +168,7 @@ exe_opt_df = exe_opt_df[['tradingsymbol', 'm2m', 'PnL', 'PL%']]
 exe_opt_df = exe_opt_df[exe_opt_df['PL%'] > 0]
 
 if exe_opt_df.empty:
-    print("Still fishing, nothing surfaced yet.")
+    print("Still fishing, nothing surfaced yet﹏𓊝﹏𓂁﹏.")
 else:
     print(exe_opt_df.to_string(index=False, header=False))
 
