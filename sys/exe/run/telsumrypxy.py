@@ -45,8 +45,10 @@ def send_summary_to_telegram(message, source):
     params = {
         "chat_id": TELEGRAM_CHAT_ID,
         "text": message,
-        "parse_mode": "Markdown"
+        "parse_mode": "Markdown",
+        "disable_web_page_preview": True
     }
+
     
     response = requests.get(telegram_url, params=params)
     
