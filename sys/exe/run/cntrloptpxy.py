@@ -163,11 +163,11 @@ if peak != 'PEAKSTART':
 widths = {'tradingsymbol': '18', 'm2m': '10', 'PnL': '6', 'PL%': '6'}
 
 def format_row(row):
-    symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
     m2m = f"{int(row['m2m'])}".rjust(int(widths['m2m']))
+    symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
     pnl = f"{row['PnL']:.2f}".rjust(int(widths['PnL']))
     pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
-    return f"{m2m}{symbol}{pnl}{pl_pct}"
+    return f"{m2m} 📌 {symbol}{pnl}{pl_pct}"
 
 filtered_df = exe_opt_df.query('qty > 0 and `PL%` > 0')
 
