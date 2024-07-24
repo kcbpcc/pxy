@@ -168,7 +168,7 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
-
+column_width = 30
 # Define left and right alignment format strings
 left_aligned_format = "{:<42}"
 right_aligned_format = "{:>42}"
