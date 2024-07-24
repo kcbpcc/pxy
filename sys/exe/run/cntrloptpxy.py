@@ -159,6 +159,14 @@ def compute_depth(row):
         # Optionally log the exception e if needed
         return 5
 
+exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
+# Dump exe_opt_df to CSV file
+#csv_filename = 'cntrloptpxy.csv'  # You can modify this filename as needed
+#exe_opt_df.to_csv(csv_filename, index=False)
+#print(f"Data successfully dumped to {csv_filename}")
+if peak != 'PEAKSTART':
+    exit_options(exe_opt_df, broker)
+
 # Sample data with tgtoptsma hardcoded to 4
 data = {
     'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
@@ -169,19 +177,14 @@ vdf = pd.DataFrame(data)
 
 # Apply the function to populate the second column
 vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
+# Define computed depth columns for specific keys
+vdf['BCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKCE' else None, axis=1)
+vdf['BPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKPE' else None, axis=1)
+vdf['NCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYCE' else None, axis=1)
+vdf['NPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYPE' else None, axis=1)
 
 # Display the DataFrame
 print(vdf)
-
-exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
-# Dump exe_opt_df to CSV file
-#csv_filename = 'cntrloptpxy.csv'  # You can modify this filename as needed
-#exe_opt_df.to_csv(csv_filename, index=False)
-#print(f"Data successfully dumped to {csv_filename}")
-if peak != 'PEAKSTART':
-    exit_options(exe_opt_df, broker)
-
-
 # Define the column width
 column_width = 30
 
@@ -194,13 +197,13 @@ output_lines = []
 # Second line: BCE-DPT and NCE-DPT
 
 output_lines.append(
-    left_aligned_format.format(f"BCE-DPT:{BRIGHT_RED if bcedepth < 2 else BRIGHT_GREEN}{bcedepth}{RESET}") +
-    right_aligned_format.format(f"NCE-DPT:{BRIGHT_GREEN if ncedepth > 2 else BRIGHT_RED}{ncedepth}{RESET}")
+    left_aligned_format.format(f"BCE-DPT:{BRIGHT_RED if vdf['BCE-DPT']  < 2 else BRIGHT_GREEN}{vdf['BCE-DPT'] }{RESET}") +
+    right_aligned_format.format(f"NCE-DPT:{BRIGHT_GREEN if vdf['NCE-DPT'] > 2 else BRIGHT_RED}{vdf['NCE-DPT']}{RESET}")
 )
 # First line: BPE-DPT and NCE-DPT
 output_lines.append(
-    left_aligned_format.format(f"BPE-DPT:{BRIGHT_RED if bpedepth < 2 else BRIGHT_GREEN}{bpedepth}{RESET}") +
-    right_aligned_format.format(f"NPE-DPT:{BRIGHT_GREEN if npedepth > 2 else BRIGHT_RED}{npedepth}{RESET}")
+    left_aligned_format.format(f"BPE-DPT:{BRIGHT_RED if vdf['BPE-DPT'] < 2 else BRIGHT_GREEN}{vdf['BPE-DPT']}{RESET}") +
+    right_aligned_format.format(f"NPE-DPT:{BRIGHT_GREEN if vdf['NPE-DPT'] > 2 else BRIGHT_RED}{vdf['NPE-DPT']}{RESET}")
 )
 
 # Join and print the formatted output
