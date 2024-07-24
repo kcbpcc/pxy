@@ -49,7 +49,7 @@ def determine_quantity(symbol, count, banknifty_prefix, nifty_prefix, bnkmaxcoun
         else:
             return 15
     elif symbol.startswith(nifty_prefix) and count < nftmaxcount:
-        return 50
+        return 25
     else:
         return 0
 
