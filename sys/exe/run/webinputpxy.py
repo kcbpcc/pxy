@@ -5,7 +5,7 @@ combined_df = pd.read_csv('pxycombined.csv')
 
 # Filter for exchange 'BSE' or 'NSE' and sort by 'PL%' in descending order for cncpxy
 cncpxy_df = combined_df[(combined_df['exchange'].isin(['BSE', 'NSE']))]
-cncpxy_df = cncpxy_df[['tradingsymbol', 'PnL', 'PL%']].sort_values(by='PL%', ascending=False)
+cncpxy_df = cncpxy_df[['tradingsymbol','oPL%','dPL%', 'PnL', 'PL%']].sort_values(by='PL%', ascending=False)
 cncpxy_df.to_csv('cncpxy.csv', index=False)
 
 # Filter for exchange 'NFO' and sort by 'PL%' in descending order for optpxy
