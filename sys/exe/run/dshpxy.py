@@ -12,8 +12,6 @@ def format_value(value):
 def get_holdingsinfo(combined_df):
     try:
 
-        selected_all_df = combined_df.copy()
-        selected_all_df = selected_all_df[selected_all_df['qty'] > 0]
         selected_holdings_df = combined_df.loc[combined_df['product'] == 'CNC'].copy()
         
         selected_holdings_df.loc[:, 'cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
@@ -33,9 +31,9 @@ def get_holdingsinfo(combined_df):
         red_Stocks_worth = (red_Stocks_df['ltp'] * red_Stocks_df['qty']).sum().round(4)
         red_Stocks_profit_loss = (red_Stocks_worth - red_Stocks_capital).round(4)
 
-        all_Stocks_df =  selected_all_df
+        all_Stocks_df =  selected_holdings_df[(selected_holdings_df['qty'] > 0) & (selected_holdings_df['product'] == 'CNC') & (selected_holdings_df['source'] == 'holdings')].copy()
         all_Stocks_count = len(selected_holdings_df)
-        #all_Stocks_capital = all_Stocks_df['cap'].sum()
+        all_Stocks_capital = all_Stocks_df['cap'].sum()
         all_Stocks_yworth = (all_Stocks_df['close'] * all_Stocks_df['qty']).sum().round(4)
         all_Stocks_worth = (all_Stocks_df['ltp'] * all_Stocks_df['qty']).sum().round(4)
         all_Stocks_worth_dpnl = (all_Stocks_worth - all_Stocks_yworth)
@@ -99,5 +97,4 @@ def get_holdingsinfo(combined_df):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-
 
