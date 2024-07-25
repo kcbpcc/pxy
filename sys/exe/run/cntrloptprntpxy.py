@@ -112,6 +112,10 @@ for group, data in grouped_df:
             formatted_balance = f"{value_statement}{RESET}".center(44)
             print(formatted_output)
             print(formatted_balance)
+
+
+
+print("━" * 42)
 column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
