@@ -108,8 +108,8 @@ while True:
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'buyboptpxy.py'])
     subprocess.run(['python3', 'buynoptpxy.py'])
-    subprocess.run(['python3', 'cntrloptprntpxy.py -s']) if run_type == 's' else None
-    subprocess.run(['python3', 'cntrloptprntpxy.py -l']) if run_type == 'l' else None
+    subprocess.run(['python3', 'cntrloptprntpxy.py', '-s']) if run_type == 's' else None
+    subprocess.run(['python3', 'cntrloptprntpxy.py', '-l']) if run_type == 'l' else None
     subprocess.run(['python3', 'worldpxy.py']) if run_type == 'l' else None
     subprocess.run(['python3', 'buycncpxy.py']) if peak == 'PEAKEND' and (mktpredict in ['RISE'] or Day_Change > 0 or Open_Change > 0) else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
