@@ -112,8 +112,9 @@ for group, data in grouped_df:
             formatted_balance = f"{value_statement}{RESET}".center(44)
             print(formatted_output)
             print(formatted_balance)
+###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 
-
+print(f"{summary_statement}📊")
 
 print("━" * 42)
 column_width = 30
@@ -143,4 +144,4 @@ output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN 
 full_output = '\n'.join(output_lines)
 
 print(full_output)
-print(f"{summary_statement}📊")
+
