@@ -3,16 +3,18 @@ import pandas as pd
 # Read the CSV file
 combined_df = pd.read_csv('pxycombined.csv')
 
-# Filter for exchange 'BSE' or 'NSE' and quantity greater than 0, then sort by 'PL%' in descending order for cncpxy
-cncpxy_df = combined_df[(combined_df['exchange'].isin(['BSE', 'NSE'])) & (combined_df['qty'] > 0)]
-cncpxy_df = cncpxy_df[['tradingsymbol', 'oPL%', 'dPL%', 'PnL', 'PL%']].sort_values(by='PL%', ascending=False)
-cncpxy_df.to_csv('cncpxy.csv', index=False)
-
 # Filter for exchange 'NFO' and sort by 'PL%' in descending order for optpxy
 optpxy_df = combined_df[combined_df['exchange'] == 'NFO']
 optpxy_df = optpxy_df[['tradingsymbol', 'unrealised', 'PnL', 'PL%']]
 optpxy_df['unrealised'] = optpxy_df['unrealised'].astype(int)  # Convert unrealised to integer
 optpxy_df = optpxy_df.sort_values(by='PL%', ascending=False)
-optpxy_df.to_csv('optpxy.csv', index=False)
+
+# Save the filtered and sorted DataFrame to CSV files
+nifty_df = optpxy_df[optpxy_df['tradingsymbol'].str.startswith('NIFTY')]
+nifty_df.to_csv('NIFTYOptions.csv', index=False)
+
+banknifty_df = optpxy_df[optpxy_df['tradingsymbol'].str.startswith('BANKNIFTY')]
+banknifty_df.to_csv('BANKNIFTYOptions.csv', index=False)
 
 print("Files have been created successfully.")
+
