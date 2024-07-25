@@ -115,7 +115,7 @@ for group, data in grouped_df:
 column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
-print(f"{summary_statement}📊")
+
 output_lines = []
 nifty_profit = int(nextras)
 nifty_loss = int(ntotal_opt_m2m)
@@ -137,4 +137,6 @@ output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN 
                     right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))     
 
 full_output = '\n'.join(output_lines)
+
 print(full_output)
+print(f"{summary_statement}📊")
