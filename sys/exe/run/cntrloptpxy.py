@@ -168,6 +168,13 @@ if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
 #############################################################################################################################################################################################################################
+import pandas as pd
+from colorpxy import BRIGHT_GREEN, GREY, RESET, RED  # Ensure these constants are imported correctly
+
+def compute_depth(row):
+    # Define this function according to your specific needs
+    # Placeholder function
+    return row['tgtoptsma'] * 2  # Example computation
 
 # Sample data with tgtoptsma hardcoded to 4
 data = {
@@ -175,103 +182,102 @@ data = {
     'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
 }
 
+# Initialize DataFrame
 vdf = pd.DataFrame(data)
 
-# Apply the function to populate the computed_depth column
-vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
+# Apply function to calculate computed_depth
+vdf['computed_depth'] = vdf['tgtoptsma'].apply(compute_depth)
 
 # Define computed depth columns for specific keys
-vdf['BCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKCE' else None, axis=1)
-vdf['BPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKPE' else None, axis=1)
-vdf['NCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYCE' else None, axis=1)
-vdf['NPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYPE' else None, axis=1)
+depth_columns = {
+    'BANKCE': 'BCE-DPT',
+    'BANKPE': 'BPE-DPT',
+    'NIFTYCE': 'NCE-DPT',
+    'NIFTYPE': 'NPE-DPT'
+}
 
-# Display the DataFrame to verify column creation
-#print("DataFrame with computed columns:")
-#print(vdf)
+for key, col in depth_columns.items():
+    vdf[col] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == key else None, axis=1)
 
 # Ensure column names exist
-expected_columns = ['BCE-DPT', 'BPE-DPT', 'NCE-DPT', 'NPE-DPT']
+expected_columns = list(depth_columns.values())
 missing_columns = [col for col in expected_columns if col not in vdf.columns]
 if missing_columns:
     raise ValueError(f"Missing columns in DataFrame: {missing_columns}")
 
-# Define column width
+# Define column width and alignment format strings
 column_width = 30
-
-# Define left and right alignment format strings
 left_aligned_format = f"{{:<{column_width}}}"
 right_aligned_format = f"{{:>{column_width}}}"
 
-# Fetch values for the formatted output
-bce_dpt_value = round(vdf['BCE-DPT'].dropna().values[0], 2) if not vdf['BCE-DPT'].isna().all() else 'None'
-bpe_dpt_value = round(vdf['BPE-DPT'].dropna().values[0], 2) if not vdf['BPE-DPT'].isna().all() else 'None'
-nce_dpt_value = round(vdf['NCE-DPT'].dropna().values[0], 2) if not vdf['NCE-DPT'].isna().all() else 'None'
-npe_dpt_value = round(vdf['NPE-DPT'].dropna().values[0], 2) if not vdf['NPE-DPT'].isna().all() else 'None'
+# Function to get the formatted value
+def format_value(value, threshold, positive_color, negative_color, default='None'):
+    if value == 'None':
+        return default
+    return f"{positive_color if value > threshold else GREY}{value}{RESET}"
 
-# Filter NIFTY options
-nifty_nfo_df = combined_df.loc[combined_df['key'].str.contains('NFO:NIFTY')]
+# Extract and format computed depth values
+def extract_and_format_depth(column_name, threshold):
+    value = vdf[column_name].dropna().values[0] if not vdf[column_name].isna().all() else 'None'
+    return format_value(round(value, 2), threshold, BRIGHT_GREEN, GREY)
 
-if not nifty_nfo_df.empty:
-    nextras = int(nifty_nfo_df.loc[nifty_nfo_df['sell_quantity'] > 0, 'unrealised'].sum()) \
-              + ((-1) * int(nifty_nfo_df.loc[nifty_nfo_df['sell_quantity'] > 0, 'PnL'].sum()))
-    ntotal_opt_m2m = nifty_nfo_df[nifty_nfo_df['quantity'] > 0]['m2m'].sum()
-else:
-    nextras = 0
-    ntotal_opt_m2m = 0
-
-# Filter BANKNIFTY options
-bank_nfo_df = combined_df.loc[combined_df['key'].str.contains('NFO:BANK')]
-
-if not bank_nfo_df.empty:
-    bextras = int(bank_nfo_df.loc[bank_nfo_df['sell_quantity'] > 0, 'unrealised'].sum()) \
-              + ((-1) * int(bank_nfo_df.loc[bank_nfo_df['sell_quantity'] > 0, 'PnL'].sum()))
-    btotal_opt_m2m = bank_nfo_df[bank_nfo_df['quantity'] > 0]['m2m'].sum()
-else:
-    bextras = 0
-    btotal_opt_m2m = 0
-
-# Prepare output lines
+# Example usage of formatting for output lines
 output_lines = []
 
+# Add lines with formatted depth values
 output_lines.append(
     left_aligned_format.format(
-        f"NPE-DPT:{BRIGHT_GREEN if npe_dpt_value != 'None' and npe_dpt_value > 6 else GREY}{npe_dpt_value}{RESET}"
+        f"NPE-DPT:{extract_and_format_depth('NPE-DPT', 6)}"
     ) +
     right_aligned_format.format(
-        f"NCE-DPT:{BRIGHT_GREEN if nce_dpt_value != 'None' and nce_dpt_value > 6 else GREY}{nce_dpt_value}{RESET}"
+        f"NCE-DPT:{extract_and_format_depth('NCE-DPT', 6)}"
     )
 )
 
-# First line: BPE-DPT and NPE-DPT
 output_lines.append(
     left_aligned_format.format(
-        f"BPE-DPT:{GREY if bpe_dpt_value != 'None' and bpe_dpt_value < 6 else BRIGHT_GREEN}{bpe_dpt_value}{RESET}"
+        f"BPE-DPT:{extract_and_format_depth('BPE-DPT', 6)}"
     ) +
     right_aligned_format.format(
-        f"BCE-DPT:{GREY if bce_dpt_value != 'None' and bce_dpt_value < 6 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
-    )
-)
-# First line: Nifty and Bank Nifty Extras
-output_lines.append(
-    left_aligned_format.format(
-        f"B-DL:{BRIGHT_GREEN if int(btotal_opt_m2m) != 0 else GREY}{int(btotal_opt_m2m)}{RESET}"
-    ) +
-    right_aligned_format.format(
-        f"B-DP:{BRIGHT_GREEN if int(bextras) != 0 else GREY}{int(bextras)}{RESET}"
+        f"BCE-DPT:{extract_and_format_depth('BCE-DPT', 6)}"
     )
 )
 
-# Second line: Nifty and Bank Nifty Total M2M
+# Calculate and format additional values
+def calculate_formatted_values(df, key_filter):
+    filtered_df = df[df['key'].str.contains(key_filter)]
+    if not filtered_df.empty:
+        extras = int(filtered_df.loc[filtered_df['sell_quantity'] > 0, 'unrealised'].sum()) \
+                 + (-int(filtered_df.loc[filtered_df['sell_quantity'] > 0, 'PnL'].sum()))
+        total_opt_m2m = filtered_df[filtered_df['quantity'] > 0]['m2m'].sum()
+    else:
+        extras, total_opt_m2m = 0, 0
+    return extras, total_opt_m2m
+
+nextras, ntotal_opt_m2m = calculate_formatted_values(combined_df, 'NFO:NIFTY')
+bextras, btotal_opt_m2m = calculate_formatted_values(combined_df, 'NFO:BANK')
+
+def format_m2m_and_extras(value, color):
+    return f"{color if value >= 0 else RED}{value}{RESET}"
+
+# Prepare final output lines
 output_lines.append(
     left_aligned_format.format(
-        f"N-DL:{BRIGHT_GREEN if int(ntotal_opt_m2m) != 0 else GREY}{int(ntotal_opt_m2m)}{RESET}"
+        f"N-DL:{format_m2m_and_extras(int(ntotal_opt_m2m), BRIGHT_GREEN)}"
     ) +
     right_aligned_format.format(
-        f"N-DP:{BRIGHT_GREEN if int(nextras) != 0 else GREY}{int(nextras)}{RESET}"
+        f"N-DP:{format_m2m_and_extras(int(nextras), BRIGHT_GREEN)}"
     )
 )
 
-full_output = '\n'.join(output_lines)
-print(full_output)
+output_lines.append(
+    left_aligned_format.format(
+        f"B-DL:{format_m2m_and_extras(int(btotal_opt_m2m), BRIGHT_GREEN)}"
+    ) +
+    right_aligned_format.format(
+        f"B-DP:{format_m2m_and_extras(int(bextras), BRIGHT_GREEN)}"
+    )
+)
 
+# Print formatted output
+print('\n'.join(output_lines))
