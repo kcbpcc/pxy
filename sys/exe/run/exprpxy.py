@@ -4,8 +4,8 @@ def month_expiry_date():
     # Get the current date
     current_date = datetime.now()
 
-    # Add 7 days to the current date
-    expiry_date_offset = current_date + timedelta(days=11)
+    # Add 28 days to the current date
+    expiry_date_offset = current_date + timedelta(days=28)
 
     # Format the month as abbreviated name (e.g., APR, MAY, JUN)
     expiry_month = expiry_date_offset.strftime("%b").upper()
