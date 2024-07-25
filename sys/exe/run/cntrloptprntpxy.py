@@ -135,7 +135,7 @@ bank_profit = int(bextras)
 bank_loss = int(btotal_opt_m2m)
 arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
 
-output_lines.append(left_aligned_format.format(f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(capital, 2)).zfill(5)}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}      {BOLD}{UNDERLINE}PXY{RESET}") +
+output_lines.append(left_aligned_format.format(f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(17.82, 2)).zfill(5)}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}      {BOLD}{UNDERLINE}PXY{RESET}") +
                        right_aligned_format.format(f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(mktpxy, '')}{RESET}       {'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(total_ac_value)).zfill(5)}{RESET}"))
      
 output_lines.append(
