@@ -64,6 +64,12 @@
             text-align: left; /* Left align table headers */
             text-transform: uppercase; /* Capitalize table headers */
         }
+        .negative {
+            color: #d9534f; /* Dark red color for negative numbers */
+        }
+        .positive {
+            color: #5bc0de; /* Dark green color for positive numbers */
+        }
         /* Custom scrollbar styles */
         ::-webkit-scrollbar {
             width: 12px;
@@ -136,8 +142,13 @@
 
             data.forEach(row => {
                 table += '<tr>';
-                Object.values(row).forEach(value => {
-                    table += `<td>${value}</td>`;
+                Object.entries(row).forEach(([key, value]) => {
+                    let cellClass = '';
+                    if (key.toLowerCase() === 'pl%' && !isNaN(value)) {
+                        // Apply color based on the value
+                        cellClass = parseFloat(value) < 0 ? 'negative' : 'positive';
+                    }
+                    table += `<td class="${cellClass}">${value}</td>`;
                 });
                 table += '</tr>';
             });
@@ -159,4 +170,5 @@
     </script>
 </body>
 </html>
+
 
