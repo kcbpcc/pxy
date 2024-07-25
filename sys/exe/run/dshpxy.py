@@ -13,6 +13,7 @@ def get_holdingsinfo(combined_df):
     try:
 
         selected_all_df = combined_df.copy()
+        selected_all_df = selected_all_df[selected_all_df['qty'] > 0]
         selected_holdings_df = combined_df.loc[combined_df['product'] == 'CNC'].copy()
         
         selected_holdings_df.loc[:, 'cap'] = (selected_holdings_df['qty'] * selected_holdings_df['average_price']).astype(int)
