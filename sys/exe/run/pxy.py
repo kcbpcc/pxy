@@ -107,7 +107,7 @@ while True:
     subprocess.run(['python3', 'tistpxy.py']) 
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'buyboptpxy.py'])
-    subprocess.run(['python3', 'cndlpxy.py']) if run_type == 's' else None  
+    subprocess.run(['python3', 'bcndlpxy.py']) if run_type == 's' else None  
     subprocess.run(['python3', 'buynoptpxy.py'])
     subprocess.run(['python3', 'cndlpxy.py']) if run_type == 's' else None  
     if run_type == 's':
