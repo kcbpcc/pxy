@@ -252,24 +252,27 @@ output_lines.append(
         f"BCE-DPT:{GREY if bce_dpt_value != 'None' and bce_dpt_value < 6 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
     )
 )
+
+# First line: Nifty and Bank Nifty Extras
 output_lines.append(
     left_aligned_format.format(
-        f"NEXTRAS:{BRIGHT_GREEN if nextras != 0 else GREY}{nextras}{RESET}"
+        f"NEXTRAS:{BRIGHT_GREEN if int(nextras) != 0 else GREY}{int(nextras)}{RESET}"
     ) +
     right_aligned_format.format(
-        f"BEXTRAS:{BRIGHT_GREEN if bextras != 0 else GREY}{bextras}{RESET}"
+        f"BEXTRAS:{BRIGHT_GREEN if int(bextras) != 0 else GREY}{int(bextras)}{RESET}"
     )
 )
 
 # Second line: Nifty and Bank Nifty Total M2M
 output_lines.append(
     left_aligned_format.format(
-        f"NTOTAL-M2M:{BRIGHT_GREEN if ntotal_opt_m2m != 0 else GREY}{ntotal_opt_m2m}{RESET}"
+        f"NTOTAL-M2M:{BRIGHT_GREEN if int(ntotal_opt_m2m) != 0 else GREY}{int(ntotal_opt_m2m)}{RESET}"
     ) +
     right_aligned_format.format(
-        f"BTOTAL-M2M:{BRIGHT_GREEN if btotal_opt_m2m != 0 else GREY}{btotal_opt_m2m}{RESET}"
+        f"BTOTAL-M2M:{BRIGHT_GREEN if int(btotal_opt_m2m) != 0 else GREY}{int(btotal_opt_m2m)}{RESET}"
     )
 )
+
 full_output = '\n'.join(output_lines)
 print(full_output)
 
