@@ -180,7 +180,7 @@ def format_row(row):
 filtered_df = exe_opt_df.query('qty > 0 and `PL%` > 0')
 
 if filtered_df.empty:
-    print("Still fishing🔎🎣, nothing surfaced yet.🕵🕵")
+    print("Still fishing🔎🎣, nothing surfaced yet.🕵")
 else:
     formatted_rows = [format_row(row) for _, row in filtered_df.iterrows()]
     print('\n'.join(formatted_rows))
