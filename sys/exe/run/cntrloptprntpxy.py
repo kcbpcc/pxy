@@ -9,7 +9,8 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 import subprocess
 
 parser = argparse.ArgumentParser(description="Process some commands.")
-parser.add_argument('command', choices=['l', 's'], help="Command to run the program with.")
+parser.add_argument('command', nargs='?', choices=['l', 's'], default='l',
+                    help="Command to run the program with. Defaults to 'l' if not provided.")
 args = parser.parse_args()
 
 # Get the last Wednesday and Thursday of the current month
