@@ -13,6 +13,13 @@ mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
 bonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 nonemincandlesequance, nmktpxy = get_market_check('^NSEI')
+
+try:
+    from fundpxy import calculate_decision
+    decision, optdecision, available_cash, limit = calculate_decision()
+except Exception as e:
+    decision, optdecision, available_cash = "No", "No", 0
+
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 parser = argparse.ArgumentParser(description="Process some commands.")
