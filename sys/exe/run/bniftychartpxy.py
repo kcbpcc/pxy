@@ -1,3 +1,4 @@
+print("━" * 42)
 import pandas as pd
 import numpy as np
 from asciichartpy import plot
