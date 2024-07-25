@@ -1,3 +1,4 @@
+print("━" * 42)
 import pandas as pd
 from asciichartpy import plot
 from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
