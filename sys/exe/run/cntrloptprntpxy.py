@@ -34,6 +34,7 @@ last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
 # Read combined data from CSV
 combined_df = pd.read_csv('pxycombined.csv')
 total_ac_value = round(combined_df.loc[combined_df['qty'] > 0, 'value'].sum() / 100000, 2)
+total_ac_run_pnl = round(combined_df.loc[combined_df['qty'] > 0, 'pnl'].sum() / 100000, 2)
 
 # Define a helper function to calculate extras and M2M
 def calculate_extras_and_m2m(df):
@@ -146,7 +147,7 @@ cap = 17.82
 real_pnl = round((total_ac_value + (available_cash / 100000)) - (cap + hide), 2)
 
 output_lines.append(
-    left_aligned_format.format(f"NIFTY-DL:{BRIGHT_RED if nifty_loss < 0 else BRIGHT_GREEN}{nifty_loss}{RESET}") +
+    left_aligned_format.format(f"Run-PnL:{BRIGHT_RED if total_ac_run_pnl < 0 else BRIGHT_GREEN}{total_ac_run_pnl}{RESET}") +
     right_aligned_format.format(f"Real-PnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl}{RESET}")
 )
 
