@@ -142,6 +142,13 @@ bank_profit = int(bextras)
 bank_loss = int(btotal_opt_m2m)
 arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
 
+real_pnl = round((total_ac_value + (available_cash / 100000)) - (acvalue_to_print - capital + hide), 2)
+
+output_lines.append(
+    right_aligned_format.format(f"Run-P&L:{BRIGHT_GREEN if real_pnl >= 0 else BRIGHT_RED}{real_pnl}{RESET}") +
+    left_aligned_format.format(f"Real-P&L:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl}{RESET}")
+)
+
 output_lines.append(left_aligned_format.format(f"Margin:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
                     right_aligned_format.format(f"Delta:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}"))
 
