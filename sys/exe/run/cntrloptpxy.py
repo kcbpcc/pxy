@@ -168,8 +168,6 @@ if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
 #############################################################################################################################################################################################################################
-import pandas as pd
-from colorpxy import BRIGHT_GREEN, GREY, RESET, RED  # Ensure these constants are imported correctly
 
 def compute_depth(row):
     # Define this function according to your specific needs
