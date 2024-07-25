@@ -114,9 +114,9 @@ for group, data in grouped_df:
             print(formatted_output)
             print(formatted_balance)
     # Run the appropriate Python script based on the group value
-    if group == 'N':
+    if group == 'N' and args.command == 's':
         os.system('python cndlpxy.py')
-    elif group == 'B':
+    elif group == 'B' and args.command == 's':
         os.system('python bcndlpxy.py')
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 
