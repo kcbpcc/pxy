@@ -141,8 +141,9 @@ nifty_loss = int(ntotal_opt_m2m)
 bank_profit = int(bextras)
 bank_loss = int(btotal_opt_m2m)
 arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
-
-real_pnl = round((total_ac_value + (available_cash / 100000)) - (acvalue_to_print - capital + hide), 2)
+hide = 0
+cap = 17.82
+real_pnl = round((total_ac_value + (available_cash / 100000)) - (cap + hide), 2)
 
 output_lines.append(
     right_aligned_format.format(f"Run-P&L:{BRIGHT_GREEN if real_pnl >= 0 else BRIGHT_RED}{real_pnl}{RESET}") +
