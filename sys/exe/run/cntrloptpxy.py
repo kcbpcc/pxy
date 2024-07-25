@@ -209,6 +209,27 @@ bpe_dpt_value = round(vdf['BPE-DPT'].dropna().values[0], 2) if not vdf['BPE-DPT'
 nce_dpt_value = round(vdf['NCE-DPT'].dropna().values[0], 2) if not vdf['NCE-DPT'].isna().all() else 'None'
 npe_dpt_value = round(vdf['NPE-DPT'].dropna().values[0], 2) if not vdf['NPE-DPT'].isna().all() else 'None'
 
+# Filter NIFTY options
+nifty_nfo_df = combined_df.loc[combined_df['key'].str.contains('NFO:NIFTY')]
+
+if not nifty_nfo_df.empty:
+    nextras = int(nifty_nfo_df.loc[nifty_nfo_df['sell_quantity'] > 0, 'unrealised'].sum()) \
+              + ((-1) * int(nifty_nfo_df.loc[nifty_nfo_df['sell_quantity'] > 0, 'PnL'].sum()))
+    ntotal_opt_m2m = nifty_nfo_df[nifty_nfo_df['quantity'] > 0]['m2m'].sum()
+else:
+    nextras = 0
+    ntotal_opt_m2m = 0
+
+# Filter BANKNIFTY options
+bank_nfo_df = combined_df.loc[combined_df['key'].str.contains('NFO:BANK')]
+
+if not bank_nfo_df.empty:
+    bextras = int(bank_nfo_df.loc[bank_nfo_df['sell_quantity'] > 0, 'unrealised'].sum()) \
+              + ((-1) * int(bank_nfo_df.loc[bank_nfo_df['sell_quantity'] > 0, 'PnL'].sum()))
+    btotal_opt_m2m = bank_nfo_df[bank_nfo_df['quantity'] > 0]['m2m'].sum()
+else:
+    bextras = 0
+    btotal_opt_m2m = 0
 
 # Prepare output lines
 output_lines = []
