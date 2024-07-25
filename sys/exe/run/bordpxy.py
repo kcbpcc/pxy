@@ -85,13 +85,20 @@ def printbord(booked, total_cnc_m2m_postions, extras, nextras, bextras, optworth
 #                        right_aligned_format.format(
 #     f"PROFIT:{GREEN if (booked + extras) > 0 else RED}{str(round(booked + extras)).zfill(5)}{RESET}"))
 
+    # Append formatted strings to output_lines
     output_lines.append(left_aligned_format.format(
-         f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{int(green_Stocks_profit_loss)}{RESET}") +
-                            right_aligned_format.format(
-         f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}%{RESET}"))
-
+        f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{int(green_Stocks_profit_loss)}{RESET}") +
+        right_aligned_format.format(
+        f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}%{RESET}"))
+    
+    output_lines.append(left_aligned_format.format(
+        f"Holdings:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}") +
+        right_aligned_format.format(
+        f"BOOKED:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
+    
+    # Join all lines into a single string
     full_output = '\n'.join(output_lines)
-
+    
     # Print the formatted output
     print(full_output)
 
