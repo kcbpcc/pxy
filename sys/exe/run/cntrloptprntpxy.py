@@ -146,8 +146,8 @@ cap = 17.82
 real_pnl = round((total_ac_value + (available_cash / 100000)) - (cap + hide), 2)
 
 output_lines.append(
-    right_aligned_format.format(f"Run-P&L:{BRIGHT_GREEN if real_pnl >= 0 else BRIGHT_RED}{real_pnl}{RESET}") +
-    left_aligned_format.format(f"Real-P&L:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl}{RESET}")
+    left_aligned_format.format(f"NIFTY-DL:{BRIGHT_RED if nifty_loss < 0 else BRIGHT_GREEN}{nifty_loss}{RESET}") +
+    right_aligned_format.format(f"Real-PnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl}{RESET}")
 )
 
 output_lines.append(left_aligned_format.format(f"Margin:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
