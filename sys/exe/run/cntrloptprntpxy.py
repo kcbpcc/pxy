@@ -93,17 +93,19 @@ for group, data in grouped_df:
         color_none = SILVER
         # Check the command and print the corresponding output
         if args.command == 'l':
-            # Print DataFrame with qty > 0
-            print(
-                data.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
-                .to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2])
-            )
+            # Filter DataFrame with qty > 0
+            filtered_data = data.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+            
+            if not filtered_data.empty:
+                print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
+        
         elif args.command == 's':
-            # Print DataFrame with qty > 0 and PL% > 0
-            print(
-                data.query('qty > 0 and `PL%` > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
-                .to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2])
-            )
+            # Filter DataFrame with qty > 0 and PL% > 0
+            filtered_data = data.query('qty > 0 and `PL%` > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+            
+            if not filtered_data.empty:
+                print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
+
         
 
         if len(data) >= 2:
