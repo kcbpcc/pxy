@@ -26,12 +26,7 @@ last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
 
 # Read combined data from CSV
 combined_df = pd.read_csv('pxycombined.csv')
-
-# Calculate the total_ac_value where qty > 0
-total_ac_value = combined_df.loc[combined_df['qty'] > 0, 'value'].sum()
-
-# Divide by 100,000 and convert to integer
-total_ac_value = int(total_ac_value / 100000)
+total_ac_value = round(combined_df.loc[combined_df['qty'] > 0, 'value'].sum() / 100000, 2)
 
 print("Total Account Value:", total_ac_value)
 
