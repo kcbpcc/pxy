@@ -86,12 +86,12 @@ for group, data in grouped_df:
     pe_data = data[data['CP'] == '🟠']
     total_invested_pe = pe_data['Invested'].sum()
     total_pl_pe = pe_data['PnL'].sum()
-    value_pe = total_invested_pe - total_pl_pe
+    value_pe = total_invested_pe 
 
     ce_data = data[data['CP'] == '🟢']
     total_invested_ce = ce_data['Invested'].sum()
     total_pl_ce = ce_data['PnL'].sum()
-    value_ce = total_invested_ce - total_pl_ce
+    value_ce = total_invested_ce
 
     if total_invested_group != 0:
         value_statement = f"  {pe_count:02d} -🟥- {value_pe:06d}  ⚖   {value_ce:06d}  -🟩- {ce_count:02d}"
@@ -155,4 +155,3 @@ output_lines.append(
 full_output = '\n'.join(output_lines)
 
 print(full_output)
-
