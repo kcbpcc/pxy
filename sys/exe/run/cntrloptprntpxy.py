@@ -153,7 +153,7 @@ output_lines.append(
     right_aligned_format.format(
         f"{BRIGHT_GREEN if nmktpxy in ['Bull'] else (BRIGHT_RED if nmktpxy in ['Bear'] else GREY)}"
         f"{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')}{RESET}       "
-        f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(total_ac_value, 2)).zfill(5)}{RESET}"
+        f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(total_ac_value + (available_cash/100000), 2)).zfill(5)}{RESET}"
     )
 )
 
