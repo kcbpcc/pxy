@@ -139,7 +139,8 @@ bank_profit = int(bextras)
 bank_loss = int(btotal_opt_m2m)
 arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
 
-          
+output_lines.append(left_aligned_format.format(f"BANKNIFTY     {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
+                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET}    NIFTYNDEX"))          
 # Append formatted lines to output
 output_lines.append(
     left_aligned_format.format(f"NIFTY-DL:{BRIGHT_RED if nifty_loss < 0 else BRIGHT_GREEN}{nifty_loss}{RESET}") +
@@ -150,9 +151,7 @@ output_lines.append(
     left_aligned_format.format(f"BANK-DL:{BRIGHT_RED if bank_loss < 0 else BRIGHT_GREEN}{bank_loss}{RESET}") +
     right_aligned_format.format(f"BANK-DP:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}")
 )
-output_lines.append(left_aligned_format.format(f"BANKNIFTY     {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
-                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET}    NIFTYNDEX"))
-# Join and print the formatted output
+
 full_output = '\n'.join(output_lines)
 print(full_output)
 print("" * 42)
