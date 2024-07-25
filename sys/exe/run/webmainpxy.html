@@ -15,32 +15,16 @@
             display: flex;
             height: 100vh;
             background-color: #000; /* Dark black background for the container */
-            flex-direction: column;
-        }
-        .banner {
-            background-color: #111; /* Darker background for the banner */
-            padding: 10px;
-            text-align: center;
-            color: #888; /* Gray color for the banner text */
-            font-size: 1.5em;
-            font-weight: bold;
         }
         .content {
+            flex: 2;
             display: grid;
-            grid-template-rows: 1fr 1fr; /* Two rows for tables and details */
-            grid-template-columns: 1fr; /* One column layout for the content */
+            grid-template-columns: 1fr 1fr; /* Two columns */
             gap: 10px;
             padding: 20px;
             background-color: #000; /* Dark black background for the content area */
             box-sizing: border-box;
             overflow: auto;
-            flex: 1;
-            grid-template-columns: 1fr 1fr; /* Two columns for tables */
-        }
-        .tables {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* Two columns for tables */
-            gap: 10px;
         }
         .section {
             background-color: #000; /* Dark black background for sections */
@@ -54,19 +38,11 @@
             font-weight: bold; /* Bold text */
             text-decoration: underline; /* Underlined text */
         }
-        .details {
-            background-color: #000; /* Dark black background for details */
-            border: 1px solid #444; /* Darker border color */
-            padding: 10px;
-            box-sizing: border-box;
-            overflow: auto;
-        }
         .sidebar {
+            flex: 1;
             background-color: #000; /* Dark black background for the sidebar */
             border-left: 2px solid #444; /* Darker border color */
             overflow: hidden;
-            width: 300px; /* Fixed width for the sidebar */
-            flex-shrink: 0; /* Prevent shrinking */
         }
         iframe {
             width: 100%;
@@ -112,23 +88,14 @@
 </head>
 <body>
     <div class="container">
-        <div class="banner">
-            CSV Display Dashboard
-        </div>
         <div class="content">
-            <div class="tables">
-                <div class="section" id="section1">
-                    <h2>My NIFTY Options</h2>
-                    <div id="csvTable1">Loading data...</div>
-                </div>
-                <div class="section" id="section2">
-                    <h2>My BANKNIFTY Options</h2>
-                    <div id="csvTable2">Loading data...</div>
-                </div>
+            <div class="section" id="section1">
+                <h2>My NIFTY Options</h2>
+                <div id="csvTable1">Loading data...</div>
             </div>
-            <div class="details">
-                <h2>Details</h2>
-                <div id="detailsContent">Additional details will be displayed here.</div>
+            <div class="section" id="section2">
+                <h2>My BANKNIFTY Options</h2>
+                <div id="csvTable2">Loading data...</div>
             </div>
         </div>
         <div class="sidebar">
@@ -190,8 +157,8 @@
         }
 
         function refreshData() {
-            loadCSV('NIFTYOptions.csv', data => displayCSV(data, 'csvTable1'));
-            loadCSV('BANKNIFTYOptions.csv', data => displayCSV(data, 'csvTable2'));
+            loadCSV('NIFTYOPTS.csv', data => displayCSV(data, 'csvTable1'));
+            loadCSV('BANKNIFTYOPTS.csv', data => displayCSV(data, 'csvTable2'));
         }
 
         window.onload = function() {
@@ -202,4 +169,3 @@
     </script>
 </body>
 </html>
-
