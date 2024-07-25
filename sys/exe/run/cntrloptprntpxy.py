@@ -145,7 +145,12 @@ output_lines.append(
 )
 
 output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
-                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))     
+                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))    
+output_lines.append(
+    left_aligned_format.format(f"OPEN-DPnL:{BRIGHT_RED if bank_loss < 0 else BRIGHT_GREEN}{nifty_loss + bank_loss}{RESET}") +
+    right_aligned_format.format(f"ClOSED-DPnL:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{nifty_profit + bank_profit}{RESET}")
+)
+
 
 full_output = '\n'.join(output_lines)
 
