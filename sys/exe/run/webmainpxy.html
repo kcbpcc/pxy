@@ -19,8 +19,7 @@
         .content {
             flex: 2;
             display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: 1fr 1fr; /* Two columns */
             gap: 10px;
             padding: 20px;
             background-color: #000; /* Dark black background for the content area */
@@ -158,8 +157,8 @@
         }
 
         function refreshData() {
-            loadCSV('NIFTYOptions.csv', data => displayCSV(data, 'csvTable1'));
-            loadCSV('BANKNIFTYOptions.csv', data => displayCSV(data, 'csvTable2'));
+            loadCSV('NIFTYOPTS.csv', data => displayCSV(data, 'csvTable1'));
+            loadCSV('BANKNIFTYOPTS.csv', data => displayCSV(data, 'csvTable2'));
         }
 
         window.onload = function() {
@@ -170,6 +169,3 @@
     </script>
 </body>
 </html>
-
-
-
