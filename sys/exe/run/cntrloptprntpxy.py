@@ -5,6 +5,8 @@ import numpy as np
 import calendar
 from datetime import datetime
 from lstdymnthexppxy import get_last_weekday_of_current_month
+from predictpxy import predict_market_sentiment
+from bpredictpxy import predict_bnk_sentiment
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 parser = argparse.ArgumentParser(description="Process some commands.")
@@ -130,7 +132,7 @@ nifty_profit = int(nextras)
 nifty_loss = int(ntotal_opt_m2m)
 bank_profit = int(bextras)
 bank_loss = int(btotal_opt_m2m)
-
+arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
 
           
 # Append formatted lines to output
