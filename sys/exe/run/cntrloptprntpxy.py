@@ -146,6 +146,9 @@ hide = 0
 cap = 17.82
 real_pnl = round((total_ac_value + (available_cash / 100000)) - (cap + hide), 2)
 
+output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
+                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))  
+
 output_lines.append(
     left_aligned_format.format(f"Run-PnL:{BRIGHT_RED if total_ac_run_pnl < 0 else BRIGHT_GREEN}{total_ac_run_pnl}{RESET}") +
     right_aligned_format.format(f"Real-PnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl}{RESET}")
@@ -175,8 +178,7 @@ output_lines.append(
     right_aligned_format.format(f"BANK-DP:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}")
 )
 
-output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
-                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))  
+
 
 output_lines.append(
     left_aligned_format.format(f"OPEN-DPnL:{BRIGHT_RED if (nifty_loss + bank_loss) < 0 else BRIGHT_GREEN}{nifty_loss + bank_loss}{RESET}") +
