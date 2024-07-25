@@ -6,11 +6,10 @@ import calendar
 from datetime import datetime
 from lstdymnthexppxy import get_last_weekday_of_current_month
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-import subprocess
 
 parser = argparse.ArgumentParser(description="Process some commands.")
 parser.add_argument('command', nargs='?', choices=['l', 's'], default='s',
-                    help="Command to run the program with. Defaults to 'l' if not provided.")
+                    help="Command to run the program with. Defaults to 's' if not provided.")
 args = parser.parse_args()
 
 # Get the last Wednesday and Thursday of the current month
@@ -106,8 +105,6 @@ for group, data in grouped_df:
             if not filtered_data.empty:
                 print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
 
-        
-
         if len(data) >= 2:
             formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
             formatted_balance = f"{value_statement}{RESET}".center(44)
@@ -116,13 +113,13 @@ for group, data in grouped_df:
             print(formatted_balance)
             print("" * 42)
             
-subprocess.run(['python3', 'lstdymnthexppxy.py'])
+# subprocess.run(['python3', 'lstdymnthexppxy.py'])  # Uncomment if you need to run the script again
 
 # Define column width
 column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
-#print("━" * 42)
+
 print(f"{summary_statement}📊")
 print("" * 42)
 # Prepare output lines
@@ -150,3 +147,4 @@ full_output = '\n'.join(output_lines)
 print(full_output)
 print("" * 42)
 print("━" * 42)
+
