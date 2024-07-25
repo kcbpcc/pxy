@@ -65,7 +65,7 @@ def printbord(booked, total_cnc_m2m_postions, extras, nextras, bextras, optworth
         right_aligned_format.format(
             f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
             f"{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(mktpxy, '')}{RESET}       {'Value'.zfill(5)}:"
-            f"{BRIGHT_YELLOW}{str(int(all_Stocks_worth_lacks + available_cash / 100000)).zfill(5)}{RESET}"
+            f"{BRIGHT_YELLOW}{str(round(all_stocks_worth_lacks + available_cash / 100000, 2)).zfill(5)}{RESET}"
         )
     )
 
