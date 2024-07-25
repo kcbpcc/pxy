@@ -112,6 +112,11 @@ for group, data in grouped_df:
             formatted_balance = f"{value_statement}{RESET}".center(44)
             print(formatted_output)
             print(formatted_balance)
+    # Run the appropriate Python script based on the group value
+    if group == 'N':
+        os.system('python cndlpxy.py')
+    elif group == 'B':
+        os.system('python bcndlpxy.py')
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 
 print(f"{summary_statement}📊")
