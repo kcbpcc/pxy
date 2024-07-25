@@ -11,15 +11,11 @@ from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
-
-# Check index status
 bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
 
-# Get peak time
 peak = peak_time()
 
-# Telegram bot token and user IDs
 bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
 user_usernames = ('-4282665161',)
 
@@ -98,17 +94,14 @@ finally:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
 
-# Process data and prepare exe_opt_df
 combined_df = process_data()
 exe_opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 exe_opt_df['key'] = exe_opt_df['key'].str.replace('NFO:', '') 
 exe_opt_df['PL%'] = (exe_opt_df['PnL'] / exe_opt_df['Invested']) * 100
 exe_opt_df['PL%'] = exe_opt_df['PL%'].fillna(0)
 
-# Define the 'strike' column
 exe_opt_df['strike'] = exe_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
-# Calculate tgtoptsma for each row using global variable bsma
 def compute_tgtoptsma(row):
     global bsma
     global nsma
@@ -124,7 +117,6 @@ def compute_tgtoptsma(row):
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
-# Calculating depths for NSEBANK and NSEI indices
 bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
 ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
 
@@ -132,7 +124,6 @@ from vixpxy import get_vixpxy
 nvix, bvix = get_vixpxy()
 def compute_depth(row):
     try:
-        # Ensure the following variables are defined and have appropriate values before this function call
         global bcedepth, bpedepth, ncedepth, npedepth, bvix, nvix
         
         if "CE" in row['key'] and row['key'].startswith("BANK"):
@@ -158,12 +149,10 @@ def compute_depth(row):
         else:
             return 5
     except Exception as e:
-        # Optionally log the exception e if needed
         return 5
 
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 
-# Call exit_options with exe_opt_df and broker if not peak time
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
@@ -185,10 +174,6 @@ else:
     formatted_rows = [format_row(row) for _, row in filtered_df.iterrows()]
     print('\n'.join(formatted_rows))
 
-
-
-
-# Sample data with tgtoptsma hardcoded to 4
 data = {
     'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
     'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
@@ -196,40 +181,28 @@ data = {
 
 vdf = pd.DataFrame(data)
 
-# Apply the function to populate the computed_depth column
 vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
 
-# Define computed depth columns for specific keys
 vdf['BCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKCE' else None, axis=1)
 vdf['BPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKPE' else None, axis=1)
 vdf['NCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYCE' else None, axis=1)
 vdf['NPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYPE' else None, axis=1)
 
-# Display the DataFrame to verify column creation
-#print("DataFrame with computed columns:")
-#print(vdf)
-
-# Ensure column names exist
 expected_columns = ['BCE-DPT', 'BPE-DPT', 'NCE-DPT', 'NPE-DPT']
 missing_columns = [col for col in expected_columns if col not in vdf.columns]
 if missing_columns:
     raise ValueError(f"Missing columns in DataFrame: {missing_columns}")
 
-# Define column width
 column_width = 30
 
-# Define left and right alignment format strings
 left_aligned_format = f"{{:<{column_width}}}"
 right_aligned_format = f"{{:>{column_width}}}"
 
-# Fetch values for the formatted output
 bce_dpt_value = round(vdf['BCE-DPT'].dropna().values[0], 2) if not vdf['BCE-DPT'].isna().all() else 'None'
 bpe_dpt_value = round(vdf['BPE-DPT'].dropna().values[0], 2) if not vdf['BPE-DPT'].isna().all() else 'None'
 nce_dpt_value = round(vdf['NCE-DPT'].dropna().values[0], 2) if not vdf['NCE-DPT'].isna().all() else 'None'
 npe_dpt_value = round(vdf['NPE-DPT'].dropna().values[0], 2) if not vdf['NPE-DPT'].isna().all() else 'None'
 
-
-# Prepare output lines
 output_lines = []
 
 output_lines.append(
@@ -241,7 +214,6 @@ output_lines.append(
     )
 )
 
-# First line: BPE-DPT and NPE-DPT
 output_lines.append(
     left_aligned_format.format(
         f"BPE-DPT:{GREY if bpe_dpt_value != 'None' and bpe_dpt_value < 6 else BRIGHT_GREEN}{bpe_dpt_value}{RESET}"
@@ -253,3 +225,4 @@ output_lines.append(
 
 full_output = '\n'.join(output_lines)
 print(full_output)
+print("━" * 42)
