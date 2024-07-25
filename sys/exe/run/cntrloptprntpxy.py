@@ -142,6 +142,9 @@ bank_profit = int(bextras)
 bank_loss = int(btotal_opt_m2m)
 arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
 
+output_lines.append(left_aligned_format.format(f"Margin:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
+                    right_aligned_format.format(f"Delta:{BRIGHT_GREEN if ydaypnl_to_print > 0 else BRIGHT_RED}{str(int(available_cash)).zfill(6)}{RESET}"))
+
 output_lines.append(
     left_aligned_format.format(
         f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(17.82, 2)).zfill(5)}"
