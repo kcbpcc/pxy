@@ -114,6 +114,10 @@ for group, data in grouped_df:
             print("" * 42)
             print(formatted_balance)
             print("" * 42)
+# Define formatting strings
+left_aligned_format = "{:<40}"  # Adjust the width as needed
+right_aligned_format = "{:>40}" # Adjust the width as needed
+
 # Initialize variables
 output_lines = []
 nifty_profit = int(nextras)
@@ -162,6 +166,6 @@ output_lines.append(
 # Append a line of 42 spaces
 output_lines.append(" " * 42)
 
-# Combine all output lines and append to the list
+# Combine all output lines and print
 full_output = '\n'.join(output_lines)
 print(full_output)
