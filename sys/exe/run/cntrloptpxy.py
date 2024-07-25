@@ -252,7 +252,6 @@ output_lines.append(
         f"BCE-DPT:{GREY if bce_dpt_value != 'None' and bce_dpt_value < 6 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
     )
 )
-# First line: Nifty and Bank Nifty Extras
 output_lines.append(
     left_aligned_format.format(
         f"NEXTRAS:{BRIGHT_GREEN if nextras != 0 else GREY}{nextras}{RESET}"
