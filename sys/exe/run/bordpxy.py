@@ -57,8 +57,17 @@ def printbord(booked, total_cnc_m2m_postions, extras, nextras, bextras, optworth
     output_lines.append(left_aligned_format.format(f"Real-P&L:{BRIGHT_GREEN if (acvalue_to_print - capital + hide) > 0 else BRIGHT_RED}{round((acvalue_to_print - capital + hide), 2)}{RESET}") +
                        right_aligned_format.format(f"Run-P&L:{BRIGHT_GREEN if (all_Stocks_capital_lacks - all_Stocks_worth_lacks) * -1 >= 0 else BRIGHT_RED}{round(((all_Stocks_capital_lacks - all_Stocks_worth_lacks) * -1), 2)}{RESET}"))
 
-    output_lines.append(left_aligned_format.format(f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(capital, 2)).zfill(5)}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}      {BOLD}{UNDERLINE}PXY{RESET}") +
-                       right_aligned_format.format(f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(mktpxy, '')}{RESET}       {'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue_to_print, 2)).zfill(5)}{RESET}"))
+    output_lines.append(
+        left_aligned_format.format(
+            f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(capital, 2)).zfill(5)}"
+            f"{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}      {BOLD}{UNDERLINE}PXY{RESET}"
+        ) + 
+        right_aligned_format.format(
+            f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}"
+            f"{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(mktpxy, '')}{RESET}       {'Value'.zfill(5)}:"
+            f"{BRIGHT_YELLOW}{str(int(all_stocks_worth_lacks + available_cash / 100000)).zfill(5)}{RESET}"
+        )
+    )
 
     output_lines.append(left_aligned_format.format(f"Flush#:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_count)).zfill(3)}{RESET}") +
                        right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}%{RESET}"))
