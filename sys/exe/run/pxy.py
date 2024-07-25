@@ -5,7 +5,7 @@ def get_user_input(prompt, default='s'):
     return user_input
 
 # Example usage
-value = get_user_input("Short-run/Long-run 's' or 'l' (default-'s'):")
+value = get_user_input("Short/Long-run 's' or 'l' (default-'s'):")
 print(f"Selected value: {value}")
 
 import importlib
