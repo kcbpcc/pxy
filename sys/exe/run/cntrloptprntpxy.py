@@ -1,4 +1,5 @@
 print("━" * 42)
+import argparse
 import pandas as pd
 import numpy as np
 import calendar
@@ -6,6 +7,10 @@ from datetime import datetime
 from lstdymnthexppxy import get_last_weekday_of_current_month
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 import subprocess
+
+parser = argparse.ArgumentParser(description="Process some commands.")
+parser.add_argument('command', choices=['l', 's'], help="Command to run the program with.")
+args = parser.parse_args()
 
 # Get the last Wednesday and Thursday of the current month
 last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
@@ -85,7 +90,20 @@ for group, data in grouped_df:
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         color_none = SILVER
-        print(data.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']].to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
+        # Check the command and print the corresponding output
+        if args.command == 'l':
+            # Print DataFrame with qty > 0
+            print(
+                data.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+                .to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2])
+            )
+        elif args.command == 's':
+            # Print DataFrame with qty > 0 and PL% > 0
+            print(
+                data.query('qty > 0 and `PL%` > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+                .to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2])
+            )
+        
 
         if len(data) >= 2:
             formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
