@@ -7,6 +7,8 @@ from datetime import datetime
 from lstdymnthexppxy import get_last_weekday_of_current_month
 from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
+mktpredict = predict_market_sentiment()
+bmktpredict = predict_bnk_sentiment()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 parser = argparse.ArgumentParser(description="Process some commands.")
