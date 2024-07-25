@@ -72,7 +72,8 @@ total_sum = subtotal_cnc + subtotal_opt
 
 print(f"💰💰💰 Total Sum: {total_sum}")
 print("******************************")
-print("---------PXY® Score Board--------")
+print("[---------PXY® Dash Board----------](https://console.zerodha.com/verified/783d6dad)")
+
 # Reset stdout
 sys.stdout = sys.__stdout__
 
