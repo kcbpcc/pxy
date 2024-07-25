@@ -104,23 +104,23 @@ while True:
         nsma, bsma = None, None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'FALL' else (BRIGHT_YELLOW + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'SIDE' else ""))) + RESET)
-    subprocess.run(['python3', 'tistpxy.py'])
+    subprocess.run(['python3', 'tistpxy.py']) if run_type == 'l' else None  
     subprocess.run(['python3', 'cntrloptpxy.py'])
     subprocess.run(['python3', 'buyboptpxy.py'])
     subprocess.run(['python3', 'buynoptpxy.py'])
-    subprocess.run(['python3', 'cntrloptprntpxy.py'])
-    subprocess.run(['python3', 'worldpxy.py'])
+    subprocess.run(['python3', 'cntrloptprntpxy.py']) if run_type == 'l' else None
+    subprocess.run(['python3', 'worldpxy.py']) if run_type == 'l' else None
     subprocess.run(['python3', 'buycncpxy.py']) if peak == 'PEAKEND' and (mktpredict in ['RISE'] or Day_Change > 0 or Open_Change > 0) else None
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print("━" * 42)
-    subprocess.run(['python3', 'niftychartpxy.py'])    
-    subprocess.run(['python3', 'daypxy.py'])
-    subprocess.run(['python3', 'cndlpxy.py'])
+    subprocess.run(['python3', 'niftychartpxy.py']) if run_type == 'l' else None    
+    subprocess.run(['python3', 'daypxy.py']) if run_type == 'l' else None  
+    subprocess.run(['python3', 'cndlpxy.py']) if run_type == 'l' else None  
     (lambda: print((BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() if 'nsma' in locals() else None
     print("━" * 42)
-    subprocess.run(['python3', 'bniftychartpxy.py'])
-    subprocess.run(['python3', 'bdaypxy.py']) 
-    subprocess.run(['python3', 'bcndlpxy.py'])
+    subprocess.run(['python3', 'bniftychartpxy.py']) if run_type == 'l' else None  
+    subprocess.run(['python3', 'bdaypxy.py'])  if run_type == 'l' else None  
+    subprocess.run(['python3', 'bcndlpxy.py']) if run_type == 'l' else None  
     (lambda: print((BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))() if 'bsma' in locals() else None    
     subprocess.run(['python3', 'cntrlcncpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
