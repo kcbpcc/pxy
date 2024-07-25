@@ -19,7 +19,7 @@
         .content {
             flex: 2;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr;
             grid-template-rows: repeat(2, 1fr);
             gap: 10px;
             padding: 20px;
@@ -91,11 +91,11 @@
     <div class="container">
         <div class="content">
             <div class="section" id="section1">
-                <h2>My Options</h2>
+                <h2>My NIFTY Options</h2>
                 <div id="csvTable1">Loading data...</div>
             </div>
             <div class="section" id="section2">
-                <h2>My Holdings</h2>
+                <h2>My BANKNIFTY Options</h2>
                 <div id="csvTable2">Loading data...</div>
             </div>
         </div>
@@ -158,8 +158,8 @@
         }
 
         function refreshData() {
-            loadCSV('optpxy.csv', data => displayCSV(data, 'csvTable1'));
-            loadCSV('cncpxy.csv', data => displayCSV(data, 'csvTable2'));
+            loadCSV('NIFTYOptions.csv', data => displayCSV(data, 'csvTable1'));
+            loadCSV('BANKNIFTYOptions.csv', data => displayCSV(data, 'csvTable2'));
         }
 
         window.onload = function() {
@@ -170,5 +170,6 @@
     </script>
 </body>
 </html>
+
 
 
