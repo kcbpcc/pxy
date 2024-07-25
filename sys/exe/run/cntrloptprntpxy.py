@@ -111,14 +111,11 @@ for group, data in grouped_df:
             formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
             formatted_balance = f"{value_statement}{RESET}".center(44)
             print(formatted_output)
-            print("" * 42)
             print(formatted_balance)
-            print("" * 42)
 column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
 print(f"{summary_statement}📊")
-print("" * 42)
 output_lines = []
 nifty_profit = int(nextras)
 nifty_loss = int(ntotal_opt_m2m)
