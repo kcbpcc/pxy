@@ -168,11 +168,25 @@ if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
 #############################################################################################################################################################################################################################
+widths = {'tradingsymbol': '22', 'm2m': '7', 'PnL': '7', 'PL%': '6'}
 
-def compute_depth(row):
-    # Define this function according to your specific needs
-    # Placeholder function
-    return row['tgtoptsma'] * 2  # Example computation
+def format_row(row):
+    m2m = f"{int(row['m2m'])}".ljust(int(widths['m2m']))
+    symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
+    pnl = f"{int(row['PnL'])}".rjust(int(widths['PnL']))
+    pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
+    return f"{m2m}{symbol}{pnl}{pl_pct}"
+
+filtered_df = exe_opt_df.query('qty > 0 and `PL%` > 0')
+
+if filtered_df.empty:
+    print("Still fishing🔎🎣, nothing surfaced yet.🕵🕵")
+else:
+    formatted_rows = [format_row(row) for _, row in filtered_df.iterrows()]
+    print('\n'.join(formatted_rows))
+
+
+
 
 # Sample data with tgtoptsma hardcoded to 4
 data = {
@@ -180,102 +194,62 @@ data = {
     'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
 }
 
-# Initialize DataFrame
 vdf = pd.DataFrame(data)
 
-# Apply function to calculate computed_depth
-vdf['computed_depth'] = vdf['tgtoptsma'].apply(compute_depth)
+# Apply the function to populate the computed_depth column
+vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
 
 # Define computed depth columns for specific keys
-depth_columns = {
-    'BANKCE': 'BCE-DPT',
-    'BANKPE': 'BPE-DPT',
-    'NIFTYCE': 'NCE-DPT',
-    'NIFTYPE': 'NPE-DPT'
-}
+vdf['BCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKCE' else None, axis=1)
+vdf['BPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKPE' else None, axis=1)
+vdf['NCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYCE' else None, axis=1)
+vdf['NPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYPE' else None, axis=1)
 
-for key, col in depth_columns.items():
-    vdf[col] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == key else None, axis=1)
+# Display the DataFrame to verify column creation
+#print("DataFrame with computed columns:")
+#print(vdf)
 
 # Ensure column names exist
-expected_columns = list(depth_columns.values())
+expected_columns = ['BCE-DPT', 'BPE-DPT', 'NCE-DPT', 'NPE-DPT']
 missing_columns = [col for col in expected_columns if col not in vdf.columns]
 if missing_columns:
     raise ValueError(f"Missing columns in DataFrame: {missing_columns}")
 
-# Define column width and alignment format strings
+# Define column width
 column_width = 30
+
+# Define left and right alignment format strings
 left_aligned_format = f"{{:<{column_width}}}"
 right_aligned_format = f"{{:>{column_width}}}"
 
-# Function to get the formatted value
-def format_value(value, threshold, positive_color, negative_color, default='None'):
-    if value == 'None':
-        return default
-    return f"{positive_color if value > threshold else GREY}{value}{RESET}"
+# Fetch values for the formatted output
+bce_dpt_value = round(vdf['BCE-DPT'].dropna().values[0], 2) if not vdf['BCE-DPT'].isna().all() else 'None'
+bpe_dpt_value = round(vdf['BPE-DPT'].dropna().values[0], 2) if not vdf['BPE-DPT'].isna().all() else 'None'
+nce_dpt_value = round(vdf['NCE-DPT'].dropna().values[0], 2) if not vdf['NCE-DPT'].isna().all() else 'None'
+npe_dpt_value = round(vdf['NPE-DPT'].dropna().values[0], 2) if not vdf['NPE-DPT'].isna().all() else 'None'
 
-# Extract and format computed depth values
-def extract_and_format_depth(column_name, threshold):
-    value = vdf[column_name].dropna().values[0] if not vdf[column_name].isna().all() else 'None'
-    return format_value(round(value, 2), threshold, BRIGHT_GREEN, GREY)
 
-# Example usage of formatting for output lines
+# Prepare output lines
 output_lines = []
 
-# Add lines with formatted depth values
 output_lines.append(
     left_aligned_format.format(
-        f"NPE-DPT:{extract_and_format_depth('NPE-DPT', 6)}"
+        f"NPE-DPT:{BRIGHT_GREEN if npe_dpt_value != 'None' and npe_dpt_value > 6 else GREY}{npe_dpt_value}{RESET}"
     ) +
     right_aligned_format.format(
-        f"NCE-DPT:{extract_and_format_depth('NCE-DPT', 6)}"
+        f"NCE-DPT:{BRIGHT_GREEN if nce_dpt_value != 'None' and nce_dpt_value > 6 else GREY}{nce_dpt_value}{RESET}"
     )
 )
 
+# First line: BPE-DPT and NPE-DPT
 output_lines.append(
     left_aligned_format.format(
-        f"BPE-DPT:{extract_and_format_depth('BPE-DPT', 6)}"
+        f"BPE-DPT:{GREY if bpe_dpt_value != 'None' and bpe_dpt_value < 6 else BRIGHT_GREEN}{bpe_dpt_value}{RESET}"
     ) +
     right_aligned_format.format(
-        f"BCE-DPT:{extract_and_format_depth('BCE-DPT', 6)}"
+        f"BCE-DPT:{GREY if bce_dpt_value != 'None' and bce_dpt_value < 6 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
     )
 )
 
-# Calculate and format additional values
-def calculate_formatted_values(df, key_filter):
-    filtered_df = df[df['key'].str.contains(key_filter)]
-    if not filtered_df.empty:
-        extras = int(filtered_df.loc[filtered_df['sell_quantity'] > 0, 'unrealised'].sum()) \
-                 + (-int(filtered_df.loc[filtered_df['sell_quantity'] > 0, 'PnL'].sum()))
-        total_opt_m2m = filtered_df[filtered_df['quantity'] > 0]['m2m'].sum()
-    else:
-        extras, total_opt_m2m = 0, 0
-    return extras, total_opt_m2m
-
-nextras, ntotal_opt_m2m = calculate_formatted_values(combined_df, 'NFO:NIFTY')
-bextras, btotal_opt_m2m = calculate_formatted_values(combined_df, 'NFO:BANK')
-
-def format_m2m_and_extras(value, color):
-    return f"{color if value >= 0 else RED}{value}{RESET}"
-
-# Prepare final output lines
-output_lines.append(
-    left_aligned_format.format(
-        f"N-DL:{format_m2m_and_extras(int(ntotal_opt_m2m), BRIGHT_GREEN)}"
-    ) +
-    right_aligned_format.format(
-        f"N-DP:{format_m2m_and_extras(int(nextras), BRIGHT_GREEN)}"
-    )
-)
-
-output_lines.append(
-    left_aligned_format.format(
-        f"B-DL:{format_m2m_and_extras(int(btotal_opt_m2m), BRIGHT_GREEN)}"
-    ) +
-    right_aligned_format.format(
-        f"B-DP:{format_m2m_and_extras(int(bextras), BRIGHT_GREEN)}"
-    )
-)
-
-# Print formatted output
-print('\n'.join(output_lines))
+full_output = '\n'.join(output_lines)
+print(full_output)
