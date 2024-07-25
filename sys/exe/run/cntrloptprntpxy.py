@@ -7,6 +7,7 @@ from datetime import datetime
 from lstdymnthexppxy import get_last_weekday_of_current_month
 from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
+from mktpxy import get_market_check
 mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
 bonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
