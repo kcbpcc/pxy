@@ -272,9 +272,6 @@ output_lines.append(
     )
 )
 
-
-
-
 full_output = '\n'.join(output_lines)
 print(full_output)
 
