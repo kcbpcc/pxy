@@ -92,14 +92,6 @@
                 <h2>My Holdings</h2>
                 <div id="csvTable2">Loading data...</div>
             </div>
-            <div class="section" id="section3">
-                <h2>ordpxy</h2>
-                <div id="csvTable3">Loading data...</div>
-            </div>
-            <div class="section" id="section4">
-                <h2>closepxy</h2>
-                <div id="csvTable4">Loading data...</div>
-            </div>
         </div>
         <div class="sidebar">
             <iframe src="webchrtpxy.html" title="Nifty and Bank Nifty"></iframe>
@@ -157,8 +149,6 @@
         function refreshData() {
             loadCSV('optpxy.csv', data => displayCSV(data, 'csvTable1'));
             loadCSV('cncpxy.csv', data => displayCSV(data, 'csvTable2'));
-            loadCSV('ordpxy.csv', data => displayCSV(data, 'csvTable3'));
-            loadCSV('closepxy.csv', data => displayCSV(data, 'csvTable4'));
         }
 
         window.onload = function() {
@@ -169,3 +159,4 @@
     </script>
 </body>
 </html>
+
