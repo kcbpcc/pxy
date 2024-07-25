@@ -53,7 +53,7 @@ def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
     for position in positions_net:
-        if position['tradingsymbol'] == symbol and abs(position['quantity']) >= 15:
+        if position['tradingsymbol'][-7:] == symbol[-7:] and abs(position['quantity']) >= 15:
             return True
     return False
 
