@@ -138,4 +138,3 @@ output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN 
 
 full_output = '\n'.join(output_lines)
 print(full_output)
-print("" * 42)
