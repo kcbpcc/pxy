@@ -137,10 +137,8 @@ bank_profit = int(bextras)
 bank_loss = int(btotal_opt_m2m)
 arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
 
-output_lines.append(
-    left_aligned_format.format(f"A/C Capital:{BRIGHT_RED if nifty_loss < 0 else BRIGHT_GREEN}{17.08}{RESET}") +
-    right_aligned_format.format(f"A/C Worth:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{total_ac_value}{RESET}")
-)
+output_lines.append(left_aligned_format.format(f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(capital, 2)).zfill(5)}{BRIGHT_GREEN if mktpxy in ['Bull', 'Buy'] else BRIGHT_RED}      {BOLD}{UNDERLINE}PXY{RESET}") +
+                       right_aligned_format.format(f"{BRIGHT_GREEN if mktpxy in ['Bull'] else (BRIGHT_RED if mktpxy in ['Bear'] else GREY)}{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(mktpxy, '')}{RESET}       {'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue_to_print, 2)).zfill(5)}{RESET}"))
      
 output_lines.append(
     left_aligned_format.format(f"NIFTY-DL:{BRIGHT_RED if nifty_loss < 0 else BRIGHT_GREEN}{nifty_loss}{RESET}") +
