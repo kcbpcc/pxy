@@ -101,17 +101,12 @@ for group, data in grouped_df:
         if args.command == 'l':
             # Filter DataFrame with qty > 0
             filtered_data = data.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
-            
             if not filtered_data.empty:
                 print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
-        
         elif args.command == 's':
-            # Filter DataFrame with qty > 0 and PL% > 0
             filtered_data = data.query('qty > 0 and `PL%` > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
-            
             if not filtered_data.empty:
                 print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
-
         if len(data) >= 2:
             formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
             formatted_balance = f"{value_statement}{RESET}".center(44)
@@ -119,20 +114,12 @@ for group, data in grouped_df:
             print("" * 42)
             print(formatted_balance)
             print("" * 42)
-            
-# subprocess.run(['python3', 'lstdymnthexppxy.py'])  # Uncomment if you need to run the script again
-
-# Define column width
 column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
-
 print(f"{summary_statement}📊")
 print("" * 42)
-# Prepare output lines
 output_lines = []
-
-# Example values (replace these with your actual values or calculations)
 nifty_profit = int(nextras)
 nifty_loss = int(ntotal_opt_m2m)
 bank_profit = int(bextras)
@@ -141,17 +128,14 @@ arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
 
 output_lines.append(left_aligned_format.format(f"BANKNIFTY     {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
                     right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET}    NIFTYNDEX"))          
-# Append formatted lines to output
 output_lines.append(
     left_aligned_format.format(f"NIFTY-DL:{BRIGHT_RED if nifty_loss < 0 else BRIGHT_GREEN}{nifty_loss}{RESET}") +
     right_aligned_format.format(f"NIFTY-DP:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}")
 )
-
 output_lines.append(
     left_aligned_format.format(f"BANK-DL:{BRIGHT_RED if bank_loss < 0 else BRIGHT_GREEN}{bank_loss}{RESET}") +
     right_aligned_format.format(f"BANK-DP:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}")
 )
-
 full_output = '\n'.join(output_lines)
 print(full_output)
 print("" * 42)
