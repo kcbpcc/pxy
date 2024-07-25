@@ -114,11 +114,7 @@ for group, data in grouped_df:
             print("" * 42)
             print(formatted_balance)
             print("" * 42)
-column_width = 30
-left_aligned_format = "{:<" + str(column_width) + "}"
-right_aligned_format = "{:>" + str(column_width) + "}"
-print(f"{summary_statement}📊")
-print("" * 42)
+# Initialize variables
 output_lines = []
 nifty_profit = int(nextras)
 nifty_loss = int(ntotal_opt_m2m)
@@ -163,11 +159,9 @@ output_lines.append(
     )
 )
 
-# Combine all output lines and append to the list
-output_lines.append('\n' + '\n'.join(output_lines))
-
 # Append a line of 42 spaces
 output_lines.append(" " * 42)
 
-
-
+# Combine all output lines and append to the list
+full_output = '\n'.join(output_lines)
+print(full_output)
