@@ -252,7 +252,6 @@ try:
         df.to_csv("pxyexclude.csv", index=False)
     else:
         df = pd.read_csv("pxyexclude.csv")
-    total_dPnL = ((all_Stocks_worth_lacks - all_Stocks_yworth_lacks) * 100000)
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     selected_rows = []
     if True:
