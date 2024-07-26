@@ -122,9 +122,21 @@ for group, data in grouped_df:
         if len(data) >= 2:
             formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
             formatted_balance = f"{value_statement}{RESET}".center(44)
-            print(f"Round 2 CE/PE ratio: {ce_pe_ratio}")
+                if group == 'B':
+        ratio_B = ce_pe_ratio
+        print(f"Group B CE/PE ratio: {ratio_B}")
+    elif group == 'N':
+        ratio_N = ce_pe_ratio
+        print(f"Group N CE/PE ratio: {ratio_N}")
             print(formatted_output)
             print(formatted_balance)
+    # Define ce_pe_ratio based on group
+    if group == 'B':
+        ratio_B = ce_pe_ratio
+        print(f"Group B CE/PE ratio: {ratio_B}")
+    elif group == 'N':
+        ratio_N = ce_pe_ratio
+        print(f"Group N CE/PE ratio: {ratio_N}")
     # Run the appropriate Python script based on the group value
     if group == 'N' and args.command == 's':
         os.system('python cndlpxy.py')
