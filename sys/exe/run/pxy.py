@@ -5,7 +5,7 @@ def get_user_input(prompt, default='s'):
     return user_input
 
 # Example usage
-run_type = get_user_input("How do you want to run 🏃🏃🏻‍♂️‍➡️:")
+run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎:")
 import importlib
 import subprocess
 import time
