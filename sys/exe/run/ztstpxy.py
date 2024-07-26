@@ -81,28 +81,30 @@ def generate_option_chain(base_strike_price):
     return option_chain
 
 def main():
+    original_stdout = sys.stdout  # Save the original stdout
+
+    try:
+        # Redirect sys.stdout to 'output.txt' for broker initialization
+        with open('output.txt', 'w') as file:
+            sys.stdout = file
+            try:
+                global broker
+                broker = get_kite()
+            except Exception as e:
+                remove_token(dir_path)
+                print(traceback.format_exc())
+                logging.error(f"{str(e)} unable to get holdings")
+                sys.exit(1)
+    
+    finally:
+        sys.stdout = original_stdout  # Ensure stdout is restored
+
     try:
         # Print initial info and cash available
         print("🍃🍃🍃 Lets Buy NIFTY VOLUME Stocks 🍃🍃🍃")
-        decision, optdecision, available_cash, cash, limit = calculate_decision()
+        decision, optdecision, available_cash, limit = calculate_decision()
         print(f"     Cash:💰{available_cash:.2f}💵 | 🚦{decision}🚦 to Buy")
         
-        # Redirect sys.stdout to 'output.txt' for broker initialization
-        try:
-            with open('output.txt', 'w') as file:
-                sys.stdout = file
-                try:
-                    global broker
-                    broker = get_kite()
-                except Exception as e:
-                    remove_token(dir_path)
-                    print(traceback.format_exc())
-                    logging.error(f"{str(e)} unable to get holdings")
-                    sys.exit(1)
-        finally:
-            # Restoring sys.stdout to default (stdout) is not needed anymore
-            pass
-
         # Prompt user for strike price
         strike_price = int(input("Enter strike price: "))
         
