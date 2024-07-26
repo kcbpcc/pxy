@@ -8,7 +8,6 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
 from datetime import datetime, timedelta
-from wedpxy import get_this_wednesday
 from ordoptpxy import place_order
 BCE_Strike,_,_,BPE_Strike = get_prices()
 from macdpxy import calculate_macd_signal
