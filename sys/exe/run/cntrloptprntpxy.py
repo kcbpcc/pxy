@@ -156,6 +156,15 @@ arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
 hide = 0
 cap = 17.82
 real_pnl = round((total_ac_value + (available_cash / 100000)) - (cap + hide), 2)
+all_Stocks_df = combined_df[
+    (combined_df['qty'] > 0) &
+    (combined_df['product'] == 'CNC') &
+    (combined_df['source'] == 'holdings')
+].copy()
+
+all_Stocks_yworth = (all_Stocks_df['close'] * all_Stocks_df['qty']).sum().round(4)
+all_Stocks_worth = (all_Stocks_df['ltp'] * all_Stocks_df['qty']).sum().round(4)
+all_Stocks_worth_dpnl = all_Stocks_worth - all_Stocks_yworth
 
 output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
                     right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))  
@@ -191,7 +200,6 @@ output_lines.append(
     left_aligned_format.format(f"{BRIGHT_YELLOW}B-{ratio_B}/N-{ratio_N}{RESET}") +
     right_aligned_format.format(f"OPTS-DPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit) > 0 else BRIGHT_RED}{nifty_profit + bank_profit}{RESET}")
 )
-
 
 full_output = '\n'.join(output_lines)
 
