@@ -181,7 +181,6 @@ try:
     from macdpxy import calculate_macd_signal
     from smapxy import check_index_status
     from tabulate import tabulate
-    from dshpxy import get_holdingsinfo
     from bordpxy import printbord
     from utcpxy import peak_time
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
