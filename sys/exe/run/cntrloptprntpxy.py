@@ -145,6 +145,13 @@ column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
 
+def color_format(value, pos_color, neg_color):
+    return f"{pos_color if value > 0 else neg_color}{value}{RESET}"
+
+def market_predict_format(predict, arrow):
+    color = BRIGHT_GREEN if predict == 'RISE' else BRIGHT_RED if predict == 'FALL' else BRIGHT_YELLOW
+    return f"{color}{predict} {arrow}{RESET}"
+
 output_lines = []
 
 # BANKNIFTY and NIFTYNDEX Predictions
