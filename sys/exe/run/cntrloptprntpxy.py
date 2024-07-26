@@ -179,7 +179,10 @@ output_lines.append(
         f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(total_ac_value + (available_cash/100000), 2)).zfill(5)}{RESET}"
     )
 )
-
+output_lines.append(left_aligned_format.format(
+        f"BOOKED:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}") +
+        right_aligned_format.format(
+        f"BOOKED:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
 output_lines.append(
     left_aligned_format.format(f"BANK-DP:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}") +
     right_aligned_format.format(f"NIFTY-DP:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}")
