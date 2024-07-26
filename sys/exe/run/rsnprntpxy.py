@@ -25,6 +25,7 @@ async def handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktp
         quantity = determine_quantity(CE_symbol, count_CE, 'BANKNIFTY', 'NIFTY', bnkmaxcount, nftmaxcount, bmktpredict)
         if quantity > 0:
             await execute_order(broker, CE_symbol, quantity, place_order, send_telegram_message)
+            print_order_reason(CE_symbol, CE_position_exists, count_CE, 'Hold')
         else:
             print(f"Not placing as {CE_symbol} Maxed")
     else:
