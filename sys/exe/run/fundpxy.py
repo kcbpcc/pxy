@@ -43,14 +43,6 @@ def calculate_decision():
             utilized_margin = response["equity"]["utilised"]["debits"]
             available_cash = available_margin - utilized_margin
 
-            print(f"Opening Balance: {opening_balance}")
-            print(f"Live Balance: {live_balance}")
-            print(f"Delivery: {delivery}")
-            print(f"Option Premium: {option_premium}")
-            print(f"Available Margin: {available_margin}")
-            print(f"Utilized Margin: {utilized_margin}")
-            print(f"Available Cash: {available_cash/1000:.0f}K")
-
             #print(f"I have 💰💰💰💰{available_cash/1000:.0f}K💰💰💰 to buy stocks")
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -59,7 +51,7 @@ def calculate_decision():
         decision = "YES" if available_cash > limit else "NO"
         optdecision = "YES" if available_cash > 10000 else "NO"
         # Only return the decision, not available_cash
-        return decision, optdecision, available_cash, limit
+        return decision, optdecision, available_cash,live_balance, limit
 
     except Exception as e:
         remove_token(dir_path)
