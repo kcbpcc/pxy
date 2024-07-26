@@ -155,7 +155,7 @@ output_lines.append(
 )
 
 output_lines.append(left_aligned_format.format(f"Margin:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
-                    right_aligned_format.format(f"Delta:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}"))
+                    right_aligned_format.format(f"Cash:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{str(int(live_balance)).zfill(6)}{RESET}"))
 
 output_lines.append(
     left_aligned_format.format(
