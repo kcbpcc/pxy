@@ -57,7 +57,7 @@ def main():
     try:
         # Print initial info and cash available
         print("🍃🍃🍃 Lets Buy NIFTY VOLUME Stocks 🍃🍃🍃")
-        decision, optdecision, available_cash, limit = calculate_decision()
+        decision, optdecision, available_cash, cash, limit = calculate_decision()
         print(f"     Cash:💰{available_cash:.2f}💵 | 🚦{decision}🚦 to Buy")
         
         # Redirect sys.stdout to 'output.txt' for broker initialization
