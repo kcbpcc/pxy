@@ -187,7 +187,7 @@ output_lines.append(
     right_aligned_format.format(f"N{ratio_N}{RESET}")
 )
 output_lines.append(
-    left_aligned_format.format(f"B{ratio_B}N{ratio_B}{RESET}") +
+    left_aligned_format.format(f"OPTS-DPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit) > 0 else BRIGHT_RED}{nifty_profit + bank_profit}{RESET}") +
     right_aligned_format.format(f"OPTS-DPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit) > 0 else BRIGHT_RED}{nifty_profit + bank_profit}{RESET}")
 )
 
