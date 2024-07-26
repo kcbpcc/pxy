@@ -16,9 +16,9 @@ nonemincandlesequance, nmktpxy = get_market_check('^NSEI')
 
 try:
     from fundpxy import calculate_decision
-    decision, optdecision, available_cash, limit = calculate_decision()
+    decision, optdecision, available_cash,live_balance, limit = calculate_decision()
 except Exception as e:
-    decision, optdecision, available_cash = "No", "No", 0
+    decision, optdecision, available_cash,live_balance, limit = "No", "No", 0, 0, 0
 
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
