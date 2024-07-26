@@ -13,6 +13,8 @@ mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
 bonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 nonemincandlesequance, nmktpxy = get_market_check('^NSEI')
+from prftpxy import process_data_total_profit
+booked = process_data_total_profit()
 
 try:
     from fundpxy import calculate_decision
