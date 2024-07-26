@@ -101,6 +101,7 @@ for group, data in grouped_df:
     total_invested_ce = ce_data['Invested'].sum()
     total_pl_ce = ce_data['PnL'].sum()
     value_ce = total_invested_ce
+    ce_pe_ratio = round((value_ce / value_pe), 2) if value_pe != 0 else 0
 
     if total_invested_group != 0:
         value_statement = f"  {pe_count:02d} -🟥- {value_pe:06d}  ⚖   {value_ce:06d}  -🟩- {ce_count:02d}"
@@ -121,6 +122,7 @@ for group, data in grouped_df:
         if len(data) >= 2:
             formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
             formatted_balance = f"{value_statement}{RESET}".center(44)
+            print(f"Round 2 CE/PE ratio: {ce_pe_ratio}")
             print(formatted_output)
             print(formatted_balance)
     # Run the appropriate Python script based on the group value
