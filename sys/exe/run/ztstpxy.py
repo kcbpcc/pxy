@@ -102,7 +102,7 @@ def main():
     try:
         # Print initial info and cash available
         print("🍃🍃🍃 Lets Buy NIFTY VOLUME Stocks 🍃🍃🍃")
-        decision, optdecision, available_cash,1, limit = calculate_decision()
+        decision, optdecision, available_cash,fdf, limit = calculate_decision()
         print(f"     Cash:💰{available_cash:.2f}💵 | 🚦{decision}🚦 to Buy")
         
         # Prompt user for strike price
