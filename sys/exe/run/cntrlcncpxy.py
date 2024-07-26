@@ -194,7 +194,7 @@ try:
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
     from fundpxy import calculate_decision
     try:
-        decision, optdecision, available_cash , limit = calculate_decision()
+        decision, optdecision, available_cash,live_balance, limit = calculate_decision()
     except Exception as e:
         print(f"An error occurred: {e}")
         available_cash = 0
