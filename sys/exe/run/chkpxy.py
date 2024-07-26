@@ -49,20 +49,13 @@ for file, error_message in list(initial_failures.items()):
     else:
         retry_failures[file] = error_message
 
-# Print summary
+# Calculate summary details
 total_tests = len(python_files)
 initial_successes = len(success_files)
 retry_successes = len(retry_success_files)
 total_failures = len(initial_failures) + len(retry_failures)
 
-print("\nSummary:")
-print("=" * 40)
-print(f"Total files tested: {total_tests}")
-print(f"Successful on first attempt: {initial_successes}")
-print(f"Successful on second attempt: {retry_successes}")
-print(f"Total failures: {total_failures}")
-print("=" * 40)
-
+# Print detailed summary
 if success_files:
     print(f"\033[92mSuccess on first attempt ({len(success_files)}):\033[0m")
     for file in success_files:
@@ -91,3 +84,12 @@ if not success_files and not retry_success_files and not initial_failures and no
     print("\033[91mNo files were processed.\033[0m")
 else:
     print("\nProcessing complete.")
+
+# Print overall summary
+print("\nSummary:")
+print("=" * 40)
+print(f"Total files tested: {total_tests}")
+print(f"Successful on first attempt: {initial_successes}")
+print(f"Successful on second attempt: {retry_successes}")
+print(f"Total failures: {total_failures}")
+print("=" * 40)
