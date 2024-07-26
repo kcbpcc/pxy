@@ -172,8 +172,9 @@ if filtered_df.empty:
     print("Still fishing🔎🎣, nothing surfaced yet.🕵")
 else:
     formatted_rows = [format_row(row) for _, row in filtered_df.iterrows()]
+    print("━" * 42)
     print('\n'.join(formatted_rows))
-
+    print("━" * 42)
 data = {
     'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
     'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
