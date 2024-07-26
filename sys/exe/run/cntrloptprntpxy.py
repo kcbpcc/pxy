@@ -146,26 +146,26 @@ left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
 
 output_lines = []
-nifty_profit = int(nextras)
-nifty_loss = int(ntotal_opt_m2m)
-bank_profit = int(bextras)
-bank_loss = int(btotal_opt_m2m)
-arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
-hide = 0
-cap = 17.82
-real_pnl = round((total_ac_value + (available_cash / 100000)) - (cap + hide), 2)
 
-output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
-                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))  
-
+# BANKNIFTY and NIFTYNDEX Predictions
 output_lines.append(
-    left_aligned_format.format(f"Run-PnL:{BRIGHT_RED if total_ac_run_pnl < 0 else BRIGHT_GREEN}{total_ac_run_pnl}{RESET}") +
-    right_aligned_format.format(f"Real-PnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl}{RESET}")
+    left_aligned_format.format(f"BANKNIFTY ━━ {market_predict_format(bmktpredict, arrow_map.get(bmktpxy, ''))}") +
+    right_aligned_format.format(f"{market_predict_format(mktpredict, arrow_map.get(nmktpxy, ''))} ━━ NIFTYNDEX")
 )
 
-output_lines.append(left_aligned_format.format(f"Margin:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
-                    right_aligned_format.format(f"Cash:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{str(int(live_balance)).zfill(6)}{RESET}"))
+# Run and Realized PnL
+output_lines.append(
+    left_aligned_format.format(f"Run-PnL:{color_format(total_ac_run_pnl, BRIGHT_GREEN, BRIGHT_RED)}") +
+    right_aligned_format.format(f"Real-PnL:{color_format(real_pnl, BRIGHT_GREEN, BRIGHT_RED)}")
+)
 
+# Margin and Cash
+output_lines.append(
+    left_aligned_format.format(f"Margin:{BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}") +
+    right_aligned_format.format(f"Cash:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{str(int(live_balance)).zfill(6)}{RESET}")
+)
+
+# Capital and Value
 output_lines.append(
     left_aligned_format.format(
         f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(17.82, 2)).zfill(5)}"
@@ -174,24 +174,28 @@ output_lines.append(
     right_aligned_format.format(
         f"{BRIGHT_GREEN if nmktpxy in ['Bull'] else (BRIGHT_RED if nmktpxy in ['Bear'] else GREY)}"
         f"{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')}{RESET}       "
-        f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(total_ac_value + (available_cash/100000), 2)).zfill(5)}{RESET}"
+        f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(total_ac_value + (available_cash / 100000), 2)).zfill(5)}{RESET}"
     )
 )
 
+# Bank and Nifty DP
 output_lines.append(
-    left_aligned_format.format(f"BANK-DP:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}") +
-    right_aligned_format.format(f"NIFTY-DP:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}")
+    left_aligned_format.format(f"BANK-DP:{color_format(bank_profit, BRIGHT_GREEN, BRIGHT_RED)}") +
+    right_aligned_format.format(f"NIFTY-DP:{color_format(nifty_profit, BRIGHT_GREEN, BRIGHT_RED)}")
 )
+
+# Ratios B and N
 output_lines.append(
     left_aligned_format.format(f"B{ratio_B}{RESET}") +
     right_aligned_format.format(f"N{ratio_N}{RESET}")
 )
+
+# Options DPnL
+opt_dpnL = nifty_profit + bank_profit
 output_lines.append(
-    left_aligned_format.format(f"OPTS-DPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit) > 0 else BRIGHT_RED}{nifty_profit + bank_profit}{RESET}") +
-    right_aligned_format.format(f"OPTS-DPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit) > 0 else BRIGHT_RED}{nifty_profit + bank_profit}{RESET}")
+    left_aligned_format.format(f"OPTS-DPnL:{color_format(opt_dpnL, BRIGHT_GREEN, BRIGHT_RED)}") +
+    right_aligned_format.format(f"OPTS-DPnL:{color_format(opt_dpnL, BRIGHT_GREEN, BRIGHT_RED)}")
 )
 
-
 full_output = '\n'.join(output_lines)
-
 print(full_output)
