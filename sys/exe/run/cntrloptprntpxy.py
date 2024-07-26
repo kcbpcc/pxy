@@ -184,7 +184,7 @@ output_lines.append(
 )
 output_lines.append(
     left_aligned_format.format(f"B{ratio_B}{RESET}") +
-    right_aligned_format.format(f"B{ratio_N}{RESET}")
+    right_aligned_format.format(f"N{ratio_N}{RESET}")
 )
 output_lines.append(
     left_aligned_format.format(f"B{ratio_B}N{ratio_B}{RESET}") +
