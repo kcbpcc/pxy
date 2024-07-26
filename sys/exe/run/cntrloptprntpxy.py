@@ -184,6 +184,11 @@ output_lines.append(
 )
 
 output_lines.append(
+    left_aligned_format.format(f"BANK-DP:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{ratio_B}{RESET}") +
+    right_aligned_format.format(f"NIFTY-DP:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{ratio_N}{RESET}")
+)
+
+output_lines.append(
     left_aligned_format.format(f"OPTS-DPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit) > 0 else BRIGHT_RED}{nifty_profit + bank_profit}{RESET}") +
     right_aligned_format.format(f"OPTS-DPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit) > 0 else BRIGHT_RED}{nifty_profit + bank_profit}{RESET}")
 )
