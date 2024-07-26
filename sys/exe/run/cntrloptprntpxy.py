@@ -171,7 +171,7 @@ output_lines.append(
 )
 
 output_lines.append(
-    left_aligned_format.format(f"NIFTY-DL:{BRIGHT_RED if nifty_loss < 0 else BRIGHT_GREEN}{nifty_loss}{RESET}") +
+    left_aligned_format.format(f"BANK-DP:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}") +
     right_aligned_format.format(f"NIFTY-DP:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}")
 )
 output_lines.append(
