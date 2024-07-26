@@ -174,7 +174,6 @@ try:
     import importlib
     from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
     import math
-    from swchpxy import analyze_stock
     import telegram
     import asyncio
     from selfpxy import get_random_spiritual_message
@@ -186,7 +185,6 @@ try:
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
     macd = calculate_macd_signal("^NSEI")
     random_message = get_random_spiritual_message()
-    switch = analyze_stock()
     nsma = check_index_status('^NSEI')
     peak = peak_time()
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
