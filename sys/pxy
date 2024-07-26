@@ -17,22 +17,15 @@ while true; do
     # Display menu
     echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
     echo "******************************************" 
-    #echo "   -pxy                   🔘        🔥"
-    #echo "   -pyp                   🎉        pp"
+    echo "   -pxy                   🔘        🔥"
     echo "   -pxypy                 🐍        py"
-    echo "   -pxytp                 🚛        tp"
     echo "   -pxybuy                🌱        by"
-    #echo "   -pxypnl                💰        pl"
-    #echo "   -pxytail               📜        lg"
     echo "   -pxycdsl               🔐        cd"
     echo "   -pxytest               💊        ts"
-    echo "   -pxyvalue              📊        vl"
-    #echo "   -pxyclean              🚿        cl"
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
     echo "******************************************"
     echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
-
 
     # Get user input
     read -p "Enter your choice:⚙️⚙️⚙️👉👉 " choice
@@ -47,26 +40,6 @@ while true; do
             echo "        🔐🔐🔐.Check CDSL.🔐🔐🔐"
             pxycdsl
             ;;   
-        pp)
-            echo "        🎉🎉🎉.pip install.🎉🎉🎉"
-            pyp
-            ;;   
-        vl)
-            echo " 📊📊📊📊📊📊📊..A/C Chart..📊📊📊📊📊📊📊"
-            pxyvalue
-            ;;   
-        lg)
-            echo "        📜📜📜.pxy log.📜📜📜"
-            pxytail
-            ;;   
-        pl)
-            echo "        💰💰💰.My Profits.💰💰💰"
-            pxypnl
-            ;;           
-        tp)
-            echo "        🚛🚛.pxycloudsynch.🚛🚛"
-            pxytp
-            ;;           
         by)
             echo "        🌱🌱🌱..Buy Now.🌱🌱🌱"
             pxybuy
@@ -75,10 +48,6 @@ while true; do
             echo "       🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
             pxyupdate
             ;;
-        cl)
-            echo "        🚿🚿🚿 Cleanup..🚿🚿🚿"
-            pxyclean
-            ;;
         ck)
             echo "        🧪🧪🧪 Test All PXY®...🧪🧪🧪"
             pxycheck
@@ -86,11 +55,6 @@ while true; do
         py)
             echo "        ...................👉exe/run"
             pxypy
-            ;;
-
-        py)
-            echo "        💻💻💻💻..👉exe/run"
-            py
             ;;
         "")
             echo ".........Lets have fun with PXY®  🔥💫🚀🔥"
@@ -106,4 +70,5 @@ while true; do
             ;;
     esac
 done
+
 
