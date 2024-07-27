@@ -96,15 +96,28 @@ async def main():
         CE_positions_exist = [check_existing_positions(broker, symbol) for symbol in CE_symbols]
         PE_positions_exist = [check_existing_positions(broker, symbol) for symbol in PE_symbols]
 
-        # Process each CE symbol and place orders
-        for symbol, exists in zip(CE_symbols, CE_positions_exist):
-            if mktpxy == "Buy" and mktpredict == "RISE":
-                await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
+        if mktpredict == "SIDE":
+            # Only place orders for symbols at the strike price
+            for symbol in CE_symbols[:1]:  # Take only the first symbol
+                exists = check_existing_positions(broker, symbol)
+                if mktpxy == "Buy":
+                    await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
 
-        # Process each PE symbol and place orders
-        for symbol, exists in zip(PE_symbols, PE_positions_exist):
-            if mktpxy == "Sell" and mktpredict == "FALL":
-                await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
+            for symbol in PE_symbols[:1]:  # Take only the first symbol
+                exists = check_existing_positions(broker, symbol)
+                if mktpxy == "Sell":
+                    await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
+
+        else:
+            # Process each CE symbol and place orders if not "SIDE"
+            for symbol, exists in zip(CE_symbols, CE_positions_exist):
+                if mktpxy == "Buy" and mktpredict == "RISE":
+                    await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
+
+            # Process each PE symbol and place orders if not "SIDE"
+            for symbol, exists in zip(PE_symbols, PE_positions_exist):
+                if mktpxy == "Sell" and mktpredict == "FALL":
+                    await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
 
     except Exception as e:
         print(f"Error: {e}")
@@ -119,5 +132,4 @@ def sync_main():
 
 if __name__ == '__main__':
     sync_main()
-
 
