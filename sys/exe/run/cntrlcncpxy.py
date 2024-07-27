@@ -22,9 +22,11 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 logging = Logger(30, dir_path + "main.log")
 try:
+    original_stdout = sys.stdout
     sys.stdout = open('output.txt', 'w')
     broker = get_kite()
 except Exception as e:
+    sys.stdout = original_stdout
     remove_token(dir_path)
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
