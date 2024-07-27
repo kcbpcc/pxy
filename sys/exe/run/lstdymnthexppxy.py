@@ -19,17 +19,37 @@ def get_last_weekday_of_current_month(weekday):
     year = now.year
     month = now.month
 
-    # Find the last day of the current month
-    last_day = calendar.monthrange(year, month)[1]
+    def find_last_weekday(year, month, weekday):
+        # Find the last day of the month
+        last_day = calendar.monthrange(year, month)[1]
+        last_date = datetime(year, month, last_day)
+        
+        # Find the last specified weekday of the month
+        last_weekday = last_date - timedelta(days=(last_date.weekday() - weekday) % 7)
+        
+        # Adjust if the last weekday is a public holiday
+        while last_weekday.date() in public_holidays:
+            last_weekday -= timedelta(days=1)
+        
+        return last_weekday
+
+    # Find the last weekday for the current month
+    last_weekday = find_last_weekday(year, month, weekday)
     
-    # Get the date of the last day of the month
-    last_date = datetime(year, month, last_day)
-    
-    # Find the last specified weekday
-    last_weekday = last_date - timedelta(days=(last_date.weekday() - weekday) % 7)
-    
-    # Adjust if the last weekday is a public holiday
-    while last_weekday in public_holidays:
-        last_weekday -= timedelta(days=1)
+    # If the last weekday is in the past, move to the next month
+    if last_weekday < now:
+        month += 1
+        if month > 12:
+            month = 1
+            year += 1
+        last_weekday = find_last_weekday(year, month, weekday)
     
     return last_weekday.strftime("%d-%b").upper()
+
+# Get the last Wednesday and Thursday of the current month (or next month if already past)
+last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
+last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
+
+print(f"Last Wednesday: {last_wednesday}")
+print(f"Last Thursday: {last_thursday}")
+
