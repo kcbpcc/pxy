@@ -31,7 +31,7 @@ user_input = input(f"Want to book {BRIGHT_YELLOW}{green_Stocks_profit_loss}{RESE
 # Check if the user input is exactly "Yes" or "No"
 if user_input == 'Yes':
     # Call the external script
-    subprocess.run(['python', 'cntrcnclpxy.py', '-flash'])
+    subprocess.run(['python', 'cntrlcncpxy.py', '-flash'])
     print("Command executed.")
 elif user_input == 'No':
     print("Command not executed.")
