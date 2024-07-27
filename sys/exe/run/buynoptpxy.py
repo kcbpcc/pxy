@@ -126,10 +126,5 @@ async def main():
 async def run_main():
     await main()
 
-# Run the asynchronous function using asyncio.run()
-def sync_main():
-    asyncio.run(run_main())
 
-if __name__ == '__main__':
-    sync_main()
 
