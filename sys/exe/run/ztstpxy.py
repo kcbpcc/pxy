@@ -134,12 +134,24 @@ filtered_df = blnc_opt_df[
 filtered_df['Date'] = filtered_df.apply(lambda row: add_date(row).day if add_date(row) else None, axis=1)
 
 # Calculate difference in working days between current date and Date
-filtered_df['Days_Difference'] = filtered_df['Date'].apply(lambda x: calculate_working_days(datetime.now().date().replace(day=x)) if x else None)
+def calculate_days_difference(day):
+    if day is None:
+        return None
+    try:
+        today = datetime.now().date()
+        target_date = today.replace(day=day)
+        return calculate_working_days(target_date)
+    except Exception as e:
+        print(f"Error calculating days difference: {e}")
+        return None
+
+filtered_df['Days_Difference'] = filtered_df['Date'].apply(calculate_days_difference)
 
 # Reorder columns as requested
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Days_Difference']]
 
 print(final_df.to_string(index=False))
+
 
 
 
