@@ -71,6 +71,10 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
 
 def exit_options(blnc_opt_df, broker):
     try:
+        if 'Target' not in blnc_opt_df.columns:
+            print("Target column is missing in the DataFrame.")
+            return
+
         for index, row in blnc_opt_df.iterrows():
             total_pl_percentage = row['PL%']
             tgtoptsmadepth = row['Target']
@@ -145,8 +149,7 @@ filtered_df.loc[:, 'Date'] = filtered_df['Date'].dt.day
 filtered_df.loc[:, 'Today'] = filtered_df['Today'].dt.day
 
 # Add 'Target' column with the specified condition
-filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x:  - (x * 9)*10)
-filtered_df.loc[:, 'Target'] = filtered_df.loc[:, 'Target']
+filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x:  - (x * 9) * 10)
 
 # Reorder columns as requested
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff', 'Target']]
