@@ -154,6 +154,9 @@ filtered_df.loc[:, 'Today'] = filtered_df['Today'].dt.day
 
 # Add 'Target' column with the specified condition
 filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x: x * 10 if x < 10 else None)
+filtered_df.loc[:, 'Target'] = 100 = filtered_df.loc[:, 'Target'] 
+filtered_df.loc[:, 'Target'] = -1 * filtered_df.loc[:, 'Target']
+
 
 # Reorder columns as requested
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff', 'Target']]
