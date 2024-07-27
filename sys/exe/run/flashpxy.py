@@ -1,6 +1,10 @@
 import pandas as pd
 import subprocess
 
+# Define color constants
+BRIGHT_YELLOW = '\033[93m'
+RESET = '\033[0m'
+
 # Read the CSV file
 combined_df = pd.read_csv('pxycombined.csv')
 
@@ -21,12 +25,15 @@ if total_invested != 0:
 else:
     green_Stocks_capital_percentage = 0
 
-# Prompt user for confirmation
-user_input = input(f"Do you want to book {green_Stocks_profit_loss} @ {green_Stocks_capital_percentage:.2f}%? (Yes/No): ").strip().lower()
+# Prompt user for confirmation with color formatting
+user_input = input(f"Want to book {BRIGHT_YELLOW}{green_Stocks_profit_loss}{RESET} @ {BRIGHT_YELLOW}{green_Stocks_capital_percentage:.2f}%{RESET}? (Yes/No): ").strip()
 
-if user_input == 'yes':
+# Check if the user input is exactly "Yes" or "No"
+if user_input == 'Yes':
     # Call the external script
-    subprocess.run(['python', 'cntrlcncpxy.py', '-flash'])
+    subprocess.run(['python', 'cntrcnclpxy.py', '-flash'])
     print("Command executed.")
-else:
+elif user_input == 'No':
     print("Command not executed.")
+else:
+    print("Invalid input. Please enter 'Yes' or 'No'.")
