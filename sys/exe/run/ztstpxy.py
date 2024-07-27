@@ -153,7 +153,7 @@ filtered_df['Date'] = filtered_df['Date'].dt.day
 filtered_df['Today'] = filtered_df['Today'].dt.day
 
 # Add 'Target' column with the specified condition
-filtered_df['Target'] = filtered_df['Diff'].apply(lambda x: x * 10 if x < 7 else None)
+filtered_df['Target'] = filtered_df['Diff'].apply(lambda x: x * 10 if x < 10 else None)
 
 # Reorder columns as requested
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff', 'Target']]
