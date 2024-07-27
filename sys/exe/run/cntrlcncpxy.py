@@ -24,8 +24,11 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="Process some commands.")
 parser.add_argument('-flash', action='store_true', help="Enable flash mode")
+parser.add_argument('-short', action='store_true', help="Enable option S")
 args = parser.parse_args()
+
 flash = 'yes' if args.flash else 'no'
+runshort = 'yes' if args.short else 'no'
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 logging = Logger(30, dir_path + "main.log")
 try:
