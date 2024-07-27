@@ -29,6 +29,8 @@ except Exception as e:
     print(traceback.format_exc())
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
+finally:
+    sys.stdout = original_stdout
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#######################################################################################################################
 def get_any_order_status(symbol):
     try:
