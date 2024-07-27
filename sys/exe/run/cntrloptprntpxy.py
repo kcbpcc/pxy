@@ -212,8 +212,8 @@ print(full_output)
 # Prepare the Telegram message
 summary = (
     f"---------PXY® Dash Board----------\n"
-    f"📉 Run-PnL: {total_ac_run_pnl}\n"
-    f"📈 Real-PnL: {real_pnl}\n"
+    f"📈 Run-PnL: {total_ac_run_pnl}\n"
+    f"📉 Real-PnL: {real_pnl}\n"
     f"🪙 Margin: {str(int(available_cash)).zfill(6)}\n"
     f"💵 Cash: {str(int(live_balance)).zfill(6)}\n"
     f"🏦 Capital: {str(round(17.82, 2)).zfill(5)}\n"
