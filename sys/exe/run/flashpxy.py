@@ -26,7 +26,7 @@ user_input = input(f"Do you want to book {green_Stocks_profit_loss} @ {green_Sto
 
 if user_input == 'yes':
     # Call the external script
-    subprocess.run(['python', 'cntrlpxy.py', '-flash'])
+    subprocess.run(['python', 'cntrlcncpxy.py', '-flash'])
     print("Command executed.")
 else:
     print("Command not executed.")
