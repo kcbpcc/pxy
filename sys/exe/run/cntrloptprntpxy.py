@@ -216,7 +216,7 @@ summary = (
     f"📈 Real-PnL: {real_pnl}\n"
     f"🪙 Margin: {str(int(available_cash)).zfill(6)}\n"
     f"💵 Cash: {str(int(live_balance)).zfill(6)}\n"
-    f"🏦 Capital: {str(round(17.82, 2)).zfill(5)} PXY\n"
+    f"🏦 Capital: {str(round(17.82, 2)).zfill(5)}\n"
     f"💸 Value: {str(round(total_ac_value + (available_cash / 100000), 2)).zfill(5)}\n"
     f"📊 Holdings: {int(round(all_Stocks_worth_dpnl, 0))}\n"
     f"📝 Booked: {str(int(booked)).zfill(5)}\n"
