@@ -1,7 +1,6 @@
 import traceback
 import sys
 import logging
-import telegram
 import asyncio
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
@@ -19,6 +18,7 @@ from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
+# Initialize various modules and settings
 _, CE_Strike, PE_Strike, _ = get_prices()
 nsma = check_index_status('^NSEI')
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
@@ -30,11 +30,9 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, strike_price, option
     if len(expiry_month) == 2 and expiry_month.startswith("0"):
         expiry_month = expiry_month[1]
     if expiry_day is None:
-        symbol = f"NIFTY{expiry_year}{expiry_month}{strike_price}{option_type}"
+        return f"NIFTY{expiry_year}{expiry_month}{strike_price}{option_type}"
     else:
-        symbol = f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}{option_type}"
-    print(f"Constructed symbol: {symbol}")
-    return symbol
+        return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}{option_type}"
 
 def count_positions_by_type(broker):
     positions_response = broker.kite.positions()
@@ -80,7 +78,10 @@ async def main():
     try:
         from fundpxy import calculate_decision
         decision, optdecision, available_cash, live_balance, limit = calculate_decision()
-        # Removed trading decision, option decision, available cash, live balance, limit print statements
+
+        # Print the trading decision and other details
+        # print(f"Trading decision: {decision}, Option decision: {optdecision}")
+        # print(f"Available cash: {available_cash}, Live balance: {live_balance}, Limit: {limit}")
 
         count_CE, count_PE = count_positions_by_type(broker)
         print(f"Positions count - CE: {count_CE}, PE: {count_PE}")
@@ -96,7 +97,7 @@ async def main():
                 print(f"Processed order for symbol: {symbol}")
 
         if mktpredict == "RISE":
-            CE_symbols = [construct_symbol(expiry_year, expiry_month, None, str(CE_Strike + i), 'CE') for i in [0, 100, 200, 300]]
+            CE_symbols = [construct_symbol(expiry_year, expiry_month, None, str(CE_Strike + i), 'CE') for i in [0, 100, 200]]
             print(f"RISE strategy - CE symbols: {CE_symbols}")
             await process_multiple_orders(CE_symbols, "CE")
 
@@ -104,8 +105,9 @@ async def main():
             print(f"RISE strategy - Processing PE symbol: {PE_symbol}")
             PE_position_exists = check_existing_positions(broker, PE_symbol)
             await process_orders(broker, available_cash, PE_position_exists, PE_position_exists, PE_symbol, PE_symbol, count_CE, count_PE, mktpxy) if mktpxy in ("Buy", "Sell") else None
+
         elif mktpredict == "FALL":
-            PE_symbols = [construct_symbol(expiry_year, expiry_month, None, str(PE_Strike - i), 'PE') for i in [0, 100, 200, 300]]
+            PE_symbols = [construct_symbol(expiry_year, expiry_month, None, str(PE_Strike - i), 'PE') for i in [0, 100, 200]]
             print(f"FALL strategy - PE symbols: {PE_symbols}")
             await process_multiple_orders(PE_symbols, "PE")
 
@@ -113,6 +115,7 @@ async def main():
             print(f"FALL strategy - Processing CE symbol: {CE_symbol}")
             CE_position_exists = check_existing_positions(broker, CE_symbol)
             await process_orders(broker, available_cash, CE_position_exists, CE_position_exists, CE_symbol, CE_symbol, count_CE, count_PE, mktpxy) if mktpxy in ("Buy", "Sell") else None
+
         elif mktpredict == "SIDE":
             CE_symbol = construct_symbol(expiry_year, expiry_month, None, str(CE_Strike), 'CE')
             PE_symbol = construct_symbol(expiry_year, expiry_month, None, str(PE_Strike), 'PE')
