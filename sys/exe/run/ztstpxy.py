@@ -70,7 +70,6 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
         return None
 
 def exit_options(blnc_opt_df, broker):
-    total_opt_pnl = calculate_totals(blnc_opt_df)
     try:
         for index, row in blnc_opt_df.iterrows():
             total_pl_percentage = row['PL%']
@@ -87,7 +86,6 @@ def exit_options(blnc_opt_df, broker):
                     f"📉 Sell Price: {row['ltp']}\n"
                     f"📈 Buy Price: {row['avg']}\n"
                     f"💰 Booked Profit: {row['PnL']}\n"
-                    f"Total Booked:💰 {total_opt_pnl} 📣"
                 )
                 print(message)
                 send_telegram_message(message)
