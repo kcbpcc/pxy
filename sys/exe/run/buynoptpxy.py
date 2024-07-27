@@ -96,7 +96,7 @@ async def main():
         CE_positions_exist = [check_existing_positions(broker, symbol) for symbol in CE_symbols]
         PE_positions_exist = [check_existing_positions(broker, symbol) for symbol in PE_symbols]
 
-        if mktpredict == "RISE":
+        if mktpredict == "SIDE":
             # Only place orders for symbols at the strike price
             for symbol in CE_symbols[:1]:  # Take only the first symbol
                 exists = check_existing_positions(broker, symbol)
