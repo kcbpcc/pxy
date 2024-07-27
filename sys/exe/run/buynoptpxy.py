@@ -33,13 +33,12 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
     from telinoptpxy import send_telegram_message
 
     try:
-        if available_cash > 10000:
-            await handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
-            await handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
-        else:
-            log_insufficient_funds(available_cash)
+        # Proceed with order handling without checking funds
+        await handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
+        await handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
     except Exception as e:
         print(f"An error occurred: {str(e)}")
+        logging.error(f"An error occurred: {str(e)}")
 
 async def handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict):
     if not CE_position_exists and mktpxy == 'Buy':
@@ -93,38 +92,6 @@ def print_order_reason(symbol, position_exists, count, action):
     if reason:
         print(f"{symbol}: {reason: >{39 - len(symbol)}}")
 
-def log_insufficient_funds(available_cash):
-    print(f"\033[91mNo sufficient funds available. Cash💰: {int(round(available_cash / 1000))}K\033[0m")
-
-def construct_symbol(expiry_year, expiry_month, expiry_day, strike_price, option_type):
-    if len(expiry_month) == 2 and expiry_month.startswith("0"):
-        expiry_month = expiry_month[1]
-    if expiry_day is None:
-        return f"NIFTY{expiry_year}{expiry_month}{strike_price}{option_type}"
-    else:
-        return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}{option_type}"
-
-def count_positions_by_type(broker):
-    positions_response = broker.kite.positions()
-    positions_net = positions_response['net']
-    count_CE = 0
-    count_PE = 0
-    for position in positions_net:
-        if position['tradingsymbol'].startswith('NIFTY') and abs(position['quantity']) >= 25:
-            if position['tradingsymbol'].endswith('CE'):
-                count_CE += 1
-            elif position['tradingsymbol'].endswith('PE'):
-                count_PE += 1
-    return count_CE, count_PE
-
-def check_existing_positions(broker, symbol):
-    positions_response = broker.kite.positions()
-    positions_net = positions_response['net']
-    for position in positions_net:
-        if position['tradingsymbol'][-7:] == symbol[-7:] and abs(position['quantity']) >= 25:
-            return True
-    return False
-
 async def main():
     try:
         # Redirect sys.stdout to 'output.txt'
@@ -167,36 +134,27 @@ async def main():
             print(f"RISE strategy - CE symbols: {CE_symbols}")
             await process_multiple_orders(CE_symbols, "CE")
 
-            PE_symbol = construct_symbol(expiry_year, expiry_month, None, str(PE_Strike), 'PE')
-            print(f"RISE strategy - Processing PE symbol: {PE_symbol}")
-            PE_position_exists = check_existing_positions(broker, PE_symbol)
-            await process_orders(broker, available_cash, PE_position_exists, PE_position_exists, PE_symbol, PE_symbol, count_CE, count_PE, mktpxy) 
+            PE_symbol = construct_symbol(expiry_year, expiry_month, None, str(PE_Strike - 100), 'PE')
+            print(f"RISE strategy - PE symbol: {PE_symbol}")
+            await process_multiple_orders([PE_symbol], "PE")
+
         elif mktpredict == "FALL":
             PE_symbols = [construct_symbol(expiry_year, expiry_month, None, str(PE_Strike - i), 'PE') for i in [0, 100, 200]]
             print(f"FALL strategy - PE symbols: {PE_symbols}")
             await process_multiple_orders(PE_symbols, "PE")
 
-            CE_symbol = construct_symbol(expiry_year, expiry_month, None, str(CE_Strike), 'CE')
-            print(f"FALL strategy - Processing CE symbol: {CE_symbol}")
-            CE_position_exists = check_existing_positions(broker, CE_symbol)
-            await process_orders(broker, available_cash, CE_position_exists, CE_position_exists, CE_symbol, CE_symbol, count_CE, count_PE, mktpxy) 
-        elif mktpredict == "SIDE":
-            CE_symbol = construct_symbol(expiry_year, expiry_month, None, str(CE_Strike), 'CE')
-            PE_symbol = construct_symbol(expiry_year, expiry_month, None, str(PE_Strike), 'PE')
-            print(f"SIDE strategy - CE symbol: {CE_symbol}, PE symbol: {PE_symbol}")
-            CE_position_exists = check_existing_positions(broker, CE_symbol)
-            PE_position_exists = check_existing_positions(broker, PE_symbol)
-            await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
+            CE_symbol = construct_symbol(expiry_year, expiry_month, None, str(CE_Strike + 100), 'CE')
+            print(f"FALL strategy - CE symbol: {CE_symbol}")
+            await process_multiple_orders([CE_symbol], "CE")
+
+        else:
+            print(f"Market prediction '{mktpredict}' not recognized for placing orders.")
+
     except Exception as e:
-        print(f"Error: {e}")
-        logging.error(f"Error in main(): {e}")
+        print(f"An error occurred during main execution: {e}")
+        logging.error(f"An error occurred during main execution: {e}")
 
-async def run_main():
-    await main()
+if __name__ == "__main__":
+    asyncio.run(main())
 
-# Run the asynchronous function using asyncio.run()
-def sync_main():
-    asyncio.run(run_main())
-
-sync_main()
 
