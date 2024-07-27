@@ -33,9 +33,6 @@ args = parser.parse_args()
 # Get the last Wednesday and Thursday of the current month
 last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
 last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
-#print(f"Last Wednesday: {last_wednesday}")
-#print(f"Last Thursday: {last_thursday}")
-
 
 # Read combined data from CSV
 combined_df = pd.read_csv('pxycombined.csv')
@@ -111,7 +108,7 @@ for group, data in grouped_df:
 
     if total_invested_group != 0:
         value_statement = f"  {pe_count:02d} -🟥- {value_pe:06d}  ⚖   {value_ce:06d}  -🟩- {ce_count:02d}"
-        formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {GREY}{summary_sentence}{RESET}".rjust(50)
+        summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         color_none = SILVER
         # Check the command and print the corresponding output
@@ -126,7 +123,7 @@ for group, data in grouped_df:
             #if not filtered_data.empty:
                 #print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
         if len(data) >= 2:
-            formatted_output = f"{group}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
+            formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
             formatted_balance = f"{value_statement}{RESET}".center(44)
             print(formatted_output)
             print(formatted_balance)
