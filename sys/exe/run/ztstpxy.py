@@ -35,6 +35,9 @@ def add_date(row):
 def add_year_to_date(date_obj, year):
     if pd.isna(date_obj):
         return None
+    # Ensure date_obj is of type datetime.date
+    if isinstance(date_obj, datetime):
+        date_obj = date_obj.date()
     return datetime(year, date_obj.month, date_obj.day).date()
 
 def calculate_working_days(date_obj):
