@@ -152,8 +152,11 @@ filtered_df['Diff'] = filtered_df.apply(lambda row: business_days_diff(row['Date
 filtered_df['Date'] = filtered_df['Date'].dt.day
 filtered_df['Today'] = filtered_df['Today'].dt.day
 
+# Add 'Target' column with the specified condition
+filtered_df['Target'] = filtered_df['Diff'].apply(lambda x: x * 10 if x < 7 else None)
+
 # Reorder columns as requested
-final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff']]
+final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff', 'Target']]
 
 print(final_df.to_string(index=False))
 
