@@ -213,11 +213,11 @@ try:
     from predictpxy import predict_market_sentiment
     mktpredict = predict_market_sentiment()
     if mktpredict == "RISE":
-        nsefactor = 6
+        nsefactor = 9
     elif mktpredict == "FALL":
         nsefactor = 0
     elif mktpredict == "SIDE":
-        nsefactor = 3
+        nsefactor = 6
     else:
         nsefactor = 3
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
