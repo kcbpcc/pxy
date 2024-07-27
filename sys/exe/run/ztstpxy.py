@@ -3,6 +3,8 @@ import traceback
 import pandas as pd
 import requests
 import logging
+from datetime import datetime, timedelta
+import calendar
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from cmbddfpxy import process_data
@@ -13,8 +15,7 @@ from mktpxy import get_market_check
 from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
 from expdaypxy import get_last_weekday_of_current_month
-import calendar
-from datetime import datetime, timedelta
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 # Define function to get last weekday dates
 last_wednesday_str = get_last_weekday_of_current_month(calendar.WEDNESDAY)
@@ -36,21 +37,9 @@ def business_days_diff(start_date, end_date):
         start_date, end_date = end_date, start_date
     return len(pd.bdate_range(start_date, end_date))
 
-mktpredict = predict_market_sentiment()
-bmktpredict = predict_bnk_sentiment()
-bonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
-nonemincandlesequance, nmktpxy = get_market_check('^NSEI')
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-
-bsma = check_index_status('^NSEBANK')
-nsma = check_index_status('^NSEI')
-arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
-peak = peak_time()
-
-bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
-user_usernames = ('-4282665161',)
-
 def send_telegram_message(message):
+    bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
+    user_usernames = ('-4282665161',)
     try:
         for username in user_usernames:
             url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
@@ -153,15 +142,14 @@ filtered_df.loc[:, 'Date'] = filtered_df['Date'].dt.day
 filtered_df.loc[:, 'Today'] = filtered_df['Today'].dt.day
 
 # Add 'Target' column with the specified condition
-filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x: x * 9 if x < 10 else None)
-filtered_df.loc[:, 'Target'] = 100 - filtered_df.loc[:, 'Target'] 
+filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x: 100 - (x * 9))
 filtered_df.loc[:, 'Target'] = -1 * filtered_df.loc[:, 'Target']
-
 
 # Reorder columns as requested
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff', 'Target']]
 
 print(final_df.to_string(index=False))
+
 
 
 
