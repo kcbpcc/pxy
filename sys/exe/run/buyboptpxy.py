@@ -20,6 +20,10 @@ from rsnprntpxy import process_orders
 from exprpxy import month_expiry_date
 from bftpxy import get_bnk_action
 ha_nse_action, nse_power, Day_Change, Open_Change = get_bnk_action()
+from predictpxy import predict_market_sentiment
+from bpredictpxy import predict_bnk_sentiment
+mktpredict = predict_market_sentiment()
+bmktpredict = predict_bnk_sentiment()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from hndmktpxy import hand
 showhand = hand(mktpxy)
