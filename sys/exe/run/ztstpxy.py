@@ -99,5 +99,9 @@ blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 
 blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
-print(blnc_opt_df.to_string(index=False, col_space=10, header=True))
+# Select only the tradingsymbol and PL% columns
+selected_df = blnc_opt_df[['key', 'PL%']]
+selected_df.columns = ['tradingsymbol', 'PL%']  # Rename columns for clarity
+
+print(selected_df.to_string(index=False))
 
