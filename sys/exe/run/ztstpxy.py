@@ -142,7 +142,7 @@ filtered_df.loc[:, 'Date'] = filtered_df['Date'].dt.day
 filtered_df.loc[:, 'Today'] = filtered_df['Today'].dt.day
 
 # Add 'Target' column with the specified condition
-filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x: -100 - (x * 9))
+filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x:  - (x * 9)*10)
 filtered_df.loc[:, 'Target'] = -1 * filtered_df.loc[:, 'Target']
 
 # Reorder columns as requested
