@@ -33,6 +33,9 @@ args = parser.parse_args()
 # Get the last Wednesday and Thursday of the current month
 last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
 last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
+print(f"Last Wednesday: {last_wednesday}")
+print(f"Last Thursday: {last_thursday}")
+
 
 # Read combined data from CSV
 combined_df = pd.read_csv('pxycombined.csv')
