@@ -10,19 +10,7 @@ def save_output_to_rtf(content, filename='output.rtf'):
         file.write(content.replace('\n', '\\par\n'))
         file.write("\n}")
 
-output_content = f"{BRIGHT_GREEN + UNDERLINE}🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛{RESET}" if mktpredict == 'RISE' else \
-                  f"{BRIGHT_RED + UNDERLINE}🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛{RESET}" if mktpredict == 'FALL' else \
-                  f"{BRIGHT_YELLOW + UNDERLINE}🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛{RESET}" if mktpredict == 'SIDE' else ""
 
-output_content += "\nRunning scripts...\n"
-output_content += f"Peak time handler: {peak}\n"
-output_content += f"Market sentiment prediction: {mktpredict}\n"
-output_content += f"NSE market check: {onemincandlesequance}, {mktpxy}\n"
-output_content += f"Bank NSE market check: {bnkonemincandlesequance}, {bmktpxy}\n"
-output_content += f"NSE action: {ha_nse_action}, {nse_power}, {Day_Change}, {Open_Change}\n"
-output_content += f"MACD signal: {macd}\n"
-output_content += f"NSE index status: {nsma}\n"
-output_content += f"Bank NSE index status: {bsma}\n"
         
 run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long:")
 import importlib
@@ -44,7 +32,7 @@ while True:
     import os
     import sys
     import importlib
-    save_output_to_rtf(output_content, 'output.rtf')
+    
     def handle_exceptions(func):
         def wrapper(*args, **kwargs):
             try:
@@ -83,6 +71,24 @@ while True:
         from smapxy import check_index_status
         return check_index_status(symbol)
     try:
+        
+        output_content = f"{BRIGHT_GREEN + UNDERLINE}🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛{RESET}" if mktpredict == 'RISE' else \
+                          f"{BRIGHT_RED + UNDERLINE}🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛{RESET}" if mktpredict == 'FALL' else \
+                          f"{BRIGHT_YELLOW + UNDERLINE}🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛{RESET}" if mktpredict == 'SIDE' else ""
+        
+        output_content += "\nRunning scripts...\n"
+        output_content += f"Peak time handler: {peak}\n"
+        output_content += f"Market sentiment prediction: {mktpredict}\n"
+        output_content += f"NSE market check: {onemincandlesequance}, {mktpxy}\n"
+        output_content += f"Bank NSE market check: {bnkonemincandlesequance}, {bmktpxy}\n"
+        output_content += f"NSE action: {ha_nse_action}, {nse_power}, {Day_Change}, {Open_Change}\n"
+        output_content += f"MACD signal: {macd}\n"
+        output_content += f"NSE index status: {nsma}\n"
+        output_content += f"Bank NSE index status: {bsma}\n"        
+        
+        save_output_to_rtf(output_content, 'output.rtf')
+        
+        
         peak = peak_time_handler()
         if os.name == 'nt':
             os.system('cls')
