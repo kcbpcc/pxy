@@ -14,6 +14,8 @@ from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
 mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
+bonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
+nonemincandlesequance, nmktpxy = get_market_check('^NSEI')
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 bsma = check_index_status('^NSEBANK')
