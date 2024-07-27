@@ -84,7 +84,7 @@ def exit_options(blnc_opt_df, broker):
                 print(f"Conditions met for {row['key']}, placing order")
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
-                    f"🛬🛬🛬 🎯🎯🎯 EXIT order placed {row['key']} successfully.\n"
+                    f"🛬🛬🛬 😧😧😧 EXIT order placed {row['key']} successfully.\n"
                     f"🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
                     f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
                     f"💰 Booked Profit: {row['PnL']}\n"
