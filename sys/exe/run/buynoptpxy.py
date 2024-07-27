@@ -21,6 +21,10 @@ from exprpxy import month_expiry_date
 from hndmktpxy import hand
 showhand = hand(mktpxy)
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
+from predictpxy import predict_market_sentiment
+from bpredictpxy import predict_bnk_sentiment
+mktpredict = predict_market_sentiment()
+bmktpredict = predict_bnk_sentiment()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 #print("━" * 42)
