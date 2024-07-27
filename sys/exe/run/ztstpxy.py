@@ -1,122 +1,24 @@
-import sys
-import traceback
 import pandas as pd
-import requests
-import logging
-from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path
-from cmbddfpxy import process_data
-from smapxy import check_index_status
-from utcpxy import peak_time
-from depthpxy import calculate_consecutive_candles
-from mktpxy import get_market_check
-from predictpxy import predict_market_sentiment
-from bpredictpxy import predict_bnk_sentiment
-from expdaypxy import get_last_weekday_of_current_month
-import calendar
-from datetime import datetime
 import numpy as np
+from datetime import datetime
+import calendar
+from expdaypxy import get_last_weekday_of_current_month
 
 # Define function to get last weekday dates
 last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
 last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
 
-mktpredict = predict_market_sentiment()
-bmktpredict = predict_bnk_sentiment()
-bonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
-nonemincandlesequance, nmktpxy = get_market_check('^NSEI')
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+# Dummy data for demonstration (Replace this with actual DataFrame)
+data = {
+    'tradingsymbol': ['BANKNIFTY24JUL52500CE', 'BANKNIFTY24JUL53100CE', 'BANKNIFTY24JUL53200CE'],
+    'Invested': [14036, 15635, 14130],
+    'value': [568.50, 195.00, 153.75],
+    'PL%': [-95.946139, -98.752798, -98.910120],
+}
 
-bsma = check_index_status('^NSEBANK')
-nsma = check_index_status('^NSEI')
-arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
-peak = peak_time()
+filtered_df = pd.DataFrame(data)
 
-bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
-user_usernames = ('-4282665161',)
-
-def send_telegram_message(message):
-    try:
-        for username in user_usernames:
-            url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-            payload = {'chat_id': username, 'text': message}
-            response = requests.post(url, data=payload)
-            if response.status_code != 200:
-                print(f"Failed to send Telegram message. Status code: {response.status_code}")
-            else:
-                print("Telegram message sent successfully.")
-    except Exception as e:
-        print(f"Error sending Telegram message: {e}")
-
-def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker):
-    try:
-        order_id = broker.order_place(
-            tradingsymbol=tradingsymbol,
-            quantity=quantity,
-            exchange='NFO',
-            transaction_type=transaction_type,
-            order_type=order_type,
-            product=product
-        )
-        print(f"Order placed successfully. Order ID: {order_id}")
-        return order_id
-    except Exception as e:
-        print(f"Error placing order: {e}")
-        return None
-
-def exit_options(blnc_opt_df, broker):
-    total_opt_pnl = calculate_totals(blnc_opt_df)
-    try:
-        for index, row in blnc_opt_df.iterrows():
-            total_pl_percentage = row['PL%']
-            tgtoptsmadepth = row['tgtoptsmadepth']
-            
-            if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 400:
-                place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
-                message = (
-                    f"🛬🛬🛬 🎯🎯🎯 EXIT order placed {row['key']} successfully.\n"
-                    f"🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
-                    f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
-                    f"📉 Sell Price: {row['ltp']}\n"
-                    f"📈 Buy Price: {row['avg']}\n"
-                    f"💰 Booked Profit: {row['PnL']}\n"
-                    f"Total Booked:💰 {total_opt_pnl} 📣"
-                )
-                print(message)
-                send_telegram_message(message)
-    except Exception as e:
-        print(f"Error placing exit order: {e}")
-
-try:
-    sys.stdout = open('output.txt', 'w')
-    broker = get_kite()
-except Exception as e:
-    remove_token(dir_path)
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
-    sys.exit(1)
-finally:
-    if sys.stdout != sys.__stdout__:
-        sys.stdout.close()
-        sys.stdout = sys.__stdout__
-
-combined_df = process_data()
-blnc_opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
-blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '') 
-blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
-blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
-
-blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
-
-# Get the current month's abbreviation
-current_month_abbr = datetime.now().strftime('%b').upper()  # e.g., 'JAN', 'FEB', 'MAR'
-
-# Select only the tradingsymbol, Invested, value, and PL% columns and filter by current month's abbreviation
-selected_df = blnc_opt_df[['key', 'Invested', 'value', 'PL%']].copy()
-selected_df.columns = ['tradingsymbol', 'Invested', 'value', 'PL%']  # Rename columns for clarity
-filtered_df = selected_df[selected_df['tradingsymbol'].str.contains(current_month_abbr)]
-
-# Add date column based on trading symbol
+# Add the 'Date' column based on trading symbol
 def add_date(row):
     if row['tradingsymbol'].startswith('BANKNIFTY'):
         return last_wednesday
@@ -138,13 +40,13 @@ def calculate_working_days(date_obj):
         print(f"Error calculating working days: {e}")
         return None
 
+# Ensure 'Date' is in datetime format before applying the function
+filtered_df['Date'] = pd.to_datetime(filtered_df['Date'], format='%d-%b', errors='coerce').dt.date
+
+# Apply the working days calculation
 filtered_df.loc[:, 'Days_Difference'] = filtered_df['Date'].apply(calculate_working_days)
 
 # Reorder columns as requested
-final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Days_Difference']]
-
-print(final_df.to_string(index=False))
-
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Days_Difference']]
 
 print(final_df.to_string(index=False))
