@@ -129,7 +129,7 @@ current_month_abbr = datetime.now().strftime('%b').upper()  # e.g., 'JAN', 'FEB'
 # Select only the tradingsymbol, Invested, value, and PL% columns and filter by current month's abbreviation
 selected_df = blnc_opt_df[['key', 'Invested', 'value', 'PL%']]
 selected_df.columns = ['tradingsymbol', 'Invested', 'value', 'PL%']  # Rename columns for clarity
-filtered_df = selected_df[selected_df['tradingsymbol'].str.contains(current_month_abbr)]
+filtered_df = selected_df[selected_df['tradingsymbol'].str.contains(current_month_abbr)].copy()
 
 # Add date column based on trading symbol
 def add_date(row):
@@ -140,25 +140,26 @@ def add_date(row):
     else:
         return None
 
-filtered_df['Date'] = filtered_df.apply(add_date, axis=1)
+filtered_df.loc[:, 'Date'] = filtered_df.apply(add_date, axis=1)
 
 # Add 'Today' column with the current date
-filtered_df['Today'] = datetime.now()
+filtered_df.loc[:, 'Today'] = datetime.now()
 
 # Add 'Diff' column showing the difference in working days between 'Date' and 'Today'
-filtered_df['Diff'] = filtered_df.apply(lambda row: business_days_diff(row['Date'], row['Today']), axis=1)
+filtered_df.loc[:, 'Diff'] = filtered_df.apply(lambda row: business_days_diff(row['Date'], row['Today']), axis=1)
 
 # Extract day for 'Date' and 'Today'
-filtered_df['Date'] = filtered_df['Date'].dt.day
-filtered_df['Today'] = filtered_df['Today'].dt.day
+filtered_df.loc[:, 'Date'] = filtered_df['Date'].dt.day
+filtered_df.loc[:, 'Today'] = filtered_df['Today'].dt.day
 
 # Add 'Target' column with the specified condition
-filtered_df['Target'] = filtered_df['Diff'].apply(lambda x: x * 10 if x < 10 else None)
+filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x: x * 10 if x < 7 else None)
 
 # Reorder columns as requested
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff', 'Target']]
 
 print(final_df.to_string(index=False))
+
 
 
 
