@@ -154,11 +154,11 @@ filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x:  - (x * 9) * 
 # Reorder columns as requested
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff', 'Target']]
 
+print("Final DataFrame before calling exit_options:")
 print(final_df.to_string(index=False))
 
 # Call the function to exit options
-exit_options(blnc_opt_df, broker)
-
+exit_options(final_df, broker)
 
 
 
