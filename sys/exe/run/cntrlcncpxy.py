@@ -16,7 +16,7 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 from mktpxy import get_market_check
 from nftpxy import get_nse_action
 from predictpxy import predict_market_sentiment
-from smapxy import Day_Change
+from smapxy import check_index_status
 from utcpxy import peak_time
 from selfpxy import get_random_spiritual_message
 from macdpxy import calculate_macd_signal
@@ -146,7 +146,7 @@ async def send_telegram_message(message_text):
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 macd = calculate_macd_signal("^NSEI")
 random_message = get_random_spiritual_message()
-nsma = check_mkt_status('^NSEI')
+nsma = check_index_status('^NSEI')
 peak = peak_time()
 
 # Calculate decision
