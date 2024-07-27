@@ -180,7 +180,6 @@ try:
     import math
     import telegram
     import asyncio
-    from selfpxy import get_random_spiritual_message
     from macdpxy import calculate_macd_signal
     from smapxy import check_index_status
     from tabulate import tabulate
