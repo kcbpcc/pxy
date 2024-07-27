@@ -12,7 +12,13 @@ from depthpxy import calculate_consecutive_candles
 from mktpxy import get_market_check
 from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
+from expdaypxy import get_last_weekday_of_current_month
+import calendar
 from datetime import datetime
+
+# Define function to get last weekday dates
+last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
+last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
 
 mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
@@ -109,6 +115,19 @@ selected_df = blnc_opt_df[['key', 'Invested', 'value', 'PL%']]
 selected_df.columns = ['tradingsymbol', 'Invested', 'value', 'PL%']  # Rename columns for clarity
 filtered_df = selected_df[selected_df['tradingsymbol'].str.contains(current_month_abbr)]
 
-print(filtered_df.to_string(index=False))
+# Add date column based on trading symbol
+def add_date(row):
+    if row['tradingsymbol'].startswith('BANKNIFTY'):
+        return last_wednesday
+    elif row['tradingsymbol'].startswith('NIFTY'):
+        return last_thursday
+    else:
+        return None
 
+filtered_df['Date'] = filtered_df.apply(add_date, axis=1)
+
+# Reorder columns as requested
+final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date']]
+
+print(final_df.to_string(index=False))
 
