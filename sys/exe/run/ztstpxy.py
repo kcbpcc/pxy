@@ -33,7 +33,7 @@ def add_date(row):
         return None
 
 def add_year_to_date(date_obj, year):
-    if pd.isna(date_obj):
+    if pd.isna(date_obj) or date_obj is None:
         return None
     # Ensure date_obj is of type datetime.date
     if isinstance(date_obj, datetime):
@@ -41,7 +41,7 @@ def add_year_to_date(date_obj, year):
     return datetime(year, date_obj.month, date_obj.day).date()
 
 def calculate_working_days(date_obj):
-    if pd.isna(date_obj):
+    if pd.isna(date_obj) or date_obj is None:
         return None
     try:
         current_date = datetime.now().date()
