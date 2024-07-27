@@ -1,5 +1,6 @@
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 print("━" * 42)
+import argparse
 import pandas as pd
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
@@ -19,6 +20,13 @@ combined_df = process_data()
 from prftpxy import process_data_total_profit
 booked = process_data_total_profit()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
+def main():
+    parser = argparse.ArgumentParser(description="Process some commands.")
+    parser.add_argument('-flash', action='store_true', help="Enable flash mode")
+    args = parser.parse_args()
+    flash = 'yes' if args.flash else 'no'
+    print(f"Flash mode is set to: {flash}")
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 logging = Logger(30, dir_path + "main.log")
 try:
