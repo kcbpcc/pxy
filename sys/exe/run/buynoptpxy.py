@@ -155,7 +155,7 @@ async def main():
             print(f"Processing multiple orders for option type: {option_type}")
             for symbol in symbols:
                 position_exists = check_existing_positions(broker, symbol)
-                await process_orders(broker, available_cash, position_exists, position_exists, symbol, symbol, count_CE, count_PE, mktpxy) if mktpxy in ("Buy", "Sell") else None
+                await process_orders(broker, available_cash, position_exists, position_exists, symbol, symbol, count_CE, count_PE, mktpxy) 
                 print(f"Processed order for symbol: {symbol}")
 
         if mktpredict == "RISE":
@@ -166,8 +166,7 @@ async def main():
             PE_symbol = construct_symbol(expiry_year, expiry_month, None, str(PE_Strike), 'PE')
             print(f"RISE strategy - Processing PE symbol: {PE_symbol}")
             PE_position_exists = check_existing_positions(broker, PE_symbol)
-            await process_orders(broker, available_cash, PE_position_exists, PE_position_exists, PE_symbol, PE_symbol, count_CE, count_PE, mktpxy) if mktpxy in ("Buy", "Sell") else None
-
+            await process_orders(broker, available_cash, PE_position_exists, PE_position_exists, PE_symbol, PE_symbol, count_CE, count_PE, mktpxy) 
         elif mktpredict == "FALL":
             PE_symbols = [construct_symbol(expiry_year, expiry_month, None, str(PE_Strike - i), 'PE') for i in [0, 100, 200]]
             print(f"FALL strategy - PE symbols: {PE_symbols}")
@@ -176,16 +175,14 @@ async def main():
             CE_symbol = construct_symbol(expiry_year, expiry_month, None, str(CE_Strike), 'CE')
             print(f"FALL strategy - Processing CE symbol: {CE_symbol}")
             CE_position_exists = check_existing_positions(broker, CE_symbol)
-            await process_orders(broker, available_cash, CE_position_exists, CE_position_exists, CE_symbol, CE_symbol, count_CE, count_PE, mktpxy) if mktpxy in ("Buy", "Sell") else None
-
+            await process_orders(broker, available_cash, CE_position_exists, CE_position_exists, CE_symbol, CE_symbol, count_CE, count_PE, mktpxy) 
         elif mktpredict == "SIDE":
             CE_symbol = construct_symbol(expiry_year, expiry_month, None, str(CE_Strike), 'CE')
             PE_symbol = construct_symbol(expiry_year, expiry_month, None, str(PE_Strike), 'PE')
             print(f"SIDE strategy - CE symbol: {CE_symbol}, PE symbol: {PE_symbol}")
             CE_position_exists = check_existing_positions(broker, CE_symbol)
             PE_position_exists = check_existing_positions(broker, PE_symbol)
-            await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy) if mktpxy in ("Buy", "Sell") else None
-
+            await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
     except Exception as e:
         print(f"Error: {e}")
         logging.error(f"Error in main(): {e}")
