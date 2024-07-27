@@ -187,7 +187,6 @@ try:
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     onemincandlesequance, mktpxy = get_market_check('^NSEI')
     macd = calculate_macd_signal("^NSEI")
-    random_message = get_random_spiritual_message()
     nsma = check_index_status('^NSEI')
     peak = peak_time()
 ####################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™#####################################################################################################################
