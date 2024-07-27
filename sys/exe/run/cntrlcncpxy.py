@@ -303,22 +303,21 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] == 'CNC' and
-                        flash = 'yes' and
+                        flash == 'yes' and
                         row['PL%'] > 1.4 and 
-                        (
-                            (row['PL%'] > 1.4 and row['PnL'] > 140) or 
-                        )
+                        row['PnL'] > 140
                     ):
+                        # Placeholder for future logic
+                        pass
+                        
                         try:
                             print(f"Trying to close: {row['key']}")
                             is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
                             if is_placed:
                                 print(row)  # Optionally print the row after placing the order
                         except Exception as e:
-                            # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
     ############################################################################################      ############################################################################################    
-  
                     elif (
                         row['qty'] > 0 and
                         row['avg'] != 0 and
