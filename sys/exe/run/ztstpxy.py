@@ -14,7 +14,7 @@ from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
 from expdaypxy import get_last_weekday_of_current_month
 import calendar
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Define function to get last weekday dates
 last_wednesday_str = get_last_weekday_of_current_month(calendar.WEDNESDAY)
@@ -29,6 +29,12 @@ def parse_date(date_str):
 
 last_wednesday = parse_date(last_wednesday_str)
 last_thursday = parse_date(last_thursday_str)
+
+def business_days_diff(start_date, end_date):
+    """Calculate business days between two dates."""
+    if start_date > end_date:
+        start_date, end_date = end_date, start_date
+    return len(pd.bdate_range(start_date, end_date))
 
 mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
@@ -128,24 +134,29 @@ filtered_df = selected_df[selected_df['tradingsymbol'].str.contains(current_mont
 # Add date column based on trading symbol
 def add_date(row):
     if row['tradingsymbol'].startswith('BANKNIFTY'):
-        return last_wednesday.day  # Only the day part
+        return last_wednesday  # Return full date
     elif row['tradingsymbol'].startswith('NIFTY'):
-        return last_thursday.day  # Only the day part
+        return last_thursday  # Return full date
     else:
         return None
 
 filtered_df['Date'] = filtered_df.apply(add_date, axis=1)
 
-# Add 'Today' column with the current day
-filtered_df['Today'] = datetime.now().day
+# Add 'Today' column with the current date
+filtered_df['Today'] = datetime.now()
 
-# Add 'Diff' column showing the difference between 'Today' and 'Date'
-filtered_df['Diff'] = filtered_df['Today'] - filtered_df['Date']
+# Add 'Diff' column showing the difference in working days between 'Date' and 'Today'
+filtered_df['Diff'] = filtered_df.apply(lambda row: business_days_diff(row['Date'], row['Today']), axis=1)
+
+# Extract day for 'Date' and 'Today'
+filtered_df['Date'] = filtered_df['Date'].dt.day
+filtered_df['Today'] = filtered_df['Today'].dt.day
 
 # Reorder columns as requested
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff']]
 
 print(final_df.to_string(index=False))
+
 
 
 
