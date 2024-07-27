@@ -21,12 +21,11 @@ from prftpxy import process_data_total_profit
 booked = process_data_total_profit()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
-def main():
-    parser = argparse.ArgumentParser(description="Process some commands.")
-    parser.add_argument('-flash', action='store_true', help="Enable flash mode")
-    args = parser.parse_args()
-    flash = 'yes' if args.flash else 'no'
-    print(f"Flash mode is set to: {flash}")
+# Parse command-line arguments
+parser = argparse.ArgumentParser(description="Process some commands.")
+parser.add_argument('-flash', action='store_true', help="Enable flash mode")
+args = parser.parse_args()
+flash = 'yes' if args.flash else 'no'
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 logging = Logger(30, dir_path + "main.log")
 try:
