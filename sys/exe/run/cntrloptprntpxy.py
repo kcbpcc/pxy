@@ -212,18 +212,18 @@ print(full_output)
 # Prepare the Telegram message
 summary = (
     f"---------PXY® Dash Board----------\n"
-    f"📊 Run-PnL: {total_ac_run_pnl}\n"
+    f"📉 Run-PnL: {total_ac_run_pnl}\n"
     f"📈 Real-PnL: {real_pnl}\n"
-    f"💰 Margin: {str(int(available_cash)).zfill(6)}\n"
+    f"🪙 Margin: {str(int(available_cash)).zfill(6)}\n"
     f"💵 Cash: {str(int(live_balance)).zfill(6)}\n"
     f"🏦 Capital: {str(round(17.82, 2)).zfill(5)} PXY\n"
     f"💸 Value: {str(round(total_ac_value + (available_cash / 100000), 2)).zfill(5)}\n"
     f"📊 Holdings: {int(round(all_Stocks_worth_dpnl, 0))}\n"
     f"📝 Booked: {str(int(booked)).zfill(5)}\n"
     f"🏧 Bank-DP: {bank_profit}\n"
-    f"📉 Nifty-DP: {nifty_profit}\n"
-    f"📊 B━{ratio_B} // N━{ratio_N}\n"
-    f"💹 Total-PnL: {nifty_profit + bank_profit + booked}\n"
+    f"🛺 Nifty-DP: {nifty_profit}\n"
+    f"⚖️ B━{ratio_B} // N━{ratio_N}\n"
+    f"💰 Total-PnL: {nifty_profit + bank_profit + booked}\n"
     f"------------------------------\n"
     f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/783d6dad)\n"
 )
