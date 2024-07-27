@@ -122,9 +122,9 @@ blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=Tr
 # Get the current month's abbreviation
 current_month_abbr = datetime.now().strftime('%b').upper()  # e.g., 'JAN', 'FEB', 'MAR'
 
-# Select only the key, tradingsymbol, Invested, value, and PL% columns and filter by current month's abbreviation
-selected_df = blnc_opt_df[['key', 'Invested', 'value', 'PL%']]
-selected_df.columns = ['key', 'Invested', 'value', 'PL%']  # Rename columns for clarity
+# Select only the key, qty, tradingsymbol, Invested, value, and PL% columns and filter by current month's abbreviation
+selected_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%']]
+selected_df.columns = ['key', 'qty', 'Invested', 'value', 'PL%']  # Rename columns for clarity
 filtered_df = selected_df[selected_df['key'].str.contains(current_month_abbr)].copy()
 
 # Add date column based on trading symbol
@@ -152,13 +152,14 @@ filtered_df.loc[:, 'Today'] = filtered_df['Today'].dt.day
 filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x:  - (x * 9) * 10)
 
 # Reorder columns as requested
-final_df = filtered_df[['key', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff', 'Target']]
+final_df = filtered_df[['key', 'qty', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff', 'Target']]
 
 print("Final DataFrame before calling exit_options:")
 print(final_df.to_string(index=False))
 
 # Call the function to exit options
 exit_options(final_df, broker)
+
 
 
 
