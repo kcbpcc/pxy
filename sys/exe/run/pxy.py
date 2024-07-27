@@ -3,11 +3,13 @@ def get_user_input(prompt, default='s'):
     if user_input == '':
         return default
     return user_input
+
 def save_output_to_rtf(content, filename='output.rtf'):
     with open(filename, 'w') as file:
         file.write("{\\rtf1\\ansi\n")
         file.write(content.replace('\n', '\\par\n'))
         file.write("\n}")
+        
 run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long:")
 import importlib
 import subprocess
@@ -28,6 +30,7 @@ while True:
     import os
     import sys
     import importlib
+    save_output_to_rtf(output_content, 'output.rtf')
     def handle_exceptions(func):
         def wrapper(*args, **kwargs):
             try:
@@ -66,7 +69,6 @@ while True:
         from smapxy import check_index_status
         return check_index_status(symbol)
     try:
-        save_output_to_rtf(output_content, 'output.rtf')
         peak = peak_time_handler()
         if os.name == 'nt':
             os.system('cls')
@@ -137,6 +139,7 @@ while True:
     subprocess.run(['python3', 'plpxy.py'])
     progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
+
 
 
 
