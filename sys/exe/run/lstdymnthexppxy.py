@@ -28,7 +28,7 @@ def get_last_weekday_of_current_month(weekday):
         last_weekday = last_date - timedelta(days=(last_date.weekday() - weekday) % 7)
         
         # Adjust if the last weekday is a public holiday
-        while last_weekday.date() in public_holidays:
+        while last_weekday.date() in public_holidays or last_weekday.weekday() >= 5:
             last_weekday -= timedelta(days=1)
         
         return last_weekday
@@ -47,8 +47,10 @@ def get_last_weekday_of_current_month(weekday):
     return last_weekday.strftime("%d-%b").upper()
 
 # Get the last Wednesday and Thursday of the current month (or next month if already past)
+last_wednesday = get_last_weekday_of_current_month(2)  # Wednesday is 2
+last_thursday = get_last_weekday_of_current_month(3)   # Thursday is 3
 
+print(f"Last Wednesday: {last_wednesday}")
+print(f"Last Thursday: {last_thursday}")
 
-#print(f"Last Wednesday: {last_wednesday}")
-#print(f"Last Thursday: {last_thursday}")
 
