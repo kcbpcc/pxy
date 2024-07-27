@@ -166,6 +166,12 @@ all_Stocks_df = combined_df[
 all_Stocks_yworth = (all_Stocks_df['close'] * all_Stocks_df['qty']).sum().round(4)
 all_Stocks_worth = (all_Stocks_df['ltp'] * all_Stocks_df['qty']).sum().round(4)
 all_Stocks_worth_dpnl = all_Stocks_worth - all_Stocks_yworth
+filtered_df = combined_df[(combined_df['product'] == 'CNC') &
+                          (combined_df['qty'] > 0) &
+                          (combined_df['PL%'] > 1.4)]
+green_Stocks_profit_loss = filtered_df['PnL'].sum()
+total_invested = filtered_df['Invested'].sum()
+green_Stocks_capital_percentage = (green_Stocks_profit_loss / total_invested) * 100 if total_invested > 0 else 0
 
 #output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
                     #right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))  
@@ -190,6 +196,10 @@ output_lines.append(
     )
 )
 
+output_lines.append(left_aligned_format.format(
+        f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{int(green_Stocks_profit_loss)}{RESET}") +
+        right_aligned_format.format(
+        f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}%{RESET}"))
 output_lines.append(left_aligned_format.format(
         f"HOLDINGS:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}") +
         right_aligned_format.format(
