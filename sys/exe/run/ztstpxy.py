@@ -73,9 +73,9 @@ def exit_options(blnc_opt_df, broker):
     try:
         for index, row in blnc_opt_df.iterrows():
             total_pl_percentage = row['PL%']
-            tgtoptsmadepth = row['tgtoptsmadepth']
+            tgtoptsmadepth = row['Target']
             
-            if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 400:
+            if total_pl_percentage > tgtoptsmadepth :
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
                     f"🛬🛬🛬 🎯🎯🎯 EXIT order placed {row['key']} successfully.\n"
