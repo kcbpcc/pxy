@@ -168,7 +168,7 @@ all_Stocks_worth = (all_Stocks_df['ltp'] * all_Stocks_df['qty']).sum().round(4)
 all_Stocks_worth_dpnl = all_Stocks_worth - all_Stocks_yworth
 filtered_df = combined_df[(combined_df['product'] == 'CNC') &
                           (combined_df['qty'] > 0) &
-                          (combined_df['PL%'] > 0.4)]
+                          (combined_df['PL%'] > 0)]
 green_Stocks_profit_loss = filtered_df['PnL'].sum()
 total_invested = filtered_df['Invested'].sum()
 green_Stocks_capital_percentage = (green_Stocks_profit_loss / total_invested) * 100 if total_invested > 0 else 0
