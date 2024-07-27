@@ -1,7 +1,6 @@
 import traceback
 import sys
 import logging
-import telegram
 import asyncio
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
@@ -17,22 +16,25 @@ from exprpxy import month_expiry_date
 from hndmktpxy import hand
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+from predictpxy import predict_market_sentiment
 
-_, CE_Strike, PE_Strike, _ = get_prices()
+# Initialize constants
+mktpredict = predict_market_sentiment()
 nsma = check_index_status('^NSEI')
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 showhand = hand(mktpxy)
 
-def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
-    if len(expiry_month) == 2 and expiry_month.startswith("0"):
-        expiry_month = expiry_month[1]
-    noptions = PE_Strike if option_type == "PE" else (CE_Strike if option_type == "CE" else None)
-    if noptions is None:
-        raise ValueError(f"Invalid option type: {option_type}")
-    if expiry_day is None:
-        return f"NIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
-    else:
-        return f"NIFTY{expiry_year}{expiry_month}{expiry_day}{noptions}{option_type}"
+def construct_symbols(expiry_year, expiry_month, expiry_day, option_type, strike_price):
+    symbols = []
+    if option_type == "CE":
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}CE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price+100}CE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price+200}CE")
+    elif option_type == "PE":
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}PE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price-100}PE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price-200}PE")
+    return symbols
 
 def count_positions_by_type(broker):
     positions_response = broker.kite.positions()
@@ -86,14 +88,24 @@ async def main():
         
         expiry_year, expiry_month, expiry_day = month_expiry_date()
 
-        CE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'CE')
-        PE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'PE')
+        # Define the strike price (you might need to adjust this based on your requirements)
+        strike_price = get_prices()[1]  # Assuming this returns the current strike price
 
-        CE_position_exists = check_existing_positions(broker, CE_symbol)
-        PE_position_exists = check_existing_positions(broker, PE_symbol)
+        CE_symbols = construct_symbols(expiry_year, expiry_month, expiry_day, 'CE', strike_price)
+        PE_symbols = construct_symbols(expiry_year, expiry_month, expiry_day, 'PE', strike_price)
 
-        if mktpxy in ("Buy", "Sell"):
-            await process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy)
+        CE_positions_exist = [check_existing_positions(broker, symbol) for symbol in CE_symbols]
+        PE_positions_exist = [check_existing_positions(broker, symbol) for symbol in PE_symbols]
+
+        # Process each CE symbol and place orders
+        for symbol, exists in zip(CE_symbols, CE_positions_exist):
+            if mktpxy == "Buy" and mktpredict == "RISE":
+                await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
+
+        # Process each PE symbol and place orders
+        for symbol, exists in zip(PE_symbols, PE_positions_exist):
+            if mktpxy == "Sell" and mktpredict == "FALL":
+                await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
 
     except Exception as e:
         print(f"Error: {e}")
