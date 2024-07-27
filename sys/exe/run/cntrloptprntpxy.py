@@ -126,7 +126,7 @@ for group, data in grouped_df:
             #if not filtered_data.empty:
                 #print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
         if len(data) >= 2:
-            formatted_output = f"{group}{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
+            formatted_output = f"{group}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
             formatted_balance = f"{value_statement}{RESET}".center(44)
             print(formatted_output)
             print(formatted_balance)
