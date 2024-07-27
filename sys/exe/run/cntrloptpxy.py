@@ -9,12 +9,23 @@ from cmbddfpxy import process_data
 from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
+from bpredictpxy import predict_bnk_sentiment
+from mktpxy import get_market_check
+mktpredict = predict_market_sentiment()
+bmktpredict = predict_bnk_sentiment()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
 
 peak = peak_time()
+
+column_width = 30
+left_aligned_format = "{:<" + str(column_width) + "}"
+right_aligned_format = "{:>" + str(column_width) + "}"
+output_lines = []
+output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
+                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX")) 
 
 bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
 user_usernames = ('-4282665161',)
