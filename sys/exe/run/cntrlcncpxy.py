@@ -14,7 +14,7 @@ from cmbddfpxy import process_data
 from prftpxy import process_data_total_profit
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from mktpxy import get_market_check
-from nftpxy import check_mkt_status
+from nftpxy import get_nse_action
 from predictpxy import predict_market_sentiment
 from smapxy import Day_Change
 from utcpxy import peak_time
