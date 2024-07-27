@@ -12,6 +12,8 @@ from depthpxy import calculate_consecutive_candles
 from mktpxy import get_market_check
 from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
+from datetime import datetime
+
 mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
 bonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
@@ -99,9 +101,14 @@ blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 
 blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
-# Select only the tradingsymbol and PL% columns
+# Get the current month's abbreviation
+current_month_abbr = datetime.now().strftime('%b').upper()  # e.g., 'JAN', 'FEB', 'MAR'
+
+# Select only the tradingsymbol and PL% columns and filter by current month's abbreviation
 selected_df = blnc_opt_df[['key', 'PL%']]
 selected_df.columns = ['tradingsymbol', 'PL%']  # Rename columns for clarity
+filtered_df = selected_df[selected_df['tradingsymbol'].str.contains(current_month_abbr)]
 
-print(selected_df.to_string(index=False))
+print(filtered_df.to_string(index=False))
+
 
