@@ -17,8 +17,12 @@ import calendar
 from datetime import datetime
 
 # Define function to get last weekday dates
-last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
-last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
+last_wednesday_str = get_last_weekday_of_current_month(calendar.WEDNESDAY)
+last_thursday_str = get_last_weekday_of_current_month(calendar.THURSDAY)
+
+# Convert string dates to datetime objects
+last_wednesday = datetime.strptime(last_wednesday_str, '%Y-%m-%d')  # Adjust format if needed
+last_thursday = datetime.strptime(last_thursday_str, '%Y-%m-%d')  # Adjust format if needed
 
 mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
@@ -130,8 +134,3 @@ filtered_df['Date'] = filtered_df.apply(add_date, axis=1)
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date']]
 
 print(final_df.to_string(index=False))
-
-
-
-
-
