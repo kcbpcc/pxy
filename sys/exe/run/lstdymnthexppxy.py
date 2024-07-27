@@ -47,9 +47,8 @@ def get_last_weekday_of_current_month(weekday):
     return last_weekday.strftime("%d-%b").upper()
 
 # Get the last Wednesday and Thursday of the current month (or next month if already past)
-last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
-last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
 
-print(f"Last Wednesday: {last_wednesday}")
-print(f"Last Thursday: {last_thursday}")
+
+#print(f"Last Wednesday: {last_wednesday}")
+#print(f"Last Thursday: {last_thursday}")
 
