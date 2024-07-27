@@ -84,7 +84,7 @@ def process_data_total_profit():
         else:
             empty_df = pd.DataFrame(columns=['STOCK', 'QTY', 'PL%', 'PnL'])
             empty_df.to_csv('pxycncprofit.csv', index=False)
-            print("I did not exit any CNC positions today.🤔")
+            print("I did not exit any CNC positions today🤔🤔")
 
         # Calculate and print total profit for CNC positions
 
@@ -113,7 +113,7 @@ def process_data_total_profit():
             # for line in formatted_str_fo.split('\n'):
             #     print(f"{line:>41}")
         else:
-            print("I did not exit any FNO positions today.🤔")
+            print("I did not exit any FNO positions today🤔🤔")
             empty_df = pd.DataFrame(columns=['tradingsymbol', 'new_pnl_y'])  # Ensure 'empty_df' is defined
             empty_df.to_csv('pxyoptprofit.csv', index=False)
         
