@@ -4,7 +4,7 @@ from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_
 
 # List of public holidays
 public_holidays = [
-    "31-Jul-2024","22-Jan-2024", "26-Jan-2024", "08-Mar-2024", "25-Mar-2024", "29-Mar-2024", 
+    "22-Jan-2024", "26-Jan-2024", "08-Mar-2024", "25-Mar-2024", "29-Mar-2024", 
     "11-Apr-2024", "17-Apr-2024", "01-May-2024", "20-May-2024", "17-Jun-2024", 
     "17-Jul-2024", "15-Aug-2024", "02-Oct-2024", "01-Nov-2024", "15-Nov-2024", 
     "25-Dec-2024"
