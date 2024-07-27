@@ -101,7 +101,7 @@ for group, data in grouped_df:
     value_pe = total_invested_pe 
 
     ce_data = data[data['CP'] == '🟢']
-    total_invested_ce = ce_data['Invested'].sum()
+    total_invested_ce = ce_data['value'].sum()
     total_pl_ce = ce_data['PnL'].sum()
     value_ce = total_invested_ce
     ce_pe_ratio = round((value_ce / value_pe), 2) if value_pe != 0 else 0
