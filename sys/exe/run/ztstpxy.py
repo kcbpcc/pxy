@@ -87,8 +87,6 @@ def exit_options(blnc_opt_df, broker):
                     f"🛬🛬🛬 🎯🎯🎯 EXIT order placed {row['key']} successfully.\n"
                     f"🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
                     f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
-                    f"📉 Sell Price: {row['ltp']}\n"
-                    f"📈 Buy Price: {row['avg']}\n"
                     f"💰 Booked Profit: {row['PnL']}\n"
                 )
                 print(message)
