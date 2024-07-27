@@ -228,7 +228,7 @@ summary = (
     f"    📈 A/C Run-PnL: {total_ac_run_pnl}\n"
     f"    🪙 Margin: {str(int(available_cash)).zfill(6)}\n"
     f"    💵 Cash: {str(int(live_balance)).zfill(6)}\n"
-    f"    🏦 A/ Capital: {str(round(17.82, 2)).zfill(5)}\n"
+    f"    🏦 A/C Capital: {str(round(17.82, 2)).zfill(5)}\n"
     f"    💸 A/C Value: {str(round(total_ac_value + (available_cash / 100000), 2)).zfill(5)}\n"
     f"    📊 Holdings Day: {int(round(all_Stocks_worth_dpnl, 0))}\n"
     f"    📝 Stocks Day-PnL: {str(int(booked)).zfill(5)}\n"
