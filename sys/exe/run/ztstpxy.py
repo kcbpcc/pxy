@@ -45,6 +45,7 @@ def calculate_working_days(date_obj):
         return None
     try:
         current_date = datetime.now().date()
+        # Calculate business days
         return np.busday_count(date_obj, current_date)
     except Exception as e:
         print(f"Error calculating working days: {e}")
@@ -131,7 +132,14 @@ filtered_df = blnc_opt_df[
 ].copy()
 
 # Add the 'Date' column
-filtered_df['Date'] = filtered_df.apply(lambda row: add_year_to_date(add_date(row), current_year), axis=1)
+def debug_date_additions(row):
+    date = add_date(row)
+    print(f"Date from add_date for row {row}: {date}")
+    date_with_year = add_year_to_date(date, current_year)
+    print(f"Date with year from add_year_to_date for row {row}: {date_with_year}")
+    return date_with_year
+
+filtered_df['Date'] = filtered_df.apply(debug_date_additions, axis=1)
 
 # Calculate difference in working days between current date and Date
 filtered_df['Days_Difference'] = filtered_df['Date'].apply(calculate_working_days)
@@ -140,4 +148,5 @@ filtered_df['Days_Difference'] = filtered_df['Date'].apply(calculate_working_day
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Days_Difference']]
 
 print(final_df.to_string(index=False))
+
 
