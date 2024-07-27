@@ -118,9 +118,9 @@ filtered_df = selected_df[selected_df['tradingsymbol'].str.contains(current_mont
 # Add date column based on trading symbol
 def add_date(row):
     if row['tradingsymbol'].startswith('BANKNIFTY'):
-        return last_wednesday
+        return last_wednesday.day  # Extract day as integer
     elif row['tradingsymbol'].startswith('NIFTY'):
-        return last_thursday
+        return last_thursday.day  # Extract day as integer
     else:
         return None
 
@@ -130,6 +130,7 @@ filtered_df['Date'] = filtered_df.apply(add_date, axis=1)
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date']]
 
 print(final_df.to_string(index=False))
+
 
 
 
