@@ -218,13 +218,13 @@ try:
     from predictpxy import predict_market_sentiment
     mktpredict = predict_market_sentiment()
     if mktpredict == "RISE":
-        nsefactor = 9
+        nsefactor = 10
     elif mktpredict == "FALL":
         nsefactor = 0
     elif mktpredict == "SIDE":
         nsefactor = 6
     else:
-        nsefactor = 3
+        nsefactor = 5
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
     combined_df['fPL%'] = combined_df['smb_power'].apply(lambda x: round(np.exp(np.clip(((x + x) / 2), -threshold, threshold)), 2))
     combined_df['tPL%'] = np.maximum(combined_df['fPL%'], np.maximum(1.4, np.round(np.exp(np.clip(((combined_df['fPL%'] + combined_df['fPL%']) / 2), -threshold, threshold)), 2)) * 1)
