@@ -224,7 +224,7 @@ summary = (
     f"🛺 Nifty-DP: {nifty_profit}\n"
     f"⚖️ B━{ratio_B} // N━{ratio_N}\n"
     f"💰 Total-PnL: {nifty_profit + bank_profit + booked}\n"
-    f"------------------------------\n"
+    f"                      \n"
     f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/783d6dad)\n"
 )
 
