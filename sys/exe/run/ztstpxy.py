@@ -25,6 +25,7 @@ last_thursday = get_last_weekday_of_current_month(calendar.THURSDAY)
 
 # Helper functions
 def add_date(row):
+    """ Returns a single date object based on the trading symbol. """
     if row['tradingsymbol'].startswith('BANKNIFTY'):
         return last_wednesday
     elif row['tradingsymbol'].startswith('NIFTY'):
@@ -32,75 +33,16 @@ def add_date(row):
     else:
         return None
 
-def add_year_to_date(date_obj, year):
-    if pd.isna(date_obj) or date_obj is None:
-        return None
-    # Ensure date_obj is of type datetime.date
-    if isinstance(date_obj, datetime):
-        date_obj = date_obj.date()
-    return datetime(year, date_obj.month, date_obj.day).date()
-
 def calculate_working_days(date_obj):
+    """ Calculates the number of business days between date_obj and today. """
     if pd.isna(date_obj) or date_obj is None:
         return None
     try:
-        current_date = datetime.now().date()
-        return np.busday_count(date_obj, current_date)
+        today = datetime.now().date()
+        return np.busday_count(date_obj, today)
     except Exception as e:
         print(f"Error calculating working days: {e}")
         return None
-
-def send_telegram_message(message):
-    try:
-        for username in user_usernames:
-            url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-            payload = {'chat_id': username, 'text': message}
-            response = requests.post(url, data=payload)
-            if response.status_code != 200:
-                print(f"Failed to send Telegram message. Status code: {response.status_code}")
-            else:
-                print("Telegram message sent successfully.")
-    except Exception as e:
-        print(f"Error sending Telegram message: {e}")
-
-def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker):
-    try:
-        order_id = broker.order_place(
-            tradingsymbol=tradingsymbol,
-            quantity=quantity,
-            exchange='NFO',
-            transaction_type=transaction_type,
-            order_type=order_type,
-            product=product
-        )
-        print(f"Order placed successfully. Order ID: {order_id}")
-        return order_id
-    except Exception as e:
-        print(f"Error placing order: {e}")
-        return None
-
-def exit_options(blnc_opt_df, broker):
-    total_opt_pnl = calculate_totals(blnc_opt_df)
-    try:
-        for index, row in blnc_opt_df.iterrows():
-            total_pl_percentage = row['PL%']
-            tgtoptsmadepth = row['tgtoptsmadepth']
-            
-            if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 400:
-                place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
-                message = (
-                    f"🛬🛬🛬 🎯🎯🎯 EXIT order placed {row['key']} successfully.\n"
-                    f"🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
-                    f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
-                    f"📉 Sell Price: {row['ltp']}\n"
-                    f"📈 Buy Price: {row['avg']}\n"
-                    f"💰 Booked Profit: {row['PnL']}\n"
-                    f"Total Booked:💰 {total_opt_pnl} 📣"
-                )
-                print(message)
-                send_telegram_message(message)
-    except Exception as e:
-        print(f"Error placing exit order: {e}")
 
 # Main script execution
 try:
@@ -130,11 +72,12 @@ filtered_df = blnc_opt_df[
     blnc_opt_df['tradingsymbol'].str.contains('JAN|FEB|MAR', case=False)
 ].copy()
 
-# Add the 'Date' column as day of the month
+# Add the 'Date' column as the day of the month
 filtered_df['Date'] = filtered_df.apply(lambda row: add_date(row).day if add_date(row) else None, axis=1)
 
 # Calculate difference in working days between current date and Date
 def calculate_days_difference(day):
+    """ Calculates days difference between today and a given day of the month. """
     if day is None:
         return None
     try:
