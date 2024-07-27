@@ -2,15 +2,14 @@ import traceback
 import sys
 import logging
 import asyncio
+from datetime import datetime, timedelta
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
-from datetime import datetime, timedelta
 from ordoptpxy import place_order
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
 from mktpxy import get_market_check
-from rsnprntpxy import process_orders
 from exprpxy import month_expiry_date
 from hndmktpxy import hand
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
@@ -25,6 +24,73 @@ onemincandlesequance, mktpxy = get_market_check('^NSEI')
 showhand = hand(mktpxy)
 mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
+
+bnkmaxcount = 15
+nftmaxcount = 24
+
+async def process_orders(broker, available_cash, CE_position_exists, PE_position_exists, CE_symbol, PE_symbol, count_CE, count_PE, mktpxy):
+    from ordoptpxy import place_order
+    from telinoptpxy import send_telegram_message
+
+    try:
+        if available_cash > 10000:
+            await handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
+            await handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
+        else:
+            log_insufficient_funds(available_cash)
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
+async def handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict):
+    if not CE_position_exists and mktpxy == 'Buy':
+        quantity = determine_quantity(CE_symbol, count_CE, 'BANKNIFTY', 'NIFTY', bnkmaxcount, nftmaxcount, bmktpredict)
+        if quantity > 0:
+            await execute_order(broker, CE_symbol, quantity, place_order, send_telegram_message)
+            print_order_reason(CE_symbol, CE_position_exists, count_CE, 'Hold')
+        else:
+            print(f"Not placing order for {CE_symbol} as it is maxed out.")
+    else:
+        print_order_reason(CE_symbol, CE_position_exists, count_CE, 'Hold')
+
+async def handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict):
+    if not PE_position_exists and mktpxy == 'Sell':
+        quantity = determine_quantity(PE_symbol, count_PE, 'BANKNIFTY', 'NIFTY', bnkmaxcount, nftmaxcount, bmktpredict)
+        if quantity > 0:
+            await execute_order(broker, PE_symbol, quantity, place_order, send_telegram_message)
+        else:
+            print(f"Not placing order for {PE_symbol} as it is maxed out.")
+    else:
+        print_order_reason(PE_symbol, PE_position_exists, count_PE, 'Hold')
+
+def determine_quantity(symbol, count, banknifty_prefix, nifty_prefix, bnkmaxcount, nftmaxcount, bmktpredict):
+    if symbol.startswith(banknifty_prefix) and count < bnkmaxcount:
+        if symbol.endswith("PE") and bmktpredict == "FALL":
+            return 15
+        elif symbol.endswith("CE") and bmktpredict == "RISE":
+            return 15
+        else:
+            return 15
+    elif symbol.startswith(nifty_prefix) and count < nftmaxcount:
+        return 25
+    else:
+        return 0
+
+async def execute_order(broker, symbol, quantity, place_order, send_telegram_message):
+    buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', quantity, 'MARKET')
+    if buy_order_placed:
+        await send_telegram_message(f"🛫🛫🛫 🌱🌱🌱 ENTRY order placed for {symbol} successfully.")
+        print(f"{symbol} BUY order placed successfully.")
+    else:
+        print(f"Failed to place BUY order for {symbol}")
+
+def print_order_reason(symbol, position_exists, count, action):
+    reason = f"|{action}|{'🥚' if position_exists else '🧺'}|"
+    reason += " MaxedOut" if count >= (bnkmaxcount if symbol.startswith('BANKNIFTY') else nftmaxcount) else ""
+    if reason:
+        print(f"{symbol}: {reason: >{39 - len(symbol)}}")
+
+def log_insufficient_funds(available_cash):
+    print(f"\033[91mNo sufficient funds available. Cash💰: {int(round(available_cash / 1000))}K\033[0m")
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, strike_price, option_type):
     if len(expiry_month) == 2 and expiry_month.startswith("0"):
@@ -79,10 +145,6 @@ async def main():
         from fundpxy import calculate_decision
         decision, optdecision, available_cash, live_balance, limit = calculate_decision()
 
-        # Print the trading decision and other details
-        # print(f"Trading decision: {decision}, Option decision: {optdecision}")
-        # print(f"Available cash: {available_cash}, Live balance: {live_balance}, Limit: {limit}")
-
         count_CE, count_PE = count_positions_by_type(broker)
         print(f"Positions count - CE: {count_CE}, PE: {count_PE}")
 
@@ -136,7 +198,4 @@ def sync_main():
     asyncio.run(run_main())
 
 sync_main()
-
-
-
 
