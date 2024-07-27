@@ -104,9 +104,9 @@ blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=Tr
 # Get the current month's abbreviation
 current_month_abbr = datetime.now().strftime('%b').upper()  # e.g., 'JAN', 'FEB', 'MAR'
 
-# Select only the tradingsymbol and PL% columns and filter by current month's abbreviation
-selected_df = blnc_opt_df[['key', 'PL%']]
-selected_df.columns = ['tradingsymbol', 'PL%']  # Rename columns for clarity
+# Select only the tradingsymbol, Invested, value, and PL% columns and filter by current month's abbreviation
+selected_df = blnc_opt_df[['key', 'Invested', 'value', 'PL%']]
+selected_df.columns = ['tradingsymbol', 'Invested', 'value', 'PL%']  # Rename columns for clarity
 filtered_df = selected_df[selected_df['tradingsymbol'].str.contains(current_month_abbr)]
 
 print(filtered_df.to_string(index=False))
