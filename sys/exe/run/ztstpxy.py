@@ -20,9 +20,15 @@ from datetime import datetime
 last_wednesday_str = get_last_weekday_of_current_month(calendar.WEDNESDAY)
 last_thursday_str = get_last_weekday_of_current_month(calendar.THURSDAY)
 
-# Convert string dates to datetime objects
-last_wednesday = datetime.strptime(last_wednesday_str, '%Y-%m-%d')  # Adjust format if needed
-last_thursday = datetime.strptime(last_thursday_str, '%Y-%m-%d')  # Adjust format if needed
+# Define the current year
+current_year = datetime.now().year
+
+# Convert string dates to datetime objects with current year
+def parse_date(date_str):
+    return datetime.strptime(f"{date_str}-{current_year}", '%d-%b-%Y')
+
+last_wednesday = parse_date(last_wednesday_str)
+last_thursday = parse_date(last_thursday_str)
 
 mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
@@ -134,3 +140,4 @@ filtered_df['Date'] = filtered_df.apply(add_date, axis=1)
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date']]
 
 print(final_df.to_string(index=False))
+
