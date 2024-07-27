@@ -54,6 +54,7 @@ def send_telegram_message(message):
 
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker):
     try:
+        print(f"Placing order for {tradingsymbol} with quantity {quantity}")
         order_id = broker.order_place(
             tradingsymbol=tradingsymbol,
             quantity=quantity,
@@ -75,7 +76,9 @@ def exit_options(blnc_opt_df, broker):
             total_pl_percentage = row['PL%']
             tgtoptsmadepth = row['Target']
             
-            if total_pl_percentage > tgtoptsmadepth :
+            print(f"Checking conditions for {row['key']}: PL% = {total_pl_percentage}, Target = {tgtoptsmadepth}")
+            if total_pl_percentage > tgtoptsmadepth:
+                print(f"Conditions met for {row['key']}, placing order")
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
                     f"🛬🛬🛬 🎯🎯🎯 EXIT order placed {row['key']} successfully.\n"
@@ -88,6 +91,8 @@ def exit_options(blnc_opt_df, broker):
                 )
                 print(message)
                 send_telegram_message(message)
+            else:
+                print(f"Conditions not met for {row['key']}, skipping order")
     except Exception as e:
         print(f"Error placing exit order: {e}")
 
@@ -149,6 +154,10 @@ filtered_df.loc[:, 'Target'] = filtered_df.loc[:, 'Target']
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff', 'Target']]
 
 print(final_df.to_string(index=False))
+
+# Call the function to exit options
+exit_options(blnc_opt_df, broker)
+
 
 
 
