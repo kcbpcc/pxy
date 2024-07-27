@@ -209,6 +209,10 @@ output_lines.append(left_aligned_format.format(
         f"BOOKED:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
 
 output_lines.append(
+    left_aligned_format.format(f"B-Expiry:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{last_wednesday}{RESET}") +
+    right_aligned_format.format(f"N-Expiry:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{last_thursday}{RESET}")
+)
+output_lines.append(
     left_aligned_format.format(f"BANK-DP:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}") +
     right_aligned_format.format(f"NIFTY-DP:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}")
 )
