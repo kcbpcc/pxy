@@ -139,10 +139,14 @@ filtered_df['Date'] = filtered_df.apply(add_date, axis=1)
 # Add 'Today' column with the current day
 filtered_df['Today'] = datetime.now().day
 
+# Add 'Diff' column showing the difference between 'Today' and 'Date'
+filtered_df['Diff'] = filtered_df['Today'] - filtered_df['Date']
+
 # Reorder columns as requested
-final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today']]
+final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Today', 'Diff']]
 
 print(final_df.to_string(index=False))
+
 
 
 
