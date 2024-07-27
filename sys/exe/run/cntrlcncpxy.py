@@ -275,7 +275,7 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] == 'CNC' and
-                        mktpredict =! "RISE"
+                        mktpredict != "RISE" and
                         row['PL%'] > 1.4 and 
                         (mktpxy == "Sell" or mktpxy == "Bear") and
                         (
@@ -296,7 +296,7 @@ try:
                     elif (
                         row['qty'] > 0 and
                         row['avg'] != 0 and
-                        row['Invested'] < 30000 and
+                        row['Invested'] < 50000 and
                         peak == 'PEAKEND' and
                         available_cash > 1000 and
                         row['dPL%'] < -1.4
