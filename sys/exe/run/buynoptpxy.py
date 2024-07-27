@@ -76,12 +76,16 @@ def determine_quantity(symbol, count, banknifty_prefix, nifty_prefix, bnkmaxcoun
         return 0
 
 async def execute_order(broker, symbol, quantity, place_order, send_telegram_message):
-    buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', quantity, 'MARKET')
-    if buy_order_placed:
-        await send_telegram_message(f"🛫🛫🛫 🌱🌱🌱 ENTRY order placed for {symbol} successfully.")
-        print(f"{symbol} BUY order placed successfully.")
-    else:
-        print(f"Failed to place BUY order for {symbol}")
+    try:
+        buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', quantity, 'MARKET')
+        if buy_order_placed:
+            await send_telegram_message(f"🛫🛫🛫 🌱🌱🌱 ENTRY order placed for {symbol} successfully.")
+            print(f"{symbol} BUY order placed successfully.")
+        else:
+            print(f"Failed to place BUY order for {symbol}")
+    except Exception as e:
+        print(f"Error executing order for {symbol}: {e}")
+        logging.error(f"Error executing order for {symbol}: {e}")
 
 def print_order_reason(symbol, position_exists, count, action):
     reason = f"|{action}|{'🥚' if position_exists else '🧺'}|"
