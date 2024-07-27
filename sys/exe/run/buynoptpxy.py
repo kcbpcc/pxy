@@ -80,14 +80,10 @@ async def main():
     try:
         from fundpxy import calculate_decision
         decision, optdecision, available_cash, live_balance, limit = calculate_decision()
-        print(f"Trading decision: {decision}, Option decision: {optdecision}")
-        print(f"Available cash: {available_cash}, Live balance: {live_balance}, Limit: {limit}")
+        # Removed trading decision, option decision, available cash, live balance, limit print statements
 
         count_CE, count_PE = count_positions_by_type(broker)
-        PE_weight = count_PE - count_CE
-        CE_weight = count_CE - count_PE
-        weight = abs(count_PE - count_CE)
-        print(f"PE weight: {PE_weight}, CE weight: {CE_weight}, Absolute weight difference: {weight}")
+        print(f"Positions count - CE: {count_CE}, PE: {count_PE}")
 
         expiry_year, expiry_month, expiry_day = month_expiry_date()
         print(f"Expiry date - Year: {expiry_year}, Month: {expiry_month}, Day: {expiry_day}")
@@ -138,8 +134,6 @@ def sync_main():
 
 sync_main()
 
-
-sync_main()
 
 
 
