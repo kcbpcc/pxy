@@ -21,12 +21,8 @@ if total_invested != 0:
 else:
     green_Stocks_capital_percentage = 0
 
-# Print the results
-print(f"Green Stocks Profit/Loss: {green_Stocks_profit_loss}")
-print(f"Green Stocks Capital Percentage: {green_Stocks_capital_percentage:.2f}%")
-
 # Prompt user for confirmation
-user_input = input("Do you want to execute 'cntrlpxy.py -flash'? (Yes/No): ").strip().lower()
+user_input = input(f"Do you want to book {green_Stocks_profit_loss} @ {green_Stocks_capital_percentage:.2f}%? (Yes/No): ").strip().lower()
 
 if user_input == 'yes':
     # Call the external script
