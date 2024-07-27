@@ -15,6 +15,7 @@ from bpredictpxy import predict_bnk_sentiment
 from expdaypxy import get_last_weekday_of_current_month
 import calendar
 from datetime import datetime
+import numpy as np
 
 # Define function to get last weekday dates
 last_wednesday = get_last_weekday_of_current_month(calendar.WEDNESDAY)
@@ -126,8 +127,16 @@ def add_date(row):
 
 filtered_df['Date'] = filtered_df.apply(add_date, axis=1)
 
+# Calculate difference in working days between current date and Date
+def calculate_working_days(date_str):
+    current_date = datetime.now().date()
+    date_obj = pd.to_datetime(date_str).date()
+    return np.busday_count(date_obj, current_date)
+
+filtered_df['Days_Difference'] = filtered_df['Date'].apply(lambda x: calculate_working_days(x) if x else None)
+
 # Reorder columns as requested
-final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date']]
+final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Days_Difference']]
 
 print(final_df.to_string(index=False))
 
