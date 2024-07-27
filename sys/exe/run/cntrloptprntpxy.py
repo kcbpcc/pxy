@@ -212,22 +212,22 @@ print(full_output)
 # Prepare the Telegram message
 summary = (
     f"---------PXY® Dash Board----------\n"
-    f"📊 Run-PnL: {BRIGHT_RED if total_ac_run_pnl < 0 else BRIGHT_GREEN}{total_ac_run_pnl}{RESET}\n"
-    f"📈 Real-PnL: {BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl}{RESET}\n"
-    f"💰 Margin: {BRIGHT_GREEN if available_cash > 50000 else BRIGHT_YELLOW}{str(int(available_cash)).zfill(6)}{RESET}\n"
-    f"💵 Cash: {BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{str(int(live_balance)).zfill(6)}{RESET}\n"
-    f"🏦 Capital: {BRIGHT_YELLOW}{str(round(17.82, 2)).zfill(5)}"
-    f"{BRIGHT_GREEN if nmktpxy in ['Bull', 'Buy'] else BRIGHT_RED}      {BOLD}{UNDERLINE}PXY{RESET}\n"
-    f"💸 Value: {BRIGHT_YELLOW}{str(round(total_ac_value + (available_cash/100000), 2)).zfill(5)}{RESET}\n"
-    f"📊 Holdings: {BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}\n"
-    f"📝 Booked: {GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}\n"
-    f"🏧 Bank-DP: {BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}\n"
-    f"📉 Nifty-DP: {BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}\n"
-    f"📊 B━{ratio_B} // N━{ratio_N}{RESET}\n"
-    f"💹 Total-PnL: {BRIGHT_GREEN if (nifty_profit + bank_profit + booked) > 0 else BRIGHT_RED}{nifty_profit + bank_profit + booked}{RESET}\n"
+    f"📊 Run-PnL: {total_ac_run_pnl}\n"
+    f"📈 Real-PnL: {real_pnl}\n"
+    f"💰 Margin: {str(int(available_cash)).zfill(6)}\n"
+    f"💵 Cash: {str(int(live_balance)).zfill(6)}\n"
+    f"🏦 Capital: {str(round(17.82, 2)).zfill(5)} PXY\n"
+    f"💸 Value: {str(round(total_ac_value + (available_cash / 100000), 2)).zfill(5)}\n"
+    f"📊 Holdings: {int(round(all_Stocks_worth_dpnl, 0))}\n"
+    f"📝 Booked: {str(int(booked)).zfill(5)}\n"
+    f"🏧 Bank-DP: {bank_profit}\n"
+    f"📉 Nifty-DP: {nifty_profit}\n"
+    f"📊 B━{ratio_B} // N━{ratio_N}\n"
+    f"💹 Total-PnL: {nifty_profit + bank_profit + booked}\n"
     f"------------------------------\n"
     f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/783d6dad)\n"
 )
 
 # Function to send summary
 check_and_send_summary(summary, 'bordpxy')
+
