@@ -275,6 +275,7 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] == 'CNC' and
+                        mktpredict =! "RISE"
                         row['PL%'] > 1.4 and 
                         (mktpxy == "Sell" or mktpxy == "Bear") and
                         (
