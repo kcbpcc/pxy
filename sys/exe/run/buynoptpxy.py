@@ -6,7 +6,6 @@ from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
 from datetime import datetime, timedelta
-from thupxy import get_this_thursday
 from ordoptpxy import place_order
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
