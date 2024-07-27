@@ -223,8 +223,6 @@ full_output = '\n'.join(output_lines)
 
 print(full_output)
 
-
-# Prepare the Telegram message
 summary = (
     f"---------PXY® Dash Board----------\n"
     f"    📈 A/C Run-PnL: {total_ac_run_pnl}\n"
@@ -234,14 +232,15 @@ summary = (
     f"    💸 A/C Value: {str(round(total_ac_value + (available_cash / 100000), 2)).zfill(5)}\n"
     f"    📊 Holdings Day: {int(round(all_Stocks_worth_dpnl, 0))}\n"
     f"    📝 Stocks Day-PnL: {str(int(booked)).zfill(5)}\n"
-    f"    🏧 Bank Day-Proft: {bank_profit}\n"
-    f"    🛺 Nifty Day-Proft: {nifty_profit}\n"
+    f"    🏧 Bank Day-Proft: {str(bank_profit).zfill(5)}\n"
+    f"    🛺 Nifty Day-Proft: {str(nifty_profit).zfill(5)}\n"
     f"    ⚖️ B━{ratio_B} /🏋🏽/ N━{ratio_N}\n"
     f"    🎖️ A/C Real Total-PnL: {real_pnl}\n"
-    f"    💰 Day Total-PnL: {nifty_profit + bank_profit + booked}\n"
+    f"    💰 Day Total-PnL: {str(nifty_profit + bank_profit + booked).zfill(5)}\n"
     f"                      \n"
     f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/783d6dad)\n"
 )
+
 
 # Function to send summary
 check_and_send_summary(summary, 'bordpxy')
