@@ -112,7 +112,7 @@ blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=Tr
 current_month_abbr = datetime.now().strftime('%b').upper()  # e.g., 'JAN', 'FEB', 'MAR'
 
 # Select only the tradingsymbol, Invested, value, and PL% columns and filter by current month's abbreviation
-selected_df = blnc_opt_df[['key', 'Invested', 'value', 'PL%']]
+selected_df = blnc_opt_df[['key', 'Invested', 'value', 'PL%']].copy()
 selected_df.columns = ['tradingsymbol', 'Invested', 'value', 'PL%']  # Rename columns for clarity
 filtered_df = selected_df[selected_df['tradingsymbol'].str.contains(current_month_abbr)]
 
@@ -125,17 +125,26 @@ def add_date(row):
     else:
         return None
 
-filtered_df['Date'] = filtered_df.apply(add_date, axis=1)
+filtered_df.loc[:, 'Date'] = filtered_df.apply(add_date, axis=1)
 
 # Calculate difference in working days between current date and Date
-def calculate_working_days(date_str):
-    current_date = datetime.now().date()
-    date_obj = pd.to_datetime(date_str).date()
-    return np.busday_count(date_obj, current_date)
+def calculate_working_days(date_obj):
+    if pd.isna(date_obj):
+        return None
+    try:
+        current_date = datetime.now().date()
+        return np.busday_count(date_obj, current_date)
+    except Exception as e:
+        print(f"Error calculating working days: {e}")
+        return None
 
-filtered_df['Days_Difference'] = filtered_df['Date'].apply(lambda x: calculate_working_days(x) if x else None)
+filtered_df.loc[:, 'Days_Difference'] = filtered_df['Date'].apply(calculate_working_days)
 
 # Reorder columns as requested
+final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Days_Difference']]
+
+print(final_df.to_string(index=False))
+
 final_df = filtered_df[['tradingsymbol', 'Invested', 'value', 'PL%', 'Date', 'Days_Difference']]
 
 print(final_df.to_string(index=False))
