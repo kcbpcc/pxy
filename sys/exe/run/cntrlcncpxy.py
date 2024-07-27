@@ -14,7 +14,7 @@ from cmbddfpxy import process_data
 from prftpxy import process_data_total_profit
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from mktpxy import get_market_check
-from nftpxy import check_index_status
+from nftpxy import check_mkt_status
 from predictpxy import predict_market_sentiment
 from smapxy import Day_Change
 from utcpxy import peak_time
@@ -146,7 +146,7 @@ async def send_telegram_message(message_text):
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 macd = calculate_macd_signal("^NSEI")
 random_message = get_random_spiritual_message()
-nsma = check_index_status('^NSEI')
+nsma = check_mkt_status('^NSEI')
 peak = peak_time()
 
 # Calculate decision
