@@ -22,6 +22,7 @@ while true; do
     echo "   -pxybuy                🌱        by"
     echo "   -pxycdsl               🔐        cd"
     echo "   -pxytest               💊        ts"
+    echo "   -pxyflash              ⚡        fl"
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
     echo "******************************************"
@@ -44,6 +45,10 @@ while true; do
             echo "        🌱🌱🌱..Buy Now.🌱🌱🌱"
             pxybuy
             ;;    
+        fl)
+            echo "        ⚡⚡⚡..Flash it .⚡⚡⚡"
+            pxyflash
+            ;;   
         up)
             echo "       🧰⚙️🔧🛠️🔐 Update PXY®...🧰⚙️🔧🛠️🔐"
             pxyupdate
