@@ -9,8 +9,9 @@ from cmbddfpxy import process_data
 from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
-from bpredictpxy import predict_bnk_sentiment
 from mktpxy import get_market_check
+from predictpxy import predict_market_sentiment
+from bpredictpxy import predict_bnk_sentiment
 mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
