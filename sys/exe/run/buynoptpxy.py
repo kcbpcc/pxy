@@ -86,8 +86,6 @@ async def main():
         print(f"{BRIGHT_YELLOW}{count_PE:02}📉:PE positions💧N-{showhand}🔥CE positions:📈{count_CE:02}{RESET}")
         
         expiry_year, expiry_month, expiry_day = month_expiry_date()
-
-        # Define the strike price (you might need to adjust this based on your requirements)
         strike_price = get_prices()[1]  # Assuming this returns the current strike price
 
         CE_symbols = construct_symbols(expiry_year, expiry_month, expiry_day, 'CE', strike_price)
@@ -111,12 +109,12 @@ async def main():
         else:
             # Process each CE symbol and place orders if not "SIDE"
             for symbol, exists in zip(CE_symbols, CE_positions_exist):
-                if mktpxy == "Buy" and mktpredict == "RISE":
+                if mktpxy == "Buy" and mktpredict == "RISE" and not exists:
                     await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
 
             # Process each PE symbol and place orders if not "SIDE"
             for symbol, exists in zip(PE_symbols, PE_positions_exist):
-                if mktpxy == "Sell" and mktpredict == "FALL":
+                if mktpxy == "Sell" and mktpredict == "FALL" and not exists:
                     await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
 
     except Exception as e:
@@ -125,6 +123,12 @@ async def main():
 
 async def run_main():
     await main()
+
+def sync_main():
+    asyncio.run(run_main())
+
+if __name__ == '__main__':
+    sync_main()
 
 
 
