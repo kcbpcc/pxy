@@ -151,6 +151,7 @@ filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x: (100 - (x * 9
 
 # Reorder columns as requested
 final_df = filtered_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
+filtered_df['PL%'] = filtered_df['PL%'].astype(int)
 final_prnt_df = filtered_df[['key', 'PL%', 'PnL', 'Target']]
 
 print("Final DataFrame before calling exit_options:")
