@@ -160,7 +160,7 @@ final_df = filtered_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date',
 row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
 print("━" * 42)
-print(f"{BRIGHT_YELLOW}.........Recovering {row_count} opts worth {sum_invested}{RESET}")
+print(f"{BRIGHT_YELLOW}............Recovering {row_count} opts worth {sum_invested}{RESET}")
 filtered_df['PL%'] = filtered_df['PL%'].astype(int)
 final_prnt_df = filtered_df[['key', 'qty', 'PL%', 'PnL', 'Target']]
 
