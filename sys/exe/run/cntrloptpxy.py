@@ -175,13 +175,13 @@ if peak != 'PEAKSTART':
 widths = {'tradingsymbol': '22', 'qty': '3', 'PL%': '6','PnL': '7','tgtoptsmadepth': '6'}
 
 def format_row(row):
-    #m2m = f"{int(row['m2m'])}".ljust(int(widths['m2m']))
     symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
     qty = f"{int(row['qty'])}".rjust(int(widths['qty']))
     pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
     pnl = f"{int(row['PnL'])}".rjust(int(widths['PnL']))
+    tgtoptsmadepth = f"{row['tgtoptsmadepth']}".rjust(int(widths['tgtoptsmadepth']))
 
-    return f"{symbol}{pnl}{pl_pct}"
+    return f"{symbol}{qty}{pl_pct}{pnl}{tgtoptsmadepth}"
 
 filtered_df = exe_opt_df.query('qty > 0 and `PL%` > 0')
 
@@ -192,6 +192,7 @@ else:
     print("━" * 42)
     print('\n'.join(formatted_rows))
     print("━" * 42)
+#############################################################################################################################################################################################################################
 data = {
     'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
     'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
