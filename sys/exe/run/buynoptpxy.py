@@ -2,29 +2,22 @@ import traceback
 import sys
 import logging
 import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
 from ordoptpxy import place_order
-from macdpxy import calculate_macd_signal
-from smapxy import check_index_status
+from predictpxy import predict_market_sentiment
+from exprpxy import month_expiry_date
 from mktpxy import get_market_check
 from rsnprntpxy import process_orders
-from exprpxy import month_expiry_date
-from hndmktpxy import hand
-from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-from predictpxy import predict_market_sentiment
+from fundpxy import calculate_decision
 
 # Initialize constants
 mktpredict = predict_market_sentiment()
-nsma = check_index_status('^NSEI')
-onemincandlesequance, mktpxy = get_market_check('^NSEI')
-showhand = hand(mktpxy)
+mktpxy = get_market_check('^NSEI')[1]
 
 def construct_symbols(expiry_year, expiry_month, expiry_day, option_type, strike_price):
-    # Convert month to abbreviated format (e.g., January to JAN)
     expiry_month_abbr = expiry_month.upper()[:3]
     if expiry_day is None:
         raise ValueError("Expiry day cannot be None")
@@ -62,24 +55,14 @@ def check_existing_positions(broker, symbol):
 
 async def main():
     try:
-        # Redirect sys.stdout to 'output.txt'
-        with open('output.txt', 'w') as file:
-            sys.stdout = file
-
-            try:
-                broker = get_kite()
-            except Exception as e:
-                remove_token(dir_path)
-                print(traceback.format_exc())
-                logging.error(f"{str(e)} unable to get holdings")
-                sys.exit(1)
-
-    finally:
-        # Reset sys.stdout to its default value
-        sys.stdout = sys.__stdout__
+        broker = get_kite()
+    except Exception as e:
+        remove_token(dir_path)
+        logging.error(f"Error obtaining broker: {str(e)}")
+        print(traceback.format_exc())
+        sys.exit(1)
 
     try:
-        from fundpxy import calculate_decision
         decision, optdecision, available_cash, live_balance, limit = calculate_decision()
 
         count_CE, count_PE = count_positions_by_type(broker)
@@ -87,8 +70,8 @@ async def main():
         CE_weight = count_CE - count_PE
         weight = abs(count_PE - count_CE)
 
-        print(f"{BRIGHT_YELLOW}{count_PE:02}📉:PE positions💧N-{showhand}🔥CE positions:📈{count_CE:02}{RESET}")
-        
+        print(f"{BRIGHT_YELLOW}{count_PE:02}📉:PE positions💧N-{mktpxy}🔥CE positions:📈{count_CE:02}{RESET}")
+
         expiry_year, expiry_month, expiry_day = month_expiry_date()
         if expiry_day is None:
             expiry_day = 0  # Set to 0 or any other default value if None
