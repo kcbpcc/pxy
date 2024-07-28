@@ -157,10 +157,14 @@ filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x: (100 - (x * 9
 
 # Reorder columns as requested
 final_df = filtered_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
+row_count = final_df.shape[0]
+sum_invested = final_df['Invested'].sum()
+print(f"{BRIGHT_YELLOW}Working on {row_count} opts worth {sum_invested}{RESET}")
 filtered_df['PL%'] = filtered_df['PL%'].astype(int)
 final_prnt_df = filtered_df[['key', 'qty', 'PL%', 'PnL', 'Target']]
 
 #print("Final DataFrame before calling exit_options:")
+
 print(final_prnt_df.to_string(index=False, header=False)) if args.command == 'l' else None
 
 # Call the function to exit options
