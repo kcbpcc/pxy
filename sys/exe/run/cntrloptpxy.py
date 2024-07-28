@@ -172,15 +172,14 @@ if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
 #############################################################################################################################################################################################################################
-widths = {'tradingsymbol': '22', 'qty': '3', 'PL%': '5','PnL': '7','tgtoptsmadepth': '5'}
+widths = {'tradingsymbol': '22', 'qty': '3', 'PL%': '5','tgtoptsmadepth': '5','PnL': '7'}
 
 def format_row(row):
     symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
     qty = f"{int(row['qty'])}".rjust(int(widths['qty']))
     pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
-    pnl = f"{int(row['PnL'])}".rjust(int(widths['PnL']))
     tgtoptsmadepth = f"{row['tgtoptsmadepth']:.2f}".rjust(int(widths['tgtoptsmadepth']))
-
+    pnl = f"{int(row['PnL'])}".rjust(int(widths['PnL']))
     return f"{symbol}{qty}{pl_pct}{pnl}{tgtoptsmadepth}"
 
 filtered_df = exe_opt_df.query('qty > 0 and `PL%` > 0')
