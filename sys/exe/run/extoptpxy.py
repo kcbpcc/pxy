@@ -92,6 +92,7 @@ def exit_options(blnc_opt_df, broker):
                 print(message)
                 send_telegram_message(message)
             else:
+                pass
                 #print(f"Conditions not met for {row['key']}, skipping order")
     except Exception as e:
         print(f"Error placing exit order: {e}")
