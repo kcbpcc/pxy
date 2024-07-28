@@ -106,7 +106,7 @@ while True:
     print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'RISE' else (BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'FALL' else (BRIGHT_YELLOW + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if mktpredict == 'SIDE' else ""))) + RESET)
     subprocess.run(['python3', 'tistpxy.py']) 
     subprocess.run(['python3', 'cntrloptpxy.py'])
-    subprocess.run(['python3', 'buyboptpxy.py'])
+    ##subprocess.run(['python3', 'buyboptpxy.py'])
     subprocess.run(['python3', 'buynoptpxy.py'])
     if run_type == 's':
         subprocess.run(['python3', 'extoptpxy.py', 's'])
