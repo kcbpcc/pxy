@@ -118,7 +118,7 @@ async def main():
         PE_position_exists = check_existing_positions(broker, PE_symbol)
         print(f"Existing Positions: CE = {CE_position_exists}, PE = {PE_position_exists}")
 
-        if mktpredict == "SIDE":
+        if bmktpredict == "SIDE":
             # Only place orders for symbols at the strike price
             print("Market Predict: SIDE")
             print(f"Placing SIDE order for CE: {CE_symbol}, Exists: {CE_position_exists}")
@@ -129,7 +129,7 @@ async def main():
             if mktpxy == "Sell":
                 await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
 
-        elif mktpredict == "RISE":
+        elif bmktpredict == "RISE":
             print("Market Predict: RISE")
             print(f"Processing RISE order for CE: {CE_symbol}, Exists: {CE_position_exists}")
             if mktpxy == "Buy" and not CE_position_exists:
@@ -139,7 +139,7 @@ async def main():
             if mktpxy == "Sell" and not PE_position_exists and nse_power > 0.85:
                 await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
 
-        elif mktpredict == "FALL":
+        elif bmktpredict == "FALL":
             print("Market Predict: FALL")
             print(f"Processing FALL order for CE: {CE_symbol}, Exists: {CE_position_exists}")
             if mktpxy == "Buy" and not CE_position_exists and nse_power < 0.15:
