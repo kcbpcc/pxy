@@ -166,7 +166,11 @@ final_prnt_df = filtered_df[['key', 'qty', 'PL%', 'PnL', 'Target']]
 
 #print("Final DataFrame before calling exit_options:")
 
-print(final_prnt_df.to_string(index=False, header=False)) if args.command == 'l' else None
+if args.command == 'l':
+    final_prnt_str = final_prnt_df.to_string(index=False, header=False)
+    right_aligned_output = '\n'.join([line.rjust(42) for line in final_prnt_str.split('\n')])
+    print(right_aligned_output)
+
 
 # Call the function to exit options
 exit_options(final_df, broker)
