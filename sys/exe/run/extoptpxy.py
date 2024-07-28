@@ -165,8 +165,7 @@ filtered_df['PL%'] = filtered_df['PL%'].astype(int)
 final_prnt_df = filtered_df[['key', 'qty', 'PL%', 'Target', 'PnL']].copy()
 final_prnt_df.loc[:, 'key'] = final_prnt_df['key'].apply(lambda x: str(x).zfill(21) if x.isdigit() else str(x).rjust(21, '0'))
 
-# Display the formatted DataFrame
-print(final_prnt_df.to_string(index=False))
+print(final_prnt_df.to_string(index=False, header=False))
 
 if args.command == 'l':
     final_prnt_str = final_prnt_df.to_string(index=False, header=False)
