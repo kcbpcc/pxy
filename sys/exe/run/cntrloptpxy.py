@@ -179,7 +179,7 @@ def format_row(row):
     qty = f"{int(row['qty'])}".rjust(int(widths['qty']))
     pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
     pnl = f"{int(row['PnL'])}".rjust(int(widths['PnL']))
-    tgtoptsmadepth = f"{row['tgtoptsmadepth']}".rjust(int(widths['tgtoptsmadepth']))
+    tgtoptsmadepth = f"{row['tgtoptsmadepth']:.2f}".rjust(int(widths['tgtoptsmadepth']))
 
     return f"{symbol}{qty}{pl_pct}{pnl}{tgtoptsmadepth}"
 
@@ -192,6 +192,7 @@ else:
     print("━" * 42)
     print('\n'.join(formatted_rows))
     print("━" * 42)
+
 #############################################################################################################################################################################################################################
 data = {
     'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
