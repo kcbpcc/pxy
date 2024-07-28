@@ -22,6 +22,6 @@ def month_expiry_date():
     return expiry_year, expiry_month, expiry_day
 
 # Example usage:
-expiry_year, expiry_month, expiry_day = month_expiry_date()
-print(expiry_year, expiry_month, expiry_day)
+#expiry_year, expiry_month, expiry_day = month_expiry_date()
+#print(expiry_year, expiry_month, expiry_day)
 
