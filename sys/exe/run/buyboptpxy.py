@@ -142,7 +142,7 @@ async def main():
         elif mktpredict == "FALL":
             print("Market Predict: FALL")
             print(f"Processing FALL order for CE: {CE_symbol}, Exists: {CE_position_exists}")
-            if mktpxy == "Buy" and not CE_position_exists:
+            if mktpxy == "Buy" and not CE_position_exists and nse_power < 0.15::
                 await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
 
             print(f"Processing FALL order for PE: {PE_symbol}, Exists: {PE_position_exists}")
