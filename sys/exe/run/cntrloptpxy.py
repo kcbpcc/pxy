@@ -180,7 +180,7 @@ def format_row(row):
     pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
     tgtoptsmadepth = f"{row['tgtoptsmadepth']:.2f}".rjust(int(widths['tgtoptsmadepth']))
     pnl = f"{int(row['PnL'])}".rjust(int(widths['PnL']))
-    return f"{symbol}{qty}{pl_pct}{pnl}{tgtoptsmadepth}"
+    return f"{symbol}{qty}{pl_pct}{tgtoptsmadepth}{pnl}"
 
 filtered_df = exe_opt_df.query('qty > 0 and `PL%` > 0')
 
