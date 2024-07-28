@@ -1,7 +1,7 @@
 import asyncio
 import sys
 import logging
-from common import construct_symbols, count_positions_by_type, check_existing_positions, mktpredict
+from buycomnoptpxy import construct_symbols, count_positions_by_type, check_existing_positions, mktpredict
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
