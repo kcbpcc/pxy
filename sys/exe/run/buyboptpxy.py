@@ -1,7 +1,6 @@
 import traceback
 import sys
 import logging
-import telegram
 import asyncio
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
@@ -22,12 +21,25 @@ from hndmktpxy import hand
 # Initialize variables
 adjust = 0
 BCE_Strike, _, _, BPE_Strike = get_prices()
+print(f"Strikes: BCE_Strike = {BCE_Strike}, BPE_Strike = {BPE_Strike}")
+
 nsma = check_index_status('^NSEBANK')
+print(f"NSMA: {nsma}")
+
 onemincandlesequance, mktpxy = get_market_check('^NSEBANK')
+print(f"Market Check: {onemincandlesequance}, {mktpxy}")
+
 ha_nse_action, nse_power, Day_Change, Open_Change = get_bnk_action()
+print(f"Bank Action: ha_nse_action = {ha_nse_action}, nse_power = {nse_power}, Day_Change = {Day_Change}, Open_Change = {Open_Change}")
+
 mktpredict = predict_market_sentiment()
+print(f"Market Sentiment Prediction: {mktpredict}")
+
 bmktpredict = predict_bnk_sentiment()
+print(f"Bank Sentiment Prediction: {bmktpredict}")
+
 showhand = hand(mktpxy)
+print(f"Show Hand: {showhand}")
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     # Convert expiry_month to a single digit string if it's less than or equal to 9
@@ -68,6 +80,7 @@ async def main():
 
             try:
                 broker = get_kite()
+                print("Broker login successful")
             except Exception as e:
                 remove_token(dir_path)
                 print(traceback.format_exc())
@@ -81,21 +94,28 @@ async def main():
     try:
         from fundpxy import calculate_decision
         decision, optdecision, available_cash, live_balance, limit = calculate_decision()
+        print(f"Decision: {decision}, Opt Decision: {optdecision}, Available Cash: {available_cash}, Live Balance: {live_balance}, Limit: {limit}")
 
         count_CE, count_PE = count_positions_by_type(broker)
+        print(f"Position Counts: CE = {count_CE}, PE = {count_PE}")
+
         PE_weight = count_PE - count_CE
         CE_weight = count_CE - count_PE
         weight = abs(count_PE - count_CE)
+        print(f"Position Weights: PE_weight = {PE_weight}, CE_weight = {CE_weight}, Weight = {weight}")
 
         print(f"{BRIGHT_YELLOW}{count_PE:02}📉:PE positions💧B-{showhand}🔥CE positions:📈{count_CE:02}{RESET}")
 
         expiry_year, expiry_month, expiry_day = month_expiry_date()
+        print(f"Expiry Date: Year = {expiry_year}, Month = {expiry_month}, Day = {expiry_day}")
 
         CE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'CE')
         PE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'PE')
+        print(f"Symbols: CE = {CE_symbol}, PE = {PE_symbol}")
 
         CE_position_exists = check_existing_positions(broker, CE_symbol)
         PE_position_exists = check_existing_positions(broker, PE_symbol)
+        print(f"Existing Positions: CE = {CE_position_exists}, PE = {PE_position_exists}")
 
         CE_symbols = [CE_symbol]
         PE_symbols = [PE_symbol]
@@ -106,21 +126,25 @@ async def main():
             # Only place orders for symbols at the strike price
             symbol_ce = CE_symbols[0]  # Take only the first symbol
             exists_ce = check_existing_positions(broker, symbol_ce)
+            print(f"Placing SIDE order for CE: {symbol_ce}, Exists: {exists_ce}")
             if mktpxy == "Buy":
                 await process_orders(broker, available_cash, exists_ce, False, symbol_ce, None, count_CE, count_PE, mktpxy)
 
             symbol_pe = PE_symbols[0]  # Take only the first symbol
             exists_pe = check_existing_positions(broker, symbol_pe)
+            print(f"Placing SIDE order for PE: {symbol_pe}, Exists: {exists_pe}")
             if mktpxy == "Sell":
                 await process_orders(broker, available_cash, False, exists_pe, None, symbol_pe, count_CE, count_PE, mktpxy)
         else:
             # Process CE symbol and place orders if not "SIDE"
             symbol_ce, exists_ce = CE_symbols[0], CE_positions_exist[0]
+            print(f"Placing non-SIDE order for CE: {symbol_ce}, Exists: {exists_ce}, mktpredict: {mktpredict}, mktpxy: {mktpxy}")
             if mktpxy == "Buy" and mktpredict == "RISE" and not exists_ce:
                 await process_orders(broker, available_cash, exists_ce, False, symbol_ce, None, count_CE, count_PE, mktpxy)
 
             # Process PE symbol and place orders if not "SIDE"
             symbol_pe, exists_pe = PE_symbols[0], PE_positions_exist[0]
+            print(f"Placing non-SIDE order for PE: {symbol_pe}, Exists: {exists_pe}, mktpredict: {mktpredict}, mktpxy: {mktpxy}")
             if mktpxy == "Sell" and mktpredict == "FALL" and not exists_pe:
                 await process_orders(broker, available_cash, False, exists_pe, None, symbol_pe, count_CE, count_PE, mktpxy)
 
@@ -136,3 +160,4 @@ def sync_main():
     asyncio.run(run_main())
 
 sync_main()
+
