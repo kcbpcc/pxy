@@ -9,7 +9,7 @@ from exprpxy import month_expiry_date
 from fundpxy import calculate_decision
 from mktpxy import get_market_check
 from rsnprntpxy import process_orders
-
+onemincandlesequance, mktpxy_nifty = get_market_check('^NSEI')
 async def main_nifty():
     try:
         with open('output.txt', 'w') as file:
