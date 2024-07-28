@@ -41,19 +41,19 @@ async def main_bank():
             bmktpredict = predict_bnk_sentiment()
 
             if bmktpredict == "SIDE":
-                if mktpxy_bank == "Buy" and not CE_position_exists:
+                if mktpxy_bank == "Bull" and not CE_position_exists:
                     await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy_bank)
                 if mktpxy_bank == "Sell" and not PE_position_exists:
                     await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy_bank)
 
             elif bmktpredict == "RISE":
-                if mktpxy_bank == "Buy" and not CE_position_exists:
+                if mktpxy_bank == "Bull" and not CE_position_exists:
                     await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy_bank)
                 if mktpxy_bank == "Sell" and not PE_position_exists and nse_power > 0.85:
                     await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy_bank)
 
             elif bmktpredict == "FALL":
-                if mktpxy_bank == "Buy" and not CE_position_exists and nse_power < 0.15:
+                if mktpxy_bank == "Bull" and not CE_position_exists and nse_power < 0.15:
                     await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy_bank)
                 if mktpxy_bank == "Sell" and not PE_position_exists:
                     await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy_bank)
