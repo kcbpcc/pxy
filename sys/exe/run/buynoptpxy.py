@@ -1,65 +1,17 @@
-import traceback
+import asyncio
 import sys
 import logging
-import asyncio
+from common import construct_symbols, count_positions_by_type, check_existing_positions, mktpredict
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
-from datetime import datetime, timedelta
-from ordoptpxy import place_order
-from macdpxy import calculate_macd_signal
-from smapxy import check_index_status
+from exprpxy import month_expiry_date
+from fundpxy import calculate_decision
 from mktpxy import get_market_check
 from rsnprntpxy import process_orders
-from exprpxy import month_expiry_date
-from hndmktpxy import hand
-from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-from predictpxy import predict_market_sentiment
-from fundpxy import calculate_decision
 
-# Initialize constants
-mktpredict = predict_market_sentiment()
-nsma = check_index_status('^NSEI')
-onemincandlesequance, mktpxy = get_market_check('^NSEI')
-showhand = hand(mktpxy)
-
-def construct_symbols(expiry_year, expiry_month, expiry_day, option_type, strike_price):
-    symbols = []
-    if option_type == "CE":
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}CE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price+100}CE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price+200}CE")
-    elif option_type == "PE":
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}PE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price-100}PE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price-200}PE")
-    return symbols
-
-def count_positions_by_type(broker):
-    positions_response = broker.kite.positions()
-    positions_net = positions_response['net']
-    count_CE = 0
-    count_PE = 0
-    for position in positions_net:
-        if position['tradingsymbol'].startswith('NIFTY') and abs(position['quantity']) >= 25:
-            if position['tradingsymbol'].endswith('CE'):
-                count_CE += 1
-            elif position['tradingsymbol'].endswith('PE'):
-                count_PE += 1
-    return count_CE, count_PE
-
-def check_existing_positions(broker, symbol):
-    positions_response = broker.kite.positions()
-    positions_net = positions_response['net']
-    for position in positions_net:
-        if position['tradingsymbol'][-7:] == symbol[-7:] and abs(position['quantity']) >= 25:
-            return True
-    return False
-
-async def main():
+async def main_nifty():
     try:
-        # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
 
@@ -67,84 +19,58 @@ async def main():
                 broker = get_kite()
             except Exception as e:
                 remove_token(dir_path)
-                print(traceback.format_exc())
                 logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
-
             finally:
-                # Reset sys.stdout to its default value
                 sys.stdout = sys.__stdout__
 
         try:
             decision, optdecision, available_cash, live_balance, limit = calculate_decision()
-
-            count_CE, count_PE = count_positions_by_type(broker)
-            PE_weight = count_PE - count_CE
-            CE_weight = count_CE - count_PE
-            weight = abs(count_PE - count_CE)
-
-            print(f"{BRIGHT_YELLOW}{count_PE:02}📉:PE positions💧N-{showhand}🔥CE positions:📈{count_CE:02}{RESET}")
+            count_CE, count_PE = count_positions_by_type(broker, 'NIFTY', 25)
 
             expiry_year, expiry_month, expiry_day = month_expiry_date()
-            strike_price = get_prices()[1]  # Assuming this returns the current strike price
+            strike_price = get_prices()[1]
 
             CE_symbols = construct_symbols(expiry_year, expiry_month, expiry_day, 'CE', strike_price)
             PE_symbols = construct_symbols(expiry_year, expiry_month, expiry_day, 'PE', strike_price)
 
-            CE_positions_exist = [check_existing_positions(broker, symbol) for symbol in CE_symbols]
-            PE_positions_exist = [check_existing_positions(broker, symbol) for symbol in PE_symbols]
+            CE_positions_exist = [check_existing_positions(broker, symbol, 25) for symbol in CE_symbols]
+            PE_positions_exist = [check_existing_positions(broker, symbol, 25) for symbol in PE_symbols]
 
             if mktpredict == "SIDE":
-                # Only place orders for symbols at the strike price
-                for symbol in CE_symbols[:1]:  # Take only the first CE symbol
-                    if mktpxy == "Buy":
-                        exists = check_existing_positions(broker, symbol)
-                        print(f"Processing SIDE Buy for CE: {symbol}, Exists: {exists}")
-                        await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
-            
-                for symbol, exists in zip(PE_symbols[:1], PE_positions_exist[:1]):  # Take only the first PE symbol
-                    if mktpxy == "Sell":
-                        print(f"Processing SIDE Sell for PE: {symbol}, Exists: {exists}")
-                        await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
-            
+                for symbol in CE_symbols[:1]:
+                    if mktpxy_nifty == "Buy":
+                        exists = check_existing_positions(broker, symbol, 25)
+                        await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy_nifty)
+                for symbol in PE_symbols[:1]:
+                    if mktpxy_nifty == "Sell":
+                        await process_orders(broker, available_cash, False, check_existing_positions(broker, symbol, 25), None, symbol, count_CE, count_PE, mktpxy_nifty)
+
             elif mktpredict == "RISE":
-                for symbol, exists in zip(CE_symbols[:1], CE_positions_exist[:1]):  # Take only the first CE symbol
-                    if mktpxy == "Buy" and not exists:  # Check if there's no existing position
-                        print(f"Processing RISE Buy for CE: {symbol}, Exists: {exists}")
-                        await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
-            
-                for symbol in PE_symbols[:1]:  # Take only the first PE symbol
-                    exists = check_existing_positions(broker, symbol)
-                    if mktpxy == "Sell" and not exists and nse_power > 0.85:  # Check NSE power condition
-                        print(f"Processing RISE Sell for PE: {symbol}, Exists: {exists}, NSE Power: {nse_power}")
-                        await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
-            
+                for symbol in CE_symbols[:1]:
+                    if mktpxy_nifty == "Buy" and not check_existing_positions(broker, symbol, 25):
+                        await process_orders(broker, available_cash, False, False, symbol, None, count_CE, count_PE, mktpxy_nifty)
+                for symbol in PE_symbols[:1]:
+                    if mktpxy_nifty == "Sell" and not check_existing_positions(broker, symbol, 25) and nse_power > 0.85:
+                        await process_orders(broker, available_cash, False, False, None, symbol, count_CE, count_PE, mktpxy_nifty)
+
             elif mktpredict == "FALL":
-                for symbol in CE_symbols[:1]:  # Take only the first CE symbol
-                    exists = check_existing_positions(broker, symbol)
-                    if mktpxy == "Buy" and not exists and nse_power < 0.15:  # Check NSE power condition
-                        print(f"Processing FALL Buy for CE: {symbol}, Exists: {exists}, NSE Power: {nse_power}")
-                        await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
-            
-                for symbol, exists in zip(PE_symbols[:1], PE_positions_exist[:1]):  # Take only the first PE symbol
-                    if mktpxy == "Sell" and not exists:  # Check if there's no existing position
-                        print(f"Processing FALL Sell for PE: {symbol}, Exists: {exists}")
-                        await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
+                for symbol in CE_symbols[:1]:
+                    if mktpxy_nifty == "Buy" and not check_existing_positions(broker, symbol, 25) and nse_power < 0.15:
+                        await process_orders(broker, available_cash, False, False, symbol, None, count_CE, count_PE, mktpxy_nifty)
+                for symbol in PE_symbols[:1]:
+                    if mktpxy_nifty == "Sell" and not check_existing_positions(broker, symbol, 25):
+                        await process_orders(broker, available_cash, False, False, None, symbol, count_CE, count_PE, mktpxy_nifty)
 
         except Exception as e:
-            print(f"Error: {e}")
-            logging.error(f"Error in main(): {e}")
+            logging.error(f"Error in main_nifty(): {e}")
 
     except Exception as e:
-        print(f"Error: {e}")
         logging.error(f"Error in redirecting stdout: {e}")
 
-async def run_main():
-    await main()
-
-def sync_main():
-    asyncio.run(run_main())
-
-if __name__ == '__main__':
-    sync_main()
+if __name__ == "__main__":
+    try:
+        asyncio.run(main_nifty())
+    except Exception as e:
+        logging.error(f"Error in main execution: {e}")
 
