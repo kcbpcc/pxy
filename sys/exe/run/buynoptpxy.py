@@ -93,7 +93,7 @@ async def main():
 
         CE_positions_exist = [check_existing_positions(broker, symbol) for symbol in CE_symbols]
         PE_positions_exist = [check_existing_positions(broker, symbol) for symbol in PE_symbols]
-
+        
         if mktpredict == "SIDE":
             # Only place orders for symbols at the strike price
             for symbol in CE_symbols[:1]:  # Take only the first CE symbol
@@ -101,12 +101,13 @@ async def main():
                     exists = check_existing_positions(broker, symbol)
                     await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
             
-            for symbol in CE_symbols[:1]:  # Take only the first PE symbol
+            for symbol in PE_symbols[:1]:  # Take only the first PE symbol
                 if mktpxy == "Sell":
+                    exists = check_existing_positions(broker, symbol)
                     await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
         
         elif mktpredict == "RISE":
-            for symbol, exists in zip(CE_symbols[:1], CE_positions_exist[:1]):  # Take only the first CE symbol
+            for symbol, exists in zip(CE_symbols[:3], CE_positions_exist[:3]):  # Take the first three CE symbols
                 if mktpxy == "Buy" and not exists:  # Check if there's no existing position
                     await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
             
@@ -121,9 +122,10 @@ async def main():
                 if mktpxy == "Buy" and not exists and nse_power < 0.15:  # Check NSE power condition
                     await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
             
-            for symbol, exists in zip(PE_symbols[:1], PE_positions_exist[:1]):  # Take only the first PE symbol
+            for symbol, exists in zip(PE_symbols[:3], PE_positions_exist[:3]):  # Take the first three PE symbols
                 if mktpxy == "Sell" and not exists:  # Check if there's no existing position
                     await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
+
 
     except Exception as e:
         print(f"Error: {e}")
