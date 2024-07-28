@@ -26,6 +26,8 @@ showhand = hand(mktpxy)
 def construct_symbols(expiry_year, expiry_month, expiry_day, option_type, strike_price):
     # Convert month to abbreviated format (e.g., January to JAN)
     expiry_month_abbr = expiry_month.upper()[:3]
+    if expiry_day is None:
+        raise ValueError("Expiry day cannot be None")
     symbols = []
     if option_type == "CE":
         symbols.append(f"NIFTY{expiry_year}{expiry_month_abbr}{expiry_day:02}{strike_price}CE")
@@ -88,6 +90,8 @@ async def main():
         print(f"{BRIGHT_YELLOW}{count_PE:02}📉:PE positions💧N-{showhand}🔥CE positions:📈{count_CE:02}{RESET}")
         
         expiry_year, expiry_month, expiry_day = month_expiry_date()
+        if expiry_day is None:
+            expiry_day = 0  # Set to 0 or any other default value if None
         strike_price = get_prices()[1]  # Assuming this returns the current strike price
 
         CE_symbols = construct_symbols(expiry_year, expiry_month, expiry_day, 'CE', strike_price)
@@ -148,6 +152,7 @@ async def main():
 
 # Execute the main function
 asyncio.run(main())
+
 
 
 
