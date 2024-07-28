@@ -81,7 +81,7 @@ def exit_options(blnc_opt_df, broker):
             
             print(f"Checking conditions for {row['key']}: PL% = {total_pl_percentage}, Target = {tgtoptsmadepth}")
             if total_pl_percentage > tgtoptsmadepth:
-                print(f"Conditions met for {row['key']}, placing order")
+                #print(f"Conditions met for {row['key']}, placing order")
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
                     f"🛬🛬🛬 😧😧😧 EXIT order placed {row['key']} successfully.\n"
@@ -155,7 +155,8 @@ filtered_df['PL%'] = filtered_df['PL%'].astype(int)
 final_prnt_df = filtered_df[['key', 'PL%', 'PnL', 'Target']]
 
 print("Final DataFrame before calling exit_options:")
-print(final_prnt_df.to_string(index=False))
+print(final_prnt_df.to_string(index=False, header=False))
+
 
 # Call the function to exit options
 exit_options(final_df, broker)
