@@ -79,7 +79,7 @@ def exit_options(blnc_opt_df, broker):
             total_pl_percentage = row['PL%']
             tgtoptsmadepth = row['Target']
             
-            print(f"Checking conditions for {row['key']}: PL% = {total_pl_percentage}, Target = {tgtoptsmadepth}")
+            #print(f"Checking conditions for {row['key']}: PL% = {total_pl_percentage}, Target = {tgtoptsmadepth}")
             if total_pl_percentage > tgtoptsmadepth:
                 #print(f"Conditions met for {row['key']}, placing order")
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
