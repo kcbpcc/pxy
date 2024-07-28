@@ -16,6 +16,11 @@ from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
 from expdaypxy import get_last_weekday_of_current_month
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+import argparse
+parser = argparse.ArgumentParser(description="Process some commands.")
+parser.add_argument('command', nargs='?', choices=['l', 's'], default='s',
+                    help="Command to run the program with. Defaults to 's' if not provided.")
+args = parser.parse_args()
 
 # Define function to get last weekday dates
 last_wednesday_str = get_last_weekday_of_current_month(calendar.WEDNESDAY)
