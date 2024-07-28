@@ -155,7 +155,7 @@ final_df = filtered_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date',
 filtered_df['PL%'] = filtered_df['PL%'].astype(int)
 final_prnt_df = filtered_df[['key', 'PL%', 'PnL', 'Target']]
 
-print("Final DataFrame before calling exit_options:")
+#print("Final DataFrame before calling exit_options:")
 print(final_prnt_df.to_string(index=False, header=False))
 
 
