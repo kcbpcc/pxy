@@ -39,7 +39,7 @@ async def main_nifty():
 
             if mktpredict == "SIDE":
                 for symbol in CE_symbols[:1]:
-                    if mktpxy_nifty == "Buy":
+                    if mktpxy_nifty == "Bull":
                         exists = check_existing_positions(broker, symbol, 25)
                         await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy_nifty)
                 for symbol in PE_symbols[:1]:
@@ -48,7 +48,7 @@ async def main_nifty():
 
             elif mktpredict == "RISE":
                 for symbol in CE_symbols[:1]:
-                    if mktpxy_nifty == "Buy" and not check_existing_positions(broker, symbol, 25):
+                    if mktpxy_nifty == "Bull" and not check_existing_positions(broker, symbol, 25):
                         await process_orders(broker, available_cash, False, False, symbol, None, count_CE, count_PE, mktpxy_nifty)
                 for symbol in PE_symbols[:1]:
                     if mktpxy_nifty == "Sell" and not check_existing_positions(broker, symbol, 25) and nse_power > 0.85:
@@ -56,7 +56,7 @@ async def main_nifty():
 
             elif mktpredict == "FALL":
                 for symbol in CE_symbols[:1]:
-                    if mktpxy_nifty == "Buy" and not check_existing_positions(broker, symbol, 25) and nse_power < 0.15:
+                    if mktpxy_nifty == "Bull" and not check_existing_positions(broker, symbol, 25) and nse_power < 0.15:
                         await process_orders(broker, available_cash, False, False, symbol, None, count_CE, count_PE, mktpxy_nifty)
                 for symbol in PE_symbols[:1]:
                     if mktpxy_nifty == "Sell" and not check_existing_positions(broker, symbol, 25):
