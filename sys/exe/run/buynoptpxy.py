@@ -96,25 +96,33 @@ async def main():
 
         if mktpredict == "SIDE":
             # Only place orders for symbols at the strike price
-            for symbol in CE_symbols[:1]:  # Take only the first symbol
-                exists = check_existing_positions(broker, symbol)
+            for symbol in CE_symbols[:1]:  # Take only the first CE symbol
                 if mktpxy == "Buy":
+                    exists = check_existing_positions(broker, symbol)
                     await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
-
-            for symbol in PE_symbols[:1]:  # Take only the first symbol
-                exists = check_existing_positions(broker, symbol)
+            
+            for symbol in CE_symbols[:1]:  # Take only the first PE symbol
                 if mktpxy == "Sell":
                     await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
-
-        else:
-            # Process each CE symbol and place orders if not "SIDE"
-            for symbol, exists in zip(CE_symbols, CE_positions_exist):
-                if mktpxy == "Buy" and mktpredict == "RISE" and not exists:
+        
+        elif mktpredict == "RISE":
+            for symbol, exists in zip(CE_symbols[:1], CE_positions_exist[:1]):  # Take only the first CE symbol
+                if mktpxy == "Buy" and not exists:  # Check if there's no existing position
                     await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
-
-            # Process each PE symbol and place orders if not "SIDE"
-            for symbol, exists in zip(PE_symbols, PE_positions_exist):
-                if mktpxy == "Sell" and mktpredict == "FALL" and not exists:
+            
+            for symbol in PE_symbols[:1]:  # Take only the first PE symbol
+                exists = check_existing_positions(broker, symbol)
+                if mktpxy == "Sell" and not exists and nse_power > 0.85:  # Check NSE power condition
+                    await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
+        
+        elif mktpredict == "FALL":
+            for symbol in CE_symbols[:1]:  # Take only the first CE symbol
+                exists = check_existing_positions(broker, symbol)
+                if mktpxy == "Buy" and not exists and nse_power < 0.15:  # Check NSE power condition
+                    await process_orders(broker, available_cash, exists, False, symbol, None, count_CE, count_PE, mktpxy)
+            
+            for symbol, exists in zip(PE_symbols[:1], PE_positions_exist[:1]):  # Take only the first PE symbol
+                if mktpxy == "Sell" and not exists:  # Check if there's no existing position
                     await process_orders(broker, available_cash, False, exists, None, symbol, count_CE, count_PE, mktpxy)
 
     except Exception as e:
