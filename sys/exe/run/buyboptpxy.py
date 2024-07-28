@@ -9,6 +9,8 @@ from exprpxy import month_expiry_date
 from fundpxy import calculate_decision
 from rsnprntpxy import process_orders
 from bpredictpxy import predict_bnk_sentiment
+onemincandlesequance, mktpxy_bank = get_market_check('^NSEBANK')
+
 
 async def main_bank():
     try:
