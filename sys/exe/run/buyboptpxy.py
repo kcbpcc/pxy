@@ -87,7 +87,7 @@ async def main():
         PE_weight = count_PE - count_CE
         CE_weight = count_CE - count_PE
         weight = abs(count_PE - count_CE)
-        strike_price = get_prices()[1]  # Assuming this returns the current strike price
+        strike_price = BCE_Strike  # Assuming this returns the current strike price
         print(f"{BRIGHT_YELLOW}{count_PE:02} 📉:PE 🔥━━━━━ {strike_price} {showhand} ━━━━━💧 CE:📈 {count_CE:02}{RESET}")
 
         expiry_year, expiry_month, expiry_day = month_expiry_date()
