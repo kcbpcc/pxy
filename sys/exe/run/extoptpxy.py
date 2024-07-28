@@ -163,7 +163,7 @@ print("━" * 42)
 print(f"{BRIGHT_YELLOW}..........Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}{RESET}")
 filtered_df['PL%'] = filtered_df['PL%'].astype(int)
 final_prnt_df = filtered_df[['key', 'qty', 'PL%', 'Target', 'PnL']].copy()
-final_prnt_df.loc[:, 'key'] = final_prnt_df['key'].apply(lambda x: str(x).zfill(21) if x.isdigit() else str(x).rjust(21, '0'))
+final_prnt_df.loc[:, 'key'] = final_prnt_df['key'].apply(lambda x: str(x).zfill(24) if x.isdigit() else str(x).rjust(24, '0'))
 
 if args.command == 'l':
     final_prnt_str = final_prnt_df.to_string(index=False, header=False)
