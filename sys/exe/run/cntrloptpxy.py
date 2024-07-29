@@ -134,7 +134,7 @@ exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
 bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
 ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
-
+from vixpxy import get_vixpxy
 n_vix, b_vix = get_vixpxy()
 nvix = n_vix / 2
 bvix = b_vix / 2
