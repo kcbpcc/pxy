@@ -91,7 +91,7 @@ telegram_message = (
 )
 
 # Print detailed entries to console
-print("\nDetailed Entries Preview:\n")
+#print("\nDetailed Entries Preview:\n")
 #print(telegram_message)
 
 # Send the summary
