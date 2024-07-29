@@ -179,8 +179,8 @@ widths = {'tradingsymbol': '22', 'qty': '3', 'PL%': '5','tgtoptsmadepth': '5','P
 def format_row(row):
     symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
     qty = f"{int(row['qty'])}".rjust(int(widths['qty']))
-    pl_pct = f"{row['PL%']:.2f}".rjust(int(widths['PL%']))
-    tgtoptsmadepth = f"{row['tgtoptsmadepth']:.2f}".rjust(int(widths['tgtoptsmadepth']))
+    pl_pct = f"{row['PL%']:.1f}".rjust(int(widths['PL%']))
+    tgtoptsmadepth = f"{row['tgtoptsmadepth']:.1f}".rjust(int(widths['tgtoptsmadepth']))
     pnl = f"{int(row['PnL'])}".rjust(int(widths['PnL']))
     return f"{symbol}{qty}{pl_pct}{tgtoptsmadepth}{pnl}"
 
