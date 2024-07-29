@@ -3,6 +3,7 @@ import pandas as pd
 import traceback
 import sys
 import os
+import random
 import asyncio
 import logging
 import telegram
@@ -22,7 +23,7 @@ logging.basicConfig(level=logging.WARNING)
 logger = Logger(30, os.path.join(dir_path, "main.log"))
 
 # Fetch trading decision and available cash
-decision, optdecision, available_cash,live_balance, limit = calculate_decision()
+decision, optdecision, available_cash, live_balance, limit = calculate_decision()
 
 print("🌿🌿🌿 Lets Buy NIFTY50 & BANK Stocks 🌿🌿")
 print(f"     Cash:💰{available_cash:.2f}💵 | 🚦{decision}🚦 to Buy")
@@ -109,24 +110,25 @@ def place_order(symbol, broker, purchase_limit, quantity):
         logger.error(f"Error while placing order: {str(e)}")
 
 def main():
-    symbols = [
-        'ASIANPAINT', 'BAJAJHLDNG', 'BERGEPAINT', 'BRITANNIA', 'CIPLA', 'COLPAL',
-        'EICHERMOT', 'NESTLEIND', 'AMBUJACEM', 'GRASIM', 'HEROMOTOCO', 'ABB',
-        'HINDALCO', 'HINDUNILVR', 'ITC', 'TRENT', 'LT', 'M&M', 'BOSCHLTD',
-        'RELIANCE', 'VEDL', 'SHREECEM', 'SRF', 'SIEMENS', 'TATAPOWER', 'TATACONSUM',
-        'TATAMOTORS', 'TATASTEEL', 'WIPRO', 'APOLLOHOSP', 'DRREDDY', 'TITAN',
-        'SBIN', 'SHRIRAMFIN', 'CHOLAFIN', 'BPCL', 'BEL', 'KOTAKBANK', 'INFY',
-        'MOTHERSON', 'PIDILITE', 'HAVELL', 'DABUR', 'TORNTPHARM', 'BAJAJFINANCE',
-        'ADANIENT', 'SUNPHARMA', 'JSWSTEEL', 'HDFCBANK', 'TCS', 'ICICIBANK',
-        'POWERGRID', 'BANKBARODA', 'CANBK', 'MARUTI', 'INDUSINDBK', 'AXISBANK',
-        'HCLTECH', 'ONGC', 'DLF', 'PNB', 'TVSMOTOR', 'UNITEDSPIR', 'NTPC',
-        'IOC', 'COALINDIA', 'LICI', 'HAL', 'PFC', 'GAIL', 'MARICO', 'IRFC',
-        'BHARTIARTL', 'TECHM', 'ADANIPOWER', 'RECLTD', 'LTIMINDTREE', 'INFOEDGE',
-        'SBICARD', 'JINDALSTEL', 'JIOFIN', 'ZYDUSLIFE', 'DIVISLAB', 'ADANIPORTS',
-        'GODREJCP', 'HDFCLIFE', 'ICICIPRULI', 'SBILIFE', 'ICICIGI', 'IRCTC',
-        'VBL', 'ULTRACEMCO', 'BAJAJAUTO', 'BAJAJFINSV', 'INDIGO', 'TATAMOTORS-DVR',
-        'ADANITG', 'D-MART', 'ADANIGREEN', 'ZOMATO'
-    ]
+    try:
+        # Attempt to read the file
+        df = pd.read_csv('cncbuylstpxy', delimiter=',')  # Adjust delimiter if needed
+    except Exception as e:
+        print(f"Error reading the file: {e}")
+        sys.exit(1)
+
+    # Print out the columns to check if 'Symbol' exists
+    print("DataFrame columns:", df.columns)
+
+    if 'Symbol' not in df.columns:
+        print("Error: 'Symbol' column not found in the DataFrame.")
+        sys.exit(1)
+
+    # Extract the symbols from the 'Symbol' column
+    symbols = df['Symbol'].tolist()
+
+    # Shuffle the list to randomize the order
+    random.shuffle(symbols)
 
     try:
         # Redirect sys.stdout to 'output.txt'
