@@ -76,7 +76,7 @@ output.close()
 
 # Prepare Telegram message
 telegram_message = (
-    f"🚀 *PXY® Score Board* 🚀\n\n"
+    f"    🚀 *PXY® Score Board* 🚀\n\n"
     f" *PreciseXceleratedYield Pvt Ltd* \n\n"
     f"💵 *C&C Profits* 💵\n"
     f"****************************\n"
@@ -87,7 +87,7 @@ telegram_message = (
     + "\n".join(opt_entries) + f"\n\n"
     f"Subtotal for F&O Profits: {subtotal_opt}\n\n"
     f"💰💰💰 *Total Sum:* {total_sum:.2f}\n\n"
-    f"🔗 [PXY® Dash Board](https://console.zerodha.com/verified/783d6dad)"
+    f"    🔗 [PXY® Dash Board](https://console.zerodha.com/verified/783d6dad)"
 )
 
 # Print detailed entries to console
