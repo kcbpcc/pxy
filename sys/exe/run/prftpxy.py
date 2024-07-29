@@ -102,8 +102,12 @@ def process_data_total_profit():
             mergedfo_df_filtered['PnL'] = mergedfo_df_filtered['PnL'].astype(int)
             
             # Create a new column 'new_pnl_y' with the calculated values
-            mergedfo_df_filtered['new_pnl_y'] = (mergedfo_df_filtered['unrealised'] + (-1 * mergedfo_df_filtered['PnL'])).astype(int)
-          
+            # Create a new column 'new_pnl_y' with the calculated values
+            mergedfo_df_filtered['new_pnl_y'] = np.where(
+                mergedfo_df_filtered['qty'] > 0,
+                (mergedfo_df_filtered['unrealised'] + (-1 * mergedfo_df_filtered['PnL'])).astype(int),
+                mergedfo_df_filtered['unrealised']
+            )          
             # Select relevant columns and save to CSV
             mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'new_pnl_y']]
             mergedfo_df_filtered.to_csv('pxyoptprofit.csv', index=False)
