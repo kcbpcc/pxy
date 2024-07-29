@@ -31,7 +31,7 @@ def read_csv_and_sum(filename):
                 trimmed_first_col = trim_first_column(row[0])
                 try:
                     profit = int(float(row[-1]))  # Convert last column to integer
-                    entry = f"{trimmed_first_col.ljust(30)}{profit:>10d}"  # Adjusted formatting
+                    entry = f"{trimmed_first_col.ljust(15)}{profit:>10d}"  # Adjusted formatting
                     entries.append(entry)
                     total_sum += profit
                 except ValueError:
