@@ -38,7 +38,7 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     if expiry_day is None:
         return f"BANKNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
     else:
-        return f"BANKNIFTY{expiry_year}{expiry_month}{expiry_day}{noptions}{option_type}"
+        return f"BANKNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
 
 def count_positions_by_type(broker):
     positions_response = broker.kite.positions()
@@ -92,8 +92,8 @@ async def main():
 
         expiry_year, expiry_month, expiry_day = month_expiry_date()
 
-        CE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'CE')
-        PE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'PE')
+        CE_symbol = construct_symbol(expiry_year, expiry_month, 'CE')
+        PE_symbol = construct_symbol(expiry_year, expiry_month, 'PE')
 
         CE_position_exists = check_existing_positions(broker, CE_symbol)
         PE_position_exists = check_existing_positions(broker, PE_symbol)
