@@ -22,9 +22,9 @@ logging.basicConfig(level=logging.WARNING)
 logger = Logger(30, os.path.join(dir_path, "main.log"))
 
 # Fetch trading decision and available cash
-decision, optdecision, available_cash, live_balance, limit = calculate_decision()
+decision, optdecision, available_cash,live_balance, limit = calculate_decision()
 
-print("🌿🌿🌿 Let's Buy NIFTY50 & BANK Stocks 🌿🌿")
+print("🌿🌿🌿 Lets Buy NIFTY50 & BANK Stocks 🌿🌿")
 print(f"     Cash:💰{available_cash:.2f}💵 | 🚦{decision}🚦 to Buy")
 
 def calculate_heikin_ashi_colors(data):
@@ -109,22 +109,35 @@ def place_order(symbol, broker, purchase_limit, quantity):
         logger.error(f"Error while placing order: {str(e)}")
 
 def main():
-    try:
-        # Load symbols from the file
-        df = pd.read_csv('cncbuylstpxy')
-        symbols = df['Symbol'].tolist()
-    except Exception as e:
-        print(traceback.format_exc())
-        logging.error(f"Error reading file: {str(e)}")
-        sys.exit(1)
+    symbols = [
+        "KARURVYSYA", "KOTAKBANK", "KTKBANK", "MAHABANK", "PNB", "PSB", "RBLBANK", "SBIN",
+        "SOUTHBANK", "SURYODAY", "TMB", "UCOBANK", "UJJIVANSFB", "UNIONBANK", "UTKARSHBNK",
+        "YESBANK", "AUBANK", "AXISBANK", "BANDHANBNK", "BANKBARODA", "BANKINDIA", "CANBK",
+        "CAPITALSFB", "CENTRALBK", "CSBBANK", "CUB", "DCBBANK", "DHANBANK", "EQUITASBNK",
+        "ESAFSFB", "FEDERALBNK", "FINOPB", "HDFCBANK", "ICICIBANK", "IDBI", "IDFCFIRSTB",
+        "INDIANB", "INDUSINDBK", "IOB", "J&KBANK", "JSFB", "WIPRO", "ULTRACEMCO", "TITAN",
+        "TECHM", "TCS", "TATASTEEL", "TATAMOTORS", "TATACONSUM", "SUNPHARMA", "SHRIRAMFIN",
+        "SBILIFE", "RELIANCE", "POWERGRID", "ONGC", "NTPC", "NESTLEIND", "MARUTI", "M&M",
+        "LTIM", "LT", "JSWSTEEL", "ITC", "INFY", "HINDUNILVR", "HINDALCO", "HEROMOTOCO",
+        "HDFCLIFE", "HCLTECH", "GRASIM", "EICHERMOT", "DRREDDY", "DIVISLAB", "COALINDIA",
+        "CIPLA", "BRITANNIA", "BPCL", "BHARTIARTL", "BAJFINANCE", "BAJAJFINSV", "BAJAJ-AUTO",
+        "ASIANPAINT", "APOLLOHOSP", "ADANIPORTS", "ADANIENT"
+    ]
 
     try:
-        broker = get_kite()
-    except Exception as e:
-        remove_token(dir_path)
-        print(traceback.format_exc())
-        logging.error(f"{str(e)} unable to get holdings")
-        sys.exit(1)
+        # Redirect sys.stdout to 'output.txt'
+        with open('output.txt', 'w') as file:
+            sys.stdout = file
+            try:
+                broker = get_kite()
+            except Exception as e:
+                remove_token(dir_path)
+                print(traceback.format_exc())
+                logging.error(f"{str(e)} unable to get holdings")
+                sys.exit(1)
+    finally:
+        # Reset sys.stdout to its default value
+        sys.stdout = sys.__stdout__
 
     try:
         lst_dct_positions = broker.kite.positions()
