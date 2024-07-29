@@ -44,7 +44,7 @@ def calculate_extras_and_m2m(df):
     if df.empty:
         return 0, 0
     extras1 = int(df.loc[df['qty'] == 0, 'unrealised'].sum())
-    extras2 = int(df.loc[(df['day_sell_quantity'] != 0) & (df['qty'] > 0), 'unrealised'].sum() - df['PnL'].sum())
+    extras2 = int(df.loc[(df['day_sell_quantity'] > 0) & (df['qty'] > 0), 'unrealised'].sum() - df['PnL'].sum())
     extras = extras1 + extras1
     total_m2m = df[df['quantity'] > 0]['m2m'].sum()
     print(f"Extras: {extras1}, Total M2M: {total_m2m}")
