@@ -102,8 +102,7 @@ def process_data_total_profit():
             mergedfo_df_filtered['PnL'] = mergedfo_df_filtered['PnL'].astype(int)
             
             # Create a new column 'new_pnl_y' with the calculated values
-            import pandas as pd
-
+            
             mergedfo_df_filtered['new_pnl_y'] = np.where(
                 mergedfo_df_filtered['qty'] > 0,
                 (mergedfo_df_filtered['unrealised'] + (-1 * mergedfo_df_filtered['PnL'])).astype(int),
