@@ -1,7 +1,6 @@
 from rich import print
 import sys
 import yfinance as yf
-import time
 import warnings
 
 # Set the python3IOENCODING environment variable to 'utf-8'
@@ -58,3 +57,12 @@ def get_nse_action():
         pass  # Ignore print statement
 
     return ha_nse_action, nse_power, Day_Change, Open_Change  # Return calculated values
+
+# Example usage
+if __name__ == "__main__":
+    action, power, day_change, open_change = get_nse_action()
+    print(f"Action: {action}")
+    print(f"NSE Power: {power}")
+    print(f"Day Change: {day_change}%")
+    print(f"Open Change: {open_change}%")
+
