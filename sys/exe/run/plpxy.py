@@ -20,8 +20,6 @@ def read_csv_and_sum(filename):
         print(f"File '{filename}' is empty or does not exist.")
         return 0, []
 
-    first_columns = []
-    last_columns = []
     entries = []
     total_sum = 0
 
@@ -33,20 +31,11 @@ def read_csv_and_sum(filename):
                 trimmed_first_col = trim_first_column(row[0])
                 try:
                     profit = int(float(row[-1]))  # Convert last column to integer
-                    first_columns.append(trimmed_first_col)
-                    last_columns.append(profit)
-                    entry = f"{trimmed_first_col.ljust(20)}: {profit:>5d}"  # Adjusted formatting
+                    entry = f"{trimmed_first_col.ljust(30)}{profit:>10d}"  # Adjusted formatting
                     entries.append(entry)
                     total_sum += profit
                 except ValueError:
                     print(f"Warning: Non-numeric value found in last column: {row[-1]}")
-
-    if first_columns and last_columns:
-        max_first_col_width = max(len(str(first)) for first in first_columns)
-        max_last_col_width = max(len(str(last)) for last in last_columns)
-
-        for first, last in zip(first_columns, last_columns):
-            print(f"{first.ljust(max_first_col_width)}: {str(last).rjust(max_last_col_width)}")
 
     print(f"\nSubtotal: {total_sum}\n")  # Format subtotal
     return total_sum, entries
