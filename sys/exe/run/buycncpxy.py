@@ -12,7 +12,6 @@ from toolkit.utilities import Utilities
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from fundpxy import calculate_decision
-import random
 
 # Hardcoded constants
 BOT_TOKEN = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'
@@ -110,14 +109,16 @@ def place_order(symbol, broker, purchase_limit, quantity):
         logger.error(f"Error while placing order: {str(e)}")
 
 def main():
-    # Read the file (assuming it has no extension but is formatted as a CSV)
-    df = pd.read_csv('cncbuylstpxy', header=None, names=['Symbol'])
-    
-    # Extract the symbols from the 'Symbol' column
-    symbols = df['Symbol'].tolist()
-    
-    # Randomize the order of the symbols
-    random.shuffle(symbols)
+    symbols = [
+        "ADANIGREEN", "ADANIPORTS", "AMBUJACEM", "ASIANPAINT", "AUROPHARMA", "AXISBANK",
+        "BAJAJ-AUTO", "BAJFINANCE", "BAJFINSV", "BHARTIARTL", "BPCL", "BRITANNIA", "CIPLA",
+        "COALINDIA", "DIVISLAB", "DLF", "DRREDDY", "EICHERMOT", "GAIL", "GLAND", "GRASIM",
+        "HCLTECH", "HDFCBANK", "HDFCLIFE", "HDFC", "HEROMOTOCO", "HINDALCO", "HINDUNILVR",
+        "ICICIBANK", "INDUSINDBK", "INFY", "IOC", "ITC", "JSWSTEEL", "JUBLFOOD", "KOTAKBANK",
+        "L&T", "LTIM", "M&M", "MARUTI", "MCDOWELL-N", "NESTLEIND", "NTPC", "ONGC", "POWERGRID",
+        "RELIANCE", "SBILIFE", "SBIN", "SUNPHARMA"
+    ]
+
 
     try:
         # Redirect sys.stdout to 'output.txt'
@@ -158,7 +159,6 @@ def main():
     skip_symbols = set(positions_symbols + orders_symbols)
 
     for symbol in symbols:
-        decision, optdecision, available_cash, live_balance, limit = calculate_decision()
         if decision == "YES":
             yf_symbol = symbol + ".NS"
             smbpxy = check_ha_candles(yf_symbol)
