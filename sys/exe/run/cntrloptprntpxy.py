@@ -43,8 +43,11 @@ total_ac_run_pnl = round(combined_df.loc[combined_df['qty'] > 0, 'pnl'].sum() / 
 def calculate_extras_and_m2m(df):
     if df.empty:
         return 0, 0
+    extras1 = int(df.loc[df['qty'] == 0, 'unrealised'].sum())
+    extras2 = int(df.loc[(df['day_sell_quantity'] != 0) & (df['qty'] > 0), 'unrealised'].sum() - df['PnL'].sum())
     extras = int(df.loc[df['sell_quantity'] > 0, 'unrealised'].sum()) - int(df.loc[df['sell_quantity'] > 0, 'PnL'].sum())
     total_m2m = df[df['quantity'] > 0]['m2m'].sum()
+    print(f"Extras: {extras1}, Total M2M: {total_m2m}")
     return extras, total_m2m
 
 # Calculate extras and total M2M for NIFTY and BANK
