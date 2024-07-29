@@ -32,10 +32,10 @@ def read_csv_and_sum(filename):
             if row:  # Check if row is not empty
                 trimmed_first_col = trim_first_column(row[0])
                 try:
-                    profit = float(row[-1])  # Convert last column to float
+                    profit = int(float(row[-1]))  # Convert last column to integer
                     first_columns.append(trimmed_first_col)
                     last_columns.append(profit)
-                    entry = f"{trimmed_first_col}: {profit:.2f}"
+                    entry = f"{trimmed_first_col.ljust(20)}: {profit:>5d}"  # Adjusted formatting
                     entries.append(entry)
                     total_sum += profit
                 except ValueError:
@@ -48,7 +48,7 @@ def read_csv_and_sum(filename):
         for first, last in zip(first_columns, last_columns):
             print(f"{first.ljust(max_first_col_width)}: {str(last).rjust(max_last_col_width)}")
 
-    print(f"\nSubtotal: {total_sum:.2f}\n")  # Format subtotal to 2 decimal places
+    print(f"\nSubtotal: {total_sum}\n")  # Format subtotal
     return total_sum, entries
 
 # Capture the output in a StringIO object
@@ -64,17 +64,17 @@ print("---------PXY® Score Board--------")
 print("PreciseXceleratedYield Pvt Ltd")
 print("******************************")
 
-print("💵C&C Profits💵")
+print("💵 *C&C Profits* 💵")
 subtotal_cnc, cnc_entries = read_csv_and_sum(pxycncprofit_file)
 
 # Reading and processing pxyoptprofit.csv
-print("💸F&O Profits💸")
+print("💸 *F&O Profits* 💸")
 subtotal_opt, opt_entries = read_csv_and_sum(pxyoptprofit_file)
 
 # Calculating total sum
 total_sum = subtotal_cnc + subtotal_opt
 
-print(f"💰💰💰 Total Sum: {total_sum:.2f}")  # Format total sum to 2 decimal places
+print(f"💰💰💰 *Total Sum:* {total_sum:.2f}")  # Format total sum to 2 decimal places
 print("******************************")
 print("[---------PXY® Dash Board----------](https://console.zerodha.com/verified/783d6dad)")
 
