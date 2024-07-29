@@ -110,15 +110,19 @@ def place_order(symbol, broker, purchase_limit, quantity):
 
 def main():
     symbols = [
-        "ADANIGREEN", "ADANIPORTS", "AMBUJACEM", "ASIANPAINT", "AUROPHARMA", "AXISBANK",
-        "BAJAJ-AUTO", "BAJFINANCE", "BAJFINSV", "BHARTIARTL", "BPCL", "BRITANNIA", "CIPLA",
-        "COALINDIA", "DIVISLAB", "DLF", "DRREDDY", "EICHERMOT", "GAIL", "GLAND", "GRASIM",
-        "HCLTECH", "HDFCBANK", "HDFCLIFE", "HDFC", "HEROMOTOCO", "HINDALCO", "HINDUNILVR",
-        "ICICIBANK", "INDUSINDBK", "INFY", "IOC", "ITC", "JSWSTEEL", "JUBLFOOD", "KOTAKBANK",
-        "L&T", "LTIM", "M&M", "MARUTI", "MCDOWELL-N", "NESTLEIND", "NTPC", "ONGC", "POWERGRID",
-        "RELIANCE", "SBILIFE", "SBIN", "SUNPHARMA"
+        "KARURVYSYA", "KOTAKBANK", "KTKBANK", "MAHABANK", "PNB", "PSB", "RBLBANK", "SBIN",
+        "SOUTHBANK", "SURYODAY", "TMB", "UCOBANK", "UJJIVANSFB", "UNIONBANK", "UTKARSHBNK",
+        "YESBANK", "AUBANK", "AXISBANK", "BANDHANBNK", "BANKBARODA", "BANKINDIA", "CANBK",
+        "CAPITALSFB", "CENTRALBK", "CSBBANK", "CUB", "DCBBANK", "DHANBANK", "EQUITASBNK",
+        "ESAFSFB", "FEDERALBNK", "FINOPB", "HDFCBANK", "ICICIBANK", "IDBI", "IDFCFIRSTB",
+        "INDIANB", "INDUSINDBK", "IOB", "J&KBANK", "JSFB", "WIPRO", "ULTRACEMCO", "TITAN",
+        "TECHM", "TCS", "TATASTEEL", "TATAMOTORS", "TATACONSUM", "SUNPHARMA", "SHRIRAMFIN",
+        "SBILIFE", "RELIANCE", "POWERGRID", "ONGC", "NTPC", "NESTLEIND", "MARUTI", "M&M",
+        "LTIM", "LT", "JSWSTEEL", "ITC", "INFY", "HINDUNILVR", "HINDALCO", "HEROMOTOCO",
+        "HDFCLIFE", "HCLTECH", "GRASIM", "EICHERMOT", "DRREDDY", "DIVISLAB", "COALINDIA",
+        "CIPLA", "BRITANNIA", "BPCL", "BHARTIARTL", "BAJFINANCE", "BAJAJFINSV", "BAJAJ-AUTO",
+        "ASIANPAINT", "APOLLOHOSP", "ADANIPORTS", "ADANIENT"
     ]
-
 
     try:
         # Redirect sys.stdout to 'output.txt'
@@ -159,7 +163,6 @@ def main():
     skip_symbols = set(positions_symbols + orders_symbols)
 
     for symbol in symbols:
-        decision, optdecision, available_cash, live_balance, limit = calculate_decision()
         if decision == "YES":
             yf_symbol = symbol + ".NS"
             smbpxy = check_ha_candles(yf_symbol)
