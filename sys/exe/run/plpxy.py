@@ -31,7 +31,7 @@ def read_csv_and_sum(filename):
                 trimmed_first_col = trim_first_column(row[0])
                 try:
                     profit = int(float(row[-1]))  # Convert last column to integer
-                    entry = f"{str(profit).zfill(7)}:{trimmed_first_col}"  # Format with zero-fill
+                    entry = f"{str(profit).zfill(7).lstrip('0')}:{trimmed_first_col}"  # Zero-fill and strip leading zeros
                     entries.append(entry)
                     total_sum += profit
                 except ValueError:
