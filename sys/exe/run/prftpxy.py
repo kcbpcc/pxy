@@ -87,11 +87,11 @@ def process_data_total_profit():
 
         # Processing NFO data
         mergedfo_df = get_positions_info('pxycombined.csv')
-        mergedfo_df_filtered = mergedfo_df[(mergedfo_df['exchange'] == 'NFO') & (mergedfo_df['sell_quantity'] > 0)].copy()
+        mergedfo_df_filtered = mergedfo_df[(mergedfo_df['exchange'] == 'NFO') & (mergedfo_df['day_sell_quantity'] > 0)].copy()
         nfo_df = mergedfo_df_filtered 
         
         # Calculate total profit for NFO positions
-        total_profit_fo = int(nfo_df.loc[nfo_df['sell_quantity'] > 0, 'unrealised'].sum()) + (-1 * int(nfo_df.loc[nfo_df['sell_quantity'] > 0, 'PnL'].sum()))
+
         
         if not mergedfo_df_filtered.empty:
             # Convert 'PnL' column to integer type
@@ -111,6 +111,9 @@ def process_data_total_profit():
                     mergedfo_df_filtered['unrealised']  # This handles any other case where qty > 0 but day_sell_quantity <= 0
                 )
             )
+            
+            total_profit_fo = int(mergedfo_df_filtered['new_pnl_y'].sum())
+            
             # Select relevant columns and save to CSV
             mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'new_pnl_y']]
             mergedfo_df_filtered.to_csv('pxyoptprofit.csv', index=False)
