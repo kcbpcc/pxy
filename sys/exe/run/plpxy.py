@@ -80,7 +80,21 @@ sys.stdout = sys.__stdout__
 # Get the captured output
 profitinfo = output.getvalue()
 output.close()
-#print(profitinfo)
+
+# Prepare Telegram message
+telegram_message = (
+    f"🚀 *PXY® Score Board* 🚀\n\n"
+    f"🔹 *PreciseXceleratedYield Pvt Ltd* 🔹\n\n"
+    f"💵 *C&C Profits* 💵\n{subtotal_cnc:.2f}\n\n"
+    f"💸 *F&O Profits* 💸\n{subtotal_opt:.2f}\n\n"
+    f"💰💰💰 *Total Sum:* {total_sum:.2f}\n\n"
+    f"🔗 [PXY® Dash Board](https://console.zerodha.com/verified/783d6dad)"
+)
+
+# Print Telegram message to console
+print("\nTelegram Message Preview:\n")
+print(telegram_message)
+
 # Send the summary
-check_and_send_summary(profitinfo, 'plpxy')
+check_and_send_summary(telegram_message, 'plpxy')
 
