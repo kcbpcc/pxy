@@ -1,12 +1,10 @@
-import yfinance as yf
 import pandas as pd
-import traceback
-import sys
-import os
-import asyncio
-import logging
-import telegram
 import random
+import sys
+import traceback
+import logging
+import asyncio
+import telegram
 from toolkit.logger import Logger
 from toolkit.currency import round_to_paise
 from toolkit.utilities import Utilities
@@ -25,7 +23,7 @@ logger = Logger(30, os.path.join(dir_path, "main.log"))
 # Fetch trading decision and available cash
 decision, optdecision, available_cash, live_balance, limit = calculate_decision()
 
-print("🌿🌿🌿 Let's Buy NIFTY50 & BANK Stocks 🌿🌿")
+print("🌿🌿🌿 Lets Buy NIFTY50 & BANK Stocks 🌿🌿")
 print(f"     Cash:💰{available_cash:.2f}💵 | 🚦{decision}🚦 to Buy")
 
 def calculate_heikin_ashi_colors(data):
@@ -110,7 +108,19 @@ def place_order(symbol, broker, purchase_limit, quantity):
         logger.error(f"Error while placing order: {str(e)}")
 
 def main():
-    df = pd.read_csv('cncbuylstpxy')
+    try:
+        # Attempt to read the file
+        df = pd.read_csv('cncbuylstpxy', delimiter=',')  # Adjust delimiter if needed
+    except Exception as e:
+        print(f"Error reading the file: {e}")
+        sys.exit(1)
+
+    # Print out the columns to check if 'symbol' exists
+    print("DataFrame columns:", df.columns)
+
+    if 'symbol' not in df.columns:
+        print("Error: 'symbol' column not found in the DataFrame.")
+        sys.exit(1)
 
     # Extract the symbols from the 'symbol' column
     symbols = df['symbol'].tolist()
