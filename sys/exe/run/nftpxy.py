@@ -31,8 +31,6 @@ def get_nse_action():
         yesterday_close = data['Close'].iloc[-2]
         yesterday_open = data['Open'].iloc[-2]
 
-        vopen = (yesterday_close + today_open)/2
-
         yesterday = (yesterday_close + yesterday_open + today_open) / 3
         
         # Calculate nse_power
@@ -47,19 +45,10 @@ def get_nse_action():
         ha_low = data[['Low', 'Open', 'Close']].min(axis=1)
         
         # Define Heikin-Ashi day candle status
-        ha_nse_action = "Bullish" if current_price > vopen else "Bearish"
+        ha_nse_action = "Bullish" if ha_close.iloc[-1] > ha_open.iloc[-1] else "Bearish"
 
     except Exception as e:
         # print(f"Error during data download for 5 days: {e}")
         pass  # Ignore print statement
 
     return ha_nse_action, nse_power, Day_Change, Open_Change  # Return calculated values
-
-# Call the get_nse_action function
-ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
-
-# Printing the results
-# print(f"Heikin-Ashi Action: {ha_nse_action}")
-# print(f"NSE Power: {nse_power}")
-# print(f"Day Change: {Day_Change}%")
-# print(f"Open Change: {Open_Change}%")
