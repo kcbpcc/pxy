@@ -42,13 +42,13 @@ def calculate_decision():
             available_margin = opening_balance + live_balance + delivery + option_premium
             utilized_margin = response["equity"]["utilised"]["debits"]
             available_cash = live_balance
-            print(f"Opening Balance: {opening_balance}")
-            print(f"Live Balance: {live_balance}")
-            print(f"Delivery: {delivery}")
-            print(f"Option Premium: {option_premium}")
-            print(f"Available Margin: {available_margin}")
-            print(f"Utilized Margin: {utilized_margin}")
-            print(f"Available Cash: {available_cash}")
+         #   print(f"Opening Balance: {opening_balance}")
+          #  print(f"Live Balance: {live_balance}")
+           # print(f"Delivery: {delivery}")
+            #print(f"Option Premium: {option_premium}")
+#            print(f"Available Margin: {available_margin}")
+ #           print(f"Utilized Margin: {utilized_margin}")
+  #          print(f"Available Cash: {available_cash}")
         except Exception as e:
             print(f"An error occurred: {e}")
             available_cash = 0
