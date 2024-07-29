@@ -91,8 +91,6 @@ def process_data_total_profit():
         nfo_df = mergedfo_df_filtered 
         
         # Calculate total profit for NFO positions
-
-        
         if not mergedfo_df_filtered.empty:
             # Convert 'PnL' column to integer type
             mergedfo_df_filtered['PnL'] = mergedfo_df_filtered['PnL'].astype(int)
@@ -119,9 +117,9 @@ def process_data_total_profit():
             mergedfo_df_filtered.to_csv('pxyoptprofit.csv', index=False)
             
             formatted_str_fo = mergedfo_df_filtered.to_string(index=False, header=False)
-            Uncomment and adjust print formatting if needed
-             for line in formatted_str_fo.split('\n'):
-                 print(f"{line:>41}")
+            # Uncomment and adjust print formatting if needed
+            # for line in formatted_str_fo.split('\n'):
+            #     print(f"{line:>41}")
         else:
             print("I did not exit any FNO positions today🤔🤔")
             empty_df = pd.DataFrame(columns=['tradingsymbol', 'new_pnl_y'])  # Ensure 'empty_df' is defined
