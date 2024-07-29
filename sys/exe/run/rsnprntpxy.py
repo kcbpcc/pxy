@@ -65,7 +65,7 @@ async def execute_order(broker, symbol, quantity, place_order, send_telegram_mes
     buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', quantity, 'MARKET')
     if buy_order_placed:
         await send_telegram_message(f"🛫🛫🛫 🌱🌱🌱 ENTRY order placed for {symbol} placed successfully.")
-        print(f"{symbol} BUY order placed successfully.")
+        print(f"{symbol} ✅ Order successful..")
     else:
         print(f"Failed to place BUY order for {symbol}")
 
