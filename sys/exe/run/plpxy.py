@@ -31,7 +31,7 @@ def read_csv_and_sum(filename):
                 trimmed_first_col = trim_first_column(row[0])
                 try:
                     profit = int(float(row[-1]))  # Convert last column to integer
-                    entry = f"{str(profit).zfill(7).lstrip('0')}:{trimmed_first_col}"  # Zero-fill and strip leading zeros
+                    entry = f"{trimmed_first_col.ljust(15)}{profit:>15d}"  # Adjusted formatting
                     entries.append(entry)
                     total_sum += profit
                 except ValueError:
@@ -94,5 +94,4 @@ print(telegram_message)
 
 # Send the summary
 check_and_send_summary(telegram_message, 'plpxy')
-
 
