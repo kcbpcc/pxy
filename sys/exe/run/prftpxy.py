@@ -1,7 +1,8 @@
 import sys
+import numpy as np
+import pandas as pd
 from datetime import datetime
 import traceback
-import pandas as pd
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from toolkit.logger import Logger
@@ -63,31 +64,26 @@ def process_data_total_profit():
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)].copy()
         merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
         total_profit = merged_df_filtered['PnL'].sum() if not merged_df_filtered.empty else 0
-        #print(f"{BRIGHT_YELLOW}{'CNC Profits 💵 :' + str(total_profit):>41}{RESET}")
+        
         if not merged_df_filtered.empty:
             # Calculate PL% and PnL
             merged_df_filtered['STOCK'] = merged_df_filtered['tradingsymbol']
             merged_df_filtered['QTY'] = merged_df_filtered['used_quantity'].astype(int)
             merged_df_filtered['PL%'] = ((merged_df_filtered['average_price_y'] - merged_df_filtered['average_price_x']) / merged_df_filtered['average_price_y']) * 100
             merged_df_filtered['PL%'] = merged_df_filtered['PL%'].round(2)
-            #merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
             
             # Select specific columns from filtered merged_df and reorder
             merged_df_filtered = merged_df_filtered[['STOCK', 'QTY', 'PL%', 'PnL']]
             merged_df_filtered.to_csv('pxycncprofit.csv', index=False)
             
             formatted_str = merged_df_filtered.to_string(index=False, header=False)
-            
-            # Print each line right-aligned within 42 characters
-            #for line in formatted_str.split('\n'):
-                #print(f"{line:>41}")
+            # Uncomment and adjust print formatting if needed
+            # for line in formatted_str.split('\n'):
+            #     print(f"{line:>41}")
         else:
             empty_df = pd.DataFrame(columns=['STOCK', 'QTY', 'PL%', 'PnL'])
             empty_df.to_csv('pxycncprofit.csv', index=False)
             print("I did not exit any CNC positions today🤔🤔")
-
-        # Calculate and print total profit for CNC positions
-
 
         # Processing NFO data
         mergedfo_df = get_positions_info('pxycombined.csv')
@@ -101,14 +97,11 @@ def process_data_total_profit():
             # Convert 'PnL' column to integer type
             mergedfo_df_filtered['PnL'] = mergedfo_df_filtered['PnL'].astype(int)
             
-
             # Define the conditions
             condition_qty_gt_0_and_sell_qty_gt_0 = (mergedfo_df_filtered['qty'] > 0) & (mergedfo_df_filtered['day_sell_quantity'] > 0)
             condition_qty_eq_0 = mergedfo_df_filtered['qty'] == 0
             
             # Apply the conditions to set new_pnl_y
-            import numpy as np
-            import pandas as pd
             mergedfo_df_filtered['new_pnl_y'] = np.where(
                 condition_qty_gt_0_and_sell_qty_gt_0,
                 (mergedfo_df_filtered['unrealised'] - mergedfo_df_filtered['PnL']).astype(int),
@@ -138,7 +131,6 @@ def process_data_total_profit():
         
         return total_profit
 
-
     except Exception as e:
         logging.error(f"Error occurred in process_data_total_profit: {e}")
         print(f"An error occurred: {e}")
@@ -155,5 +147,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
