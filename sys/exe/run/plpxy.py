@@ -18,10 +18,11 @@ def trim_first_column(value):
 def read_csv_and_sum(filename):
     if not os.path.exists(filename) or os.path.getsize(filename) == 0:
         print(f"File '{filename}' is empty or does not exist.")
-        return 0
+        return 0, []
 
     first_columns = []
     last_columns = []
+    entries = []
     total_sum = 0
 
     with open(filename, newline='') as csvfile:
@@ -30,9 +31,13 @@ def read_csv_and_sum(filename):
         for row in reader:
             if row:  # Check if row is not empty
                 trimmed_first_col = trim_first_column(row[0])
-                first_columns.append(trimmed_first_col)
                 try:
-                    last_columns.append(float(row[-1]))  # Convert last column to float
+                    profit = float(row[-1])  # Convert last column to float
+                    first_columns.append(trimmed_first_col)
+                    last_columns.append(profit)
+                    entry = f"{trimmed_first_col}: {profit:.2f}"
+                    entries.append(entry)
+                    total_sum += profit
                 except ValueError:
                     print(f"Warning: Non-numeric value found in last column: {row[-1]}")
 
@@ -42,10 +47,9 @@ def read_csv_and_sum(filename):
 
         for first, last in zip(first_columns, last_columns):
             print(f"{first.ljust(max_first_col_width)}: {str(last).rjust(max_last_col_width)}")
-            total_sum += last
 
     print(f"\nSubtotal: {total_sum:.2f}\n")  # Format subtotal to 2 decimal places
-    return total_sum
+    return total_sum, entries
 
 # Capture the output in a StringIO object
 output = io.StringIO()
@@ -61,11 +65,11 @@ print("PreciseXceleratedYield Pvt Ltd")
 print("******************************")
 
 print("💵C&C Profits💵")
-subtotal_cnc = read_csv_and_sum(pxycncprofit_file)
+subtotal_cnc, cnc_entries = read_csv_and_sum(pxycncprofit_file)
 
 # Reading and processing pxyoptprofit.csv
 print("💸F&O Profits💸")
-subtotal_opt = read_csv_and_sum(pxyoptprofit_file)
+subtotal_opt, opt_entries = read_csv_and_sum(pxyoptprofit_file)
 
 # Calculating total sum
 total_sum = subtotal_cnc + subtotal_opt
@@ -85,14 +89,16 @@ output.close()
 telegram_message = (
     f"🚀 *PXY® Score Board* 🚀\n\n"
     f"🔹 *PreciseXceleratedYield Pvt Ltd* 🔹\n\n"
-    f"💵 *C&C Profits* 💵\n{subtotal_cnc:.2f}\n\n"
-    f"💸 *F&O Profits* 💸\n{subtotal_opt:.2f}\n\n"
+    f"💵 *C&C Profits* 💵\n"
+    + "\n".join(cnc_entries) + f"\n\n"
+    f"💸 *F&O Profits* 💸\n"
+    + "\n".join(opt_entries) + f"\n\n"
     f"💰💰💰 *Total Sum:* {total_sum:.2f}\n\n"
     f"🔗 [PXY® Dash Board](https://console.zerodha.com/verified/783d6dad)"
 )
 
-# Print Telegram message to console
-print("\nTelegram Message Preview:\n")
+# Print detailed entries to console
+print("\nDetailed Entries Preview:\n")
 print(telegram_message)
 
 # Send the summary
