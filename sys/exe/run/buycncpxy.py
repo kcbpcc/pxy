@@ -159,6 +159,7 @@ def main():
     skip_symbols = set(positions_symbols + orders_symbols)
 
     for symbol in symbols:
+        decision, optdecision, available_cash, live_balance, limit = calculate_decision()
         if decision == "YES":
             yf_symbol = symbol + ".NS"
             smbpxy = check_ha_candles(yf_symbol)
