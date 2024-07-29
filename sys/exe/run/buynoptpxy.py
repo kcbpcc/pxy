@@ -26,13 +26,13 @@ showhand = hand(mktpxy)
 def construct_symbols(expiry_year, expiry_month, expiry_day, option_type, strike_price):
     symbols = []
     if option_type == "CE":
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}CE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price+100}CE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price+200}CE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price}CE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price+100}CE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price+200}CE")
     elif option_type == "PE":
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price}PE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price-100}PE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{expiry_day}{strike_price-200}PE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price}PE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price-100}PE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price-200}PE")
     return symbols
 
 def count_positions_by_type(broker):
