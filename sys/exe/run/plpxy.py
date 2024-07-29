@@ -91,8 +91,10 @@ telegram_message = (
     f"🔹 *PreciseXceleratedYield Pvt Ltd* 🔹\n\n"
     f"💵 *C&C Profits* 💵\n"
     + "\n".join(cnc_entries) + f"\n\n"
+    f"Subtotal for C&C Profits: {subtotal_cnc}\n\n"
     f"💸 *F&O Profits* 💸\n"
     + "\n".join(opt_entries) + f"\n\n"
+    f"Subtotal for F&O Profits: {subtotal_opt}\n\n"
     f"💰💰💰 *Total Sum:* {total_sum:.2f}\n\n"
     f"🔗 [PXY® Dash Board](https://console.zerodha.com/verified/783d6dad)"
 )
@@ -103,4 +105,5 @@ print(telegram_message)
 
 # Send the summary
 check_and_send_summary(telegram_message, 'plpxy')
+
 
