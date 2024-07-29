@@ -58,11 +58,5 @@ def get_nse_action():
 
     return ha_nse_action, nse_power, Day_Change, Open_Change  # Return calculated values
 
-# Example usage
-if __name__ == "__main__":
-    action, power, day_change, open_change = get_nse_action()
-    print(f"Action: {action}")
-    print(f"NSE Power: {power}")
-    print(f"Day Change: {day_change}%")
-    print(f"Open Change: {open_change}%")
+ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
 
