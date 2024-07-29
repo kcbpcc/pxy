@@ -41,7 +41,7 @@ def calculate_decision():
             option_premium = response["equity"]["utilised"]["option_premium"]
             available_margin = opening_balance + live_balance + delivery + option_premium
             utilized_margin = response["equity"]["utilised"]["debits"]
-            available_cash = opening_balance - utilized_margin
+            available_cash = live_balance
             print(f"Opening Balance: {opening_balance}")
             print(f"Live Balance: {live_balance}")
             print(f"Delivery: {delivery}")
