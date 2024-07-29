@@ -101,13 +101,21 @@ def process_data_total_profit():
             # Convert 'PnL' column to integer type
             mergedfo_df_filtered['PnL'] = mergedfo_df_filtered['PnL'].astype(int)
             
-            # Create a new column 'new_pnl_y' with the calculated values
-            # Create a new column 'new_pnl_y' with the calculated values
+
+            # Define the conditions
+            condition_qty_gt_0_and_sell_qty_gt_0 = (mergedfo_df_filtered['qty'] > 0) & (mergedfo_df_filtered['day_sell_quantity'] > 0)
+            condition_qty_eq_0 = mergedfo_df_filtered['qty'] == 0
+            
+            # Apply the conditions to set new_pnl_y
             mergedfo_df_filtered['new_pnl_y'] = np.where(
-                mergedfo_df_filtered['qty'] > 0,
-                (mergedfo_df_filtered['unrealised'] + (-1 * mergedfo_df_filtered['PnL'])).astype(int),
-                mergedfo_df_filtered['unrealised']
-            )          
+                condition_qty_gt_0_and_sell_qty_gt_0,
+                (mergedfo_df_filtered['unrealised'] - mergedfo_df_filtered['PnL']).astype(int),
+                np.where(
+                    condition_qty_eq_0,
+                    mergedfo_df_filtered['unrealised'],
+                    mergedfo_df_filtered['unrealised']  # This handles any other case where qty > 0 but day_sell_quantity <= 0
+                )
+            )
             # Select relevant columns and save to CSV
             mergedfo_df_filtered = mergedfo_df_filtered[['tradingsymbol', 'new_pnl_y']]
             mergedfo_df_filtered.to_csv('pxyoptprofit.csv', index=False)
