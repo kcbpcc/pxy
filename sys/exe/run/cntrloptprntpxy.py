@@ -246,7 +246,7 @@ output_lines.append(
 full_output = '\n'.join(output_lines)
 
 print(full_output)
-
+print("━" * 42)
 summary = (
     f"---------PXY® Dash Board----------\n"
     f"    📈 A/C Run-PnL: {total_ac_run_pnl}\n"
