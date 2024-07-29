@@ -51,7 +51,7 @@ def calculate_extras_and_m2m(df):
     condition_qty_eq_0 = df['qty'] == 0
     
     # Calculate new extras using np.where
-    df['new_extras'] = np.where(
+    df.loc[:, 'new_extras'] = np.where(
         condition_qty_eq_0,
         df['unrealised'],
         np.where(
