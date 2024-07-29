@@ -207,7 +207,7 @@ green_Stocks_capital_percentage = (green_Stocks_profit_loss / total_invested) * 
                     #right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))  
 
 output_lines.append(
-    left_aligned_format.format(f"Run-sPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{run_spnl}{RESET}") +
+    left_aligned_format.format(f"Run-sPnL: {BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{round(run_spnl / 100000, 2)}{RESET}") +
     right_aligned_format.format(f"Real-PnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl}{RESET}")
 )
 
