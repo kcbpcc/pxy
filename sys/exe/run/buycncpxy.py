@@ -110,13 +110,17 @@ def place_order(symbol, broker, purchase_limit, quantity):
         logger.error(f"Error while placing order: {str(e)}")
 
 def main():
-    # Read the file (assuming it has no extension but is formatted as a CSV)
-    df = pd.read_csv('cncbuylstpxy', header=None, names=['Symbol'])
-    
-    # Extract the symbols from the 'Symbol' column
-    symbols = df['Symbol'].tolist()
-    
-    # Randomize the order of the symbols
+   # Read the file with header=None, assuming all rows are data
+    df = pd.read_csv('cncbuylstpxy', header=None)
+
+    # Rename the first column to 'SYMBOL' for easier handling
+    df.columns = ['SYMBOL']
+
+    symbols = df['SYMBOL'].tolist()
+
+    # Remove any empty rows and the header value if present
+    symbols = [symbol for symbol in symbols if symbol and symbol != "SYMBOL"]
+
     random.shuffle(symbols)
 
     try:
