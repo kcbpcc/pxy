@@ -50,25 +50,25 @@ def calculate_extras_and_m2m(df):
     condition_qty_gt_0_and_sell_qty_gt_0 = (df['day_sell_quantity'] > 0) & (df['qty'] > 0)
     condition_qty_eq_0 = df['qty'] == 0
     
-    # Calculate new extras using np.where
-    df['new_extras'] = np.where(
+def calculate_extras_and_m2m(df):
+    df.loc[:, 'new_extras'] = np.where(
         condition_qty_eq_0,
         df['unrealised'],
         np.where(
             condition_qty_gt_0_and_sell_qty_gt_0,
             df['unrealised'] - df['PnL'],
-            df['unrealised']  # Handles cases where qty > 0 but day_sell_quantity <= 0
+            df['unrealised']
         )
     )
-    
-    # Calculate extras
     extras = df['new_extras'].sum()
-    
-    # Calculate total M2M
     total_m2m = df[df['quantity'] > 0]['m2m'].sum()
-    
-   
     return int(extras), total_m2m
+
+condition_qty_eq_0 = (df['quantity'] == 0)
+condition_qty_gt_0_and_sell_qty_gt_0 = (df['quantity'] > 0) & (df['day_sell_quantity'] > 0)
+
+extras, total_m2m = calculate_extras_and_m2m(df)
+
 
 
 # Calculate extras and total M2M for NIFTY and BANK
