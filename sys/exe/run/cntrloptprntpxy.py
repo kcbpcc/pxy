@@ -206,7 +206,7 @@ output_lines.append(
     right_aligned_format.format(f"Real-PnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl}{RESET}")
 )
 
-output_lines.append(left_aligned_format.format(f"Run-oPnL:{BRIGHT_GREEN if total_pl_all > 0 else BRIGHT_YELLOW}{str(int(total_pl_all)).zfill(6)}{RESET}") +
+output_lines.append(left_aligned_format.format(f"Run-oPnL:{BRIGHT_GREEN if total_pl_all > 0 else BRIGHT_RED}{str(int(total_pl_all/100000)).zfill(6)}{RESET}") +
                     right_aligned_format.format(f"Cash:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{str(int(live_balance)).zfill(6)}{RESET}"))
 
 output_lines.append(
