@@ -32,7 +32,7 @@ def read_csv_and_sum(filename):
                 trimmed_first_col = trim_first_column(row[0])
                 first_columns.append(trimmed_first_col)
                 try:
-                    last_columns.append(int(row[-1]))  # Convert last column to integer
+                    last_columns.append(float(row[-1]))  # Convert last column to float
                 except ValueError:
                     print(f"Warning: Non-numeric value found in last column: {row[-1]}")
 
@@ -44,7 +44,7 @@ def read_csv_and_sum(filename):
             print(f"{first.ljust(max_first_col_width)}: {str(last).rjust(max_last_col_width)}")
             total_sum += last
 
-    print(f"\nSubtotal: {total_sum}\n")
+    print(f"\nSubtotal: {total_sum:.2f}\n")  # Format subtotal to 2 decimal places
     return total_sum
 
 # Capture the output in a StringIO object
@@ -70,7 +70,7 @@ subtotal_opt = read_csv_and_sum(pxyoptprofit_file)
 # Calculating total sum
 total_sum = subtotal_cnc + subtotal_opt
 
-print(f"💰💰💰 Total Sum: {total_sum}")
+print(f"💰💰💰 Total Sum: {total_sum:.2f}")  # Format total sum to 2 decimal places
 print("******************************")
 print("[---------PXY® Dash Board----------](https://console.zerodha.com/verified/783d6dad)")
 
