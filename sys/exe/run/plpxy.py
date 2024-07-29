@@ -77,11 +77,13 @@ output.close()
 # Prepare Telegram message
 telegram_message = (
     f"🚀 *PXY® Score Board* 🚀\n\n"
-    f"🔹 *PreciseXceleratedYield Pvt Ltd* 🔹\n\n"
+    f" *PreciseXceleratedYield Pvt Ltd* \n\n"
     f"💵 *C&C Profits* 💵\n"
+    f"****************************\n"
     + "\n".join(cnc_entries) + f"\n\n"
     f"Subtotal for C&C Profits: {subtotal_cnc}\n\n"
     f"💸 *F&O Profits* 💸\n"
+    f"****************************\n"
     + "\n".join(opt_entries) + f"\n\n"
     f"Subtotal for F&O Profits: {subtotal_opt}\n\n"
     f"💰💰💰 *Total Sum:* {total_sum:.2f}\n\n"
