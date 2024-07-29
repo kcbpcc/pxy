@@ -89,7 +89,11 @@ total_pl = opt_df['PnL'].sum()
 total_opt_pnl = opt_df['m2m'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
 
- 
+# For calculating 'run_opnl'
+run_opnl = combined_df[combined_df['exchange'] == 'NFO']['pnl'].sum()
+
+# For calculating 'run_spnl'
+run_spnl = combined_df[(combined_df['qty'] > 0) & (combined_df['exchange'].isin(['BSE', 'NSE']))]['pnl'].sum()
 
 # Create and process the print_df DataFrame
 print_df = opt_df.copy()
@@ -203,11 +207,11 @@ green_Stocks_capital_percentage = (green_Stocks_profit_loss / total_invested) * 
                     #right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))  
 
 output_lines.append(
-    left_aligned_format.format(f"Run-sPnL:{BRIGHT_RED if total_stk_pnl < 0 else BRIGHT_GREEN}{total_stk_pnl}{RESET}") +
+    left_aligned_format.format(f"Run-sPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{run_spnl}{RESET}") +
     right_aligned_format.format(f"Real-PnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl}{RESET}")
 )
 
-output_lines.append(left_aligned_format.format(f"Run-oPnL:{BRIGHT_GREEN if total_pl_all > 0 else BRIGHT_RED}{str(round(total_pl_all/100000, 2)).zfill(4)}{RESET}") +
+output_lines.append(left_aligned_format.format(f"Run-oPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(run_opnl/100000, 2)).zfill(4)}{RESET}") +
                     right_aligned_format.format(f"Cash:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{str(int(live_balance)).zfill(6)}{RESET}"))
 
 output_lines.append(
