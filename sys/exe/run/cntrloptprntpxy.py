@@ -54,7 +54,7 @@ def calculate_extras_and_m2m(df):
 nifty_df = combined_df[combined_df['key'].str.contains('NFO:NIFTY', case=False)]
 nextras, ntotal_opt_m2m = calculate_extras_and_m2m(nifty_df)
 
-bank_df = combined_df[combined_df['key'].str.contains('NFO:BANK', case=False)]
+bank_df = combined_df[combined_df['key'].str.contains('NFO:BANKNIFTY', case=False)]
 bextras, btotal_opt_m2m = calculate_extras_and_m2m(bank_df)
 
 # Filter and process the DataFrame
