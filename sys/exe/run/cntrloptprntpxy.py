@@ -58,9 +58,8 @@ def calculate_extras_and_m2m(df):
         )
     )
     extras = df_copy['new_extras'].sum()
-    total_stk_pnl = df_copy[df_copy['product'] == 'CNC']['unrealised'].sum()
     total_m2m = df_copy[df_copy['quantity'] > 0]['m2m'].sum()
-    return int(extras), total_m2m,int(total_stk_pnl)
+    return int(extras), total_m2m
     
 
 # Calculate extras and total M2M for NIFTY and BANK
@@ -69,21 +68,14 @@ nifty_df = combined_df[
     (combined_df['key'].str.lower().str.startswith('nfo:nifty')) &
     (combined_df['day_sell_quantity'] > 0)
 ]
-nextras, ntotal_opt_m2m, nifty_stk_pnl = calculate_extras_and_m2m(nifty_df)
+nextras, ntotal_opt_m2m = calculate_extras_and_m2m(nifty_df)
 
 # Filter Bank Nifty DataFrame with additional condition
 bank_df = combined_df[
     (combined_df['key'].str.lower().str.startswith('nfo:banknifty')) &
     (combined_df['day_sell_quantity'] > 0)
 ]
-bextras, btotal_opt_m2m, bank_stk_pnl = calculate_extras_and_m2m(bank_df)
-
-# Calculate extras and total M2M for all stocks
-stocks_df = combined_df[
-    (combined_df['product'] == 'CNC') &
-    (combined_df['qty'] > 0)
-]
-abc, xyz, total_stk_pnl = calculate_extras_and_m2m(stocks_df)
+bextras, btotal_opt_m2m = calculate_extras_and_m2m(bank_df)
 
 # Filter and process the DataFrame
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
