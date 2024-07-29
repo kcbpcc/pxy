@@ -81,7 +81,7 @@ bextras, btotal_opt_m2m, bank_stk_pnl = calculate_extras_and_m2m(bank_df)
 # Calculate extras and total M2M for all stocks
 stocks_df = combined_df[
     (combined_df['product'] == 'CNC') &
-    (combined_df['quantity'] > 0)
+    (combined_df['qty'] > 0)
 ]
 abc, xyz, total_stk_pnl = calculate_extras_and_m2m(stocks_df)
 
