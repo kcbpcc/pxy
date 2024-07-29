@@ -107,6 +107,8 @@ def process_data_total_profit():
             condition_qty_eq_0 = mergedfo_df_filtered['qty'] == 0
             
             # Apply the conditions to set new_pnl_y
+            import numpy as np
+            import pandas as pd
             mergedfo_df_filtered['new_pnl_y'] = np.where(
                 condition_qty_gt_0_and_sell_qty_gt_0,
                 (mergedfo_df_filtered['unrealised'] - mergedfo_df_filtered['PnL']).astype(int),
