@@ -13,8 +13,15 @@ async def process_orders(broker, available_cash, CE_position_exists, PE_position
 
     try:
         if available_cash > 10000:
-            await handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
-            await handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
+            if CE_symbol is not None and CE_position_exists is not None:
+                await handle_CE_orders(broker, CE_position_exists, CE_symbol, count_CE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
+            else:
+                pass
+
+            if PE_symbol is not None and PE_position_exists is not None:
+                await handle_PE_orders(broker, PE_position_exists, PE_symbol, count_PE, mktpxy, place_order, send_telegram_message, bnkmaxcount, nftmaxcount, bmktpredict)
+            else:
+                pass
         else:
             log_insufficient_funds(available_cash)
     except Exception as e:
