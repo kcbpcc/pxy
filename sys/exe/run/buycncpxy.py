@@ -116,15 +116,15 @@ def main():
         print(f"Error reading the file: {e}")
         sys.exit(1)
 
-    # Print out the columns to check if 'symbol' exists
+    # Print out the columns to check if 'Symbol' exists
     print("DataFrame columns:", df.columns)
 
-    if 'symbol' not in df.columns:
-        print("Error: 'symbol' column not found in the DataFrame.")
+    if 'Symbol' not in df.columns:
+        print("Error: 'Symbol' column not found in the DataFrame.")
         sys.exit(1)
 
-    # Extract the symbols from the 'symbol' column
-    symbols = df['symbol'].tolist()
+    # Extract the symbols from the 'Symbol' column
+    symbols = df['Symbol'].tolist()
 
     # Shuffle the list to randomize the order
     random.shuffle(symbols)
