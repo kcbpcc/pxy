@@ -156,11 +156,11 @@ filtered_df.loc[:, 'Today'] = filtered_df['Today'].dt.day
 filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 105)
 
 # Reorder columns as requested
-final_df = filtered_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
+final_df = filtered_df[filtered_df['qty'] > 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
 row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
 print("━" * 42)
-print(f"🗡️..🗡️..🗡️Recovering {BRIGHT_RED}{str(row_count).zfill(2)}{RESET} opts worth {BRIGHT_RED}{str(sum_invested).zfill(7)}{RESET}")
+print(f"🗡️..🗡️..🗡️..Recovering {BRIGHT_RED}{str(row_count).zfill(2)}{RESET} opts worth {BRIGHT_RED}{str(sum_invested).zfill(7)}{RESET}")
 filtered_df['PL%'] = filtered_df['PL%'].astype(int)
 final_prnt_df = filtered_df[['key', 'qty', 'PL%', 'Target', 'PnL']].copy()
 
