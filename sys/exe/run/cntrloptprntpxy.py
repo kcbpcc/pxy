@@ -41,35 +41,26 @@ total_ac_run_pnl = round(combined_df.loc[combined_df['qty'] > 0, 'pnl'].sum() / 
 
 # Define a helper function to calculate extras and M2M
 import numpy as np
+import pandas as pd
+
+# Ensure df is defined and populated with your data
+# Example: df = pd.read_csv('your_data.csv')
 
 def calculate_extras_and_m2m(df):
-    if df.empty:
-        return 0, 0
-    
-    # Define conditions
-    condition_qty_gt_0_and_sell_qty_gt_0 = (df['day_sell_quantity'] > 0) & (df['qty'] > 0)
-    condition_qty_eq_0 = df['qty'] == 0
-    
-    # Calculate new extras using np.where
-    df.loc[:, 'new_extras'] = np.where(
-        condition_qty_eq_0,
-        df['unrealised'],
+    df_copy = df.copy()
+    df_copy.loc[:, 'new_extras'] = np.where(
+        df_copy['quantity'] == 0,
+        df_copy['unrealised'],
         np.where(
-            condition_qty_gt_0_and_sell_qty_gt_0,
-            df['unrealised'] - df['PnL'],
-            df['unrealised']  # Handles cases where qty > 0 but day_sell_quantity <= 0
+            (df_copy['quantity'] > 0) & (df_copy['day_sell_quantity'] > 0),
+            df_copy['unrealised'] - df_copy['PnL'],
+            df_copy['unrealised']
         )
     )
-    
-    # Calculate extras
-    extras = df['new_extras'].sum()
-    
-    # Calculate total M2M
-    total_m2m = df[df['quantity'] > 0]['m2m'].sum()
-    
-   
+    extras = df_copy['new_extras'].sum()
+    total_m2m = df_copy[df_copy['quantity'] > 0]['m2m'].sum()
     return int(extras), total_m2m
-
+    
 
 # Calculate extras and total M2M for NIFTY and BANK
 # Filter Nifty DataFrame with additional condition
