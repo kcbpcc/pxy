@@ -109,7 +109,7 @@ while True:
     subprocess.run(['python3', 'buyboptpxy.py'])
     subprocess.run(['python3', 'buynoptpxy.py'])
     if run_type == 's':
-        subprocess.run(['python3', 'extoptpxy.py', 's'])
+        #subprocess.run(['python3', 'extoptpxy.py', 's'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
     elif run_type == 'l':
         #subprocess.run(['python3', 'extoptpxy.py', 'l'])
