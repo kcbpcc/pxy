@@ -58,8 +58,9 @@ def calculate_extras_and_m2m(df):
         )
     )
     extras = df_copy['new_extras'].sum()
+    total_stk_pnl = df_copy[df_copy['product'] == 'CNC']['unrealised'].sum()
     total_m2m = df_copy[df_copy['quantity'] > 0]['m2m'].sum()
-    return int(extras), total_m2m
+    return int(extras), total_m2m,int(total_stk_pnl)
     
 
 # Calculate extras and total M2M for NIFTY and BANK
@@ -68,15 +69,18 @@ nifty_df = combined_df[
     (combined_df['key'].str.lower().str.startswith('nfo:nifty')) &
     (combined_df['day_sell_quantity'] > 0)
 ]
-nextras, ntotal_opt_m2m = calculate_extras_and_m2m(nifty_df)
+nextras, ntotal_opt_m2m, nifty_stk_pnl = calculate_extras_and_m2m(nifty_df)
 
 # Filter Bank Nifty DataFrame with additional condition
 bank_df = combined_df[
     (combined_df['key'].str.lower().str.startswith('nfo:banknifty')) &
     (combined_df['day_sell_quantity'] > 0)
 ]
-bextras, btotal_opt_m2m = calculate_extras_and_m2m(bank_df)
+bextras, btotal_opt_m2m, bank_stk_pnl = calculate_extras_and_m2m(bank_df)
 
+# Calculate extras and total M2M for all stocks
+stocks_df = combined_df
+abc, xyz, total_stk_pnl = calculate_extras_and_m2m(stocks_df)
 
 # Filter and process the DataFrame
 opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
@@ -89,6 +93,8 @@ total_invested = opt_df['Invested'].sum()
 total_pl = opt_df['PnL'].sum()
 total_opt_pnl = opt_df['m2m'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
+
+ 
 
 # Create and process the print_df DataFrame
 print_df = opt_df.copy()
@@ -202,7 +208,7 @@ green_Stocks_capital_percentage = (green_Stocks_profit_loss / total_invested) * 
                     #right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))  
 
 output_lines.append(
-    left_aligned_format.format(f"Run-PnL:{BRIGHT_RED if total_ac_run_pnl < 0 else BRIGHT_GREEN}{total_ac_run_pnl}{RESET}") +
+    left_aligned_format.format(f"Run-sPnL:{BRIGHT_RED if total_stk_pnl < 0 else BRIGHT_GREEN}{total_stk_pnl}{RESET}") +
     right_aligned_format.format(f"Real-PnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl}{RESET}")
 )
 
