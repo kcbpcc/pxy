@@ -176,7 +176,11 @@ acvalue = round(total_ac_value + (available_cash / 100000), 2)
 
 from utcpxy import peak_time
 peak = peak_time()
-peak == "PREPEAK" and process_acvalue(acvalue)
+
+if peak == "PREPEAK":
+    process_acvalue(acvalue)
+
+acvalue = retrieve_acvalue()
 
 print(f"{summary_statement}📊")
 
