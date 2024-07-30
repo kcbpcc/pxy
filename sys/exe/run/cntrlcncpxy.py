@@ -348,7 +348,7 @@ try:
                                 #print(f"Trying to average: {row['key']}")
                                 is_placed = stocks_avg_order_place(key, row) if get_any_order_status(symbol_in_order) == "NO" else False
                                 if is_placed:
-                                    print(row['key'])
+                                    print(f"Averaged {row['key']}")
                         except Exception as e:
                             # Handle any other exceptions that may occur during order placement
                             print(f"An unexpected error occurred while placing an order for key {key}: {e}")
