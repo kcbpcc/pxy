@@ -3,7 +3,7 @@ import traceback
 import pandas as pd
 import requests
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime
 import calendar
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
@@ -11,12 +11,14 @@ from cmbddfpxy import process_data
 from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
-from mktpxy import get_market_check
+from mktpxy import get_market_check_handler
 from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
 from expdaypxy import get_last_weekday_of_current_month
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 import argparse
+
+# Command-line argument parsing
 parser = argparse.ArgumentParser(description="Process some commands.")
 parser.add_argument('command', nargs='?', choices=['l', 's'], default='s',
                     help="Command to run the program with. Defaults to 's' if not provided.")
@@ -84,9 +86,7 @@ def exit_options(blnc_opt_df, broker):
             total_pl_percentage = row['PL%']
             tgtoptsmadepth = row['Target']
             
-            #print(f"Checking conditions for {row['key']}: PL% = {total_pl_percentage}, Target = {tgtoptsmadepth}")
             if total_pl_percentage > tgtoptsmadepth:
-                #print(f"Conditions met for {row['key']}, placing order")
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
                     f"🛬🛬🛬 😧😧😧 EXIT order placed {row['key']} successfully.\n"
@@ -96,9 +96,6 @@ def exit_options(blnc_opt_df, broker):
                 )
                 print(message)
                 send_telegram_message(message)
-            else:
-                pass
-                #print(f"Conditions not met for {row['key']}, skipping order")
     except Exception as e:
         print(f"Error placing exit order: {e}")
 
@@ -124,7 +121,7 @@ blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
 # Get the current month's abbreviation
-current_month_abbr = datetime.now().strftime('%b').upper()  # e.g., 'JAN', 'FEB', 'MAR'
+current_month_abbr = datetime.now().strftime('%b').upper()
 
 # Select only the key, qty, tradingsymbol, Invested, value, and PL% columns and filter by current month's abbreviation
 selected_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL']]
@@ -134,26 +131,26 @@ filtered_df = selected_df[selected_df['key'].str.contains(current_month_abbr)].c
 # Add date column based on trading symbol
 def add_date(row):
     if row['key'].startswith('BANKNIFTY'):
-        return last_wednesday  # Return full date
+        return last_wednesday
     elif row['key'].startswith('NIFTY'):
-        return last_thursday  # Return full date
+        return last_thursday
     else:
         return None
 
-filtered_df.loc[:, 'Date'] = filtered_df.apply(add_date, axis=1)
+filtered_df['Date'] = filtered_df.apply(add_date, axis=1)
 
 # Add 'Today' column with the current date
-filtered_df.loc[:, 'Today'] = datetime.now()
+filtered_df['Today'] = datetime.now()
 
 # Add 'Diff' column showing the difference in working days between 'Date' and 'Today'
-filtered_df.loc[:, 'Diff'] = filtered_df.apply(lambda row: business_days_diff(row['Date'], row['Today']), axis=1)
+filtered_df['Diff'] = filtered_df.apply(lambda row: business_days_diff(row['Date'], row['Today']), axis=1)
 
 # Extract day for 'Date' and 'Today'
-filtered_df.loc[:, 'Date'] = filtered_df['Date'].dt.day
-filtered_df.loc[:, 'Today'] = filtered_df['Today'].dt.day
+filtered_df['Date'] = filtered_df['Date'].dt.day
+filtered_df['Today'] = filtered_df['Today'].dt.day
 
 # Add 'Target' column with the specified condition
-filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 105)
+filtered_df['Target'] = filtered_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 105)
 
 # Reorder columns as requested
 final_df = filtered_df[filtered_df['qty'] > 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
@@ -169,13 +166,7 @@ if args.command == 'l':
     right_aligned_output = '\n'.join([line.rjust(42) for line in final_prnt_str.split('\n')])
     print(right_aligned_output)
 
-
-# Call the function to exit options
-exit_options(final_df, broker)
-
-
 # Import market check and action functions
-from mktpxy import get_market_check_handler
 bbnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK')
 nonemincandlesequance, mktpxy = get_market_check_handler('^NSEI')
 
@@ -194,7 +185,7 @@ def place_buy_orders_based_on_pl(df, broker):
 
                 if row['key'].startswith('BANKNIFTY'):
                     current_qty = row['qty']
-                    if current_qty < 30 and current_qty + 15 <= 45:  
+                    if current_qty < 30 and current_qty + 15 <= 45:
                         qty = 15
                         if 'PE' in row['key']:
                             can_average = bnk_power > 0.85 and bmktpxy == 'Sell'
@@ -202,12 +193,12 @@ def place_buy_orders_based_on_pl(df, broker):
                             can_average = bnk_power < 0.85 and bmktpxy == 'Buy'
                 elif row['key'].startswith('NIFTY'):
                     current_qty = row['qty']
-                    if current_qty < 50 and current_qty + 25 <= 75: 
+                    if current_qty < 50 and current_qty + 25 <= 75:
                         qty = 25
                         if 'PE' in row['key']:
-                            can_average = bnk_power > 0.85 and mktpxy == 'Sell'
+                            can_average = nse_power > 0.85 and mktpxy == 'Sell'
                         elif 'CE' in row['key']:
-                            can_average = bnk_power < 0.15 and mktpxy == 'Buy'
+                            can_average = nse_power < 0.15 and mktpxy == 'Buy'
                 else:
                     continue
 
@@ -230,3 +221,4 @@ def place_buy_orders_based_on_pl(df, broker):
 
 # Call the function to place buy orders
 place_buy_orders_based_on_pl(final_df, broker)
+
