@@ -16,6 +16,7 @@ nonemincandlesequance, nmktpxy = get_market_check('^NSEI')
 from prftpxy import process_data_total_profit
 booked = process_data_total_profit()
 from telsumrypxy import check_and_send_summary
+from acvalpxy import get_current_acvalue
 
 try:
     from fundpxy import calculate_decision
