@@ -20,7 +20,7 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 
 bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
-arrow_map = {"Buy": "↗", "Sell": "↘", "Bull": "↑", "Bear": "↓"}
+arrow_map = {"Buy": "⤴", "Sell": "⤵", "Bull": "↗", "Bear": "↘"}
 peak = peak_time()
 
 column_width = 30
