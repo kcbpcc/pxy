@@ -1,3 +1,4 @@
+import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
@@ -9,7 +10,7 @@ CREDS_JSON = """
   "type": "service_account",
   "project_id": "px-kcbpcc",
   "private_key_id": "93b9e72c2e01333c8e18e223914d8ec0a6683c05",
-  "private_key": "-----BEGIN PRIVATE KEY-----\\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDM4F51KSbOUgCA\\nK0B1Q7k1QEFQxV8JPv2Da8cUhzgfdb+sJytywkaEpMvJCmW1nY9g3K4t+sWnjHcB\\n...\\n7l987pDhLgA8uXr/EK9ATbDRRdrNoRa4UuoOA72FxLzwVOPOJRXgiNtnxLwhbNyM\\n+vtzUB3hBoXCVkC3JZFvn74vWVo7sI/q4wkA8ukCgYB3jeodmlODYaEBBg7jIqBu\\n99z206XW2afHKqzPthdKgECdhxDNLH7Ii9evYOFYesN7ULd7P2sjCC/qNsj2Bbok\\nSk71m+IPoEhQcJdJupjF88oH8TlEZxWorYyLxlif4EVWpn4qJsl/MQUxe4FmiBAf\\n93QSs2sTF6gdKgHYuT8hRA==\\n-----END PRIVATE KEY-----\\n",
+  "private_key": "-----BEGIN PRIVATE KEY-----\\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDM4F51KSbOUgCA\\nK0B1Q7k1QEFQxV8JPv2Da8cUhzgfdb+sJytywkaEpMvJCmW1nY9g3K4t+sWnjHcB\\n...\\n7l987pDhLgA8uXr/EK9ATbDRRdrNoRa4UuoOA72FxLzwVOPOJRXgiNtnxLwhbNyM\\n+vtzUB3hBoXCVkC3JZFvn74vWVo7sI/q4wkA8ukCgYB3jeodmlODYaEBBg7jIqBu\\n99z206XW2afHKqzPthdKgECdhxDNLH7Ii9evYOFYesN7ULD7P2sjCC/qNsj2Bbok\\nSk71m+IPoEhQcJdJupjF88oH8TlEZxWorYyLxlif4EVWpn4qJsl/MQUxe4FmiBAf\\n93QSs2sTF6gdKgHYuT8hRA==\\n-----END PRIVATE KEY-----\\n",
   "client_email": "accounvalue@px-kcbpcc.iam.gserviceaccount.com",
   "client_id": "105412308378850370123",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
@@ -21,9 +22,12 @@ CREDS_JSON = """
 """
 
 # Load the credentials from the JSON string
-import json
 credentials_dict = json.loads(CREDS_JSON)
-creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict, ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'])
+try:
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict, ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'])
+except Exception as e:
+    print(f"Error creating credentials: {e}")
+    raise
 
 # Create a client instance
 client = gspread.authorize(creds)
@@ -97,4 +101,3 @@ def get_current_acvalue():
         else:
             # Handle the case when the sheet is empty
             return 0, 0
-
