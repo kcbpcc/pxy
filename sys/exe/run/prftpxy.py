@@ -48,9 +48,15 @@ def process_data_total_profit():
             sys.stdout = sys.__stdout__
 
     try:
+        # Initialize total_profit_fo
+        total_profit_fo = 0
+        
         # If broker is obtained successfully, proceed with data processing
         holdings_df = get_holdings_info('pxyholdings.csv')
         positions_df = get_positions_info('pxypositions.csv')
+
+        if holdings_df is None or positions_df is None:
+            raise ValueError("Failed to load holdings or positions data")
 
         # Check if 'tradingsymbol' is present in both dataframes
         if 'tradingsymbol' not in holdings_df.columns or 'tradingsymbol' not in positions_df.columns:
@@ -62,7 +68,10 @@ def process_data_total_profit():
 
         # Filter merged_df to include only rows where product_x == 'CNC' and used_quantity > 0
         merged_df_filtered = merged_df[(merged_df['product_x'] == 'CNC') & (merged_df['used_quantity'] > 0)].copy()
-        merged_df_filtered['PnL'] = merged_df_filtered.apply(lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']), axis=1).astype(int)
+        merged_df_filtered['PnL'] = merged_df_filtered.apply(
+            lambda row: row['used_quantity'] * (row['average_price_y'] - row['average_price_x']),
+            axis=1
+        ).astype(int)
         total_profit = merged_df_filtered['PnL'].sum() if not merged_df_filtered.empty else 0
         
         if not merged_df_filtered.empty:
@@ -87,6 +96,10 @@ def process_data_total_profit():
 
         # Processing NFO data
         mergedfo_df = get_positions_info('pxycombined.csv')
+
+        if mergedfo_df is None:
+            raise ValueError("Failed to load NFO data")
+
         mergedfo_df_filtered = mergedfo_df[(mergedfo_df['exchange'] == 'NFO') & (mergedfo_df['day_sell_quantity'] > 0)].copy()
         nfo_df = mergedfo_df_filtered 
         
@@ -148,4 +161,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
