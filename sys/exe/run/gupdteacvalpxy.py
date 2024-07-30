@@ -1,9 +1,17 @@
 import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
-# Use gspread's client without OAuth
-client = gspread.client.Client(None)
+# Path to your OAuth 2.0 credentials JSON file in the same directory
+CREDS_FILE = 'gupdteacvalpxy.json'
 
-# Open the spreadsheet by its key
+# Define the scope
+scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+
+# Authenticate and create a client instance
+creds = ServiceAccountCredentials.from_json_keyfile_name(CREDS_FILE, scope)
+client = gspread.authorize(creds)
+
+# Open the spreadsheet by key
 spreadsheet_id = '15WOo4nE8kK-ZjQKdeRpbtHnqwYExFX4w36IiXyLzVyA'
 sheet = client.open_by_key(spreadsheet_id).sheet1
 
@@ -18,4 +26,3 @@ values = [
 sheet.update('A1:D3', values)
 
 print("Sheet updated successfully.")
-
