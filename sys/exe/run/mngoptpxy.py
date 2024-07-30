@@ -138,7 +138,7 @@ blnc_opt_df.loc[:, 'Diff'] = blnc_opt_df.apply(lambda row: business_days_diff(ro
 blnc_opt_df['Date'] = blnc_opt_df['Date'].dt.day
 blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 
-blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 105)
+blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
 
 final_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
 row_count = final_df.shape[0]
