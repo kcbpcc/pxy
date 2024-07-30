@@ -2,11 +2,12 @@ import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
-from utcpxy import peak_time
 import pandas as pd
+import os
 
 # Path to the JSON file containing credentials
 CREDENTIALS_FILE = 'acvalpxy.json'
+LOCAL_CSV_FILE = 'acvalpxy.csv'
 
 # Debugging: Print the path of the credentials file
 print(f"Loading credentials from: {CREDENTIALS_FILE}")
@@ -91,9 +92,8 @@ def process_acvalue(acvalue):
         # Convert data to DataFrame
         df = pd.DataFrame(updated_data, columns=['date', 'acvalue'])  # Manually define column names
         # Save DataFrame to CSV file
-        csv_filename = 'acvalpxy.csv'
-        df.to_csv(csv_filename, index=False)
-        print(f"Data saved to {csv_filename}")
+        df.to_csv(LOCAL_CSV_FILE, index=False)
+        print(f"Data saved to {LOCAL_CSV_FILE}")
     except Exception as e:
         print(f"Error saving data to CSV: {e}")
 
