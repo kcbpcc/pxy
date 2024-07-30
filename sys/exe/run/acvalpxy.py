@@ -64,11 +64,10 @@ def process_acvalue(acvalue):
         # Read existing data from Google Sheets
         data = sheet.get_all_records()
         print("Data retrieved from Google Sheets.")
+        print("Retrieved data:", data)
     except Exception as e:
         print(f"Error reading Google Sheet: {e}")
         return
-
-    print(f"Data retrieved: {data}")
 
     record_exists = False
     for row in data:
@@ -76,7 +75,7 @@ def process_acvalue(acvalue):
             row_index = data.index(row) + 2  # Adding 2 because Google Sheets is 1-indexed and header row
             try:
                 sheet.update_cell(row_index, 2, acvalue)  # Update 'acvalue' in the second column
-                print(f"Updated existing record at row {row_index}.")
+                print(f"Updated existing record at row {row_index} with AC value: {acvalue}")
             except Exception as e:
                 print(f"Error updating cell: {e}")
             record_exists = True
@@ -86,7 +85,7 @@ def process_acvalue(acvalue):
         new_row = [current_date, acvalue]
         try:
             sheet.append_row(new_row)
-            print("Added new row to Google Sheets.")
+            print(f"Added new row to Google Sheets with data: {new_row}")
         except Exception as e:
             print(f"Error appending row: {e}")
 
@@ -97,16 +96,16 @@ def get_current_acvalue():
         # Read existing data from Google Sheets
         data = sheet.get_all_records()
         print("Data retrieved from Google Sheets.")
+        print("Retrieved data:", data)
     except Exception as e:
         print(f"Error reading Google Sheet: {e}")
         return 0, 0
-
-    print(f"Data retrieved: {data}")
 
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
     print(f"Current date: {current_date}")
 
     record_exists = any(row['date'] == current_date for row in data)
+    print(f"Record exists for current date: {record_exists}")
 
     if record_exists:
         current_acvalue = float([row['acvalue'] for row in data if row['date'] == current_date][0])
