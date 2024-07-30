@@ -109,10 +109,10 @@ while True:
     if bmktpxy in ['Buy', 'Sell']: importlib.reload(sys.modules.get('mktpxy', None)); subprocess.run(['python3', 'buyboptpxy.py'])
     if mktpxy in ['Buy', 'Sell']: importlib.reload(sys.modules.get('mktpxy', None)); subprocess.run(['python3', 'buynoptpxy.py'])
     if run_type == 's':
-        subprocess.run(['python3', 'extoptpxy.py', 's'])
+        subprocess.run(['python3', 'mngoptpxy.py', 's'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
     elif run_type == 'l':
-        subprocess.run(['python3', 'extoptpxy.py', 'l'])
+        subprocess.run(['python3', 'mngoptpxy.py', 'l'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
     subprocess.run(['python3', 'worldpxy.py']) if run_type == 'l' else None
     subprocess.run(['python3', 'buycncpxy.py']) if peak == 'PEAKEND' and (mktpredict in ['RISE'] or Day_Change > 0 or Open_Change > 0) else None
