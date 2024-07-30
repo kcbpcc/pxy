@@ -145,7 +145,7 @@ row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
 print("━" * 42)
 print(f"🤔..🤔..Recovering {YELLOW}{str(row_count).zfill(2)}{RESET} opts worth {YELLOW}{str(sum_invested).zfill(7)}{RESET}🤔")
-
+print(" " * 42)
 blnc_opt_df['PL%'] = blnc_opt_df['PL%'].astype(int)
 blnc_opt_df = blnc_opt_df[['key', 'qty', 'PL%', 'Target', 'PnL']]
 
