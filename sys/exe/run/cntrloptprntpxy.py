@@ -171,6 +171,11 @@ for group, data in grouped_df:
         os.system('python bcndlpxy.py')
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 
+acvalue = round(total_ac_value + (available_cash / 100000), 2)
+
+
+
+
 print(f"{summary_statement}📊")
 
 print("━" * 42)
@@ -222,7 +227,7 @@ output_lines.append(
     right_aligned_format.format(
         f"{BRIGHT_GREEN if nmktpxy in ['Bull'] else (BRIGHT_RED if nmktpxy in ['Bear'] else GREY)}"
         f"{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')}{RESET}       "
-        f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(total_ac_value + (available_cash/100000), 2)).zfill(5)}{RESET}"
+        f"{'Value'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue, 2)).zfill(5)}{RESET}"
     )
 )
 
