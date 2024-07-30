@@ -54,17 +54,19 @@ def process_acvalue(acvalue):
 
     try:
         # Read existing data from Google Sheets
-        data = sheet.get_all_records()
+        data = sheet.get_all_values()
         print("Data retrieved from Google Sheets.")
+        print("Retrieved data:", data)  # Debug print to inspect the data
     except Exception as e:
         print(f"Error reading Google Sheet: {e}")
         return
 
     # Check if a record for the current date exists
     record_exists = False
-    for row in data:
-        if row['date'] == current_date:
-            row_index = data.index(row) + 2  # Google Sheets is 1-indexed and header row
+    for index, row in enumerate(data):
+        print("Row data:", row)  # Debug print to check each row's data
+        if len(row) > 0 and row[0] == current_date:
+            row_index = index + 2  # Google Sheets is 1-indexed and header row
             try:
                 print(f"Updating existing record at row {row_index} with AC value: {acvalue}")
                 sheet.update_cell(row_index, 2, acvalue)  # Update 'acvalue' in the second column
@@ -86,9 +88,9 @@ def process_acvalue(acvalue):
     # Save the updated data to a CSV file
     try:
         # Fetch all records from Google Sheets
-        updated_data = sheet.get_all_records()
+        updated_data = sheet.get_all_values()
         # Convert data to DataFrame
-        df = pd.DataFrame(updated_data)
+        df = pd.DataFrame(updated_data, columns=['date', 'acvalue'])  # Manually define column names
         # Save DataFrame to CSV file
         csv_filename = 'acvalpxy.csv'
         df.to_csv(csv_filename, index=False)
