@@ -10,6 +10,7 @@ from cnstpxy import dir_path
 from cmbddfpxy import process_data
 from expdaypxy import get_last_weekday_of_current_month
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+from mktpxy import get_market_check
 import argparse
 
 # Argument parsing
