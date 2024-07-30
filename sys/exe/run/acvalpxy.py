@@ -61,22 +61,22 @@ def process_acvalue(acvalue):
         print(f"Error reading Google Sheet: {e}")
         return
 
-    # Check if a record for the current date exists
-    record_exists = False
+    # Find if a record for the current date exists and its row index
+    row_index_to_update = None
     for index, row in enumerate(data):
         print("Row data:", row)  # Debug print to check each row's data
         if len(row) > 0 and row[0] == current_date:
-            row_index = index + 2  # Google Sheets is 1-indexed and header row
-            try:
-                print(f"Updating existing record at row {row_index} with AC value: {acvalue}")
-                sheet.update_cell(row_index, 2, acvalue)  # Update 'acvalue' in the second column
-                print(f"Updated cell ({row_index}, 2) with value: {acvalue}")
-            except Exception as e:
-                print(f"Error updating cell: {e}")
-            record_exists = True
+            row_index_to_update = index + 1  # Google Sheets is 1-indexed
             break
 
-    if not record_exists:
+    if row_index_to_update:
+        try:
+            print(f"Updating existing record at row {row_index_to_update + 1} with AC value: {acvalue}")
+            sheet.update_cell(row_index_to_update + 1, 2, acvalue)  # Update 'acvalue' in the second column
+            print(f"Updated cell ({row_index_to_update + 1}, 2) with value: {acvalue}")
+        except Exception as e:
+            print(f"Error updating cell: {e}")
+    else:
         new_row = [current_date, acvalue]
         try:
             print(f"Adding new row to Google Sheets with data: {new_row}")
@@ -97,7 +97,6 @@ def process_acvalue(acvalue):
         print(f"Data saved to {csv_filename}")
     except Exception as e:
         print(f"Error saving data to CSV: {e}")
-
 
 
 def get_current_acvalue():
