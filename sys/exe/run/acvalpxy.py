@@ -7,75 +7,123 @@ from utcpxy import peak_time
 # Path to the JSON file containing credentials
 CREDENTIALS_FILE = 'acvalpxy.json'
 
-# Load the credentials from the JSON file
-with open(CREDENTIALS_FILE, 'r') as file:
-    credentials_dict = json.load(file)
+# Debugging: Print the path of the credentials file
+print(f"Loading credentials from: {CREDENTIALS_FILE}")
 
 try:
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict, ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'])
+    # Load the credentials from the JSON file
+    with open(CREDENTIALS_FILE, 'r') as file:
+        credentials_dict = json.load(file)
+    print("Credentials loaded successfully.")
+except Exception as e:
+    print(f"Error loading credentials: {e}")
+    raise
+
+try:
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(
+        credentials_dict,
+        ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+    )
+    print("Credentials for Google Sheets API created successfully.")
 except Exception as e:
     print(f"Error creating credentials: {e}")
     raise
 
 # Create a client instance
-client = gspread.authorize(creds)
+try:
+    client = gspread.authorize(creds)
+    print("Authenticated with Google Sheets API successfully.")
+except Exception as e:
+    print(f"Error authenticating with Google Sheets API: {e}")
+    raise
+
 SPREADSHEET_ID = '15WOo4nE8kK-ZjQKdeRpbtHnqwYExFX4w36IiXyLzVyA'
 SHEET_NAME = 'Sheet1'  # Adjust if necessary
-sheet = client.open_by_key(SPREADSHEET_ID).worksheet(SHEET_NAME)
+
+try:
+    sheet = client.open_by_key(SPREADSHEET_ID).worksheet(SHEET_NAME)
+    print(f"Connected to spreadsheet: {SPREADSHEET_ID}, sheet: {SHEET_NAME}")
+except Exception as e:
+    print(f"Error accessing spreadsheet or worksheet: {e}")
+    raise
 
 def process_acvalue(acvalue):
+    print(f"Processing AC value: {acvalue}")
+    
     peak = peak_time()
+    print(f"Peak time status: {peak}")
 
     if peak != 'PREPEAK':
-        # Do nothing if peak != 'PREPEAK'
+        print("Not in PREPEAK. Exiting.")
         return
 
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
+    print(f"Current date: {current_date}")
 
     try:
         # Read existing data from Google Sheets
         data = sheet.get_all_records()
+        print("Data retrieved from Google Sheets.")
     except Exception as e:
-        # Handle the exception (e.g., log an error message)
         print(f"Error reading Google Sheet: {e}")
         return
+
+    print(f"Data retrieved: {data}")
 
     record_exists = False
     for row in data:
         if row['date'] == current_date:
             row_index = data.index(row) + 2  # Adding 2 because Google Sheets is 1-indexed and header row
-            sheet.update_cell(row_index, 2, acvalue)  # Update 'acvalue' in the second column
+            try:
+                sheet.update_cell(row_index, 2, acvalue)  # Update 'acvalue' in the second column
+                print(f"Updated existing record at row {row_index}.")
+            except Exception as e:
+                print(f"Error updating cell: {e}")
             record_exists = True
             break
 
     if not record_exists:
         new_row = [current_date, acvalue]
-        sheet.append_row(new_row)
+        try:
+            sheet.append_row(new_row)
+            print("Added new row to Google Sheets.")
+        except Exception as e:
+            print(f"Error appending row: {e}")
 
 def get_current_acvalue():
+    print("Retrieving current AC value.")
+    
     try:
         # Read existing data from Google Sheets
         data = sheet.get_all_records()
+        print("Data retrieved from Google Sheets.")
     except Exception as e:
-        # Handle the exception (e.g., log an error message)
         print(f"Error reading Google Sheet: {e}")
         return 0, 0
 
+    print(f"Data retrieved: {data}")
+
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
+    print(f"Current date: {current_date}")
+
     record_exists = any(row['date'] == current_date for row in data)
 
     if record_exists:
         current_acvalue = float([row['acvalue'] for row in data if row['date'] == current_date][0])
+        print(f"Current AC value: {current_acvalue}")
 
         # Find the most recent past date
         past_dates = [row['date'] for row in data if row['date'] < current_date]
         if past_dates:
             latest_past_date = max(past_dates)
             yesterday_acvalue = float([row['acvalue'] for row in data if row['date'] == latest_past_date][0])
+            print(f"Yesterday's AC value: {yesterday_acvalue}")
         else:
             yesterday_acvalue = 0  # or handle it according to your logic
+            print("No past data found. Using default value for yesterday's AC value.")
 
         ydaypnl = current_acvalue - yesterday_acvalue
+        print(f"Calculated PNL: {ydaypnl}")
 
         return current_acvalue, ydaypnl
     else:
@@ -84,9 +132,9 @@ def get_current_acvalue():
             # Assuming data is a list of dictionaries with 'date' and 'acvalue' keys
             latest_row = max(data, key=lambda row: row['date'])
             latest_acvalue = float(latest_row['acvalue'])
+            print(f"Latest AC value: {latest_acvalue}")
 
             return latest_acvalue, 0
         else:
-            # Handle the case when the sheet is empty
+            print("No data found. Returning default values.")
             return 0, 0
-
