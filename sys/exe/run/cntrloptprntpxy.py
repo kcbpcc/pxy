@@ -173,9 +173,10 @@ for group, data in grouped_df:
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 
 acvalue = round(total_ac_value + (available_cash / 100000), 2)
-process_acvalue(acvalue)
 
-
+from utcpxy import peak_time
+peak = peak_time()
+peak == "PREPEAK" and process_acvalue(acvalue)
 
 print(f"{summary_statement}📊")
 
