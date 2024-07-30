@@ -330,7 +330,7 @@ try:
                     ):
                         try:
                             # Read the stock symbols from stocks.csv
-                            stocks_df = pd.read_csv('cncbuylstpxy')
+                            stocks_df = pd.read_csv('avgstocks')
                             stock_symbols = stocks_df['Symbol'].tolist()  # Assuming 'Symbol' is the column name in stocks.csv
                     
                             # Define a function to strip the prefix (NSE: or BSE:) from the symbol
