@@ -62,11 +62,9 @@ previous_record = df['acvalue'].iloc[-2]
 delta_day = latest_record - previous_record
 
 # Monthly delta calculation
-if len(df) > 30:
-    monthly_df = df.tail(30)
-    monthly_latest_record = monthly_df['acvalue'].iloc[-1]
-    monthly_previous_record = monthly_df['acvalue'].iloc[0]
-    delta_month = monthly_latest_record - monthly_previous_record
+if len(df) > 1:
+    monthly_previous_record = df['acvalue'].iloc[0]
+    delta_month = latest_record - monthly_previous_record
 else:
     delta_month = delta_day  # Not enough data for a full month delta
 
@@ -75,8 +73,8 @@ delta_day_color = BRIGHT_GREEN if delta_day >= 0 else BRIGHT_RED
 delta_month_color = BRIGHT_GREEN if delta_month >= 0 else BRIGHT_RED
 
 # Print deltas
-print("📊📊📊📊📊 Daily Delta: {}{}📊📊📊📊📊".format(delta_day_color, f"{delta_day:,.2f}"))
-print("📊📊📊📊📊 Month Delta: {}{}📊📊📊📊📊".format(delta_month_color, f"{delta_month:,.2f}"))
+print(f"📊📊📊📊📊 Daily Delta: {delta_day_color}{delta_day:,.2f}{RESET}📊📊📊📊📊")
+print(f"📊📊📊📊📊 Month Delta: {delta_month_color}{delta_month:,.2f}{RESET}📊📊📊📊📊")
 
 # Reset terminal color to default
 print(RESET)
