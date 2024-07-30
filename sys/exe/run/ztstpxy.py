@@ -190,7 +190,7 @@ def place_buy_orders_based_on_pl(df, broker):
                         if 'PE' in row['key']:
                             can_average = bnk_power > 0.85 and bmktpxy == 'Sell'
                         elif 'CE' in row['key']:
-                            can_average = bnk_power < 0.85 and bmktpxy == 'Buy'
+                            can_average = bnk_power < 0.15 and bmktpxy == 'Buy'
                 elif row['key'].startswith('NIFTY'):
                     current_qty = row['qty']
                     if current_qty < 50 and current_qty + 25 <= 75:
