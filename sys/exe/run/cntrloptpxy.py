@@ -32,10 +32,10 @@ right_aligned_format = "{:>" + str(column_width) + "}"
 output_lines = []
 output_lines.append(
     left_aligned_format.format(
-        f"BANKNIFTY━{BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(bmktpxy, '').ljust(icon_width)} {bmktpredict}{RESET}"
+        f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '').ljust(icon_width)}{RESET}"
     ) +
     right_aligned_format.format(
-        f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{mktpredict}{RESET} {arrow_map.get(nmktpxy, '').rjust(icon_width)}━NIFTYNDEX"
+        f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '').rjust(icon_width)} {mktpredict}{RESET} ━━ NIFTYNDEX"
     )
 )
 
