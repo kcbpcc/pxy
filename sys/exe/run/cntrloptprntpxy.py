@@ -173,7 +173,7 @@ for group, data in grouped_df:
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 
 acvalue = round(total_ac_value + (available_cash / 100000), 2)
-
+process_acvalue(acvalue)
 
 
 
