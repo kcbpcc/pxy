@@ -23,7 +23,7 @@ nsma = check_index_status('^NSEI')
 arrow_map = {"Buy": "👆", "Sell": "👇", "Bull": "🟩", "Bear": "🟥"}
 peak = peak_time()
 
-column_width = 30
+column_width = 26
 icon_width = 2  # Fixed width of the icon in characters
 
 left_aligned_format = "{:<" + str(column_width) + "}"
