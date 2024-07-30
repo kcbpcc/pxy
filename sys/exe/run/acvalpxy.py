@@ -97,51 +97,41 @@ def process_acvalue(acvalue):
     except Exception as e:
         print(f"Error saving data to CSV: {e}")
 
-def get_current_acvalue():
-    print("Retrieving current AC value.")
-    
-    try:
-        # Read existing data from Google Sheets
-        data = sheet.get_all_records()
-        print("Data retrieved from Google Sheets.")
-        print("Retrieved data:", data)
-    except Exception as e:
-        print(f"Error reading Google Sheet: {e}")
-        return 0, 0
-
+def retrieve_acvalue():
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
-    print(f"Current date: {current_date}")
+    try:
+        # Check if the local CSV file exists
+        if os.path.exists(LOCAL_CSV_FILE):
+            # Get the file modification date
+            modification_time = datetime.utcfromtimestamp(os.path.getmtime(LOCAL_CSV_FILE))
+            print(f"Local file modification time: {modification_time}")
 
-    record_exists = any(row['date'] == current_date for row in data)
-    print(f"Record exists for current date: {record_exists}")
+            # If the file was modified today, read from the local file
+            if modification_time.date() == datetime.utcnow().date():
+                print("Local file is up-to-date. Reading AC value from local file.")
+                df = pd.read_csv(LOCAL_CSV_FILE)
+                # Ensure we have the latest entry for today
+                if df['date'].iloc[-1] == current_date:
+                    acvalue = float(df['acvalue'].iloc[-1])
+                    print(f"Retrieved AC value from local file: {acvalue}")
+                    return acvalue
 
-    if record_exists:
-        current_acvalue = float([row['acvalue'] for row in data if row['date'] == current_date][0])
-        print(f"Current AC value: {current_acvalue}")
+        # If the file doesn't exist or is not up-to-date, fetch from Google Sheets
+        print("Local file not found or not up-to-date. Fetching data from Google Sheets.")
+        data = sheet.get_all_values()
+        df = pd.DataFrame(data, columns=['date', 'acvalue'])
+        df.to_csv(LOCAL_CSV_FILE, index=False)
+        print(f"Updated local file with data from Google Sheets: {LOCAL_CSV_FILE}")
 
-        # Find the most recent past date
-        past_dates = [row['date'] for row in data if row['date'] < current_date]
-        if past_dates:
-            latest_past_date = max(past_dates)
-            yesterday_acvalue = float([row['acvalue'] for row in data if row['date'] == latest_past_date][0])
-            print(f"Yesterday's AC value: {yesterday_acvalue}")
+        # Retrieve the latest AC value
+        if df['date'].iloc[-1] == current_date:
+            acvalue = float(df['acvalue'].iloc[-1])
+            print(f"Retrieved AC value from Google Sheets: {acvalue}")
+            return acvalue
         else:
-            yesterday_acvalue = 0  # or handle it according to your logic
-            print("No past data found. Using default value for yesterday's AC value.")
+            print("No record found for the current date.")
+            return None
 
-        ydaypnl = current_acvalue - yesterday_acvalue
-        print(f"Calculated PNL: {ydaypnl}")
-
-        return current_acvalue, ydaypnl
-    else:
-        # Handle the case when a record for the current date doesn't exist
-        if data:
-            # Assuming data is a list of dictionaries with 'date' and 'acvalue' keys
-            latest_row = max(data, key=lambda row: row['date'])
-            latest_acvalue = float(latest_row['acvalue'])
-            print(f"Latest AC value: {latest_acvalue}")
-
-            return latest_acvalue, 0
-        else:
-            print("No data found. Returning default values.")
-            return 0, 0
+    except Exception as e:
+        print(f"Error retrieving AC value: {e}")
+        return None
