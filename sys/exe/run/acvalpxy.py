@@ -3,6 +3,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 from utcpxy import peak_time
+import pandas as pd
 
 # Path to the JSON file containing credentials
 CREDENTIALS_FILE = 'acvalpxy.json'
