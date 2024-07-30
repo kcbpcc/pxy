@@ -61,19 +61,18 @@ def process_acvalue(acvalue):
         print(f"Error reading Google Sheet: {e}")
         return
 
-    # Find if a record for the current date exists and its row index
+    # Check if a record for the current date exists
     row_index_to_update = None
     for index, row in enumerate(data):
-        print("Row data:", row)  # Debug print to check each row's data
         if len(row) > 0 and row[0] == current_date:
             row_index_to_update = index + 1  # Google Sheets is 1-indexed
             break
 
     if row_index_to_update:
         try:
-            print(f"Updating existing record at row {row_index_to_update + 1} with AC value: {acvalue}")
-            sheet.update_cell(row_index_to_update + 1, 2, acvalue)  # Update 'acvalue' in the second column
-            print(f"Updated cell ({row_index_to_update + 1}, 2) with value: {acvalue}")
+            print(f"Updating existing record at row {row_index_to_update} with AC value: {acvalue}")
+            sheet.update_cell(row_index_to_update, 2, acvalue)  # Update 'acvalue' in the second column
+            print(f"Updated cell ({row_index_to_update}, 2) with value: {acvalue}")
         except Exception as e:
             print(f"Error updating cell: {e}")
     else:
@@ -97,7 +96,6 @@ def process_acvalue(acvalue):
         print(f"Data saved to {csv_filename}")
     except Exception as e:
         print(f"Error saving data to CSV: {e}")
-
 
 def get_current_acvalue():
     print("Retrieving current AC value.")
