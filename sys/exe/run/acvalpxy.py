@@ -82,6 +82,21 @@ def process_acvalue(acvalue):
         except Exception as e:
             print(f"Error appending row: {e}")
 
+    # Save the updated data to a CSV file
+    try:
+        # Fetch all records from Google Sheets
+        updated_data = sheet.get_all_records()
+        # Convert data to DataFrame
+        df = pd.DataFrame(updated_data)
+        # Save DataFrame to CSV file
+        csv_filename = 'acvalpxy.csv'
+        df.to_csv(csv_filename, index=False)
+        print(f"Data saved to {csv_filename}")
+    except Exception as e:
+        print(f"Error saving data to CSV: {e}")
+
+
+
 def get_current_acvalue():
     print("Retrieving current AC value.")
     
