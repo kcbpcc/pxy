@@ -76,6 +76,7 @@ def process_acvalue(acvalue):
             #print(f"Updated cell ({row_index_to_update}, 2) with value: {acvalue}")
         except Exception as e:
             #print(f"Error updating cell: {e}")
+            raise
     else:
         new_row = [current_date, acvalue]
         try:
@@ -84,6 +85,7 @@ def process_acvalue(acvalue):
             #print(f"Added new row with data: {new_row}")
         except Exception as e:
             #print(f"Error appending row: {e}")
+            raise
 
     # Save the updated data to a CSV file
     try:
@@ -96,6 +98,7 @@ def process_acvalue(acvalue):
         #print(f"Data saved to {LOCAL_CSV_FILE}")
     except Exception as e:
         #print(f"Error saving data to CSV: {e}")
+        raise
 
 def retrieve_acvalue():
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
