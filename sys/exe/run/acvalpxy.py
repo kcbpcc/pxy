@@ -48,15 +48,6 @@ except Exception as e:
     raise
 
 def process_acvalue(acvalue):
-    print(f"Processing AC value: {acvalue}")
-    
-    peak = peak_time()
-    print(f"Peak time status: {peak}")
-
-    if peak != 'PREPEAK':
-        print("Not in PREPEAK. Exiting.")
-        return
-
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
     print(f"Current date: {current_date}")
 
@@ -64,15 +55,15 @@ def process_acvalue(acvalue):
         # Read existing data from Google Sheets
         data = sheet.get_all_records()
         print("Data retrieved from Google Sheets.")
-        print("Retrieved data:", data)
     except Exception as e:
         print(f"Error reading Google Sheet: {e}")
         return
 
+    # Check if a record for the current date exists
     record_exists = False
     for row in data:
         if row['date'] == current_date:
-            row_index = data.index(row) + 2  # Adding 2 because Google Sheets is 1-indexed and header row
+            row_index = data.index(row) + 2  # Google Sheets is 1-indexed and header row
             try:
                 print(f"Updating existing record at row {row_index} with AC value: {acvalue}")
                 sheet.update_cell(row_index, 2, acvalue)  # Update 'acvalue' in the second column
