@@ -215,7 +215,8 @@ def place_buy_orders_based_on_pl(df, broker):
                         print(message)
                         send_telegram_message(message)
                 else:
-                    print(f"Skipping BUY order for {row['key']} due to bnk_power, market conditions, or qty limit.")
+                    pass
+                    #print(f"Skipping BUY order for {row['key']} due to bnk_power, market conditions, or qty limit.")
     except Exception as e:
         print(f"Error placing BUY order: {e}")
 
