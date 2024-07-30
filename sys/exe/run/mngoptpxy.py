@@ -163,6 +163,8 @@ exit_options(final_df, broker)
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 
+final_avg_df = final_df[final_df['Target'] > 0]
+
 # Import market check and action functions
 bbnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 nonemincandlesequance, mktpxy = get_market_check('^NSEI')
@@ -218,7 +220,7 @@ def place_buy_orders_based_on_pl(df, broker):
         print(f"Error placing BUY order: {e}")
 
 # Call the function to place buy orders
-place_buy_orders_based_on_pl(final_df, broker)
+place_buy_orders_based_on_pl(final_avg_df, broker)
 
 
 
