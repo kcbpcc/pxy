@@ -1,7 +1,7 @@
 import gspread
 
-# Authorize with gspread (for public sheets, you might be able to use None)
-client = gspread.authorize(None)  # This might need an API key or token for full functionality
+# Use gspread's client without OAuth
+client = gspread.client.Client(None)
 
 # Open the spreadsheet by its key
 spreadsheet_id = '15WOo4nE8kK-ZjQKdeRpbtHnqwYExFX4w36IiXyLzVyA'
@@ -18,3 +18,4 @@ values = [
 sheet.update('A1:D3', values)
 
 print("Sheet updated successfully.")
+
