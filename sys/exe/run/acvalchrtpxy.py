@@ -76,7 +76,7 @@ delta_month_color = BRIGHT_GREEN if delta_month >= 0 else BRIGHT_RED
 
 # Print deltas
 print("📊📊📊📊📊 Daily Delta: {}{}📊📊📊📊📊".format(delta_day_color, f"{delta_day:,.2f}"))
-print("📊📊📊📊📊 Monthly Delta: {}{}📊📊📊📊📊".format(delta_month_color, f"{delta_month:,.2f}"))
+print("📊📊📊📊📊 Month Delta: {}{}📊📊📊📊📊".format(delta_month_color, f"{delta_month:,.2f}"))
 
 # Reset terminal color to default
 print(RESET)
