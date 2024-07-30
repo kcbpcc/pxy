@@ -228,7 +228,7 @@ output_lines.append(left_aligned_format.format(f"Run-oPnL:{BRIGHT_GREEN if run_o
 output_lines.append(
     left_aligned_format.format(
         f"{'Capital'.zfill(7)}:{BRIGHT_YELLOW}{str(round(17.82, 2)).zfill(5)}"
-        f"{BRIGHT_GREEN if nmktpxy in ['Bull', 'Buy'] else BRIGHT_RED}      {BOLD}{UNDERLINE}PXY{RESET}"
+        f"{BRIGHT_RED if mktpredict == 'FALL' else GREY if mktpredict == 'SIDE' else BRIGHT_GREEN}      {BOLD}{UNDERLINE}PXY{RESET}"
     ) +
     right_aligned_format.format(
         f"{BRIGHT_GREEN if nmktpxy in ['Bull'] else (BRIGHT_RED if nmktpxy in ['Bear'] else GREY)}"
