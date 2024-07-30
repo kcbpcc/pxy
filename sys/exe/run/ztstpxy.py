@@ -11,7 +11,7 @@ from cmbddfpxy import process_data
 from smapxy import check_index_status
 from utcpxy import peak_time
 from depthpxy import calculate_consecutive_candles
-from mktpxy import get_market_check_handler
+from mktpxy import get_market_check
 from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
 from expdaypxy import get_last_weekday_of_current_month
@@ -167,8 +167,8 @@ if args.command == 'l':
     print(right_aligned_output)
 
 # Import market check and action functions
-bbnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK')
-nonemincandlesequance, mktpxy = get_market_check_handler('^NSEI')
+bbnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
+nonemincandlesequance, mktpxy = get_market_check('^NSEI')
 
 from bftpxy import get_bnk_action
 ha_bnk_action, bnk_power, bDay_Change, bOpen_Change = get_bnk_action()
