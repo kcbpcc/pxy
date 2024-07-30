@@ -144,7 +144,7 @@ final_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date',
 row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
 print("━" * 42)
-print(f"{UNDERLINE}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
+print(f"{UNDERLINE}{RED}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
 blnc_opt_df['PL%'] = blnc_opt_df['PL%'].astype(int)
 blnc_opt_df = blnc_opt_df[['key', 'qty', 'PL%', 'Target', 'PnL']]
 
