@@ -41,6 +41,9 @@ while true; do
             echo "        🔐🔐🔐.Check CDSL.🔐🔐🔐"
             pxycdsl
             ;;   
+
+
+pxyacval
         by)
             echo "        🌱🌱🌱..Buy Now.🌱🌱🌱"
             pxybuy
