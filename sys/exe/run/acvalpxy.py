@@ -74,8 +74,9 @@ def process_acvalue(acvalue):
         if row['date'] == current_date:
             row_index = data.index(row) + 2  # Adding 2 because Google Sheets is 1-indexed and header row
             try:
+                print(f"Updating existing record at row {row_index} with AC value: {acvalue}")
                 sheet.update_cell(row_index, 2, acvalue)  # Update 'acvalue' in the second column
-                print(f"Updated existing record at row {row_index} with AC value: {acvalue}")
+                print(f"Updated cell ({row_index}, 2) with value: {acvalue}")
             except Exception as e:
                 print(f"Error updating cell: {e}")
             record_exists = True
@@ -84,8 +85,9 @@ def process_acvalue(acvalue):
     if not record_exists:
         new_row = [current_date, acvalue]
         try:
+            print(f"Adding new row to Google Sheets with data: {new_row}")
             sheet.append_row(new_row)
-            print(f"Added new row to Google Sheets with data: {new_row}")
+            print(f"Added new row with data: {new_row}")
         except Exception as e:
             print(f"Error appending row: {e}")
 
