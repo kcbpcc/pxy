@@ -3,7 +3,6 @@ import pandas as pd
 import traceback
 import sys
 import os
-import random
 import asyncio
 import logging
 import telegram
@@ -23,7 +22,7 @@ logging.basicConfig(level=logging.WARNING)
 logger = Logger(30, os.path.join(dir_path, "main.log"))
 
 # Fetch trading decision and available cash
-decision, optdecision, available_cash, live_balance, limit = calculate_decision()
+decision, optdecision, available_cash,live_balance, limit = calculate_decision()
 
 print("🌿🌿🌿 Lets Buy NIFTY50 & BANK Stocks 🌿🌿")
 print(f"     Cash:💰{available_cash:.2f}💵 | 🚦{decision}🚦 to Buy")
@@ -110,25 +109,20 @@ def place_order(symbol, broker, purchase_limit, quantity):
         logger.error(f"Error while placing order: {str(e)}")
 
 def main():
-    try:
-        # Attempt to read the file
-        df = pd.read_csv('cncbuylstpxy', delimiter=',')  # Adjust delimiter if needed
-    except Exception as e:
-        print(f"Error reading the file: {e}")
-        sys.exit(1)
-
-    # Print out the columns to check if 'Symbol' exists
-    print("DataFrame columns:", df.columns)
-
-    if 'Symbol' not in df.columns:
-        print("Error: 'Symbol' column not found in the DataFrame.")
-        sys.exit(1)
-
-    # Extract the symbols from the 'Symbol' column
-    symbols = df['Symbol'].tolist()
-
-    # Shuffle the list to randomize the order
-    random.shuffle(symbols)
+    symbols = [
+        "KARURVYSYA", "KOTAKBANK", "KTKBANK", "MAHABANK", "PNB", "PSB", "RBLBANK", "SBIN",
+        "SOUTHBANK", "SURYODAY", "TMB", "UCOBANK", "UJJIVANSFB", "UNIONBANK", "UTKARSHBNK",
+        "YESBANK", "AUBANK", "AXISBANK", "BANDHANBNK", "BANKBARODA", "BANKINDIA", "CANBK",
+        "CAPITALSFB", "CENTRALBK", "CSBBANK", "CUB", "DCBBANK", "DHANBANK", "EQUITASBNK",
+        "ESAFSFB", "FEDERALBNK", "FINOPB", "HDFCBANK", "ICICIBANK", "IDBI", "IDFCFIRSTB",
+        "INDIANB", "INDUSINDBK", "IOB", "J&KBANK", "JSFB", "WIPRO", "ULTRACEMCO", "TITAN",
+        "TECHM", "TCS", "TATASTEEL", "TATAMOTORS", "TATACONSUM", "SUNPHARMA", "SHRIRAMFIN",
+        "SBILIFE", "RELIANCE", "POWERGRID", "ONGC", "NTPC", "NESTLEIND", "MARUTI", "M&M",
+        "LTIM", "LT", "JSWSTEEL", "ITC", "INFY", "HINDUNILVR", "HINDALCO", "HEROMOTOCO",
+        "HDFCLIFE", "HCLTECH", "GRASIM", "EICHERMOT", "DRREDDY", "DIVISLAB", "COALINDIA",
+        "CIPLA", "BRITANNIA", "BPCL", "BHARTIARTL", "BAJFINANCE", "BAJAJFINSV", "BAJAJ-AUTO",
+        "ASIANPAINT", "APOLLOHOSP", "ADANIPORTS", "ADANIENT"
+    ]
 
     try:
         # Redirect sys.stdout to 'output.txt'
