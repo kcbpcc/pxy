@@ -17,7 +17,7 @@ try:
     # Load the credentials from the JSON file
     with open(CREDENTIALS_FILE, 'r') as file:
         credentials_dict = json.load(file)
-    logging.info("Credentials loaded successfully.")
+    #logging.info("Credentials loaded successfully.")
 except Exception as e:
     logging.error(f"Error loading credentials: {e}")
     raise
@@ -27,14 +27,14 @@ try:
         credentials_dict,
         ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
     )
-    logging.info("Credentials for Google Sheets API created successfully.")
+    #logging.info("Credentials for Google Sheets API created successfully.")
 except Exception as e:
     logging.error(f"Error creating credentials: {e}")
     raise
 
 try:
     client = gspread.authorize(creds)
-    logging.info("Authenticated with Google Sheets API successfully.")
+    #logging.info("Authenticated with Google Sheets API successfully.")
 except Exception as e:
     logging.error(f"Error authenticating with Google Sheets API: {e}")
     raise
@@ -44,19 +44,19 @@ SHEET_NAME = 'Sheet1'  # Adjust if necessary
 
 try:
     sheet = client.open_by_key(SPREADSHEET_ID).worksheet(SHEET_NAME)
-    logging.info(f"Connected to spreadsheet: {SPREADSHEET_ID}, sheet: {SHEET_NAME}")
+    #logging.info(f"Connected to spreadsheet: {SPREADSHEET_ID}, sheet: {SHEET_NAME}")
 except Exception as e:
     logging.error(f"Error accessing spreadsheet or worksheet: {e}")
     raise
 
 def process_acvalue(acvalue):
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
-    logging.info(f"Current date: {current_date}")
+    #logging.info(f"Current date: {current_date}")
 
     try:
         # Read existing data from Google Sheets
         data = sheet.get_all_values()
-        logging.info("Data retrieved from Google Sheets.")
+        #logging.info("Data retrieved from Google Sheets.")
     except Exception as e:
         logging.error(f"Error reading Google Sheet: {e}")
         return
@@ -70,7 +70,7 @@ def process_acvalue(acvalue):
     if row_index_to_update:
         try:
             sheet.update_cell(row_index_to_update, 2, acvalue)
-            logging.info(f"Updated cell ({row_index_to_update}, 2) with value: {acvalue}")
+            #logging.info(f"Updated cell ({row_index_to_update}, 2) with value: {acvalue}")
         except Exception as e:
             logging.error(f"Error updating cell: {e}")
             raise
@@ -78,7 +78,7 @@ def process_acvalue(acvalue):
         new_row = [current_date, acvalue]
         try:
             sheet.append_row(new_row)
-            logging.info(f"Added new row with data: {new_row}")
+            #logging.info(f"Added new row with data: {new_row}")
         except Exception as e:
             logging.error(f"Error appending row: {e}")
             raise
@@ -87,7 +87,7 @@ def process_acvalue(acvalue):
         updated_data = sheet.get_all_values()
         df = pd.DataFrame(updated_data, columns=['date', 'acvalue'])
         df.to_csv(LOCAL_CSV_FILE, index=False)
-        logging.info(f"Data saved to {LOCAL_CSV_FILE}")
+        #logging.info(f"Data saved to {LOCAL_CSV_FILE}")
     except Exception as e:
         logging.error(f"Error saving data to CSV: {e}")
         raise
@@ -123,4 +123,5 @@ def retrieve_acvalue():
     except Exception as e:
         logging.error(f"Error retrieving AC value: {e}")
         return 0
+
 
