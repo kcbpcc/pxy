@@ -85,6 +85,8 @@ def exit_options(blnc_opt_df, broker):
             return
 
         blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]  # Ensure no zero qty rows
+        print(blnc_opt_df)
+
 
         for index, row in blnc_opt_df.iterrows():
             total_pl_percentage = row['PL%']
