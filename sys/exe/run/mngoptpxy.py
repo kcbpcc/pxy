@@ -157,6 +157,7 @@ width = 42
 line1 = f"B:{last_wednesday_str}"
 line2 = f"N:{last_thursday_str}"
 
+print("━" * 42)
 # Combine both lines and center them in a 42-character wide field
 combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {str(sum_invested).zfill(7)}    ⚖  {line2}"
 BRIGHT_YELLOW = '\033[93m'
@@ -176,7 +177,6 @@ blnc_ex_prnt_df = (
 
 if args.command == 'l':
     print(f"{GREY}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
-    print("━" * 42)
     final_prnt_str = blnc_ex_prnt_df.to_string(index=False, header=False)
     right_aligned_output = '\n'.join([line.rjust(42) for line in final_prnt_str.split('\n')])
     print(right_aligned_output)
