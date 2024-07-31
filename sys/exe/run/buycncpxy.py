@@ -173,7 +173,7 @@ def main():
 
             if smbpxy == 'Buy' and ltp_nse < 10000:
                 if symbol in holdings_symbols and symbol not in orders_symbols and symbol not in positions_symbols:
-                    purchase_limit = 2000
+                    purchase_limit = 5000
                 elif symbol not in holdings_symbols and symbol not in orders_symbols and symbol not in positions_symbols:
                     purchase_limit = 10000
 
