@@ -51,7 +51,11 @@ last_wednesday = get_last_weekday_of_current_month(2)  # Wednesday is 2
 last_thursday = get_last_weekday_of_current_month(3)   # Thursday is 3
 
 width = 42
-print(f"{'Last Wednesday: ' + str(last_wednesday):^{width}}")
-print(f"{'Last Thursday: ' + str(last_thursday):^{width}}")
+line1 = f"BANKN Epiry: {last_wednesday}"
+line2 = f"NIFTY Epiry: {last_thursday}"
+
+# Combine both lines and center them in a 42-character wide field
+combined_lines = f"{line1} | {line2}"
+print(f"{combined_lines:^{width}}")
 
 
