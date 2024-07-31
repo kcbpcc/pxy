@@ -121,7 +121,8 @@ while True:
         subprocess.run(['python3', 'mngoptpxy.py', 'l'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
     subprocess.run(['python3', 'worldpxy.py']) if run_type == 'l' else None
-    subprocess.run(['python3', 'buycncpxy.py']) if peak == 'PEAKEND' and (mktpredict in ['RISE'] or Day_Change > 0 or Open_Change > 0) else None
+    if (peak == 'PEAKEND' or peak == 'PEAKSTART') and ha_nse_action == 'Bullish':
+        subprocess.run(['python3', 'buycncpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'niftychartpxy.py']) if run_type == 'l' else None    
     subprocess.run(['python3', 'daypxy.py']) if run_type == 'l' else None  
