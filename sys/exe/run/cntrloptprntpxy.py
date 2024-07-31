@@ -111,9 +111,9 @@ total_pl_all = print_df['PnL'].sum() + nextras + bextras
 total_pl_percentage_all = (total_pl_all / total_invested_all) * 100 if total_invested_all != 0 else 0
 
 summary_statement = (
-    f"{BRIGHT_YELLOW}SUMMARY-CAP:{total_invested_all:6.0f} P&L:{total_pl_all:7.0f} P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
+    f"{BRIGHT_YELLOW}{total_invested_all:6.0f} ━━━ P&L:{total_pl_all:7.0f} ━━━ P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
 )
-
+print("━" * 42)
 # Filter and group data
 filtered_df = print_df.query('qty > 0')
 grouped_df = filtered_df.groupby('group')
@@ -182,7 +182,7 @@ if peak == "PREPEAK":
 
 acvalue = retrieve_acvalue()
 
-print(f"{summary_statement}📊")
+print(f"{summary_statement}")
 
 print("━" * 42)
 column_width = 30
