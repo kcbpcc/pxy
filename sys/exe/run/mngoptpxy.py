@@ -172,7 +172,7 @@ exit_options(final_df, broker)
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 
-final_avg_df = final_df[final_df['Target'] > 0]
+final_avg_df = final_df[final_df['Target'] > 1]
 avg_row_count = final_avg_df.shape[0]
 avg_sum_invested = final_avg_df['Invested'].sum()
 print(f"{UNDERLINE}{RED}🤞..🤞...averaging {str(avg_row_count).zfill(2)} opts worth {str(avg_sum_invested).zfill(7)}🤞{RESET}")
