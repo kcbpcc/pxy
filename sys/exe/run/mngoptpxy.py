@@ -78,15 +78,15 @@ def exit_options(blnc_opt_df, broker):
             return
 
         for index, row in blnc_opt_df.iterrows():
-            total_pl_percentage = row['PL_prc']
+            total_pl_percentage = row['PL%']
             tgtoptsmadepth = row['Target']
             
             if total_pl_percentage > tgtoptsmadepth:
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
                     f"🛬🛬🛬 😧😧😧 EXIT order placed {row['key']} successfully.\n"
-                    f"🎯 Target PL_prc: {round(tgtoptsmadepth, 4)}%\n"
-                    f"🏆 Reached PL_prc: {round(total_pl_percentage, 2)}%\n"
+                    f"🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
+                    f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
                     f"💰 Booked Profit: {row['PnL']}\n"
                 )
                 print(message)
@@ -110,15 +110,15 @@ finally:
 combined_df = process_data()
 blnc_opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
 blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False) 
-blnc_opt_df['PL_prc'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
-blnc_opt_df['PL_prc'] = blnc_opt_df['PL_prc'].fillna(0)
+blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
+blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 
 blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
 # Get the current month's abbreviation
 current_month_abbr = datetime.now().strftime('%b').upper()
 
-blnc_opt_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL_prc', 'PnL']]
+blnc_opt_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL']]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['key'].str.contains(current_month_abbr)].copy()
 blnc_opt_df = blnc_opt_df.dropna(how='all')
@@ -140,13 +140,13 @@ blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 
 blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
 
-final_df = blnc_opt_df[blnc_opt_df['Target'] < 0][['key', 'qty', 'Invested', 'value', 'PL_prc', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
+final_df = blnc_opt_df[blnc_opt_df['Target'] < 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
 row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
 print("━" * 42)
 print(f"{UNDERLINE}{RED}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
 
-blnc_ex_prnt_df = blnc_opt_df.loc[blnc_opt_df['Target'] < 0, ['key', 'qty', 'PL_prc', 'Target', 'PnL']].assign(PL_prc = blnc_opt_df['PL_prc'].astype(int))
+blnc_ex_prnt_df = blnc_opt_df.loc[blnc_opt_df['Target'] < 0, ['key', 'qty', 'PL%', 'Target', 'PnL']].assign(PL% = blnc_opt_df['PL%'].astype(int))
 
 if args.command == 'l':
     final_prnt_str = blnc_ex_prnt_df.to_string(index=False, header=False)
@@ -168,7 +168,7 @@ avg_row_count = final_avg_df.shape[0]
 avg_sum_invested = final_avg_df['Invested'].sum()
 print(f"{UNDERLINE}{RED}🤞..🤞...averaging {str(avg_row_count).zfill(2)} opts worth {str(avg_sum_invested).zfill(7)}🤞{RESET}")
 
-blnc_avg_prnt_df = blnc_opt_df.loc[blnc_opt_df['Target'] > 0, ['key', 'qty', 'PL_prc', 'Target', 'PnL']].assign(PL_prc = blnc_opt_df['PL_prc'].astype(int))
+blnc_avg_prnt_df = blnc_opt_df.loc[blnc_opt_df['Target'] > 0, ['key', 'qty', 'PL%', 'Target', 'PnL']].assign(PL% = blnc_opt_df['PL%'].astype(int))
 
 if args.command == 'l':
     final_prnt_str = blnc_avg_prnt_df.to_string(index=False, header=False)
@@ -184,11 +184,11 @@ ha_bnk_action, bnk_power, bDay_Change, bOpen_Change = get_bnk_action()
 
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
 
-# Additional logic to place buy orders for BANKNIFTY and NIFTY based on 'PL_prc' < -50
+# Additional logic to place buy orders for BANKNIFTY and NIFTY based on 'PL%' < -50
 def place_buy_orders_based_on_pl(df, broker):
     try:
         for index, row in df.iterrows():
-            if row['PL_prc'] < -50:
+            if row['PL%'] < -50:
                 qty = 0
                 can_average = False
 
@@ -218,7 +218,7 @@ def place_buy_orders_based_on_pl(df, broker):
                     if order_id:
                         message = (
                             f"🚀🚀🚀 🤑🤑🤑 BUY order placed {row['key']} successfully.\n"
-                            f"PL_prc: {round(row['PL_prc'], 2)}%\n"
+                            f"PL%: {round(row['PL%'], 2)}%\n"
                             f"Quantity: {qty}\n"
                         )
                         print(message)
