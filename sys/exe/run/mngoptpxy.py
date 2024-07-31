@@ -108,7 +108,12 @@ finally:
         sys.stdout = sys.__stdout__
 
 combined_df = process_data()
-blnc_opt_df = combined_df[(combined_df['key'].str.contains('NFO:', case=False)) & (combined_df['qty'] > 0)].copy()
+blnc_opt_df = combined_df[
+    (combined_df['key'].str.contains('NFO:', case=False, na=False)) &
+    (combined_df['qty'] > 0) &
+    (combined_df['key'].notna())
+].copy()
+
 blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False) 
 blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
 blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
