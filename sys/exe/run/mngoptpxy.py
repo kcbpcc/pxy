@@ -151,9 +151,9 @@ blnc_ex_prnt_df = (
     .assign(PL_percent=blnc_opt_df['PL%'].astype(int))
     .rename(columns={'PL_percent': 'PL%'})
     .assign(key=lambda x: x['key'].str.replace('BANKNIFTY', 'B').str.replace('NIFTY', 'N'))
+    .astype({'qty': 'int', 'PL%': 'int', 'Target': 'int', 'PnL': 'int'})
     [['key', 'qty', 'PL%', 'Target', 'PnL']]
 )
-
 
 if args.command == 'l':
     final_prnt_str = blnc_ex_prnt_df.to_string(index=False, header=False)
@@ -180,6 +180,7 @@ blnc_avg_prnt_df = (
     .assign(PL_percent=blnc_opt_df['PL%'].astype(int))
     .rename(columns={'PL_percent': 'PL%'})
     .assign(key=lambda x: x['key'].str.replace('BANKNIFTY', 'B').str.replace('NIFTY', 'N'))
+    .astype({'qty': 'int', 'PL%': 'int', 'Target': 'int', 'PnL': 'int'})
     [['key', 'qty', 'PL%', 'Target', 'PnL']]
 )
 
