@@ -278,7 +278,7 @@ summary = (
     f"    🎖️ A/C Real Total-PnL: {real_pnl}\n"
     f"    💰 Day Total-PnL: {str(nifty_profit + bank_profit + booked).zfill(5)}\n"
     f"                      \n"
-    f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/783d6dad)\n"
+    f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/0aec4aa4)\n"
 )
 
 
