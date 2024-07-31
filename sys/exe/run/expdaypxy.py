@@ -50,7 +50,8 @@ def get_last_weekday_of_current_month(weekday):
 last_wednesday = get_last_weekday_of_current_month(2)  # Wednesday is 2
 last_thursday = get_last_weekday_of_current_month(3)   # Thursday is 3
 
-print(f"Last Wednesday: {last_wednesday}")
-print(f"Last Thursday: {last_thursday}")
+width = 42
+print(f"{'Last Wednesday: ' + str(last_wednesday):^{width}}")
+print(f"{'Last Thursday: ' + str(last_thursday):^{width}}")
 
 
