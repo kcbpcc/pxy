@@ -15,8 +15,8 @@ from bpredictpxy import predict_bnk_sentiment
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 # Common configurations
-bot_token = 'YOUR_BOT_TOKEN'
-user_usernames = ('YOUR_USER_ID',)
+bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
+user_usernames = ('-4282665161',)
 
 # Common functions
 def initialize_broker():
