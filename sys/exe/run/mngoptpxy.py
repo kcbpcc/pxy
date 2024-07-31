@@ -26,6 +26,16 @@ last_thursday_str = get_last_weekday_of_current_month(calendar.THURSDAY)
 # Define the current year
 current_year = datetime.now().year
 
+width = 42
+line1 = f"BANKN Epiry: {last_wednesday}"
+line2 = f"NIFTY Epiry: {last_thursday}"
+
+# Combine both lines and center them in a 42-character wide field
+combined_lines = f"{line1} || {line2}"
+BRIGHT_YELLOW = '\033[93m'
+RESET = '\033[0m'    # Reset to default color
+print(f"{SILVER}{combined_lines:^{width}}{RESET}")
+
 # Convert string dates to datetime objects with current year
 def parse_date(date_str):
     return datetime.strptime(f"{date_str}-{current_year}", '%d-%b-%Y')
