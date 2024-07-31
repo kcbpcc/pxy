@@ -146,7 +146,14 @@ sum_invested = final_df['Invested'].sum()
 print("━" * 42)
 print(f"{UNDERLINE}{RED}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
 
-blnc_ex_prnt_df = blnc_opt_df.query('Target < 0').assign(PL_percent=blnc_opt_df['PL%'].astype(int)).rename(columns={'PL_percent': 'PL%'})[['key', 'qty', 'PL%', 'Target', 'PnL']]
+blnc_ex_prnt_df = (
+    blnc_opt_df.query('Target < 0')
+    .assign(PL_percent=blnc_opt_df['PL%'].astype(int))
+    .rename(columns={'PL_percent': 'PL%'})
+    .assign(key=lambda x: x['key'].str.replace('BANKNIFTY', 'B').str.replace('NIFTY', 'N'))
+    [['key', 'qty', 'PL%', 'Target', 'PnL']]
+)
+
 
 if args.command == 'l':
     final_prnt_str = blnc_ex_prnt_df.to_string(index=False, header=False)
@@ -168,7 +175,13 @@ avg_row_count = final_avg_df.shape[0]
 avg_sum_invested = final_avg_df['Invested'].sum()
 print(f"{UNDERLINE}{RED}🤞..🤞...averaging {str(avg_row_count).zfill(2)} opts worth {str(avg_sum_invested).zfill(7)}🤞{RESET}")
 
-blnc_avg_prnt_df = blnc_opt_df.query('Target > 0').assign(PL_percent=blnc_opt_df['PL%'].astype(int)).rename(columns={'PL_percent': 'PL%'})[['key', 'qty', 'PL%', 'Target', 'PnL']]
+blnc_avg_prnt_df = (
+    blnc_opt_df.query('Target > 0')
+    .assign(PL_percent=blnc_opt_df['PL%'].astype(int))
+    .rename(columns={'PL_percent': 'PL%'})
+    .assign(key=lambda x: x['key'].str.replace('BANKNIFTY', 'B').str.replace('NIFTY', 'N'))
+    [['key', 'qty', 'PL%', 'Target', 'PnL']]
+)
 
 if args.command == 'l':
     final_prnt_str = blnc_avg_prnt_df.to_string(index=False, header=False)
