@@ -50,14 +50,6 @@ def get_last_weekday_of_current_month(weekday):
 last_wednesday = get_last_weekday_of_current_month(2)  # Wednesday is 2
 last_thursday = get_last_weekday_of_current_month(3)   # Thursday is 3
 
-width = 42
-line1 = f"BANKN Epiry: {last_wednesday}"
-line2 = f"NIFTY Epiry: {last_thursday}"
 
-# Combine both lines and center them in a 42-character wide field
-combined_lines = f"{line1} || {line2}"
-BRIGHT_YELLOW = '\033[93m'
-RESET = '\033[0m'    # Reset to default color
-print(f"{BRIGHT_YELLOW}{combined_lines:^{width}}{RESET}")
 
 
