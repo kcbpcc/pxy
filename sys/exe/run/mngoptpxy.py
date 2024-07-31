@@ -152,8 +152,7 @@ final_df = blnc_opt_df[blnc_opt_df['Target'] < 0][['key', 'qty', 'Invested', 'va
 row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
 
-#print(f"{GREY}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
-print("━" * 42)
+
 width = 42
 line1 = f"B:{last_wednesday_str}"
 line2 = f"N:{last_thursday_str}"
@@ -176,6 +175,8 @@ blnc_ex_prnt_df = (
 )
 
 if args.command == 'l':
+    print(f"{GREY}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
+    print("━" * 42)
     final_prnt_str = blnc_ex_prnt_df.to_string(index=False, header=False)
     right_aligned_output = '\n'.join([line.rjust(42) for line in final_prnt_str.split('\n')])
     print(right_aligned_output)
