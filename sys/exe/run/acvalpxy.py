@@ -100,43 +100,39 @@ def process_acvalue(acvalue):
         #print(f"Error saving data to CSV: {e}")
         raise
 
-import os
-import pandas as pd
-from datetime import datetime
-from googleapiclient.discovery import build
-
-# Ensure LOCAL_CSV_FILE and sheet are defined somewhere in your code
-LOCAL_CSV_FILE = 'path_to_your_local_csv_file.csv'
-sheet = build('sheets', 'v4', credentials=YOUR_CREDENTIALS).spreadsheets().values().get(spreadsheetId='YOUR_SHEET_ID', range='YOUR_RANGE')
-
 def retrieve_acvalue():
+    current_date = datetime.utcnow().strftime('%Y-%m-%d')
     try:
         # Check if the local CSV file exists
         if os.path.exists(LOCAL_CSV_FILE):
-            # Read from the local file
-            df = pd.read_csv(LOCAL_CSV_FILE)
-            if not df.empty:
-                # Retrieve the latest AC value from the file
-                acvalue = df['acvalue'].iloc[-1]
-                if pd.notna(acvalue):  # Ensure acvalue is not NaN
-                    return float(acvalue)
-                else:
-                    return 0  # Return 0 if acvalue is NaN
+            # Get the file modification date
+            modification_time = datetime.utcfromtimestamp(os.path.getmtime(LOCAL_CSV_FILE))
 
-        # If the file doesn't exist or is empty, fetch from Google Sheets
+            # If the file was modified today, read from the local file
+            if modification_time.date() == datetime.utcnow().date():
+                df = pd.read_csv(LOCAL_CSV_FILE)
+                # Ensure we have the latest entry for today
+                if df['date'].iloc[-1] == current_date:
+                    acvalue = df['acvalue'].iloc[-1]
+                    if pd.notna(acvalue):  # Ensure acvalue is not NaN
+                        return float(acvalue)
+                    else:
+                        return 0  # Return 0 if acvalue is NaN
+
+        # If the file doesn't exist or is not up-to-date, fetch from Google Sheets
         data = sheet.get_all_values()
         df = pd.DataFrame(data, columns=['date', 'acvalue'])
         df.to_csv(LOCAL_CSV_FILE, index=False)
 
-        if not df.empty:
-            # Retrieve the latest AC value from the data
+        # Retrieve the latest AC value
+        if df['date'].iloc[-1] == current_date:
             acvalue = df['acvalue'].iloc[-1]
             if pd.notna(acvalue):  # Ensure acvalue is not NaN
                 return float(acvalue)
             else:
                 return 0  # Return 0 if acvalue is NaN
         else:
-            return 0  # Return 0 if the DataFrame is empty
+            return 0  # Return 0 if no record is found for the current date
 
     except Exception as e:
         print(f"Error retrieving AC value: {e}")
