@@ -211,41 +211,38 @@ vdf['BPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'B
 vdf['NCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYCE' else None, axis=1)
 vdf['NPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYPE' else None, axis=1)
 
-# Determine the highest value and corresponding label for the left side
-left_side = max(
-    [('BPE-DPT', vdf['BPE-DPT'].dropna().values[0]) if not vdf['BPE-DPT'].isna().all() else ('BPE-DPT', None),
-     ('BCE-DPT', vdf['BCE-DPT'].dropna().values[0]) if not vdf['BCE-DPT'].isna().all() else ('BCE-DPT', None)],
-    key=lambda x: (x[1] if x[1] is not None else -float('inf'))
-)
+# Determine the highest value and corresponding label for the left side (BPE-DPT vs BCE-DPT)
+left_title, left_value = ('BCE-DPT', vdf['BCE-DPT'].dropna().values[0]) if (
+    not vdf['BCE-DPT'].isna().all() and (vdf['BCE-DPT'].dropna().values[0] >= vdf['BPE-DPT'].dropna().values[0])
+) else ('BPE-DPT', vdf['BPE-DPT'].dropna().values[0])
 
-# Determine the highest value and corresponding label for the right side
-right_side = max(
-    [('NPE-DPT', vdf['NPE-DPT'].dropna().values[0]) if not vdf['NPE-DPT'].isna().all() else ('NPE-DPT', None),
-     ('NCE-DPT', vdf['NCE-DPT'].dropna().values[0]) if not vdf['NCE-DPT'].isna().all() else ('NCE-DPT', None)],
-    key=lambda x: (x[1] if x[1] is not None else -float('inf'))
-)
+# Determine the highest value and corresponding label for the right side (NPE-DPT vs NCE-DPT)
+right_title, right_value = ('NCE-DPT', vdf['NCE-DPT'].dropna().values[0]) if (
+    not vdf['NCE-DPT'].isna().all() and (vdf['NCE-DPT'].dropna().values[0] >= vdf['NPE-DPT'].dropna().values[0])
+) else ('NPE-DPT', vdf['NPE-DPT'].dropna().values[0])
+
+# Check if both values on each side are equal and set titles accordingly
+if not vdf['BPE-DPT'].isna().all() and not vdf['BCE-DPT'].isna().all() and left_value == vdf['BPE-DPT'].dropna().values[0] and left_value == vdf['BCE-DPT'].dropna().values[0]:
+    left_title = "BCE-BPE"
+    left_value = "Neutral"
+else:
+    left_value = round(left_value, 2) if left_value is not None else 'None'
+
+if not vdf['NPE-DPT'].isna().all() and not vdf['NCE-DPT'].isna().all() and right_value == vdf['NPE-DPT'].dropna().values[0] and right_value == vdf['NCE-DPT'].dropna().values[0]:
+    right_title = "NCE-NPE"
+    right_value = "Neutral"
+else:
+    right_value = round(right_value, 2) if right_value is not None else 'None'
 
 column_width = 30
 left_aligned_format = f"{{:<{column_width}}}"
 right_aligned_format = f"{{:>{column_width}}}"
 
-left_title, left_value = left_side
-right_title, right_value = right_side
-
-# Check if both values are equal and set titles accordingly
-if left_value == right_value:
-    left_title = "BCE-BPE"
-    right_title = "NCE-NPE"
-    left_value = right_value = "Neutral"
-else:
-    left_value = round(left_value, 2) if left_value is not None else 'None'
-    right_value = round(right_value, 2) if right_value is not None else 'None'
-
 left_value_str = (
-    f"{BRIGHT_GREEN if left_value != 'None' and left_value != 'Neutral2' and left_value > 6 else GREY}{left_value}{RESET}"
+    f"{BRIGHT_GREEN if left_value != 'None' and left_value != 'Neutral' and left_value > 6 else GREY}{left_value}{RESET}"
 )
 right_value_str = (
-    f"{BRIGHT_GREEN if right_value != 'None' and right_value != 'Neutral2' and right_value > 6 else GREY}{right_value}{RESET}"
+    f"{BRIGHT_GREEN if right_value != 'None' and right_value != 'Neutral' and right_value > 6 else GREY}{right_value}{RESET}"
 )
 
 output_line = (
