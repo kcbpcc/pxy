@@ -28,17 +28,6 @@ current_year = datetime.now().year
 now = datetime.now()
 current_month_abbr = now.strftime('%b')
 
-print("━" * 42)
-width = 42
-line1 = f"B:{last_wednesday_str}"
-line2 = f"N:{last_thursday_str}"
-
-# Combine both lines and center them in a 42-character wide field
-combined_lines = f"{line1} ⚖  Manage {BRIGHT_YELLOW}{current_month_abbr}{RESET} options ⚖  {line2}"
-BRIGHT_YELLOW = '\033[93m'
-RESET = '\033[0m'    # Reset to default color
-print(f"{SILVER}{combined_lines:^{width}}{RESET}")
-
 # Convert string dates to datetime objects with current year
 def parse_date(date_str):
     return datetime.strptime(f"{date_str}-{current_year}", '%d-%b-%Y')
@@ -164,6 +153,17 @@ row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
 
 #print(f"{GREY}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
+print("━" * 42)
+width = 42
+line1 = f"B:{last_wednesday_str}"
+line2 = f"N:{last_thursday_str}"
+
+# Combine both lines and center them in a 42-character wide field
+combined_lines = f"{line1} ⚖{BRIGHT_YELLOW}{current_month_abbr}{RESET} {str(sum_invested).zfill(7)} ⚖  {line2}"
+BRIGHT_YELLOW = '\033[93m'
+RESET = '\033[0m'    # Reset to default color
+print(f"{SILVER}{combined_lines:^{width}}{RESET}")
+
 
 blnc_ex_prnt_df = (
     blnc_opt_df.query('Target < 0')
