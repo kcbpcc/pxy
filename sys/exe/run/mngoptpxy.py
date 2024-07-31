@@ -151,6 +151,7 @@ blnc_ex_prnt_df = (
     .assign(PL_percent=blnc_opt_df['PL%'].astype(int))
     .rename(columns={'PL_percent': 'PL%'})
     .assign(key=lambda x: x['key'].str.replace('BANKNIFTY', 'B').str.replace('NIFTY', 'N'))
+    .fillna({'qty': 0, 'PL%': 0, 'Target': 0, 'PnL': 0})
     .astype({'qty': 'int', 'PL%': 'int', 'Target': 'int', 'PnL': 'int'})
     [['key', 'qty', 'PL%', 'Target', 'PnL']]
 )
@@ -180,6 +181,7 @@ blnc_avg_prnt_df = (
     .assign(PL_percent=blnc_opt_df['PL%'].astype(int))
     .rename(columns={'PL_percent': 'PL%'})
     .assign(key=lambda x: x['key'].str.replace('BANKNIFTY', 'B').str.replace('NIFTY', 'N'))
+    .fillna({'qty': 0, 'PL%': 0, 'Target': 0, 'PnL': 0})
     .astype({'qty': 'int', 'PL%': 'int', 'Target': 'int', 'PnL': 'int'})
     [['key', 'qty', 'PL%', 'Target', 'PnL']]
 )
@@ -245,6 +247,13 @@ def place_buy_orders_based_on_pl(df, broker):
 
 # Call the function to place buy orders
 place_buy_orders_based_on_pl(final_avg_df, broker)
+
+
+
+
+
+
+
 
 
 
