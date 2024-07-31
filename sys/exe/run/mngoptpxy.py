@@ -140,14 +140,14 @@ blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 
 blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
 
-final_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
+final_df = blnc_opt_df[blnc_opt_df['Target'] < 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
 row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
 print("━" * 42)
 print(f"{UNDERLINE}{RED}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
 
 blnc_ex_prnt_df['PL%'] = blnc_ex_prnt_df['PL%'].astype(int)
-blnc_ex_prnt_df = blnc_ex_prnt_df[['key', 'qty', 'PL%', 'Target', 'PnL']]
+blnc_ex_prnt_df = blnc_ex_prnt_df[blnc_ex_prnt_df['Target'] < 0][['key', 'qty', 'PL%', 'Target', 'PnL']]
 
 if args.command == 'l':
     final_prnt_str = blnc_ex_prnt_df.to_string(index=False, header=False)
@@ -168,6 +168,15 @@ final_avg_df = final_df[final_df['Target'] > 0]
 avg_row_count = final_avg_df.shape[0]
 avg_sum_invested = final_avg_df['Invested'].sum()
 print(f"{UNDERLINE}{RED}🤞..🤞...averaging {str(avg_row_count).zfill(2)} opts worth {str(avg_sum_invested).zfill(7)}🤞{RESET}")
+
+blnc_avg_prnt_df['PL%'] = blnc_avg_prnt_df['PL%'].astype(int)
+blnc_avg_prnt_df = blnc_avg_prnt_df[blnc_avg_prnt_df['Target'] > 0][['key', 'qty', 'PL%', 'Target', 'PnL']]
+
+if args.command == 'l':
+    final_prnt_str = blnc_avg_prnt_df.to_string(index=False, header=False)
+    right_aligned_output = '\n'.join([line.rjust(42) for line in final_prnt_str.split('\n')])
+    print(right_aligned_output)
+
 # Import market check and action functions
 bbnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 nonemincandlesequance, mktpxy = get_market_check('^NSEI')
