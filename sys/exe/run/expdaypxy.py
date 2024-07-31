@@ -56,7 +56,7 @@ line2 = f"NIFTY Epiry: {last_thursday}"
 
 # Combine both lines and center them in a 42-character wide field
 combined_lines = f"{line1} || {line2}"
-SILVER = '\033[37m'  # Silver color
+BRIGHT_YELLOW = '\033[93m'
 RESET = '\033[0m'    # Reset to default color
 print(f"{SILVER}{combined_lines:^{width}}{RESET}")
 
