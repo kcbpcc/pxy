@@ -195,6 +195,7 @@ else:
     print("━" * 42)
 
 #############################################################################################################################################################################################################################
+# Example data and computed depth
 data = {
     'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
     'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
@@ -202,6 +203,7 @@ data = {
 
 vdf = pd.DataFrame(data)
 
+# Assuming compute_depth function is defined
 vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
 
 vdf['BCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKCE' else None, axis=1)
@@ -209,42 +211,49 @@ vdf['BPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'B
 vdf['NCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYCE' else None, axis=1)
 vdf['NPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYPE' else None, axis=1)
 
-expected_columns = ['BCE-DPT', 'BPE-DPT', 'NCE-DPT', 'NPE-DPT']
-missing_columns = [col for col in expected_columns if col not in vdf.columns]
-if missing_columns:
-    raise ValueError(f"Missing columns in DataFrame: {missing_columns}")
+# Determine the highest value and corresponding label for the left side
+left_side = max(
+    [('BPE-DPT', vdf['BPE-DPT'].dropna().values[0]) if not vdf['BPE-DPT'].isna().all() else ('BPE-DPT', None),
+     ('BCE-DPT', vdf['BCE-DPT'].dropna().values[0]) if not vdf['BCE-DPT'].isna().all() else ('BCE-DPT', None)],
+    key=lambda x: (x[1] if x[1] is not None else -float('inf'))
+)
+
+# Determine the highest value and corresponding label for the right side
+right_side = max(
+    [('NPE-DPT', vdf['NPE-DPT'].dropna().values[0]) if not vdf['NPE-DPT'].isna().all() else ('NPE-DPT', None),
+     ('NCE-DPT', vdf['NCE-DPT'].dropna().values[0]) if not vdf['NCE-DPT'].isna().all() else ('NCE-DPT', None)],
+    key=lambda x: (x[1] if x[1] is not None else -float('inf'))
+)
 
 column_width = 30
-
 left_aligned_format = f"{{:<{column_width}}}"
 right_aligned_format = f"{{:>{column_width}}}"
 
-bce_dpt_value = round(vdf['BCE-DPT'].dropna().values[0], 2) if not vdf['BCE-DPT'].isna().all() else 'None'
-bpe_dpt_value = round(vdf['BPE-DPT'].dropna().values[0], 2) if not vdf['BPE-DPT'].isna().all() else 'None'
-nce_dpt_value = round(vdf['NCE-DPT'].dropna().values[0], 2) if not vdf['NCE-DPT'].isna().all() else 'None'
-npe_dpt_value = round(vdf['NPE-DPT'].dropna().values[0], 2) if not vdf['NPE-DPT'].isna().all() else 'None'
+left_title, left_value = left_side
+right_title, right_value = right_side
 
-output_lines = []
+# Check if both values are equal and set titles accordingly
+if left_value == right_value:
+    left_title = "Neutral1"
+    right_title = "Neutral2"
+    left_value = right_value = "Neutral2"
+else:
+    left_value = round(left_value, 2) if left_value is not None else 'None'
+    right_value = round(right_value, 2) if right_value is not None else 'None'
 
-output_lines.append(
-    left_aligned_format.format(
-        f"NPE-DPT:{BRIGHT_GREEN if npe_dpt_value != 'None' and npe_dpt_value > 6 else GREY}{npe_dpt_value}{RESET}"
-    ) +
-    right_aligned_format.format(
-        f"NCE-DPT:{BRIGHT_GREEN if nce_dpt_value != 'None' and nce_dpt_value > 6 else GREY}{nce_dpt_value}{RESET}"
-    )
+left_value_str = (
+    f"{BRIGHT_GREEN if left_value != 'None' and left_value != 'Neutral2' and left_value > 6 else GREY}{left_value}{RESET}"
+)
+right_value_str = (
+    f"{BRIGHT_GREEN if right_value != 'None' and right_value != 'Neutral2' and right_value > 6 else GREY}{right_value}{RESET}"
 )
 
-output_lines.append(
-    left_aligned_format.format(
-        f"BPE-DPT:{GREY if bpe_dpt_value != 'None' and bpe_dpt_value < 6 else BRIGHT_GREEN}{bpe_dpt_value}{RESET}"
-    ) +
-    right_aligned_format.format(
-        f"BCE-DPT:{GREY if bce_dpt_value != 'None' and bce_dpt_value < 6 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
-    )
+output_line = (
+    left_aligned_format.format(f"{left_title}:{left_value_str}") +
+    right_aligned_format.format(f"{right_title}:{right_value_str}")
 )
 
-full_output = '\n'.join(output_lines)
-print(full_output)
+print(output_line)
 print("━" * 42)
+
 
