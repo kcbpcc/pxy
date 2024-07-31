@@ -26,6 +26,7 @@ last_thursday_str = get_last_weekday_of_current_month(calendar.THURSDAY)
 # Define the current year
 current_year = datetime.now().year
 
+print("━" * 42)
 width = 42
 line1 = f"BANKN Epiry: {last_wednesday_str}"
 line2 = f"NIFTY Epiry: {last_thursday_str}"
@@ -159,8 +160,8 @@ blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
 final_df = blnc_opt_df[blnc_opt_df['Target'] < 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
 row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
-print("━" * 42)
-print(f"{GREY}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
+
+#print(f"{GREY}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
 
 blnc_ex_prnt_df = (
     blnc_opt_df.query('Target < 0')
@@ -190,7 +191,7 @@ exit_options(final_df, broker)
 final_avg_df = final_df[final_df['Target'] > 1]
 avg_row_count = final_avg_df.shape[0]
 avg_sum_invested = final_avg_df['Invested'].sum()
-print(f"{GREY}🤞..🤞...averaging {str(avg_row_count).zfill(2)} opts worth {str(avg_sum_invested).zfill(7)}🤞{RESET}")
+#print(f"{GREY}🤞..🤞...averaging {str(avg_row_count).zfill(2)} opts worth {str(avg_sum_invested).zfill(7)}🤞{RESET}")
 
 blnc_avg_prnt_df = (
     blnc_opt_df.query('Target > 0')
