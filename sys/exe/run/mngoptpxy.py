@@ -56,6 +56,10 @@ def send_telegram_message(message):
 
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker):
     try:
+        if quantity <= 0:
+            print(f"Skipping order for {tradingsymbol} due to non-positive quantity.")
+            return None
+        
         print(f"Placing order for {tradingsymbol} with quantity {quantity}")
         order_id = broker.order_place(
             tradingsymbol=tradingsymbol,
@@ -76,6 +80,8 @@ def exit_options(blnc_opt_df, broker):
         if 'Target' not in blnc_opt_df.columns:
             print("Target column is missing in the DataFrame.")
             return
+
+        blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]  # Ensure no zero qty rows
 
         for index, row in blnc_opt_df.iterrows():
             total_pl_percentage = row['PL%']
@@ -157,104 +163,14 @@ blnc_ex_prnt_df = (
     [['key', 'qty', 'PL%', 'Target', 'PnL']]
 )
 
+# Ensure no zero qty rows before printing
+blnc_ex_prnt_df = blnc_ex_prnt_df[blnc_ex_prnt_df['qty'] > 0]
+
 if args.command == 'l':
     final_prnt_str = blnc_ex_prnt_df.to_string(index=False, header=False)
     right_aligned_output = '\n'.join([line.rjust(42) for line in final_prnt_str.split('\n')])
-    print(right_aligned_output)
+    print(f"{GREY}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{RESET}")
+    print(f"{RIGHT_ALIGNED}{right_aligned_output}{RESET}")
 
-# Call the function to exit options
-exit_options(final_df, broker)
-
-
-
-###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
-###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
-###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
-###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
-
-final_avg_df = final_df[final_df['Target'] > 0]
-avg_row_count = final_avg_df.shape[0]
-avg_sum_invested = final_avg_df['Invested'].sum()
-print(f"{UNDERLINE}{RED}🤞..🤞...averaging {str(avg_row_count).zfill(2)} opts worth {str(avg_sum_invested).zfill(7)}🤞{RESET}")
-
-blnc_avg_prnt_df = (
-    blnc_opt_df.query('Target > 0')
-    .assign(PL_percent=blnc_opt_df['PL%'].astype(int))
-    .rename(columns={'PL_percent': 'PL%'})
-    .assign(key=lambda x: x['key'].str.replace('BANKNIFTY', 'B').str.replace('NIFTY', 'N'))
-    .fillna({'qty': 0, 'PL%': 0, 'Target': 0, 'PnL': 0})
-    .astype({'qty': 'int', 'PL%': 'int', 'Target': 'int', 'PnL': 'int'})
-    [['key', 'qty', 'PL%', 'Target', 'PnL']]
-)
-
-if args.command == 'l':
-    final_prnt_str = blnc_avg_prnt_df.to_string(index=False, header=False)
-    right_aligned_output = '\n'.join([line.rjust(42) for line in final_prnt_str.split('\n')])
-    print(right_aligned_output)
-
-# Import market check and action functions
-bbnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
-nonemincandlesequance, mktpxy = get_market_check('^NSEI')
-
-from bftpxy import get_bnk_action
-ha_bnk_action, bnk_power, bDay_Change, bOpen_Change = get_bnk_action()
-
-from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change
-
-# Additional logic to place buy orders for BANKNIFTY and NIFTY based on 'PL%' < -50
-def place_buy_orders_based_on_pl(df, broker):
-    try:
-        for index, row in df.iterrows():
-            if row['PL%'] < -50:
-                qty = 0
-                can_average = False
-
-                if row['key'].startswith('BANKNIFTY'):
-                    current_qty = row['qty']
-                    if current_qty < 30 and current_qty + 15 <= 45:
-                        qty = 15
-                        if 'PE' in row['key']:
-                            can_average = bnk_power > 0.85 and bmktpxy == 'Sell'
-                        elif 'CE' in row['key']:
-                            can_average = bnk_power < 0.15 and bmktpxy == 'Buy'
-                elif row['key'].startswith('NIFTY'):
-                    current_qty = row['qty']
-                    if current_qty < 50 and current_qty + 25 <= 75:
-                        qty = 25
-                        if 'PE' in row['key']:
-                            can_average = nse_power > 0.85 and mktpxy == 'Sell'
-                        elif 'CE' in row['key']:
-                            can_average = nse_power < 0.15 and mktpxy == 'Buy'
-                else:
-                    continue
-
-                if can_average:
-                    print(f"Placing BUY order for {row['key']} with quantity {qty}")
-                    order_id = place_order(row['key'], qty, 'BUY', 'MARKET', 'NRML', broker)
-
-                    if order_id:
-                        message = (
-                            f"🚀🚀🚀 🤑🤑🤑 BUY order placed {row['key']} successfully.\n"
-                            f"PL%: {round(row['PL%'], 2)}%\n"
-                            f"Quantity: {qty}\n"
-                        )
-                        print(message)
-                        send_telegram_message(message)
-                else:
-                    pass
-                    #print(f"Skipping BUY order for {row['key']} due to bnk_power, market conditions, or qty limit.")
-    except Exception as e:
-        print(f"Error placing BUY order: {e}")
-
-# Call the function to place buy orders
-place_buy_orders_based_on_pl(final_avg_df, broker)
-
-
-
-
-
-
-
-
-
-
+# Final Order Execution
+exit_options(blnc_opt_df, broker)
