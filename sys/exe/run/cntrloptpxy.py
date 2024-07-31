@@ -192,74 +192,59 @@ else:
     formatted_rows = [format_row(row) for _, row in filtered_df.iterrows()]
     print("━" * 42)
     print('\n'.join(formatted_rows))
-
+    print("━" * 42)
 
 #############################################################################################################################################################################################################################
-import argparse
-import pandas as pd
+data = {
+    'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
+    'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
+}
 
-# Define the command-line arguments
-parser = argparse.ArgumentParser(description="Process some commands.")
-parser.add_argument('-short', action='store_true', help="Enable option S")
-args = parser.parse_args()
+vdf = pd.DataFrame(data)
 
-# Execute the code block if -short is not provided
-if not args.short:
-    print("━" * 42)
-    data = {
-        'key': ['BANKCE', 'BANKPE', 'NIFTYCE', 'NIFTYPE'],
-        'tgtoptsma': [4, 4, 4, 4]  # Hardcoded tgtoptsma values
-    }
+vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
 
-    vdf = pd.DataFrame(data)
+vdf['BCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKCE' else None, axis=1)
+vdf['BPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKPE' else None, axis=1)
+vdf['NCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYCE' else None, axis=1)
+vdf['NPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYPE' else None, axis=1)
 
-    def compute_depth(row):
-        # Placeholder for compute_depth function implementation
-        return 0  # Replace with actual computation logic
+expected_columns = ['BCE-DPT', 'BPE-DPT', 'NCE-DPT', 'NPE-DPT']
+missing_columns = [col for col in expected_columns if col not in vdf.columns]
+if missing_columns:
+    raise ValueError(f"Missing columns in DataFrame: {missing_columns}")
 
-    vdf['computed_depth'] = vdf.apply(compute_depth, axis=1)
+column_width = 30
 
-    vdf['BCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKCE' else None, axis=1)
-    vdf['BPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'BANKPE' else None, axis=1)
-    vdf['NCE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYCE' else None, axis=1)
-    vdf['NPE-DPT'] = vdf.apply(lambda row: row['computed_depth'] if row['key'] == 'NIFTYPE' else None, axis=1)
+left_aligned_format = f"{{:<{column_width}}}"
+right_aligned_format = f"{{:>{column_width}}}"
 
-    expected_columns = ['BCE-DPT', 'BPE-DPT', 'NCE-DPT', 'NPE-DPT']
-    missing_columns = [col for col in expected_columns if col not in vdf.columns]
-    if missing_columns:
-        raise ValueError(f"Missing columns in DataFrame: {missing_columns}")
+bce_dpt_value = round(vdf['BCE-DPT'].dropna().values[0], 2) if not vdf['BCE-DPT'].isna().all() else 'None'
+bpe_dpt_value = round(vdf['BPE-DPT'].dropna().values[0], 2) if not vdf['BPE-DPT'].isna().all() else 'None'
+nce_dpt_value = round(vdf['NCE-DPT'].dropna().values[0], 2) if not vdf['NCE-DPT'].isna().all() else 'None'
+npe_dpt_value = round(vdf['NPE-DPT'].dropna().values[0], 2) if not vdf['NPE-DPT'].isna().all() else 'None'
 
-    column_width = 30
+output_lines = []
 
-    left_aligned_format = f"{{:<{column_width}}}"
-    right_aligned_format = f"{{:>{column_width}}}"
-
-    bce_dpt_value = round(vdf['BCE-DPT'].dropna().values[0], 2) if not vdf['BCE-DPT'].isna().all() else 'None'
-    bpe_dpt_value = round(vdf['BPE-DPT'].dropna().values[0], 2) if not vdf['BPE-DPT'].isna().all() else 'None'
-    nce_dpt_value = round(vdf['NCE-DPT'].dropna().values[0], 2) if not vdf['NCE-DPT'].isna().all() else 'None'
-    npe_dpt_value = round(vdf['NPE-DPT'].dropna().values[0], 2) if not vdf['NPE-DPT'].isna().all() else 'None'
-
-    output_lines = []
-
-    output_lines.append(
-        left_aligned_format.format(
-            f"NPE-DPT:{BRIGHT_GREEN if npe_dpt_value != 'None' and npe_dpt_value > 6 else GREY}{npe_dpt_value}{RESET}"
-        ) +
-        right_aligned_format.format(
-            f"NCE-DPT:{BRIGHT_GREEN if nce_dpt_value != 'None' and nce_dpt_value > 6 else GREY}{nce_dpt_value}{RESET}"
-        )
+output_lines.append(
+    left_aligned_format.format(
+        f"NPE-DPT:{BRIGHT_GREEN if npe_dpt_value != 'None' and npe_dpt_value > 6 else GREY}{npe_dpt_value}{RESET}"
+    ) +
+    right_aligned_format.format(
+        f"NCE-DPT:{BRIGHT_GREEN if nce_dpt_value != 'None' and nce_dpt_value > 6 else GREY}{nce_dpt_value}{RESET}"
     )
+)
 
-    output_lines.append(
-        left_aligned_format.format(
-            f"BPE-DPT:{GREY if bpe_dpt_value != 'None' and bpe_dpt_value < 6 else BRIGHT_GREEN}{bpe_dpt_value}{RESET}"
-        ) +
-        right_aligned_format.format(
-            f"BCE-DPT:{GREY if bce_dpt_value != 'None' and bce_dpt_value < 6 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
-        )
+output_lines.append(
+    left_aligned_format.format(
+        f"BPE-DPT:{GREY if bpe_dpt_value != 'None' and bpe_dpt_value < 6 else BRIGHT_GREEN}{bpe_dpt_value}{RESET}"
+    ) +
+    right_aligned_format.format(
+        f"BCE-DPT:{GREY if bce_dpt_value != 'None' and bce_dpt_value < 6 else BRIGHT_GREEN}{bce_dpt_value}{RESET}"
     )
+)
 
-    full_output = '\n'.join(output_lines)
-    print(full_output)
-    #print("━" * 42)
+full_output = '\n'.join(output_lines)
+print(full_output)
+print("━" * 42)
 
