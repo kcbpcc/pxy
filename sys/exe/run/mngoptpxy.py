@@ -150,7 +150,7 @@ final_df = blnc_opt_df[blnc_opt_df['Target'] < 0][['key', 'qty', 'Invested', 'va
 row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
 print("━" * 42)
-print(f"{UNDERLINE}{RED}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
+print(f"{UNDERLINE}{GREY}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
 
 blnc_ex_prnt_df = (
     blnc_opt_df.query('Target < 0')
@@ -180,7 +180,7 @@ exit_options(final_df, broker)
 final_avg_df = final_df[final_df['Target'] > 1]
 avg_row_count = final_avg_df.shape[0]
 avg_sum_invested = final_avg_df['Invested'].sum()
-print(f"{UNDERLINE}{RED}🤞..🤞...averaging {str(avg_row_count).zfill(2)} opts worth {str(avg_sum_invested).zfill(7)}🤞{RESET}")
+print(f"{UNDERLINE}{GREY}🤞..🤞...averaging {str(avg_row_count).zfill(2)} opts worth {str(avg_sum_invested).zfill(7)}🤞{RESET}")
 
 blnc_avg_prnt_df = (
     blnc_opt_df.query('Target > 0')
