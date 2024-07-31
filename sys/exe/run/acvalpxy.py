@@ -100,41 +100,44 @@ def process_acvalue(acvalue):
         #print(f"Error saving data to CSV: {e}")
         raise
 
+import os
+import pandas as pd
+from datetime import datetime
+from googleapiclient.discovery import build
+
+# Ensure LOCAL_CSV_FILE and sheet are defined somewhere in your code
+LOCAL_CSV_FILE = 'path_to_your_local_csv_file.csv'
+sheet = build('sheets', 'v4', credentials=YOUR_CREDENTIALS).spreadsheets().values().get(spreadsheetId='YOUR_SHEET_ID', range='YOUR_RANGE')
+
 def retrieve_acvalue():
-    current_date = datetime.utcnow().strftime('%Y-%m-%d')
     try:
         # Check if the local CSV file exists
         if os.path.exists(LOCAL_CSV_FILE):
-            # Get the file modification date
-            modification_time = datetime.utcfromtimestamp(os.path.getmtime(LOCAL_CSV_FILE))
-            #print(f"Local file modification time: {modification_time}")
+            # Read from the local file
+            df = pd.read_csv(LOCAL_CSV_FILE)
+            if not df.empty:
+                # Retrieve the latest AC value from the file
+                acvalue = df['acvalue'].iloc[-1]
+                if pd.notna(acvalue):  # Ensure acvalue is not NaN
+                    return float(acvalue)
+                else:
+                    return 0  # Return 0 if acvalue is NaN
 
-            # If the file was modified today, read from the local file
-            if modification_time.date() == datetime.utcnow().date():
-                #print("Local file is up-to-date. Reading AC value from local file.")
-                df = pd.read_csv(LOCAL_CSV_FILE)
-                # Ensure we have the latest entry for today
-                if df['date'].iloc[-1] == current_date:
-                    acvalue = float(df['acvalue'].iloc[-1])
-                    #print(f"Retrieved AC value from local file: {acvalue}")
-                    return acvalue
-
-        # If the file doesn't exist or is not up-to-date, fetch from Google Sheets
-        #print("Local file not found or not up-to-date. Fetching data from Google Sheets.")
+        # If the file doesn't exist or is empty, fetch from Google Sheets
         data = sheet.get_all_values()
         df = pd.DataFrame(data, columns=['date', 'acvalue'])
         df.to_csv(LOCAL_CSV_FILE, index=False)
-        #print(f"Updated local file with data from Google Sheets: {LOCAL_CSV_FILE}")
 
-        # Retrieve the latest AC value
-        if df['date'].iloc[-1] == current_date:
-            acvalue = float(df['acvalue'].iloc[-1])
-            #print(f"Retrieved AC value from Google Sheets: {acvalue}")
-            return acvalue
+        if not df.empty:
+            # Retrieve the latest AC value from the data
+            acvalue = df['acvalue'].iloc[-1]
+            if pd.notna(acvalue):  # Ensure acvalue is not NaN
+                return float(acvalue)
+            else:
+                return 0  # Return 0 if acvalue is NaN
         else:
-            #print("No record found for the current date.")
-            return None
+            return 0  # Return 0 if the DataFrame is empty
 
     except Exception as e:
-        #print(f"Error retrieving AC value: {e}")
-        return None
+        print(f"Error retrieving AC value: {e}")
+        return 0  # Return 0 in case of an exception
