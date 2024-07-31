@@ -170,7 +170,7 @@ if args.command == 'l':
     final_prnt_str = blnc_ex_prnt_df.to_string(index=False, header=False)
     right_aligned_output = '\n'.join([line.rjust(42) for line in final_prnt_str.split('\n')])
     print(f"{GREY}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{RESET}")
-    print(f"{RIGHT_ALIGNED}{right_aligned_output}{RESET}")
+    print(right_aligned_output)
 
 # Final Order Execution
 exit_options(blnc_opt_df, broker)
