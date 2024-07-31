@@ -58,6 +58,6 @@ line2 = f"NIFTY Epiry: {last_thursday}"
 combined_lines = f"{line1} || {line2}"
 BRIGHT_YELLOW = '\033[93m'
 RESET = '\033[0m'    # Reset to default color
-print(f"{SILVER}{combined_lines:^{width}}{RESET}")
+print(f"{BRIGHT_YELLOW}{combined_lines:^{width}}{RESET}")
 
 
