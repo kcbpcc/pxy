@@ -153,7 +153,7 @@ filtered_df.loc[:, 'Date'] = filtered_df['Date'].dt.day
 filtered_df.loc[:, 'Today'] = filtered_df['Today'].dt.day
 
 # Add 'Target' column with the specified condition
-filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 105)
+filtered_df.loc[:, 'Target'] = filtered_df['Diff'].apply(lambda x: 99 if x == 0 else (100 - (x * 9)) * -1 if x < 10 else 105)
 
 # Reorder columns as requested
 final_df = filtered_df[filtered_df['qty'] > 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
