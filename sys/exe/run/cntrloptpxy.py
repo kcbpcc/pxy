@@ -261,5 +261,5 @@ if not args.short:
 
     full_output = '\n'.join(output_lines)
     print(full_output)
-    print("━" * 42)
+    #print("━" * 42)
 
