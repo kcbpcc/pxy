@@ -25,6 +25,8 @@ last_thursday_str = get_last_weekday_of_current_month(calendar.THURSDAY)
 
 # Define the current year
 current_year = datetime.now().year
+now = datetime.now()
+current_month_abbr = now.strftime('%b')
 
 print("━" * 42)
 width = 42
@@ -32,7 +34,7 @@ line1 = f"B:{last_wednesday_str}"
 line2 = f"N:{last_thursday_str}"
 
 # Combine both lines and center them in a 42-character wide field
-combined_lines = f"{line1} |Lets Manage opt| {line2}"
+combined_lines = f"{line1} |Lets Manage {current_month_abbr}options| {line2}"
 BRIGHT_YELLOW = '\033[93m'
 RESET = '\033[0m'    # Reset to default color
 print(f"{SILVER}{combined_lines:^{width}}{RESET}")
