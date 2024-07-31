@@ -87,7 +87,7 @@ telegram_message = (
     + "\n".join(opt_entries) + f"\n\n"
     f"Subtotal for F&O Profits: {subtotal_opt}\n\n"
     f"💰💰💰 *Total Sum:* {total_sum:.2f}\n\n"
-    f"    🔗 [PXY® Dash Board](https://console.zerodha.com/verified/783d6dad)"
+    f"    🔗 [PXY® Dash Board](https://console.zerodha.com/verified/0aec4aa4)"
 )
 
 # Print detailed entries to console
