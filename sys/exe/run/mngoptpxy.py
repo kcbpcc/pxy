@@ -15,7 +15,7 @@ from clorpxy import (
 )
 from mktpxy import get_market_check
 from bftpxy import get_bnk_action
-from nftpxy import ha_nse_action
+from nftpxy import get_nse_action  # Ensure correct import
 
 # Argument parsing
 parser = argparse.ArgumentParser(description="Process some commands.")
@@ -119,6 +119,10 @@ def main():
             sys.stdout = sys.__stdout__
 
     combined_df = process_data()
+    if combined_df.empty:
+        print("Combined DataFrame is empty.")
+        return
+
     blnc_opt_df = combined_df[combined_df['key'].str.contains('NFO:', case=False)].copy()
     blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False)
     blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
@@ -168,21 +172,18 @@ def main():
         [['key', 'qty', 'PL%', 'Target', 'PnL']]
     )
 
-    # Ensure no zero qty rows before printing
-    blnc_ex_prnt_df = blnc_ex_prnt_df[blnc_ex_prnt_df['qty'] > 0]
-
     if args.command == 'l':
         final_prnt_str = blnc_ex_prnt_df.to_string(index=False, header=False)
         right_aligned_output = '\n'.join([line.rjust(42) for line in final_prnt_str.split('\n')])
         print(f"{GREY}┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{RESET}")
         print(right_aligned_output)
 
-    # Import market check and action functions
+    # Market checks
     bbnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
     nonemincandlesequance, mktpxy = get_market_check('^NSEI')
 
     ha_bnk_action, bnk_power, bDay_Change, bOpen_Change = get_bnk_action()
-    ha_nse_action, nse_power, Day_Change, Open_Change = ha_nse_action()
+    ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
 
     # Function to place buy orders based on PL%
     def place_buy_orders_based_on_pl(df, broker):
