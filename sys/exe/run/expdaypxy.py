@@ -1,6 +1,5 @@
 import calendar
 from datetime import datetime, timedelta
-from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 # List of public holidays
 public_holidays = [
@@ -13,36 +12,37 @@ public_holidays = [
 # Convert the list of public holidays to datetime objects
 public_holidays = [datetime.strptime(date, "%d-%b-%Y").date() for date in public_holidays]
 
+def get_last_weekday_of_month(year, month, weekday):
+    # Find the last day of the month
+    last_day = calendar.monthrange(year, month)[1]
+    last_date = datetime(year, month, last_day)
+    
+    # Find the last specified weekday of the month
+    while last_date.weekday() != weekday:
+        last_date -= timedelta(days=1)
+    
+    # Adjust if the last weekday is a public holiday
+    while last_date.date() in public_holidays or last_date.weekday() >= 5:
+        last_date -= timedelta(days=1)
+    
+    return last_date
+
 def get_last_weekday_of_current_month(weekday):
     # Get the current date
     now = datetime.now()
     year = now.year
     month = now.month
 
-    def find_last_weekday(year, month, weekday):
-        # Find the last day of the month
-        last_day = calendar.monthrange(year, month)[1]
-        last_date = datetime(year, month, last_day)
-        
-        # Find the last specified weekday of the month
-        last_weekday = last_date - timedelta(days=(last_date.weekday() - weekday) % 7)
-        
-        # Adjust if the last weekday is a public holiday
-        while last_weekday.date() in public_holidays or last_weekday.weekday() >= 5:
-            last_weekday -= timedelta(days=1)
-        
-        return last_weekday
-
     # Find the last weekday for the current month
-    last_weekday = find_last_weekday(year, month, weekday)
+    last_weekday = get_last_weekday_of_month(year, month, weekday)
     
-    # If the last weekday is in the past, move to the next month
-    if last_weekday < now:
+    # If the last weekday is in the past, find it for the next month
+    if last_weekday < now.date():
         month += 1
         if month > 12:
             month = 1
             year += 1
-        last_weekday = find_last_weekday(year, month, weekday)
+        last_weekday = get_last_weekday_of_month(year, month, weekday)
     
     return last_weekday.strftime("%d-%b").upper()
 
