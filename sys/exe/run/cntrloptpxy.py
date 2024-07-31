@@ -234,9 +234,9 @@ right_title, right_value = right_side
 
 # Check if both values are equal and set titles accordingly
 if left_value == right_value:
-    left_title = "Neutral1"
-    right_title = "Neutral2"
-    left_value = right_value = "Neutral2"
+    left_title = "BCE-BPE"
+    right_title = "NCE-NPE"
+    left_value = right_value = "Neutral"
 else:
     left_value = round(left_value, 2) if left_value is not None else 'None'
     right_value = round(right_value, 2) if right_value is not None else 'None'
