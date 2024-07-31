@@ -27,8 +27,8 @@ last_thursday_str = get_last_weekday_of_current_month(calendar.THURSDAY)
 current_year = datetime.now().year
 
 width = 42
-line1 = f"BANKN Epiry: {last_wednesday}"
-line2 = f"NIFTY Epiry: {last_thursday}"
+line1 = f"BANKN Epiry: {last_wednesday_str}"
+line2 = f"NIFTY Epiry: {last_thursday_str}"
 
 # Combine both lines and center them in a 42-character wide field
 combined_lines = f"{line1} || {line2}"
