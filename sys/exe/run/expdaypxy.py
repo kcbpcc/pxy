@@ -37,7 +37,7 @@ def get_last_weekday_of_current_month(weekday):
     last_weekday = get_last_weekday_of_month(year, month, weekday)
     
     # If the last weekday is in the past, find it for the next month
-    if last_weekday < now.date():
+    if last_weekday < datetime(year, month, now.day):
         month += 1
         if month > 12:
             month = 1
