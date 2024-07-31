@@ -153,7 +153,7 @@ row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
 
 #print(f"{GREY}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
-#print("━" * 42)
+print("━" * 42)
 width = 42
 line1 = f"B:{last_wednesday_str}"
 line2 = f"N:{last_thursday_str}"
