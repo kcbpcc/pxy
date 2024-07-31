@@ -1,4 +1,4 @@
-print("━" * 42)
+#print("━" * 42)
 import os
 import argparse
 import pandas as pd
