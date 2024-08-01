@@ -1,4 +1,5 @@
 #print("━" * 42)
+from strikpxy import get_prices
 import os
 import argparse
 import pandas as pd
@@ -17,7 +18,9 @@ from prftpxy import process_data_total_profit
 booked = process_data_total_profit()
 from telsumrypxy import check_and_send_summary
 from acvalpxy import process_acvalue, retrieve_acvalue
-
+BCE_Strike, CE_Strike, PE_Strike, BPE_Strike = get_prices()
+Nstrike = PE_Strike + BPE_Strike /2
+Bstrike = BCE_Strike + CE_Strike /2
 try:
     from fundpxy import calculate_decision
     decision, optdecision, available_cash,live_balance, limit = calculate_decision()
