@@ -43,16 +43,15 @@ else:
     delta_month = delta_day  # Not enough data for a full month delta
 
 # Format deltas
-delta_day_color = BRIGHT_GREEN if delta_day >= 0 else BRIGHT_RED
-delta_month_color = BRIGHT_GREEN if delta_month >= 0 else BRIGHT_RED
+delta_day_color = 'green' if delta_day >= 0 else 'red'
+delta_month_color = 'green' if delta_month >= 0 else 'red'
 
 # Create message
 message = (
-    f"{RESET}\n"
-    f"{chart}\n"
-    f"📊📊📊📊📊  Daily Delta: {delta_day_color}{delta_day:,.2f}{RESET}  📊📊📊📊📊\n"
-    f"📊📊📊📊📊  Month Delta: {delta_month_color}{delta_month:,.2f}{RESET}  📊📊📊📊📊\n"
-    f"{RESET}"
+    f"Chart Data:\n"
+    f"{chart}\n\n"
+    f"Daily Delta: {delta_day_color} {delta_day:,.2f} {RESET}\n"
+    f"Month Delta: {delta_month_color} {delta_month:,.2f} {RESET}"
 )
 
 # Source identifier
