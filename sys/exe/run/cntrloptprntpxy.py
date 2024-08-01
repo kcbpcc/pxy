@@ -272,20 +272,20 @@ print(full_output)
 print("━" * 42)
 summary = (
     f"---------PXY® Dash Board----------\n"
-    f"    📈 A/C Run-PnL: {total_ac_run_pnl}\n"  # Matches C&C-tPnL
-    f"    🪙 Margin: {str(int(available_cash)).zfill(6)}\n"  # You might want to add margin information if needed
-    f"    💵 Cash: {str(int(live_balance)).zfill(6)}\n"  # Matches Cash
-    f"    🏦 A/C Capital: {str(round(17.82, 2)).zfill(5)}\n"  # Matches A/C-Cap
-    f"    💸 A/C Value: {str(round(total_ac_value + (available_cash / 100000), 2)).zfill(5)}\n"  # Might be A/C-Now
-    f"    📊 Holdings Day: {int(round(all_Stocks_worth_dpnl, 0))}\n"  # Matches C&C-dPnL
-    f"    📝 Stocks Day-PnL: {str(int(booked)).zfill(5)}\n"  # Matches C&C-bPnL
-    f"    🏧 Bank Day-Proft: {str(bank_profit).zfill(5)}\n"  # Matches BANK-dPnL
-    f"    🛺 Nifty Day-Proft: {str(nifty_profit).zfill(5)}\n"  # Matches NIFTY-dPnL
-    f"    ⚖️ B━{ratio_B} /🏋🏽/ N━{ratio_N}\n"  # Matches B━/N━
+    f"    📈 C&C-tPnL: {round(run_spnl / 100000, 2)}\n"  # Matches C&C-tPnL
+    f"    🪙 Margin: {str(int(available_cash)).zfill(6)}\n"  # Optional Margin info
+    f"    💵 Cash: {str(round(live_balance / 100000, 2)).zfill(4)}\n"  # Matches Cash
+    f"    🏦 A/C-Cap: {str(round(17.82, 2)).zfill(5)}\n"  # Matches A/C-Cap
+    f"    💸 A/C-Now: {str(round(acvalue, 2)).zfill(5)}\n"  # Matches A/C-Now
+    f"    📊 C&C-dPnL: {int(round(all_Stocks_worth_dpnl, 0))}\n"  # Matches C&C-dPnL
+    f"    📝 C&C-bPnL: {str(int(booked)).zfill(5)}\n"  # Matches C&C-bPnL
+    f"    🏧 BANK-dPnL: {str(bank_profit).zfill(5)}\n"  # Matches BANK-dPnL
+    f"    🛺 NIFTY-dPnL: {str(nifty_profit).zfill(5)}\n"  # Matches NIFTY-dPnL
+    f"    ⚖️ B━{ratio_B} / N━{ratio_N}\n"  # Matches B━/N━
     f"    🎖️ A/C Real Total-PnL: {real_pnl}\n"  # Matches A/C Real Total-PnL
-    f"    💰 Day Total-PnL: {str(nifty_profit + bank_profit + booked).zfill(5)}\n"  # Matches Total-dPnL
+    f"    💰 Total-dPnL: {str(nifty_profit + bank_profit + booked).zfill(5)}\n"  # Matches Total-dPnL
     f"                      \n"
     f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/0aec4aa4)\n"
 )
-# Function to send summary
+
 check_and_send_summary(summary, 'bordpxy')
