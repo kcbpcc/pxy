@@ -192,6 +192,10 @@ avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
 # Print the DataFrame before processing
 print("Initial DataFrame:")
 print(blnc_opt_df)
+total_invested = blnc_opt_df['Invested'].sum()
+
+# Print the total invested amount
+print(f"Total Invested: {total_invested}")
 
 # Ensure DataFrames are not empty before processing
 if not ext_df.empty:
