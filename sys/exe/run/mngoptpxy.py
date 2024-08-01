@@ -40,7 +40,7 @@ def business_days_diff(start_date, end_date):
     return len(pd.bdate_range(start_date, end_date))
 
 def send_telegram_message(message):
-    bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
+    bot_token = 'YOUR_BOT_TOKEN_HERE'
     user_usernames = ['-4282665161']
     try:
         for username in user_usernames:
@@ -71,7 +71,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
         print(f"Error placing order: {e}")
         return None
 
-def exit_options(blnc_opt_df, broker):
+def ext_options(blnc_opt_df, broker):
     try:
         if 'Target' not in blnc_opt_df.columns:
             print("Target column is missing in the DataFrame.")
@@ -93,6 +93,47 @@ def exit_options(blnc_opt_df, broker):
                 send_telegram_message(message)
     except Exception as e:
         print(f"Error placing exit order: {e}")
+
+def avg_options(df, broker):
+    try:
+        for index, row in df.iterrows():
+            if row['PL%'] < -50:
+                qty = 0
+                can_average = False
+
+                if row['key'].startswith('BANKNIFTY'):
+                    current_qty = row['qty']
+                    if current_qty < 30 and current_qty + 15 <= 45:
+                        qty = 15
+                        if 'PE' in row['key']:
+                            can_average = bnk_power > 0.85 and bmktpxy == 'Sell'
+                        elif 'CE' in row['key']:
+                            can_average = bnk_power < 0.15 and bmktpxy == 'Buy'
+                elif row['key'].startswith('NIFTY'):
+                    current_qty = row['qty']
+                    if current_qty < 50 and current_qty + 25 <= 75:
+                        qty = 25
+                        if 'PE' in row['key']:
+                            can_average = nse_power > 0.85 and mktpxy == 'Sell'
+                        elif 'CE' in row['key']:
+                            can_average = nse_power < 0.15 and mktpxy == 'Buy'
+                else:
+                    continue
+
+                if can_average:
+                    print(f"Placing BUY order for {row['key']} with quantity {qty}")
+                    order_id = place_order(row['key'], qty, 'BUY', 'MARKET', 'NRML', broker)
+
+                    if order_id:
+                        message = (
+                            f"🚀🚀🚀 🤑🤑🤑 BUY order placed {row['key']} successfully.\n"
+                            f"PL%: {round(row['PL%'], 2)}%\n"
+                            f"Quantity: {qty}\n"
+                        )
+                        print(message)
+                        send_telegram_message(message)
+    except Exception as e:
+        print(f"Error placing BUY order: {e}")
 
 try:
     sys.stdout = open('output.txt', 'w')
@@ -136,9 +177,9 @@ def add_date(row):
     else:
         return None
 
-blnc_opt_df.loc[:, 'Date'] = blnc_opt_df.apply(add_date, axis=1)
-blnc_opt_df.loc[:, 'Today'] = datetime.now()
-blnc_opt_df.loc[:, 'Diff'] = blnc_opt_df.apply(lambda row: business_days_diff(row['Date'], row['Today']), axis=1)
+blnc_opt_df['Date'] = blnc_opt_df.apply(add_date, axis=1)
+blnc_opt_df['Today'] = datetime.now()
+blnc_opt_df['Diff'] = blnc_opt_df.apply(lambda row: business_days_diff(row['Date'], row['Today']), axis=1)
 
 blnc_opt_df['Date'] = blnc_opt_df['Date'].dt.day
 blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
@@ -146,5 +187,6 @@ blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
 
 print(blnc_opt_df)
+
 
 
