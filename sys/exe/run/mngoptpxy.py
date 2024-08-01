@@ -205,3 +205,14 @@ except Exception as e:
 print("Final DataFrame after processing:")
 print(final_df.head())
 
+# Filter DataFrames
+df_target_positive = final_df[final_df['Target'] > 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Target']]
+df_target_negative = final_df[final_df['Target'] < 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Target']]
+
+# Print DataFrames
+print("DataFrame with Target > 0:")
+print(df_target_positive)
+
+print("\nDataFrame with Target < 0:")
+print(df_target_negative)
+
