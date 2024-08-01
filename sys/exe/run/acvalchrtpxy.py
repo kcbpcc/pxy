@@ -1,58 +1,32 @@
 import pandas as pd
-from asciichartpy import plot
 from telsumrypxy import check_and_send_summary
-
-# Define color constants using ANSI escape codes
-RESET = '\033[0m'
-BRIGHT_RED = '\033[91m'
-BRIGHT_GREEN = '\033[92m'
-SILVER = '\033[37m'
 
 # Load data from local CSV file
 df = pd.read_csv('acvalpxy.csv')
 
-# Convert 'date' column to datetime format if necessary
+# Convert 'date' column to datetime format
 df['date'] = pd.to_datetime(df['date'])
 
-# Consider the latest 30 records for charting
-df = df.tail(30)
+# Filter data for the past 14 days
+end_date = df['date'].max()
+start_date = end_date - pd.DateOffset(days=13)
+df_filtered = df[(df['date'] >= start_date) & (df['date'] <= end_date)]
 
-# Calculate trend direction
-trend_direction = []
-for i in range(1, len(df)):
-    if df['acvalue'][i] > df['acvalue'][i - 1]:
-        trend_direction.append(BRIGHT_GREEN)
-    elif df['acvalue'][i] < df['acvalue'][i - 1]:
-        trend_direction.append(BRIGHT_RED)
-    else:
-        trend_direction.append(SILVER)
+# Ensure data is sorted by date
+df_filtered = df_filtered.sort_values(by='date')
 
-# Create ASCII chart with colored trend
-chart = plot(df['acvalue'].tolist(), {'height': 10, 'format': "{:,.2f}", 'color': trend_direction})
+# Calculate delta (Today - Yesterday)
+df_filtered['delta'] = df_filtered['acvalue'].diff().fillna(0)
 
-# Calculate deltas
-latest_record = df['acvalue'].iloc[-1]
-previous_record = df['acvalue'].iloc[-2]
-delta_day = latest_record - previous_record
+# Create the message
+message_lines = ["Date       | AC Value | Delta"]
+for _, row in df_filtered.iterrows():
+    date_str = row['date'].strftime('%Y-%m-%d')
+    ac_value_str = f"{row['acvalue']:,.2f}"
+    delta_str = f"{row['delta']:,.2f}"
+    message_lines.append(f"{date_str} | {ac_value_str} | {delta_str}")
 
-# Monthly delta calculation
-if len(df) > 1:
-    monthly_previous_record = df['acvalue'].iloc[0]
-    delta_month = latest_record - monthly_previous_record
-else:
-    delta_month = delta_day  # Not enough data for a full month delta
-
-# Format deltas
-delta_day_color = 'green' if delta_day >= 0 else 'red'
-delta_month_color = 'green' if delta_month >= 0 else 'red'
-
-# Create message
-message = (
-    f"Chart Data:\n"
-    f"{chart}\n\n"
-    f"Daily Delta: {delta_day_color} {delta_day:,.2f} {RESET}\n"
-    f"Month Delta: {delta_month_color} {delta_month:,.2f} {RESET}"
-)
+message = "\n".join(message_lines)
 
 # Source identifier
 source = "accval"
