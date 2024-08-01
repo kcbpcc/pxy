@@ -16,6 +16,9 @@ parser.add_argument('command', nargs='?', choices=['l', 's'], default='s',
                     help="Command to run the program with. Defaults to 's' if not provided.")
 args = parser.parse_args()
 
+# Print or log the command for debugging
+print(f"Command received: {args.command}")
+
 # Define function to get last weekday dates
 last_wednesday_str = get_last_weekday_of_current_month(calendar.WEDNESDAY)
 last_thursday_str = get_last_weekday_of_current_month(calendar.THURSDAY)
@@ -171,12 +174,15 @@ blnc_opt_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL']]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['key'].str.contains(current_month_abbr)]
 
+# Print the DataFrame before processing
+print("Initial DataFrame:")
+print(blnc_opt_df)
+
 # Ensure DataFrame is not empty
 if not blnc_opt_df.empty:
-    if args.command == 'l':
-        ext_options(blnc_opt_df, broker)
-    else:
-        avg_options(blnc_opt_df, broker)
+    # Call the functions directly
+    ext_options(blnc_opt_df, broker)
+    avg_options(blnc_opt_df, broker)
 else:
     print("No data available for processing.")
 
