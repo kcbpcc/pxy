@@ -188,5 +188,10 @@ blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1
 
 print(blnc_opt_df)
 
+# Filter the DataFrame to include only rows where PL% > 7
+exit_df = blnc_opt_df[blnc_opt_df['PL%'] > 7]
+print(exit_df)
+ext_options(exit_df, broker)
+
 
 
