@@ -249,9 +249,9 @@ output_lines.append(left_aligned_format.format(
         right_aligned_format.format(
         f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}%{RESET}"))
 output_lines.append(left_aligned_format.format(
-        f"HOLD-dPnL:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}") +
+        f"Stocks-dPnL:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}") +
         right_aligned_format.format(
-        f"BOOKED:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
+        f"Stocks-bPnL:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
 
 #output_lines.append(
     #left_aligned_format.format(f"B-Expiry:{GREY}{last_wednesday}{RESET}") +
