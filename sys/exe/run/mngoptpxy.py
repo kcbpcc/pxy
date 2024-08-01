@@ -13,6 +13,7 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
 from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
+bnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK')
 
 # Argument parsing
 parser = argparse.ArgumentParser(description="Process some commands.")
