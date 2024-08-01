@@ -205,7 +205,7 @@ next_month = (now.month % 12) + 1  # Get next month number (1-12)
 next_month_abbr = calendar.month_abbr[next_month].upper()  # e.g., 'SEP'
 
 # Assuming `opt_df` is already defined earlier in the code
-print_df = opt_df.copy()
+print_df = exe_opt_df.copy()
 print_df = print_df[print_df['PL%'] > 0]
 print_df['CP'] = print_df['key'].apply(lambda x: '🟠' if x.endswith('PE') else ('🟢' if x.endswith('CE') else None))
 print_df['group'] = print_df['key'].str.extract(r'^(B|N)', expand=False)
