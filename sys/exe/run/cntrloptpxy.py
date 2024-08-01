@@ -204,7 +204,7 @@ print_df['MN'] = np.where(
 print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP', 'group']]
 filtered_data = print_df.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 
-if filtered_df.empty:
+if filtered_data.empty:
     print("Still fishing🔎🎣, nothing surfaced yet.🐟")
 else:
     print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
