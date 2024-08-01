@@ -1,6 +1,7 @@
 import pandas as pd
 from asciichartpy import plot
 from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
+from telsumrypxy import check_and_send_summary
 
 # Reset terminal color to default
 print(RESET)
@@ -78,3 +79,18 @@ print(f"📊📊📊📊📊  Month Delta: {delta_month_color}{delta_month:,.2f}
 
 # Reset terminal color to default
 print(RESET)
+
+
+telegram_message = (
+    f"    🚀 *PXY® Score Board* 🚀\n\n"
+    f"💰*Daily Delta:* {delta_day:,.2f}\n\n"
+    f"💰*Month Delta:* {delta_month:,.2f}\n\n"   
+    f"    🔗 [PXY® Dash Board](https://console.zerodha.com/verified/0aec4aa4)"
+)
+
+# Print detailed entries to console
+#print("\nDetailed Entries Preview:\n")
+#print(telegram_message)
+
+# Send the summary
+check_and_send_summary(telegram_message, 'vlpxy')
