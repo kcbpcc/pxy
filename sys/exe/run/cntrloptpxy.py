@@ -1,3 +1,4 @@
+print("━" * 42)
 import sys
 import traceback
 import pandas as pd
