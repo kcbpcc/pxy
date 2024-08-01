@@ -63,6 +63,15 @@ while True:
         from smapxy import check_index_status
         return check_index_status(symbol)
     try:
+        peak = peak_time_handler()
+        if os.name == 'nt':
+            os.system('cls')
+        else:
+            if peak == 'NONPEAK':
+                os.system('clear -x')
+    except Exception as e:
+        print(f"Error handling peak time: {e}")
+    try:
         mktpredict = predict_market_sentiment_handler()
     except Exception as e:
         print(f"Error handling market sentiment prediction: {e}")
