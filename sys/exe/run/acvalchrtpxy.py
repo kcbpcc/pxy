@@ -68,23 +68,13 @@ if len(df) > 1:
 else:
     delta_month = delta_day  # Not enough data for a full month delta
 
-# Weekly delta calculation
-if len(df) > 7:
-    weekly_previous_record = df['acvalue'].iloc[-8]  # Record from 7 days ago
-    delta_week = latest_record - weekly_previous_record
-else:
-    delta_week = delta_day  # Not enough data for a full week delta
-
 # Format deltas
 delta_day_color = BRIGHT_GREEN if delta_day >= 0 else BRIGHT_RED
 delta_month_color = BRIGHT_GREEN if delta_month >= 0 else BRIGHT_RED
-delta_week_color = BRIGHT_GREEN if delta_week >= 0 else BRIGHT_RED
 
 # Print deltas
 print(f"📊📊📊📊📊  Daily Delta: {delta_day_color}{delta_day:,.2f}{RESET}  📊📊📊📊📊")
-print(f"📊📊📊📊📊  Weekly Delta: {delta_week_color}{delta_week:,.2f}{RESET}  📊📊📊📊📊")
 print(f"📊📊📊📊📊  Month Delta: {delta_month_color}{delta_month:,.2f}{RESET}  📊📊📊📊📊")
 
 # Reset terminal color to default
 print(RESET)
-
