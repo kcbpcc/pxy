@@ -189,9 +189,14 @@ blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1
 print(blnc_opt_df)
 
 # Filter the DataFrame to include only rows where PL% > 7
-exit_df = blnc_opt_df[blnc_opt_df['PL%'] > 7]
-print(exit_df)
-ext_options(exit_df, broker)
+ext_df = blnc_opt_df[blnc_opt_df['PL%'] > 7]
+print(ext_df)
+ext_options(ext_df, broker)
+
+# Filter the DataFrame to include only rows where PL% < -66
+avg_df = blnc_opt_df[blnc_opt_df['PL%'] < -66]
+print(avg_df)
+ext_options(avg_df, broker)
 
 
 
