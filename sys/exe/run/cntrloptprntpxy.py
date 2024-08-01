@@ -230,7 +230,7 @@ output_lines.append(
 )
 
 output_lines.append(left_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(run_opnl/100000, 2)).zfill(4)}{RESET}") +
-                    right_aligned_format.format(f"Cash: {BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{str(round(live_balance / 100000, 2)).zfill(5)}{RESET}"))
+                    right_aligned_format.format(f"Cash: {BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{str(round(live_balance / 100000, 2)).zfill(4)}{RESET}"))
 
 output_lines.append(
     left_aligned_format.format(
