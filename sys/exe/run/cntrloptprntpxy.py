@@ -258,12 +258,12 @@ output_lines.append(left_aligned_format.format(
     #right_aligned_format.format(f"N-Expiry:{GREY}{last_thursday}{RESET}")
 #)
 output_lines.append(
-    left_aligned_format.format(f"BANK-DP:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}") +
-    right_aligned_format.format(f"NIFTY-DP:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}")
+    left_aligned_format.format(f"BANK-dPnL:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}") +
+    right_aligned_format.format(f"NIFTY-dPnL:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}")
 )
 output_lines.append(
     left_aligned_format.format(f"{BRIGHT_YELLOW}B━{ratio_B}/-/N━{ratio_N}{RESET}") +
-    right_aligned_format.format(f"Total-PnL:{BRIGHT_GREEN if (nifty_profit + bank_profit +booked) > 0 else BRIGHT_RED}{nifty_profit + bank_profit + booked}{RESET}")
+    right_aligned_format.format(f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit +booked) > 0 else BRIGHT_RED}{nifty_profit + bank_profit + booked}{RESET}")
 )
 
 full_output = '\n'.join(output_lines)
