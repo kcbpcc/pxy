@@ -211,11 +211,13 @@ if not ext_df.empty:
     ext_options(ext_df, broker)
     #print(ext_df)
 else:
-    print("No options to exit.")
+    pass
+    #print("No options to exit.")
 if not avg_df.empty:
     avg_options(avg_df, broker)
     #print(avg_df)
 else:
-    print("No options to average.")
+    pass
+    #print("No options to average.")
 
 
