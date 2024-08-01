@@ -155,8 +155,6 @@ blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 
 blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
-# Filter based on PL%
-blnc_opt_df = blnc_opt_df[blnc_opt_df['PL%'] < -66]
 
 # Debugging: Print filtered blnc_opt_df
 print("Filtered blnc_opt_df after PL% < -66:")
