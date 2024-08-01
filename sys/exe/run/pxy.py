@@ -65,10 +65,12 @@ while True:
     try:
         peak = peak_time_handler()
         if os.name == 'nt':
-            os.system('cls')
+            pass
+            #os.system('cls')
         else:
             if peak == 'NONPEAK':
-                os.system('clear -x')
+                pass
+                #os.system('clear -x')
     except Exception as e:
         print(f"Error handling peak time: {e}")
     try:
