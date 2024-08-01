@@ -177,7 +177,7 @@ blnc_ex_prnt_df = (
 )
 
 if args.command == 'l':
-    print(f"{GREY}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
+    print(f"{YELLOW}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
     final_prnt_str = blnc_ex_prnt_df.to_string(index=False, header=False)
     right_aligned_output = '\n'.join([line.rjust(42) for line in final_prnt_str.split('\n')])
     print(right_aligned_output)
@@ -207,7 +207,7 @@ blnc_avg_prnt_df = (
 )
 
 if args.command == 'l':
-    print(f"{GREY}🤞..🤞...averaging {str(avg_row_count).zfill(2)} opts worth {str(avg_sum_invested).zfill(7)}🤞{RESET}")
+    print(f"{YELLOW}🤞..🤞...Averaging {str(avg_row_count).zfill(2)} opts worth {str(avg_sum_invested).zfill(7)}🤞{RESET}")
     final_prnt_str = blnc_avg_prnt_df.to_string(index=False, header=False)
     right_aligned_output = '\n'.join([line.rjust(42) for line in final_prnt_str.split('\n')])
     print(right_aligned_output)
