@@ -235,11 +235,11 @@ output_lines.append(left_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if run_o
 output_lines.append(
     left_aligned_format.format(
         f"{'A/C-Cap'.zfill(7)}:{BRIGHT_YELLOW}{str(round(17.82, 2)).zfill(5)}"
-        f"{BRIGHT_RED if mktpredict == 'FALL' else GREY if mktpredict == 'SIDE' else BRIGHT_GREEN}      {BOLD}{UNDERLINE}PXY{RESET}"
+        f"{BRIGHT_RED if mktpredict == 'FALL' else GREY if mktpredict == 'SIDE' else BRIGHT_GREEN}     {BOLD}{UNDERLINE}PXY{RESET}"
     ) +
     right_aligned_format.format(
         f"{BRIGHT_GREEN if nmktpxy in ['Bull'] else (BRIGHT_RED if nmktpxy in ['Bear'] else GREY)}"
-        f"{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')}{RESET}       "
+        f"{BOLD}{UNDERLINE}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')}{RESET}      "
         f"{'A/C-Now'.zfill(5)}:{BRIGHT_YELLOW}{str(round(acvalue, 2)).zfill(5)}{RESET}"
     )
 )
