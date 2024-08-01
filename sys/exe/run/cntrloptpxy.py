@@ -211,7 +211,7 @@ print_df['CP'] = print_df['key'].apply(lambda x: '🟠' if x.endswith('PE') else
 print_df['group'] = print_df['key'].str.extract(r'^(B|N)', expand=False)
 print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('NIFTY24', 'N')
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
-
+print_df['PL%'] = print_df['PL%'].round(2)
 # Set 'MN' based on the month abbreviation in 'key'
 print_df['MN'] = np.where(
     print_df['key'].str.contains(current_month_abbr),
