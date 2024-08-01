@@ -127,13 +127,22 @@ finally:
         sys.stdout = sys.__stdout__
 
 combined_df = process_data()
+
+# Debugging: Print combined_df
+print("Combined DataFrame:")
+print(combined_df.head())
+
 blnc_opt_df = combined_df[
     (combined_df['key'].str.contains('NFO:', case=False, na=False)) &
     (combined_df['qty'] > 0) &
     (combined_df['key'].notna())
 ].copy()
 
-blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False) 
+# Debugging: Print blnc_opt_df
+print("Filtered blnc_opt_df:")
+print(blnc_opt_df.head())
+
+blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False)
 blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
 blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 
@@ -141,6 +150,10 @@ blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=Tr
 
 # Filter based on PL%
 blnc_opt_df = blnc_opt_df[blnc_opt_df['PL%'] < -66]
+
+# Debugging: Print filtered blnc_opt_df
+print("Filtered blnc_opt_df after PL% < -66:")
+print(blnc_opt_df.head())
 
 blnc_opt_df['Date'] = blnc_opt_df['key'].apply(lambda key: last_wednesday if key.startswith('BANKNIFTY') else (last_thursday if key.startswith('NIFTY') else None))
 blnc_opt_df['Today'] = datetime.now()
@@ -152,8 +165,17 @@ blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
 blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
 
+# Debugging: Print final DataFrame
+print("Final DataFrame for exit and buy orders:")
+print(blnc_opt_df.head())
+
 # Create final_df with appropriate filter
 final_df = blnc_opt_df[blnc_opt_df['Target'] < 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
+
+# Debugging: Print final_df
+print("Final DataFrame:")
+print(final_df.head())
+
 row_count = final_df.shape[0]
 sum_invested = final_df['Invested'].sum()
 
@@ -163,26 +185,18 @@ line1 = f"B:{last_wednesday_str}"
 line2 = f"N:{last_thursday_str}"
 
 print("━" * 42)
-combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {str(sum_invested).zfill(7)}    ⚖  {line2}"
-print(f"{SILVER}{combined_lines:^{width}}{RESET}")
+combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}INVESTED:{RESET} {sum_invested:.2f}"
+print(f"{combined_lines: <{width}}")
+print(f"{line2: <{width}}")
 
-if args.command == 'l':
-    print(f"{YELLOW}🤔..🤔..Recovering {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}🤔{RESET}")
-    final_prnt_str = blnc_opt_df.query('Target < 0').to_string(index=False, header=False)
-    print(f"{SILVER}⛏️  {final_prnt_str}{RESET}")
-elif args.command == 's':
-    print(f"{GREEN}📈{RESET} {YELLOW}📈{RESET}  {str(row_count).zfill(2)} opts worth {str(sum_invested).zfill(7)}")
-    final_prnt_str = blnc_opt_df.query('Target > 0').to_string(index=False, header=False)
-    print(f"{SILVER}💹  {final_prnt_str}{RESET}")
-
-# Update DataFrame
 try:
-    if 'blnc_opt_df' in locals():
-        del blnc_opt_df
+    # Exit and Buy orders
+    exit_options(final_df, broker)
+    place_buy_orders_based_on_pl(final_df, broker)
 except Exception as e:
-    print(f"Error updating DataFrame: {e}")
+    print(f"Error during processing: {e}")
 
-# Exit and Buy orders
-exit_options(final_df, broker)
-place_buy_orders_based_on_pl(final_df, broker)
+# Ensure final debug output
+print("Final DataFrame after processing:")
+print(final_df.head())
 
