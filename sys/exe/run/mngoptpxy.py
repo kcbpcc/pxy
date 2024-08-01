@@ -114,7 +114,10 @@ def place_buy_orders_based_on_pl(final_avg_df, broker):
         print(f"Error placing buy orders: {e}")
 
 try:
+    # Redirect stdout to file
     sys.stdout = open('output.txt', 'w')
+    
+    # Initialize broker
     broker = get_kite()
 except Exception as e:
     remove_token(dir_path)
@@ -122,16 +125,19 @@ except Exception as e:
     logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 finally:
+    # Reset stdout
     if sys.stdout != sys.__stdout__:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
 
+# Process data and create DataFrame
 combined_df = process_data()
 
 # Debugging: Print combined_df
 print("Combined DataFrame:")
 print(combined_df.head())
 
+# Filter DataFrame
 blnc_opt_df = combined_df[
     (combined_df['key'].str.contains('NFO:', case=False, na=False)) &
     (combined_df['qty'] > 0) &
@@ -142,6 +148,7 @@ blnc_opt_df = combined_df[
 print("Filtered blnc_opt_df:")
 print(blnc_opt_df.head())
 
+# Clean and compute additional columns
 blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False)
 blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
 blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
@@ -155,6 +162,7 @@ blnc_opt_df = blnc_opt_df[blnc_opt_df['PL%'] < -66]
 print("Filtered blnc_opt_df after PL% < -66:")
 print(blnc_opt_df.head())
 
+# Calculate additional columns
 blnc_opt_df['Date'] = blnc_opt_df['key'].apply(lambda key: last_wednesday if key.startswith('BANKNIFTY') else (last_thursday if key.startswith('NIFTY') else None))
 blnc_opt_df['Today'] = datetime.now()
 blnc_opt_df['Diff'] = blnc_opt_df.apply(lambda row: business_days_diff(row['Date'], row['Today']) if pd.notna(row['Date']) else None, axis=1)
@@ -176,16 +184,13 @@ final_df = blnc_opt_df[blnc_opt_df['Target'] < 0][['key', 'qty', 'Invested', 'va
 print("Final DataFrame:")
 print(final_df.head())
 
-row_count = final_df.shape[0]
-sum_invested = final_df['Invested'].sum()
-
-# Print data
+# Print summary data
 width = 42
 line1 = f"B:{last_wednesday_str}"
 line2 = f"N:{last_thursday_str}"
 
 print("━" * 42)
-combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}INVESTED:{RESET} {sum_invested:.2f}"
+combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}INVESTED:{RESET} {final_df['Invested'].sum():.2f}"
 print(f"{combined_lines: <{width}}")
 print(f"{line2: <{width}}")
 
