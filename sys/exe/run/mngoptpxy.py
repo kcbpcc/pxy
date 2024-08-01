@@ -71,55 +71,63 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
         print(f"Error placing order: {e}")
         return None
 
-def ext_options(blnc_opt_df, broker):
+def ext_options(ext_df, broker):
     try:
-        if 'Target' not in blnc_opt_df.columns:
-            print("Target column is missing in the DataFrame.")
+        if 'PL%' not in ext_df.columns:
+            print("PL% column is missing in the DataFrame.")
             return
 
-        for index, row in blnc_opt_df.iterrows():
-            total_pl_percentage = row['PL%']
-            tgtoptsmadepth = row['Target']
+        # Filter rows where PL% > 7
+        exit_df = ext_df[ext_df['PL%'] > 7]
+
+        for index, row in exit_df.iterrows():
+            print(f"Placing EXIT order for {row['key']} with quantity {row['qty']}")
+            place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
             
-            if total_pl_percentage > tgtoptsmadepth:
-                place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
-                message = (
-                    f"🛬🛬🛬 😧😧😧 EXIT order placed {row['key']} successfully.\n"
-                    f"🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
-                    f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
-                    f"💰 Booked Profit: {row['PnL']}\n"
-                )
-                print(message)
-                send_telegram_message(message)
+            # Create and send the exit message
+            message = (
+                f"🛬🛬🛬 😧😧😧 EXIT order placed {row['key']} successfully.\n"
+                f"🎯 Achieved PL%: {round(row['PL%'], 2)}%\n"
+                f"💰 Booked Profit: {row['PnL']}\n"
+            )
+            print(message)
+            send_telegram_message(message)
+
     except Exception as e:
         print(f"Error placing exit order: {e}")
+
 
 def avg_options(df, broker):
     try:
         for index, row in df.iterrows():
-            if row['PL%'] < -50:
+            # Only process rows where PL% < -66
+            if row['PL%'] < -66:
                 qty = 0
                 can_average = False
 
                 if row['key'].startswith('BANKNIFTY'):
                     current_qty = row['qty']
+                    # Check if we can increase the quantity
                     if current_qty < 30 and current_qty + 15 <= 45:
                         qty = 15
+                        # Determine if conditions are met for averaging down
                         if 'PE' in row['key']:
                             can_average = bnk_power > 0.85 and bmktpxy == 'Sell'
                         elif 'CE' in row['key']:
                             can_average = bnk_power < 0.15 and bmktpxy == 'Buy'
+
                 elif row['key'].startswith('NIFTY'):
                     current_qty = row['qty']
+                    # Check if we can increase the quantity
                     if current_qty < 50 and current_qty + 25 <= 75:
                         qty = 25
+                        # Determine if conditions are met for averaging down
                         if 'PE' in row['key']:
                             can_average = nse_power > 0.85 and mktpxy == 'Sell'
                         elif 'CE' in row['key']:
                             can_average = nse_power < 0.15 and mktpxy == 'Buy'
-                else:
-                    continue
 
+                # Place the BUY order if conditions are met
                 if can_average:
                     print(f"Placing BUY order for {row['key']} with quantity {qty}")
                     order_id = place_order(row['key'], qty, 'BUY', 'MARKET', 'NRML', broker)
@@ -134,6 +142,7 @@ def avg_options(df, broker):
                         send_telegram_message(message)
     except Exception as e:
         print(f"Error placing BUY order: {e}")
+
 
 try:
     sys.stdout = open('output.txt', 'w')
