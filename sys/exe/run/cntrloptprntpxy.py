@@ -225,11 +225,11 @@ green_Stocks_capital_percentage = (green_Stocks_profit_loss / total_invested) * 
                     #right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))  
 
 output_lines.append(
-    left_aligned_format.format(f"Shares-tPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{round(run_spnl / 100000, 2)}{RESET}") +
+    left_aligned_format.format(f"C&C-tPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{round(run_spnl / 100000, 2)}{RESET}") +
     right_aligned_format.format(f"A/C-tPnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl:.2f}{RESET}")
 )
 
-output_lines.append(left_aligned_format.format(f"Options-tPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(run_opnl/100000, 2)).zfill(4)}{RESET}") +
+output_lines.append(left_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(run_opnl/100000, 2)).zfill(4)}{RESET}") +
                     right_aligned_format.format(f"Cash: {BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{str(round(live_balance / 100000, 2)).zfill(4)}{RESET}"))
 
 output_lines.append(
@@ -249,9 +249,9 @@ output_lines.append(left_aligned_format.format(
         right_aligned_format.format(
         f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}%{RESET}"))
 output_lines.append(left_aligned_format.format(
-        f"Shares-dPnL:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}") +
+        f"C&C-dPnL:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}") +
         right_aligned_format.format(
-        f"Shares-bPnL:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
+        f"C&C-bPnL:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
 
 #output_lines.append(
     #left_aligned_format.format(f"B-Expiry:{GREY}{last_wednesday}{RESET}") +
