@@ -173,6 +173,28 @@ current_month_abbr = datetime.now().strftime('%b').upper()
 blnc_opt_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL']]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['key'].str.contains(current_month_abbr)]
+def add_date(row):
+    if row['key'].startswith('BANKNIFTY'):
+        return last_wednesday
+    elif row['key'].startswith('NIFTY'):
+        return last_thursday
+    else:
+        return None
+
+# Apply the add_date function to each row in the DataFrame
+blnc_opt_df['Date'] = blnc_opt_df.apply(add_date, axis=1)
+blnc_opt_df['Today'] = datetime.now()
+
+# Calculate the difference in business days
+blnc_opt_df['Diff'] = blnc_opt_df.apply(lambda row: business_days_diff(row['Date'], row['Today']), axis=1)
+
+# Extract the day of the month from the 'Date' and 'Today' columns
+blnc_opt_df['Date'] = blnc_opt_df['Date'].dt.day
+blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
+
+# Calculate the 'Target' based on the 'Diff' column
+blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
+
 
 # Print the DataFrame before processing
 print("Initial DataFrame:")
