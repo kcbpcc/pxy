@@ -1,9 +1,23 @@
 import sys
+import traceback
 import pandas as pd
+import requests
+import logging
 from datetime import datetime
 import calendar
-from expdaypxy import get_last_weekday_of_current_month
+from login_get_kite import get_kite, remove_token
+from cnstpxy import dir_path
 from cmbddfpxy import process_data
+from expdaypxy import get_last_weekday_of_current_month
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+from mktpxy import get_market_check
+import argparse
+
+# Argument parsing
+parser = argparse.ArgumentParser(description="Process some commands.")
+parser.add_argument('command', nargs='?', choices=['l', 's'], default='s',
+                    help="Command to run the program with. Defaults to 's' if not provided.")
+args = parser.parse_args()
 
 # Define function to get last weekday dates
 def get_last_weekday_dates():
