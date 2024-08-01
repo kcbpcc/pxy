@@ -194,8 +194,16 @@ print("Initial DataFrame:")
 print(blnc_opt_df)
 total_invested = blnc_opt_df['Invested'].sum()
 
-# Print the total invested amount
-print(f"Total Invested: {total_invested}")
+width = 42
+line1 = f"B:{last_wednesday_str}"
+line2 = f"N:{last_thursday_str}"
+
+print("━" * 42)
+# Combine both lines and center them in a 42-character wide field
+combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {str(total_invested).zfill(7)}    ⚖  {line2}"
+BRIGHT_YELLOW = '\033[93m'
+RESET = '\033[0m'    # Reset to default color
+print(f"{SILVER}{combined_lines:^{width}}{RESET}")
 
 # Ensure DataFrames are not empty before processing
 if not ext_df.empty:
