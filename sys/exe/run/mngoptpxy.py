@@ -2,15 +2,12 @@ import sys
 import traceback
 import pandas as pd
 import requests
-import logging
 from datetime import datetime
 import calendar
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from cmbddfpxy import process_data
 from expdaypxy import get_last_weekday_of_current_month
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-from mktpxy import get_market_check
 import argparse
 
 # Argument parsing
@@ -96,7 +93,6 @@ def ext_options(ext_df, broker):
     except Exception as e:
         print(f"Error placing exit order: {e}")
 
-
 def avg_options(df, broker):
     try:
         for index, row in df.iterrows():
@@ -143,14 +139,12 @@ def avg_options(df, broker):
     except Exception as e:
         print(f"Error placing BUY order: {e}")
 
-
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite()
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
     sys.exit(1)
 finally:
     if sys.stdout != sys.__stdout__:
@@ -175,37 +169,15 @@ current_month_abbr = datetime.now().strftime('%b').upper()
 
 blnc_opt_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL']]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
-blnc_opt_df = blnc_opt_df[blnc_opt_df['key'].str.contains(current_month_abbr)].copy()
-blnc_opt_df = blnc_opt_df.dropna(how='all')
+blnc_opt_df = blnc_opt_df[blnc_opt_df['key'].str.contains(current_month_abbr)]
 
-def add_date(row):
-    if row['key'].startswith('BANKNIFTY'):
-        return last_wednesday
-    elif row['key'].startswith('NIFTY'):
-        return last_thursday
+# Ensure DataFrame is not empty
+if not blnc_opt_df.empty:
+    if args.command == 'l':
+        ext_options(blnc_opt_df, broker)
     else:
-        return None
-
-blnc_opt_df['Date'] = blnc_opt_df.apply(add_date, axis=1)
-blnc_opt_df['Today'] = datetime.now()
-blnc_opt_df['Diff'] = blnc_opt_df.apply(lambda row: business_days_diff(row['Date'], row['Today']), axis=1)
-
-blnc_opt_df['Date'] = blnc_opt_df['Date'].dt.day
-blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
-
-blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
-
-print(blnc_opt_df)
-
-# Filter the DataFrame to include only rows where PL% > 7
-ext_df = blnc_opt_df[blnc_opt_df['PL%'] > 7]
-print(ext_df)
-ext_options(ext_df, broker)
-
-# Filter the DataFrame to include only rows where PL% < -66
-avg_df = blnc_opt_df[blnc_opt_df['PL%'] < -66]
-print(avg_df)
-ext_options(avg_df, broker)
-
+        avg_options(blnc_opt_df, broker)
+else:
+    print("No data available for processing.")
 
 
