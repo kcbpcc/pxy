@@ -174,25 +174,7 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
-#############################################################################################################################################################################################################################
-widths = {'tradingsymbol': '22', 'qty': '3', 'PL%': '5','tgtoptsmadepth': '5','PnL': '7'}
 
-def format_row(row):
-    symbol = row['tradingsymbol'][:int(widths['tradingsymbol'])].ljust(int(widths['tradingsymbol']))
-    qty = f"{int(row['qty'])}".rjust(int(widths['qty']))
-    pl_pct = f"{row['PL%']:.1f}".rjust(int(widths['PL%']))
-    tgtoptsmadepth = f"{row['tgtoptsmadepth']:.1f}".rjust(int(widths['tgtoptsmadepth']))
-    pnl = f"{int(row['PnL'])}".rjust(int(widths['PnL']))
-    return f"{symbol}{qty}{pl_pct}{tgtoptsmadepth}{pnl}"
-
-filtered_df = exe_opt_df.query('qty > 0 and `PL%` > 0')
-
-if filtered_df.empty:
-    print("Still fishing🔎🎣, nothing surfaced yet.🐟")
-else:
-    formatted_rows = [format_row(row) for _, row in filtered_df.iterrows()]
-    print("━" * 42)
-    print('\n'.join(formatted_rows))
 #############################################################################################################################################################################################################################
 import numpy as np
 import calendar
@@ -222,6 +204,15 @@ print_df['MN'] = np.where(
 print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP', 'group']]
 filtered_data = print_df.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
 print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
+
+if filtered_df.empty:
+    print("Still fishing🔎🎣, nothing surfaced yet.🐟")
+else:
+    formatted_rows = [format_row(row) for _, row in filtered_df.iterrows()]
+    print("━" * 42)
+    print('\n'.join(formatted_rows))
+
+#############################################################################################################################################################################################################################
 
 
 
