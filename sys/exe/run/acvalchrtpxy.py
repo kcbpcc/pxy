@@ -55,6 +55,8 @@ message = (
     f"{RESET}"
 )
 
-# Send message via check_and_send_summary
-check_and_send_summary(message)
+# Source identifier
+source = "accval"
 
+# Send message via check_and_send_summary
+check_and_send_summary(message, source)
