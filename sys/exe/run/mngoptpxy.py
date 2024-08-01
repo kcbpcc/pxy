@@ -121,6 +121,7 @@ blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
 blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 
 blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
+blnc_opt_df = blnc_opt_df[blnc_opt_df['PL%'] < -66]
 
 # Get the current month's abbreviation
 current_month_abbr = datetime.now().strftime('%b').upper()
