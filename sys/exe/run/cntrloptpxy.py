@@ -194,6 +194,28 @@ else:
     print("━" * 42)
     print('\n'.join(formatted_rows))
 #############################################################################################################################################################################################################################
+import numpy as np
+import calendar
+from datetime import datetime
 
+# Get the current and next month abbreviations
+now = datetime.now()
+current_month_abbr = now.strftime('%b').upper()  # e.g., 'AUG'
+next_month = (now.month % 12) + 1  # Get next month number (1-12)
+next_month_abbr = calendar.month_abbr[next_month].upper()  # e.g., 'SEP'
+
+# Set 'MN' based on the month abbreviation in 'key'
+print_df['MN'] = np.where(
+    print_df['key'].str.contains(current_month_abbr),
+    '⌛',
+    np.where(print_df['key'].str.contains(next_month_abbr), '🔢', None)
+print_df = opt_df.copy()
+print_df = print_df[print_df['PL%'] > 0]
+print_df['CP'] = print_df['key'].apply(lambda x: '🟠' if x.endswith('PE') else ('🟢' if x.endswith('CE') else None))
+print_df['group'] = print_df['key'].str.extract(r'^(B|N)', expand=False)
+print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('NIFTY24', 'N')
+print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
+print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP', 'group']]
+print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
 
 
