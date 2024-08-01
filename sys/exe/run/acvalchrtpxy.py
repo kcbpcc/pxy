@@ -1,7 +1,12 @@
 import pandas as pd
 from asciichartpy import plot
-from colorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
 from telsumrypxy import check_and_send_summary
+
+# Define color constants using ANSI escape codes
+RESET = '\033[0m'
+BRIGHT_RED = '\033[91m'
+BRIGHT_GREEN = '\033[92m'
+SILVER = '\033[37m'
 
 # Load data from local CSV file
 df = pd.read_csv('acvalpxy.csv')
