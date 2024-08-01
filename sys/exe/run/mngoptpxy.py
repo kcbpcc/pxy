@@ -11,6 +11,8 @@ from expdaypxy import get_last_weekday_of_current_month
 import argparse
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
+from mktpxy import get_market_check
+onemincandlesequance, mktpxy = get_market_check('^NSEI')
 
 # Argument parsing
 parser = argparse.ArgumentParser(description="Process some commands.")
