@@ -192,7 +192,7 @@ avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
 
 # Print the DataFrame before processing
 print("Initial DataFrame:")
-print(blnc_opt_df)
+#print(blnc_opt_df)
 total_invested = blnc_opt_df['Invested'].sum()
 
 width = 42
@@ -209,12 +209,12 @@ print(f"{SILVER}{combined_lines:^{width}}{RESET}")
 # Ensure DataFrames are not empty before processing
 if not ext_df.empty:
     ext_options(ext_df, broker)
-    print(ext_df)
+    #print(ext_df)
 else:
     print("No options to exit.")
 if not avg_df.empty:
     avg_options(avg_df, broker)
-    print(avg_df)
+    #print(avg_df)
 else:
     print("No options to average.")
 
