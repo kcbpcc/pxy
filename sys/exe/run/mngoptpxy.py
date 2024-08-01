@@ -40,7 +40,7 @@ def business_days_diff(start_date, end_date):
     return len(pd.bdate_range(start_date, end_date))
 
 def send_telegram_message(message):
-    bot_token = 'YOUR_BOT_TOKEN_HERE'
+    bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
     user_usernames = ['-4282665161']
     try:
         for username in user_usernames:
@@ -93,53 +93,42 @@ def ext_options(ext_df, broker):
     except Exception as e:
         print(f"Error placing exit order: {e}")
 
-
-    except Exception as e:
-        print(f"Error placing exit order: {e}")
-
 def avg_options(df, broker):
     try:
         for index, row in df.iterrows():
-            # Only process rows where PL% < -66
-            if row['PL%'] < -66:
-                qty = 0
-                can_average = False
+            qty = 0
+            can_average = False
 
-                if row['key'].startswith('BANKNIFTY'):
-                    current_qty = row['qty']
-                    # Check if we can increase the quantity
-                    if current_qty < 30 and current_qty + 15 <= 45:
-                        qty = 15
-                        # Determine if conditions are met for averaging down
-                        if 'PE' in row['key']:
-                            can_average = bnk_power > 0.85 and bmktpxy == 'Sell'
-                        elif 'CE' in row['key']:
-                            can_average = bnk_power < 0.15 and bmktpxy == 'Buy'
+            if row['key'].startswith('BANKNIFTY'):
+                current_qty = row['qty']
+                if current_qty < 30 and current_qty + 15 <= 45:
+                    qty = 15
+                    if 'PE' in row['key']:
+                        can_average = bnk_power > 0.85 and bmktpxy == 'Sell'
+                    elif 'CE' in row['key']:
+                        can_average = bnk_power < 0.15 and bmktpxy == 'Buy'
 
-                elif row['key'].startswith('NIFTY'):
-                    current_qty = row['qty']
-                    # Check if we can increase the quantity
-                    if current_qty < 50 and current_qty + 25 <= 75:
-                        qty = 25
-                        # Determine if conditions are met for averaging down
-                        if 'PE' in row['key']:
-                            can_average = nse_power > 0.85 and mktpxy == 'Sell'
-                        elif 'CE' in row['key']:
-                            can_average = nse_power < 0.15 and mktpxy == 'Buy'
+            elif row['key'].startswith('NIFTY'):
+                current_qty = row['qty']
+                if current_qty < 50 and current_qty + 25 <= 75:
+                    qty = 25
+                    if 'PE' in row['key']:
+                        can_average = nse_power > 0.85 and mktpxy == 'Sell'
+                    elif 'CE' in row['key']:
+                        can_average = nse_power < 0.15 and mktpxy == 'Buy'
 
-                # Place the BUY order if conditions are met
-                if can_average:
-                    print(f"Placing BUY order for {row['key']} with quantity {qty}")
-                    order_id = place_order(row['key'], qty, 'BUY', 'MARKET', 'NRML', broker)
+            if can_average:
+                print(f"Placing BUY order for {row['key']} with quantity {qty}")
+                order_id = place_order(row['key'], qty, 'BUY', 'MARKET', 'NRML', broker)
 
-                    if order_id:
-                        message = (
-                            f"🚀🚀🚀 🤑🤑🤑 AVG order placed {row['key']} successfully.\n"
-                            f"PL%: {round(row['PL%'], 2)}%\n"
-                            f"Quantity: {qty}\n"
-                        )
-                        print(message)
-                        send_telegram_message(message)
+                if order_id:
+                    message = (
+                        f"🚀🚀🚀 🤑🤑🤑 AVG order placed {row['key']} successfully.\n"
+                        f"PL%: {round(row['PL%'], 2)}%\n"
+                        f"Quantity: {qty}\n"
+                    )
+                    print(message)
+                    send_telegram_message(message)
     except Exception as e:
         print(f"Error placing BUY order: {e}")
 
@@ -174,6 +163,7 @@ current_month_abbr = datetime.now().strftime('%b').upper()
 blnc_opt_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL']]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['key'].str.contains(current_month_abbr)]
+
 def add_date(row):
     if row['key'].startswith('BANKNIFTY'):
         return last_wednesday
@@ -203,15 +193,15 @@ avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
 print("Initial DataFrame:")
 print(blnc_opt_df)
 
-# Ensure DataFrame is not empty
+# Ensure DataFrames are not empty before processing
 if not ext_df.empty:
     ext_options(ext_df, broker)
 else:
-    print("nonthing to exit")
+    print("No options to exit.")
 
 if not avg_df.empty:
     avg_options(avg_df, broker)
 else:
-    print("nothing to avarage")
+    print("No options to average.")
 
 
