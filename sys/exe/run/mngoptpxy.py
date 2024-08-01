@@ -18,7 +18,7 @@ parser.add_argument('command', nargs='?', choices=['l', 's'], default='s',
 args = parser.parse_args()
 
 # Print or log the command for debugging
-print(f"Command received: {args.command}")
+#print(f"Command received: {args.command}")
 
 # Define function to get last weekday dates
 last_wednesday_str = get_last_weekday_of_current_month(calendar.WEDNESDAY)
@@ -191,7 +191,7 @@ ext_df = blnc_opt_df[(blnc_opt_df['Target'] < 0) & (blnc_opt_df['PL%'] > blnc_op
 avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
 
 # Print the DataFrame before processing
-print("Initial DataFrame:")
+#print("Initial DataFrame:")
 #print(blnc_opt_df)
 total_invested = blnc_opt_df['Invested'].sum()
 
