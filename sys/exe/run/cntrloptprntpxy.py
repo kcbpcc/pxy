@@ -140,7 +140,7 @@ for group, data in grouped_df:
     ce_pe_ratio = round((value_ce / value_pe), 2) if value_pe != 0 else 0
 
     if total_invested_group != 0:
-        value_statement = f"  {pe_count:02d} -🟥- {value_pe:06d}  {strike}   {value_ce:06d}  -🟩- {ce_count:02d}"
+        value_statement = f"  {pe_count:02d} -🟥- {value_pe:06d}  {Istrike}   {value_ce:06d}  -🟩- {ce_count:02d}"
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         color_none = SILVER
