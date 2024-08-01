@@ -77,21 +77,22 @@ def ext_options(ext_df, broker):
             print("PL% column is missing in the DataFrame.")
             return
 
-        # Filter rows where PL% > 7
-        exit_df = ext_df[ext_df['PL%'] > 7]
-
-        for index, row in exit_df.iterrows():
+        for index, row in ext_df.iterrows():
             print(f"Placing EXIT order for {row['key']} with quantity {row['qty']}")
             place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
             
             # Create and send the exit message
             message = (
                 f"🛬🛬🛬 😧😧😧 EXIT order placed {row['key']} successfully.\n"
-                f"🎯 Achieved PL%: {round(row['PL%'], 2)}%\n"
-                f"💰 Booked Profit: {row['PnL']}\n"
+                f"🎯 Loss PL%: {round(row['PL%'], 2)}%\n"
+                f"💰 Booked Loss: {row['PnL']}\n"
             )
             print(message)
             send_telegram_message(message)
+
+    except Exception as e:
+        print(f"Error placing exit order: {e}")
+
 
     except Exception as e:
         print(f"Error placing exit order: {e}")
@@ -133,7 +134,7 @@ def avg_options(df, broker):
 
                     if order_id:
                         message = (
-                            f"🚀🚀🚀 🤑🤑🤑 BUY order placed {row['key']} successfully.\n"
+                            f"🚀🚀🚀 🤑🤑🤑 AVG order placed {row['key']} successfully.\n"
                             f"PL%: {round(row['PL%'], 2)}%\n"
                             f"Quantity: {qty}\n"
                         )
@@ -195,17 +196,22 @@ blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 # Calculate the 'Target' based on the 'Diff' column
 blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
 
+ext_df = blnc_opt_df[(blnc_opt_df['Target'] < 0) & (blnc_opt_df['PL%'] > blnc_opt_df['Target'])]
+avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
 
 # Print the DataFrame before processing
 print("Initial DataFrame:")
 print(blnc_opt_df)
 
 # Ensure DataFrame is not empty
-if not blnc_opt_df.empty:
-    # Call the functions directly
-    ext_options(blnc_opt_df, broker)
-    avg_options(blnc_opt_df, broker)
+if not ext_df.empty:
+    ext_options(ext_df, broker)
 else:
-    print("No data available for processing.")
+    print("nonthing to exit")
+
+if not avg_df.empty:
+    avg_options(avg_df, broker)
+else:
+    print("nothing to avarage")
 
 
