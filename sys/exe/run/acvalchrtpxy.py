@@ -1,35 +1,80 @@
 import pandas as pd
-from telsumrypxy import check_and_send_summary
+from asciichartpy import plot
+from clorpxy import SILVER, BRIGHT_RED, BRIGHT_GREEN, RESET
+
+# Reset terminal color to default
+print(RESET)
 
 # Load data from local CSV file
 df = pd.read_csv('acvalpxy.csv')
 
-# Convert 'date' column to datetime format
+# Convert 'date' column to datetime format if necessary
 df['date'] = pd.to_datetime(df['date'])
 
-# Filter data for the past 14 days
-end_date = df['date'].max()
-start_date = end_date - pd.DateOffset(days=13)
-df_filtered = df[(df['date'] >= start_date) & (df['date'] <= end_date)]
+# Consider the latest 30 records for charting
+df = df.tail(30)
 
-# Ensure data is sorted by date
-df_filtered = df_filtered.sort_values(by='date')
+# Calculate trend direction
+trend_direction = []
+for i in range(1, len(df)):
+    if df['acvalue'][i] > df['acvalue'][i - 1]:
+        trend_direction.append(BRIGHT_GREEN)
+    elif df['acvalue'][i] < df['acvalue'][i - 1]:
+        trend_direction.append(BRIGHT_RED)
+    else:
+        trend_direction.append(SILVER)
 
-# Calculate delta (Today - Yesterday)
-df_filtered['delta'] = df_filtered['acvalue'].diff().fillna(0)
+# Create ASCII chart with colored trend
+chart = plot(df['acvalue'].tolist(), {'height': 10, 'format': "{:,.2f}", 'color': trend_direction})
 
-# Create the message
-message_lines = ["Date       | AC Value | Delta"]
-for _, row in df_filtered.iterrows():
-    date_str = row['date'].strftime('%Y-%m-%d')
-    ac_value_str = f"{row['acvalue']:,.2f}"
-    delta_str = f"{row['delta']:,.2f}"
-    message_lines.append(f"{date_str} | {ac_value_str} | {delta_str}")
+# Adjust the ASCII chart to show monthly, weekly, and daily intervals
+monthly_length = 12
+weekly_length = 12
+daily_length = 12
 
-message = "\n".join(message_lines)
+# Split chart into lines and format accordingly
+lines = chart.split('\n')
+for line in lines:
+    # Ensure monthly part
+    if len(line) >= monthly_length:
+        monthly_part = line[:monthly_length]
+    else:
+        monthly_part = line.ljust(monthly_length)
 
-# Source identifier
-source = "accval"
+    # Ensure weekly part
+    if len(line) >= monthly_length + weekly_length:
+        weekly_part = line[monthly_length:monthly_length + weekly_length]
+    else:
+        weekly_part = line[monthly_length:].ljust(weekly_length)
 
-# Send message via check_and_send_summary
-check_and_send_summary(message, source)
+    # Ensure daily part
+    if len(line) > monthly_length + weekly_length:
+        daily_part = line[monthly_length + weekly_length:]
+    else:
+        daily_part = ""
+
+    # Print formatted line with maximum 20 characters
+    print(f"{monthly_part.ljust(monthly_length)} {weekly_part.ljust(weekly_length)} {daily_part[:daily_length]}")
+
+# Calculate deltas
+latest_record = df['acvalue'].iloc[-1]
+previous_record = df['acvalue'].iloc[-2]
+delta_day = latest_record - previous_record
+
+# Monthly delta calculation
+if len(df) > 1:
+    monthly_previous_record = df['acvalue'].iloc[0]
+    delta_month = latest_record - monthly_previous_record
+else:
+    delta_month = delta_day  # Not enough data for a full month delta
+
+# Format deltas
+delta_day_color = BRIGHT_GREEN if delta_day >= 0 else BRIGHT_RED
+delta_month_color = BRIGHT_GREEN if delta_month >= 0 else BRIGHT_RED
+
+# Print deltas
+print(f"📊📊📊📊📊  Daily Delta: {delta_day_color}{delta_day:,.2f}{RESET}  📊📊📊📊📊")
+print(f"📊📊📊📊📊  Month Delta: {delta_month_color}{delta_month:,.2f}{RESET}  📊📊📊📊📊")
+
+# Reset terminal color to default
+print(RESET)
