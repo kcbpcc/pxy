@@ -44,74 +44,82 @@ def business_days_diff(start_date, end_date):
     return len(pd.bdate_range(start_date, end_date))
 
 # Process data and create DataFrame
-combined_df = process_data()
+try:
+    combined_df = process_data()
+except Exception as e:
+    logging.error(f"Error processing data: {e}")
+    combined_df = None
 
-# Debugging: Print combined_df
-print("Combined DataFrame:")
-print(combined_df.head())
+if combined_df is not None:
+    # Debugging: Print combined_df
+    print("Combined DataFrame:")
+    print(combined_df.head())
 
-# Filter DataFrame
-blnc_opt_df = combined_df[
-    (combined_df['key'].str.contains('NFO:', case=False, na=False)) &
-    (combined_df['qty'] > 0) &
-    (combined_df['key'].notna())
-].copy()
+    # Filter DataFrame
+    blnc_opt_df = combined_df[
+        (combined_df['key'].str.contains('NFO:', case=False, na=False)) &
+        (combined_df['qty'] > 0) &
+        (combined_df['key'].notna())
+    ].copy()
 
-# Debugging: Print blnc_opt_df
-print("Filtered blnc_opt_df:")
-print(blnc_opt_df.head())
+    # Debugging: Print blnc_opt_df
+    print("Filtered blnc_opt_df:")
+    print(blnc_opt_df.head())
 
-# Clean and compute additional columns
-blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False)
-blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
-blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
+    # Clean and compute additional columns
+    blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False)
+    blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
+    blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 
-blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
+    blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
-# Calculate additional columns
-blnc_opt_df['Date'] = blnc_opt_df['key'].apply(lambda key: last_wednesday if key.startswith('BANKNIFTY') else (last_thursday if key.startswith('NIFTY') else None))
-blnc_opt_df['Today'] = datetime.now()
-blnc_opt_df['Diff'] = blnc_opt_df.apply(lambda row: business_days_diff(row['Date'], row['Today']) if pd.notna(row['Date']) else None, axis=1)
+    # Calculate additional columns
+    blnc_opt_df['Date'] = blnc_opt_df['key'].apply(lambda key: last_wednesday if key.startswith('BANKNIFTY') else (last_thursday if key.startswith('NIFTY') else None))
+    blnc_opt_df['Today'] = datetime.now()
+    blnc_opt_df['Diff'] = blnc_opt_df.apply(lambda row: business_days_diff(row['Date'], row['Today']) if pd.notna(row['Date']) else None, axis=1)
 
-blnc_opt_df['Date'] = blnc_opt_df['Date'].dt.day
-blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
+    blnc_opt_df['Date'] = blnc_opt_df['Date'].dt.day
+    blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 
-blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
-blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
+    blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
+    blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
 
-# Debugging: Print final DataFrame
-print("Final DataFrame for exit and buy orders:")
-print(blnc_opt_df.head())
+    # Debugging: Print final DataFrame
+    print("Final DataFrame for exit and buy orders:")
+    print(blnc_opt_df.head())
 
-# Create final_df with appropriate filter
-final_df = blnc_opt_df[blnc_opt_df['Target'] < 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
+    # Create final_df with appropriate filter
+    final_df = blnc_opt_df[blnc_opt_df['Target'] < 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Today', 'Diff', 'Target']]
 
-# Debugging: Print final_df
-print("Final DataFrame:")
-print(final_df.head())
+    # Debugging: Print final_df
+    print("Final DataFrame:")
+    print(final_df.head())
 
-# Print summary data
-width = 42
-line1 = f"B:{last_wednesday_str}"
-line2 = f"N:{last_thursday_str}"
+    # Print summary data
+    width = 42
+    line1 = f"B:{last_wednesday_str}"
+    line2 = f"N:{last_thursday_str}"
 
-print("━" * 42)
-combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}INVESTED:{RESET} {final_df['Invested'].sum():.2f}"
-print(f"{combined_lines: <{width}}")
-print(f"{line2: <{width}}")
+    print("━" * 42)
+    combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}INVESTED:{RESET} {final_df['Invested'].sum():.2f}"
+    print(f"{combined_lines: <{width}}")
+    print(f"{line2: <{width}}")
 
-# Ensure final debug output
-print("Final DataFrame after processing:")
-print(final_df.head())
+    # Ensure final debug output
+    print("Final DataFrame after processing:")
+    print(final_df.head())
 
-# Filter DataFrames
-df_target_positive = final_df[final_df['Target'] > 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Target']]
-df_target_negative = final_df[final_df['Target'] < 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Target']]
+    # Filter DataFrames
+    df_target_positive = final_df[final_df['Target'] > 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Target']]
+    df_target_negative = final_df[final_df['Target'] < 0][['key', 'qty', 'Invested', 'value', 'PL%', 'PnL', 'Date', 'Target']]
 
-# Print DataFrames
-print("DataFrame with Target > 0:")
-print(df_target_positive)
+    # Print DataFrames
+    print("DataFrame with Target > 0:")
+    print(df_target_positive)
 
-print("\nDataFrame with Target < 0:")
-print(df_target_negative)
+    print("\nDataFrame with Target < 0:")
+    print(df_target_negative)
+else:
+    print("No data available to process.")
+
 
