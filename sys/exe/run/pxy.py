@@ -158,7 +158,7 @@ while True:
     elif run_type == 'l':
         #subprocess.run(['python3', 'mngoptpxy.py', 'l'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
-        subprocess.run(['python3', 'selfpxy.py'])
+    subprocess.run(['python3', 'selfpxy.py'])
     print("━" * 42)
     progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
