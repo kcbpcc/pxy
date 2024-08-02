@@ -140,7 +140,7 @@ while True:
     print("━" * 42)
     if mktpredict in ['FALL', 'SIDE']:
         print(f"{'💥💥 Action - NIFTY on FALL  જ⁀➴':>38}")
-        subprocess.run(['python3', 'cntrlcncpxy.py'] if run_type == 'l' else ['python3', 'cntrlcncpxy.py', '-short'])
+        subprocess.run(['python3', 'cntrlcncpxy.py'])
     else:
         print(f"{'✅ ✅ No Action - NIFTY on RISE  🆙 🆙':>38}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
