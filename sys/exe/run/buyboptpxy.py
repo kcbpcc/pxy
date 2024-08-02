@@ -109,7 +109,7 @@ async def main():
                 
 
                 if bmktpredict == "SIDE":
-                    if mktpxy == "Buy":
+                    if mktpxy == "Bear":
                         if CE_position_exists:
                             print(f"{CE_symbol} exists")
                         else:
