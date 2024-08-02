@@ -25,7 +25,7 @@ for ((i=0; i<${#files[@]}; i++)); do
 done
 
 # Prompt the user for the script's number or name
-read -p "Enter the number or name of the script to execute 👉: " script_input
+read -p "Enter the number or partial name of the script to execute 👉: " script_input
 
 # Check if the input is a number
 if [[ $script_input =~ ^[0-9]+$ ]]; then
@@ -36,14 +36,33 @@ if [[ $script_input =~ ^[0-9]+$ ]]; then
     fi
     selected_script=${script_numbers[$script_input]}
 else
-    # If the input is a name, append "pxy.py" to it
-    script_input="${script_input}pxy.py"
-    # Check if the modified input corresponds to an existing file
-    if [[ ! -f "$script_input" ]]; then
-        echo "Error: The specified script '$script_input' does not exist."
+    # Search for scripts that match the input
+    matching_files=()
+    for file in "${files[@]}"; do
+        if [[ "$file" == *"$script_input"* ]]; then
+            matching_files+=("$file")
+        fi
+    done
+
+    if [[ ${#matching_files[@]} -eq 0 ]]; then
+        echo "Error: No scripts found matching '$script_input'."
         exit 1
+    elif [[ ${#matching_files[@]} -eq 1 ]]; then
+        selected_script="${matching_files[0]}"
+    else
+        echo "Multiple scripts found:"
+        for ((i=0; i<${#matching_files[@]}; i++)); do
+            script_number=$((i+1))
+            script_name="${matching_files[i]%.pxy.py}"
+            printf "%-4s%-20s\n" "$script_number." "$script_name"
+        done
+        read -p "Enter the number of the script to execute 👉: " script_number
+        if (( script_number < 1 || script_number > ${#matching_files[@]} )); then
+            echo "Error: Invalid script number. Please enter a valid number."
+            exit 1
+        fi
+        selected_script="${matching_files[$((script_number-1))]}"
     fi
-    selected_script="$script_input"
 fi
 
 # Run the selected script
