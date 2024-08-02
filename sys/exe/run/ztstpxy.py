@@ -1,6 +1,3 @@
-#new bank buy in build 
-
-
 import traceback
 import sys
 import logging
@@ -22,7 +19,7 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 from hndmktpxy import hand
 
 # Initialize logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Get initial data
 BCE_Strike, _, _, BPE_Strike = get_prices()
@@ -34,25 +31,21 @@ bmktpredict = predict_bnk_sentiment()
 showhand = hand(mktpxy)
 
 def get_cheapest_banknifty_symbol(expiry_year, expiry_month, expiry_day, option_type, kite):
-    # Determine the strike value based on option type
     noptions = BPE_Strike if option_type == "PE" else (BCE_Strike if option_type == "CE" else None)
     
     if not noptions:
         logging.error("Invalid option type provided. Must be 'PE' or 'CE'.")
         return None, float('inf')
     
-    # Construct the symbol
     symbol = f"BANKNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
     
-    # Fetch the LTP (Last Traded Price) for the symbol
     try:
         response = kite.ltp(f"NFO:{symbol}")
         ltp = response[f"NFO:{symbol}"]["last_price"]
-        logging.debug(f"Fetched price for {symbol}: {ltp}")
         return symbol, ltp
     except Exception as e:
         logging.error(f"Error fetching price for {symbol}: {e}")
-        return None, float('inf')  # Return None and infinity if price fetch fails
+        return None, float('inf')
 
 def count_positions_by_type(broker):
     positions_response = broker.kite.positions()
@@ -77,7 +70,6 @@ def check_existing_positions(broker, symbol):
 
 async def main():
     try:
-        # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
 
@@ -85,11 +77,9 @@ async def main():
                 broker = get_kite()
             except Exception as e:
                 remove_token(dir_path)
-                print(traceback.format_exc())
                 logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
             finally:
-                # Reset sys.stdout to its default value
                 sys.stdout = sys.__stdout__
 
         try:
@@ -100,14 +90,12 @@ async def main():
             PE_weight = count_PE - count_CE
             CE_weight = count_CE - count_PE
             weight = abs(count_PE - count_CE)
-            strike_price = BCE_Strike  # Assuming this returns the current strike price
-            print(f"{BRIGHT_YELLOW}{count_PE:02} 📉:PE   ━━━━ {strike_price} | {showhand} ━━━━   CE:📈 {count_CE:02}{RESET}")
+            strike_price = BCE_Strike
+            logging.info(f"{BRIGHT_YELLOW}{count_PE:02} 📉:PE   ━━━━ {strike_price} | {showhand} ━━━━   CE:📈 {count_CE:02}{RESET}")
 
             expiry_year, expiry_month, expiry_day = month_expiry_date()
 
-            # Get the cheapest CE symbol and price
             CE_symbol, CE_price = get_cheapest_banknifty_symbol(expiry_year, expiry_month, expiry_day, 'CE', broker)
-            # Get the cheapest PE symbol and price
             PE_symbol, PE_price = get_cheapest_banknifty_symbol(expiry_year, expiry_month, expiry_day, 'PE', broker)
 
             CE_position_exists = check_existing_positions(broker, CE_symbol)
@@ -135,17 +123,14 @@ async def main():
                     await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
 
         except Exception as e:
-            print(f"Error: {e}")
             logging.error(f"Error in main(): {e}")
 
     except Exception as e:
-        print(f"Error: {e}")
         logging.error(f"Error in main(): {e}")
 
 async def run_main():
     await main()
 
-# Run the asynchronous function using asyncio.run()
 def sync_main():
     asyncio.run(run_main())
 
