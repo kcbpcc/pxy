@@ -19,16 +19,7 @@ from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW,
 from hndmktpxy import hand
 
 # Initialize logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Get initial data
-BCE_Strike, _, _, BPE_Strike = get_prices()
-nsma = check_index_status('^NSEBANK')
-onemincandlesequance, mktpxy = get_market_check('^NSEBANK')
-ha_nse_action, nse_power, Day_Change, Open_Change = get_bnk_action()
-mktpredict = predict_market_sentiment()
-bmktpredict = predict_bnk_sentiment()
-showhand = hand(mktpxy)
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(message)s')
 
 def get_cheapest_banknifty_symbol(expiry_year, expiry_month, expiry_day, option_type, kite):
     noptions = BPE_Strike if option_type == "PE" else (BCE_Strike if option_type == "CE" else None)
@@ -70,6 +61,7 @@ def check_existing_positions(broker, symbol):
 
 async def main():
     try:
+        # Redirect sys.stdout to 'output.txt' to suppress console output
         with open('output.txt', 'w') as file:
             sys.stdout = file
 
@@ -80,6 +72,7 @@ async def main():
                 logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
             finally:
+                # Reset sys.stdout to its default value
                 sys.stdout = sys.__stdout__
 
         try:
@@ -135,4 +128,5 @@ def sync_main():
     asyncio.run(run_main())
 
 sync_main()
+
 
