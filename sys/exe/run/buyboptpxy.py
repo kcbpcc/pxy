@@ -68,7 +68,7 @@ async def main():
     try:
         # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
-            sys.stdout = file
+            #sys.stdout = file
 
             try:
                 broker = get_kite()
@@ -159,7 +159,7 @@ async def main():
 
     finally:
         # Reset sys.stdout to its default value
-        sys.stdout = sys.__stdout__
+        #sys.stdout = sys.__stdout__
 
 async def run_main():
     await main()
