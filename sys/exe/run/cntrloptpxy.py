@@ -1,4 +1,4 @@
-print("━" * 42)
+#print("━" * 42)
 import sys
 import traceback
 import pandas as pd
@@ -204,7 +204,7 @@ print_df['MN'] = np.where(
 
 print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP', 'group']]
 filtered_data = print_df.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
-print("━" * 42)
+#print("━" * 42)
 if filtered_data.empty:
     print("Still fishing🔎🎣, nothing surfaced yet.🐟")
 else:
