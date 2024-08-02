@@ -207,5 +207,5 @@ print("━" * 42)
 if filtered_data.empty:
     print("Still fishing🔎🎣, nothing surfaced yet.🐟")
 else:
-    print ("Watching out CE @
+    print ("Surfaced .🐟, lets try to catch them 🔎🎣")
     print(filtered_data.to_string(header=False, index=False, col_space=[2, 12, 3, 4, 4, 7, 2]))
