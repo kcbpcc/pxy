@@ -192,7 +192,7 @@ if peak == "PREPEAK":
 
 acvalue = retrieve_acvalue()
 
-print("━" * 42)
+#print("━" * 42)
 column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
