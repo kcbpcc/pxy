@@ -109,9 +109,7 @@ while True:
     print((BRIGHT_GREEN + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)    
     print("*" * 42)
     subprocess.run(['python3', 'tistpxy.py']) 
-    print("━" * 42)
 
-    print("━" * 42)
     progress_bar(5, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     
     subprocess.run(['python3', 'acvalchrtpxy.py']) if peak == 'PEAKSTART' else None
@@ -150,14 +148,17 @@ while True:
         print(f"Let's hold stocks as NIFTY on RISE".ljust(42))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     #print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)
-    subprocess.run(['python3', 'selfpxy.py'])
+    
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'plpxy.py'])
+    print("━" * 42)
     if run_type == 's':
         #subprocess.run(['python3', 'mngoptpxy.py', 's'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
     elif run_type == 'l':
         #subprocess.run(['python3', 'mngoptpxy.py', 'l'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
+    print("━" * 42)
+    subprocess.run(['python3', 'selfpxy.py'])
     progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
