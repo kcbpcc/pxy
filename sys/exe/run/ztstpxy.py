@@ -9,19 +9,35 @@ from predictpxy import predict_market_sentiment
 # Import color constants
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
-# Initialize constants
-mktpredict = predict_market_sentiment()
+# Define month abbreviations
+MONTH_ABBR = {
+    "01": "JAN",
+    "02": "FEB",
+    "03": "MAR",
+    "04": "APR",
+    "05": "MAY",
+    "06": "JUN",
+    "07": "JUL",
+    "08": "AUG",
+    "09": "SEP",
+    "10": "OCT",
+    "11": "NOV",
+    "12": "DEC"
+}
 
 def construct_symbols(expiry_year, expiry_month, option_type, strike_price):
+    # Convert expiry_month to abbreviation
+    expiry_month_abbr = MONTH_ABBR.get(expiry_month, expiry_month)
+    
     symbols = []
     if option_type == "CE":
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price}CE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price + 100}CE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price + 200}CE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month_abbr}{strike_price}CE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month_abbr}{strike_price + 100}CE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month_abbr}{strike_price + 200}CE")
     elif option_type == "PE":
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price}PE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price - 100}PE")
-        symbols.append(f"NIFTY{expiry_year}{expiry_month}{strike_price - 200}PE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month_abbr}{strike_price}PE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month_abbr}{strike_price - 100}PE")
+        symbols.append(f"NIFTY{expiry_year}{expiry_month_abbr}{strike_price - 200}PE")
     return symbols
 
 def get_option_prices(symbols, kite):
@@ -59,7 +75,7 @@ def main():
 
             # Define your parameters
             expiry_year = "24"
-            expiry_month = "08"
+            expiry_month = "08"  # August
             option_type = "CE"
             strike_price = 25000  # Updated strike price
 
