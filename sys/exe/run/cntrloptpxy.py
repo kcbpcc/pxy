@@ -93,7 +93,7 @@ def exit_options(exe_opt_df, broker):
                     #f"Total Booked:💰 {total_opt_pnl} 📣"
                 )
                 print(message)
-                send_telegram_message(message)
+                #send_telegram_message(message)
     except Exception as e:
         print(f"Error placing exit order: {e}")
 
