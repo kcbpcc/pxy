@@ -3,9 +3,10 @@ def get_user_input(prompt, default='s'):
     if user_input == '':
         return default
     return user_input
-
-# Example usage
 run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long:")
+
+from sleeppxy import progress_bar
+from cyclepxy import cycle
 import importlib
 import subprocess
 import time
@@ -152,8 +153,7 @@ while True:
     #print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)
     subprocess.run(['python3', 'selfpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    from sleeppxy import progress_bar
-    from cyclepxy import cycle
+
     subprocess.run(['python3', 'plpxy.py'])
     progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
