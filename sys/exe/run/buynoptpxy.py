@@ -79,6 +79,8 @@ async def main():
                 from fundpxy import calculate_decision
                 decision, optdecision, available_cash, live_balance, limit = calculate_decision()
 
+                available_cash = 1000000
+                
                 count_CE, count_PE = count_positions_by_type(broker)
                 PE_weight = count_PE - count_CE
                 CE_weight = count_CE - count_PE
