@@ -11,6 +11,8 @@ from expdaypxy import get_last_weekday_of_current_month
 import argparse
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
+from bftpxy import get_nse_action()
+bha_nse_action, bnse_power, bDay_Change, bOpen_Change = get_nse_action()
 from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 bnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
@@ -109,9 +111,9 @@ def avg_options(df, broker):
                 if current_qty < 30 and current_qty + 15 <= 45:
                     qty = 15
                     if 'PE' in row['key']:
-                        can_average = bnk_power > 0.85 and bmktpxy == 'Sell'
+                        can_average = bnse_power > 0.85 and bmktpxy == 'Sell'
                     elif 'CE' in row['key']:
-                        can_average = bnk_power < 0.15 and bmktpxy == 'Buy'
+                        can_average = bnse_power < 0.15 and bmktpxy == 'Buy'
 
             elif row['key'].startswith('NIFTY'):
                 current_qty = row['qty']
