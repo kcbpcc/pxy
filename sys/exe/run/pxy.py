@@ -110,12 +110,7 @@ while True:
     print("*" * 42)
     subprocess.run(['python3', 'tistpxy.py']) 
     print("━" * 42)
-    if run_type == 's':
-        #subprocess.run(['python3', 'mngoptpxy.py', 's'])
-        subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
-    elif run_type == 'l':
-        #subprocess.run(['python3', 'mngoptpxy.py', 'l'])
-        subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
+
     print("━" * 42)
     progress_bar(5, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     
@@ -157,7 +152,12 @@ while True:
     #print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)
     subprocess.run(['python3', 'selfpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-
     subprocess.run(['python3', 'plpxy.py'])
+        if run_type == 's':
+        #subprocess.run(['python3', 'mngoptpxy.py', 's'])
+        subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
+    elif run_type == 'l':
+        #subprocess.run(['python3', 'mngoptpxy.py', 'l'])
+        subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
     progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
