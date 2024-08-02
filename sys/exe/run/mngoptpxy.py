@@ -215,12 +215,15 @@ print(f"{SILVER}{combined_lines:^{width}}{RESET}")
 # Ensure DataFrames are not empty before processing
 if not ext_df.empty:
     ext_options(ext_df, broker)
+    print("Printing external options DataFrame:")
     print(ext_df)
 else:
     pass
     #print("No options to exit.")
+
 if not avg_df.empty:
     avg_options(avg_df, broker)
+    print("Printing average options DataFrame:")
     print(avg_df)
 else:
     pass
