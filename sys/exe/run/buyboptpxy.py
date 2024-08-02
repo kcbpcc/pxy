@@ -159,6 +159,7 @@ async def main():
 
     finally:
         # Reset sys.stdout to its default value
+        pass
         #sys.stdout = sys.__stdout__
 
 async def run_main():
