@@ -144,5 +144,5 @@ while True:
     from sleeppxy import progress_bar
     from cyclepxy import cycle
     subprocess.run(['python3', 'plpxy.py'])
-    progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
+    print(".." + progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None)))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
