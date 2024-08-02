@@ -263,7 +263,7 @@ output_lines.append(
 )
 output_lines.append(
     left_aligned_format.format(f"{BRIGHT_YELLOW}B━{ratio_B} / N━{ratio_N}{RESET}") +
-    right_aligned_format.format(f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit +booked) > 0 else BRIGHT_RED}{nifty_profit + bank_profit + booked}{RESET}")
+    right_aligned_format.format(f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit +booked) > 0 else BRIGHT_RED}{nifty_profit + bank_profit + booked + 66000}{RESET}")
 )
 
 full_output = '\n'.join(output_lines)
