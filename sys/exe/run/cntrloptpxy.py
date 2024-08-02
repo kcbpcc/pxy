@@ -89,7 +89,7 @@ def exit_options(exe_opt_df, broker):
                     f"       🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
                     f"       📉 Sell Price: {row['ltp']}\n"
                     f"       📈 Buy Price: {row['avg']}\n"
-                    f"💰 Booked Profit: {row['PnL']} 📣\n"
+                    f"💰 Booked Profit: {row['PnL']} 📣"
                     #f"Total Booked:💰 {total_opt_pnl} 📣"
                 )
                 print(message)
