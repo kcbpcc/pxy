@@ -1,55 +1,40 @@
 from datetime import datetime, timedelta
 
 def calculate_cycle(current_time):
-    # Define time intervals in UTC
-    MKTSTART_start_S = datetime.strptime("03:30", "%H:%M").time()
-    MKTSTART_start_E = datetime.strptime("04:15", "%H:%M").time()
+    # Define time intervals
+    interval_1_start = datetime.strptime("03:30", "%H:%M").time()
+    interval_1_end = datetime.strptime("04:15", "%H:%M").time()
+    
+    interval_2_start = datetime.strptime("09:15", "%H:%M").time()
+    interval_2_end = datetime.strptime("10:00", "%H:%M").time()
 
-    MKTRUN_start_S = datetime.strptime("04:15", "%H:%M").time()
-    MKTRUN_start_E = datetime.strptime("09:30", "%H:%M").time()
-
-    MKTEND_start_S = datetime.strptime("09:30", "%H:%M").time()
-    MKTEND_start_E = datetime.strptime("10:00", "%H:%M").time()
-
-    MKTNONE_start_S1 = datetime.strptime("10:00", "%H:%M").time()
-    MKTNONE_start_E1 = datetime.strptime("23:59", "%H:%M").time()
-
-    MKTNONE_start_S2 = datetime.strptime("00:00", "%H:%M").time()
-    MKTNONE_start_E2 = datetime.strptime("03:30", "%H:%M").time()
+    interval_3_start = datetime.strptime("10:00", "%H:%M").time()
+    interval_3_end = datetime.strptime("03:40", "%H:%M").time()
 
     # Convert current time to datetime object with today's date
     current_datetime = datetime.combine(datetime.today(), current_time)
 
-    # Check if the current time is within the MKTSTART interval
-    if MKTSTART_start_S <= current_time <= MKTSTART_start_E:
-        return 1  # 1 second for MKTSTART
+    # Check if current time is within the defined intervals
+    if interval_1_start <= current_time <= interval_1_end or interval_2_start <= current_time <= interval_2_end:
+        return 5
+    elif interval_3_start <= current_time or current_time <= interval_3_end:
+        # Convert interval end times to datetime objects
+        interval_3_start_datetime = datetime.combine(datetime.today(), interval_3_start)
+        interval_3_end_datetime = datetime.combine(datetime.today(), interval_3_end)
 
-    # Check if the current time is within the MKTRUN interval
-    elif MKTRUN_start_S <= current_time <= MKTRUN_start_E:
-        return 5  # 5 seconds for MKTRUN
+        # Calculate the time remaining until the end of interval_3
+        remaining_time = (interval_3_end_datetime - current_datetime) if current_datetime <= interval_3_end_datetime else (timedelta(days=1) + interval_3_end_datetime - current_datetime)
+        remaining_time /= 4
 
-    # Check if the current time is within the MKTEND interval
-    elif MKTEND_start_S <= current_time <= MKTEND_start_E:
-        return 1  # 1 second for MKTEND
-
-    # Check if the current time is within the MKTNONE intervals
-    elif (MKTNONE_start_S1 <= current_time <= MKTNONE_start_E1) or (MKTNONE_start_S2 <= current_time <= MKTNONE_start_E2):
-        # Calculate the time remaining until the next interval
-        if current_time <= MKTNONE_start_E1:
-            next_interval_start = datetime.combine(datetime.today(), MKTNONE_start_S2)
-        else:
-            next_interval_start = datetime.combine(datetime.today() + timedelta(days=1), MKTNONE_start_S2)
-        
-        remaining_time = (next_interval_start - current_datetime) if current_datetime <= next_interval_start else (timedelta(days=1) + next_interval_start - current_datetime)
-        remaining_time /= 4  # Divide by 4
+        # Convert the remaining time to seconds
         return round(remaining_time.total_seconds())
-
     else:
-        return 5  # Default value for times outside defined intervals
+        return 6
 
 # Get the current UTC time
 current_utc_time = datetime.utcnow().time()
 
 # Calculate loop duration based on current time
 cycle = calculate_cycle(current_utc_time)
-
+#print(f"Current UTC time: {current_utc_time.strftime('%H:%M')}".rjust(40))
+#print(f"...lets fire again 🚀 🚀 🚀 Cycle 🎡 : {cycle} seconds".rjust(40))
