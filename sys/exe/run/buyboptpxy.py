@@ -1,8 +1,11 @@
 import traceback
 import sys
 import logging
+import telegram
 import asyncio
-from datetime import datetime
+from datetime import datetime, timedelta
+
+# Importing necessary functions and constants
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from strikpxy import get_prices
@@ -18,25 +21,24 @@ from bpredictpxy import predict_bnk_sentiment
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from hndmktpxy import hand
 
-# Initialize logging
-logging.basicConfig(filename='app.log', level=logging.INFO, format='%(message)s')
+# Get initial data
+BCE_Strike, _, _, BPE_Strike = get_prices()
+nsma = check_index_status('^NSEBANK')
+onemincandlesequance, mktpxy = get_market_check('^NSEBANK')
+ha_nse_action, nse_power, Day_Change, Open_Change = get_bnk_action()
+mktpredict = predict_market_sentiment()
+bmktpredict = predict_bnk_sentiment()
+showhand = hand(mktpxy)
 
-def get_cheapest_banknifty_symbol(expiry_year, expiry_month, expiry_day, option_type, kite):
+def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
+    # Adjust month format if necessary
+    if len(expiry_month) == 2 and expiry_month.startswith("0"):
+        expiry_month = expiry_month[1]
     noptions = BPE_Strike if option_type == "PE" else (BCE_Strike if option_type == "CE" else None)
-    
-    if not noptions:
-        logging.error("Invalid option type provided. Must be 'PE' or 'CE'.")
-        return None, float('inf')
-    
-    symbol = f"BANKNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
-    
-    try:
-        response = kite.ltp(f"NFO:{symbol}")
-        ltp = response[f"NFO:{symbol}"]["last_price"]
-        return symbol, ltp
-    except Exception as e:
-        logging.error(f"Error fetching price for {symbol}: {e}")
-        return None, float('inf')
+    if expiry_day is None:
+        return f"BANKNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
+    else:
+        return f"BANKNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
 
 def count_positions_by_type(broker):
     positions_response = broker.kite.positions()
@@ -61,7 +63,7 @@ def check_existing_positions(broker, symbol):
 
 async def main():
     try:
-        # Redirect sys.stdout to 'output.txt' to suppress console output
+        # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
             sys.stdout = file
 
@@ -69,61 +71,62 @@ async def main():
                 broker = get_kite()
             except Exception as e:
                 remove_token(dir_path)
+                print(traceback.format_exc())
                 logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
-            finally:
-                # Reset sys.stdout to its default value
-                sys.stdout = sys.__stdout__
 
-        try:
-            from fundpxy import calculate_decision
-            decision, optdecision, available_cash, live_balance, limit = calculate_decision()
+    finally:
+        # Reset sys.stdout to its default value
+        sys.stdout = sys.__stdout__
 
-            count_CE, count_PE = count_positions_by_type(broker)
-            PE_weight = count_PE - count_CE
-            CE_weight = count_CE - count_PE
-            weight = abs(count_PE - count_CE)
-            strike_price = BCE_Strike
-            logging.info(f"{BRIGHT_YELLOW}{count_PE:02} 📉:PE   ━━━━ {strike_price} | {showhand} ━━━━   CE:📈 {count_CE:02}{RESET}")
+    try:
+        from fundpxy import calculate_decision
+        decision, optdecision, available_cash, live_balance, limit = calculate_decision()
 
-            expiry_year, expiry_month, expiry_day = month_expiry_date()
+        count_CE, count_PE = count_positions_by_type(broker)
+        PE_weight = count_PE - count_CE
+        CE_weight = count_CE - count_PE
+        weight = abs(count_PE - count_CE)
+        strike_price = BCE_Strike  # Assuming this returns the current strike price
+        print(f"{BRIGHT_YELLOW}{count_PE:02} 📉:PE   ━━━━ {strike_price} | {showhand} ━━━━   CE:📈 {count_CE:02}{RESET}")
 
-            CE_symbol, CE_price = get_cheapest_banknifty_symbol(expiry_year, expiry_month, expiry_day, 'CE', broker)
-            PE_symbol, PE_price = get_cheapest_banknifty_symbol(expiry_year, expiry_month, expiry_day, 'PE', broker)
+        expiry_year, expiry_month, expiry_day = month_expiry_date()
 
-            CE_position_exists = check_existing_positions(broker, CE_symbol)
-            PE_position_exists = check_existing_positions(broker, PE_symbol)
+        CE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'CE')
+        PE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'PE')
 
-            if bmktpredict == "SIDE":
-                if mktpxy == "Buy" and not CE_position_exists:
-                    await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
+        CE_position_exists = check_existing_positions(broker, CE_symbol)
+        PE_position_exists = check_existing_positions(broker, PE_symbol)
 
-                if mktpxy == "Sell" and not PE_position_exists:
-                    await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
+        if bmktpredict == "SIDE":
+            if mktpxy == "Buy" and not CE_position_exists:
+                await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
 
-            elif bmktpredict == "RISE":
-                if mktpxy == "Buy" and not CE_position_exists:
-                    await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
+            if mktpxy == "Sell" and not PE_position_exists:
+                await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
 
-                if mktpxy == "Sell" and not PE_position_exists and nse_power > 0.85:
-                    await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
+        elif bmktpredict == "RISE":
+            if mktpxy == "Buy" and not CE_position_exists:
+                await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
 
-            elif bmktpredict == "FALL":
-                if mktpxy == "Buy" and not CE_position_exists and nse_power < 0.15:
-                    await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
+            if mktpxy == "Sell" and not PE_position_exists and nse_power > 0.85:
+                await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
 
-                if mktpxy == "Sell" and not PE_position_exists:
-                    await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
+        elif bmktpredict == "FALL":
+            if mktpxy == "Buy" and not CE_position_exists and nse_power < 0.15:
+                await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
 
-        except Exception as e:
-            logging.error(f"Error in main(): {e}")
+            if mktpxy == "Sell" and not PE_position_exists:
+                await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
 
     except Exception as e:
+        print(f"Error: {e}")
         logging.error(f"Error in main(): {e}")
 
 async def run_main():
     await main()
 
+# Run the asynchronous function using asyncio.run()
 def sync_main():
     asyncio.run(run_main())
 
