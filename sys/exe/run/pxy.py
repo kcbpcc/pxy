@@ -109,6 +109,7 @@ while True:
     print((BRIGHT_GREEN + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)    
     print("*" * 42)
     subprocess.run(['python3', 'tistpxy.py']) 
+    print("━" * 42)
     if run_type == 's':
         #subprocess.run(['python3', 'mngoptpxy.py', 's'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
