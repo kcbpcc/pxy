@@ -142,6 +142,7 @@ while True:
     subprocess.run(['python3', 'bdaypxy.py'])  if run_type == 'l' else None  
     subprocess.run(['python3', 'bcndlpxy.py']) if run_type == 'l' else None  
     (lambda: print((BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))() if run_type == 'l' and 'bsma' in locals() else None
+    print("━" * 42)
     if mktpredict in ['FALL', 'SIDE']:
         print("tryig to check on staocs stocks")
         subprocess.run(['python3', 'cntrlcncpxy.py'] if run_type == 'l' else ['python3', 'cntrlcncpxy.py', '-short'])
@@ -149,7 +150,7 @@ while True:
         print("Let's hold stocks")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     #print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)
-    print("━" * 42)
+    
     subprocess.run(['python3', 'selfpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     from sleeppxy import progress_bar
