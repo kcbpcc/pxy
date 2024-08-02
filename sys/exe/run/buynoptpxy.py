@@ -1,4 +1,3 @@
-# final ...
 import traceback
 import sys
 import logging
@@ -22,7 +21,7 @@ from hndmktpxy import hand
 logging.basicConfig(filename='error.log', level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Get initial data
-_, CE_Strike, PE_Strike, _, = get_prices()
+_, CE_Strike, PE_Strike, _ = get_prices()
 nsma = check_index_status('^NSEI')
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
@@ -63,7 +62,7 @@ async def main():
     try:
         # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
-            #sys.stdout = file
+            # sys.stdout = file
 
             try:
                 sys.stdout = file
@@ -162,7 +161,7 @@ async def main():
     finally:
         # Reset sys.stdout to its default value
         pass
-        #sys.stdout = sys.__stdout__
+        # sys.stdout = sys.__stdout__
 
 async def run_main():
     await main()
@@ -173,7 +172,6 @@ def sync_main():
 
 sync_main()
 
-# Run the asynchronous function using asyncio.run()
 def sync_main():
     asyncio.run(run_main())
 
