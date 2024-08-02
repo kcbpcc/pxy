@@ -71,7 +71,9 @@ async def main():
         strike_price = get_prices()[1]  # Assuming this returns the current strike price
         expiry_year, expiry_month, _ = month_expiry_date()
 
-        print(f"{BRIGHT_YELLOW}{count_PE:02} 📉:PE ━━━━ {strike_price} | {showhand} ━━━━ CE:📈 {count_CE:02}{RESET}")
+        #print(f"{BRIGHT_YELLOW}{count_PE:02} 📉:PE ━━━━ {strike_price} | {showhand} ━━━━ CE:📈 {count_CE:02}{RESET}")
+        print(f"{BRIGHT_YELLOW}{count_PE:02} 📉:PE ━━━━ {strike_price} ━━━━ CE:📈 {count_CE:02}{RESET}")
+
 
         CE_symbols = construct_symbols(expiry_year, expiry_month, 'CE', strike_price)
         PE_symbols = construct_symbols(expiry_year, expiry_month, 'PE', strike_price)
