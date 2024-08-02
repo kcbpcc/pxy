@@ -77,7 +77,7 @@ async def main():
 
             try:
                 from fundpxy import calculate_decision
-                decision, optdecision, available_cash, live_balance, limit = calculate_decision()
+                #decision, optdecision, available_cash, live_balance, limit = calculate_decision()
 
                 available_cash = 1000000
                 
