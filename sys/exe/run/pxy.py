@@ -139,7 +139,7 @@ while True:
     (lambda: print((BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))() if run_type == 'l' and 'bsma' in locals() else None
     print("━" * 42)
     if mktpredict in ['FALL', 'SIDE']:
-        print(f"{'⛔ ⛔ NIFTY is not in Buy nor Sell ⚠️ ⚠️':>40}")
+        print(f"{'✅ ✅ No Action - NIFTY on RISE  🆙 🆙':>40}")
         subprocess.run(['python3', 'cntrlcncpxy.py'] if run_type == 'l' else ['python3', 'cntrlcncpxy.py', '-short'])
     else:
         print(f"{'✅ ✅ No Action - NIFTY on RISE  🆙 🆙':>40}")
