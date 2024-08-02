@@ -25,8 +25,8 @@ else:
     delta_month = delta_day  # Default to daily delta if not enough data
 
 # Print deltas to console with zero-padding
-print(f"📊📊📊📊📊  Daily Delta: {delta_day:0=6,.2f}  📊📊📊📊📊")
-print(f"📊📊📊📊📊  Month Delta: {delta_month:0=6,.2f}  📊📊📊📊📊")
+print(f"📊📊📊📊📊  Daily Delta: {delta_day:0=6,.2f}  📊📊📊📊")
+print(f"📊📊📊📊📊  Month Delta: {delta_month:0=6,.2f}  📊📊📊📊")
 
 # Prepare the summary message for Telegram
 telegram_message = (
