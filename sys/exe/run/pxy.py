@@ -153,7 +153,7 @@ while True:
     subprocess.run(['python3', 'selfpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'plpxy.py'])
-        if run_type == 's':
+    if run_type == 's':
         #subprocess.run(['python3', 'mngoptpxy.py', 's'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
     elif run_type == 'l':
