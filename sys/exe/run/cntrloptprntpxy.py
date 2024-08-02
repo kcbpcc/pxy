@@ -177,8 +177,10 @@ for group, data in grouped_df:
         #print(f"Group N CE/PE ratio: {ratio_N}")
     # Run the appropriate Python script based on the group value
     if group == 'N' and args.command == 's':
+        (lambda: print((BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() if run_type == 'l' and 'nsma' in locals() else None
         os.system('python cndlpxy.py')
     elif group == 'B' and args.command == 's':
+        (lambda: print((BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))() if run_type == 'l' and 'bsma' in locals() else None
         os.system('python bcndlpxy.py')
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 
@@ -290,3 +292,8 @@ summary = (
 )
 
 check_and_send_summary(summary, 'bordpxy')
+
+
+
+    
+
