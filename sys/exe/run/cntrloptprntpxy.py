@@ -125,7 +125,7 @@ summary_statement = (
 )
 #print("━" * 42)
 
-print(f"{summary_statement}")
+#print(f"{summary_statement}")
 
 # Filter and group data
 filtered_df = print_df.query('qty > 0')
@@ -214,10 +214,11 @@ output_lines.append(
     right_aligned_format.format(f"NIFTY-dPnL:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}")
 )
 output_lines.append(
-    left_aligned_format.format(f"{BRIGHT_YELLOW}B━{nifty_profit} / N━{nifty_profit}{RESET}") +
-    right_aligned_format.format(f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit +booked + hide) > 0 else BRIGHT_RED}{nifty_profit + bank_profit + booked + hide}{RESET}")
+    left_aligned_format.format(f"Opts-tCap:{round(total_invested_all / 100000, 2)}{RESET}") +
+    right_aligned_format.format(
+        f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit + booked + hide) > 0 else BRIGHT_RED}{nifty_profit + bank_profit + booked + hide}{RESET}"
+    )
 )
-
 full_output = '\n'.join(output_lines)
 
 print(full_output)
