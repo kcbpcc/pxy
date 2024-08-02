@@ -1,6 +1,3 @@
-mktpredict = predict_market_sentiment()
-nsma = check_index_status('^NSEI')
-onemincandlesequance, mktpxy = get_market_check('^NSEI')
 # final ...
 import traceback
 import sys
@@ -18,7 +15,6 @@ from rsnprntpxy import process_orders
 from exprpxy import month_expiry_date
 from nftpxy import get_nse_action
 from predictpxy import predict_market_sentiment
-from bpredictpxy import predict_bnk_sentiment
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from hndmktpxy import hand
 
@@ -31,7 +27,6 @@ nsma = check_index_status('^NSEI')
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
 mktpredict = predict_market_sentiment()
-mktpredict = predict_bnk_sentiment()
 showhand = hand(mktpxy)
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
@@ -39,9 +34,9 @@ def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
         expiry_month = expiry_month[1]
     noptions = PE_Strike if option_type == "PE" else (CE_Strike if option_type == "CE" else None)
     if expiry_day is None:
-        return f"BANKNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
+        return f"NIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
     else:
-        return f"BANKNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
+        return f"NIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
 
 def count_positions_by_type(broker):
     positions_response = broker.kite.positions()
@@ -49,7 +44,7 @@ def count_positions_by_type(broker):
     count_CE = 0
     count_PE = 0
     for position in positions_net:
-        if position['tradingsymbol'].startswith('BANK') and abs(position['quantity']) >= 15:
+        if position['tradingsymbol'].startswith('NIFTY') and abs(position['quantity']) >= 25:
             if position['tradingsymbol'].endswith('CE'):
                 count_CE += 1
             elif position['tradingsymbol'].endswith('PE'):
@@ -60,7 +55,7 @@ def check_existing_positions(broker, symbol):
     positions_response = broker.kite.positions()
     positions_net = positions_response['net']
     for position in positions_net:
-        if position['tradingsymbol'][-7:] == symbol[-7:] and abs(position['quantity']) >= 15:
+        if position['tradingsymbol'][-7:] == symbol[-7:] and abs(position['quantity']) >= 25:
             return True
     return False
 
