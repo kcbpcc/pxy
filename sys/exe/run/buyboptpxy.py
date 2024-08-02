@@ -26,7 +26,7 @@ logging.basicConfig(filename='error.log', level=logging.ERROR, format='%(asctime
 BCE_Strike, _, _, BPE_Strike = get_prices()
 nsma = check_index_status('^NSEBANK')
 onemincandlesequance, mktpxy = get_market_check('^NSEBANK')
-ha_nse_action, nse_power, Day_Change, Open_Change = get_bnk_action()
+ha_bnk_action, bnk_power, bDay_Change, bOpen_Change = get_bnk_action()
 mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
 showhand = hand(mktpxy)
@@ -131,7 +131,7 @@ async def main():
                             await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
 
                     elif mktpxy == "Sell":
-                        if nse_power > 0.85:
+                        if bnk_power > 0.85:
                             if PE_position_exists:
                                 print(f"{PE_symbol} is there, lets skip")
                             else:
@@ -140,7 +140,7 @@ async def main():
 
                 elif bmktpredict == "FALL":
                     if mktpxy == "Buy":
-                        if nse_power < 0.15:
+                        if bnk_power < 0.15:
                             if CE_position_exists:
                                 print(f"{CE_symbol} is there, lets skip")
                             else:
