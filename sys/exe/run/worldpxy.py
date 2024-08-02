@@ -1,5 +1,5 @@
 #PXY® 
-
+print("━" * 42)
 import yfinance as yf
 from rich.console import Console
 import warnings
