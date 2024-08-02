@@ -60,6 +60,15 @@ def send_telegram_message(message):
 
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker):
     try:
+        # Fetch existing orders
+        existing_orders = broker.orders()
+        symbol_orders = [order for order in existing_orders if order['tradingsymbol'] == tradingsymbol]
+        
+        if symbol_orders:
+            print(f"Existing orders found for {tradingsymbol}: {symbol_orders}")
+            return None
+        
+        # Place new order
         order_id = broker.order_place(
             tradingsymbol=tradingsymbol,
             quantity=quantity,
@@ -70,6 +79,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
         )
         print(f"Order placed successfully. Order ID: {order_id}")
         return order_id
+    
     except Exception as e:
         print(f"Error placing order: {e}")
         return None
