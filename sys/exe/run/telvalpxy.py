@@ -24,17 +24,18 @@ if len(df) >= 1:
 else:
     delta_month = delta_day  # Default to daily delta if not enough data
 
-# Print deltas to console
-print(f"📊📊📊📊📊  Daily Delta: {delta_day:,.2f}  📊📊📊📊📊")
-print(f"📊📊📊📊📊  Month Delta: {delta_month:,.2f}  📊📊📊📊📊")
+# Print deltas to console with zero-padding
+print(f"📊📊📊📊📊  Daily Delta: {delta_day:0=6,.2f}  📊📊📊📊📊")
+print(f"📊📊📊📊📊  Month Delta: {delta_month:0=6,.2f}  📊📊📊📊📊")
 
 # Prepare the summary message for Telegram
 telegram_message = (
     f"    🚀 *PXY® Score Board* 🚀\n\n"
-    f"💰*Daily Delta:* {delta_day:,.2f}\n\n"
-    f"💰*Month Delta:* {delta_month:,.2f}\n\n"   
+    f"💰*Daily Delta:* {delta_day:0=6,.2f}\n\n"
+    f"💰*Month Delta:* {delta_month:0=6,.2f}\n\n"   
     f"    🔗 [PXY® Dash Board](https://console.zerodha.com/verified/0aec4aa4)"
 )
 
 # Send the summary
 check_and_send_summary(telegram_message, 'vlpxy')
+
