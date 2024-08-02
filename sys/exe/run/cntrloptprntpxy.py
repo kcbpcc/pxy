@@ -120,7 +120,7 @@ total_pl_percentage_all = (total_pl_all / total_invested_all) * 100 if total_inv
 summary_statement = (
     f"{BRIGHT_YELLOW}CAP:{total_invested_all:6.0f} ━━━━ P&L:{total_pl_all:7.0f} ━━━━ P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
 )
-print("━" * 42)
+#print("━" * 42)
 
 print(f"{summary_statement}")
 
