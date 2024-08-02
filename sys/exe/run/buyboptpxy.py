@@ -68,7 +68,9 @@ async def main():
             #sys.stdout = file
 
             try:
+                sys.stdout = file
                 broker = get_kite()
+                sys.stdout = sys.__stdout__
             except Exception as e:
                 remove_token(dir_path)
                 print(traceback.format_exc())
