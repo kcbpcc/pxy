@@ -129,14 +129,23 @@ while True:
     if (peak == 'PEAKEND' or peak == 'PEAKSTART') and ha_nse_action == 'Bullish':
         subprocess.run(['python3', 'buycncpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    subprocess.run(['python3', 'niftychartpxy.py']) if run_type == 'l' else None    
-    subprocess.run(['python3', 'daypxy.py']) if run_type == 'l' else None  
-    subprocess.run(['python3', 'cndlpxy.py']) if run_type == 'l' else None  
-    (lambda: print((BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() if run_type == 'l' and 'nsma' in locals() else None
-    subprocess.run(['python3', 'bniftychartpxy.py']) if run_type == 'l' else None  
-    subprocess.run(['python3', 'bdaypxy.py'])  if run_type == 'l' else None  
-    subprocess.run(['python3', 'bcndlpxy.py']) if run_type == 'l' else None  
-    (lambda: print((BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))() if run_type == 'l' and 'bsma' in locals() else None
+    if run_type == 'l':
+        subprocess.run(['python3', 'niftychartpxy.py'])
+        subprocess.run(['python3', 'daypxy.py'])
+        subprocess.run(['python3', 'cndlpxy.py'])
+        
+        if 'nsma' in locals():
+            color = BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW
+            print(color + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET)
+        
+        subprocess.run(['python3', 'bniftychartpxy.py'])
+        subprocess.run(['python3', 'bdaypxy.py'])
+        subprocess.run(['python3', 'bcndlpxy.py'])
+        
+        if 'bsma' in locals():
+            color = BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW
+            print(color + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET)
+    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print("━" * 42)
     if mktpredict in ['FALL', 'SIDE']:
         print(f"{'💥💥  જ⁀➴ CNC Action - NIFTY on FALL  જ⁀➴':>38}")
