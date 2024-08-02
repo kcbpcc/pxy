@@ -171,8 +171,3 @@ def sync_main():
     asyncio.run(run_main())
 
 sync_main()
-
-def sync_main():
-    asyncio.run(run_main())
-
-sync_main()
