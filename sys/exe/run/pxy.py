@@ -122,14 +122,14 @@ while True:
         subprocess.run(['python3', 'buyboptpxy.py'])
     else:
         print("━" * 42)
-        print(f"{'BANK is neither \'Buy\' nor \'Sell\'':<42}")
+        print(f"{'BANK is neither Buy nor Sell':<42}")
     if mktpxy in ['Buy', 'Sell']:
         importlib.reload(sys.modules.get('mktpxy', None))
         print("━" * 42)
         subprocess.run(['python3', 'buynoptpxy.py'])
     else:
         print("━" * 42)
-        print(f"{'NIFTY is neither \'Buy\' nor \'Sell\'':<42}")
+        print(f"{'NIFTY is neither Buy nor Sell':<42}")
     subprocess.run(['python3', 'worldpxy.py']) if run_type == 'l' else None
     if (peak == 'PEAKEND' or peak == 'PEAKSTART') and ha_nse_action == 'Bullish':
         subprocess.run(['python3', 'buycncpxy.py'])
@@ -147,7 +147,7 @@ while True:
         print("tryig to check on staocs stocks")
         subprocess.run(['python3', 'cntrlcncpxy.py'] if run_type == 'l' else ['python3', 'cntrlcncpxy.py', '-short'])
     else:
-        print(f"{'Let\'s hold stocks as NIFTY on RISE':<42}")
+        print(f"{'Let's hold stocks as NIFTY on RISE':<42}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     #print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)
     
