@@ -121,6 +121,9 @@ summary_statement = (
     f"{BRIGHT_YELLOW}CAP:{total_invested_all:6.0f} ━━━━ P&L:{total_pl_all:7.0f} ━━━━ P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
 )
 print("━" * 42)
+
+print(f"{summary_statement}")
+
 # Filter and group data
 filtered_df = print_df.query('qty > 0')
 grouped_df = filtered_df.groupby('group')
@@ -188,8 +191,6 @@ if peak == "PREPEAK":
     process_acvalue(acvalue)
 
 acvalue = retrieve_acvalue()
-
-print(f"{summary_statement}")
 
 print("━" * 42)
 column_width = 30
