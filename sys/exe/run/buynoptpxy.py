@@ -1,4 +1,6 @@
-BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
+mktpredict = predict_market_sentiment()
+nsma = check_index_status('^NSEI')
+onemincandlesequance, mktpxy = get_market_check('^NSEI')
 # final ...
 import traceback
 import sys
@@ -24,18 +26,18 @@ from hndmktpxy import hand
 logging.basicConfig(filename='error.log', level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Get initial data
-BCE_Strike, _, _, BPE_Strike = get_prices()
-nsma = check_index_status('^NSEBANK')
-onemincandlesequance, mktpxy = get_market_check('^NSEBANK')
+_, CE_Strike, PE_Strike, _, = get_prices()
+nsma = check_index_status('^NSEI')
+onemincandlesequance, mktpxy = get_market_check('^NSEI')
 ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
 mktpredict = predict_market_sentiment()
-bmktpredict = predict_bnk_sentiment()
+mktpredict = predict_bnk_sentiment()
 showhand = hand(mktpxy)
 
 def construct_symbol(expiry_year, expiry_month, expiry_day, option_type):
     if len(expiry_month) == 2 and expiry_month.startswith("0"):
         expiry_month = expiry_month[1]
-    noptions = BPE_Strike if option_type == "PE" else (BCE_Strike if option_type == "CE" else None)
+    noptions = PE_Strike if option_type == "PE" else (CE_Strike if option_type == "CE" else None)
     if expiry_day is None:
         return f"BANKNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
     else:
@@ -86,7 +88,7 @@ async def main():
                 PE_weight = count_PE - count_CE
                 CE_weight = count_CE - count_PE
                 weight = abs(count_PE - count_CE)
-                strike_price = BCE_Strike
+                strike_price = CE_Strike
                 print(f"{BRIGHT_YELLOW}{count_PE:02} 📉:PE   ━━━━ {strike_price} | {showhand} ━━━━   CE:📈 {count_CE:02}{RESET}")
 
                 expiry_year, expiry_month, expiry_day = month_expiry_date()
@@ -98,7 +100,7 @@ async def main():
                 PE_position_exists = check_existing_positions(broker, PE_symbol)
 
                 # Print all relevant variables before entering the if block
-                print(f"bmktpredict: {bmktpredict}")
+                print(f"mktpredict: {mktpredict}")
                 print(f"mktpxy: {mktpxy}")
                 print(f"CE_position_exists: {CE_position_exists}")
                 print(f"CE_symbol: {CE_symbol}")
@@ -108,7 +110,7 @@ async def main():
                 print(f"count_PE: {count_PE}")
                 
 
-                if bmktpredict == "SIDE":
+                if mktpredict == "SIDE":
                     if mktpxy == "Buy":
                         if CE_position_exists:
                             print(f"{CE_symbol} is there, let's skip")
@@ -123,7 +125,7 @@ async def main():
                             print(f"{PE_symbol} not there, let's Buy")
                             await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
                 
-                elif bmktpredict == "RISE":
+                elif mktpredict == "RISE":
                     if mktpxy == "Buy":
                         if CE_position_exists:
                             print(f"{CE_symbol} is there, let's skip")
@@ -141,7 +143,7 @@ async def main():
                         else:
                             print("nse_power is not high, let's skip")
                 
-                elif bmktpredict == "FALL":
+                elif mktpredict == "FALL":
                     if mktpxy == "Buy":
                         if nse_power < 0.15:
                             if CE_position_exists:
