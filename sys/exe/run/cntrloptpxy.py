@@ -84,16 +84,16 @@ def exit_options(exe_opt_df, broker):
             if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 400:
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
-                    f"🛬🛬🛬 🎯🎯🎯 EXIT {row['key']}\n"
-                    f"       🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
-                    f"       🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
-                    f"       📉 Sell Price: {row['ltp']}\n"
-                    f"       📈 Buy Price: {row['avg']}\n"
-                    f"💰 Booked Profit: {row['PnL']} 📣"
-                    #f"Total Booked:💰 {total_opt_pnl} 📣"
+                    f"🛬🛬🛬 🎯🎯🎯 EXIT order placed {row['key']} successfully.\n"
+                    f"🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
+                    f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
+                    f"📉 Sell Price: {row['ltp']}\n"
+                    f"📈 Buy Price: {row['avg']}\n"
+                    f"💰 Booked Profit: {row['PnL']}\n"
+                    f"Total Booked:💰 {total_opt_pnl} 📣"
                 )
                 print(message)
-                #send_telegram_message(message)
+                send_telegram_message(message)
     except Exception as e:
         print(f"Error placing exit order: {e}")
 
@@ -193,7 +193,7 @@ print_df['CP'] = print_df['key'].apply(lambda x: '🟠' if x.endswith('PE') else
 print_df['group'] = print_df['key'].str.extract(r'^(B|N)', expand=False)
 print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('NIFTY24', 'N')
 print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
-print_df['PL%'] = print_df['PL%'].round(1)
+print_df['PL%'] = print_df['PL%'].round(2)
 # Set 'MN' based on the month abbreviation in 'key'
 print_df['MN'] = np.where(
     print_df['key'].str.contains(current_month_abbr),
@@ -208,5 +208,3 @@ if filtered_data.empty:
     print("Still fishing🔎🎣, nothing surfaced yet.🐟")
 else:
     print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
-    
-#############################################################################################################################################################################################################################
