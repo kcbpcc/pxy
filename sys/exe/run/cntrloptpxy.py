@@ -1,4 +1,4 @@
-#print("━" * 42)
+print("━" * 42)
 import sys
 import traceback
 import pandas as pd
@@ -24,15 +24,14 @@ nsma = check_index_status('^NSEI')
 arrow_map = {"Buy": "⤴", "Sell": "⤵", "Bull": "↗", "Bear": "↘"}
 peak = peak_time()
 
-#column_width = 30
-#left_aligned_format = "{:<" + str(column_width) + "}"
-#right_aligned_format = "{:>" + str(column_width) + "}"
-#output_lines = []
-#output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
-#                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW} {mktpredict} {arrow_map.get(nmktpxy, '')}{RESET} ━━ NIFTYNDEX")) 
-#full_output = '\n'.join(output_lines)
-#print(full_output)
-
+column_width = 30
+left_aligned_format = "{:<" + str(column_width) + "}"
+right_aligned_format = "{:>" + str(column_width) + "}"
+output_lines = []
+output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
+                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW} {mktpredict} {arrow_map.get(nmktpxy, '')}{RESET} ━━ NIFTYNDEX")) 
+full_output = '\n'.join(output_lines)
+print(full_output)
 bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
 user_usernames = ('-4282665161',)
 
@@ -204,7 +203,7 @@ print_df['MN'] = np.where(
 
 print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP', 'group']]
 filtered_data = print_df.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
-#print("━" * 42)
+print("━" * 42)
 if filtered_data.empty:
     print("Still fishing🔎🎣, nothing surfaced yet.🐟")
 else:
