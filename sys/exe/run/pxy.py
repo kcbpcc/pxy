@@ -4,7 +4,6 @@ def get_user_input(prompt, default='s'):
         return default
     return user_input
 run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long:")
-
 from sleeppxy import progress_bar
 from cyclepxy import cycle
 import importlib
