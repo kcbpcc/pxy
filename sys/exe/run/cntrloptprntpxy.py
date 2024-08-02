@@ -222,7 +222,7 @@ full_output = '\n'.join(output_lines)
 
 print(full_output)
 
-
+print("━" * 42)
 
 for group, data in grouped_df:
     total_invested_group = data['Invested'].sum()
