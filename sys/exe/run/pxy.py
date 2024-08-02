@@ -143,7 +143,7 @@ while True:
     else:
         print(f"{'✅ ✅ No Action - NIFTY on RISE  🆙 🆙':>38}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    subprocess.run(['python3', 'plpxy.py'])
+    subprocess.run(['python3', 'plpxy.py']) if peak == "PEAKEND" else None
     print("━" * 42)
     if run_type == 's':
         #subprocess.run(['python3', 'mngoptpxy.py', 's'])
