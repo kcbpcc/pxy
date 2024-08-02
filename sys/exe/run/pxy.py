@@ -143,6 +143,7 @@ while True:
     subprocess.run(['python3', 'bcndlpxy.py']) if run_type == 'l' else None  
     (lambda: print((BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))() if run_type == 'l' and 'bsma' in locals() else None
     if mktpredict in ['FALL', 'SIDE']:
+        print("tryig to check on staocs stocks")
         subprocess.run(['python3', 'cntrlcncpxy.py'] if run_type == 'l' else ['python3', 'cntrlcncpxy.py', '-short'])
     else:
         print("Let's hold stocks")
