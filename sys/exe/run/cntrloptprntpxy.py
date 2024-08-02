@@ -202,7 +202,7 @@ nifty_loss = int(ntotal_opt_m2m)
 bank_profit = int(bextras)
 bank_loss = int(btotal_opt_m2m)
 arrow_map = {"Buy": "⤴", "Sell": "⤵", "Bull": "↗", "Bear": "↘"}
-hide = 0
+hide = 66000
 cap = 17.82
 real_pnl = round((total_ac_value + (available_cash / 100000)) - (cap + hide), 2)
 all_Stocks_df = combined_df[
@@ -263,7 +263,7 @@ output_lines.append(
 )
 output_lines.append(
     left_aligned_format.format(f"{BRIGHT_YELLOW}B━{ratio_B} / N━{ratio_N}{RESET}") +
-    right_aligned_format.format(f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit +booked) > 0 else BRIGHT_RED}{nifty_profit + bank_profit + booked + 66000}{RESET}")
+    right_aligned_format.format(f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit +booked + hide) > 0 else BRIGHT_RED}{nifty_profit + bank_profit + booked + hide}{RESET}")
 )
 
 full_output = '\n'.join(output_lines)
