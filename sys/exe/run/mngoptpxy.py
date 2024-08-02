@@ -12,10 +12,8 @@ import argparse
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
 from bftpxy import get_bnk_action
-from mktpxy import get_market_check
-
-# Retrieve market data
 bha_nse_action, bnse_power, bDay_Change, bOpen_Change = get_bnk_action()
+from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 bnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 
@@ -24,17 +22,16 @@ parser = argparse.ArgumentParser(description="Process some commands.")
 parser.add_argument('command', nargs='?', choices=['l', 's'], default='s',
                     help="Command to run the program with. Defaults to 's' if not provided.")
 args = parser.parse_args()
-print(f"Command received: {args.command}")
+
+# Print or log the command for debugging
+#print(f"Command received: {args.command}")
 
 # Define function to get last weekday dates
 last_wednesday_str = get_last_weekday_of_current_month(calendar.WEDNESDAY)
 last_thursday_str = get_last_weekday_of_current_month(calendar.THURSDAY)
-print(f"Last Wednesday Date: {last_wednesday_str}")
-print(f"Last Thursday Date: {last_thursday_str}")
 
 # Define the current year
 current_year = datetime.now().year
-print(f"Current Year: {current_year}")
 
 # Convert string dates to datetime objects with current year
 def parse_date(date_str):
@@ -42,9 +39,6 @@ def parse_date(date_str):
 
 last_wednesday = parse_date(last_wednesday_str)
 last_thursday = parse_date(last_thursday_str)
-
-print(f"Parsed Last Wednesday: {last_wednesday}")
-print(f"Parsed Last Thursday: {last_thursday}")
 
 def business_days_diff(start_date, end_date):
     """Calculate business days between two dates."""
@@ -148,7 +142,6 @@ def avg_options(df, broker):
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite()
-    print("Broker initialized successfully.")
 except Exception as e:
     remove_token(dir_path)
     print(traceback.format_exc())
@@ -159,15 +152,11 @@ finally:
         sys.stdout = sys.__stdout__
 
 combined_df = process_data()
-print("Data processed successfully.")
-
 blnc_opt_df = combined_df[
     (combined_df['key'].str.contains('NFO:', case=False, na=False)) &
     (combined_df['qty'] > 0) &
     (combined_df['key'].notna())
 ].copy()
-
-print(f"Filtered DataFrame size: {blnc_opt_df.shape}")
 
 blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False) 
 blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
@@ -177,13 +166,10 @@ blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=Tr
 
 # Get the current month's abbreviation
 current_month_abbr = datetime.now().strftime('%b').upper()
-print(f"Current Month Abbreviation: {current_month_abbr}")
 
 blnc_opt_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL']]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['key'].str.contains(current_month_abbr)]
-
-print(f"Filtered DataFrame after month check: {blnc_opt_df.shape}")
 
 def add_date(row):
     if row['key'].startswith('BANKNIFTY'):
@@ -205,23 +191,39 @@ blnc_opt_df['Date'] = blnc_opt_df['Date'].dt.day
 blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 
 # Calculate the 'Target' based on the 'Diff' column
-blnc_opt_df['Target'] = blnc_opt_df['Diff'] + blnc_opt_df['Date']
+blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
 
-print(f"DataFrame with dates and differences: \n{blnc_opt_df.head()}")
+ext_df = blnc_opt_df[(blnc_opt_df['Target'] < 0) & (blnc_opt_df['PL%'] > blnc_opt_df['Target'])]
+avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
 
-ext_df = blnc_opt_df[(blnc_opt_df['PL%'] < -50) & (blnc_opt_df['Date'] < 31)]
-print(f"Exit DataFrame size: {ext_df.shape}")
+# Print the DataFrame before processing
+#print("Initial DataFrame:")
+#print(blnc_opt_df)
+total_invested = blnc_opt_df['Invested'].sum()
 
-avg_df = blnc_opt_df[(blnc_opt_df['PL%'] > 50) & (blnc_opt_df['Date'] < 31)]
-print(f"Average DataFrame size: {avg_df.shape}")
+width = 42
+line1 = f"B:{last_wednesday_str}"
+line2 = f"N:{last_thursday_str}"
 
-# Place exit and average orders
+print("━" * 42)
+# Combine both lines and center them in a 42-character wide field
+combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {str(total_invested).zfill(7)}    ⚖  {line2}"
+BRIGHT_YELLOW = '\033[93m'
+RESET = '\033[0m'    # Reset to default color
+print(f"{SILVER}{combined_lines:^{width}}{RESET}")
+
+# Ensure DataFrames are not empty before processing
 if not ext_df.empty:
-    print("Processing exit orders...")
     ext_options(ext_df, broker)
-
+    print(ext_df)
+else:
+    pass
+    #print("No options to exit.")
 if not avg_df.empty:
-    print("Processing average orders...")
     avg_options(avg_df, broker)
+    print(avg_df)
+else:
+    pass
+    #print("No options to average.")
 
 
