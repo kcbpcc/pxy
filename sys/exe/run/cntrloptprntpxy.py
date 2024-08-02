@@ -131,72 +131,6 @@ print(f"{summary_statement}")
 filtered_df = print_df.query('qty > 0')
 grouped_df = filtered_df.groupby('group')
 
-for group, data in grouped_df:
-    total_invested_group = data['Invested'].sum()
-    total_pl_group = data['PnL'].sum() + (nextras if group == 'N' else bextras if group == 'B' else 0)
-    total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
-    pe_count = data['CP'].value_counts().get('🟠', 0)
-    ce_count = data['CP'].value_counts().get('🟢', 0)
-
-    pe_data = data[data['CP'] == '🟠']
-    total_invested_pe = pe_data['Invested'].sum()
-    total_pl_pe = pe_data['PnL'].sum()
-    value_pe = total_invested_pe + total_pl_pe
-
-    ce_data = data[data['CP'] == '🟢']
-    total_invested_ce = ce_data['Invested'].sum()
-    total_pl_ce = ce_data['PnL'].sum()
-    value_ce = total_invested_ce + total_pl_ce
-    ce_pe_ratio = round((value_ce / value_pe), 2) if value_pe != 0 else 0
-
-    if total_invested_group != 0:
-        Istrike = Nstrike if group == 'N' else Bstrike if group == 'B' else "Unknown"
-        value_statement = f"  {pe_count:02d} -🟥- {value_pe:06d}  {Istrike}   {value_ce:06d}  -🟩- {ce_count:02d}"
-        summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
-        color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
-        color_none = SILVER
-        # Check the command and print the corresponding output
-        if args.command == 'l':
-            # Filter DataFrame with qty > 0
-            filtered_data = data.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
-            if not filtered_data.empty:
-                print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
-        elif args.command == 's':
-            pass
-            #filtered_data = data.query('qty > 0 and `PL%` > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
-            #if not filtered_data.empty:
-                #print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
-        if len(data) >= 2:
-            formatted_output = f"{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
-            formatted_balance = f"{value_statement}{RESET}".center(44)
-            print(formatted_balance)            
-            print(f"{UNDERLINE}{formatted_output}{RESET}") if args.command == 'l' else None
-    # Define ce_pe_ratio based on group
-    if group == 'B':
-        ratio_B = ce_pe_ratio
-        #print(f"Group B CE/PE ratio: {ratio_B}")
-    elif group == 'N':
-        ratio_N = ce_pe_ratio
-        #print(f"Group N CE/PE ratio: {ratio_N}")
-    # Run the appropriate Python script based on the group value
-    if group == 'N' and args.command == 's':
-        if nsma == "up":
-            os.system('python cndlpxy.py')
-            (lambda: print((BRIGHT_GREEN) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
-        elif nsma == "down":
-            (lambda: print((BRIGHT_RED) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
-            os.system('python cndlpxy.py')
-        else:
-            (lambda: print((BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
-    elif group == 'B' and args.command == 's':
-        if bsma == "up":
-            os.system('python bcndlpxy.py')
-            (lambda: print((BRIGHT_GREEN) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
-        elif bsma == "down":
-            (lambda: print((BRIGHT_RED) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
-            os.system('python bcndlpxy.py')
-        else:
-            (lambda: print((BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 
 acvalue = round(total_ac_value + (available_cash / 100000), 2)
@@ -287,6 +221,77 @@ output_lines.append(
 full_output = '\n'.join(output_lines)
 
 print(full_output)
+
+
+
+for group, data in grouped_df:
+    total_invested_group = data['Invested'].sum()
+    total_pl_group = data['PnL'].sum() + (nextras if group == 'N' else bextras if group == 'B' else 0)
+    total_pl_percentage_group = (total_pl_group / total_invested_group) * 100 if total_invested_group != 0 else 0
+    pe_count = data['CP'].value_counts().get('🟠', 0)
+    ce_count = data['CP'].value_counts().get('🟢', 0)
+
+    pe_data = data[data['CP'] == '🟠']
+    total_invested_pe = pe_data['Invested'].sum()
+    total_pl_pe = pe_data['PnL'].sum()
+    value_pe = total_invested_pe + total_pl_pe
+
+    ce_data = data[data['CP'] == '🟢']
+    total_invested_ce = ce_data['Invested'].sum()
+    total_pl_ce = ce_data['PnL'].sum()
+    value_ce = total_invested_ce + total_pl_ce
+    ce_pe_ratio = round((value_ce / value_pe), 2) if value_pe != 0 else 0
+
+    if total_invested_group != 0:
+        Istrike = Nstrike if group == 'N' else Bstrike if group == 'B' else "Unknown"
+        value_statement = f"  {pe_count:02d} -🟥- {value_pe:06d}  {Istrike}   {value_ce:06d}  -🟩- {ce_count:02d}"
+        summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
+        color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
+        color_none = SILVER
+        # Check the command and print the corresponding output
+        if args.command == 'l':
+            # Filter DataFrame with qty > 0
+            filtered_data = data.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+            if not filtered_data.empty:
+                print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
+        elif args.command == 's':
+            pass
+            #filtered_data = data.query('qty > 0 and `PL%` > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
+            #if not filtered_data.empty:
+                #print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 6, 3, 4, 7, 2]))
+        if len(data) >= 2:
+            formatted_output = f"{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
+            formatted_balance = f"{value_statement}{RESET}".center(44)
+            print(formatted_balance)            
+            print(f"{UNDERLINE}{formatted_output}{RESET}") if args.command == 'l' else None
+    # Define ce_pe_ratio based on group
+    if group == 'B':
+        ratio_B = ce_pe_ratio
+        #print(f"Group B CE/PE ratio: {ratio_B}")
+    elif group == 'N':
+        ratio_N = ce_pe_ratio
+        #print(f"Group N CE/PE ratio: {ratio_N}")
+    # Run the appropriate Python script based on the group value
+    if group == 'N' and args.command == 's':
+        if nsma == "up":
+            os.system('python cndlpxy.py')
+            (lambda: print((BRIGHT_GREEN) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
+        elif nsma == "down":
+            (lambda: print((BRIGHT_RED) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
+            os.system('python cndlpxy.py')
+        else:
+            (lambda: print((BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
+    elif group == 'B' and args.command == 's':
+        if bsma == "up":
+            os.system('python bcndlpxy.py')
+            (lambda: print((BRIGHT_GREEN) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
+        elif bsma == "down":
+            (lambda: print((BRIGHT_RED) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
+            os.system('python bcndlpxy.py')
+        else:
+            (lambda: print((BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
+
+
 #print("━" * 42)
 summary = (
     f"---------PXY® Dash Board----------\n"
