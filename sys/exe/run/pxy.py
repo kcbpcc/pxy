@@ -118,10 +118,10 @@ while True:
         print("━" * 42)
         subprocess.run(['python3', 'buynoptpxy.py'])
     if run_type == 's':
-        subprocess.run(['python3', 'mngoptpxy.py', 's'])
+        #subprocess.run(['python3', 'mngoptpxy.py', 's'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
     elif run_type == 'l':
-        subprocess.run(['python3', 'mngoptpxy.py', 'l'])
+        #subprocess.run(['python3', 'mngoptpxy.py', 'l'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
     subprocess.run(['python3', 'worldpxy.py']) if run_type == 'l' else None
     if (peak == 'PEAKEND' or peak == 'PEAKSTART') and ha_nse_action == 'Bullish':
