@@ -25,6 +25,10 @@ MONTH_ABBR = {
     "12": "DEC"
 }
 
+# Configure logging
+logging.basicConfig(filename='debug.log', level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
 def construct_symbols(expiry_year, expiry_month, option_type, strike_price):
     # Convert expiry_month to abbreviation
     expiry_month_abbr = MONTH_ABBR.get(expiry_month, expiry_month)
@@ -45,10 +49,12 @@ def get_option_prices(symbols, kite):
     for symbol in symbols:
         try:
             # Fetch the LTP (Last Traded Price) for the symbol
-            ltp = kite.ltp(f"NFO:{symbol}")["NFO:{symbol}"]["last_price"]
+            response = kite.ltp(f"NFO:{symbol}")
+            ltp = response[f"NFO:{symbol}"]["last_price"]
             prices[symbol] = ltp
+            logging.debug(f"Fetched price for {symbol}: {ltp}")
         except Exception as e:
-            print(f"Error fetching price for {symbol}: {e}")
+            logging.error(f"Error fetching price for {symbol}: {e}")
             prices[symbol] = float('inf')  # Set to infinity if price fetch fails
     return prices
 
@@ -66,11 +72,12 @@ def main():
             try:
                 # Log in to Kite Connect
                 kite = get_kite()
+                logging.info("Successfully logged in to Kite Connect.")
             except Exception as e:
                 # If login fails, remove token and log the error
+                logging.error(f"Failed to log in to Kite Connect: {e}")
                 remove_token(dir_path)
                 print(traceback.format_exc())
-                logging.error(f"{str(e)} unable to log in to Kite Connect")
                 sys.exit(1)
 
             # Define your parameters
@@ -81,10 +88,14 @@ def main():
 
             # Construct symbols and get their prices
             symbols = construct_symbols(expiry_year, expiry_month, option_type, strike_price)
+            logging.info(f"Constructed symbols: {symbols}")
+            
             prices = get_option_prices(symbols, kite)
+            logging.info(f"Option prices: {prices}")
 
             # Find the cheapest symbol
             cheapest_symbol = find_cheapest_symbol(prices)
+            logging.info(f"The cheapest symbol is: {cheapest_symbol}")
             print(f"The cheapest symbol is: {cheapest_symbol}")
 
     finally:
