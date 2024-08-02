@@ -111,14 +111,14 @@ async def main():
                 if bmktpredict == "SIDE":
                     if mktpxy == "Bear":
                         if CE_position_exists:
-                            print(f"{CE_symbol} exists")
+                            print(f"{CE_symbol} is there, lets skip")
                         else:
                             print(f"{CE_symbol} not there, lets Buy")
                             await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
 
                     elif mktpxy == "Sell":
                         if PE_position_exists:
-                            print(f"{PE_symbol} exists")
+                            print(f"{PE_symbol} is there, lets skip")
                         else:
                             print(f"{PE_symbol} not there, lets Buy")
                             await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
@@ -126,7 +126,7 @@ async def main():
                 elif bmktpredict == "RISE":
                     if mktpxy == "Buy":
                         if CE_position_exists:
-                            print(f"{CE_symbol} exists")
+                            print(f"{CE_symbol} is there, lets skip")
                         else:
                             print(f"{CE_symbol} not there, lets Buy")
                             await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
@@ -134,7 +134,7 @@ async def main():
                     elif mktpxy == "Sell":
                         if nse_power > 0.85:
                             if PE_position_exists:
-                                print(f"{PE_symbol} exists and nse_power > 0.85")
+                                print(f"{PE_symbol} is there, lets skip and nse_power > 0.85")
                             else:
                                 print(f"{PE_symbol} not there, lets Buy and nse_power > 0.85")
                                 await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
@@ -148,7 +148,7 @@ async def main():
 
                     elif mktpxy == "Sell":
                         if PE_position_exists:
-                            print(f"{PE_symbol} exists")
+                            print(f"{PE_symbol} is there, lets skip")
                         else:
                             print(f"{PE_symbol} not there, lets Buy")
                             await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
