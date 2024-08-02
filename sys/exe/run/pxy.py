@@ -140,8 +140,10 @@ while True:
     print("━" * 42)
     if mktpredict in ['FALL', 'SIDE']:
         print(f"{'💥💥 Action - NIFTY on {BRIGHT_RED}FALL{RESET}  જ⁀➴':>38}")
+        print(f"{'✅ ✅ No Action - NIFTY on {BRIGHT_GREEN}RISE{RESET}  🆙 🆙':>38}")
         subprocess.run(['python3', 'cntrlcncpxy.py'] if run_type == 'l' else ['python3', 'cntrlcncpxy.py', '-short'])
     else:
+        print(f"{'💥💥 Action - NIFTY on {BRIGHT_RED}FALL{RESET}  જ⁀➴':>38}")
         print(f"{'✅ ✅ No Action - NIFTY on {BRIGHT_GREEN}RISE{RESET}  🆙 🆙':>38}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     #print((BRIGHT_GREEN + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + UNDERLINE + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)
