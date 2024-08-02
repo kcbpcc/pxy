@@ -116,6 +116,7 @@ while True:
     elif run_type == 'l':
         #subprocess.run(['python3', 'mngoptpxy.py', 'l'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
+    print("*" * 42)
     progress_bar(5, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     
     subprocess.run(['python3', 'acvalchrtpxy.py']) if peak == 'PEAKSTART' else None
