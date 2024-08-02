@@ -214,7 +214,7 @@ output_lines.append(
     right_aligned_format.format(f"NIFTY-dPnL:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}")
 )
 output_lines.append(
-    left_aligned_format.format(f"{BRIGHT_YELLOW}{round(total_invested_all / 100000, 2)}{RESET}") +
+    left_aligned_format.format(f"Opts-tCap:{BRIGHT_YELLOW}{round(total_invested_all / 100000, 2)}{RESET}") +
     right_aligned_format.format(
         f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit + booked + hide) > 0 else BRIGHT_RED}{nifty_profit + bank_profit + booked + hide}{RESET}")
 )
