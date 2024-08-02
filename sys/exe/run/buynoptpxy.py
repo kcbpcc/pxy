@@ -15,7 +15,6 @@ from mktpxy import get_market_check
 from rsnprntpxy import process_orders
 from exprpxy import month_expiry_date
 from nftpxy import get_nse_action
-
 from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
