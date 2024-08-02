@@ -84,13 +84,12 @@ def exit_options(exe_opt_df, broker):
             if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 400:
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
-                    f"🛬🛬🛬 🎯🎯🎯 EXIT order placed {row['key']} successfully.\n"
+                    f"🛬🛬🛬 🎯🎯🎯 EXIT {row['key']}\n"
                     f"🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
                     f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
                     f"📉 Sell Price: {row['ltp']}\n"
                     f"📈 Buy Price: {row['avg']}\n"
-                    f"💰 Booked Profit: {row['PnL']}\n"
-                    f"Total Booked:💰 {total_opt_pnl} 📣"
+                    f"     💰 Booked Profit: {row['PnL']}📣"
                 )
                 print(message)
                 send_telegram_message(message)
