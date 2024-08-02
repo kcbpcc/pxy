@@ -85,11 +85,11 @@ def exit_options(exe_opt_df, broker):
                 place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
                     f"🛬🛬🛬 🎯🎯🎯 EXIT {row['key']}\n"
-                    f"🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
-                    f"🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
-                    f"📉 Sell Price: {row['ltp']}\n"
-                    f"📈 Buy Price: {row['avg']}\n"
-                    f"💰 Booked Profit: {row['PnL']} 📣\n"
+                    f"       🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
+                    f"       🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
+                    f"       📉 Sell Price: {row['ltp']}\n"
+                    f"       📈 Buy Price: {row['avg']}\n"
+                    f"       💰 Booked Profit: {row['PnL']} 📣\n"
                     #f"Total Booked:💰 {total_opt_pnl} 📣"
                 )
                 print(message)
