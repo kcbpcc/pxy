@@ -296,18 +296,18 @@ for group, data in grouped_df:
 #print("━" * 42)
 summary = (
     f"---------PXY® Dash Board----------\n"
-    f"    📈 C&C-tPnL: {round(run_spnl / 100000, 2)}\n"  # Matches C&C-tPnL
-    f"    🪙 Margin: {str(int(available_cash)).zfill(6)}\n"  # Optional Margin info
-    f"    💵 Cash: {str(round(live_balance / 100000, 2)).zfill(4)}\n"  # Matches Cash
-    f"    🏦 A/C-Cap: {str(round(17.82, 2)).zfill(5)}\n"  # Matches A/C-Cap
-    f"    💸 A/C-Now: {str(round(acvalue, 2)).zfill(5)}\n"  # Matches A/C-Now
-    f"    📊 C&C-dPnL: {int(round(all_Stocks_worth_dpnl, 0))}\n"  # Matches C&C-dPnL
-    f"    📝 C&C-bPnL: {str(int(booked)).zfill(5)}\n"  # Matches C&C-bPnL
-    f"    🏧 BANK-dPnL: {str(bank_profit).zfill(5)}\n"  # Matches BANK-dPnL
-    f"    🛺 NIFTY-dPnL: {str(nifty_profit).zfill(5)}\n"  # Matches NIFTY-dPnL
-    f"    ⚖️ B━{ratio_B} / N━{ratio_N}\n"  # Matches B━/N━
-    f"    🎖️ A/C Real Total-PnL: {real_pnl}\n"  # Matches A/C Real Total-PnL
-    f"    💰 Total-dPnL: {str(nifty_profit + bank_profit + booked).zfill(5)}\n"  # Matches Total-dPnL
+    f"    📈 C&C-tPnL: {round(run_spnl / 100000, 2)}\n"
+    f"    🪙 Margin: {str(int(available_cash)).zfill(6)}\n"
+    f"    💵 Cash: {str(round(live_balance / 100000, 2)).zfill(4)}\n"
+    f"    🏦 A/C-Cap: {str(round(17.82, 2)).zfill(5)}\n"
+    f"    💸 A/C-Now: {str(round(acvalue, 2)).zfill(5)}\n"
+    f"    📊 C&C-dPnL: {int(round(all_Stocks_worth_dpnl, 0))}\n"
+    f"    📝 C&C-bPnL: {str(int(booked)).zfill(5)}\n"
+    f"    🏧 BANK-dPnL: {str(bank_profit).zfill(5)}\n"
+    f"    🛺 NIFTY-dPnL: {str(nifty_profit).zfill(5)}\n"
+    f"    ⚖️ Opts-tCap: {round(total_invested_all / 100000, 2)}\n"
+    f"    🎖️ A/C Real Total-PnL: {real_pnl}\n"
+    f"    💰 Total-dPnL: {str(nifty_profit + bank_profit + booked).zfill(5)}\n"
     f"                      \n"
     f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/0aec4aa4)\n"
 )
