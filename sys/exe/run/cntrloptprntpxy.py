@@ -180,11 +180,23 @@ for group, data in grouped_df:
         #print(f"Group N CE/PE ratio: {ratio_N}")
     # Run the appropriate Python script based on the group value
     if group == 'N' and args.command == 's':
-        (lambda: print((BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))() 
-        os.system('python cndlpxy.py')
+        if nsma == "up":
+            os.system('python cndlpxy.py')
+            (lambda: print((BRIGHT_GREEN) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
+        elif nsma == "down":
+            (lambda: print((BRIGHT_RED) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
+            os.system('python cndlpxy.py')
+        else:
+            (lambda: print((BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
     elif group == 'B' and args.command == 's':
-        (lambda: print((BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))() 
-        os.system('python bcndlpxy.py')
+        if bsma == "up":
+            os.system('python bcndlpxy.py')
+            (lambda: print((BRIGHT_GREEN) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
+        elif bsma == "down":
+            (lambda: print((BRIGHT_RED) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
+            os.system('python bcndlpxy.py')
+        else:
+            (lambda: print((BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 
 acvalue = round(total_ac_value + (available_cash / 100000), 2)
