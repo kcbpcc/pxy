@@ -3,6 +3,7 @@ import logging
 from datetime import datetime
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
+import sys
 
 # Initialize logging
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(message)s')
@@ -77,7 +78,6 @@ def get_prices():
             logging.error(f"Error extracting strike price from symbol: {symbol}: {e}")
             return None
 
-
     global bce_symbol, ce_symbol, pe_symbol, bpe_symbol
     # Initialize these variables if not set
     bce_symbol, ce_symbol, pe_symbol, bpe_symbol = "", "", "", ""
@@ -132,4 +132,5 @@ if __name__ == "__main__":
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
+
 
