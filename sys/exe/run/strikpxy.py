@@ -30,7 +30,10 @@ def get_next_month_str():
     now = datetime.now()
     next_month = (now.month % 12) + 1
     next_year = now.year if next_month > 1 else now.year + 1
-    return f"{next_year % 100:02d}{next_month:02d}"  # Format: YYMM
+    
+    # Convert next month to three-letter abbreviation
+    next_month_abbr = datetime(next_year, next_month, 1).strftime('%b').upper()  # e.g., 'JAN', 'FEB'
+    return f"{next_year % 100:02d}{next_month_abbr}"  # Format: YYMMM
 
 def get_cheapest_option_price(option_type, strike_price, kite, index_type='NIFTY'):
     strikes = [strike_price, strike_price + 100, strike_price - 100]
