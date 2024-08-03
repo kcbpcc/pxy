@@ -22,9 +22,32 @@ subprocess.run(['python3', 'cpritepxy.py'])
 import os
 import importlib
 while True:
-    import os
-    import sys
-    import importlib
+    @handle_exceptions
+    def reload_sleeppxy():
+        try:
+            import sleeppxy
+            importlib.reload(sleeppxy)
+            from sleeppxy import progress_bar
+            return progress_bar
+        except ModuleNotFoundError as e:
+            print(f"Module 'sleeppxy' not found: {e}")
+        except AttributeError as e:
+            print(f"Function 'progress_bar' not found in 'sleeppxy': {e}")
+    @handle_exceptions
+    def reload_cyclepxy():
+        try:
+            import cyclepxy
+            importlib.reload(cyclepxy)
+            from cyclepxy import cycle
+            return cycle
+        except ModuleNotFoundError as e:
+            print(f"Module 'cyclepxy' not found: {e}")
+        except AttributeError as e:
+            print(f"Function 'cycle' not found in 'cyclepxy': {e}")
+
+    # Reload modules and functions
+    progress_bar = reload_sleeppxy()
+    cycle = reload_cyclepxy()
     def handle_exceptions(func):
         def wrapper(*args, **kwargs):
             try:
