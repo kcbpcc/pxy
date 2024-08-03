@@ -24,8 +24,8 @@ bsma = check_index_status('^NSEBANK')
 
 
 # Define the tickers
-nifty_ticker = 'NIFTY'
-banknifty_ticker = 'BANKNIFTY'
+nifty_ticker = '^NSEI'
+banknifty_ticker = 'NSEBANK'
 
 # Fetch the data
 nifty_data = yf.Ticker(nifty_ticker).history(period="1d")
