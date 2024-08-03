@@ -240,5 +240,5 @@ while True:
         subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
     print("━" * 42)
     subprocess.run(['python3', 'selfpxy.py'])
-    progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
+    progress_bar(cycle, mktpxy)
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
