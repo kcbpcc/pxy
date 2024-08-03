@@ -1,6 +1,5 @@
 import yfinance as yf
 import logging
-import sys
 from datetime import datetime
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
@@ -9,9 +8,13 @@ from cnstpxy import dir_path
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(message)s')
 
 def get_current_price(symbol):
-    data = yf.Ticker(symbol).history(period="1d", interval="1m")  # Fetch only one day of data
-    current_price = data['Close'].iloc[-1]  # Get the last available price
-    return current_price
+    try:
+        data = yf.Ticker(symbol).history(period="1d", interval="1m")  # Fetch only one day of data
+        current_price = data['Close'].iloc[-1]  # Get the last available price
+        return current_price
+    except Exception as e:
+        logging.error(f"Error fetching current price for {symbol}: {e}")
+        return float('inf')
 
 def round_to_nearest_100(price):
     return round(price / 100) * 100
@@ -29,8 +32,13 @@ def get_cheapest_option_price(option_type, strike_price, kite):
     cheapest_symbol = None
 
     for strike in strikes:
-        symbol = f"BANKNIFTY24AUG{strike:05d}{option_type}" if option_type in ["CE", "PE"] else f"NIFTY24AUG{strike:05d}{option_type}"
+        if option_type in ["CE", "PE"]:
+            symbol = f"NIFTY24AUG{strike:05d}{option_type}"
+        else:
+            symbol = f"BANKNIFTY24AUG{strike:05d}{option_type}"
+        
         try:
+            logging.info(f"Checking symbol: NFO:{symbol}")
             response = kite.ltp(f"NFO:{symbol}")
             ltp = response[f"NFO:{symbol}"]["last_price"]
             if ltp < cheapest_price:
@@ -68,9 +76,6 @@ def print_cheapest_prices(kite):
         print(f"The BPE strike is not available at a cheaper price: {bpe_symbol} at {bpe_price}")
 
 if __name__ == "__main__":
-    # Redirect stdout to file
-    sys.stdout = open('output.log', 'w')
-
     try:
         kite = get_kite()
         print_cheapest_prices(kite)
@@ -78,9 +83,5 @@ if __name__ == "__main__":
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
-    finally:
-        # Reset stdout to default
-        sys.stdout = sys.__stdout__
-
 
 
