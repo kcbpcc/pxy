@@ -1,5 +1,5 @@
 #print("━" * 42)
-from strikpxy import get_prices
+import yfinance as yf
 import os
 import argparse
 import pandas as pd
