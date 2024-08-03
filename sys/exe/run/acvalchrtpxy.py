@@ -73,9 +73,9 @@ else:
 delta_day_color = BRIGHT_GREEN if delta_day >= 0 else BRIGHT_RED
 delta_month_color = BRIGHT_GREEN if delta_month >= 0 else BRIGHT_RED
 
-# Print deltas
-print(f"📊📊📊📊📊  Daily Delta: {delta_day_color}{delta_day:,.2f}{RESET}  📊📊📊📊📊")
-print(f"📊📊📊📊📊  Month Delta: {delta_month_color}{delta_month:,.2f}{RESET}  📊📊📊📊📊")
+# Print deltas to console with zero-padding
+print(f"📊📊📊📊📊   Daily Delta: {delta_day:0=6,.2f}  📊📊📊📊")
+print(f"🎢🎢🎢🎢🎢   Month Delta: {delta_month:0=6,.2f}  🎢🎢🎢🎢")
 
 # Reset terminal color to default
 print(RESET)
