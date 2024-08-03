@@ -210,13 +210,13 @@ output_lines.append(left_aligned_format.format(
     #right_aligned_format.format(f"N-Expiry:{GREY}{last_thursday}{RESET}")
 #)
 output_lines.append(
-    left_aligned_format.format(f"BANK-dPnL:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{bank_profit}{RESET}") +
-    right_aligned_format.format(f"NIFTY-dPnL:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{nifty_profit}{RESET}")
+    left_aligned_format.format(f"BANK-dPnL:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{str(bank_profit).zfill(5)}{RESET}") +
+    right_aligned_format.format(f"NIFTY-dPnL:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{str(nifty_profit).zfill(5)}{RESET}")
 )
 output_lines.append(
     left_aligned_format.format(f"Opts-tCap:{BRIGHT_YELLOW}{round(total_invested_all / 100000, 2)}{RESET}") +
     right_aligned_format.format(
-        f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit + booked + hide) > 0 else BRIGHT_RED}{nifty_profit + bank_profit + booked + hide}{RESET}")
+        f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit + booked + hide) > 0 else BRIGHT_RED}{str(nifty_profit + bank_profit + booked + hide).zfill(5)}{RESET}")
 )
 
 full_output = '\n'.join(output_lines)
