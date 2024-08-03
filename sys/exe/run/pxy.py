@@ -3,119 +3,134 @@ def get_user_input(prompt, default='s'):
     if user_input == '':
         return default
     return user_input
+
 run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long:")
-from sleeppxy import progress_bar
-from cyclepxy import cycle
-import importlib
+
 import subprocess
 import time
 import warnings
 from rich.console import Console
 import sys
 import os
-from clorpxy import RED, GREEN
+from clorpxy import RED, GREEN, SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+
 console = Console()
-import time
-from rich.console import Console
-from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 subprocess.run(['python3', 'cpritepxy.py'])
-import os
-import importlib
+
+def handle_exceptions(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except ImportError as e:
+            print(f"Import error: {e}")
+        except Exception as ex:
+            print(f"An error occurred: {ex}")
+    return wrapper
+
 while True:
-    import os
-    import sys
     import importlib
-    def handle_exceptions(func):
-        def wrapper(*args, **kwargs):
-            try:
-                return func(*args, **kwargs)
-            except ImportError as e:
-                print(f"Import error: {e}")
-            except Exception as ex:
-                print(f"An error occurred: {ex}")
-        return wrapper
-        
+
     @handle_exceptions
-    def reload_mktpxy():
-    importlib.reload(sys.modules['mktpxy'])
-    from mktpxy import get_market_check  # Re-import the function
-    return get_market_check(symbol) 
-    
+    def reload_sleeppxy():
+        importlib.reload(sys.modules['sleeppxy'])
+        from sleeppxy import progress_bar  # Re-import the function
+
     @handle_exceptions
-    def cycle_handler():
-        from cyclepxy import cycle
-        importlib.reload(sys.modules['cyclepxy'])  # Reload module after import
-        return cycle()
+    def reload_cyclepxy():
+        importlib.reload(sys.modules['cyclepxy'])
+        from cyclepxy import cycle  # Re-import the function
+
     @handle_exceptions
     def peak_time_handler():
+        importlib.reload(sys.modules['utcpxy'])
         from utcpxy import peak_time
-        importlib.reload(sys.modules['utcpxy'])  # Reload module after import
         return peak_time()
+
     @handle_exceptions
     def predict_market_sentiment_handler():
+        importlib.reload(sys.modules['predictpxy'])
         from predictpxy import predict_market_sentiment
-        importlib.reload(sys.modules['predictpxy'])  # Reload module after import
         return predict_market_sentiment()
+
     @handle_exceptions
     def get_market_check_handler(symbol):
+        importlib.reload(sys.modules['mktpxy'])
         from mktpxy import get_market_check
-        importlib.reload(sys.modules['mktpxy'])  # Reload module after import
         return get_market_check(symbol)
+
     @handle_exceptions
     def get_nse_action_handler():
+        importlib.reload(sys.modules['nftpxy'])
         from nftpxy import get_nse_action
-        importlib.reload(sys.modules['nftpxy'])  # Reload module after import
         return get_nse_action()
+
     @handle_exceptions
     def calculate_macd_signal_handler(symbol):
         from macdpxy import calculate_macd_signal
         return calculate_macd_signal(symbol)
+
     @handle_exceptions
     def check_index_status_handler(symbol):
         from smapxy import check_index_status
         return check_index_status(symbol)
+
+    # Reload and re-import the necessary modules
+    reload_sleeppxy()
+    reload_cyclepxy()
+
     try:
         peak = peak_time_handler()
         if os.name == 'nt':
-            #pass
             os.system('cls')
         else:
             if peak == 'NONPEAK':
-                #pass
                 os.system('clear -x')
     except Exception as e:
         print(f"Error handling peak time: {e}")
+
     try:
         mktpredict = predict_market_sentiment_handler()
     except Exception as e:
         print(f"Error handling market sentiment prediction: {e}")
         mktpredict = None
+
     try:
         onemincandlesequance, mktpxy = get_market_check_handler('^NSEI')
     except Exception as e:
         print(f"Error handling market check for ^NSEI: {e}")
         onemincandlesequance, mktpxy = "none", "none"
+
     try:
         bnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK')
     except Exception as e:
         print(f"Error handling market check for ^NSEBANK: {e}")
         bnkonemincandlesequance, bmktpxy = "none", "none"
+
     try:
         ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action_handler()
     except Exception as e:
         print(f"Error handling NSE action: {e}")
         ha_nse_action, nse_power, Day_Change, Open_Change = 0.5, 0.5, 0.5, 0.5
+
     try:
         macd = calculate_macd_signal_handler("^NSEI")
     except Exception as e:
         print(f"Error handling MACD signal calculation: {e}")
         macd = None
+
     try:
         nsma = check_index_status_handler('^NSEI')
         bsma = check_index_status_handler('^NSEBANK')
     except Exception as e:
         print(f"Error handling index status: {e}")
         nsma, bsma = None, None
+
+    # Example usage of the imported modules/functions
+    try:
+        progress_bar()
+        cycle()
+    except Exception as e:
+        print(f"Error executing progress_bar or cycle: {e}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print((BRIGHT_GREEN + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)    
     print("*" * 42)
