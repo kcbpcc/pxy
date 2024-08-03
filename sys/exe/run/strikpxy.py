@@ -26,13 +26,13 @@ def get_strikes():
     BPE_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
     return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
 
-def get_cheapest_option_price(option_type, strike_price, kite):
+def get_cheapest_option_price(option_type, strike_price, kite, index_type='NIFTY'):
     strikes = [strike_price, strike_price + 100, strike_price - 100]
     cheapest_price = float('inf')
     cheapest_symbol = None
 
     for strike in strikes:
-        if option_type in ["CE", "PE"]:
+        if index_type == 'NIFTY':
             symbol = f"NIFTY24AUG{strike:05d}{option_type}"
         else:
             symbol = f"BANKNIFTY24AUG{strike:05d}{option_type}"
@@ -56,12 +56,12 @@ def print_cheapest_prices(kite):
     BCE_Strike, CE_Strike, PE_Strike, BPE_Strike = get_strikes()
 
     # For BankNifty options
-    bce_symbol, bce_price = get_cheapest_option_price("CE", BCE_Strike, kite)
-    bpe_symbol, bpe_price = get_cheapest_option_price("PE", BPE_Strike, kite)
+    bce_symbol, bce_price = get_cheapest_option_price("CE", BCE_Strike, kite, index_type='BANKNIFTY')
+    bpe_symbol, bpe_price = get_cheapest_option_price("PE", BPE_Strike, kite, index_type='BANKNIFTY')
 
     # For Nifty options
-    ce_symbol, ce_price = get_cheapest_option_price("CE", CE_Strike, kite)
-    pe_symbol, pe_price = get_cheapest_option_price("PE", PE_Strike, kite)
+    ce_symbol, ce_price = get_cheapest_option_price("CE", CE_Strike, kite, index_type='NIFTY')
+    pe_symbol, pe_price = get_cheapest_option_price("PE", PE_Strike, kite, index_type='NIFTY')
 
     print(f"BCE Strike: {BCE_Strike}, Cheapest BCE: Symbol={bce_symbol}, Price={bce_price}")
     print(f"CE Strike: {CE_Strike}, Cheapest CE: Symbol={ce_symbol}, Price={ce_price}")
@@ -86,5 +86,4 @@ if __name__ == "__main__":
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
-
 
