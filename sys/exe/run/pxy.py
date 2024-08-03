@@ -22,6 +22,7 @@ subprocess.run(['python3', 'cpritepxy.py'])
 import os
 import importlib
 while True:
+    importlib.reload(cyclepxy)
     import os
     import sys
     import importlib
