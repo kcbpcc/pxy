@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     # Define the expiry details
     expiry_year = "24"  # Example expiry year in YY format
-    expiry_month = "08"  # Example expiry month in MM format
+    expiry_month = "AUG"  # Example expiry month in MM format
 
     # Get cheapest prices
     results = get_cheapest_prices(expiry_year, expiry_month, kite)
