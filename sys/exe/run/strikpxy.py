@@ -20,11 +20,11 @@ def round_to_nearest_100(price):
     return round(price / 100) * 100
 
 def get_strikes():
-    BCE_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
-    CE_Strike = round_to_nearest_100(get_current_price('^NSEI'))
-    PE_Strike = round_to_nearest_100(get_current_price('^NSEI'))
-    BPE_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
-    return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
+    BCEX_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
+    CEX_Strike = round_to_nearest_100(get_current_price('^NSEI'))
+    PEX_Strike = round_to_nearest_100(get_current_price('^NSEI'))
+    BPEX_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
+    return BCEX_Strike, CEX_Strike, PEX_Strike, BPEX_Strike
 
 def get_next_month_str():
     now = datetime.now()
@@ -65,29 +65,29 @@ def get_cheapest_option_price(option_type, strike_price, kite, index_type='NIFTY
     return cheapest_symbol, cheapest_price
 
 def print_cheapest_prices(kite):
-    BCE_Strike, CE_Strike, PE_Strike, BPE_Strike = get_strikes()
+    BCEX_Strike, CEX_Strike, PEX_Strike, BPEX_Strike = get_strikes()
 
     # For BankNifty options
-    bce_symbol, bce_price = get_cheapest_option_price("CE", BCE_Strike, kite, index_type='BANKNIFTY')
-    bpe_symbol, bpe_price = get_cheapest_option_price("PE", BPE_Strike, kite, index_type='BANKNIFTY')
+    bce_symbol, bce_price = get_cheapest_option_price("CE", BCEX_Strike, kite, index_type='BANKNIFTY')
+    bpe_symbol, bpe_price = get_cheapest_option_price("PE", BPEX_Strike, kite, index_type='BANKNIFTY')
 
     # For Nifty options
-    ce_symbol, ce_price = get_cheapest_option_price("CE", CE_Strike, kite, index_type='NIFTY')
-    pe_symbol, pe_price = get_cheapest_option_price("PE", PE_Strike, kite, index_type='NIFTY')
+    ce_symbol, ce_price = get_cheapest_option_price("CE", CEX_Strike, kite, index_type='NIFTY')
+    pe_symbol, pe_price = get_cheapest_option_price("PE", PEX_Strike, kite, index_type='NIFTY')
 
-    print(f"BCE Strike: {BCE_Strike}, Cheapest BCE: Symbol={bce_symbol}, Price={bce_price}")
-    print(f"CE Strike: {CE_Strike}, Cheapest CE: Symbol={ce_symbol}, Price={ce_price}")
-    print(f"PE Strike: {PE_Strike}, Cheapest PE: Symbol={pe_symbol}, Price={pe_price}")
-    print(f"BPE Strike: {BPE_Strike}, Cheapest BPE: Symbol={bpe_symbol}, Price={bpe_price}")
+    print(f"BCE Strike: {BCEX_Strike}, Cheapest BCE: Symbol={bce_symbol}, Price={bce_price}")
+    print(f"CE Strike: {CEX_Strike}, Cheapest CE: Symbol={ce_symbol}, Price={ce_price}")
+    print(f"PE Strike: {PEX_Strike}, Cheapest PE: Symbol={pe_symbol}, Price={pe_price}")
+    print(f"BPE Strike: {BPEX_Strike}, Cheapest BPE: Symbol={bpe_symbol}, Price={bpe_price}")
 
     # Checking if the strikes are available at a cheaper price
-    if bce_price == BCE_Strike:
+    if bce_price == BCEX_Strike:
         print(f"The BCE strike is not available at a cheaper price: {bce_symbol} at {bce_price}")
-    if ce_price == CE_Strike:
+    if ce_price == CEX_Strike:
         print(f"The CE strike is not available at a cheaper price: {ce_symbol} at {ce_price}")
-    if pe_price == PE_Strike:
+    if pe_price == PEX_Strike:
         print(f"The PE strike is not available at a cheaper price: {pe_symbol} at {pe_price}")
-    if bpe_price == BPE_Strike:
+    if bpe_price == BPEX_Strike:
         print(f"The BPE strike is not available at a cheaper price: {bpe_symbol} at {bpe_price}")
 
 if __name__ == "__main__":
