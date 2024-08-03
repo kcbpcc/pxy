@@ -21,44 +21,8 @@ from acvalpxy import process_acvalue, retrieve_acvalue
 from smapxy import check_index_status
 nsma = check_index_status('^NSEI')
 bsma = check_index_status('^NSEBANK')
-
-
-# Define the tickers
-nifty_ticker = '^NSEI'
-banknifty_ticker = 'NSEBANK'
-
-# Fetch the data
-nifty_data = yf.Ticker(nifty_ticker).history(period="1d")
-banknifty_data = yf.Ticker(banknifty_ticker).history(period="1d")
-
-# Extract the latest closing price
-nifty_close = nifty_data['Close'].iloc[-1]
-banknifty_close = banknifty_data['Close'].iloc[-1]
-
-# Round to the nearest 100
-Nstrike = round(nifty_close / 100) * 100
-Bstrike = round(banknifty_close / 100) * 100
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+from nbsrikepxy imprt get_strike_prices
+Nstrike , Bstrike = get_strike_prices()
 
 try:
     from fundpxy import calculate_decision
