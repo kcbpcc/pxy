@@ -1,3 +1,29 @@
+
+# Test underlined text
+echo -e "\033[4mUnderlined Text\033[0m"
+
+# Test colored text
+echo -e "\033[32mGreen Text\033[0m"
+
+# Test bold text
+echo -e "\033[1mBold Text\033[0m"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #!/bin/bash
 
 source ~/env/bin/activate
