@@ -66,7 +66,8 @@ def get_cheapest_option_price(option_type, strike_price, kite, index_type='NIFTY
     return cheapest_symbol, cheapest_price
 
 def get_prices():
- def extract_strike_price(symbol):
+    
+    def extract_strike_price(symbol):
         try:
             # Split the symbol to isolate the strike price part
             if 'BANKNIFTY' in symbol:
@@ -85,6 +86,7 @@ def get_prices():
         except (ValueError, IndexError) as e:
             logging.error(f"Error extracting strike price from symbol '{symbol}': {e}")
             return None
+
 
 
 
