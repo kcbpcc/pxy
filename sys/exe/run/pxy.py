@@ -15,6 +15,16 @@ def get_user_input(prompt, default='s'):
         return default
     return user_input
 
+def handle_exceptions(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except ImportError as e:
+            print(f"Import error: {e}")
+        except Exception as ex:
+            print(f"An error occurred: {ex}")
+    return wrapper
+
 # Prompt for user input
 run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long:")
 
