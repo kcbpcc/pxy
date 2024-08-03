@@ -65,42 +65,24 @@ def get_cheapest_option_price(option_type, strike_price, kite, index_type='NIFTY
 
     return cheapest_symbol, cheapest_price
 
-def get_prices():
+def extract_strike_price(symbol):
+    try:
+        # Split the symbol to isolate the strike price part
+        if 'BANKNIFTY' in symbol:
+            parts = symbol.split('BANKNIFTY')[1]
+        elif 'NIFTY' in symbol:
+            parts = symbol.split('NIFTY')[1]
+        else:
+            raise ValueError("Symbol does not contain expected index")
     
-    def extract_strike_price(symbol):
-        try:
-            # Split the symbol to isolate the strike price part
-            if 'BANKNIFTY' in symbol:
-                parts = symbol.split('BANKNIFTY')[1]
-            elif 'NIFTY' in symbol:
-                parts = symbol.split('NIFTY')[1]
-            else:
-                raise ValueError("Symbol does not contain expected index")
-    
-            # The strike price is expected to be the 5-digit number before 'CE' or 'PE'
-            # For symbols like 'BANKNIFTY24SEP51300CE'
-            strike_price_str = parts[5:10]
-            strike_price = int(strike_price_str)
-            
-            return strike_price
-        except (ValueError, IndexError) as e:
-            logging.error(f"Error extracting strike price from symbol '{symbol}': {e}")
-            return None
-
-
-
-
-    global bce_symbol, ce_symbol, pe_symbol, bpe_symbol
-    # Initialize these variables if not set
-    bce_symbol, ce_symbol, pe_symbol, bpe_symbol = "", "", "", ""
-
-    # Assuming these symbols are fetched from other functions and are available here
-    BCE_Strike = extract_strike(bce_symbol)
-    CE_Strike = extract_strike(ce_symbol)
-    PE_Strike = extract_strike(pe_symbol)
-    BPE_Strike = extract_strike(bpe_symbol)
-
-    return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
+        # The strike price is expected to be the 5-digit number before 'CE' or 'PE'
+        strike_price_str = parts[5:10]
+        strike_price = int(strike_price_str)
+        
+        return strike_price
+    except (ValueError, IndexError) as e:
+        logging.error(f"Error extracting strike price from symbol '{symbol}': {e}")
+        return None
 
 def print_cheapest_prices(kite):
     global bce_symbol, ce_symbol, pe_symbol, bpe_symbol
