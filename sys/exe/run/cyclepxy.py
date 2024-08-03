@@ -3,9 +3,9 @@ from datetime import datetime, timedelta
 def calculate_cycle(current_time):
     # Define time intervals in UTC with clear boundaries
     MKTSTART_start_S = datetime.strptime("03:30", "%H:%M").time()
-    MKTSTART_start_E = datetime.strptime("04:14:59.999999", "%H:%M:%S.%f").time()
+    MKTSTART_start_E = datetime.strptime("04:29:59.999999", "%H:%M:%S.%f").time()
 
-    MKTRUN_start_S = datetime.strptime("04:15", "%H:%M").time()
+    MKTRUN_start_S = datetime.strptime("04:30", "%H:%M").time()
     MKTRUN_start_E = datetime.strptime("09:29:59.999999", "%H:%M:%S.%f").time()
 
     MKTEND_start_S = datetime.strptime("09:00", "%H:%M").time()
