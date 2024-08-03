@@ -64,8 +64,8 @@ def determine_quantity(symbol, count, banknifty_prefix, nifty_prefix, bnkmaxcoun
 async def execute_order(broker, symbol, quantity, place_order, send_telegram_message):
     buy_order_placed, buy_order_id = await place_order(broker, symbol, 'BUY', 'NRML', quantity, 'MARKET')
     if buy_order_placed:
-        await send_telegram_message(f"🛫🛫🛫 🌱🌱🌱 {symbol} placed.")
-        print(f"{symbol:>22} successful")
+        await send_telegram_message(f"🏹 Entry placed for {symbol}")
+        print(f"🏹 {symbol:>22} successful")
     else:
         print(f"Failed to place BUY order for {symbol}")
 
