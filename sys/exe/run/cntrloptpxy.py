@@ -1,6 +1,6 @@
 print("━" * 42)
 import sys
-import tracebackvix
+import traceback
 import pandas as pd
 import requests
 import logging
