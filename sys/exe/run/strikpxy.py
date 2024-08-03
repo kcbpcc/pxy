@@ -1,47 +1,19 @@
-import sys
-import logging
 import yfinance as yf
-import warnings
+import logging
 from datetime import datetime
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-
-# Suppress warnings
-warnings.filterwarnings("ignore")
 
 # Initialize logging
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(message)s')
 
 def get_current_price(symbol):
-    try:
-        data = yf.Ticker(symbol).history(period="1d", interval="1m")  # Fetch only one day of data
-        current_price = data['Close'].iloc[-1]  # Get the last available price
-        return current_price
-    except Exception as e:
-        logging.error(f"Error fetching current price for {symbol}: {e}")
-        return None
+    data = yf.Ticker(symbol).history(period="1d", interval="1m")  # Fetch only one day of data
+    current_price = data['Close'].iloc[-1]  # Get the last available price
+    return current_price
 
 def round_to_nearest_100(price):
     return round(price / 100) * 100
-
-def round_to_nearest_200(price):
-    return round(price / 200) * 200
-
-def round_to_nearest_100_or_50(price):
-    return round(price / 50) * 50 if price % 100 < 50 else round(price / 100) * 100
-
-def get_month_abbreviation(month_number):
-    month_map = {
-        1: 'JAN', 2: 'FEB', 3: 'MAR', 4: 'APR', 5: 'MAY', 6: 'JUN',
-        7: 'JUL', 8: 'AUG', 9: 'SEP', 10: 'OCT', 11: 'NOV', 12: 'DEC'
-    }
-    return month_map.get(month_number, 'UNKNOWN')
-
-def get_next_month_abbreviation():
-    today = datetime.now()
-    next_month = today.month % 12 + 1
-    return get_month_abbreviation(next_month)
 
 def get_strikes():
     BCE_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
@@ -50,99 +22,64 @@ def get_strikes():
     BPE_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
     return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
 
-def get_cheapest_option_price(option_type, strike_price, expiry_year, expiry_month, kite, index_symbol):
-    # Convert strike_price to integer
-    strike_price = int(strike_price)
-    strike_prices = [strike_price, strike_price + 100, strike_price - 100]
+def get_cheapest_option_price(option_type, strike_price, kite):
+    strikes = [strike_price, strike_price + 100, strike_price - 100]
     cheapest_price = float('inf')
     cheapest_symbol = None
-    
-    expiry_month_abbr = get_month_abbreviation(expiry_month)
 
-    for strike in strike_prices:
-        option_symbol = f"{index_symbol}{expiry_year}{expiry_month_abbr}{strike:05d}{option_type}"
-        
+    for strike in strikes:
+        symbol = f"BANKNIFTY24AUG{strike:05d}{option_type}" if option_type in ["CE", "PE"] else f"NIFTY24AUG{strike:05d}{option_type}"
         try:
-            response = kite.ltp(f"NFO:{option_symbol}")
-            ltp = response[f"NFO:{option_symbol}"]["last_price"]
-            
+            response = kite.ltp(f"NFO:{symbol}")
+            ltp = response[f"NFO:{symbol}"]["last_price"]
             if ltp < cheapest_price:
                 cheapest_price = ltp
-                cheapest_symbol = option_symbol
-                
+                cheapest_symbol = symbol
         except Exception as e:
-            logging.error(f"Error fetching price for {option_symbol}: {e}")
-    
+            logging.error(f"Error fetching price for {symbol}: {e}")
+
     return cheapest_symbol, cheapest_price
 
-def get_cheapest_prices(kite):
-    expiry_year = datetime.now().year % 100  # Get the current year in YY format
-    expiry_month = datetime.now().month  # Current month for expiry
-    
-    BCE_Strike, CE_Strike, PE_Strike, BPE_Strike = get_strikes()
-    
-    # Bank Nifty options
-    bce_symbol, bce_price = get_cheapest_option_price("CE", BCE_Strike, expiry_year, expiry_month, kite, "BANKNIFTY")
-    bpe_symbol, bpe_price = get_cheapest_option_price("PE", BPE_Strike, expiry_year, expiry_month, kite, "BANKNIFTY")
-    
-    # Nifty options
-    ce_symbol, ce_price = get_cheapest_option_price("CE", CE_Strike, expiry_year, expiry_month, kite, "NIFTY")
-    pe_symbol, pe_price = get_cheapest_option_price("PE", PE_Strike, expiry_year, expiry_month, kite, "NIFTY")
-    
-    return {
-        "BCE_Strike": BCE_Strike,
-        "CE_Strike": CE_Strike,
-        "PE_Strike": PE_Strike,
-        "BPE_Strike": BPE_Strike,
-        "Cheapest_CE": (ce_symbol, ce_price),
-        "Cheapest_PE": (pe_symbol, pe_price),
-        "Cheapest_BCE": (bce_symbol, bce_price),
-        "Cheapest_BPE": (bpe_symbol, bpe_price)
-    }
-
 def print_cheapest_prices(kite):
-    results = get_cheapest_prices(kite)
-    
-    print(f"BCE Strike: {results['BCE_Strike']}, Cheapest BCE: Symbol={results['Cheapest_BCE'][0]}, Price={results['Cheapest_BCE'][1]}")
-    print(f"CE Strike: {results['CE_Strike']}, Cheapest CE: Symbol={results['Cheapest_CE'][0]}, Price={results['Cheapest_CE'][1]}")
-    print(f"PE Strike: {results['PE_Strike']}, Cheapest PE: Symbol={results['Cheapest_PE'][0]}, Price={results['Cheapest_PE'][1]}")
-    print(f"BPE Strike: {results['BPE_Strike']}, Cheapest BPE: Symbol={results['Cheapest_BPE'][0]}, Price={results['Cheapest_BPE'][1]}")
+    BCE_Strike, CE_Strike, PE_Strike, BPE_Strike = get_strikes()
 
-    # Check if all strikes are available at a cheaper price
-    strikes = {
-        "BCE": results['Cheapest_BCE'],
-        "CE": results['Cheapest_CE'],
-        "PE": results['Cheapest_PE'],
-        "BPE": results['Cheapest_BPE']
-    }
-    
-    for key, (symbol, price) in strikes.items():
-        if symbol:
-            current_price = get_current_price(symbol)
-            if current_price and price < current_price:
-                print(f"The {key} strike is available at a cheaper price: {symbol} at {price}")
-            else:
-                print(f"The {key} strike is not available at a cheaper price: {symbol} at {price}")
-        else:
-            print(f"No symbol found for {key}.")
+    # For BankNifty options
+    bce_symbol, bce_price = get_cheapest_option_price("CE", BCE_Strike, kite)
+    bpe_symbol, bpe_price = get_cheapest_option_price("PE", BPE_Strike, kite)
+
+    # For Nifty options
+    ce_symbol, ce_price = get_cheapest_option_price("CE", CE_Strike, kite)
+    pe_symbol, pe_price = get_cheapest_option_price("PE", PE_Strike, kite)
+
+    print(f"BCE Strike: {BCE_Strike}, Cheapest BCE: Symbol={bce_symbol}, Price={bce_price}")
+    print(f"CE Strike: {CE_Strike}, Cheapest CE: Symbol={ce_symbol}, Price={ce_price}")
+    print(f"PE Strike: {PE_Strike}, Cheapest PE: Symbol={pe_symbol}, Price={pe_price}")
+    print(f"BPE Strike: {BPE_Strike}, Cheapest BPE: Symbol={bpe_symbol}, Price={bpe_price}")
+
+    # Checking if the strikes are available at a cheaper price
+    if bce_price == BCE_Strike:
+        print(f"The BCE strike is not available at a cheaper price: {bce_symbol} at {bce_price}")
+    if ce_price == CE_Strike:
+        print(f"The CE strike is not available at a cheaper price: {ce_symbol} at {ce_price}")
+    if pe_price == PE_Strike:
+        print(f"The PE strike is not available at a cheaper price: {pe_symbol} at {pe_price}")
+    if bpe_price == BPE_Strike:
+        print(f"The BPE strike is not available at a cheaper price: {bpe_symbol} at {bpe_price}")
 
 if __name__ == "__main__":
-    # Redirect stdout to avoid printing broker information
-    file = open('kite_log.txt', 'w')
-    sys.stdout = file
+    # Redirect stdout to file
+    sys.stdout = open('output.log', 'w')
 
     try:
         kite = get_kite()
+        print_cheapest_prices(kite)
     except Exception as e:
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
     finally:
-        # Reset sys.stdout to its default value
+        # Reset stdout to default
         sys.stdout = sys.__stdout__
-        file.close()
 
-    # Print cheapest prices
-    print_cheapest_prices(kite)
 
 
