@@ -21,7 +21,7 @@ from acvalpxy import process_acvalue, retrieve_acvalue
 from smapxy import check_index_status
 nsma = check_index_status('^NSEI')
 bsma = check_index_status('^NSEBANK')
-from nbsrikepxy imprt get_strike_prices
+from nbsrikepxy import get_strike_prices
 Nstrike , Bstrike = get_strike_prices()
 
 try:
