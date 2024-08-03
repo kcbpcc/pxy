@@ -111,3 +111,18 @@ def print_cheapest_prices(kite):
         print(f"The PE strike is not available at a cheaper price: {pe_symbol} at {pe_price}")
     if bpe_price == BPEX_Strike:
         print(f"The BPE strike is not available at a cheaper price: {bpe_symbol} at {bpe_price}")
+
+if __name__ == "__main__":
+    try:
+        kite = get_kite()
+        print_cheapest_prices(kite)
+
+        BCE_Strike, CE_Strike, PE_Strike, BPE_Strike = get_prices()
+        print(f"BCE Strike Price: {BCE_Strike}")
+        print(f"CE Strike Price: {CE_Strike}")
+        print(f"PE Strike Price: {PE_Strike}")
+        print(f"BPE Strike Price: {BPE_Strike}")
+    except Exception as e:
+        remove_token(dir_path)
+        logging.error(f"{str(e)} unable to get holdings")
+        sys.exit(1)
