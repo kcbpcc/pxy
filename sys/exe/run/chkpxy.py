@@ -68,7 +68,7 @@ if retry_success_files:
     for file in retry_success_files:
         print(f"  - \033[92m{file}\033[0m")
 else:
-    print("\033[91mNo files ran successfully on second attempt.\033[0m")
+    print("\033[91mNo files ran on second attempt.\033[0m")
 
 if initial_failures:
     print(f"\033[91mFailures after first attempt ({len(initial_failures)}):\033[0m")
