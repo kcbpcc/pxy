@@ -1,26 +1,25 @@
+import os
+import sys
+import time
+import subprocess
+import importlib
+import warnings
+from rich.console import Console
+from clorpxy import RED, GREEN, SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+
+console = Console()
+
 def get_user_input(prompt, default='s'):
     user_input = input(prompt).strip()
     if user_input == '':
         return default
     return user_input
+
+# Prompt for user input
 run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long:")
-from sleeppxy import progress_bar
-from cyclepxy import cycle
-import importlib
-import subprocess
-import time
-import warnings
-from rich.console import Console
-import sys
-import os
-from clorpxy import RED, GREEN
-console = Console()
-import time
-from rich.console import Console
-from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+
+# Run cpritepxy.py
 subprocess.run(['python3', 'cpritepxy.py'])
-import os
-import importlib
 while True:
     @handle_exceptions
     def reload_sleeppxy():
