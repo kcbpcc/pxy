@@ -32,51 +32,99 @@ while True:
 
     @handle_exceptions
     def reload_sleeppxy():
-        importlib.reload(sys.modules['sleeppxy'])
-        from sleeppxy import progress_bar  # Re-import the function
+        try:
+            import sleeppxy
+            importlib.reload(sleeppxy)
+            from sleeppxy import progress_bar
+            return progress_bar
+        except ModuleNotFoundError as e:
+            print(f"Module 'sleeppxy' not found: {e}")
+        except AttributeError as e:
+            print(f"Function 'progress_bar' not found in 'sleeppxy': {e}")
 
     @handle_exceptions
     def reload_cyclepxy():
-        importlib.reload(sys.modules['cyclepxy'])
-        from cyclepxy import cycle  # Re-import the function
+        try:
+            import cyclepxy
+            importlib.reload(cyclepxy)
+            from cyclepxy import cycle
+            return cycle
+        except ModuleNotFoundError as e:
+            print(f"Module 'cyclepxy' not found: {e}")
+        except AttributeError as e:
+            print(f"Function 'cycle' not found in 'cyclepxy': {e}")
 
     @handle_exceptions
     def peak_time_handler():
-        importlib.reload(sys.modules['utcpxy'])
-        from utcpxy import peak_time
-        return peak_time()
+        try:
+            import utcpxy
+            importlib.reload(utcpxy)
+            from utcpxy import peak_time
+            return peak_time()
+        except ModuleNotFoundError as e:
+            print(f"Module 'utcpxy' not found: {e}")
+        except AttributeError as e:
+            print(f"Function 'peak_time' not found in 'utcpxy': {e}")
 
     @handle_exceptions
     def predict_market_sentiment_handler():
-        importlib.reload(sys.modules['predictpxy'])
-        from predictpxy import predict_market_sentiment
-        return predict_market_sentiment()
+        try:
+            import predictpxy
+            importlib.reload(predictpxy)
+            from predictpxy import predict_market_sentiment
+            return predict_market_sentiment()
+        except ModuleNotFoundError as e:
+            print(f"Module 'predictpxy' not found: {e}")
+        except AttributeError as e:
+            print(f"Function 'predict_market_sentiment' not found in 'predictpxy': {e}")
 
     @handle_exceptions
     def get_market_check_handler(symbol):
-        importlib.reload(sys.modules['mktpxy'])
-        from mktpxy import get_market_check
-        return get_market_check(symbol)
+        try:
+            import mktpxy
+            importlib.reload(mktpxy)
+            from mktpxy import get_market_check
+            return get_market_check(symbol)
+        except ModuleNotFoundError as e:
+            print(f"Module 'mktpxy' not found: {e}")
+        except AttributeError as e:
+            print(f"Function 'get_market_check' not found in 'mktpxy': {e}")
 
     @handle_exceptions
     def get_nse_action_handler():
-        importlib.reload(sys.modules['nftpxy'])
-        from nftpxy import get_nse_action
-        return get_nse_action()
+        try:
+            import nftpxy
+            importlib.reload(nftpxy)
+            from nftpxy import get_nse_action
+            return get_nse_action()
+        except ModuleNotFoundError as e:
+            print(f"Module 'nftpxy' not found: {e}")
+        except AttributeError as e:
+            print(f"Function 'get_nse_action' not found in 'nftpxy': {e}")
 
     @handle_exceptions
     def calculate_macd_signal_handler(symbol):
-        from macdpxy import calculate_macd_signal
-        return calculate_macd_signal(symbol)
+        try:
+            from macdpxy import calculate_macd_signal
+            return calculate_macd_signal(symbol)
+        except ModuleNotFoundError as e:
+            print(f"Module 'macdpxy' not found: {e}")
+        except AttributeError as e:
+            print(f"Function 'calculate_macd_signal' not found in 'macdpxy': {e}")
 
     @handle_exceptions
     def check_index_status_handler(symbol):
-        from smapxy import check_index_status
-        return check_index_status(symbol)
+        try:
+            from smapxy import check_index_status
+            return check_index_status(symbol)
+        except ModuleNotFoundError as e:
+            print(f"Module 'smapxy' not found: {e}")
+        except AttributeError as e:
+            print(f"Function 'check_index_status' not found in 'smapxy': {e}")
 
-    # Reload and re-import the necessary modules
-    reload_sleeppxy()
-    reload_cyclepxy()
+    # Reload modules and functions
+    progress_bar = reload_sleeppxy()
+    cycle = reload_cyclepxy()
 
     try:
         peak = peak_time_handler()
@@ -95,19 +143,19 @@ while True:
         mktpredict = None
 
     try:
-        onemincandlesequance, mktpxy = get_market_check_handler('^NSEI')
+        onemincandlesequance, mktpxy = get_market_check_handler('^NSEI') or (None, None)
     except Exception as e:
         print(f"Error handling market check for ^NSEI: {e}")
         onemincandlesequance, mktpxy = "none", "none"
 
     try:
-        bnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK')
+        bnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK') or (None, None)
     except Exception as e:
         print(f"Error handling market check for ^NSEBANK: {e}")
         bnkonemincandlesequance, bmktpxy = "none", "none"
 
     try:
-        ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action_handler()
+        ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action_handler() or (0.5, 0.5, 0.5, 0.5)
     except Exception as e:
         print(f"Error handling NSE action: {e}")
         ha_nse_action, nse_power, Day_Change, Open_Change = 0.5, 0.5, 0.5, 0.5
@@ -127,8 +175,10 @@ while True:
 
     # Example usage of the imported modules/functions
     try:
-        progress_bar()
-        cycle()
+        if progress_bar:
+            progress_bar()
+        if cycle:
+            cycle()
     except Exception as e:
         print(f"Error executing progress_bar or cycle: {e}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
