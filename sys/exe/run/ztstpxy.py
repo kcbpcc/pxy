@@ -1,132 +1,113 @@
-import traceback
-import sys
+import yfinance as yf
 import logging
-import asyncio
 from datetime import datetime
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
-from strikpxy import get_prices
-from ordoptpxy import place_order
-from macdpxy import calculate_macd_signal
-from smapxy import check_index_status
-from mktpxy import get_market_check
-from rsnprntpxy import process_orders
-from exprpxy import month_expiry_date
-from bftpxy import get_bnk_action
-from predictpxy import predict_market_sentiment
-from bpredictpxy import predict_bnk_sentiment
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-from hndmktpxy import hand
+import sys
 
 # Initialize logging
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(message)s')
 
-def get_cheapest_banknifty_symbol(expiry_year, expiry_month, expiry_day, option_type, kite):
-    noptions = BPE_Strike if option_type == "PE" else (BCE_Strike if option_type == "CE" else None)
-    
-    if not noptions:
-        logging.error("Invalid option type provided. Must be 'PE' or 'CE'.")
-        return None, float('inf')
-    
-    symbol = f"BANKNIFTY{expiry_year}{expiry_month}{noptions}{option_type}"
-    
+def get_current_price(symbol):
     try:
-        response = kite.ltp(f"NFO:{symbol}")
-        ltp = response[f"NFO:{symbol}"]["last_price"]
-        return symbol, ltp
+        data = yf.Ticker(symbol).history(period="1d", interval="1m")  # Fetch only one day of data
+        current_price = data['Close'].iloc[-1]  # Get the last available price
+        return current_price
     except Exception as e:
-        logging.error(f"Error fetching price for {symbol}: {e}")
-        return None, float('inf')
+        logging.error(f"Error fetching current price for {symbol}: {e}")
+        return float('inf')
 
-def count_positions_by_type(broker):
-    positions_response = broker.kite.positions()
-    positions_net = positions_response['net']
-    count_CE = 0
-    count_PE = 0
-    for position in positions_net:
-        if position['tradingsymbol'].startswith('BANK') and abs(position['quantity']) >= 15:
-            if position['tradingsymbol'].endswith('CE'):
-                count_CE += 1
-            elif position['tradingsymbol'].endswith('PE'):
-                count_PE += 1
-    return count_CE, count_PE
+def round_to_nearest_100(price):
+    return round(price / 100) * 100
 
-def check_existing_positions(broker, symbol):
-    positions_response = broker.kite.positions()
-    positions_net = positions_response['net']
-    for position in positions_net:
-        if position['tradingsymbol'][-7:] == symbol[-7:] and abs(position['quantity']) >= 15:
-            return True
-    return False
+def get_strikes():
+    BCEX_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
+    CEX_Strike = round_to_nearest_100(get_current_price('^NSEI'))
+    PEX_Strike = round_to_nearest_100(get_current_price('^NSEI'))
+    BPEX_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
+    return BCEX_Strike, CEX_Strike, PEX_Strike, BPEX_Strike
 
-async def main():
-    try:
-        # Redirect sys.stdout to 'output.txt' to suppress console output
-        with open('output.txt', 'w') as file:
-            sys.stdout = file
+def get_next_month_str():
+    now = datetime.now()
+    next_month = (now.month % 12) + 1
+    next_year = now.year if next_month > 1 else now.year + 1
+    
+    # Convert next month to three-letter abbreviation
+    next_month_abbr = datetime(next_year, next_month, 1).strftime('%b').upper()  # e.g., 'JAN', 'FEB'
+    return f"{next_year % 100:02d}{next_month_abbr}"  # Format: YYMMM
 
-            try:
-                broker = get_kite()
-            except Exception as e:
-                remove_token(dir_path)
-                logging.error(f"{str(e)} unable to get holdings")
-                sys.exit(1)
-            finally:
-                # Reset sys.stdout to its default value
-                sys.stdout = sys.__stdout__
+def get_cheapest_option_price(option_type, strike_price, kite, index_type='NIFTY'):
+    strikes = [strike_price, strike_price + 100, strike_price - 100]
+    cheapest_price = float('inf')
+    cheapest_symbol = None
+
+    # Get next month and year
+    next_month_str = get_next_month_str()
+
+    for strike in strikes:
+        if index_type == 'NIFTY':
+            symbol = f"NIFTY{next_month_str}{strike:05d}{option_type}"
+        else:
+            symbol = f"BANKNIFTY{next_month_str}{strike:05d}{option_type}"
+        
+        logging.info(f"Checking symbol: NFO:{symbol}")
+        print(f"Checking symbol: NFO:{symbol}")  # Debugging print
 
         try:
-            from fundpxy import calculate_decision
-            decision, optdecision, available_cash, live_balance, limit = calculate_decision()
-
-            count_CE, count_PE = count_positions_by_type(broker)
-            PE_weight = count_PE - count_CE
-            CE_weight = count_CE - count_PE
-            weight = abs(count_PE - count_CE)
-            strike_price = BCE_Strike
-            logging.info(f"{BRIGHT_YELLOW}{count_PE:02} 📉:PE   ━━━━ {strike_price} | {showhand} ━━━━   CE:📈 {count_CE:02}{RESET}")
-
-            expiry_year, expiry_month, expiry_day = month_expiry_date()
-
-            CE_symbol, CE_price = get_cheapest_banknifty_symbol(expiry_year, expiry_month, expiry_day, 'CE', broker)
-            PE_symbol, PE_price = get_cheapest_banknifty_symbol(expiry_year, expiry_month, expiry_day, 'PE', broker)
-
-            CE_position_exists = check_existing_positions(broker, CE_symbol)
-            PE_position_exists = check_existing_positions(broker, PE_symbol)
-
-            if bmktpredict == "SIDE":
-                if mktpxy == "Buy" and not CE_position_exists:
-                    await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
-
-                if mktpxy == "Sell" and not PE_position_exists:
-                    await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
-
-            elif bmktpredict == "RISE":
-                if mktpxy == "Buy" and not CE_position_exists:
-                    await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
-
-                if mktpxy == "Sell" and not PE_position_exists and nse_power > 0.85:
-                    await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
-
-            elif bmktpredict == "FALL":
-                if mktpxy == "Buy" and not CE_position_exists and nse_power < 0.15:
-                    await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
-
-                if mktpxy == "Sell" and not PE_position_exists:
-                    await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
-
+            response = kite.ltp(f"NFO:{symbol}")
+            ltp = response[f"NFO:{symbol}"]["last_price"]
+            print(f"Price for {symbol}: {ltp}")  # Debugging print
+            if ltp < cheapest_price:
+                cheapest_price = ltp
+                cheapest_symbol = symbol
         except Exception as e:
-            logging.error(f"Error in main(): {e}")
+            logging.error(f"Error fetching price for {symbol}: {e}")
 
-    except Exception as e:
-        logging.error(f"Error in main(): {e}")
+    return cheapest_symbol, cheapest_price
 
-async def run_main():
-    await main()
+def extract_strike_price(symbol):
+    try:
+        # Split the symbol to isolate the strike price part
+        if 'BANKNIFTY' in symbol:
+            parts = symbol.split('BANKNIFTY')[1]
+        elif 'NIFTY' in symbol:
+            parts = symbol.split('NIFTY')[1]
+        else:
+            raise ValueError("Symbol does not contain expected index")
+    
+        # The strike price is expected to be the 5-digit number before 'CE' or 'PE'
+        strike_price_str = parts[5:10]
+        strike_price = int(strike_price_str)
+        
+        return strike_price
+    except (ValueError, IndexError) as e:
+        logging.error(f"Error extracting strike price from symbol '{symbol}': {e}")
+        return None
 
-def sync_main():
-    asyncio.run(run_main())
+def print_cheapest_prices(kite):
+    global bce_symbol, ce_symbol, pe_symbol, bpe_symbol
 
-sync_main()
+    BCEX_Strike, CEX_Strike, PEX_Strike, BPEX_Strike = get_strikes()
 
+    # For BankNifty options
+    bce_symbol, bce_price = get_cheapest_option_price("CE", BCEX_Strike, kite, index_type='BANKNIFTY')
+    bpe_symbol, bpe_price = get_cheapest_option_price("PE", BPEX_Strike, kite, index_type='BANKNIFTY')
 
+    # For Nifty options
+    ce_symbol, ce_price = get_cheapest_option_price("CE", CEX_Strike, kite, index_type='NIFTY')
+    pe_symbol, pe_price = get_cheapest_option_price("PE", PEX_Strike, kite, index_type='NIFTY')
+
+    print(f"BCE Strike: {BCEX_Strike}, Cheapest BCE: Symbol={bce_symbol}, Price={bce_price}")
+    print(f"CE Strike: {CEX_Strike}, Cheapest CE: Symbol={ce_symbol}, Price={ce_price}")
+    print(f"PE Strike: {PEX_Strike}, Cheapest PE: Symbol={pe_symbol}, Price={pe_price}")
+    print(f"BPE Strike: {BPEX_Strike}, Cheapest BPE: Symbol={bpe_symbol}, Price={bpe_price}")
+
+    # Checking if the strikes are available at a cheaper price
+    if bce_price == BCEX_Strike:
+        print(f"The BCE strike is not available at a cheaper price: {bce_symbol} at {bce_price}")
+    if ce_price == CEX_Strike:
+        print(f"The CE strike is not available at a cheaper price: {ce_symbol} at {ce_price}")
+    if pe_price == PEX_Strike:
+        print(f"The PE strike is not available at a cheaper price: {pe_symbol} at {pe_price}")
+    if bpe_price == BPEX_Strike:
+        print(f"The BPE strike is not available at a cheaper price: {bpe_symbol} at {bpe_price}")
