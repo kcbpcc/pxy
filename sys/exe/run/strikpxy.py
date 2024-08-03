@@ -67,13 +67,16 @@ def get_cheapest_option_price(option_type, strike_price, kite, index_type='NIFTY
 def get_prices():
     def extract_strike(symbol):
         try:
-            # Assumes the symbol format is "NIFTY24AUG18000CE" or "BANKNIFTY24AUG41000PE"
-            # Extracting the 5-digit strike price
-            strike_price = int(symbol[-8:-3])
+            # Debugging print to see the symbol and the extracted part
+            print(f"Extracting strike price from symbol: {symbol}")
+            extracted_part = symbol[-8:-3]
+            print(f"Extracted part for strike price: {extracted_part}")
+            strike_price = int(extracted_part)
             return strike_price
-        except (ValueError, IndexError):
-            logging.error(f"Error extracting strike price from symbol: {symbol}")
+        except (ValueError, IndexError) as e:
+            logging.error(f"Error extracting strike price from symbol: {symbol}: {e}")
             return None
+
 
     global bce_symbol, ce_symbol, pe_symbol, bpe_symbol
     # Initialize these variables if not set
