@@ -207,4 +207,4 @@ if filtered_data.empty:
     print("Still fishing🔎🎣, nothing surfaced yet.🐟")
 else:
     print ("Surfaced .🐟, let's try to catch them 🔎🎣")
-    print(filtered_data.to_string(header=False, index=False, col_space=[2, 12, 3, 4,2, 4, 7]))
+    print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 3, 4, 2, 6, 7]))
