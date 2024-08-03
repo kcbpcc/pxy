@@ -14,9 +14,13 @@ warnings.filterwarnings("ignore")
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(message)s')
 
 def get_current_price(symbol):
-    data = yf.Ticker(symbol).history(period="1d", interval="1m")  # Fetch only one day of data
-    current_price = data['Close'].iloc[-1]  # Get the last available price
-    return current_price
+    try:
+        data = yf.Ticker(symbol).history(period="1d", interval="1m")  # Fetch only one day of data
+        current_price = data['Close'].iloc[-1]  # Get the last available price
+        return current_price
+    except Exception as e:
+        logging.error(f"Error fetching current price for {symbol}: {e}")
+        return None
 
 def round_to_nearest_100(price):
     return round(price / 100) * 100
@@ -73,7 +77,8 @@ def get_cheapest_option_price(option_type, strike_price, expiry_year, expiry_mon
 
 def get_cheapest_prices(kite):
     expiry_year = datetime.now().year % 100  # Get the current year in YY format
-    expiry_month = get_next_month_abbreviation()
+    expiry_month = datetime.now().month  # Current month for expiry
+    
     BCE_Strike, CE_Strike, PE_Strike, BPE_Strike = get_strikes()
     
     ce_symbol, ce_price = get_cheapest_option_price("CE", CE_Strike, expiry_year, expiry_month, kite)
@@ -109,11 +114,14 @@ def print_cheapest_prices(kite):
     }
     
     for key, (symbol, price) in strikes.items():
-        current_price = get_current_price(symbol)
-        if price < current_price:
-            print(f"The {key} strike is available at a cheaper price: {symbol} at {price}")
+        if symbol:
+            current_price = get_current_price(symbol)
+            if current_price and price < current_price:
+                print(f"The {key} strike is available at a cheaper price: {symbol} at {price}")
+            else:
+                print(f"The {key} strike is not available at a cheaper price: {symbol} at {price}")
         else:
-            print(f"The {key} strike is not available at a cheaper price: {symbol} at {price}")
+            print(f"No symbol found for {key}.")
 
 if __name__ == "__main__":
     # Redirect stdout to avoid printing broker information
