@@ -22,7 +22,7 @@ from smapxy import check_index_status
 nsma = check_index_status('^NSEI')
 bsma = check_index_status('^NSEBANK')
 from nbsrikepxy import get_strike_prices
-Nstrike , Bstrike = get_strike_prices()
+Bstrike, Nstrike = get_strike_prices()
 
 try:
     from fundpxy import calculate_decision
