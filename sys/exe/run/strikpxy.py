@@ -1,5 +1,6 @@
 import yfinance as yf
 import logging
+import sys
 from datetime import datetime
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
