@@ -30,6 +30,7 @@ run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long
 
 # Run cpritepxy.py
 subprocess.run(['python3', 'cpritepxy.py'])
+
 while True:
     @handle_exceptions
     def reload_sleeppxy():
@@ -42,6 +43,7 @@ while True:
             print(f"Module 'sleeppxy' not found: {e}")
         except AttributeError as e:
             print(f"Function 'progress_bar' not found in 'sleeppxy': {e}")
+            
     @handle_exceptions
     def reload_cyclepxy():
         try:
@@ -57,90 +59,93 @@ while True:
     # Reload modules and functions
     progress_bar = reload_sleeppxy()
     cycle = reload_cyclepxy()
-    def handle_exceptions(func):
-        def wrapper(*args, **kwargs):
-            try:
-                return func(*args, **kwargs)
-            except ImportError as e:
-                print(f"Import error: {e}")
-            except Exception as ex:
-                print(f"An error occurred: {ex}")
-        return wrapper
-        
+
     @handle_exceptions
     def reload_mktpxy():
         importlib.reload(sys.modules['mktpxy'])
         from mktpxy import get_market_check  # Re-import the function
         return get_market_check(symbol) 
+
     @handle_exceptions
     def cycle_handler():
         from cyclepxy import cycle
         importlib.reload(sys.modules['cyclepxy'])  # Reload module after import
         return cycle()
+
     @handle_exceptions
     def peak_time_handler():
         from utcpxy import peak_time
         importlib.reload(sys.modules['utcpxy'])  # Reload module after import
         return peak_time()
+
     @handle_exceptions
     def predict_market_sentiment_handler():
         from predictpxy import predict_market_sentiment
         importlib.reload(sys.modules['predictpxy'])  # Reload module after import
         return predict_market_sentiment()
+
     @handle_exceptions
     def get_market_check_handler(symbol):
         from mktpxy import get_market_check
         importlib.reload(sys.modules['mktpxy'])  # Reload module after import
         return get_market_check(symbol)
+
     @handle_exceptions
     def get_nse_action_handler():
         from nftpxy import get_nse_action
         importlib.reload(sys.modules['nftpxy'])  # Reload module after import
         return get_nse_action()
+
     @handle_exceptions
     def calculate_macd_signal_handler(symbol):
         from macdpxy import calculate_macd_signal
         return calculate_macd_signal(symbol)
+
     @handle_exceptions
     def check_index_status_handler(symbol):
         from smapxy import check_index_status
         return check_index_status(symbol)
+
     try:
         peak = peak_time_handler()
         if os.name == 'nt':
-            #pass
             os.system('cls')
         else:
             if peak == 'NONPEAK':
-                #pass
                 os.system('clear -x')
     except Exception as e:
         print(f"Error handling peak time: {e}")
+
     try:
         mktpredict = predict_market_sentiment_handler()
     except Exception as e:
         print(f"Error handling market sentiment prediction: {e}")
         mktpredict = None
+
     try:
         onemincandlesequance, mktpxy = get_market_check_handler('^NSEI')
     except Exception as e:
         print(f"Error handling market check for ^NSEI: {e}")
         onemincandlesequance, mktpxy = "none", "none"
+
     try:
         bnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK')
     except Exception as e:
         print(f"Error handling market check for ^NSEBANK: {e}")
         bnkonemincandlesequance, bmktpxy = "none", "none"
+
     try:
         ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action_handler()
     except Exception as e:
         print(f"Error handling NSE action: {e}")
         ha_nse_action, nse_power, Day_Change, Open_Change = 0.5, 0.5, 0.5, 0.5
+
     try:
         macd = calculate_macd_signal_handler("^NSEI")
     except Exception as e:
         print(f"Error handling MACD signal calculation: {e}")
         macd = None
+
     try:
         nsma = check_index_status_handler('^NSEI')
         bsma = check_index_status_handler('^NSEBANK')
