@@ -205,7 +205,7 @@ print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP
 filtered_data = print_df.query('qty > 0')[['MN', 'strike', 'qty','tgtoptsmadepth', 'PL%', 'PnL', 'CP']]
 print("━" * 42)
 if filtered_data.empty:
-    print("Still fishing🔎🎣, nothing surfaced yet.🐟")
+    print("Still fishing.🔎🎣, nothing surfaced yet.🐟")
 else:
     print ("Surfaced .🐟, let's try to catch them 🔎🎣")
     print(filtered_data.to_string(header=False, index=False, col_space=[2, 12, 3, 4, 4, 7, 2]))
