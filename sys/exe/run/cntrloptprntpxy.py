@@ -18,15 +18,9 @@ from prftpxy import process_data_total_profit
 booked = process_data_total_profit()
 from telsumrypxy import check_and_send_summary
 from acvalpxy import process_acvalue, retrieve_acvalue
-BCE_Strike, CE_Strike, PE_Strike, BPE_Strike = get_prices()
 from smapxy import check_index_status
 nsma = check_index_status('^NSEI')
 bsma = check_index_status('^NSEBANK')
-
-# Calculate Nstrike
-Nstrike = (PE_Strike + CE_Strike) // 2
-# Calculate Bstrike
-Bstrike = (BCE_Strike + BPE_Strike) // 2
 
 try:
     from fundpxy import calculate_decision
