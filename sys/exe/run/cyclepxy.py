@@ -51,6 +51,6 @@ def calculate_cycle(current_time):
 current_utc_time = datetime.utcnow().time()
 
 # Calculate loop duration based on current time
-cycle = calculate_cycle(current_utc_time)
-print(f"Current cycle time: {cycle} seconds")
+#cycle = calculate_cycle(current_utc_time)
+#print(f"Current cycle time: {cycle} seconds")
 
