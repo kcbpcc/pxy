@@ -37,10 +37,9 @@ while True:
         
     @handle_exceptions
     def reload_mktpxy():
-    importlib.reload(sys.modules['mktpxy'])
-    from mktpxy import get_market_check  # Re-import the function
-    return get_market_check(symbol) 
-    
+        importlib.reload(sys.modules['mktpxy'])
+        from mktpxy import get_market_check  # Re-import the function
+        return get_market_check(symbol) 
     @handle_exceptions
     def cycle_handler():
         from cyclepxy import cycle
