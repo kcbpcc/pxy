@@ -50,7 +50,7 @@ def get_strikes():
     BPE_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
     return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
 
-def get_cheapest_option_price(option_type, strike_price, expiry_year, expiry_month, kite):
+def get_cheapest_option_price(option_type, strike_price, expiry_year, expiry_month, kite, index_symbol):
     # Convert strike_price to integer
     strike_price = int(strike_price)
     strike_prices = [strike_price, strike_price + 100, strike_price - 100]
@@ -60,7 +60,7 @@ def get_cheapest_option_price(option_type, strike_price, expiry_year, expiry_mon
     expiry_month_abbr = get_month_abbreviation(expiry_month)
 
     for strike in strike_prices:
-        option_symbol = f"BANKNIFTY{expiry_year}{expiry_month_abbr}{strike:05d}{option_type}"
+        option_symbol = f"{index_symbol}{expiry_year}{expiry_month_abbr}{strike:05d}{option_type}"
         
         try:
             response = kite.ltp(f"NFO:{option_symbol}")
@@ -81,10 +81,13 @@ def get_cheapest_prices(kite):
     
     BCE_Strike, CE_Strike, PE_Strike, BPE_Strike = get_strikes()
     
-    ce_symbol, ce_price = get_cheapest_option_price("CE", CE_Strike, expiry_year, expiry_month, kite)
-    pe_symbol, pe_price = get_cheapest_option_price("PE", PE_Strike, expiry_year, expiry_month, kite)
-    bce_symbol, bce_price = get_cheapest_option_price("CE", BCE_Strike, expiry_year, expiry_month, kite)
-    bpe_symbol, bpe_price = get_cheapest_option_price("PE", BPE_Strike, expiry_year, expiry_month, kite)
+    # Bank Nifty options
+    bce_symbol, bce_price = get_cheapest_option_price("CE", BCE_Strike, expiry_year, expiry_month, kite, "BANKNIFTY")
+    bpe_symbol, bpe_price = get_cheapest_option_price("PE", BPE_Strike, expiry_year, expiry_month, kite, "BANKNIFTY")
+    
+    # Nifty options
+    ce_symbol, ce_price = get_cheapest_option_price("CE", CE_Strike, expiry_year, expiry_month, kite, "NIFTY")
+    pe_symbol, pe_price = get_cheapest_option_price("PE", PE_Strike, expiry_year, expiry_month, kite, "NIFTY")
     
     return {
         "BCE_Strike": BCE_Strike,
