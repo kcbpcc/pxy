@@ -3,184 +3,119 @@ def get_user_input(prompt, default='s'):
     if user_input == '':
         return default
     return user_input
-
 run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long:")
-
+from sleeppxy import progress_bar
+from cyclepxy import cycle
+import importlib
 import subprocess
 import time
 import warnings
 from rich.console import Console
 import sys
 import os
-from clorpxy import RED, GREEN, SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-
+from clorpxy import RED, GREEN
 console = Console()
+import time
+from rich.console import Console
+from clorpxy import SILVER, UNDERLINE, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 subprocess.run(['python3', 'cpritepxy.py'])
-
-def handle_exceptions(func):
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except ImportError as e:
-            print(f"Import error: {e}")
-        except Exception as ex:
-            print(f"An error occurred: {ex}")
-    return wrapper
-
+import os
+import importlib
 while True:
+    import os
+    import sys
     import importlib
-
+    def handle_exceptions(func):
+        def wrapper(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except ImportError as e:
+                print(f"Import error: {e}")
+            except Exception as ex:
+                print(f"An error occurred: {ex}")
+        return wrapper
+        
     @handle_exceptions
-    def reload_sleeppxy():
-        try:
-            import sleeppxy
-            importlib.reload(sleeppxy)
-            from sleeppxy import progress_bar
-            return progress_bar
-        except ModuleNotFoundError as e:
-            print(f"Module 'sleeppxy' not found: {e}")
-        except AttributeError as e:
-            print(f"Function 'progress_bar' not found in 'sleeppxy': {e}")
-
+    def reload_mktpxy():
+    importlib.reload(sys.modules['mktpxy'])
+    from mktpxy import get_market_check  # Re-import the function
+    return get_market_check(symbol) 
+    
     @handle_exceptions
-    def reload_cyclepxy():
-        try:
-            import cyclepxy
-            importlib.reload(cyclepxy)
-            from cyclepxy import cycle
-            return cycle
-        except ModuleNotFoundError as e:
-            print(f"Module 'cyclepxy' not found: {e}")
-        except AttributeError as e:
-            print(f"Function 'cycle' not found in 'cyclepxy': {e}")
-
+    def cycle_handler():
+        from cyclepxy import cycle
+        importlib.reload(sys.modules['cyclepxy'])  # Reload module after import
+        return cycle()
     @handle_exceptions
     def peak_time_handler():
-        try:
-            import utcpxy
-            importlib.reload(utcpxy)
-            from utcpxy import peak_time
-            return peak_time()
-        except ModuleNotFoundError as e:
-            print(f"Module 'utcpxy' not found: {e}")
-        except AttributeError as e:
-            print(f"Function 'peak_time' not found in 'utcpxy': {e}")
-
+        from utcpxy import peak_time
+        importlib.reload(sys.modules['utcpxy'])  # Reload module after import
+        return peak_time()
     @handle_exceptions
     def predict_market_sentiment_handler():
-        try:
-            import predictpxy
-            importlib.reload(predictpxy)
-            from predictpxy import predict_market_sentiment
-            return predict_market_sentiment()
-        except ModuleNotFoundError as e:
-            print(f"Module 'predictpxy' not found: {e}")
-        except AttributeError as e:
-            print(f"Function 'predict_market_sentiment' not found in 'predictpxy': {e}")
-
+        from predictpxy import predict_market_sentiment
+        importlib.reload(sys.modules['predictpxy'])  # Reload module after import
+        return predict_market_sentiment()
     @handle_exceptions
     def get_market_check_handler(symbol):
-        try:
-            import mktpxy
-            importlib.reload(mktpxy)
-            from mktpxy import get_market_check
-            return get_market_check(symbol)
-        except ModuleNotFoundError as e:
-            print(f"Module 'mktpxy' not found: {e}")
-        except AttributeError as e:
-            print(f"Function 'get_market_check' not found in 'mktpxy': {e}")
-
+        from mktpxy import get_market_check
+        importlib.reload(sys.modules['mktpxy'])  # Reload module after import
+        return get_market_check(symbol)
     @handle_exceptions
     def get_nse_action_handler():
-        try:
-            import nftpxy
-            importlib.reload(nftpxy)
-            from nftpxy import get_nse_action
-            return get_nse_action()
-        except ModuleNotFoundError as e:
-            print(f"Module 'nftpxy' not found: {e}")
-        except AttributeError as e:
-            print(f"Function 'get_nse_action' not found in 'nftpxy': {e}")
-
+        from nftpxy import get_nse_action
+        importlib.reload(sys.modules['nftpxy'])  # Reload module after import
+        return get_nse_action()
     @handle_exceptions
     def calculate_macd_signal_handler(symbol):
-        try:
-            from macdpxy import calculate_macd_signal
-            return calculate_macd_signal(symbol)
-        except ModuleNotFoundError as e:
-            print(f"Module 'macdpxy' not found: {e}")
-        except AttributeError as e:
-            print(f"Function 'calculate_macd_signal' not found in 'macdpxy': {e}")
-
+        from macdpxy import calculate_macd_signal
+        return calculate_macd_signal(symbol)
     @handle_exceptions
     def check_index_status_handler(symbol):
-        try:
-            from smapxy import check_index_status
-            return check_index_status(symbol)
-        except ModuleNotFoundError as e:
-            print(f"Module 'smapxy' not found: {e}")
-        except AttributeError as e:
-            print(f"Function 'check_index_status' not found in 'smapxy': {e}")
-
-    # Reload modules and functions
-    progress_bar = reload_sleeppxy()
-    cycle = reload_cyclepxy()
-
+        from smapxy import check_index_status
+        return check_index_status(symbol)
     try:
         peak = peak_time_handler()
         if os.name == 'nt':
+            #pass
             os.system('cls')
         else:
             if peak == 'NONPEAK':
+                #pass
                 os.system('clear -x')
     except Exception as e:
         print(f"Error handling peak time: {e}")
-
     try:
         mktpredict = predict_market_sentiment_handler()
     except Exception as e:
         print(f"Error handling market sentiment prediction: {e}")
         mktpredict = None
-
     try:
-        onemincandlesequance, mktpxy = get_market_check_handler('^NSEI') or (None, None)
+        onemincandlesequance, mktpxy = get_market_check_handler('^NSEI')
     except Exception as e:
         print(f"Error handling market check for ^NSEI: {e}")
         onemincandlesequance, mktpxy = "none", "none"
-
     try:
-        bnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK') or (None, None)
+        bnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK')
     except Exception as e:
         print(f"Error handling market check for ^NSEBANK: {e}")
         bnkonemincandlesequance, bmktpxy = "none", "none"
-
     try:
-        ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action_handler() or (0.5, 0.5, 0.5, 0.5)
+        ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action_handler()
     except Exception as e:
         print(f"Error handling NSE action: {e}")
         ha_nse_action, nse_power, Day_Change, Open_Change = 0.5, 0.5, 0.5, 0.5
-
     try:
         macd = calculate_macd_signal_handler("^NSEI")
     except Exception as e:
         print(f"Error handling MACD signal calculation: {e}")
         macd = None
-
     try:
         nsma = check_index_status_handler('^NSEI')
         bsma = check_index_status_handler('^NSEBANK')
     except Exception as e:
         print(f"Error handling index status: {e}")
         nsma, bsma = None, None
-
-    # Example usage of the imported modules/functions
-    try:
-        if progress_bar:
-            progress_bar()
-        if cycle:
-            cycle()
-    except Exception as e:
-        print(f"Error executing progress_bar or cycle: {e}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print((BRIGHT_GREEN + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)    
     print("*" * 42)
@@ -240,5 +175,5 @@ while True:
         subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
     print("━" * 42)
     subprocess.run(['python3', 'selfpxy.py'])
-    progress_bar(cycle, mktpxy)
+    progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
