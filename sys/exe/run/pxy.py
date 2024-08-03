@@ -22,7 +22,6 @@ subprocess.run(['python3', 'cpritepxy.py'])
 import os
 import importlib
 while True:
-    importlib.reload(cyclepxy)
     import os
     import sys
     import importlib
@@ -35,6 +34,11 @@ while True:
             except Exception as ex:
                 print(f"An error occurred: {ex}")
         return wrapper
+    @handle_exceptions
+    def cycle_handler():
+        from cyclepxy import cycle
+        importlib.reload(sys.modules['cyclepxy'])  # Reload module after import
+        return cycle()
     @handle_exceptions
     def peak_time_handler():
         from utcpxy import peak_time
