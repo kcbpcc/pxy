@@ -1,6 +1,6 @@
 print("━" * 42)
 import sys
-import traceback
+import tracebackvix
 import pandas as pd
 import requests
 import logging
@@ -207,4 +207,4 @@ if filtered_data.empty:
     print("Still fishing🔎🎣, nothing surfaced yet.🐟")
 else:
     print ("Surfaced .🐟, let's try to catch them 🔎🎣")
-    print(filtered_data.to_string(header=False, index=False, col_space=[2, 12, 3, 4, 4, 7, 2]))
+    print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 3, 4, 6, 7, 2]))
