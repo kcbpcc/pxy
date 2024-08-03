@@ -26,16 +26,25 @@ def get_strikes():
     BPE_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
     return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
 
+def get_next_month_str():
+    now = datetime.now()
+    next_month = (now.month % 12) + 1
+    next_year = now.year if next_month > 1 else now.year + 1
+    return f"{next_year % 100:02d}{next_month:02d}"  # Format: YYMM
+
 def get_cheapest_option_price(option_type, strike_price, kite, index_type='NIFTY'):
     strikes = [strike_price, strike_price + 100, strike_price - 100]
     cheapest_price = float('inf')
     cheapest_symbol = None
 
+    # Get next month and year
+    next_month_str = get_next_month_str()
+
     for strike in strikes:
         if index_type == 'NIFTY':
-            symbol = f"NIFTY24AUG{strike:05d}{option_type}"
+            symbol = f"NIFTY{next_month_str}{strike:05d}{option_type}"
         else:
-            symbol = f"BANKNIFTY24AUG{strike:05d}{option_type}"
+            symbol = f"BANKNIFTY{next_month_str}{strike:05d}{option_type}"
         
         logging.info(f"Checking symbol: NFO:{symbol}")
         print(f"Checking symbol: NFO:{symbol}")  # Debugging print
@@ -86,3 +95,4 @@ if __name__ == "__main__":
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
+
