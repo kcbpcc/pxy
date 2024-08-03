@@ -64,7 +64,32 @@ def get_cheapest_option_price(option_type, strike_price, kite, index_type='NIFTY
 
     return cheapest_symbol, cheapest_price
 
+def get_prices():
+    def extract_strike(symbol):
+        try:
+            # Assumes the symbol format is "NIFTY24AUG18000CE" or "BANKNIFTY24AUG41000PE"
+            # Extracting the 5-digit strike price
+            strike_price = int(symbol[-8:-3])
+            return strike_price
+        except (ValueError, IndexError):
+            logging.error(f"Error extracting strike price from symbol: {symbol}")
+            return None
+
+    global bce_symbol, ce_symbol, pe_symbol, bpe_symbol
+    # Initialize these variables if not set
+    bce_symbol, ce_symbol, pe_symbol, bpe_symbol = "", "", "", ""
+
+    # Assuming these symbols are fetched from other functions and are available here
+    BCE_Strike = extract_strike(bce_symbol)
+    CE_Strike = extract_strike(ce_symbol)
+    PE_Strike = extract_strike(pe_symbol)
+    BPE_Strike = extract_strike(bpe_symbol)
+
+    return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
+
 def print_cheapest_prices(kite):
+    global bce_symbol, ce_symbol, pe_symbol, bpe_symbol
+
     BCEX_Strike, CEX_Strike, PEX_Strike, BPEX_Strike = get_strikes()
 
     # For BankNifty options
@@ -94,6 +119,12 @@ if __name__ == "__main__":
     try:
         kite = get_kite()
         print_cheapest_prices(kite)
+
+        BCE_Strike, CE_Strike, PE_Strike, BPE_Strike = get_prices()
+        print(f"BCE Strike Price: {BCE_Strike}")
+        print(f"CE Strike Price: {CE_Strike}")
+        print(f"PE Strike Price: {PE_Strike}")
+        print(f"BPE Strike Price: {BPE_Strike}")
     except Exception as e:
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get holdings")
