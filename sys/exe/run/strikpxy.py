@@ -66,27 +66,25 @@ def get_cheapest_option_price(option_type, strike_price, kite, index_type='NIFTY
     return cheapest_symbol, cheapest_price
 
 def get_prices():
-    def extract_strike(symbol):
+    def extract_strike_price(symbol):
         try:
-            # Example symbol: BANKNIFTY24SEP51300CE
-            # Strike price is between the expiry date and the option type.
-            # Extract the strike price substring
-            parts = symbol.split('NIFTY') if 'NIFTY' in symbol else symbol.split('BANKNIFTY')
-            if len(parts) < 2:
-                raise ValueError("Symbol format is incorrect")
-            
-            symbol_part = parts[1]  # Extract the part after 'BANKNIFTY' or 'NIFTY'
-            strike_price_str = symbol_part[:5]  # Assuming strike price is 5 characters long
+            # Extract the strike price substring based on known format
+            # Example symbols: BANKNIFTY24SEP51300CE, NIFTY24SEP24700CE
+            if 'BANKNIFTY' in symbol:
+                parts = symbol.split('BANKNIFTY')[1]
+            elif 'NIFTY' in symbol:
+                parts = symbol.split('NIFTY')[1]
+            else:
+                raise ValueError("Symbol does not contain expected index")
+    
+            # The strike price is typically 5 characters long (e.g., 51300)
+            strike_price_str = parts[5:10]  # Extract from position 5 to 10
             strike_price = int(strike_price_str)
             
-            # Debugging print
-            print(f"Extracted strike price from symbol '{symbol}': {strike_price}")
             return strike_price
         except (ValueError, IndexError) as e:
             logging.error(f"Error extracting strike price from symbol '{symbol}': {e}")
             return None
-
-
 
 
     global bce_symbol, ce_symbol, pe_symbol, bpe_symbol
