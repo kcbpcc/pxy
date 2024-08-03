@@ -37,10 +37,13 @@ def get_cheapest_option_price(option_type, strike_price, kite):
         else:
             symbol = f"BANKNIFTY24AUG{strike:05d}{option_type}"
         
+        logging.info(f"Checking symbol: NFO:{symbol}")
+        print(f"Checking symbol: NFO:{symbol}")  # Debugging print
+
         try:
-            logging.info(f"Checking symbol: NFO:{symbol}")
             response = kite.ltp(f"NFO:{symbol}")
             ltp = response[f"NFO:{symbol}"]["last_price"]
+            print(f"Price for {symbol}: {ltp}")  # Debugging print
             if ltp < cheapest_price:
                 cheapest_price = ltp
                 cheapest_symbol = symbol
@@ -83,5 +86,6 @@ if __name__ == "__main__":
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get holdings")
         sys.exit(1)
+
 
 
