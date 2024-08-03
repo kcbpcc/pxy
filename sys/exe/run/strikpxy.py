@@ -70,13 +70,20 @@ def get_prices():
         try:
             # Debugging print to see the symbol and the extracted part
             print(f"Extracting strike price from symbol: {symbol}")
+            if not symbol:
+                raise ValueError("Symbol is empty or None")
+    
+            # Extract the last 8 characters and take a slice from index -8 to -3 for strike price
             extracted_part = symbol[-8:-3]
             print(f"Extracted part for strike price: {extracted_part}")
+    
+            # Convert the extracted part to integer
             strike_price = int(extracted_part)
             return strike_price
         except (ValueError, IndexError) as e:
             logging.error(f"Error extracting strike price from symbol: {symbol}: {e}")
             return None
+
 
     global bce_symbol, ce_symbol, pe_symbol, bpe_symbol
     # Initialize these variables if not set
