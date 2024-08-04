@@ -109,20 +109,25 @@ def place_order(symbol, broker, purchase_limit, quantity):
         logger.error(f"Error while placing order: {str(e)}")
 
 def main():
-    symbols = [
-        "KARURVYSYA", "KOTAKBANK", "KTKBANK", "MAHABANK", "PNB", "PSB", "RBLBANK", "SBIN",
-        "SOUTHBANK", "SURYODAY", "TMB", "UCOBANK", "UJJIVANSFB", "UNIONBANK", "UTKARSHBNK",
-        "YESBANK", "AUBANK", "AXISBANK", "BANDHANBNK", "BANKBARODA", "BANKINDIA", "CANBK",
-        "CAPITALSFB", "CENTRALBK", "CSBBANK", "CUB", "DCBBANK", "DHANBANK", "EQUITASBNK",
-        "ESAFSFB", "FEDERALBNK", "FINOPB", "HDFCBANK", "ICICIBANK", "IDBI", "IDFCFIRSTB",
-        "INDIANB", "INDUSINDBK", "IOB", "J&KBANK", "JSFB", "WIPRO", "ULTRACEMCO", "TITAN",
-        "TECHM", "TCS", "TATASTEEL", "TATAMOTORS", "TATACONSUM", "SUNPHARMA", "SHRIRAMFIN",
-        "SBILIFE", "RELIANCE", "POWERGRID", "ONGC", "NTPC", "NESTLEIND", "MARUTI", "M&M",
-        "LTIM", "LT", "JSWSTEEL", "ITC", "INFY", "HINDUNILVR", "HINDALCO", "HEROMOTOCO",
-        "HDFCLIFE", "HCLTECH", "GRASIM", "EICHERMOT", "DRREDDY", "DIVISLAB", "COALINDIA",
-        "CIPLA", "BRITANNIA", "BPCL", "BHARTIARTL", "BAJFINANCE", "BAJAJFINSV", "BAJAJ-AUTO",
-        "ASIANPAINT", "APOLLOHOSP", "ADANIPORTS", "ADANIENT"
-    ]
+    
+    # Initialize an empty list to hold the symbols
+    symbols = []
+
+    # Read the symbols from the file "avgstocks"
+    try:
+        with open("avgstocks", "r") as file:
+            # Skip the header row by reading the first line
+            next(file)
+            # Read each line and strip any extra whitespace, excluding the header
+            symbols = [line.strip() for line in file.readlines()]
+    except FileNotFoundError:
+        print("Error: The file 'avgstocks' was not found.")
+    except Exception as e:
+        print(f"Error: An error occurred while reading the file: {e}")
+
+    # Now you can use the 'symbols' list as needed in your program
+    print(symbols)
+    
 
     try:
         # Redirect sys.stdout to 'output.txt'
