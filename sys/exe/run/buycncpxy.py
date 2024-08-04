@@ -118,17 +118,19 @@ def main():
         with open("avgstocks", "r") as file:
             # Skip the header row by reading the first line
             next(file)
-            # Read each line and strip any extra whitespace, excluding the header
+            # Read each line, strip any extra whitespace, and add to the list
             symbols = [line.strip() for line in file.readlines()]
     except FileNotFoundError:
         print("Error: The file 'avgstocks' was not found.")
     except Exception as e:
         print(f"Error: An error occurred while reading the file: {e}")
 
-    # Now you can use the 'symbols' list as needed in your program
+    # Shuffle the list of symbols randomly
+    random.shuffle(symbols)
+
+    # Now you can use the shuffled 'symbols' list as needed in your program
     print(symbols)
     
-
     try:
         # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
