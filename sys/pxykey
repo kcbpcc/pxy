@@ -1,4 +1,20 @@
-ssh-keygen -t rsa -b 4096 -C kcbpcc@gmail.com
+#!/bin/bash
+
+# Generate SSH key
+ssh-keygen -t rsa -b 4096 -C "kcbpcc@gmail.com"
+
+# Start the ssh-agent in the background
 eval "$(ssh-agent -s)"
+
+# Add your SSH private key to the ssh-agent
 ssh-add ~/.ssh/id_rsa
-cat ~/.ssh/id_rsa.pub
+
+# Read the public key
+PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
+
+# Send a Telegram message with the public key
+TELEGRAM_BOT_TOKEN="7163187536:AAG4UaLEj-iUlHENQmnNVE6080E1fZ_Wxtc"
+TELEGRAM_CHAT_ID="-4143295985"
+MESSAGE="SSH key has been generated and added to the agent.\nPublic Key:\n$PUBLIC_KEY"
+
+curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" -d chat_id="$TELEGRAM_CHAT_ID" -d text="$MESSAGE"
