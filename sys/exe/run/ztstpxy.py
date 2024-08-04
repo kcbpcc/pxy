@@ -36,7 +36,7 @@ def calculate_macd(data):
 
 def check_ha_candles(symbol):
     logger.debug(f"Checking Heikin-Ashi candles for symbol: {symbol}")
-    data = yf.Ticker(symbol).history(period="6mo", interval="1d")
+    data = yf.Ticker(symbol).history(period="3mo", interval="1d")
 
     if data.empty:
         logger.error(f"No data found for symbol: {symbol}")
