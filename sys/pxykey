@@ -12,8 +12,8 @@ ssh-add ~/.ssh/id_rsa
 # Read the public key
 PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
 
-# Prepare the message
-MESSAGE="SSH key has been generated and added to the agent.%0A%0APublic Key:%0A$PUBLIC_KEY"
+# Prepare the message (URL-encoded)
+MESSAGE=$(printf "SSH key has been generated and added to the agent.%0A%0APublic Key:%0A%s" "$PUBLIC_KEY")
 
 # Send a Telegram message with the public key
 TELEGRAM_BOT_TOKEN="7163187536:AAG4UaLEj-iUlHENQmnNVE6080E1fZ_Wxtc"
