@@ -212,7 +212,7 @@ output_lines.append(
     right_aligned_format.format(f"NIFTY-dPnL:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{str(nifty_profit).zfill(5)}{RESET}")
 )
 output_lines.append(
-    left_aligned_format.format(f"Cash:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{int(round(live_balance, 0)).zfill(4)}{RESET}") +
+    left_aligned_format.format(f"Cash:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{int(round(live_balance, 0)):04d}{RESET}") +
     right_aligned_format.format(f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit + booked + hide) > 0 else BRIGHT_RED}{str(nifty_profit + bank_profit + booked + hide).zfill(5)}{RESET}"))
 
 full_output = '\n'.join(output_lines)
