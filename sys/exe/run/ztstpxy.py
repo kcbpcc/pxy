@@ -2,7 +2,7 @@ import yfinance as yf
 import logging
 
 # Initialize logger
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARNING) 
 logger = logging.getLogger(__name__)
 
 def calculate_heikin_ashi_colors(data):
