@@ -31,7 +31,7 @@ while true; do
 
     # Get user input
     read -p "Enter your choice:⚙️⚙️⚙️👉👉 " choice
-
+    pxylogin
     # Perform actions based on user input
     case $choice in
         ts)
