@@ -75,12 +75,14 @@ def check_ha_candles(symbol):
 # Read symbols from file and append suffix
 def read_symbols_from_file(filename):
     with open(filename, 'r') as file:
-        symbols = [line.strip() + '.NS' for line in file if line.strip()]
+        lines = file.readlines()
+    # Skip header and append suffix to each symbol
+    symbols = [line.strip() + '.NS' for line in lines[1:] if line.strip()]
     return symbols
 
 # Main function to check and print smbpxy
 def main():
-    filename = 'avgstocks'  # File containing the list of stock symbols (no extension)
+    filename = 'avgstocks.csv'  # File containing the list of stock symbols (with extension)
     avgstocks = read_symbols_from_file(filename)
     
     for symbol in avgstocks:
