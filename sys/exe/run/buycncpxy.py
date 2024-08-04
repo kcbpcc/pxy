@@ -3,7 +3,6 @@ import pandas as pd
 import traceback
 import sys
 import os
-import asyncio
 import logging
 import telegram
 from toolkit.logger import Logger
@@ -46,7 +45,7 @@ def calculate_macd(data):
     return macd, signal
 
 def check_ha_candles(symbol):
-    data = yf.Ticker(symbol).history(period="6mo", interval="1d")
+    data = yf.Ticker(symbol).history(period="1mo", interval="1d")
     current_data = data.tail(5)
     
     current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(current_data)
@@ -196,8 +195,8 @@ def main():
             logger.info("Decision is not 'YES', skipping order placement.")
         
         # Wait for the order placement to complete before moving to the next symbol
-        # Adding a small delay can be optional but helps to avoid overwhelming the API
-        asyncio.sleep(1)  # Optional delay to avoid rate-limiting issues
+        # Adding a small delay to avoid overwhelming the API
+        time.sleep(1)  # Optional delay to avoid rate-limiting issues
 
 if __name__ == "__main__":
     main()
