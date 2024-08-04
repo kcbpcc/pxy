@@ -6,6 +6,10 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 def calculate_heikin_ashi_colors(data):
+    if data.empty:
+        logger.warning("Data is empty. Cannot calculate Heikin-Ashi colors.")
+        return None, None, None
+
     logger.debug(f"Calculating Heikin-Ashi colors for data:\n{data.head()}")
     ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
     ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
@@ -18,6 +22,10 @@ def calculate_heikin_ashi_colors(data):
     return current_color, last_closed_color, last_last_closed_color
 
 def calculate_macd(data):
+    if data.empty:
+        logger.warning("Data is empty. Cannot calculate MACD.")
+        return None, None
+
     logger.debug(f"Calculating MACD for data:\n{data.head()}")
     short_ema = data['Close'].ewm(span=12, adjust=False).mean()
     long_ema = data['Close'].ewm(span=26, adjust=False).mean()
@@ -29,9 +37,17 @@ def calculate_macd(data):
 def check_ha_candles(symbol):
     logger.debug(f"Checking Heikin-Ashi candles for symbol: {symbol}")
     data = yf.Ticker(symbol).history(period="6mo", interval="1d")
+
+    if data.empty:
+        logger.error(f"No data found for symbol: {symbol}")
+        return "No Data"
+
     current_data = data.tail(5)
     
     current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(current_data)
+
+    if current_color is None or last_closed_color is None or last_last_closed_color is None:
+        return "No Data"
 
     data['50d_SMA'] = data['Close'].rolling(window=50).mean()
     current_price = data['Close'].iloc[-1]
@@ -39,6 +55,9 @@ def check_ha_candles(symbol):
     above_50d_sma = current_price > sma_50
     
     macd, signal = calculate_macd(data)
+    if macd is None or signal is None:
+        return "No Data"
+
     macd_above_0 = macd.iloc[-1] > 0
 
     if (last_closed_color == 'Bear' and 
@@ -53,10 +72,10 @@ def check_ha_candles(symbol):
     logger.debug(f"Heikin-Ashi decision for {symbol}: {smbpxy}")
     return smbpxy
 
-# Read symbols from file
+# Read symbols from file and append suffix
 def read_symbols_from_file(filename):
     with open(filename, 'r') as file:
-        symbols = [line.strip() for line in file if line.strip()]
+        symbols = [line.strip() + '.NS' for line in file if line.strip()]
     return symbols
 
 # Main function to check and print smbpxy
@@ -70,4 +89,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
