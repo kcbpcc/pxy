@@ -5,36 +5,11 @@ cd $HOME/pxy
 echo '                                 '
 echo "       ******** GET UPDATES *******"
 echo '                                 '
-#!/bin/bash
-
-# Echo messages
-echo "       ******** GET UPDATES *******"
+git fetch --all
 echo '                                 '
-
-# Capture the output and error message of git fetch --all
-fetch_output=$(git fetch --all 2>&1)
-
-# Check if there was an error with git fetch --all
-if [ $? -ne 0 ]; then
-  # Print the error message in red
-  echo -e "\e[31m$fetch_output\e[0m"
-else
-  echo "$fetch_output"
-fi
-
+echo "       ****** RESET SOFTWERE ******"
 echo '                                 '
-echo '                                 '
-
-# Capture the output and error message of git reset --hard origin/main
-reset_output=$(git reset --hard origin/main 2>&1)
-
-# Check if there was an error with git reset --hard origin/main
-if [ $? -ne 0 ]; then
-  # Print the error message in red
-  echo -e "\e[31m$reset_output\e[0m"
-else
-  echo "$reset_output"
-fi
+git reset --hard origin/main
 sudo cp ~/pxy/sys/pxy ~/pxy/sys/p
 sudo cp ~/pxy/sys/* /usr/local/bin/ &> /dev/null
 sudo chmod +x /usr/local/bin/*
