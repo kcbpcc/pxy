@@ -165,14 +165,14 @@ while True:
         subprocess.run(['python3', 'buyboptpxy.py'])
     else:
         print("━" * 42)
-        print(f"{'Not Buying BANK opts ⛔ it is ' + bmktpxy + ' ⚠️':>41}")
+        print(f"{GREY}{'⛔ Not Buying BANK opts, is '}{(GREEN if bmktpxy == 'Bull' else RED)}{bmktpxy}{GREY} ⚠️{RESET:>41}")
     if mktpxy in ['Buy', 'Sell']:
         importlib.reload(sys.modules.get('mktpxy', None))
         print("━" * 42)
         subprocess.run(['python3', 'buynoptpxy.py'])
     else:
         print("━" * 42)
-        print(f"{'Not Buying NIFTY opts ⛔ it is ' + mktpxy + ' ⚠️':>41}")
+        print(f"{'⛔ Not Buying NIFTY opts, is ' + mktpxy + ' ⚠️':>41}")
     subprocess.run(['python3', 'worldpxy.py']) if run_type == 'l' else None
     if (peak == 'PEAKEND' or peak == 'PEAKSTART') and ha_nse_action == 'Bullish':
         subprocess.run(['python3', 'buycncpxy.py'])
