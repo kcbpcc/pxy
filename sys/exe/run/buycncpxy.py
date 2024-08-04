@@ -3,6 +3,7 @@ import pandas as pd
 import traceback
 import sys
 import os
+import asyncio
 import logging
 import telegram
 from toolkit.logger import Logger
@@ -11,9 +12,6 @@ from toolkit.utilities import Utilities
 from login_get_kite import get_kite, remove_token
 from cnstpxy import dir_path
 from fundpxy import calculate_decision
-import random
-import time
-
 
 # Hardcoded constants
 BOT_TOKEN = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'
@@ -24,7 +22,7 @@ logging.basicConfig(level=logging.WARNING)
 logger = Logger(30, os.path.join(dir_path, "main.log"))
 
 # Fetch trading decision and available cash
-decision, optdecision, available_cash, live_balance, limit = calculate_decision()
+decision, optdecision, available_cash,live_balance, limit = calculate_decision()
 
 print("🌿🌿🌿 Lets Buy NIFTY50 & BANK Stocks 🌿🌿")
 print(f"     Cash:💰{available_cash:.2f}💵 | 🚦{decision}🚦 to Buy")
@@ -47,7 +45,7 @@ def calculate_macd(data):
     return macd, signal
 
 def check_ha_candles(symbol):
-    data = yf.Ticker(symbol).history(period="1mo", interval="1d")
+    data = yf.Ticker(symbol).history(period="6mo", interval="1d")
     current_data = data.tail(5)
     
     current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(current_data)
@@ -111,20 +109,20 @@ def place_order(symbol, broker, purchase_limit, quantity):
         logger.error(f"Error while placing order: {str(e)}")
 
 def main():
-    # Read symbols from the file and shuffle the list
-    try:
-        with open("avgstocks", "r") as file:
-            next(file)  # Skip header row
-            symbols = [line.strip() for line in file if line.strip()]
-        
-        # Shuffle the list to randomize the order of processing
-        random.shuffle(symbols)
-    except FileNotFoundError:
-        print("File 'avgstocks' not found.")
-        sys.exit(1)
-    except Exception as e:
-        print(f"Error reading file: {str(e)}")
-        sys.exit(1)
+    symbols = [
+        "KARURVYSYA", "KOTAKBANK", "KTKBANK", "MAHABANK", "PNB", "PSB", "RBLBANK", "SBIN",
+        "SOUTHBANK", "SURYODAY", "TMB", "UCOBANK", "UJJIVANSFB", "UNIONBANK", "UTKARSHBNK",
+        "YESBANK", "AUBANK", "AXISBANK", "BANDHANBNK", "BANKBARODA", "BANKINDIA", "CANBK",
+        "CAPITALSFB", "CENTRALBK", "CSBBANK", "CUB", "DCBBANK", "DHANBANK", "EQUITASBNK",
+        "ESAFSFB", "FEDERALBNK", "FINOPB", "HDFCBANK", "ICICIBANK", "IDBI", "IDFCFIRSTB",
+        "INDIANB", "INDUSINDBK", "IOB", "J&KBANK", "JSFB", "WIPRO", "ULTRACEMCO", "TITAN",
+        "TECHM", "TCS", "TATASTEEL", "TATAMOTORS", "TATACONSUM", "SUNPHARMA", "SHRIRAMFIN",
+        "SBILIFE", "RELIANCE", "POWERGRID", "ONGC", "NTPC", "NESTLEIND", "MARUTI", "M&M",
+        "LTIM", "LT", "JSWSTEEL", "ITC", "INFY", "HINDUNILVR", "HINDALCO", "HEROMOTOCO",
+        "HDFCLIFE", "HCLTECH", "GRASIM", "EICHERMOT", "DRREDDY", "DIVISLAB", "COALINDIA",
+        "CIPLA", "BRITANNIA", "BPCL", "BHARTIARTL", "BAJFINANCE", "BAJAJFINSV", "BAJAJ-AUTO",
+        "ASIANPAINT", "APOLLOHOSP", "ADANIPORTS", "ADANIENT"
+    ]
 
     try:
         # Redirect sys.stdout to 'output.txt'
@@ -165,7 +163,7 @@ def main():
     skip_symbols = set(positions_symbols + orders_symbols)
 
     for symbol in symbols:
-        decision, optdecision, available_cash, live_balance, limit = calculate_decision()
+        decision, optdecision, available_cash,live_balance, limit = calculate_decision()
         if decision == "YES":
             yf_symbol = symbol + ".NS"
             smbpxy = check_ha_candles(yf_symbol)
@@ -195,10 +193,9 @@ def main():
                 logger.info(f"Skipping {symbol}: smbpxy is not 'Buy' or price is too high")
         else:
             logger.info("Decision is not 'YES', skipping order placement.")
-        
-        # Wait for the order placement to complete before moving to the next symbol
-        # Adding a small delay to avoid overwhelming the API
-        time.sleep(1)  # Optional delay to avoid rate-limiting issues
+
+if __name__ == "__main__":
+    main()
 
 if __name__ == "__main__":
     main()
