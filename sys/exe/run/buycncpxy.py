@@ -23,9 +23,9 @@ logging.basicConfig(level=logging.WARNING)
 logger = Logger(30, os.path.join(dir_path, "main.log"))
 
 # Fetch trading decision and available cash
-decision, optdecision, available_cash,live_balance, limit = calculate_decision()
+decision, optdecision, available_cash, live_balance, limit = calculate_decision()
 
-print("🌿🌿🌿 Lets Buy NIFTY50 & BANK Stocks 🌿🌿")
+print("🌿🌿🌿 Let's Buy NIFTY50 & BANK Stocks 🌿🌿")
 print(f"     Cash:💰{available_cash:.2f}💵 | 🚦{decision}🚦 to Buy")
 
 def calculate_heikin_ashi_colors(data):
@@ -110,7 +110,6 @@ def place_order(symbol, broker, purchase_limit, quantity):
         logger.error(f"Error while placing order: {str(e)}")
 
 def main():
-    
     # Initialize an empty list to hold the symbols
     symbols = []
 
@@ -171,7 +170,7 @@ def main():
     skip_symbols = set(positions_symbols + orders_symbols)
 
     for symbol in symbols:
-        decision, optdecision, available_cash,live_balance, limit = calculate_decision()
+        decision, optdecision, available_cash, live_balance, limit = calculate_decision()
         if decision == "YES":
             yf_symbol = symbol + ".NS"
             smbpxy = check_ha_candles(yf_symbol)
@@ -204,3 +203,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
