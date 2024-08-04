@@ -18,16 +18,18 @@ BOT_TOKEN = '6924826872:AAHTiMaXmjyYbGsCFhdZlRRXkyfZTpsKPug'
 USER_ID = '-4135910842'
 
 # Set up logging
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.DEBUG)
 logger = Logger(30, os.path.join(dir_path, "main.log"))
 
 # Fetch trading decision and available cash
-decision, optdecision, available_cash,live_balance, limit = calculate_decision()
+decision, optdecision, available_cash, live_balance, limit = calculate_decision()
+logger.debug(f"Fetched decision: {decision}, option decision: {optdecision}, available cash: {available_cash}, live balance: {live_balance}, limit: {limit}")
 
 print("🌿🌿🌿 Lets Buy NIFTY50 & BANK Stocks 🌿🌿")
 print(f"     Cash:💰{available_cash:.2f}💵 | 🚦{decision}🚦 to Buy")
 
 def calculate_heikin_ashi_colors(data):
+    logger.debug(f"Calculating Heikin-Ashi colors for data:\n{data.head()}")
     ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
     ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
@@ -35,16 +37,20 @@ def calculate_heikin_ashi_colors(data):
     last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
     last_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
     
+    logger.debug(f"Heikin-Ashi colors: current={current_color}, last_closed={last_closed_color}, last_last_closed={last_last_closed_color}")
     return current_color, last_closed_color, last_last_closed_color
 
 def calculate_macd(data):
+    logger.debug(f"Calculating MACD for data:\n{data.head()}")
     short_ema = data['Close'].ewm(span=12, adjust=False).mean()
     long_ema = data['Close'].ewm(span=26, adjust=False).mean()
     macd = short_ema - long_ema
     signal = macd.ewm(span=9, adjust=False).mean()
+    logger.debug(f"MACD calculated:\n{macd.tail()}, Signal:\n{signal.tail()}")
     return macd, signal
 
 def check_ha_candles(symbol):
+    logger.debug(f"Checking Heikin-Ashi candles for symbol: {symbol}")
     data = yf.Ticker(symbol).history(period="6mo", interval="1d")
     current_data = data.tail(5)
     
@@ -67,9 +73,11 @@ def check_ha_candles(symbol):
     else:
         smbpxy = 'Hold'
 
+    logger.debug(f"Heikin-Ashi decision for {symbol}: {smbpxy}")
     return smbpxy
 
 async def send_telegram_message(bot_token, user_id, message_text):
+    logger.debug(f"Sending Telegram message to user {user_id}: {message_text}")
     bot = telegram.Bot(token=bot_token)
     await bot.send_message(chat_id=user_id, text=message_text)
 
@@ -77,7 +85,8 @@ def place_order(symbol, broker, purchase_limit, quantity):
     try:
         remaining_cash = available_cash
         ltp_nse = broker.kite.ltp("NSE:" + symbol)[f"NSE:{symbol}"]['last_price']
-        
+        logger.debug(f"Fetched LTP for {symbol}: {ltp_nse}")
+
         if ltp_nse > 0 and remaining_cash > purchase_limit:
             quantity = max(quantity, 1)
             order_id = broker.order_place(
@@ -130,10 +139,11 @@ def main():
             sys.stdout = file
             try:
                 broker = get_kite()
+                logger.info("Successfully got broker instance")
             except Exception as e:
                 remove_token(dir_path)
                 print(traceback.format_exc())
-                logging.error(f"{str(e)} unable to get holdings")
+                logger.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
     finally:
         # Reset sys.stdout to its default value
@@ -142,6 +152,7 @@ def main():
     try:
         lst_dct_positions = broker.kite.positions()
         positions_symbols = [pos["tradingsymbol"] for pos in lst_dct_positions["day"] + lst_dct_positions["net"]]
+        logger.debug(f"Fetched positions: {positions_symbols}")
     except Exception as e:
         logger.error(f"{str(e)} unable to read positions")
         positions_symbols = []
@@ -149,6 +160,7 @@ def main():
     try:
         lst_dct_orders = broker.orders
         orders_symbols = [order.get("tradingsymbol", "Unknown Symbol") for order in lst_dct_orders]
+        logger.debug(f"Fetched orders: {orders_symbols}")
     except Exception as e:
         logger.error(f"{str(e)} unable to read orders")
         orders_symbols = []
@@ -156,48 +168,24 @@ def main():
     try:
         holdings = broker.kite.holdings()
         holdings_symbols = [holding["tradingsymbol"] for holding in holdings]
+        logger.debug(f"Fetched holdings: {holdings_symbols}")
     except Exception as e:
         logger.error(f"{str(e)} unable to read holdings")
         holdings_symbols = []
 
-    skip_symbols = set(positions_symbols + orders_symbols)
-
     for symbol in symbols:
-        decision, optdecision, available_cash,live_balance, limit = calculate_decision()
-        if decision == "YES":
-            yf_symbol = symbol + ".NS"
-            smbpxy = check_ha_candles(yf_symbol)
-            
-            ltp_nse = broker.kite.ltp(f"NSE:{symbol}")[f"NSE:{symbol}"]['last_price']
-            purchase_limit = 0  # Default value in case no condition matches
-
-            if smbpxy == 'Buy' and ltp_nse < 10000:
-                if symbol in holdings_symbols and symbol not in orders_symbols and symbol not in positions_symbols:
-                    purchase_limit = 5000
-                elif symbol not in holdings_symbols and symbol not in orders_symbols and symbol not in positions_symbols:
-                    purchase_limit = 10000
-
-                if purchase_limit > 0:
-                    quantity = int(purchase_limit / ltp_nse)
-                    print(f"Placing order for {symbol}...")
-                    place_order(symbol, broker, purchase_limit, quantity)
-                    remaining_cash = available_cash
-                    print(f"Remaining Cash💰: {int(round(remaining_cash / 1000))}K")
-                    
-                    if remaining_cash < limit:
-                        print(f"Cash: {int(remaining_cash)}, stopping further orders.")
-                        break
-                else:
-                    logger.info(f"Skipping {symbol}: purchase_limit is not set")
+        # Only consider symbols that are not already in positions, orders, or holdings
+        if (symbol not in positions_symbols and
+            symbol not in orders_symbols and
+            symbol not in holdings_symbols):
+            logger.debug(f"Processing symbol: {symbol}")
+            action = check_ha_candles(symbol)
+            if action == 'Buy':
+                purchase_limit = 1000  # or any other limit
+                quantity = 10  # or any other quantity
+                place_order(symbol, broker, purchase_limit, quantity)
             else:
-                logger.info(f"Skipping {symbol}: smbpxy is not 'Buy' or price is too high")
-        else:
-            logger.info("Decision is not 'YES', skipping order placement.")
+                logger.debug(f"Action for {symbol}: {action}")
 
 if __name__ == "__main__":
     main()
-
-if __name__ == "__main__":
-    main()
-
-
