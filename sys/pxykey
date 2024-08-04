@@ -21,7 +21,8 @@ TELEGRAM_CHAT_ID="-4143295985"
 
 response=$(curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
   -d chat_id="$TELEGRAM_CHAT_ID" \
-  -d text="$MESSAGE")
+  -d text="$MESSAGE" \
+  -d parse_mode="HTML")
 
 # Check for errors in the response
 echo "Response from Telegram API: $response"
