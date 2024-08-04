@@ -1,5 +1,6 @@
 import yfinance as yf
 import logging
+import random
 
 # Initialize logger
 logging.basicConfig(level=logging.WARNING) 
@@ -72,15 +73,18 @@ def check_ha_candles(symbol):
     logger.debug(f"Heikin-Ashi decision for {symbol}: {smbpxy}")
     return smbpxy
 
-# Read symbols from file and append suffix
+from ordcncpxy imort place_buy_order
+
+# Read symbols from file, shuffle them, and append suffix
 def read_symbols_from_file(filename):
     with open(filename, 'r') as file:
         lines = file.readlines()
     # Skip header and append suffix to each symbol
     symbols = [line.strip() + '.NS' for line in lines[1:] if line.strip()]
+    random.shuffle(symbols)  # Shuffle the list of symbols
     return symbols
 
-# Main function to check and print smbpxy
+# Main function to check and print smbpxy and place orders
 def main():
     filename = 'avgstocks'  # File containing the list of stock symbols (no extension)
     avgstocks = read_symbols_from_file(filename)
@@ -88,6 +92,9 @@ def main():
     for symbol in avgstocks:
         smbpxy = check_ha_candles(symbol)
         print(f"{symbol}: {smbpxy}")
+        if smbpxy == 'Buy':
+            place_buy_order(symbol)
 
 if __name__ == "__main__":
     main()
+
