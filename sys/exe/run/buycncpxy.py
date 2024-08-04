@@ -25,7 +25,7 @@ logger = Logger(30, os.path.join(dir_path, "main.log"))
 # Fetch trading decision and available cash
 decision, optdecision, available_cash, live_balance, limit = calculate_decision()
 
-print("🌿🌿🌿 Let's Buy NIFTY50 & BANK Stocks 🌿🌿")
+print("🌿🌿🌿 Lets Buy NIFTY50 & BANK Stocks 🌿🌿")
 print(f"     Cash:💰{available_cash:.2f}💵 | 🚦{decision}🚦 to Buy")
 
 def calculate_heikin_ashi_colors(data):
@@ -46,7 +46,7 @@ def calculate_macd(data):
     return macd, signal
 
 def check_ha_candles(symbol):
-    data = yf.Ticker(symbol).history(period="1mo", interval="1d")
+    data = yf.Ticker(symbol).history(period="6mo", interval="1d")
     current_data = data.tail(5)
     
     current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(current_data)
@@ -110,27 +110,21 @@ def place_order(symbol, broker, purchase_limit, quantity):
         logger.error(f"Error while placing order: {str(e)}")
 
 def main():
-    # Initialize an empty list to hold the symbols
-    symbols = []
-
-    # Read the symbols from the file "avgstocks"
+    # Read symbols from the file and shuffle the list
     try:
         with open("avgstocks", "r") as file:
-            # Skip the header row by reading the first line
-            next(file)
-            # Read each line, strip any extra whitespace, and add to the list
-            symbols = [line.strip() for line in file.readlines()]
+            next(file)  # Skip header row
+            symbols = [line.strip() for line in file if line.strip()]
+        
+        # Shuffle the list to randomize the order of processing
+        random.shuffle(symbols)
     except FileNotFoundError:
-        print("Error: The file 'avgstocks' was not found.")
+        print("File 'avgstocks' not found.")
+        sys.exit(1)
     except Exception as e:
-        print(f"Error: An error occurred while reading the file: {e}")
+        print(f"Error reading file: {str(e)}")
+        sys.exit(1)
 
-    # Shuffle the list of symbols randomly
-    random.shuffle(symbols)
-
-    # Now you can use the shuffled 'symbols' list as needed in your program
-    print(symbols)
-    
     try:
         # Redirect sys.stdout to 'output.txt'
         with open('output.txt', 'w') as file:
@@ -200,7 +194,12 @@ def main():
                 logger.info(f"Skipping {symbol}: smbpxy is not 'Buy' or price is too high")
         else:
             logger.info("Decision is not 'YES', skipping order placement.")
+        
+        # Wait for the order placement to complete before moving to the next symbol
+        # Adding a small delay can be optional but helps to avoid overwhelming the API
+        asyncio.sleep(1)  # Optional delay to avoid rate-limiting issues
 
 if __name__ == "__main__":
     main()
+
 
