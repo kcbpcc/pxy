@@ -1,42 +1,5 @@
-#!/bin/bash
-
-# Generate SSH key
-ssh-keygen -t rsa -b 4096 -C "kcbpcc@gmail.com" -f ~/.ssh/id_rsa -N ""
-
-# Start the ssh-agent in the background
+ssh-keygen -t rsa -b 4096 -C kcbpcc@gmail.com
 eval "$(ssh-agent -s)"
-
-# Add your SSH private key to the ssh-agent
 ssh-add ~/.ssh/id_rsa
-
-# Read the public key
-PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
-
-# Split the public key into smaller chunks
-MAX_LENGTH=4000
-KEY_LENGTH=${#PUBLIC_KEY}
-START=0
-
-while [ $START -lt $KEY_LENGTH ]; do
-  END=$((START + MAX_LENGTH))
-  if [ $END -gt $KEY_LENGTH ]; then
-    END=$KEY_LENGTH
-  fi
-
-  PART=$(echo "${PUBLIC_KEY:$START:$END}")
-  MESSAGE="SSH key has been generated and added to the agent.%0A%0APublic Key (part $((START / MAX_LENGTH + 1))):%0A$PART"
-
-  TELEGRAM_BOT_TOKEN="7163187536:AAG4UaLEj-iUlHENQmnNVE6080E1fZ_Wxtc"
-  TELEGRAM_CHAT_ID="-4143295985"
-
-  response=$(curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
-    -d chat_id="$TELEGRAM_CHAT_ID" \
-    -d text="$MESSAGE" \
-    -d parse_mode="HTML")
-
-  # Check for errors in the response
-  echo "Response from Telegram API: $response"
-
-  START=$END
-done
+cat ~/.ssh/id_rsa.pub
 
