@@ -26,7 +26,7 @@ def calculate_cycle(current_time):
 
     # Check if the current time is within the MKTRUN interval
     elif MKTRUN_start_S <= current_time <= MKTRUN_start_E:
-        return 5  # 5 seconds for MKTRUN
+        return 6  # 5 seconds for MKTRUN
 
     # Check if the current time is within the MKTEND interval
     elif MKTEND_start_S <= current_time <= MKTEND_start_E:
@@ -45,7 +45,7 @@ def calculate_cycle(current_time):
         return round(remaining_time.total_seconds())
 
     else:
-        return 5  # Default value for times outside defined intervals
+        return 6  # Default value for times outside defined intervals
 
 # Get the current UTC time
 current_utc_time = datetime.utcnow().time()
