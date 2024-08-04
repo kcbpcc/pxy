@@ -99,7 +99,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # Clear the screen
 clear
 
-echo -e "\033[1;32m\033[1m 🏛️PXY® PreciseXceleratedYield Pvt Ltd™🏛️ \033[0m"
+echo -e "\033[1;32m\033[1m   🏛️PXY® PreciseXceleratedYield Pvt Ltd™🏛️ \033[0m"
 
 
 
