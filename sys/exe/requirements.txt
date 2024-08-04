@@ -26,3 +26,4 @@ oauth2client
 asciichartpy
 pydantic==1.9.0
 pendulum
+plotly
