@@ -82,7 +82,7 @@ def read_symbols_from_file(filename):
 
 # Main function to check and print smbpxy
 def main():
-    filename = 'avgstocks.csv'  # File containing the list of stock symbols (with extension)
+    filename = 'avgstocks'  # File containing the list of stock symbols (no extension)
     avgstocks = read_symbols_from_file(filename)
     
     for symbol in avgstocks:
@@ -91,5 +91,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
