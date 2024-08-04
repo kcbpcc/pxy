@@ -46,7 +46,7 @@ def calculate_macd(data):
     return macd, signal
 
 def check_ha_candles(symbol):
-    data = yf.Ticker(symbol).history(period="6mo", interval="1d")
+    data = yf.Ticker(symbol).history(period="1mo", interval="1d")
     current_data = data.tail(5)
     
     current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(current_data)
