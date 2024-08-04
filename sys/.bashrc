@@ -98,7 +98,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # Echo statement
 
-echo -e "\033[1m🏛️PXY® PreciseXceleratedYield Pvt Ltd™🏛️\033[0m"
+    echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
+    echo "******************************************" 
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
