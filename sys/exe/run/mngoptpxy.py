@@ -12,6 +12,8 @@ import argparse
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
 from mktpxy import get_market_check
+onemincandlesequance, mktpxy = get_market_check('^NSEI')
+bnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 
 # Market data retrieval
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
@@ -179,6 +181,6 @@ def print_df(df):
         print("No options to average.")
 
 
-avg_options(blnc_opt_df, broker)
+avg_options(avg_df , broker)
 
 
