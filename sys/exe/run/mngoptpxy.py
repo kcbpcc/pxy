@@ -194,7 +194,7 @@ header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {for
 # Print border
 print("━" * width)
 
-# Print header
+# Print header line centered
 print(f"{header_line:^{width}}")
 
 # Print border again if needed
