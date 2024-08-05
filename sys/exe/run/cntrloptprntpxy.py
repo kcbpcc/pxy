@@ -98,6 +98,7 @@ total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 e
 
 # For calculating 'run_opnl'
 run_opnl = combined_df[(combined_df['exchange'] == 'NFO') & (combined_df['qty'] > 0)]['PnL'].sum()
+CnC_tCap_integer = int(combined_df.loc[(combined_df['product'] == 'CNC') & (combined_df['qty'] > 0), 'Invested'].sum() / 100000)
 
 # For calculating 'run_spnl'
 run_spnl = combined_df[(combined_df['qty'] > 0) & (combined_df['exchange'].isin(['BSE', 'NSE']))]['pnl'].sum()
@@ -172,7 +173,7 @@ green_Stocks_capital_percentage = (green_Stocks_profit_loss / total_invested) * 
 #output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
                     #right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))  
 
-output_lines.append(left_aligned_format.format(f"C&C-tCap:{BRIGHT_YELLOW}{round(run_spnl / 100000, 2)}{RESET}") +
+output_lines.append(left_aligned_format.format(f"C&C-tCap:{BRIGHT_YELLOW}{CnC_tCap_integer}{RESET}") +
     right_aligned_format.format(f"C&C-tPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{round(run_spnl / 100000, 2)}{RESET}"))
 
 output_lines.append(left_aligned_format.format(f"C&C-tPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{round(run_spnl / 100000, 2)}{RESET}") +
