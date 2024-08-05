@@ -94,3 +94,4 @@ def place_buy_order(random_symbol):
         logger.error(f"Error while placing order: {str(e)}")
 
 
+
