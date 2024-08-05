@@ -111,7 +111,6 @@ while True:
     def check_index_status_handler(symbol):
         from smapxy import check_index_status
         return check_index_status(symbol)
-
     try:
         peak = peak_time_handler()
         if os.name == 'nt':
@@ -121,43 +120,36 @@ while True:
                 os.system('clear -x')
     except Exception as e:
         print(f"Error handling peak time: {e}")
-
     try:
         mktpredict = predict_market_sentiment_handler()
     except Exception as e:
         print(f"Error handling market sentiment prediction: {e}")
         mktpredict = None
-
     try:
         onemincandlesequance, mktpxy = get_market_check_handler('^NSEI')
     except Exception as e:
         print(f"Error handling market check for ^NSEI: {e}")
         onemincandlesequance, mktpxy = "none", "none"
-
     try:
         bnkonemincandlesequance, bmktpxy = get_market_check_handler('^NSEBANK')
     except Exception as e:
         print(f"Error handling market check for ^NSEBANK: {e}")
         bnkonemincandlesequance, bmktpxy = "none", "none"
-
     try:
         ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action_handler()
     except Exception as e:
         print(f"Error handling NSE action: {e}")
         ha_nse_action, nse_power, Day_Change, Open_Change = 0.5, 0.5, 0.5, 0.5
-
     try:
         ha_bnk_action, bnk_power, bDay_Change, bOpen_Change = get_bnk_action_handler()
     except Exception as e:
         print(f"Error handling NSE action: {e}")
         ha_bnk_action, bnk_power, bDay_Change, bOpen_Change = 0.5, 0.5, 0.5, 0.5
-
     try:
         macd = calculate_macd_signal_handler("^NSEI")
     except Exception as e:
         print(f"Error handling MACD signal calculation: {e}")
         macd = None
-
     try:
         nsma = check_index_status_handler('^NSEI')
         bsma = check_index_status_handler('^NSEBANK')
@@ -194,15 +186,12 @@ while True:
         subprocess.run(['python3', 'niftychartpxy.py'])
         subprocess.run(['python3', 'daypxy.py'])
         subprocess.run(['python3', 'cndlpxy.py'])
-        
         if 'nsma' in locals():
             color = BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW
             print(color + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET)
-        
         subprocess.run(['python3', 'bniftychartpxy.py'])
         subprocess.run(['python3', 'bdaypxy.py'])
         subprocess.run(['python3', 'bcndlpxy.py'])
-        
         if 'bsma' in locals():
             color = BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW
             print(color + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET)
@@ -213,7 +202,6 @@ while True:
         subprocess.run(['python3', 'cntrlcncpxy.py'])
     else:
         print(f"{'✅ ✅ No Action - NIFTY on RISE  🆙 🆙':>38}{RESET}")
-        
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'plpxy.py']) if peak == "PEAKEND" else None
     print("━" * 42)
