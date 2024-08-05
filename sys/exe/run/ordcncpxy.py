@@ -31,10 +31,6 @@ def place_buy_order(random_symbol):
         # Get broker instance
         broker = get_kite()
 
-        # Retrieve data for symbol
-        yf_symbol = random_symbol + ".NS"
-        smbpxy = check_ha_candles(yf_symbol)
-        
         # Get Last Traded Price (LTP)
         ltp_nse = broker.kite.ltp(f"NSE:{random_symbol}")[f"NSE:{random_symbol}"]['last_price']
 
