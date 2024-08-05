@@ -105,7 +105,8 @@ def main():
         smbpxy = check_ha_candles(symbol)
         print(f"{symbol}: {smbpxy}")
         if smbpxy == 'Hold':
-            place_buy_order(symbol)
+            kite_symbol = symbol.replace('.NS', '')
+            place_buy_order(kite_symbol)
 
 if __name__ == "__main__":
     main()
