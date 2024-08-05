@@ -43,7 +43,7 @@ def calculate_decision():
             utilized_margin = response["equity"]["utilised"]["debits"]
             available_cash = live_balance
         except Exception as e:
-            print(f"An error occurred: {e}")
+            #print(f"An error occurred: {e}")
             available_cash = 0
             live_balance = 0  # Ensure live_balance is defined
         limit = 50000 if peak == 'NONPEAK' else 10000 if peak == 'PEAKEND' else 0
