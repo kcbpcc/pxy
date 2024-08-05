@@ -177,10 +177,9 @@ while True:
     else:
         print("━" * 42)
         print(f"{GREY}⛔ Not Buying NIFTY opts, as it is {(GREEN if mktpxy == 'Bull' else RED)}{mktpxy}{GREY} ⚠️{RESET}")
-    if bnk_power > 0.85 or bnk_power < 0.15 or nse_power > 0.85 or nse_power < 0.15:
-        subprocess.run(['python3', 'mngoptpxy.py'])
-    else:
-        pass
+    
+    subprocess.run(['python3', 'mngoptpxy.py']) #if (bnk_power > 0.85 or bnk_power < 0.15 or nse_power > 0.85 or nse_power < 0.15) else None
+
     subprocess.run(['python3', 'worldpxy.py']) if run_type == 'l' else None
     if (peak == 'PEAKEND' or peak == 'PEAKSTART') and ha_nse_action == 'Bullish':
         subprocess.run(['python3', 'buycncpxy.py'])
