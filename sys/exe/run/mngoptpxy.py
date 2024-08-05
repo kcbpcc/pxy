@@ -173,8 +173,13 @@ header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {for
 print("━" * width)
 print(f"{SILVER}{header_line:^{width}}{RESET}")
 
-avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
+avg_nifty_df = blnc_opt_df[
+    (blnc_opt_df['Target'] > 0) &
+    (blnc_opt_df['PL%'] < -66) &
+    (blnc_opt_df['key'].str.startswith('NIFTY'))
+]
 
-avg_options(avg_df , broker)
+avg_options(avg_nifty_df , broker)
+
 
 
