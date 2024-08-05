@@ -79,7 +79,7 @@ def avg_options(df, broker):
 
             if row['key'].startswith('BANKNIFTY'):
                 current_qty = row['qty']
-                if current_qty < 30 and current_qty + 15 <= 45:
+                if current_qty < 30:
                     qty = 15
                     if 'PE' in row['key']:
                         can_average = bnk_power > 0.85 and bmktpxy == 'Sell'
@@ -88,7 +88,7 @@ def avg_options(df, broker):
 
             elif row['key'].startswith('NIFTY'):
                 current_qty = row['qty']
-                if current_qty < 50 and current_qty + 25 <= 75:
+                if current_qty < 50:
                     qty = 25
                     if 'PE' in row['key']:
                         can_average = nse_power > 0.85 and mktpxy == 'Sell'
@@ -161,20 +161,23 @@ blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1
 
 avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
 
-# Print DataFrame
 def print_df(df):
+    width = 42  # Define the width for formatting
+    
+    # Print header and total invested
+    print("━" * width)
+    total_invested = df['Invested'].sum() if not df.empty else 0
+    line1 = f"B:{last_wednesday_str}"
+    line2 = f"N:{last_thursday_str}"
+    combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {str(total_invested).zfill(7)}    ⚖  {line2}"
+    print(f"{SILVER}{combined_lines:^{width}}{RESET}")
+
+    # Print the DataFrame or message if empty
     if not df.empty:
-        print("━" * 42)
-        total_invested = df['Invested'].sum()
-        line1 = f"B:{last_wednesday_str}"
-        line2 = f"N:{last_thursday_str}"
-        combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {str(total_invested).zfill(7)}    ⚖  {line2}"
-        print(f"{SILVER}{combined_lines:^{width}}{RESET}")
         print(df.to_string(index=False))
     else:
         print("No options to average.")
 
-print_df(avg_df)
 
 
 
