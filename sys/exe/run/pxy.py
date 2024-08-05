@@ -100,7 +100,7 @@ while True:
     def get_bnk_action_handler():
         from bftpxy import get_bnk_action
         importlib.reload(sys.modules['bftpxy'])  # Reload module after import
-        return get_nse_action()
+        return get_bnk_action()
 
     @handle_exceptions
     def calculate_macd_signal_handler(symbol):
