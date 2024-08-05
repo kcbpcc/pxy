@@ -34,8 +34,8 @@ def place_buy_order(random_symbol):
         # Get Last Traded Price (LTP)
         ltp_nse = broker.kite.ltp(f"NSE:{random_symbol}")[f"NSE:{random_symbol}"]['last_price']
 
-        if smbpxy != 'Buy' or ltp_nse >= 10000:
-            logger.info(f"Skipping {random_symbol}: smbpxy is not 'Buy' or price is too high")
+        if ltp_nse >= 10000:
+            logger.info(f"Skipping {random_symbol}: price is too high")
             return
 
         # Fetch current holdings, orders, and positions
