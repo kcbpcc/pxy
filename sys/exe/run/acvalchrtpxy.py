@@ -9,12 +9,17 @@ print(RESET)
 # Load data from local CSV file
 df = pd.read_csv('acvalpxy.csv')
 
-# Convert 'date' column to datetime format if necessary
-# Handle errors by coercing invalid dates to NaT
-df['date'] = pd.to_datetime(df['date'], errors='coerce')
+# Convert 'date' column to datetime format, specifying format if known
+df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d', errors='coerce')
 
-# Drop rows with NaT in 'date' column (if any)
+# Drop rows with NaT in 'date' column
 df = df.dropna(subset=['date'])
+
+# Convert 'acvalue' to numeric, coercing errors to NaN
+df['acvalue'] = pd.to_numeric(df['acvalue'], errors='coerce')
+
+# Drop rows with NaN in 'acvalue' column
+df = df.dropna(subset=['acvalue'])
 
 # Consider the latest 30 records for charting
 df = df.tail(30)
@@ -29,8 +34,8 @@ for i in range(1, len(df)):
     else:
         trend_direction.append(SILVER)
 
-# Ensure there is a color for the first record (same as previous if available)
-trend_direction.insert(0, SILVER)  # For the first record, assume neutral color
+# Ensure there is a color for the first record
+trend_direction.insert(0, SILVER)
 
 # Create ASCII chart with colored trend
 chart = plot(df['acvalue'].tolist(), {'height': 10, 'format': "{:,.2f}", 'color': trend_direction})
@@ -101,3 +106,4 @@ print(telegram_message)
 
 # Send the summary
 check_and_send_summary(telegram_message, 'vlpxy')
+
