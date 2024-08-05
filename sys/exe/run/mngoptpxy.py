@@ -171,8 +171,7 @@ blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1
 
 
 
-
-# Define width
+# Define width for formatting
 width = 42
 
 # Calculate total invested
@@ -193,13 +192,13 @@ if (bnk_power > 0.85 or bnk_power < 0.15) or (nse_power > 0.85 or nse_power < 0.
 else:
     print(f"{GREY}{header_line:^{width}}{RESET}")
 
-# Debug output (optional, for checking the values)
+# Optional debug output
 print(f"line1: {line1}")
 print(f"line2: {line2}")
 print(f"formatted_total: {formatted_total}")
 print(f"header_line: {header_line}")
 
-# Print border again if needed (optional)
+# Print border again if needed
 print("━" * width)
 
 
