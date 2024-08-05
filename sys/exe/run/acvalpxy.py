@@ -100,7 +100,6 @@ def retrieve_acvalue():
 
             if modification_time.date() == datetime.utcnow().date():
                 df = pd.read_csv(LOCAL_CSV_FILE)
-                df['date'] = pd.to_datetime(df['date']).dt.strftime('%Y-%m-%d')
                 if df['date'].iloc[-1] == current_date:
                     acvalue = df['acvalue'].iloc[-1]
                     if pd.notna(acvalue):
@@ -108,10 +107,8 @@ def retrieve_acvalue():
                     else:
                         return 0
 
-        # If file is not up-to-date, fetch new data
         data = sheet.get_all_values()
         df = pd.DataFrame(data, columns=['date', 'acvalue'])
-        df['date'] = pd.to_datetime(df['date']).dt.strftime('%Y-%m-%d')
         df.to_csv(LOCAL_CSV_FILE, index=False)
 
         if df['date'].iloc[-1] == current_date:
