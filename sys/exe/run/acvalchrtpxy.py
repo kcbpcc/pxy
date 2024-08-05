@@ -101,8 +101,8 @@ telegram_message = (
 )
 
 # Print detailed entries to console
-print("\nDetailed Entries Preview:\n")
-print(telegram_message)
+#print("\nDetailed Entries Preview:\n")
+#print(telegram_message)
 
 # Send the summary
 check_and_send_summary(telegram_message, 'vlpxy')
