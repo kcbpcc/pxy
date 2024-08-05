@@ -94,30 +94,71 @@ def process_acvalue(acvalue):
 
 def retrieve_acvalue():
     current_date = datetime.utcnow().strftime('%Y-%m-%d')
+    logging.info(f"Retrieving AC value for date: {current_date}")
+
     try:
         if os.path.exists(LOCAL_CSV_FILE):
+            logging.info(f"Local CSV file {LOCAL_CSV_FILE} exists.")
             modification_time = datetime.utcfromtimestamp(os.path.getmtime(LOCAL_CSV_FILE))
+            logging.info(f"Modification time of CSV file: {modification_time}")
 
             if modification_time.date() == datetime.utcnow().date():
+                logging.info("CSV file is up-to-date.")
                 df = pd.read_csv(LOCAL_CSV_FILE)
-                if df['date'].iloc[-1] == current_date:
-                    acvalue = df['acvalue'].iloc[-1]
-                    if pd.notna(acvalue):
-                        return float(acvalue)
+                logging.info("Data loaded from CSV file.")
+                logging.debug(f"DataFrame from CSV: \n{df}")
+
+                if 'date' in df.columns:
+                    if df['date'].iloc[-1] == current_date:
+                        logging.info("Found current date in CSV file.")
+                        acvalue = df['acvalue'].iloc[-1]
+                        if pd.notna(acvalue):
+                            logging.info(f"Retrieved AC value from CSV: {acvalue}")
+                            return float(acvalue)
+                        else:
+                            logging.warning("AC value is NaN, returning 0.")
+                            return 0
                     else:
+                        logging.warning("Current date not found in CSV, returning 0.")
                         return 0
+                else:
+                    logging.error("CSV file does not contain 'date' column.")
+                    return 0
+            else:
+                logging.warning("CSV file is outdated, fetching fresh data.")
 
         data = sheet.get_all_values()
-        df = pd.DataFrame(data, columns=['date', 'acvalue'])
-        df.to_csv(LOCAL_CSV_FILE, index=False)
+        logging.info("Data retrieved from Google Sheets.")
+        # Print all values for debugging
+        for row in data:
+            print(row)
 
-        if df['date'].iloc[-1] == current_date:
-            acvalue = df['acvalue'].iloc[-1]
-            if pd.notna(acvalue):
-                return float(acvalue)
+        # Check if data contains a header row; if not, add one
+        if len(data) > 0 and 'date' not in data[0]:
+            data.insert(0, ['date', 'acvalue'])
+            logging.warning("Added header row to data.")
+
+        df = pd.DataFrame(data[1:], columns=data[0])  # Skip header row for data
+        logging.info("DataFrame created from Google Sheets data.")
+        logging.debug(f"DataFrame from Google Sheets: \n{df}")
+
+        df.to_csv(LOCAL_CSV_FILE, index=False)
+        logging.info(f"Data saved to {LOCAL_CSV_FILE}")
+
+        if 'date' in df.columns:
+            if df['date'].iloc[-1] == current_date:
+                acvalue = df['acvalue'].iloc[-1]
+                if pd.notna(acvalue):
+                    logging.info(f"Retrieved AC value from Google Sheets: {acvalue}")
+                    return float(acvalue)
+                else:
+                    logging.warning("AC value is NaN, returning 0.")
+                    return 0
             else:
+                logging.warning("Current date not found in Google Sheets data, returning 0.")
                 return 0
         else:
+            logging.error("Google Sheets data does not contain 'date' column.")
             return 0
 
     except Exception as e:
