@@ -86,9 +86,9 @@ def avg_options(df, broker):
                 if current_qty < 30:
                     qty = 15
                     if 'PE' in row['key']:
-                        can_average = bnk_power > 0.85 and bmktpxy == 'Sell'
+                        can_average = bnk_power > 0.85 
                     elif 'CE' in row['key']:
-                        can_average = bnk_power < 0.50 and bmktpxy == 'Buy'
+                        can_average = bnk_power < 0.50 
 
             elif row['key'].startswith('NIFTY'):
                 current_qty = row['qty']
@@ -96,10 +96,10 @@ def avg_options(df, broker):
                     qty = 25
                     if 'PE' in row['key']:
                         #can_average = (nse_power > 0.85 and mktpxy == 'Sell' and ha_nse_action == 'Bearish')
-                        can_average = (nse_power > 0.85 and mktpxy == 'Sell')
+                        can_average = nse_power > 0.85
                     elif 'CE' in row['key']:
                         #can_average = (nse_power < 0.15 and mktpxy == 'Buy' and ha_nse_action == 'Bullish')
-                        can_average = (nse_power < 0.35 and mktpxy == 'Buy')
+                        can_average = nse_power < 0.35 
             if can_average:
                 print(f"Placing BUY order for {row['key']} with quantity {qty}")
                 order_id = place_order(row['key'], qty, 'BUY', 'MARKET', 'NRML', broker)
