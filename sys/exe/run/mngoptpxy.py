@@ -201,7 +201,4 @@ avg_nifty_df = blnc_opt_df[
 
 print(avg_nifty_df)
 
-#avg_options(avg_nifty_df , broker)
-
-
-
+avg_options(avg_nifty_df , broker)
