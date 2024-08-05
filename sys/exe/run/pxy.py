@@ -205,10 +205,10 @@ while True:
     subprocess.run(['python3', 'plpxy.py']) if peak == "PEAKEND" else None
     print("━" * 42)
     if run_type == 's':
-        #subprocess.run(['python3', 'mngoptpxy.py', 's'])
+        subprocess.run(['python3', 'mngoptpxy.py', 's'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
     elif run_type == 'l':
-        #subprocess.run(['python3', 'mngoptpxy.py', 'l'])
+        subprocess.run(['python3', 'mngoptpxy.py', 'l'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
     print("━" * 42)
     subprocess.run(['python3', 'selfpxy.py'])
