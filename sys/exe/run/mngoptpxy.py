@@ -177,7 +177,7 @@ print("━" * width)
 if (bnk_power > 0.85 or bnk_power < 0.15) or (nse_power > 0.85 or nse_power < 0.15):
     print(f"{SILVER}{header_line:^{width}}{RESET}")
 else:
-    print(f"{GRAY}{header_line:^{width}}{RESET}")
+    print(f"{GREY}{header_line:^{width}}{RESET}")
 
 avg_nifty_df = blnc_opt_df[
     (blnc_opt_df['Target'] > 0) &
