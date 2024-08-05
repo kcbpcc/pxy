@@ -149,7 +149,6 @@ nifty_profit = int(nextras)
 nifty_loss = int(ntotal_opt_m2m)
 bank_profit = int(bextras)
 bank_loss = int(btotal_opt_m2m)
-opt_loss = (int(btotal_opt_m2m) + int(ntotal_opt_m2m))
 arrow_map = {"Buy": "⤴", "Sell": "⤵", "Bull": "↗", "Bear": "↘"}
 hide = 0
 cap = 17.82
@@ -182,7 +181,7 @@ output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_St
         right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}%{RESET}"))
 
 output_lines.append(left_aligned_format.format(f"F&O-tCap:{BRIGHT_YELLOW}{round(total_invested_all / 100000, 2)}{RESET}") +
-                    right_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if opt_loss > 0 else BRIGHT_RED}{opt_loss}{RESET}"))
+                    right_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(run_opnl/100000, 2)).zfill(4)}{RESET}"))
 
 
 output_lines.append(
@@ -310,7 +309,3 @@ summary = (
 )
 
 check_and_send_summary(summary, 'bordpxy')
-
-
-
-    
