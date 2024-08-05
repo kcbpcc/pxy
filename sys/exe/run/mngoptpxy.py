@@ -10,10 +10,10 @@ from cmbddfpxy import process_data
 from expdaypxy import get_last_weekday_of_current_month
 import argparse
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
-from nftpxy import nse_power, bnk_power  # Ensure this import is correct
+from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
 from mktpxy import get_market_check
 
-# Initialize market check variables
+# Market data retrieval
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 bnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 
@@ -23,14 +23,12 @@ parser.add_argument('command', nargs='?', choices=['l', 's'], default='s',
                     help="Command to run the program with. Defaults to 's' if not provided.")
 args = parser.parse_args()
 
-# Define function to get last weekday dates
+# Date handling
 last_wednesday_str = get_last_weekday_of_current_month(calendar.WEDNESDAY)
 last_thursday_str = get_last_weekday_of_current_month(calendar.THURSDAY)
 
-# Define the current year
 current_year = datetime.now().year
 
-# Convert string dates to datetime objects with current year
 def parse_date(date_str):
     return datetime.strptime(f"{date_str}-{current_year}", '%d-%b-%Y')
 
@@ -39,13 +37,11 @@ last_thursday = parse_date(last_thursday_str)
 
 def business_days_diff(start_date, end_date):
     """Calculate business days between two dates."""
-    if start_date > end_date:
-        start_date, end_date = end_date, start_date
     return len(pd.bdate_range(start_date, end_date))
 
 def send_telegram_message(message):
-    bot_token = 'YOUR_BOT_TOKEN'  # Replace with your actual bot token
-    user_usernames = ['-4282665161']  # Replace with actual user IDs
+    bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
+    user_usernames = ['-4282665161']
     try:
         for username in user_usernames:
             url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
@@ -133,13 +129,12 @@ blnc_opt_df = combined_df[
     (combined_df['key'].notna())
 ].copy()
 
-blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False) 
+blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False)
 blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
 blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 
 blnc_opt_df['strike'] = blnc_opt_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
 
-# Get the current month's abbreviation
 current_month_abbr = datetime.now().strftime('%b').upper()
 
 blnc_opt_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL']]
@@ -154,19 +149,32 @@ def add_date(row):
     else:
         return None
 
-# Apply the add_date function to each row in the DataFrame
 blnc_opt_df['Date'] = blnc_opt_df.apply(add_date, axis=1)
 blnc_opt_df['Today'] = datetime.now()
 
-# Calculate the difference in business days
 blnc_opt_df['Diff'] = blnc_opt_df.apply(lambda row: business_days_diff(row['Date'], row['Today']), axis=1)
 
-# Extract the day of the month from the 'Date' and 'Today' columns
 blnc_opt_df['Date'] = blnc_opt_df['Date'].dt.day
 blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 
-blnc_opt_df = blnc_opt_df[blnc_opt_df['PL%'] > 0]
+blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
 
-avg_options(blnc_opt_df, broker)
+avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
+
+# Print DataFrame
+def print_df(df):
+    if not df.empty:
+        print("━" * 42)
+        total_invested = df['Invested'].sum()
+        line1 = f"B:{last_wednesday_str}"
+        line2 = f"N:{last_thursday_str}"
+        combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {str(total_invested).zfill(7)}    ⚖  {line2}"
+        print(f"{SILVER}{combined_lines:^{width}}{RESET}")
+        print(df.to_string(index=False))
+    else:
+        print("No options to average.")
+
+print_df(avg_df)
+
 
 
