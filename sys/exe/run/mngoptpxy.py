@@ -169,8 +169,6 @@ blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1
 
 
 
-
-
 # Define width for formatting
 width = 42
 
@@ -200,7 +198,6 @@ print(f"header_line: {header_line}")
 
 # Print border again if needed
 print("━" * width)
-
 
 
 
