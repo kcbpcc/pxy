@@ -162,43 +162,62 @@ blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 
 blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
 
+
+
+
+
+
+
+
+
+
+
+from colorpxy import SILVER, GREY, BRIGHT_YELLOW, RESET
+
+# Define width
 width = 42
 
+# Calculate total invested
 total_invested = blnc_opt_df['Invested'].sum() if not blnc_opt_df.empty else 0
 
+# Format strings
 line1 = f"B:{last_wednesday_str}"
 line2 = f"N:{last_thursday_str}"
 formatted_total = f"{total_invested:07d}"
 header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {formatted_total}   ⚖   {line2}"
 
+# Print border
 print("━" * width)
 
-# Check the conditions and print accordingly
+# Print header based on conditions
 if (bnk_power > 0.85 or bnk_power < 0.15) or (nse_power > 0.85 or nse_power < 0.15):
     print(f"{SILVER}{header_line:^{width}}{RESET}")
 else:
     print(f"{GREY}{header_line:^{width}}{RESET}")
 
-# Formatting strings
-line1 = f"B:{last_wednesday_str}"
-line2 = f"N:{last_thursday_str}"
-formatted_total = f"{total_invested:07d}"
-header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {formatted_total}   ⚖   {line2}"
-
-# Debug output
+# Debug output (optional, for checking the values)
 print(f"line1: {line1}")
 print(f"line2: {line2}")
 print(f"formatted_total: {formatted_total}")
 print(f"header_line: {header_line}")
 
-# Print border
+# Print border again if needed (optional)
 print("━" * width)
 
-# Check the conditions and print accordingly
-if (bnk_power > 0.85 or bnk_power < 0.15) or (nse_power > 0.85 or nse_power < 0.15):
-    print(f"{SILVER}{header_line:^{width}}{RESET}")
-else:
-    print(f"{GREY}{header_line:^{width}}{RESET}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 avg_nifty_df = blnc_opt_df[
     (blnc_opt_df['Target'] > 0) &
