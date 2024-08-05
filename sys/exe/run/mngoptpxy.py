@@ -179,6 +179,26 @@ if (bnk_power > 0.85 or bnk_power < 0.15) or (nse_power > 0.85 or nse_power < 0.
 else:
     print(f"{GREY}{header_line:^{width}}{RESET}")
 
+# Formatting strings
+line1 = f"B:{last_wednesday_str}"
+line2 = f"N:{last_thursday_str}"
+formatted_total = f"{total_invested:07d}"
+header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {formatted_total}   ⚖   {line2}"
+
+print("━" * width)
+
+# Debugging output
+print(f"line1: {line1}")
+print(f"line2: {line2}")
+print(f"formatted_total: {formatted_total}")
+print(f"header_line: {header_line}")
+
+# Check the conditions and print accordingly
+if (bnk_power > 0.85 or bnk_power < 0.15) or (nse_power > 0.85 or nse_power < 0.15):
+    print(f"{SILVER}{header_line:^{width}}{RESET}")
+else:
+    print(f"{GREY}{header_line:^{width}}{RESET}")
+
 avg_nifty_df = blnc_opt_df[
     (blnc_opt_df['Target'] > 0) &
     (blnc_opt_df['PL%'] < -66) &
