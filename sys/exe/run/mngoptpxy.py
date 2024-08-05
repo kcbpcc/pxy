@@ -138,7 +138,7 @@ current_month_abbr = datetime.now().strftime('%b').upper()
 
 blnc_opt_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL']]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
-#blnc_opt_df = blnc_opt_df[blnc_opt_df['key'].str.contains(current_month_abbr)]
+blnc_opt_df = blnc_opt_df[blnc_opt_df['key'].str.contains(current_month_abbr)]
 
 def add_date(row):
     if row['key'].startswith('BANKNIFTY'):
