@@ -104,7 +104,7 @@ def main():
     for symbol in avgstocks:
         smbpxy = check_ha_candles(symbol)
         print(f"{symbol}: {smbpxy}")
-        if smbpxy == 'Buy':
+        if smbpxy == 'Hold':
             place_buy_order(symbol)
 
 if __name__ == "__main__":
