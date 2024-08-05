@@ -97,6 +97,12 @@ while True:
         return get_nse_action()
 
     @handle_exceptions
+    def get_bnk_action_handler():
+        from bftpxy import get_bnk_action
+        importlib.reload(sys.modules['bftpxy'])  # Reload module after import
+        return get_nse_action()
+
+    @handle_exceptions
     def calculate_macd_signal_handler(symbol):
         from macdpxy import calculate_macd_signal
         return calculate_macd_signal(symbol)
@@ -139,6 +145,12 @@ while True:
     except Exception as e:
         print(f"Error handling NSE action: {e}")
         ha_nse_action, nse_power, Day_Change, Open_Change = 0.5, 0.5, 0.5, 0.5
+
+    try:
+        ha_bnk_action, bnk_power, bDay_Change, bOpen_Change = get_bnk_action_handler()
+    except Exception as e:
+        print(f"Error handling NSE action: {e}")
+        ha_bnk_action, bnk_power, bDay_Change, bOpen_Change = 0.5, 0.5, 0.5, 0.5
 
     try:
         macd = calculate_macd_signal_handler("^NSEI")
@@ -205,10 +217,8 @@ while True:
     subprocess.run(['python3', 'plpxy.py']) if peak == "PEAKEND" else None
     print("━" * 42)
     if run_type == 's':
-        subprocess.run(['python3', 'mngoptpxy.py', 's'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
     elif run_type == 'l':
-        subprocess.run(['python3', 'mngoptpxy.py', 'l'])
         subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
     print("━" * 42)
     subprocess.run(['python3', 'selfpxy.py'])
