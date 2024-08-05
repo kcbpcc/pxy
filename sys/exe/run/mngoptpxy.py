@@ -175,30 +175,30 @@ width = 42
 # Calculate total invested
 total_invested = blnc_opt_df['Invested'].sum() if not blnc_opt_df.empty else 0
 
-# Format strings
-line1 = f"B:{last_wednesday_str}"
-line2 = f"N:{last_thursday_str}"
+# Define colors based on conditions
+if (bnk_power > 0.85 or bnk_power < 0.15) or (nse_power > 0.85 or nse_power < 0.15):
+    line1_color = SILVER
+    line2_color = GREY
+else:
+    line1_color = GREY
+    line2_color = SILVER
+
+# Format lines with the defined colors
+line1 = f"{line1_color}B:{last_wednesday_str}{RESET}"
+line2 = f"{line2_color}N:{last_thursday_str}{RESET}"
 formatted_total = f"{total_invested:07d}"
+
+# Construct header line with colored lines
 header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {formatted_total}   ⚖   {line2}"
 
 # Print border
 print("━" * width)
 
-# Print header based on conditions
-if (bnk_power > 0.85 or bnk_power < 0.15) or (nse_power > 0.85 or nse_power < 0.15):
-    print(f"{SILVER}{header_line:^{width}}{RESET}")
-else:
-    print(f"{GREY}{header_line:^{width}}{RESET}")
-
-# Optional debug output
-print(f"line1: {line1}")
-print(f"line2: {line2}")
-print(f"formatted_total: {formatted_total}")
-print(f"header_line: {header_line}")
+# Print header
+print(f"{header_line:^{width}}")
 
 # Print border again if needed
 print("━" * width)
-
 
 
 
