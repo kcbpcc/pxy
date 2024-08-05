@@ -161,12 +161,9 @@ blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 
 blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
 
-avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
-
-
 width = 42
 
-total_invested = df['Invested'].sum() if not df.empty else 0
+total_invested = blnc_opt_df['Invested'].sum() if not blnc_opt_df.empty else 0
 
 line1 = f"B:{last_wednesday_str}"
 line2 = f"N:{last_thursday_str}"
@@ -176,6 +173,8 @@ header_line = f"{line1} ⚖ {BRIGHT_YELLOW}{current_month_abbr}{RESET} {formatte
 print("━" * width)
 print(f"{SILVER}{header_line:^{width}}{RESET}")
 
+
+avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
 
 def print_df(df):
 
