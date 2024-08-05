@@ -205,7 +205,7 @@ print(avg_nifty_df[['key', 'qty', 'PL%']].to_string(
     index=False,
     header=False,
     formatters={
-        'key': lambda x: f"{x:<30}",    # Left-align 'key' in 20 spaces
+        'key': lambda x: f"{x:<28}",    # Left-align 'key' in 20 spaces
         'qty': lambda x: f"{x:>6}",    # Right-align 'qty' in 10 spaces
         'PL%': lambda x: f"{x:>6.2f}"  # Right-align 'PL%' in 12 spaces with 2 decimal places
     }
