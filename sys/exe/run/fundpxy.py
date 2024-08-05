@@ -61,4 +61,4 @@ def calculate_decision():
     except Exception as e:
         remove_token(dir_path)
         logging.error(f"{str(e)} unable to get available cash")
-        return "NO", "NO", 0, 0
+        return "NO", "NO", 0, 0, 0
