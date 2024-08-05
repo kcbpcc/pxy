@@ -162,13 +162,6 @@ blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 
 blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
 
-
-
-
-
-
-
-
 # Define width for formatting
 width = 42
 
@@ -199,21 +192,6 @@ print("━" * width)
 
 # Print header line centered
 print(f"{header_line:^{width}}")
-
-# Print border again if needed
-print("━" * width)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 avg_nifty_df = blnc_opt_df[
