@@ -105,10 +105,10 @@ def get_prices():
     ce_symbol, ce_price = get_cheapest_option_price("CE", CEX_Strike, kite, index_type='NIFTY')
     pe_symbol, pe_price = get_cheapest_option_price("PE", PEX_Strike, kite, index_type='NIFTY')
 
-    print(f"BCE Strike: {BCEX_Strike}, Cheapest BCE: Symbol={bce_symbol}, Price={bce_price}")
-    print(f"CE Strike: {CEX_Strike}, Cheapest CE: Symbol={ce_symbol}, Price={ce_price}")
-    print(f"PE Strike: {PEX_Strike}, Cheapest PE: Symbol={pe_symbol}, Price={pe_price}")
-    print(f"BPE Strike: {BPEX_Strike}, Cheapest BPE: Symbol={bpe_symbol}, Price={bpe_price}")
+    #print(f"BCE Strike: {BCEX_Strike}, Cheapest BCE: Symbol={bce_symbol}, Price={bce_price}")
+    #print(f"CE Strike: {CEX_Strike}, Cheapest CE: Symbol={ce_symbol}, Price={ce_price}")
+    #print(f"PE Strike: {PEX_Strike}, Cheapest PE: Symbol={pe_symbol}, Price={pe_price}")
+    #print(f"BPE Strike: {BPEX_Strike}, Cheapest BPE: Symbol={bpe_symbol}, Price={bpe_price}")
 
     # Extracting the strike prices from the symbols
     BCE_Strike = extract_strike_price(bce_symbol)
