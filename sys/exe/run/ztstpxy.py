@@ -1,94 +1,133 @@
 import yfinance as yf
 import logging
+from datetime import datetime
+from login_get_kite import get_kite, remove_token
+from cnstpxy import dir_path
+import sys
 
-# Initialize logger
-logging.basicConfig(level=logging.WARNING) 
-logger = logging.getLogger(__name__)
+# Initialize logging
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(message)s')
 
-def calculate_heikin_ashi_colors(data):
-    if data.empty:
-        logger.warning("Data is empty. Cannot calculate Heikin-Ashi colors.")
-        return None, None, None
+# Define the OI thresholds
+OI_THRESHOLD_BANKNIFTY = 5000
+OI_THRESHOLD_NIFTY = 10000
 
-    logger.debug(f"Calculating Heikin-Ashi colors for data:\n{data.head()}")
-    ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
-    ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+def get_current_price(symbol):
+    try:
+        data = yf.Ticker(symbol).history(period="1d", interval="1m")
+        current_price = data['Close'].iloc[-1]
+        return current_price
+    except Exception as e:
+        logging.error(f"Error fetching current price for {symbol}: {e}")
+        return float('inf')
 
-    current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
-    last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-    last_last_closed_color = 'Bear' if ha_close.iloc[-3] < ha_open.iloc[-3] else 'Bull'
+def round_to_nearest_100(price):
+    return round(price / 100) * 100
+
+def get_strikes():
+    BCEX_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
+    CEX_Strike = round_to_nearest_100(get_current_price('^NSEI'))
+    PEX_Strike = round_to_nearest_100(get_current_price('^NSEI'))
+    BPEX_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
+    return BCEX_Strike, CEX_Strike, PEX_Strike, BPEX_Strike
+
+def get_next_month_str():
+    now = datetime.now()
+    next_month = (now.month % 12) + 1
+    next_year = now.year if next_month > 1 else now.year + 1
+    next_month_abbr = datetime(next_year, next_month, 1).strftime('%b').upper()
+    return f"{next_year % 100:02d}{next_month_abbr}"
+
+def get_open_interest(symbol, kite):
+    try:
+        response = kite.ltp(f"NFO:{symbol}")
+        oi = response[f"NFO:{symbol}"].get("oi")  # Assuming 'oi' is the open interest key
+        return oi
+    except Exception as e:
+        logging.error(f"Error fetching open interest for {symbol}: {e}")
+        return None
+
+def get_cheapest_option_price(option_type, strike_price, kite, index_type='NIFTY'):
+    strikes = [strike_price, strike_price + 100, strike_price - 100]
+    cheapest_price = float('inf')
+    cheapest_symbol = None
+
+    next_month_str = get_next_month_str()
+
+    for strike in strikes:
+        if index_type == 'NIFTY':
+            symbol = f"NIFTY{next_month_str}{strike:05d}{option_type}"
+            oi_threshold = OI_THRESHOLD_NIFTY
+        else:
+            symbol = f"BANKNIFTY{next_month_str}{strike:05d}{option_type}"
+            oi_threshold = OI_THRESHOLD_BANKNIFTY
+        
+        logging.info(f"Checking symbol: NFO:{symbol}")
+
+        try:
+            response = kite.ltp(f"NFO:{symbol}")
+            ltp = response[f"NFO:{symbol}"]["last_price"]
+            oi = get_open_interest(symbol, kite)
+            if oi is not None and oi >= oi_threshold:
+                if ltp < cheapest_price:
+                    cheapest_price = ltp
+                    cheapest_symbol = symbol
+        except Exception as e:
+            logging.error(f"Error fetching data for {symbol}: {e}")
+
+    return cheapest_symbol, cheapest_price
+
+def extract_strike_price(symbol):
+    try:
+        if 'BANKNIFTY' in symbol:
+            parts = symbol.split('BANKNIFTY')[1]
+        elif 'NIFTY' in symbol:
+            parts = symbol.split('NIFTY')[1]
+        else:
+            raise ValueError("Symbol does not contain expected index")
     
-    logger.debug(f"Heikin-Ashi colors: current={current_color}, last_closed={last_closed_color}, last_last_closed={last_last_closed_color}")
-    return current_color, last_closed_color, last_last_closed_color
+        strike_price_str = parts[5:10]
+        strike_price = int(strike_price_str)
+        
+        return strike_price
+    except (ValueError, IndexError) as e:
+        logging.error(f"Error extracting strike price from symbol '{symbol}': {e}")
+        return None
 
-def calculate_macd(data):
-    if data.empty:
-        logger.warning("Data is empty. Cannot calculate MACD.")
-        return None, None
-
-    logger.debug(f"Calculating MACD for data:\n{data.head()}")
-    short_ema = data['Close'].ewm(span=12, adjust=False).mean()
-    long_ema = data['Close'].ewm(span=26, adjust=False).mean()
-    macd = short_ema - long_ema
-    signal = macd.ewm(span=9, adjust=False).mean()
-    logger.debug(f"MACD calculated:\n{macd.tail()}, Signal:\n{signal.tail()}")
-    return macd, signal
-
-def check_ha_candles(symbol):
-    logger.debug(f"Checking Heikin-Ashi candles for symbol: {symbol}")
-    data = yf.Ticker(symbol).history(period="3mo", interval="1d")
-
-    if data.empty:
-        logger.error(f"No data found for symbol: {symbol}")
-        return "No Data"
-
-    current_data = data.tail(5)
+def get_prices():
+    try:
+        with open('output.txt', 'w') as file:
+            sys.stdout = file
+            sys.stderr = file
+            logging.basicConfig(stream=file, level=logging.ERROR)
     
-    current_color, last_closed_color, last_last_closed_color = calculate_heikin_ashi_colors(current_data)
-
-    if current_color is None or last_closed_color is None or last_last_closed_color is None:
-        return "No Data"
-
-    data['50d_SMA'] = data['Close'].rolling(window=50).mean()
-    current_price = data['Close'].iloc[-1]
-    sma_50 = data['50d_SMA'].iloc[-1]
-    above_50d_sma = current_price > sma_50
+            try:
+                kite = get_kite()
+            except Exception as e:
+                remove_token(dir_path)
+                logging.error(f"{str(e)} unable to get Kite instance")
+                sys.exit(1)
+    finally:
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
     
-    macd, signal = calculate_macd(data)
-    if macd is None or signal is None:
-        return "No Data"
+    BCEX_Strike, CEX_Strike, PEX_Strike, BPEX_Strike = get_strikes()
 
-    macd_above_0 = macd.iloc[-1] > 0
+    bce_symbol, bce_price = get_cheapest_option_price("CE", BCEX_Strike, kite, index_type='BANKNIFTY')
+    bpe_symbol, bpe_price = get_cheapest_option_price("PE", BPEX_Strike, kite, index_type='BANKNIFTY')
+    ce_symbol, ce_price = get_cheapest_option_price("CE", CEX_Strike, kite, index_type='NIFTY')
+    pe_symbol, pe_price = get_cheapest_option_price("PE", PEX_Strike, kite, index_type='NIFTY')
 
-    if (last_closed_color == 'Bear' and 
-        last_last_closed_color == 'Bear' and 
-        current_color == 'Bull' and 
-        above_50d_sma and 
-        macd_above_0):
-        smbpxy = 'Buy'
-    else:
-        smbpxy = 'Hold'
+    BCE_Strike = extract_strike_price(bce_symbol)
+    CE_Strike = extract_strike_price(ce_symbol)
+    PE_Strike = extract_strike_price(pe_symbol)
+    BPE_Strike = extract_strike_price(bpe_symbol)
 
-    logger.debug(f"Heikin-Ashi decision for {symbol}: {smbpxy}")
-    return smbpxy
-
-# Read symbols from file and append suffix
-def read_symbols_from_file(filename):
-    with open(filename, 'r') as file:
-        lines = file.readlines()
-    # Skip header and append suffix to each symbol
-    symbols = [line.strip() + '.NS' for line in lines[1:] if line.strip()]
-    return symbols
-
-# Main function to check and print smbpxy
-def main():
-    filename = 'avgstocks'  # File containing the list of stock symbols (no extension)
-    avgstocks = read_symbols_from_file(filename)
-    
-    for symbol in avgstocks:
-        smbpxy = check_ha_candles(symbol)
-        print(f"{symbol}: {smbpxy}")
+    return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
 
 if __name__ == "__main__":
-    main()
-
+    try:
+        prices = get_prices()
+        print("Strike Prices:", prices)
+    except Exception as e:
+        logging.error(f"Unexpected error: {e}")
