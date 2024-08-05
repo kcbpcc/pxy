@@ -195,14 +195,14 @@ avg_nifty_df = blnc_opt_df[
     (blnc_opt_df['key'].str.startswith('NIFTY'))
 ]
 
-print(avg_nifty_df[['key', 'qty', 'PL%']].to_string(index=False, header=False, formatters={'key': lambda x: f"{x:<28}", 'qty': lambda x: f"{x:>6}", 'PL%': lambda x: f"{x:>6.2f}"}))
+#print(avg_nifty_df[['key', 'qty', 'PL%']].to_string(index=False, header=False, formatters={'key': lambda x: f"{x:<28}", 'qty': lambda x: f"{x:>6}", 'PL%': lambda x: f"{x:>6.2f}"}))
 
 avg_bnk_nifty_df = blnc_opt_df[
     (blnc_opt_df['PL%'] < -50) &
     (blnc_opt_df['key'].str.startswith('BANKNIFTY'))
 ]
 
-print(avg_bnk_nifty_df[['key', 'qty', 'PL%']].to_string(index=False, header=False, formatters={'key': lambda x: f"{x:<28}", 'qty': lambda x: f"{x:>6}", 'PL%': lambda x: f"{x:>6.2f}"}))
+#print(avg_bnk_nifty_df[['key', 'qty', 'PL%']].to_string(index=False, header=False, formatters={'key': lambda x: f"{x:<28}", 'qty': lambda x: f"{x:>6}", 'PL%': lambda x: f"{x:>6.2f}"}))
 
 avg_options(avg_nifty_df , broker)
 avg_options(avg_bnk_nifty_df , broker)
