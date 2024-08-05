@@ -88,7 +88,7 @@ def avg_options(df, broker):
                     if 'PE' in row['key']:
                         can_average = bnk_power > 0.85 and bmktpxy == 'Sell'
                     elif 'CE' in row['key']:
-                        can_average = bnk_power < 0.15 and bmktpxy == 'Buy'
+                        can_average = bnk_power < 0.50 and bmktpxy == 'Buy'
 
             elif row['key'].startswith('NIFTY'):
                 current_qty = row['qty']
