@@ -9,11 +9,11 @@ from cnstpxy import dir_path
 from cmbddfpxy import process_data
 from expdaypxy import get_last_weekday_of_current_month
 import argparse
-from clorpxy import SILVER, BRIGHT_YELLOW, RESET
-from nftpxy import nse_power, bnk_power
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+from nftpxy import nse_power, bnk_power  # Ensure this import is correct
 from mktpxy import get_market_check
 
-# Market check data
+# Initialize market check variables
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 bnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 
@@ -42,6 +42,21 @@ def business_days_diff(start_date, end_date):
     if start_date > end_date:
         start_date, end_date = end_date, start_date
     return len(pd.bdate_range(start_date, end_date))
+
+def send_telegram_message(message):
+    bot_token = 'YOUR_BOT_TOKEN'  # Replace with your actual bot token
+    user_usernames = ['-4282665161']  # Replace with actual user IDs
+    try:
+        for username in user_usernames:
+            url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+            payload = {'chat_id': username, 'text': message}
+            response = requests.post(url, data=payload)
+            if response.status_code != 200:
+                print(f"Failed to send Telegram message. Status code: {response.status_code}")
+            else:
+                print("Telegram message sent successfully.")
+    except Exception as e:
+        print(f"Error sending Telegram message: {e}")
 
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker):
     try:
@@ -95,7 +110,7 @@ def avg_options(df, broker):
                         f"Quantity: {qty}\n"
                     )
                     print(message)
-                    send_telegram_message(message)  # You may need to keep this function if you still want notifications.
+                    send_telegram_message(message)
     except Exception as e:
         print(f"Error placing BUY order: {e}")
 
@@ -118,7 +133,7 @@ blnc_opt_df = combined_df[
     (combined_df['key'].notna())
 ].copy()
 
-blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False)
+blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False) 
 blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
 blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 
@@ -150,35 +165,8 @@ blnc_opt_df['Diff'] = blnc_opt_df.apply(lambda row: business_days_diff(row['Date
 blnc_opt_df['Date'] = blnc_opt_df['Date'].dt.day
 blnc_opt_df['Today'] = blnc_opt_df['Today'].dt.day
 
-# Calculate the 'Target' based on the 'Diff' column
-blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1 if x < 10 else 107)
+blnc_opt_df = blnc_opt_df[blnc_opt_df['PL%'] > 0]
 
-avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
+avg_options(blnc_opt_df, broker)
 
-# Print the DataFrame before processing
-#print("Initial DataFrame:")
-#print(blnc_opt_df)
-total_invested = blnc_opt_df['Invested'].sum()
-
-width = 42
-line1 = f"B:{last_wednesday_str}"
-line2 = f"N:{last_thursday_str}"
-
-print("━" * 42)
-# Combine both lines and center them in a 42-character wide field
-combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {str(total_invested).zfill(7)}    ⚖  {line2}"
-BRIGHT_YELLOW = '\033[93m'
-RESET = '\033[0m'    # Reset to default color
-print(f"{SILVER}{combined_lines:^{width}}{RESET}")
-
-# Ensure DataFrames are not empty before processing
-if not avg_df.empty:
-    avg_options(avg_df, broker)
-    #print(avg_df)
-else:
-    pass
-    #print("No options to average.")
-
-    pass
-    #print("No options to average.")
 
