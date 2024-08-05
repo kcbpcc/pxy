@@ -97,7 +97,7 @@ total_opt_pnl = opt_df['m2m'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
 
 # For calculating 'run_opnl'
-run_opnl = combined_df[combined_df['exchange'] == 'NFO']['pnl'].sum()
+run_opnl = combined_df[(combined_df['exchange'] == 'NFO') & (combined_df['qty'] > 0)]['PnL'].sum()
 
 # For calculating 'run_spnl'
 run_spnl = combined_df[(combined_df['qty'] > 0) & (combined_df['exchange'].isin(['BSE', 'NSE']))]['pnl'].sum()
@@ -181,7 +181,7 @@ output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_St
         right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}%{RESET}"))
 
 output_lines.append(left_aligned_format.format(f"F&O-tCap:{BRIGHT_YELLOW}{round(total_invested_all / 100000, 2)}{RESET}") +
-                    right_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round((run_opnl + nifty_profit + bank_profit)/100000, 2)).zfill(4)}{RESET}"))
+                    right_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(run_opnl/100000, 2)).zfill(4)}{RESET}"))
 
 
 output_lines.append(
