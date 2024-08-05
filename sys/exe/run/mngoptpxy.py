@@ -172,7 +172,12 @@ formatted_total = f"{total_invested:07d}"
 header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {formatted_total}   ⚖   {line2}"
 
 print("━" * width)
-print(f"{SILVER}{header_line:^{width}}{RESET}")
+
+# Check the conditions and print accordingly
+if (bnk_power > 0.85 or bnk_power < 0.15) or (nse_power > 0.85 or nse_power < 0.15):
+    print(f"{SILVER}{header_line:^{width}}{RESET}")
+else:
+    print(f"{GRAY}{header_line:^{width}}{RESET}")
 
 avg_nifty_df = blnc_opt_df[
     (blnc_opt_df['Target'] > 0) &
