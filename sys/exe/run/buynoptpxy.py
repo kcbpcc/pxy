@@ -94,14 +94,16 @@ async def main():
                 PE_position_exists = check_existing_positions(broker, PE_symbol)
 
                 # Print all relevant variables before entering the if block
-                print(f"mktpredict: {mktpredict}")
-                print(f"mktpxy: {mktpxy}")
-                print(f"CE_position_exists: {CE_position_exists}")
-                print(f"CE_symbol: {CE_symbol}")
-                print(f"PE_position_exists: {PE_position_exists}")
-                print(f"PE_symbol: {PE_symbol}")
-                print(f"count_CE: {count_CE}")
-                print(f"count_PE: {count_PE}")
+
+                # Print all relevant variables before entering the if block
+                #print(f"bmktpredict: {bmktpredict}")
+                #print(f"mktpxy: {mktpxy}")
+                #print(f"CE_position_exists: {CE_position_exists}")
+                print(f"CE_symbol: {CE_symbol}-{CE_position_exists}")
+                #print(f"PE_position_exists: {PE_position_exists}")
+                print(f"PE_symbol: {PE_symbol}-{PE_position_exists}")
+                #print(f"count_CE: {count_CE}")
+                #print(f"count_PE: {count_PE}")
                 
 
                 if mktpredict == "SIDE":
