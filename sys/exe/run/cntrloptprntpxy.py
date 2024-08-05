@@ -153,7 +153,7 @@ bank_loss = int(btotal_opt_m2m)
 arrow_map = {"Buy": "⤴", "Sell": "⤵", "Bull": "↗", "Bear": "↘"}
 hide = 0
 cap = 17.82
-real_pnl = round((total_ac_value + (available_cash / 100000)) - (cap), 2)
+real_pnl = round((acvalue + (available_cash / 100000)) - (cap), 2)
 all_Stocks_df = combined_df[
     (combined_df['qty'] > 0) &
     (combined_df['product'] == 'CNC') &
