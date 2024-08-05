@@ -14,9 +14,7 @@ while true; do
     sudo cp ~/pxy/sys/pxy* /usr/local/bin/
     # Change the permissions of copied files to make them executable
     sudo chmod +x /usr/local/bin/pxy*
-
     # Display menu
-    pxywrld
     echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
     echo "******************************************" 
     echo "   -pxy                   🔘        🔥"
@@ -29,6 +27,7 @@ while true; do
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
     echo "******************************************"
+    pxywrld
     echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
 
     # Get user input
