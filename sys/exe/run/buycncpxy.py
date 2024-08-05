@@ -73,7 +73,19 @@ def check_ha_candles(symbol):
     logger.debug(f"Heikin-Ashi decision for {symbol}: {smbpxy}")
     return smbpxy
 
-from ordcncpxy imort place_buy_order
+from ordcncpxy import place_buy_order
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Read symbols from file, shuffle them, and append suffix
 def read_symbols_from_file(filename):
