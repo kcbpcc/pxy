@@ -201,6 +201,15 @@ avg_nifty_df = blnc_opt_df[
     (blnc_opt_df['key'].str.startswith('NIFTY'))
 ]
 
-print(avg_nifty_df[['key', 'qty', 'PL%']].to_string(index=False, header=False, float_format='%.2f'))
+print(avg_nifty_df[['key', 'qty', 'PL%']].to_string(
+    index=False,
+    header=False,
+    formatters={
+        'key': lambda x: f"{x:<30}",    # Left-align 'key' in 20 spaces
+        'qty': lambda x: f"{x:>6}",    # Right-align 'qty' in 10 spaces
+        'PL%': lambda x: f"{x:>6.2f}"  # Right-align 'PL%' in 12 spaces with 2 decimal places
+    }
+))
+
 
 avg_options(avg_nifty_df , broker)
