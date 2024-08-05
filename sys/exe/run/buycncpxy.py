@@ -75,18 +75,6 @@ def check_ha_candles(symbol):
 
 from ordcncpxy import place_buy_order
 
-
-
-
-
-
-
-
-
-
-
-
-
 # Read symbols from file, shuffle them, and append suffix
 def read_symbols_from_file(filename):
     with open(filename, 'r') as file:
@@ -104,7 +92,7 @@ def main():
     for symbol in avgstocks:
         smbpxy = check_ha_candles(symbol)
         print(f"{symbol}: {smbpxy}")
-        if smbpxy == 'Hold':
+        if smbpxy == 'Buy':
             kite_symbol = symbol.replace('.NS', '')
             place_buy_order(kite_symbol)
 
