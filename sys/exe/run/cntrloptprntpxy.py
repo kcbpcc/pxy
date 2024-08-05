@@ -291,23 +291,22 @@ for group, data in grouped_df:
             (lambda: print((BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
 
 
-#print("━" * 42)
 summary = (
     f"---------PXY® Dash Board----------\n"
     f"    📈 C&C-tCap: {CnC_tCap_rounded}\n"
-    f"    📉 C&C-tPnL: {round(run_spnl / 100000, 2)}\n"
-    f"    💵 F&O-tCap: {round(total_invested_all / 100000, 2)}\n"
-    f"    📊 F&O-tPnL: {str(round(run_opnl / 100000, 2)).zfill(4)}\n"
-    f"    🏦 A/C-Cap: {str(round(17.82, 2)).zfill(5)}\n"
-    f"    💸 A/C-Now: {str(round(acvalue, 2)).zfill(5)}\n"
-    f"    🔄 Flush: {str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹\n"
-    f"    📈 A/C-tPnL: {real_pnl:.2f}\n"
+    f"    💹 C&C-tPnL: {round(run_spnl / 100000, 2)}\n"
+    f"    💰 F&O-tCap: {round(total_invested_all / 100000, 2)}\n"
+    f"    📉 F&O-tPnL: {str(round(run_opnl / 100000, 2)).zfill(4)}\n"
+    f"    📊 A/C-Cap: {str(round(17.82, 2)).zfill(5)}\n"
+    f"    🏷️ A/C-Now: {str(round(acvalue, 2)).zfill(5)}\n"
+    f"    💵 Flush: {str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹\n"
+    f"    📈 A/C Real Total-PnL: {real_pnl:.2f}\n"
     f"    📊 C&C-dPnL: {int(round(all_Stocks_worth_dpnl, 0))}\n"
-    f"    📉 C&C-bPnL: {str(int(booked)).zfill(5)}\n"
-    f"    🏧 BANK-dPnL: {str(bank_profit).zfill(5)}\n"
-    f"    🛺 NIFTY-dPnL: {str(nifty_profit).zfill(5)}\n"
-    f"    💰 Cash-Left: {int(round(live_balance, 0)):04d}\n"
-    f"    🏁 Total-dPnL: {str(nifty_profit + bank_profit + booked + hide).zfill(5)}\n"
+    f"    💸 C&C-bPnL: {str(int(booked)).zfill(5)}\n"
+    f"    🏦 BANK-dPnL: {str(bank_profit).zfill(5)}\n"
+    f"    📉 NIFTY-dPnL: {str(nifty_profit).zfill(5)}\n"
+    f"    🏦 Cash-Left: {int(round(live_balance, 0)):04d}\n"
+    f"    📊 Total-dPnL: {str(nifty_profit + bank_profit + booked + hide).zfill(5)}\n"
     f"                      \n"
     f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/0aec4aa4)\n"
 )
