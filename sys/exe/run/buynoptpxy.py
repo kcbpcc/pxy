@@ -107,52 +107,52 @@ async def main():
                 if mktpredict == "SIDE":
                     if mktpxy == "Buy":
                         if CE_position_exists:
-                            print(f"{CE_symbol} is there, let's skip:>42")
+                            print("f"    {CE_symbol} is there, let's skip")
                         else:
-                            print(f"{CE_symbol} not there, let's Buy:>42")
+                            print("f"    {CE_symbol} not there, let's Buy")
                             await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
                 
                     elif mktpxy == "Sell":
                         if PE_position_exists:
-                            print(f"{PE_symbol} is there, let's skip:>42")
+                            print("f"    {PE_symbol} is there, let's skip")
                         else:
-                            print(f"{PE_symbol} not there, let's Buy:>42")
+                            print("f"    {PE_symbol} not there, let's Buy")
                             await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
                 
                 elif mktpredict == "RISE":
                     if mktpxy == "Buy":
                         if CE_position_exists:
-                            print(f"{CE_symbol} is there, let's skip:>42")
+                            print("f"    {CE_symbol} is there, let's skip")
                         else:
-                            print(f"{CE_symbol} not there, let's Buy:>42")
+                            print("f"    {CE_symbol} not there, let's Buy")
                             await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
                 
                     elif mktpxy == "Sell":
                         if nse_power > 0.85:
                             if PE_position_exists:
-                                print(f"{PE_symbol} is there, let's skip:>42")
+                                print("f"    {PE_symbol} is there, let's skip")
                             else:
-                                print(f"{PE_symbol} not there, let's Buy:>42")
+                                print("f"    {PE_symbol} not there, let's Buy")
                                 await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
                         else:
-                            print("nse_power is not high, let's skip:>42")
+                            print("nse_power is not high, let's skip")
                 
                 elif mktpredict == "FALL":
                     if mktpxy == "Buy":
                         if nse_power < 0.15:
                             if CE_position_exists:
-                                print(f"{CE_symbol} is there, let's skip:>42")
+                                print("f"    {CE_symbol} is there, let's skip")
                             else:
-                                print(f"{CE_symbol} not there, let's Buy:>42")
+                                print("f"    {CE_symbol} not there, let's Buy")
                                 await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
                         else:
-                            print("nse_power is not low, let's skip:>42")
+                            print("nse_power is not low, let's skip")
                 
                     elif mktpxy == "Sell":
                         if PE_position_exists:
-                            print(f"{PE_symbol} is there, let's skip:>42")
+                            print("f"    {PE_symbol} is there, let's skip")
                         else:
-                            print(f"{PE_symbol} not there, let's Buy:>42")
+                            print("f"    {PE_symbol} not there, let's Buy")
                             await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
 
             except Exception as e:
