@@ -179,5 +179,6 @@ def print_df(df):
         print("No options to average.")
 
 
+avg_options(blnc_opt_df, broker)
 
 
