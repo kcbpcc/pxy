@@ -87,8 +87,8 @@ def exit_options(exe_opt_df, broker):
                     f"🎯{row['key']}🎯\n"
                     f"   🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
                     f"   🏆 Reached PL%: {round(total_pl_percentage, 2)}%\n"
-                    f"   📉 Sell Price: {row['ltp']}\n"
-                    f"   📈 Buy Price: {row['avg']}\n"
+                    f"   📉 Sell Price: {round(row['ltp'], 2)}\n"
+                    f"   📈 Buy Price: {round(row['avg'], 2)}\n"
                     f"   💰 Booked Profit: {row['PnL']}📣"
                 )
                 print(message)
