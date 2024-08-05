@@ -173,17 +173,7 @@ header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {for
 print("━" * width)
 print(f"{SILVER}{header_line:^{width}}{RESET}")
 
-
 avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
-
-def print_df(df):
-
-  # Print the DataFrame or message if empty
-    if not df.empty:
-        print(df.to_string(index=False))
-    else:
-        print("No options to average.")
-
 
 avg_options(avg_df , broker)
 
