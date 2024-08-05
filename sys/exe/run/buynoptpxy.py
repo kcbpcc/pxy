@@ -99,9 +99,9 @@ async def main():
                 #print(f"bmktpredict: {bmktpredict}")
                 #print(f"mktpxy: {mktpxy}")
                 #print(f"CE_position_exists: {CE_position_exists}")
-                print(f"CE_symbol: {CE_symbol}            {'🥚' if CE_position_exists else '🧺'}")
+                print(f"CE_symbol: {CE_symbol}            {'🥚' if CE_position_exists else '🛒'}")
                 #print(f"PE_position_exists: {PE_position_exists}")
-                print(f"PE_symbol: {PE_symbol}            {'🥚' if PE_position_exists else '🧺'}")
+                print(f"PE_symbol: {PE_symbol}            {'🥚' if PE_position_exists else '🛒'}")
                 #print(f"count_CE: {count_CE}")
                 #print(f"count_PE: {count_PE}")
                 
