@@ -177,8 +177,8 @@ green_Stocks_capital_percentage = (green_Stocks_profit_loss / total_invested) * 
 
 output_lines.append(left_aligned_format.format(f"C&C-tPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{round(run_spnl / 100000, 2)}{RESET}") +
     right_aligned_format.format(f"A/C-tPnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl:.2f}{RESET}"))
-output_lines.append(left_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_profit_loss > 0 else BRIGHT_RED}{int(green_Stocks_profit_loss)}{RESET}") +
-        right_aligned_format.format(f"Flush%:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{green_Stocks_profit_loss}|{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}%{RESET}"))
+output_lines.append(left_aligned_format.format(f"A/C-tPnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl:.2f}{RESET}") +
+        right_aligned_format.format(f"Flush:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{green_Stocks_profit_loss}|{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}%{RESET}"))
 output_lines.append(left_aligned_format.format(f"C&C-tCap:{BRIGHT_YELLOW}{CnC_tCap_rounded}{RESET}") +
     right_aligned_format.format(f"C&C-tPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{round(run_spnl / 100000, 2)}{RESET}"))
 output_lines.append(left_aligned_format.format(f"F&O-tCap:{BRIGHT_YELLOW}{round(total_invested_all / 100000, 2)}{RESET}") +
