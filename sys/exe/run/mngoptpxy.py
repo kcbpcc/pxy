@@ -163,18 +163,23 @@ blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1
 
 avg_df = blnc_opt_df[(blnc_opt_df['Target'] > 0) & (blnc_opt_df['PL%'] < -66)]
 
-def print_df(df):
-    width = 42  # Define the width for formatting
-    
-    # Print header and total invested
-    print("━" * width)
-    total_invested = df['Invested'].sum() if not df.empty else 0
-    line1 = f"B:{last_wednesday_str}"
-    line2 = f"N:{last_thursday_str}"
-    combined_lines = f"{line1} ⚖     {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {str(total_invested).zfill(7)}    ⚖  {line2}"
-    print(f"{SILVER}{combined_lines:^{width}}{RESET}")
 
-    # Print the DataFrame or message if empty
+width = 42
+
+total_invested = df['Invested'].sum() if not df.empty else 0
+
+line1 = f"B:{last_wednesday_str}"
+line2 = f"N:{last_thursday_str}"
+formatted_total = f"{total_invested:07d}"
+header_line = f"{line1} ⚖ {BRIGHT_YELLOW}{current_month_abbr}{RESET} {formatted_total} ⚖ {line2}"
+
+print("━" * width)
+print(f"{SILVER}{header_line:^{width}}{RESET}")
+
+
+def print_df(df):
+
+  # Print the DataFrame or message if empty
     if not df.empty:
         print(df.to_string(index=False))
     else:
