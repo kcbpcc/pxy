@@ -17,7 +17,6 @@ while true; do
 
     # Display menu
     echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
-    pxywrld
     echo "******************************************" 
     echo "   -pxy                   🔘        🔥"
     echo "   -pxypy                 🐍        py"
@@ -29,6 +28,7 @@ while true; do
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
     echo "******************************************"
+    pxywrld
     echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
 
     # Get user input
