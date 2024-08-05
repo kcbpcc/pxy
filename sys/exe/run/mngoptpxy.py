@@ -175,13 +175,16 @@ width = 42
 # Calculate total invested
 total_invested = blnc_opt_df['Invested'].sum() if not blnc_opt_df.empty else 0
 
-# Define colors based on conditions
-if (bnk_power > 0.85 or bnk_power < 0.15) or (nse_power > 0.85 or nse_power < 0.15):
+# Define colors based on specific conditions for each line
+if bnk_power > 0.85 or bnk_power < 0.15:
     line1_color = SILVER
-    line2_color = GREY
 else:
     line1_color = GREY
+
+if nse_power > 0.85 or nse_power < 0.15:
     line2_color = SILVER
+else:
+    line2_color = GREY
 
 # Format lines with the defined colors
 line1 = f"{line1_color}B:{last_wednesday_str}{RESET}"
