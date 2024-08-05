@@ -137,7 +137,7 @@ async def main():
                                 print(f"    {PE_symbol} not there, let's Buy")
                                 await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
                         else:
-                            print(f"nse_power:{nse_power} is not low enough, skipping")
+                            print(f"nse_power:{nse_power} is not high enough,skipping")
                 
                 elif mktpredict == "FALL":
                     if mktpxy == "Buy":
