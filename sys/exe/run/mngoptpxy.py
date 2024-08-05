@@ -17,10 +17,6 @@ from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
 bnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 
-# Market data retrieval
-onemincandlesequance, mktpxy = get_market_check('^NSEI')
-bnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
-
 # Argument parsing
 parser = argparse.ArgumentParser(description="Process some commands.")
 parser.add_argument('command', nargs='?', choices=['l', 's'], default='s',
@@ -86,20 +82,18 @@ def avg_options(df, broker):
                 if current_qty < 30:
                     qty = 15
                     if 'PE' in row['key']:
-                        can_average = bnk_power > 0.85 
+                        can_average = (bnk_power > 0.85 and bmktpxy == 'Sell') #and ha_nse_action == 'Bearish')
                     elif 'CE' in row['key']:
-                        can_average = bnk_power < 0.50 
+                        can_average = (bnk_power < 0.15 and bmktpxy == 'Buy') #and ha_nse_action == 'Bullish')
 
             elif row['key'].startswith('NIFTY'):
                 current_qty = row['qty']
                 if current_qty < 50:
                     qty = 25
                     if 'PE' in row['key']:
-                        can_average = (nse_power > 0.85 and mktpxy == 'Sell' ) #and ha_nse_action == 'Bearish')
-                        #can_average = nse_power > 0.85
+                        can_average = (nse_power > 0.85 and mktpxy == 'Sell') #and ha_nse_action == 'Bearish')
                     elif 'CE' in row['key']:
-                        can_average = (nse_power < 0.15 and mktpxy == 'Buy' ) #and ha_nse_action == 'Bullish')
-                        #can_average = nse_power < 0.35 
+                        can_average = (nse_power < 0.15 and mktpxy == 'Buy') #and ha_nse_action == 'Bullish')
             if can_average:
                 print(f"Placing BUY order for {row['key']} with quantity {qty}")
                 order_id = place_order(row['key'], qty, 'BUY', 'MARKET', 'NRML', broker)
