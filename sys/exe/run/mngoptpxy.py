@@ -168,7 +168,7 @@ total_invested = blnc_opt_df['Invested'].sum() if not blnc_opt_df.empty else 0
 line1 = f"B:{last_wednesday_str}"
 line2 = f"N:{last_thursday_str}"
 formatted_total = f"{total_invested:07d}"
-header_line = f"{line1}  ⚖   {BRIGHT_YELLOW}{current_month_abbr}{RESET} {formatted_total}  ⚖   {line2}"
+header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {formatted_total}   ⚖   {line2}"
 
 print("━" * width)
 print(f"{SILVER}{header_line:^{width}}{RESET}")
