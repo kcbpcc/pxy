@@ -9,17 +9,8 @@ print(RESET)
 # Load data from local CSV file
 df = pd.read_csv('acvalpxy.csv')
 
-# Convert 'date' column to datetime format, specifying format if known
-df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d', errors='coerce')
-
-# Drop rows with NaT in 'date' column
-df = df.dropna(subset=['date'])
-
-# Convert 'acvalue' to numeric, coercing errors to NaN
-df['acvalue'] = pd.to_numeric(df['acvalue'], errors='coerce')
-
-# Drop rows with NaN in 'acvalue' column
-df = df.dropna(subset=['acvalue'])
+# Convert 'date' column to datetime format if necessary
+df['date'] = pd.to_datetime(df['date'])
 
 # Consider the latest 30 records for charting
 df = df.tail(30)
@@ -27,15 +18,12 @@ df = df.tail(30)
 # Calculate trend direction
 trend_direction = []
 for i in range(1, len(df)):
-    if df['acvalue'].iloc[i] > df['acvalue'].iloc[i - 1]:
+    if df['acvalue'][i] > df['acvalue'][i - 1]:
         trend_direction.append(BRIGHT_GREEN)
-    elif df['acvalue'].iloc[i] < df['acvalue'].iloc[i - 1]:
+    elif df['acvalue'][i] < df['acvalue'][i - 1]:
         trend_direction.append(BRIGHT_RED)
     else:
         trend_direction.append(SILVER)
-
-# Ensure there is a color for the first record
-trend_direction.insert(0, SILVER)
 
 # Create ASCII chart with colored trend
 chart = plot(df['acvalue'].tolist(), {'height': 10, 'format': "{:,.2f}", 'color': trend_direction})
@@ -86,13 +74,13 @@ delta_day_color = BRIGHT_GREEN if delta_day >= 0 else BRIGHT_RED
 delta_month_color = BRIGHT_GREEN if delta_month >= 0 else BRIGHT_RED
 
 # Print deltas to console with zero-padding
-print(f"📊📊📊📊📊   Daily Delta: {delta_day_color}{delta_day:0=6,.2f}{RESET}  📊📊📊📊")
-print(f"🎢🎢🎢🎢🎢   Month Delta: {delta_month_color}{delta_month:0=6,.2f}{RESET}  🎢🎢🎢🎢")
+print(f"📊📊📊📊📊   Daily Delta: {delta_day:0=6,.2f}  📊📊📊📊")
+print(f"🎢🎢🎢🎢🎢   Month Delta: {delta_month:0=6,.2f}  🎢🎢🎢🎢")
 
 # Reset terminal color to default
 print(RESET)
 
-# Prepare Telegram message
+
 telegram_message = (
     f"    🚀 *PXY® Score Board* 🚀\n\n"
     f"💰*Daily Delta:* {delta_day:,.2f}\n\n"
@@ -106,4 +94,3 @@ telegram_message = (
 
 # Send the summary
 check_and_send_summary(telegram_message, 'vlpxy')
-
