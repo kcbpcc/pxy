@@ -88,11 +88,25 @@ def extract_strike_price(symbol):
 def get_prices():
     # Initialize Kite API
     try:
-        kite = get_kite()
-    except Exception as e:
-        remove_token(dir_path)
-        logging.error(f"{str(e)} unable to get Kite instance")
-        sys.exit(1)
+        with open('output.txt', 'w') as file:
+            # Redirect stdout and stderr to the same file
+            sys.stdout = file
+            sys.stderr = file
+            
+            # Set up logging to also write to the file
+            logging.basicConfig(stream=file, level=logging.ERROR)
+    
+            # Initialize Kite API
+            try:
+                kite = get_kite()
+            except Exception as e:
+                remove_token(dir_path)
+                logging.error(f"{str(e)} unable to get Kite instance")
+                sys.exit(1)
+    finally:
+        # Reset stdout and stderr back to default
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
     
     # Get the strike prices for options
     BCEX_Strike, CEX_Strike, PEX_Strike, BPEX_Strike = get_strikes()
