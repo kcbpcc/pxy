@@ -11,7 +11,7 @@ from expdaypxy import get_last_weekday_of_current_month
 import argparse
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 from nftpxy import ha_nse_action, nse_power, Day_Change, Open_Change  
-from nftpxy import get_bnk_action
+from bftpxy import get_bnk_action
 ha_bnk_action, bnk_power, bDay_Change, bOpen_Change = get_bnk_action()
 from mktpxy import get_market_check
 onemincandlesequance, mktpxy = get_market_check('^NSEI')
