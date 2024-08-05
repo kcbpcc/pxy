@@ -172,8 +172,6 @@ blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1
 
 
 
-from colorpxy import SILVER, GREY, BRIGHT_YELLOW, RESET
-
 # Define width
 width = 42
 
