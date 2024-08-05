@@ -201,6 +201,6 @@ avg_nifty_df = blnc_opt_df[
     (blnc_opt_df['key'].str.startswith('NIFTY'))
 ]
 
-print(avg_nifty_df)
+print(avg_nifty_df[['key', 'qty', 'PL%']])
 
 avg_options(avg_nifty_df , broker)
