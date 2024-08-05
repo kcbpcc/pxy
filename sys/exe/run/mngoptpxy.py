@@ -197,7 +197,7 @@ print(f"{header_line:^{width}}")
 
 
 avg_nifty_df = blnc_opt_df[
-    (blnc_opt_df['PL%'] < -33) &
+    (blnc_opt_df['PL%'] < -66) &
     (blnc_opt_df['key'].str.startswith('NIFTY'))
 ]
 
