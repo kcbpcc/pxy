@@ -196,7 +196,7 @@ output_lines.append(
         f"Flush:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹{RESET}"
     ) +
     right_aligned_format.format(
-        f"F&O-M2M:{BRIGHT_GREEN if m2m_opt > 0 else BRIGHT_RED}{m2m_opt:.2f}{RESET}"
+        f"F&O-M2M:{BRIGHT_GREEN if m2m_opt > 0 else BRIGHT_RED}{int(m2m_opt)}{RESET}"
     )
 )
 
