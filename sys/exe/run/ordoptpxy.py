@@ -1,14 +1,20 @@
 async def place_order(broker, symbol, transaction_type, product_type, quantity, order_type, price=None):
     def extract_strike(symbol):
-        # Extract the last 5 digits from the symbol
+        # Extract the last 7 digits (strike price part) from the symbol
         return int(symbol[-7:-2])  # Last 7 characters minus the last 2 (CE or PE)
 
     def generate_alternate_symbols(symbol):
+        prefix = symbol[:-7]  # Everything before the last 7 characters
         strike = extract_strike(symbol)
-        if symbol.endswith("CE"):
-            return [f"{strike + 100}CE"]
-        elif symbol.endswith("PE"):
-            return [f"{strike - 100}PE"]
+        suffix = symbol[-2:]  # Last 2 characters (CE or PE)
+        
+        if suffix not in ["CE", "PE"]:
+            return []
+
+        if suffix == "CE":
+            return [f"{prefix}{strike + 100}CE"]
+        elif suffix == "PE":
+            return [f"{prefix}{strike - 100}PE"]
         return []
 
     def attempt_order(symbol, transaction_type, product_type, quantity, order_type, price):
@@ -52,3 +58,4 @@ async def place_order(broker, symbol, transaction_type, product_type, quantity, 
         return False, None
 
     return True, order_id
+
