@@ -293,23 +293,22 @@ for group, data in grouped_df:
 
 summary = (
     f"---------PXY® Dash Board----------\n"
-    f"     📊 C&C-tCap: {BRIGHT_YELLOW}{CnC_tCap_rounded}{RESET}".ljust(42) +
-    f"     📈 C&C-tPnL: {BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{round(run_spnl / 100000, 2)}{RESET}\n"
-    f"     💼 F&O-tCap: {BRIGHT_YELLOW}{round(total_invested_all / 100000, 2)}{RESET}".ljust(42) +
-    f"     📉 F&O-tPnL: {BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(run_opnl / 100000, 2)).zfill(4)}{RESET}\n"
-    f"     💹 A/C-tCap: {BRIGHT_YELLOW}{str(round(CnC_tCap_rounded + (total_invested_all / 100000), 2)).zfill(5)}{RESET}".ljust(42) +
-    f"     📉 A/C-tPnL: {BRIGHT_GREEN if mktpredict != 'FALL' else BRIGHT_RED}{str(round(CnC_tCap_rounded + (total_invested_all / 100000) - 17.8, 2)).zfill(5)}{RESET}\n"
-    f"     💰 Flush: {BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹{RESET}".ljust(42) +
-    f"     📈 F&O-M2M: {BRIGHT_GREEN if m2m_opt > 0 else BRIGHT_RED}{int(m2m_opt)}{RESET}\n"
-    f"     📉 C&C-dPnL: {BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}".ljust(42) +
-    f"     💵 C&C-bPnL: {GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}\n"
-    f"     🏦 BANK-dPnL: {BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{str(bank_profit).zfill(5)}{RESET}".ljust(42) +
-    f"     📊 NIFTY-dPnL: {BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{str(nifty_profit).zfill(5)}{RESET}\n"
-    f"     💵 Cash-Left: {BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{int(round(live_balance, 0)):04d}{RESET}".ljust(42) +
-    f"     📉 Total-dPnL: {BRIGHT_GREEN if (nifty_profit + bank_profit + booked + hide) > 0 else BRIGHT_RED}{str(nifty_profit + bank_profit + booked + hide).zfill(5)}{RESET}\n"
+    f"     📊 C&C-tCap: {CnC_tCap_rounded}".ljust(42) +
+    f"     📈 C&C-tPnL: {round(run_spnl / 100000, 2)}\n"
+    f"     💼 F&O-tCap: {round(total_invested_all / 100000, 2)}".ljust(42) +
+    f"     📉 F&O-tPnL: {str(round(run_opnl / 100000, 2)).zfill(4)}\n"
+    f"     💹 A/C-tCap: {str(round(CnC_tCap_rounded + (total_invested_all / 100000), 2)).zfill(5)}".ljust(42) +
+    f"     📉 A/C-tPnL: {str(round(CnC_tCap_rounded + (total_invested_all / 100000) - 17.8, 2)).zfill(5)}\n"
+    f"     💰 Flush: {str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹".ljust(42) +
+    f"     📈 F&O-M2M: {int(m2m_opt)}\n"
+    f"     📉 C&C-dPnL: {int(round(all_Stocks_worth_dpnl, 0))}".ljust(42) +
+    f"     💵 C&C-bPnL: {str(int(booked)).zfill(5)}\n"
+    f"     🏦 BANK-dPnL: {str(bank_profit).zfill(5)}".ljust(42) +
+    f"     📊 NIFTY-dPnL: {str(nifty_profit).zfill(5)}\n"
+    f"     💵 Cash-Left: {int(round(live_balance, 0)):04d}".ljust(42) +
+    f"     📉 Total-dPnL: {str(nifty_profit + bank_profit + booked + hide).zfill(5)}\n"
     f"                      \n"
     f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/0aec4aa4)\n"
 )
-
 
 check_and_send_summary(summary, 'bordpxy')
