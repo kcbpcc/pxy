@@ -228,10 +228,10 @@ print("━" * width)
 # Print header line centered
 print(f"{header_line:^{width}}")
 
-BPE Condition = bnk_power > 0.90
-BPE Condition = bnk_power < 0.10
-PE Condition = nse_power > 0.90
-CE Condition = nse_power < 0.10
+bpe_condition = bnk_power > 0.90
+bce_condition = bnk_power < 0.10
+pe_condition = nse_power > 0.90
+ce_condition = nse_power < 0.10
 
 avg_nifty_df = blnc_opt_df[
     (blnc_opt_df['PL%'] < -33) &
