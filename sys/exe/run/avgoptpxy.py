@@ -56,7 +56,7 @@ def send_telegram_message(message):
 
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker):
     try:
-        print(f"Placing order for {tradingsymbol} with quantity {quantity}")
+        #print(f"Placing order for {tradingsymbol} with quantity {quantity}")
         order_id = broker.order_place(
             tradingsymbol=tradingsymbol,
             quantity=quantity,
