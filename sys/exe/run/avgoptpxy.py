@@ -88,18 +88,18 @@ def avg_options(df, broker):
                 if current_qty < 30:
                     qty = 15
                     if 'PE' in row['key']:
-                        can_average = (bnk_power > 0.50)
+                        can_average = (bnk_power > 0.90)
                     elif 'CE' in row['key']:
-                        can_average = (bnk_power < 0.50)
+                        can_average = (bnk_power < 0.10)
 
             elif row['key'].startswith('NIFTY'):
                 current_qty = row['qty']
                 if current_qty < 50:
                     qty = 25
                     if 'PE' in row['key']:
-                        can_average = (nse_power > 0.50)
+                        can_average = (nse_power > 0.90)
                     elif 'CE' in row['key']:
-                        can_average = (nse_power < 0.50)
+                        can_average = (nse_power < 0.10)
 
             if can_average:
                 #print(f"Can average {row['key']} with quantity {qty}.")
