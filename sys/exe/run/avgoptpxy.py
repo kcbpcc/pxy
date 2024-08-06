@@ -160,6 +160,11 @@ current_month_abbr = datetime.now().strftime('%b').upper()
 
 blnc_opt_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL']]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
+# Apply additional filtering conditions
+blnc_opt_df = blnc_opt_df[
+    ((blnc_opt_df['key'].str.startswith('BANK')) & (blnc_opt_df['qty'] < 30)) |
+    ((blnc_opt_df['key'].str.startswith('NIFTY')) & (blnc_opt_df['qty'] < 50))
+]
 #blnc_opt_df = blnc_opt_df[blnc_opt_df['key'].str.contains(current_month_abbr)]
 
 def add_date(row):
