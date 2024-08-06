@@ -79,7 +79,7 @@ def avg_options(df, broker):
             should_continue = True  # Default to continue processing
 
             # Print row details for user
-            print(f"Processing row {index + 1}:")
+            print(f"\nProcessing row {index + 1}:")
             print(f"Key: {row['key']}")
             print(f"Quantity: {row['qty']}")
             print(f"PnL: {row['PnL']}")
@@ -106,7 +106,12 @@ def avg_options(df, broker):
             # Ask user for input before proceeding
             if can_average:
                 print(f"Can average {row['key']} with quantity {qty}.")
-                user_input = input("Would you like to place the order? (Yes/No): ").strip()
+                while True:
+                    user_input = input("Would you like to place the order? (Yes/No): ").strip()
+                    if user_input in ('Yes', 'No'):
+                        break
+                    print("Invalid input. Please enter 'Yes' or 'No'.")
+
                 if user_input == 'Yes':
                     order_id = place_order(row['key'], qty, 'BUY', 'MARKET', 'NRML', broker)
 
@@ -127,6 +132,7 @@ def avg_options(df, broker):
 
     except Exception as e:
         print(f"Error processing row: {e}")
+
 
 
 
