@@ -76,7 +76,6 @@ def avg_options(df, broker):
         for index, row in df.iterrows():
             qty = 0
             can_average = False
-            should_continue = True
 
             print(f"\nProcessing row {index + 1}:")
             print(f"Key: {row['key']}")
@@ -106,7 +105,7 @@ def avg_options(df, broker):
                 #print(f"Can average {row['key']} with quantity {qty}.")
                 while True:
                     try:
-                        user_input = input("May i place a order? (Yes/No): ").strip()
+                        user_input = input("May I place an order? (Yes/No): ").strip()
                         if user_input in ('Yes', 'No'):
                             break
                         print("Invalid input. Please enter 'Yes' or 'No'.")
@@ -126,13 +125,10 @@ def avg_options(df, broker):
                         send_telegram_message(message)
                 else:
                     print("Skipping order placement for this row.")
-                    should_continue = False
-
-            if not should_continue:
-                break
 
     except Exception as e:
         print(f"Error processing row: {e}")
+
 
 
 try:
