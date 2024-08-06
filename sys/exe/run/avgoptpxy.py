@@ -71,7 +71,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
         print(f"Error placing order: {e}")
         return None
 
-def avg_options(df, broker, bpe_condition, bce_condition, pe_condition, ce_condition):
+def avg_options(df, broker):
     try:
         for index, row in df.iterrows():
             qty = 0
@@ -88,13 +88,13 @@ def avg_options(df, broker, bpe_condition, bce_condition, pe_condition, ce_condi
                 if current_qty < 30:
                     qty = 15
                     if 'PE' in row['key']:
-                        can_average = bpe_condition
+                        can_average = (bnk_power > 0.90)
                         if not can_average:
-                            print("Cannot average: BPE condition not met.")
+                            print("Cannot average: bnk_power <= 0.90")
                     elif 'CE' in row['key']:
-                        can_average = bce_condition
+                        can_average = (bnk_power < 0.10)
                         if not can_average:
-                            print("Cannot average: BCE condition not met.")
+                            print("Cannot average: bnk_power >= 0.10")
                 else:
                     print(f"Quantity {current_qty} >= 30, skipping averaging.")
 
@@ -103,13 +103,13 @@ def avg_options(df, broker, bpe_condition, bce_condition, pe_condition, ce_condi
                 if current_qty < 50:
                     qty = 25
                     if 'PE' in row['key']:
-                        can_average = pe_condition
+                        can_average = (nse_power > 0.90)
                         if not can_average:
-                            print("Cannot average: PE condition not met.")
+                            print("Cannot average: nse_power <= 0.90")
                     elif 'CE' in row['key']:
-                        can_average = ce_condition
+                        can_average = (nse_power < 0.10)
                         if not can_average:
-                            print("Cannot average: CE condition not met.")
+                            print("Cannot average: nse_power >= 0.10")
                 else:
                     print(f"Quantity {current_qty} >= 50, skipping averaging.")
 
@@ -137,10 +137,13 @@ def avg_options(df, broker, bpe_condition, bce_condition, pe_condition, ce_condi
                 else:
                     print("User chose not to place an order.")
             else:
-                print(f"{GREEN}Skipping order placement: conditions not met.{RESET}")
+                print(f"{BRIGHT_GREEN}Skipping order placement: conditions not met.{RESET}")
 
     except Exception as e:
         print(f"Error processing row: {e}")
+
+
+
 
 try:
     sys.stdout = open('output.txt', 'w')
@@ -228,10 +231,6 @@ print("━" * width)
 # Print header line centered
 print(f"{header_line:^{width}}")
 
-bpe_condition = bnk_power > 0.90
-bce_condition = bnk_power < 0.10
-pe_condition = nse_power > 0.90
-ce_condition = nse_power < 0.10
 
 avg_nifty_df = blnc_opt_df[
     (blnc_opt_df['PL%'] < -33) &
@@ -247,5 +246,5 @@ avg_bnk_nifty_df = blnc_opt_df[
 
 print(avg_bnk_nifty_df[['key', 'qty', 'PL%']].to_string(index=False, header=False, formatters={'key': lambda x: f"{x:<28}", 'qty': lambda x: f"{x:>6}", 'PL%': lambda x: f"{x:>6.2f}"}))
 
-avg_options(avg_nifty_df , bpe_condition, bce_condition, pe_condition, ce_condition)
-avg_options(avg_bnk_nifty_df , bpe_condition, bce_condition, pe_condition, ce_condition)
+avg_options(avg_nifty_df , broker)
+avg_options(avg_bnk_nifty_df , broker)
