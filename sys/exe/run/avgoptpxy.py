@@ -160,6 +160,7 @@ current_month_abbr = datetime.now().strftime('%b').upper()
 
 blnc_opt_df = blnc_opt_df[['key', 'qty', 'Invested', 'value', 'PL%', 'PnL']]
 blnc_opt_df = blnc_opt_df[blnc_opt_df['qty'] > 0]
+total_invested = blnc_opt_df['Invested'].sum() if not blnc_opt_df.empty else 0
 # Apply additional filtering conditions
 blnc_opt_df = blnc_opt_df[
     ((blnc_opt_df['key'].str.startswith('BANK')) & (blnc_opt_df['qty'] < 30)) |
@@ -189,7 +190,7 @@ blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1
 width = 42
 
 # Calculate total invested
-total_invested = blnc_opt_df['Invested'].sum() if not blnc_opt_df.empty else 0
+
 
 # Define colors based on specific conditions for each line
 if bnk_power > 0.85 or bnk_power < 0.15:
