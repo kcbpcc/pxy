@@ -68,9 +68,13 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
             order_type=order_type,
             product=product
         )
-        print(f"Order placed successfully. Order ID: {order_id}")
-        send_telegram_message(message)
-        return order_id
+        if order_id:  # Check if order_id is valid
+            print(f"Order placed successfully. Order ID: {order_id}")
+            send_telegram_message(message)
+            return order_id
+        else:
+            print("Order placement failed. No valid order ID returned.")
+            return None
     except Exception as e:
         print(f"Error placing order: {e}")
         return None
