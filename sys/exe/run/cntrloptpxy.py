@@ -58,7 +58,7 @@ def send_telegram_message(message):
     except Exception as e:
         print(f"Error sending Telegram message: {e}")
 
-def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker):
+def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker, message):
     try:
         order_id = broker.order_place(
             tradingsymbol=tradingsymbol,
@@ -69,6 +69,7 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
             product=product
         )
         print(f"Order placed successfully. Order ID: {order_id}")
+        send_telegram_message(message)
         return order_id
     except Exception as e:
         print(f"Error placing order: {e}")
@@ -82,7 +83,6 @@ def exit_options(exe_opt_df, broker):
             tgtoptsmadepth = row['tgtoptsmadepth']
             
             if total_pl_percentage > tgtoptsmadepth and row['PnL'] > 400:
-                place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker)
                 message = (
                     f"🎯{row['key']}🎯\n"
                     f"   🎯 Target PL%: {round(tgtoptsmadepth, 4)}%\n"
@@ -91,8 +91,9 @@ def exit_options(exe_opt_df, broker):
                     f"   📈 Buy Price: {round(row['avg'], 2)}\n"
                     f"   💰 Booked Profit: {row['PnL']}📣"
                 )
+                place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker, message)
                 print(message)
-                send_telegram_message(message)
+
     except Exception as e:
         print(f"Error placing exit order: {e}")
 
