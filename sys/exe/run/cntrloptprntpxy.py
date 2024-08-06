@@ -58,13 +58,15 @@ def calculate_extras_and_m2m(df):
     df_copy.loc[:, 'new_extras'] = np.where(
         df_copy['quantity'] == 0,
         df_copy['unrealised'],
-        df_copy['unrealised'] - df_copy['PnL']
+        np.where(
+            (df_copy['quantity'] > 0) & (df_copy['day_sell_quantity'] > 0),
+            df_copy['unrealised'] - df_copy['PnL'],
+            df_copy['unrealised']
+        )
     )
     extras = df_copy['new_extras'].sum()
-    total_m2m_x = df_copy['unrealised'].sum()
-    total_m2m = total_m2m_x + extras
+    total_m2m = df_copy[df_copy['quantity'] > 0]['m2m'].sum()
     return int(extras), total_m2m
-
     
 
 # Calculate extras and total M2M for NIFTY and BANK
