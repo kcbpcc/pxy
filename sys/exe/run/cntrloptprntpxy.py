@@ -99,6 +99,7 @@ total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 e
 # For calculating 'run_opnl'
 run_opnl = combined_df[(combined_df['exchange'] == 'NFO')]['pnl'].sum()
 CnC_tCap_rounded = round(combined_df.loc[(combined_df['product'] == 'CNC') & (combined_df['qty'] > 0), 'Invested'].sum() / 100000, 2)
+m2m_opt = combined_df[(combined_df['exchange'] == 'NFO')]['m2m'].sum()
 
 # For calculating 'run_spnl'
 run_spnl = combined_df[(combined_df['qty'] > 0) & (combined_df['product'] == 'CNC') & (combined_df['source'] == 'holdings')]['pnl'].sum()
@@ -195,7 +196,7 @@ output_lines.append(
         f"Flush:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹{RESET}"
     ) +
     right_aligned_format.format(
-        f"A/C-tPnL:{BRIGHT_GREEN if real_pnl > 0 else BRIGHT_RED}{real_pnl:.2f}{RESET}"
+        f"F&O-M2M:{BRIGHT_GREEN if m2m_opt > 0 else BRIGHT_RED}{m2m_opt:.2f}{RESET}"
     )
 )
 
