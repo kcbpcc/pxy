@@ -174,7 +174,7 @@ green_Stocks_capital_percentage = (green_Stocks_profit_loss / total_invested) * 
 output_lines.append(left_aligned_format.format(f"C&C-tCap:{BRIGHT_YELLOW}{CnC_tCap_rounded}{RESET}") +
     right_aligned_format.format(f"C&C-tPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{round(run_spnl / 100000, 2)}{RESET}"))
 output_lines.append(left_aligned_format.format(f"F&O-tCap:{BRIGHT_YELLOW}{round(total_invested_all / 100000, 2)}{RESET}") +
-                    right_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(total_m2m/100000, 2)).zfill(4)}{RESET}"))
+                    right_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(run_opnl/100000, 2)).zfill(4)}{RESET}"))
 
 
 output_lines.append(
