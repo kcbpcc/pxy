@@ -106,7 +106,7 @@ def avg_options(df, broker):
                 print(f"Can average {row['key']} with quantity {qty}.")
                 while True:
                     try:
-                        user_input = input("Would you like to place the order? (Yes/No): ").strip()
+                        user_input = input("May i place a order? (Yes/No): ").strip()
                         if user_input in ('Yes', 'No'):
                             break
                         print("Invalid input. Please enter 'Yes' or 'No'.")
