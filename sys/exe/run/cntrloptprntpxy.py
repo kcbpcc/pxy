@@ -101,8 +101,7 @@ run_opnl = combined_df[(combined_df['exchange'] == 'NFO')]['pnl'].sum()
 CnC_tCap_rounded = round(combined_df.loc[(combined_df['product'] == 'CNC') & (combined_df['qty'] > 0), 'Invested'].sum() / 100000, 2)
 
 # For calculating 'run_spnl'
-run_spnl = combined_df[(combined_df['qty'] > 0) & (combined_df['exchange'].isin(['BSE', 'NSE']))]['pnl'].sum()
-
+run_spnl = combined_df[(combined_df['qty'] > 0) & (combined_df['product'] == 'CNC') & (combined_df['source'] == 'holdings')]['pnl'].sum()
 # Create and process the print_df DataFrame
 print_df = opt_df.copy()
 print_df['CP'] = print_df['key'].apply(lambda x: '🟠' if x.endswith('PE') else ('🟢' if x.endswith('CE') else None))
