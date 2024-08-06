@@ -293,19 +293,19 @@ for group, data in grouped_df:
 
 summary = (
     f"---------PXY® Dash Board----------\n"
-    f"     📊 C&C-tCap: {CnC_tCap_rounded}".ljust(42) +
+    f"     📊 C&C-tCap: {CnC_tCap_rounded}\n"
     f"     📈 C&C-tPnL: {round(run_spnl / 100000, 2)}\n"
-    f"     💼 F&O-tCap: {round(total_invested_all / 100000, 2)}".ljust(42) +
+    f"     💼 F&O-tCap: {round(total_invested_all / 100000, 2)}\n"
     f"     📉 F&O-tPnL: {str(round(run_opnl / 100000, 2)).zfill(4)}\n"
-    f"     💹 A/C-tCap: {str(round(CnC_tCap_rounded + (total_invested_all / 100000), 2)).zfill(5)}".ljust(42) +
+    f"     💹 A/C-tCap: {str(round(CnC_tCap_rounded + (total_invested_all / 100000), 2)).zfill(5)}\n"
     f"     📉 A/C-tPnL: {str(round(CnC_tCap_rounded + (total_invested_all / 100000) - 17.8, 2)).zfill(5)}\n"
-    f"     💰 Flush: {str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹".ljust(42) +
+    f"     💰 Flush: {str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹\n"
     f"     📈 F&O-M2M: {int(m2m_opt)}\n"
-    f"     📉 C&C-dPnL: {int(round(all_Stocks_worth_dpnl, 0))}".ljust(42) +
+    f"     📉 C&C-dPnL: {int(round(all_Stocks_worth_dpnl, 0))}\n"
     f"     💵 C&C-bPnL: {str(int(booked)).zfill(5)}\n"
-    f"     🏦 BANK-dPnL: {str(bank_profit).zfill(5)}".ljust(42) +
+    f"     🏦 BANK-dPnL: {str(bank_profit).zfill(5)}\n"
     f"     📊 NIFTY-dPnL: {str(nifty_profit).zfill(5)}\n"
-    f"     💵 Cash-Left: {int(round(live_balance, 0)):04d}".ljust(42) +
+    f"     💵 Cash-Left: {int(round(live_balance, 0)):04d}\n"
     f"     📉 Total-dPnL: {str(nifty_profit + bank_profit + booked + hide).zfill(5)}\n"
     f"                      \n"
     f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/0aec4aa4)\n"
