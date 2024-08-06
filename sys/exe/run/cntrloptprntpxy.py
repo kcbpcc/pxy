@@ -180,7 +180,7 @@ output_lines.append(left_aligned_format.format(f"F&O-tCap:{BRIGHT_YELLOW}{round(
 
 output_lines.append(
     left_aligned_format.format(
-        f"{'A/C-Cap'.zfill(7)}:{BRIGHT_YELLOW}{str(round(17.82, 2)).zfill(5)}"
+        f"{'A/C-tCap'.zfill(7)}:{BRIGHT_YELLOW}{str(round(CnC_tCap_rounded + (total_invested_all / 100000), 2)).zfill(5)}"
         f"{BRIGHT_RED if mktpredict == 'FALL' else GREY if mktpredict == 'SIDE' else BRIGHT_GREEN}     {BOLD}PXY{RESET}"
     ) +
     right_aligned_format.format(
