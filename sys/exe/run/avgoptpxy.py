@@ -76,9 +76,8 @@ def avg_options(df, broker):
         for index, row in df.iterrows():
             qty = 0
             can_average = False
-            should_continue = True  # Default to continue processing
+            should_continue = True
 
-            # Print row details for user
             print(f"\nProcessing row {index + 1}:")
             print(f"Key: {row['key']}")
             print(f"Quantity: {row['qty']}")
@@ -103,18 +102,20 @@ def avg_options(df, broker):
                     elif 'CE' in row['key']:
                         can_average = (nse_power < 0.15 and mktpxy == 'Buy')
 
-            # Ask user for input before proceeding
             if can_average:
                 print(f"Can average {row['key']} with quantity {qty}.")
                 while True:
-                    user_input = input("Would you like to place the order? (Yes/No): ").strip()
-                    if user_input in ('Yes', 'No'):
-                        break
-                    print("Invalid input. Please enter 'Yes' or 'No'.")
+                    try:
+                        user_input = input("Would you like to place the order? (Yes/No): ").strip()
+                        if user_input in ('Yes', 'No'):
+                            break
+                        print("Invalid input. Please enter 'Yes' or 'No'.")
+                    except EOFError:
+                        print("Error reading input. Please try again.")
+                        continue
 
                 if user_input == 'Yes':
                     order_id = place_order(row['key'], qty, 'BUY', 'MARKET', 'NRML', broker)
-
                     if order_id:
                         message = (
                             f"🚀🚀🚀 🤑🤑🤑 AVG order placed {row['key']} successfully.\n"
@@ -132,8 +133,6 @@ def avg_options(df, broker):
 
     except Exception as e:
         print(f"Error processing row: {e}")
-
-
 
 
 try:
