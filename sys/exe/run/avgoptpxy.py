@@ -129,6 +129,7 @@ def avg_options(df, broker):
         print(f"Error processing row: {e}")
 
 
+
 try:
     sys.stdout = open('output.txt', 'w')
     broker = get_kite()
