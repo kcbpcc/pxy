@@ -62,7 +62,7 @@ def calculate_extras_and_m2m(df):
     )
     extras = df_copy['new_extras'].sum()
     total_m2m_x = df_copy['m2m'].sum()
-    total_m2m = total_m2m_x + extras
+    total_m2m = total_m2m_x
     return int(extras), total_m2m
 
     
