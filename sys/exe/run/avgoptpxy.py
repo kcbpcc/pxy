@@ -76,38 +76,58 @@ def avg_options(df, broker):
         for index, row in df.iterrows():
             qty = 0
             can_average = False
+            should_continue = True  # Default to continue processing
+
+            # Print row details for user
+            print(f"Processing row {index + 1}:")
+            print(f"Key: {row['key']}")
+            print(f"Quantity: {row['qty']}")
+            print(f"PnL: {row['PnL']}")
+            print(f"PL%: {row['PL%']}%")
 
             if row['key'].startswith('BANKNIFTY'):
                 current_qty = row['qty']
                 if current_qty < 30:
                     qty = 15
                     if 'PE' in row['key']:
-                        can_average = (bnk_power > 0.85 and bmktpxy == 'Sell') #and ha_nse_action == 'Bearish')
+                        can_average = (bnk_power > 0.85 and bmktpxy == 'Sell')
                     elif 'CE' in row['key']:
-                        can_average = (bnk_power < 0.15 and bmktpxy == 'Buy') #and ha_nse_action == 'Bullish')
+                        can_average = (bnk_power < 0.15 and bmktpxy == 'Buy')
 
             elif row['key'].startswith('NIFTY'):
                 current_qty = row['qty']
                 if current_qty < 50:
                     qty = 25
                     if 'PE' in row['key']:
-                        can_average = (nse_power > 0.85 and mktpxy == 'Sell') #and ha_nse_action == 'Bearish')
+                        can_average = (nse_power > 0.85 and mktpxy == 'Sell')
                     elif 'CE' in row['key']:
-                        can_average = (nse_power < 0.15 and mktpxy == 'Buy') #and ha_nse_action == 'Bullish')
-            if can_average:
-                print(f"Placing BUY order for {row['key']} with quantity {qty}")
-                order_id = place_order(row['key'], qty, 'BUY', 'MARKET', 'NRML', broker)
+                        can_average = (nse_power < 0.15 and mktpxy == 'Buy')
 
-                if order_id:
-                    message = (
-                        f"🚀🚀🚀 🤑🤑🤑 AVG order placed {row['key']} successfully.\n"
-                        f"PL%: {round(row['PL%'], 2)}%\n"
-                        f"Quantity: {qty}\n"
-                    )
-                    print(message)
-                    send_telegram_message(message)
+            # Ask user for input before proceeding
+            if can_average:
+                print(f"Can average {row['key']} with quantity {qty}.")
+                user_input = input("Would you like to place the order? (Yes/No): ").strip()
+                if user_input == 'Yes':
+                    order_id = place_order(row['key'], qty, 'BUY', 'MARKET', 'NRML', broker)
+
+                    if order_id:
+                        message = (
+                            f"🚀🚀🚀 🤑🤑🤑 AVG order placed {row['key']} successfully.\n"
+                            f"PL%: {round(row['PL%'], 2)}%\n"
+                            f"Quantity: {qty}\n"
+                        )
+                        print(message)
+                        send_telegram_message(message)
+                else:
+                    print("Skipping order placement for this row.")
+                    should_continue = False
+
+            if not should_continue:
+                break
+
     except Exception as e:
-        print(f"Error placing BUY order: {e}")
+        print(f"Error processing row: {e}")
+
 
 try:
     sys.stdout = open('output.txt', 'w')
