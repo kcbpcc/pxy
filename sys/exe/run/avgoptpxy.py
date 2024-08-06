@@ -231,6 +231,10 @@ print("━" * width)
 # Print header line centered
 print(f"{header_line:^{width}}")
 
+BPE Condition = bnk_power > 0.90
+BPE Condition = bnk_power < 0.10
+PE Condition = nse_power > 0.90
+CE Condition = nse_power < 0.10
 
 avg_nifty_df = blnc_opt_df[
     (blnc_opt_df['PL%'] < -33) &
@@ -246,5 +250,5 @@ avg_bnk_nifty_df = blnc_opt_df[
 
 print(avg_bnk_nifty_df[['key', 'qty', 'PL%']].to_string(index=False, header=False, formatters={'key': lambda x: f"{x:<28}", 'qty': lambda x: f"{x:>6}", 'PL%': lambda x: f"{x:>6.2f}"}))
 
-avg_options(avg_nifty_df , broker)
-avg_options(avg_bnk_nifty_df , broker)
+avg_options(avg_nifty_df , bpe_condition, bce_condition, pe_condition, ce_condition)
+avg_options(avg_bnk_nifty_df , bpe_condition, bce_condition, pe_condition, ce_condition)
