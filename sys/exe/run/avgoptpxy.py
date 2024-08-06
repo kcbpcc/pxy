@@ -89,8 +89,14 @@ def avg_options(df, broker):
                     qty = 15
                     if 'PE' in row['key']:
                         can_average = (bnk_power > 0.90)
+                        if not can_average:
+                            print("Cannot average: bnk_power <= 0.90")
                     elif 'CE' in row['key']:
                         can_average = (bnk_power < 0.10)
+                        if not can_average:
+                            print("Cannot average: bnk_power >= 0.10")
+                else:
+                    print(f"Quantity {current_qty} >= 30, skipping averaging.")
 
             elif row['key'].startswith('NIFTY'):
                 current_qty = row['qty']
@@ -98,11 +104,16 @@ def avg_options(df, broker):
                     qty = 25
                     if 'PE' in row['key']:
                         can_average = (nse_power > 0.90)
+                        if not can_average:
+                            print("Cannot average: nse_power <= 0.90")
                     elif 'CE' in row['key']:
                         can_average = (nse_power < 0.10)
+                        if not can_average:
+                            print("Cannot average: nse_power >= 0.10")
+                else:
+                    print(f"Quantity {current_qty} >= 50, skipping averaging.")
 
             if can_average:
-                #print(f"Can average {row['key']} with quantity {qty}.")
                 while True:
                     try:
                         user_input = input("May I place an order? (Yes/No): ").strip()
@@ -124,10 +135,13 @@ def avg_options(df, broker):
                         print(message)
                         send_telegram_message(message)
                 else:
-                    print("Skipping order placement for this row.")
+                    print("User chose not to place an order.")
+            else:
+                print(f"{BRIGHT_GREEN}Skipping order placement: conditions not met.{RESET}")
 
     except Exception as e:
         print(f"Error processing row: {e}")
+
 
 
 
