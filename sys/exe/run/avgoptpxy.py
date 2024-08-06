@@ -103,7 +103,7 @@ def avg_options(df, broker):
                         can_average = (nse_power < 0.50)
 
             if can_average:
-                print(f"Can average {row['key']} with quantity {qty}.")
+                #print(f"Can average {row['key']} with quantity {qty}.")
                 while True:
                     try:
                         user_input = input("May i place a order? (Yes/No): ").strip()
