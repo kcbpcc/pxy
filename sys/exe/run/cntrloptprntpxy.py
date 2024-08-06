@@ -61,7 +61,8 @@ def calculate_extras_and_m2m(df):
         df_copy['unrealised'] - df_copy['PnL']
     )
     extras = df_copy['new_extras'].sum()
-    total_m2m = df_copy[df_copy['quantity'] > 0]['m2m'].sum()
+    total_m2m_x = df_copy['unrealised'].sum()
+    total_m2m = total_m2m_x + extras
     return int(extras), total_m2m
 
     
