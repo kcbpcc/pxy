@@ -305,8 +305,8 @@ summary = (
     f"     C&C-bPnL ━━: {str(int(booked)).zfill(5):<8}\n"
     f"     BANK-dPnL ━: {str(bank_profit).zfill(5):<8}\n"
     f"     NIFTY-dPnL ━: {str(nifty_profit).zfill(5):<8}\n"
-    f"     Cash-Left ━━: {int(round(live_balance, 0)):04d}\n"
-    f"     Total-dPnL ━: {str(nifty_profit + bank_profit + booked + hide).zfill(5):<8}\n"
+    f"     Cash-Left ━━━: {int(round(live_balance, 0)):04d}\n"
+    f"     Total-dPnL ━━: {str(nifty_profit + bank_profit + booked + hide).zfill(5):<8}\n"
     f"                      \n"
     f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/0aec4aa4)\n"
 )
