@@ -46,7 +46,7 @@ def calculate_decision():
             #print(f"An error occurred: {e}")
             available_cash = 0
             live_balance = 0  # Ensure live_balance is defined
-        limit = 50000 if peak == 'NONPEAK' else 10000 if peak == 'PEAKEND' else 50000
+        limit = 10000 if peak == 'PEAKEND' else 50000
         decision = "YES" if available_cash > limit else "NO"
         optdecision = "YES" if available_cash > 10000 else "NO"
         # Only return the decision, not available_cash
