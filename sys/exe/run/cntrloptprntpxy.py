@@ -193,7 +193,7 @@ output_lines.append(
 
 output_lines.append(
     left_aligned_format.format(
-        f"C&C-dPnL:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}") +
+        f"C&C-dPnL:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0)).zfill(5)}{RESET}") +
     right_aligned_format.format(f"F&O-dPnL:{BRIGHT_GREEN if m2m_opt > 0 else BRIGHT_RED}{int(m2m_opt)}{RESET}")
 )
 
