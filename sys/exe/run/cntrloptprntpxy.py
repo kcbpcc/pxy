@@ -215,7 +215,7 @@ output_lines.append(
 )
 output_lines.append(
     left_aligned_format.format(f"C&C-bPnL:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}") +
-    right_aligned_format.format(f"Total-bPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit + booked + hide) > 0 else BRIGHT_RED}{str(nifty_profit + bank_profit + booked + hide).zfill(5)}{RESET}"))
+    right_aligned_format.format(f"All-bPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit + booked + hide) > 0 else BRIGHT_RED}{str(nifty_profit + bank_profit + booked + hide).zfill(5)}{RESET}"))
 
 full_output = '\n'.join(output_lines)
 
