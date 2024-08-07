@@ -1,6 +1,7 @@
 import yfinance as yf
 import logging
 import random
+decision, optdecision, available_cash, live_balance, limit = calculate_decision()
 
 # Initialize logger
 logging.basicConfig(level=logging.WARNING) 
@@ -86,15 +87,18 @@ def read_symbols_from_file(filename):
 
 # Main function to check and print smbpxy and place orders
 def main():
-    filename = 'avgstocks'  # File containing the list of stock symbols (no extension)
-    avgstocks = read_symbols_from_file(filename)
-    
-    for symbol in avgstocks:
-        smbpxy = check_ha_candles(symbol)
-        print(f"{symbol}: {smbpxy}")
-        if smbpxy == 'Buy':
-            kite_symbol = symbol.replace('.NS', '')
-            place_buy_order(kite_symbol)
+    if live_balance > limit:
+        filename = 'avgstocks'  # File containing the list of stock symbols (no extension)
+        avgstocks = read_symbols_from_file(filename)
+        
+        for symbol in avgstocks:
+            smbpxy = check_ha_candles(symbol)
+            print(f"{symbol}: {smbpxy}")
+            if smbpxy == 'Buy':
+                kite_symbol = symbol.replace('.NS', '')
+                place_buy_order(kite_symbol)
+    else:
+        print(f"Live balance {live_balance} is not greater than the limit {limit}. No orders will be placed.")
 
 if __name__ == "__main__":
     main()
