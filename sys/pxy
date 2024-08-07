@@ -27,7 +27,7 @@ while true; do
     echo "   -pxycheck              🧪        ck"
     echo "   -pxyupdate             📥        up"
     echo "******************************************"
-    pxywrld
+    #pxywrld
     echo -e "${YELLOW}   PXY® PreciseXceleratedYield Pvt Ltd™   ${NC}"
 
     # Get user input
