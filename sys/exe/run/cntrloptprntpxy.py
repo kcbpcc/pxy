@@ -210,8 +210,8 @@ output_lines.append(left_aligned_format.format(
     #right_aligned_format.format(f"N-Expiry:{GREY}{last_thursday}{RESET}")
 #)
 output_lines.append(
-    left_aligned_format.format(f"BANK-bPnL:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{str(bank_profit).zfill(5)}{RESET}") +
-    right_aligned_format.format(f"NIFTY-bPnL:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{str(nifty_profit).zfill(5)}{RESET}")
+    left_aligned_format.format(f"BNK-bPnL:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{str(bank_profit).zfill(5)}{RESET}") +
+    right_aligned_format.format(f"NFT-bPnL:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{str(nifty_profit).zfill(5)}{RESET}")
 )
 output_lines.append(
     left_aligned_format.format(f"C&C-bPnL:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}") +
