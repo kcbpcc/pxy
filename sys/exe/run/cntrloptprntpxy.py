@@ -200,7 +200,7 @@ output_lines.append(
 output_lines.append(left_aligned_format.format(
         f"Flush:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹{RESET}") +
         right_aligned_format.format(
-        f"Total-bPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit + booked + hide) > 0 else BRIGHT_RED}{str(nifty_profit + bank_profit + booked + hide).zfill(5)}{RESET}"))
+        f"Cash-Left:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{int(round(live_balance, 0)):04d}{RESET}"))
 #output_lines.append(
     #left_aligned_format.format(f"B-Expiry:{GREY}{last_wednesday}{RESET}") +
     #right_aligned_format.format(f"N-Expiry:{GREY}{last_thursday}{RESET}")
