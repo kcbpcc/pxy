@@ -1,6 +1,8 @@
 # order_management.py
 import requests
 
+from kiteconnect import KiteConnect
+
 def get_ltp(kite: KiteConnect, tradingsymbol: str) -> float:
     try:
         # Fetch the market quote for the given symbol
@@ -37,9 +39,15 @@ def place_order(tradingsymbol, quantity, transaction_type, order_type, product, 
         print("Failed to fetch LTP. Order not placed.")
         return None
     
-    # Calculate the target price as 5% higher than the LTP for LIMIT orders
-    if order_type == "LIMIT":
-        price = ltp * 1.05
+    # Determine the order type and price based on tgtoptsmadepth
+    if tgtoptsmadepth <= 5:
+        # Place a market order
+        order_type = "MARKET"
+        price = None
+    else:
+        # Place a limit order with a price 5% higher than the LTP
+        order_type = "LIMIT"
+        price = ltp * 1.14
 
     try:
         # Place the order
