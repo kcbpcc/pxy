@@ -173,10 +173,10 @@ green_Stocks_capital_percentage = (green_Stocks_profit_loss / total_invested) * 
 #output_lines.append(left_aligned_format.format(f"BANKNIFTY ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
                     #right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')} {mktpredict}{RESET} ━━ NIFTYNDEX"))  
 
-output_lines.append(left_aligned_format.format(f"C&C-tCap:{BRIGHT_YELLOW}{CnC_tCap_rounded}{RESET}") +
-    right_aligned_format.format(f"C&C-tPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{round(run_spnl / 100000, 2)}{RESET}"))
-output_lines.append(left_aligned_format.format(f"F&O-tCap:{BRIGHT_YELLOW}{round(total_invested_all / 100000, 2)}{RESET}") +
-                    right_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(run_opnl/100000, 2)).zfill(4)}{RESET}"))
+output_lines.append(left_aligned_format.format(f"C&C-tCap:{BRIGHT_YELLOW}{str(CnC_tCap_rounded).zfill(5)}{RESET}") +
+                    right_aligned_format.format(f"C&C-tPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{str(round(run_spnl / 100000, 2)).zfill(5)}{RESET}"))
+output_lines.append(left_aligned_format.format(f"F&O-tCap:{BRIGHT_YELLOW}{str(round(total_invested_all / 100000, 2)).zfill(5)}{RESET}") +
+                    right_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(run_opnl / 100000, 2)).zfill(4)}{RESET}"))
 
 
 output_lines.append(
