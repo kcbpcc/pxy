@@ -30,6 +30,7 @@ run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long
 
 # Run cpritepxy.py
 subprocess.run(['python3', 'cpritepxy.py'])
+subprocess.run(['python3', 'worldpxy.py'])
 
 while True:
     @handle_exceptions
