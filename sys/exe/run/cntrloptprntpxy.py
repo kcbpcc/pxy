@@ -23,6 +23,8 @@ nsma = check_index_status('^NSEI')
 bsma = check_index_status('^NSEBANK')
 from nbsrikepxy import get_strike_prices
 Bstrike, Nstrike = get_strike_prices()
+from lncepepxy import formatted_output 
+
 
 try:
     from fundpxy import calculate_decision
@@ -243,6 +245,7 @@ for group, data in grouped_df:
 
     if total_invested_group != 0:
         Istrike = Nstrike if group == 'N' else Bstrike if group == 'B' else "Unknown"
+        
         value_statement = f"  {pe_count:02d} -🟥- {total_invested_pe:06d}  {Istrike}   {total_invested_ce:06d}  -🟩- {ce_count:02d}"
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
