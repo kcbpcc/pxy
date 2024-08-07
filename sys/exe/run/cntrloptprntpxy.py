@@ -245,7 +245,7 @@ for group, data in grouped_df:
 
     if total_invested_group != 0:
         Istrike = Nstrike if group == 'N' else Bstrike if group == 'B' else "Unknown"
-        
+        linecepepxy= format_investments(total_invested_pe, total_invested_ce)
         value_statement = f"  {pe_count:02d} -🟥- {total_invested_pe:06d}  {Istrike}   {total_invested_ce:06d}  -🟩- {ce_count:02d}"
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
@@ -264,6 +264,7 @@ for group, data in grouped_df:
         if len(data) >= 2:
             formatted_output = f"{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
             formatted_balance = f"{value_statement}{RESET}".center(44)
+            print(linecepepxy)            
             print(formatted_balance)            
             print(f"{UNDERLINE}{formatted_output}{RESET}") if args.command == 'l' else None
     # Define ce_pe_ratio based on group
