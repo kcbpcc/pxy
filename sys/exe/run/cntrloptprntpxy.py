@@ -23,7 +23,7 @@ nsma = check_index_status('^NSEI')
 bsma = check_index_status('^NSEBANK')
 from nbsrikepxy import get_strike_prices
 Bstrike, Nstrike = get_strike_prices()
-from lncepepxy import formatted_output 
+from lncepepxy import format_investments 
 
 
 try:
