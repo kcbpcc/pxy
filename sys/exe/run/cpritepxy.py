@@ -1,7 +1,7 @@
 from rich import print
 from rich.table import Table
 import textwrap
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+from clorpxy import GREY
 
 # Copyright Notice
 copyright_notice = (
@@ -16,26 +16,14 @@ width = 38
 # Use textwrap to format the text with a fixed width
 wrapped_notice = textwrap.fill(copyright_notice, width, break_long_words=False)
 
-# Create a table
-table = Table()
+# Create a table with a box-style border
+table = Table(box="SQUARE")
 
 # Add the column header "PXY® PreciseXceleratedYield Pvt Ltd™"
-table.add_column("PXY® PreciseXceleratedYield Pvt Ltd™")
+table.add_column("PXY® PreciseXceleratedYield Pvt Ltd™", style=BOLD, width=width)
 
 # Add the row with the wrapped notice in GREY
 table.add_row(f"[{GREY}]{wrapped_notice}[/{GREY}]")
 
 # Display the table without extra space
 print(table)
-
-
-
-
-
-
-
-
-
-
-
-
