@@ -64,7 +64,7 @@ def exit_options(exe_opt_df, broker):
                     f"   📈 Buy Price: {round(row['avg'], 2)}\n"
                     f"   💰 Booked Profit: {row['PnL']}📣"
                 )
-                place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker, message)
+                place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker, message, bot_token, user_usernames,tgtoptsmadepth)
                 print(message)
 
     except Exception as e:
@@ -143,6 +143,7 @@ def compute_depth(row):
         return 5
 
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
+exe_opt_df = exe_opt_df[exe_opt_df['PL%'] > 5]
 
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
