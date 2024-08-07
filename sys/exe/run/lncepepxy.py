@@ -1,4 +1,4 @@
-from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
+from colorpxy import RED, GREEN, RESET
 
 def format_investments(total_invested_pe, total_invested_ce):
     """
@@ -23,7 +23,7 @@ def format_investments(total_invested_pe, total_invested_ce):
     ce_ratio = total_invested_ce / total_investment
     
     # Determine the number of ━ characters for each investment
-    total_width = 40
+    total_width = 38  # 40 - 2 for the ⚖️ symbol
     pe_width = int(total_width * pe_ratio)
     ce_width = total_width - pe_width  # Remaining width for CE investment
     
@@ -31,7 +31,8 @@ def format_investments(total_invested_pe, total_invested_ce):
     pe_bar = RED + '━' * pe_width + RESET
     ce_bar = GREEN + '━' * ce_width + RESET
     
-    # Combine the bars
-    formatted_output = pe_bar + ce_bar
+    # Combine the bars with the divider
+    formatted_output = pe_bar + "⚖️" + ce_bar
     
     return formatted_output
+
