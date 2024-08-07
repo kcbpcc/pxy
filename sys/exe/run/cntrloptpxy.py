@@ -13,7 +13,6 @@ from depthpxy import calculate_consecutive_candles
 from mktpxy import get_market_check
 from predictpxy import predict_market_sentiment
 from bpredictpxy import predict_bnk_sentiment
-from tordoptpxy import send_telegram_message, place_order
 mktpredict = predict_market_sentiment()
 bmktpredict = predict_bnk_sentiment()
 bonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
@@ -46,7 +45,39 @@ def calculate_totals(combined_df):
         total_opt_pnl = 0
     return total_opt_pnl
 
+def send_telegram_message(message):
+    try:
+        for username in user_usernames:
+            url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+            payload = {'chat_id': username, 'text': message}
+            response = requests.post(url, data=payload)
+            if response.status_code != 200:
+                print(f"Failed to send Telegram message. Status code: {response.status_code}")
+            else:
+                print("Telegram message sent successfully.")
+    except Exception as e:
+        print(f"Error sending Telegram message: {e}")
 
+def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker, message):
+    try:
+        order_id = broker.order_place(
+            tradingsymbol=tradingsymbol,
+            quantity=quantity,
+            exchange='NFO',
+            transaction_type=transaction_type,
+            order_type=order_type,
+            product=product
+        )
+        if order_id:  # Check if order_id is valid
+            print(f"Order placed successfully. Order ID: {order_id}")
+            send_telegram_message(message)
+            return order_id
+        else:
+            print("Order placement failed. No valid order ID returned.")
+            return None
+    except Exception as e:
+        print(f"Error placing order: {e}")
+        return None
 
 def exit_options(exe_opt_df, broker):
     total_opt_pnl = calculate_totals(exe_opt_df)
@@ -64,7 +95,7 @@ def exit_options(exe_opt_df, broker):
                     f"   📈 Buy Price: {round(row['avg'], 2)}\n"
                     f"   💰 Booked Profit: {row['PnL']}📣"
                 )
-                place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker, message, bot_token, user_usernames,tgtoptsmadepth)
+                place_order(row['key'], row['qty'], 'SELL', 'MARKET', 'NRML', broker, message)
                 print(message)
 
     except Exception as e:
@@ -143,7 +174,6 @@ def compute_depth(row):
         return 5
 
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
-exe_opt_df = exe_opt_df[exe_opt_df['PL%'] > 5]
 
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
@@ -184,4 +214,3 @@ if filtered_data.empty:
 else:
     print(f"Surfaced .🐟, let's try to catch them 🔎🎣{RESET}")
     print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 3, 4, 2, 4, 7]))
-  
