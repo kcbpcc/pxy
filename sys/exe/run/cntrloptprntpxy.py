@@ -243,7 +243,7 @@ for group, data in grouped_df:
 
     if total_invested_group != 0:
         Istrike = Nstrike if group == 'N' else Bstrike if group == 'B' else "Unknown"
-        value_statement = f"  {pe_count:02d} -🟥- {value_pe:06d}  {Istrike}   {value_ce:06d}  -🟩- {ce_count:02d}"
+        value_statement = f"  {pe_count:02d} -🟥- {valtotal_invested_peue_pe:06d}  {Istrike}   {total_invested_ce:06d}  -🟩- {ce_count:02d}"
         summary_sentence = f"CAP:{total_invested_group} P&L:{total_pl_group:6.0f} P&L%:{total_pl_percentage_group:3.0f}%"
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         color_none = SILVER
