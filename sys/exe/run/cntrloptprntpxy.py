@@ -193,15 +193,12 @@ output_lines.append(
 
 output_lines.append(
     left_aligned_format.format(
-        f"Flush:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹{RESET}"
-    ) +
-    right_aligned_format.format(
-        f"F&O-M2M:{BRIGHT_GREEN if m2m_opt > 0 else BRIGHT_RED}{int(m2m_opt)}{RESET}"
-    )
+        f"C&C-dPnL:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}") +
+    right_aligned_format.format(f"F&O-dPnL:{BRIGHT_GREEN if m2m_opt > 0 else BRIGHT_RED}{int(m2m_opt)}{RESET}")
 )
 
 output_lines.append(left_aligned_format.format(
-        f"C&C-dPnL:{BRIGHT_GREEN if all_Stocks_worth_dpnl > 0 else BRIGHT_RED}{int(round(all_Stocks_worth_dpnl, 0))}{RESET}") +
+        f"Flush:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹{RESET}") +
         right_aligned_format.format(
         f"C&C-bPnL:{GREEN if booked > 0 else RED}{str(int(booked)).zfill(5)}{RESET}"))
 
@@ -210,12 +207,12 @@ output_lines.append(left_aligned_format.format(
     #right_aligned_format.format(f"N-Expiry:{GREY}{last_thursday}{RESET}")
 #)
 output_lines.append(
-    left_aligned_format.format(f"BANK-dPnL:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{str(bank_profit).zfill(5)}{RESET}") +
-    right_aligned_format.format(f"NIFTY-dPnL:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{str(nifty_profit).zfill(5)}{RESET}")
+    left_aligned_format.format(f"BANK-bPnL:{BRIGHT_GREEN if bank_profit > 0 else BRIGHT_RED}{str(bank_profit).zfill(5)}{RESET}") +
+    right_aligned_format.format(f"NIFTY-bPnL:{BRIGHT_GREEN if nifty_profit > 0 else BRIGHT_RED}{str(nifty_profit).zfill(5)}{RESET}")
 )
 output_lines.append(
     left_aligned_format.format(f"Cash-Left:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{int(round(live_balance, 0)):04d}{RESET}") +
-    right_aligned_format.format(f"Total-dPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit + booked + hide) > 0 else BRIGHT_RED}{str(nifty_profit + bank_profit + booked + hide).zfill(5)}{RESET}"))
+    right_aligned_format.format(f"Total-bPnL:{BRIGHT_GREEN if (nifty_profit + bank_profit + booked + hide) > 0 else BRIGHT_RED}{str(nifty_profit + bank_profit + booked + hide).zfill(5)}{RESET}"))
 
 full_output = '\n'.join(output_lines)
 
@@ -300,13 +297,13 @@ summary = (
     f"          A/C-tCap  :   {str(round(CnC_tCap_rounded + (total_invested_all / 100000), 2)).zfill(5):<8}\n"
     f"          A/C-tPnL  :   {str(round(CnC_tCap_rounded + (total_invested_all / 100000) - 17.8, 2)).zfill(5):<8}\n"
     f"          Flush  :   {str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹\n"
-    f"          F&O-M2M  :   {int(m2m_opt):<8}\n"
     f"          C&C-dPnL  :   {int(round(all_Stocks_worth_dpnl, 0)):<8}\n"
+    f"          F&O-dPnL  :   {int(m2m_opt):<8}\n"
     f"          C&C-bPnL  :   {str(int(booked)).zfill(5):<8}\n"
-    f"          BANK-dPnL  :   {str(bank_profit).zfill(5):<8}\n"
-    f"          NIFTY-dPnL  :   {str(nifty_profit).zfill(5):<8}\n"
+    f"          BANK-bPnL  :   {str(bank_profit).zfill(5):<8}\n"
+    f"          NIFTY-bPnL  :   {str(nifty_profit).zfill(5):<8}\n"
     f"          Cash-Left  :   {int(round(live_balance, 0)):04d}\n"
-    f"          Total-dPnL  :   {str(nifty_profit + bank_profit + booked + hide).zfill(5):<8}\n"
+    f"          Total-bPnL  :   {str(nifty_profit + bank_profit + booked + hide).zfill(5):<8}\n"
     f"                      \n"
     f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/0aec4aa4)\n"
 )
