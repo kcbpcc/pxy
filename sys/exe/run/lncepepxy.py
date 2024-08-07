@@ -1,4 +1,4 @@
-from colorpxy import RED, GREEN, RESET
+from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
 def format_investments(total_invested_pe, total_invested_ce):
     """
