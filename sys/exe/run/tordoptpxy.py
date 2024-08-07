@@ -1,8 +1,6 @@
 # order_management.py
 import requests
 
-from kiteconnect import KiteConnect
-
 def get_ltp(kite: KiteConnect, tradingsymbol: str) -> float:
     try:
         # Fetch the market quote for the given symbol
