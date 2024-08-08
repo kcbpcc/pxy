@@ -181,7 +181,8 @@ if peak != 'PEAKSTART':
 exe_opt_df['target_price'] = exe_opt_df['average_price'] * 1.10
 exe_opt_df['tPL%'] = ((exe_opt_df['target_price'] - exe_opt_df['average_price']) / exe_opt_df['average_price']) * 100
 
-lmt_ord_df = exe_opt_df[['tradingsymbol', 'quantity', 'average_price', 'PL%', 'target_price', 'tPL%']]
+lmt_ord_df = exe_opt_df[exe_opt_df['quantity'] > 0]
+lmt_ord_df = lmt_ord_df[['tradingsymbol', 'quantity', 'average_price', 'PL%', 'target_price', 'tPL%']]
 
 print("Final DataFrame (lmt_ord_df):")
 print(lmt_ord_df)
