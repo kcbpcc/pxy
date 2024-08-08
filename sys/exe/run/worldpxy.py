@@ -52,22 +52,29 @@ index_info = ""
 for name, price_today in closing_prices_today.items():
     if name in closing_prices_yesterday:
         price_yesterday = closing_prices_yesterday[name]
-        sentiment = calculate_sentiment(price_today, price_yesterday)
         
         # Calculate percentage change
         percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
         
         # If the index is GIFT, round to 0 decimal places, otherwise to 2 decimals
-        if name == "GIFT":
+        if name == "GF":
             percentage_change_str = f"{percentage_change:.0f}"
         else:
             percentage_change_str = f"{percentage_change:.2f}"
+        
+        # Pad the percentage change string to fit within 5 characters, 
+        # adding space before it if necessary.
+        padded_change = percentage_change_str.rjust(5)
+        
+        # Concatenate name and padded percentage change, filling spaces to ensure 7 digits total
+        full_string = f"{name}{padded_change}".ljust(7)
         
         # Determine the color based on the sentiment
         sentiment_style = "green" if percentage_change > 0 else "red"
         
         # Add the entire string with the sentiment color
-        index_info += f"[{sentiment_style}]{name}{percentage_change_str}[/{sentiment_style}]|"
+        index_info += f"[{sentiment_style}]{full_string}[/{sentiment_style}]|"
 
 # Print the concatenated string using console.print()
 console.print(index_info)
+
