@@ -62,15 +62,17 @@ for name, price_today in closing_prices_today.items():
         else:
             percentage_change_str = f"{percentage_change:.1f}"
         
-        # Pad the formatted percentage change to ensure it fits within 7 characters
-        full_string = f"{name}{percentage_change_str}".rjust(7)
+        # Construct the entry with no extra spaces and exactly 7 characters
+        entry = f"{name}{percentage_change_str}"
+        if len(entry) < 7:
+            entry = entry.ljust(7)  # Ensure each entry is exactly 7 characters
         
         # Determine the color based on the sentiment
         sentiment_style = "green" if percentage_change > 0 else "red"
         
         # Add the entire string with the sentiment color
-        index_info += f"[{sentiment_style}]{full_string}[/{sentiment_style}]|"
+        index_info += f"[{sentiment_style}]{entry}[/{sentiment_style}]|"
 
 # Print the concatenated string using console.print()
-console.print(index_info)
+console.print(index_info.rstrip('|'))
 
