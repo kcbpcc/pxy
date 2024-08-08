@@ -178,14 +178,53 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
+#############################################################################################################################################################################################################################
+
 exe_opt_df['target_price'] = (exe_opt_df['average_price'] * 1.10).astype(int)
 exe_opt_df['tPL%'] = ((exe_opt_df['target_price'] - exe_opt_df['average_price']) / exe_opt_df['average_price']) * 100
 
 lmt_ord_df = exe_opt_df[exe_opt_df['quantity'] > 0]
 lmt_ord_df = lmt_ord_df[['tradingsymbol', 'quantity', 'average_price', 'PL%', 'target_price', 'tPL%']]
 
-print("Final DataFrame (lmt_ord_df):")
-print(lmt_ord_df)
+# Place or modify orders
+for index, row in lmt_ord_df.iterrows():
+    target_symbol = row['tradingsymbol']
+    required_quantity = row['quantity']
+    target_price = row['target_price']  # Target price taken from DataFrame
+    
+    # Check for missing orders
+    if target_symbol not in open_orders:
+        missing_orders.append(target_symbol)
+        message = f"Placing order for {target_symbol} with target price {target_price}."
+        place_lmt_order(
+            tradingsymbol=target_symbol,
+            quantity=required_quantity,
+            transaction_type=kite.TRANSACTION_TYPE_BUY,
+            order_type=kite.ORDER_TYPE_LIMIT,
+            product=kite.PRODUCT_MIS,
+            broker=kite,
+            message=message
+        )
+    
+    # Check for orders to modify
+    elif target_symbol in open_orders:
+        open_qty = open_orders[target_symbol].get('quantity', 0)
+        if open_qty < required_quantity:
+            orders_to_modify.append(target_symbol)
+            # Cancel the existing order
+            cancel_order(open_orders[target_symbol]['order_id'], kite)
+            # Place a new order with the correct quantity
+            missing_qty = required_quantity - open_qty
+            message = f"Replacing order for {target_symbol} with new quantity {required_quantity} and target price {target_price}."
+            place_lmt_order(
+                tradingsymbol=target_symbol,
+                quantity=required_quantity,
+                transaction_type=kite.TRANSACTION_TYPE_BUY,
+                order_type=kite.ORDER_TYPE_LIMIT,
+                product=kite.PRODUCT_MIS,
+                broker=kite,
+                message=message
+            )
 #############################################################################################################################################################################################################################
 import numpy as np
 import calendar
