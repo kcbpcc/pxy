@@ -27,8 +27,9 @@ exchanges = {
     "^FTSE": {"name": "UK", "weight": 0.20},
     "^GDAXI": {"name": "DE", "weight": 0.15},
     "^FCHI": {"name": "FR", "weight": 0.15},
-    "^NSEI": {"name": "NIFTY", "weight": 0.125},
-    "^NSEBANK": {"name": "BKFTY", "weight": 0.125}
+    "^NSEI": {"name": "N", "weight": 0.125},
+    "^NSEBANK": {"name": "B", "weight": 0.125}
+    "GIFN50.NS": {"name": "GIFT", "weight": 0.125}
 }
 
 # Create a console object for rich text output
