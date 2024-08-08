@@ -38,7 +38,7 @@ def format_investments(total_invested_pe, total_invested_ce):
         arrow = "▶"  # Pointing to the right
     
     # Combine the bars with the divider and emoji
-    formatted_output = pe_bar + "⚪" + arrow + ce_bar
+    formatted_output = pe_bar + "◼" + arrow + ce_bar
     
     return formatted_output
 
