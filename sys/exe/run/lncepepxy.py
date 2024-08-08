@@ -23,7 +23,7 @@ def format_investments(total_invested_pe, total_invested_ce):
     ce_ratio = total_invested_ce / total_investment
     
     # Determine the number of ━ characters for each investment
-    total_width = 40  # 40 - 2 for the ⚖️ symbol
+    total_width = 40  # 40 - 2 for the car symbol and emoji
     pe_width = int(total_width * pe_ratio)
     ce_width = total_width - pe_width  # Remaining width for CE investment
     
@@ -31,8 +31,16 @@ def format_investments(total_invested_pe, total_invested_ce):
     pe_bar = RED + '━' * pe_width + RESET
     ce_bar = GREEN + '━' * ce_width + RESET
     
-    # Combine the bars with the divider
-    formatted_output = pe_bar + "⚖️" + ce_bar
+    # Determine the direction of the arrow emoji
+    if pe_width > ce_width:
+        arrow = "◀"  # Pointing to the left
+    else:
+        arrow = "▶"  # Pointing to the right
+    
+    # Combine the bars with the divider and emoji
+    formatted_output = pe_bar + "🚘" + arrow + ce_bar
     
     return formatted_output
+
+
 
