@@ -1,6 +1,8 @@
 import yfinance as yf
 import logging
 import random
+from fundpxy import calculate_decision
+
 decision, optdecision, available_cash, live_balance, limit = calculate_decision()
 
 # Initialize logger
