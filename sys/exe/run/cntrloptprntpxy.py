@@ -179,7 +179,10 @@ output_lines.append(left_aligned_format.format(f"C&C-tCap:{BRIGHT_YELLOW}{str(Cn
                     right_aligned_format.format(f"C&C-tPnL:{BRIGHT_RED if run_spnl < 0 else BRIGHT_GREEN}{str(round(run_spnl / 100000, 2)).zfill(5)}{RESET}"))
 output_lines.append(left_aligned_format.format(f"F&O-tCap:{BRIGHT_YELLOW}{str(round(total_invested_all / 100000, 2)).zfill(5)}{RESET}") +
                     right_aligned_format.format(f"F&O-tPnL:{BRIGHT_GREEN if run_opnl > 0 else BRIGHT_RED}{str(round(run_opnl / 100000, 2)).zfill(4)}{RESET}"))
-
+output_lines.append(left_aligned_format.format(
+        f"Flush:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}K{RESET}") +
+        right_aligned_format.format(
+        f"Cash-Left:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{int(round(live_balance, 0)):04d}{RESET}"))
 
 output_lines.append(
     left_aligned_format.format(
@@ -203,10 +206,7 @@ output_lines.append(
 )
 
 
-output_lines.append(left_aligned_format.format(
-        f"Flush:{BRIGHT_GREEN if green_Stocks_capital_percentage > 0 else BRIGHT_RED}{str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}K{RESET}") +
-        right_aligned_format.format(
-        f"Cash-Left:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{int(round(live_balance, 0)):04d}{RESET}"))
+
 #output_lines.append(
     #left_aligned_format.format(f"B-Expiry:{GREY}{last_wednesday}{RESET}") +
     #right_aligned_format.format(f"N-Expiry:{GREY}{last_thursday}{RESET}")
