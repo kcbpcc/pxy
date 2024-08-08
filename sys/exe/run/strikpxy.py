@@ -1,3 +1,4 @@
+delta = -100
 import yfinance as yf
 import warnings
 from datetime import datetime, timedelta
@@ -10,35 +11,29 @@ def get_current_price(symbol):
     current_price = data['Close'].iloc[-1]  # Get the last available price
     return current_price
 
-def get_day_open(symbol):
-    data = yf.Ticker(symbol).history(period="1d", interval="1m")  # Fetch only one day of data
-    day_open = data['Open'].iloc[0]  # Get the opening price (first entry of the day)
-    return day_open
-
 def round_to_nearest_100(price):
     return round(price / 100) * 100
 
+def round_to_nearest_200(price):
+    return round(price / 200) * 200
+
+def round_to_nearest_500(price):
+    return round(price / 500) * 500
+
+def round_to_nearest_100_or_50(price):
+    return round(price / 50) * 50 if price % 100 < 50 else round(price / 100) * 100
+
 today = datetime.now()
-days_left_until_thursday = 4  # 4 days left until Thursday
+days_left_until_thursday = 4 #(3 - today.weekday()) % 7  # Thursday is weekday 3
 #print("Days remaining until Thursday:", days_left_until_thursday)    
 
 def get_prices():
-    BCE_Strike = round_to_nearest_100(get_day_open('^NSEBANK'))
-    CE_Strike = round_to_nearest_100(get_current_price('^NSEI'))
-    PE_Strike = round_to_nearest_100(get_current_price('^NSEI'))
-    BPE_Strike = round_to_nearest_100(get_day_open('^NSEBANK'))
-    
+    BCE_Strike = round_to_nearest_500(get_current_price('^NSEBANK'))
+    CE_Strike = round_to_nearest_500(get_current_price('^NSEI'))
+    PE_Strike = round_to_nearest_500(get_current_price('^NSEI'))
+    BPE_Strike = round_to_nearest_500(get_current_price('^NSEBANK'))
+                                    
     return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
-
-def print_prices():
-    BCE_Strike, CE_Strike, PE_Strike, BPE_Strike = get_prices()
-    
-    print(f"BCE_Strike: {BCE_Strike}")
-    print(f"CE_Strike: {CE_Strike}")
-    print(f"PE_Strike: {PE_Strike}")
-    print(f"BPE_Strike: {BPE_Strike}")
-
-# Run the function to print prices
-#print_prices()
-
+    #print("CE_Strike:", CE_Strike, "PE_Strike:", BPE_Strike)
+#print(get_prices())
 
