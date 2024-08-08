@@ -28,8 +28,8 @@ column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
 right_aligned_format = "{:>" + str(column_width) + "}"
 output_lines = []
-output_lines.append(left_aligned_format.format(f"BNK ━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
-                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW} {mktpredict} {arrow_map.get(nmktpxy, '')}{RESET} ━━ NFT")) 
+output_lines.append(left_aligned_format.format(f"BNK ━━━━ {BRIGHT_GREEN if bmktpredict == 'RISE' else BRIGHT_RED if bmktpredict == 'FALL' else BRIGHT_YELLOW}{bmktpredict} {arrow_map.get(bmktpxy, '')}{RESET}") +
+                    right_aligned_format.format(f"{BRIGHT_GREEN if mktpredict == 'RISE' else BRIGHT_RED if mktpredict == 'FALL' else BRIGHT_YELLOW} {mktpredict} {arrow_map.get(nmktpxy, '')}{RESET} ━━━━ NFT")) 
 full_output = '\n'.join(output_lines)
 print(full_output)
 bot_token = '7141714085:AAHlyEzszCy9N-L6wO1zSAkRwGdl0VTQCFI'
