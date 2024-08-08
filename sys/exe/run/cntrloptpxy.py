@@ -178,67 +178,7 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
-#############################################################################################################################################################################################################################
 
-exe_opt_df['target_price'] = (exe_opt_df['average_price'] * 1.10).astype(int)
-exe_opt_df['tPL%'] = ((exe_opt_df['target_price'] - exe_opt_df['average_price']) / exe_opt_df['average_price']) * 100
-
-lmt_ord_df = exe_opt_df[exe_opt_df['quantity'] > 0]
-lmt_ord_df = lmt_ord_df[['tradingsymbol', 'quantity', 'average_price', 'PL%', 'target_price', 'tPL%']]
-
-open_orders = {}  # This should be fetched or initialized based on your actual implementation
-orders_to_modify = []
-missing_orders = []
-
-# Place or modify orders
-for index, row in lmt_ord_df.iterrows():
-    target_symbol = row['tradingsymbol']
-    required_quantity = row['quantity']
-    target_price = row['target_price']
-    
-    if target_symbol not in open_orders:
-        missing_orders.append(target_symbol)
-        message = f"Placing order for {target_symbol} with target price {target_price}."
-        order_id = place_lmt_order(
-            tradingsymbol=target_symbol,
-            quantity=required_quantity,
-            transaction_type=kite.TRANSACTION_TYPE_BUY,
-            order_type=kite.ORDER_TYPE_LIMIT,
-            product=kite.PRODUCT_MIS,
-            broker=kite,
-            message=message
-        )
-        if order_id:
-            print(f"Order ID for {target_symbol}: {order_id}")
-    
-    elif target_symbol in open_orders:
-        open_qty = open_orders[target_symbol].get('quantity', 0)
-        if open_qty < required_quantity:
-            orders_to_modify.append(target_symbol)
-            # Cancel the existing order
-            cancel_order(open_orders[target_symbol]['order_id'], kite)
-            # Place a new order with the correct quantity
-            missing_qty = required_quantity - open_qty
-            message = f"Replacing order for {target_symbol} with new quantity {required_quantity} and target price {target_price}."
-            order_id = place_lmt_order(
-                tradingsymbol=target_symbol,
-                quantity=required_quantity,
-                transaction_type=kite.TRANSACTION_TYPE_BUY,
-                order_type=kite.ORDER_TYPE_LIMIT,
-                product=kite.PRODUCT_MIS,
-                broker=kite,
-                message=message
-            )
-            if order_id:
-                print(f"Order ID for {target_symbol}: {order_id}")
-
-# Report missing or modified orders
-if missing_orders:
-    print(f"Missing orders detected for: {', '.join(missing_orders)}. Actions have been taken.")
-if orders_to_modify:
-    print(f"Orders modified for: {', '.join(orders_to_modify)}.")
-else:
-    print("All orders are synchronized.")
 #############################################################################################################################################################################################################################
 import numpy as np
 import calendar
