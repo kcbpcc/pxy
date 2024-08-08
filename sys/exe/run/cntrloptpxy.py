@@ -186,17 +186,20 @@ exe_opt_df['tPL%'] = ((exe_opt_df['target_price'] - exe_opt_df['average_price'])
 lmt_ord_df = exe_opt_df[exe_opt_df['quantity'] > 0]
 lmt_ord_df = lmt_ord_df[['tradingsymbol', 'quantity', 'average_price', 'PL%', 'target_price', 'tPL%']]
 
+open_orders = {}  # This should be fetched or initialized based on your actual implementation
+orders_to_modify = []
+missing_orders = []
+
 # Place or modify orders
 for index, row in lmt_ord_df.iterrows():
     target_symbol = row['tradingsymbol']
     required_quantity = row['quantity']
-    target_price = row['target_price']  # Target price taken from DataFrame
+    target_price = row['target_price']
     
-    # Check for missing orders
     if target_symbol not in open_orders:
         missing_orders.append(target_symbol)
         message = f"Placing order for {target_symbol} with target price {target_price}."
-        place_lmt_order(
+        order_id = place_lmt_order(
             tradingsymbol=target_symbol,
             quantity=required_quantity,
             transaction_type=kite.TRANSACTION_TYPE_BUY,
@@ -205,8 +208,9 @@ for index, row in lmt_ord_df.iterrows():
             broker=kite,
             message=message
         )
+        if order_id:
+            print(f"Order ID for {target_symbol}: {order_id}")
     
-    # Check for orders to modify
     elif target_symbol in open_orders:
         open_qty = open_orders[target_symbol].get('quantity', 0)
         if open_qty < required_quantity:
@@ -216,7 +220,7 @@ for index, row in lmt_ord_df.iterrows():
             # Place a new order with the correct quantity
             missing_qty = required_quantity - open_qty
             message = f"Replacing order for {target_symbol} with new quantity {required_quantity} and target price {target_price}."
-            place_lmt_order(
+            order_id = place_lmt_order(
                 tradingsymbol=target_symbol,
                 quantity=required_quantity,
                 transaction_type=kite.TRANSACTION_TYPE_BUY,
@@ -225,6 +229,16 @@ for index, row in lmt_ord_df.iterrows():
                 broker=kite,
                 message=message
             )
+            if order_id:
+                print(f"Order ID for {target_symbol}: {order_id}")
+
+# Report missing or modified orders
+if missing_orders:
+    print(f"Missing orders detected for: {', '.join(missing_orders)}. Actions have been taken.")
+if orders_to_modify:
+    print(f"Orders modified for: {', '.join(orders_to_modify)}.")
+else:
+    print("All orders are synchronized.")
 #############################################################################################################################################################################################################################
 import numpy as np
 import calendar
