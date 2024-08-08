@@ -131,7 +131,7 @@ async def main():
                             await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
                 
                     elif mktpxy == "Sell":
-                        if bnk_power > 0.85:
+                        if bnk_power > 0.75:
                             if PE_position_exists:
                                 print(f"{PE_symbol} is there, let's {BRIGHT_YELLOW}skip{RESET}")
                             else:
@@ -142,7 +142,7 @@ async def main():
                 
                 elif bmktpredict == "FALL":
                     if mktpxy == "Buy":
-                        if bnk_power < 0.15:
+                        if bnk_power < 0.25:
                             if CE_position_exists:
                                 print(f"{CE_symbol} is there, let's {BRIGHT_YELLOW}skip{RESET}")
                             else:
