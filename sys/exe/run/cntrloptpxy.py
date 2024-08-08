@@ -178,7 +178,7 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
-
+print(exe_opt_df)
 #############################################################################################################################################################################################################################
 import numpy as np
 import calendar
