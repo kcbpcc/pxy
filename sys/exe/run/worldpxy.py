@@ -19,17 +19,17 @@ def calculate_sentiment(today_close, yesterday_close):
 
 # Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
-    "^DJI": {"name": "D&J", "weight": 0.35},
-    "^IXIC": {"name": "N&Q", "weight": 0.30},
-    "^GSPC": {"name": "S&P", "weight": 0.35},
+    "^DJI": {"name": "DJ", "weight": 0.35},
+    "^IXIC": {"name": "NQ", "weight": 0.30},
+    "^GSPC": {"name": "SP", "weight": 0.35},
     "^N225": {"name": "JP", "weight": 0.20},
     "^HSI": {"name": "HK", "weight": 0.20},
     "000001.SS": {"name": "CN", "weight": 0.20},
     "^FTSE": {"name": "UK", "weight": 0.20},
     "^GDAXI": {"name": "DE", "weight": 0.15},
     "^FCHI": {"name": "FR", "weight": 0.15},
-    "^NSEI": {"name": "N", "weight": 0.125},
-    "^NSEBANK": {"name": "B", "weight": 0.125},
+    "^NSEI": {"name": "NF", "weight": 0.125},
+    "^NSEBANK": {"name": "BK", "weight": 0.125},
     "GIFN50.NS": {"name": "GIFT", "weight": 0.125}
 }
 
