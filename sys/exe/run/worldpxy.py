@@ -28,7 +28,7 @@ exchanges = {
     "^GDAXI": {"name": "DE", "weight": 0.15},
     "^FCHI": {"name": "FR", "weight": 0.15},
     "^NSEI": {"name": "N", "weight": 0.125},
-    "^NSEBANK": {"name": "B", "weight": 0.125}
+    "^NSEBANK": {"name": "B", "weight": 0.125},
     "GIFN50.NS": {"name": "GIFT", "weight": 0.125}
 }
 
