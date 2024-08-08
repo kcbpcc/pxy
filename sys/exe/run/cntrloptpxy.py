@@ -178,7 +178,7 @@ exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 if peak != 'PEAKSTART':
     exit_options(exe_opt_df, broker)
 
-exe_opt_df['target_price'] = exe_opt_df['average_price'] * 1.10
+exe_opt_df['target_price'] = (exe_opt_df['average_price'] * 1.10).astype(int)
 exe_opt_df['tPL%'] = ((exe_opt_df['target_price'] - exe_opt_df['average_price']) / exe_opt_df['average_price']) * 100
 
 lmt_ord_df = exe_opt_df[exe_opt_df['quantity'] > 0]
