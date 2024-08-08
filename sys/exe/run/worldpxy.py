@@ -59,15 +59,15 @@ for name, price_today in closing_prices_today.items():
         
         # If the index is GIFT, round to 0 decimal places, otherwise to 2 decimals
         if name == "GIFT":
-            percentage_change_str = f"{percentage_change:.0f}%"
+            percentage_change_str = f"{percentage_change:.0f}"
         else:
-            percentage_change_str = f"{percentage_change:.2f}%"
+            percentage_change_str = f"{percentage_change:.2f}"
         
         # Determine the color based on the sentiment
         sentiment_style = "green" if percentage_change > 0 else "red"
         
         # Add the entire string with the sentiment color
-        index_info += f"[{sentiment_style}]{name} {percentage_change_str}[/{sentiment_style}]|"
+        index_info += f"[{sentiment_style}]{name}{percentage_change_str}[/{sentiment_style}]|"
 
 # Print the concatenated string using console.print()
 console.print(index_info)
