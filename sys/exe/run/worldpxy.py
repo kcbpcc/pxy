@@ -56,18 +56,14 @@ for name, price_today in closing_prices_today.items():
         # Calculate percentage change
         percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
         
-        # If the index is GIFT, round to 0 decimal places, otherwise to 2 decimals
-        if name == "GF":
-            percentage_change_str = f"{percentage_change:.0f}"
+        # Format percentage change with sign
+        if percentage_change > 0:
+            percentage_change_str = f"+{percentage_change:.2f}"
         else:
             percentage_change_str = f"{percentage_change:.2f}"
         
-        # Pad the percentage change string to fit within 5 characters, 
-        # adding space before it if necessary.
-        padded_change = percentage_change_str.rjust(5)
-        
-        # Concatenate name and padded percentage change, filling spaces to ensure 7 digits total
-        full_string = f"{name}{padded_change}".ljust(7)
+        # Pad the formatted percentage change to ensure it fits within 7 characters
+        full_string = f"{name}{percentage_change_str}".ljust(7)
         
         # Determine the color based on the sentiment
         sentiment_style = "green" if percentage_change > 0 else "red"
