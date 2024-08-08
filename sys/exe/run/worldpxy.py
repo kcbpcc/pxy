@@ -47,7 +47,7 @@ for exchange, name_weight in exchanges.items():
         closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
         closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
 
-# Print index names in one row with sentiment color
+# Print index names with percentage change in one row with sentiment color
 index_info = ""
 for name, price_today in closing_prices_today.items():
     if name in closing_prices_yesterday:
@@ -55,11 +55,16 @@ for name, price_today in closing_prices_today.items():
         sentiment = calculate_sentiment(price_today, price_yesterday)
         sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
         
-        # Convert GIFT price to an integer
-        if name == "GIFT":
-            price_today = int(price_today)
+        # Calculate percentage change
+        percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
         
-        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}] {price_today}|"
+        # If the index is GIFT, round to 0 decimal places, otherwise to 2 decimals
+        if name == "GIFT":
+            percentage_change_str = f"{percentage_change:.0f}%"
+        else:
+            percentage_change_str = f"{percentage_change:.2f}%"
+        
+        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}] {percentage_change_str}|"
 
-# Concatenate index_info into a single string and print
+# Print the concatenated string using console.print()
 console.print(index_info)
