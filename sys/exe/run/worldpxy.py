@@ -53,7 +53,6 @@ for name, price_today in closing_prices_today.items():
     if name in closing_prices_yesterday:
         price_yesterday = closing_prices_yesterday[name]
         sentiment = calculate_sentiment(price_today, price_yesterday)
-        sentiment_style = "green" if sentiment == "Bullish" else "red" if sentiment == "Bearish" else "default"
         
         # Calculate percentage change
         percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
@@ -64,7 +63,11 @@ for name, price_today in closing_prices_today.items():
         else:
             percentage_change_str = f"{percentage_change:.2f}%"
         
-        index_info += f"[{sentiment_style}]{name}[/{sentiment_style}] {percentage_change_str}|"
+        # Determine the color based on the sentiment
+        sentiment_style = "green" if percentage_change > 0 else "red"
+        
+        # Add the entire string with the sentiment color
+        index_info += f"[{sentiment_style}]{name} {percentage_change_str}[/{sentiment_style}]|"
 
 # Print the concatenated string using console.print()
 console.print(index_info)
