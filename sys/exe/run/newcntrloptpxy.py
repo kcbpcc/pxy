@@ -138,3 +138,38 @@ open_orders = place_sell_limit_orders(lmt_ord_df, broker)
 
 print("━" * 42)
 
+import numpy as np
+import calendar
+from datetime import datetime
+
+# Get the current and next month abbreviations
+now = datetime.now()
+current_month_abbr = now.strftime('%b').upper()  # e.g., 'AUG'
+next_month = (now.month % 12) + 1  # Get next month number (1-12)
+next_month_abbr = calendar.month_abbr[next_month].upper()  # e.g., 'SEP'
+
+# Assuming `opt_df` is already defined earlier in the code
+print_df = exe_opt_df.copy()
+print_df = print_df[print_df['PL%'] > 0]
+print_df['CP'] = print_df['key'].apply(lambda x: '🟠' if x.endswith('PE') else ('🟢' if x.endswith('CE') else None))
+print_df['group'] = print_df['key'].str.extract(r'^(B|N)', expand=False)
+print_df['key'] = print_df['key'].str.replace('BANKNIFTY24', 'B').str.replace('NIFTY24', 'N')
+print_df['strike'] = print_df['key'].str.replace(r'(PE|CE)$', '', regex=True)
+print_df['PL%'] = print_df['PL%'].round(2)
+print_df['tgtoptsmadepth'] = print_df['tgtoptsmadepth'].round(2)
+# Set 'MN' based on the month abbreviation in 'key'
+print_df['MN'] = np.where(
+    print_df['key'].str.contains(current_month_abbr),
+    '⌛',
+    np.where(print_df['key'].str.contains(next_month_abbr), '🔢', None)
+)
+print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP', 'group','tgtoptsmadepth']]
+filtered_data = print_df.query('qty > 0')[['MN', 'strike', 'qty','tgtoptsmadepth', 'CP', 'PL%', 'PnL']]
+filtered_data['PL%'] = filtered_data['PL%'].astype(int)
+print("━" * 42)
+if filtered_data.empty:
+    print(f"{GREY}Still fishing🔎🎣, nothing surfaced yet.🐟{RESET}")
+else:
+    print(f"Surfaced .🐟, let's try to catch them 🔎🎣{RESET}")
+    print(filtered_data.to_string(header=False, index=False, col_space=[2, 10, 3, 4, 2, 4, 7]))
+
