@@ -39,6 +39,6 @@ def print_prices():
     print(f"BPE_Strike: {BPE_Strike}")
 
 # Run the function to print prices
-print_prices()
+#print_prices()
 
 
