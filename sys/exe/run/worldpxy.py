@@ -56,11 +56,11 @@ for name, price_today in closing_prices_today.items():
         # Calculate percentage change
         percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
         
-        # Format percentage change with sign
+        # Format percentage change with 1 decimal place and sign
         if percentage_change > 0:
-            percentage_change_str = f"+{percentage_change:.2f}"
+            percentage_change_str = f"+{percentage_change:.1f}"
         else:
-            percentage_change_str = f"{percentage_change:.2f}"
+            percentage_change_str = f"{percentage_change:.1f}"
         
         # Pad the formatted percentage change to ensure it fits within 7 characters
         full_string = f"{name}{percentage_change_str}".ljust(7)
