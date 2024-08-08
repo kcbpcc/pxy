@@ -30,7 +30,7 @@ exchanges = {
     "^FCHI": {"name": "FR", "weight": 0.15},
     "^NSEI": {"name": "NF", "weight": 0.125},
     "^NSEBANK": {"name": "BK", "weight": 0.125},
-    "GIFN50.NS": {"name": "GF", "weight": 0.125}
+    "^SNX.": {"name": "GF", "weight": 0.125}
 }
 
 # Create a console object for rich text output
