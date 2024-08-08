@@ -11,6 +11,11 @@ def get_current_price(symbol):
     current_price = data['Close'].iloc[-1]  # Get the last available price
     return current_price
 
+def get_day_open(symbol):
+    data = yf.Ticker(symbol).history(period="1d", interval="1m")  # Fetch only one day of data
+    day_open = data['Open'].iloc[0]  # Get the opening price (first entry of the day)
+    return day_open
+
 def round_to_nearest_100(price):
     return round(price / 100) * 100
 
@@ -25,10 +30,10 @@ days_left_until_thursday = 4 #(3 - today.weekday()) % 7  # Thursday is weekday 3
 #print("Days remaining until Thursday:", days_left_until_thursday)    
 
 def get_prices():
-    BCE_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
+    BCE_Strike = get_day_open('^NSEBANK'))
     CE_Strike = round_to_nearest_100(get_current_price('^NSEI'))
     PE_Strike = round_to_nearest_100(get_current_price('^NSEI'))
-    BPE_Strike = round_to_nearest_100(get_current_price('^NSEBANK'))
+    BPE_Strike = get_day_open('^NSEBANK'))
                                     
     return BCE_Strike, CE_Strike, PE_Strike, BPE_Strike
     #print("CE_Strike:", CE_Strike, "PE_Strike:", BPE_Strike)
