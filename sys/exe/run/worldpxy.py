@@ -63,7 +63,7 @@ for name, price_today in closing_prices_today.items():
             percentage_change_str = f"{percentage_change:.1f}"
         
         # Pad the formatted percentage change to ensure it fits within 7 characters
-        full_string = f"{name}{percentage_change_str}".ljust(7)
+        full_string = f"{name}{percentage_change_str}".rjust(7)
         
         # Determine the color based on the sentiment
         sentiment_style = "green" if percentage_change > 0 else "red"
