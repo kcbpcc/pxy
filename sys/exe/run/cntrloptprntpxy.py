@@ -187,11 +187,11 @@ output_lines.append(left_aligned_format.format(
 output_lines.append(
     left_aligned_format.format(
         f"{'A/C-tCap'.zfill(7)}:{BRIGHT_YELLOW}{str(round(CnC_tCap_rounded + (total_invested_all / 100000), 2)).zfill(5)}"
-        f"{BRIGHT_RED if mktpredict == 'FALL' else GREY if mktpredict == 'SIDE' else BRIGHT_GREEN}    {BOLD}PXY{RESET}"
+        f"{BRIGHT_RED if mktpredict == 'FALL' else GREY if mktpredict == 'SIDE' else BRIGHT_GREEN}    {BOLD}PXY {RESET}"
     ) +
     right_aligned_format.format(
         f"{BRIGHT_GREEN if nmktpxy in ['Bull'] else (BRIGHT_RED if nmktpxy in ['Bear'] else GREY)}"
-        f"{BOLD}®{RESET}{BRIGHT_YELLOW}{arrow_map.get(nmktpxy, '')}{RESET}     "
+        f"{BOLD}®{RESET}{BRIGHT_YELLOW} {arrow_map.get(nmktpxy, '')}{RESET}    "
         f"{'A/C-tPnL'.zfill(5)}:{BRIGHT_GREEN}{str(round(CnC_tCap_rounded + (total_invested_all / 100000) - 17.8, 2)).zfill(5)}{RESET}"
     )
 )
