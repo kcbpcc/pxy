@@ -1,7 +1,7 @@
 import yfinance as yf
 
 # Define the ticker symbol
-ticker_symbol = "NIFTY1!"
+ticker_symbol = "NIFTY2!"
 
 # Fetch the ticker data
 ticker_data = yf.Ticker(ticker_symbol)
