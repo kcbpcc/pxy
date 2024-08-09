@@ -17,7 +17,7 @@ def format_investments(total_invested_pe, total_invested_ce):
     total_investment = total_invested_pe + total_invested_ce
     
     if total_investment == 0:
-        return '━' * 40
+        return '━' * 38
     
     # Calculate the ratio for PE and CE investments
     pe_ratio = total_invested_pe / total_investment
