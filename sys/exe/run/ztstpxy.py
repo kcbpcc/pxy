@@ -1,30 +1,14 @@
-import pandas as pd
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.scrollview import ScrollView
+import yfinance as yf
 
-class CSVReaderApp(App):
-    def build(self):
-        layout = BoxLayout(orientation='vertical')
-        scroll_view = ScrollView()
-        content = BoxLayout(orientation='vertical', size_hint_y=None)
-        content.bind(minimum_height=content.setter('height'))
+# Define the ticker symbol
+ticker_symbol = "NIFTY1!"
 
-        # Load CSV file using pandas
-        try:
-            df = pd.read_csv('acvalpxy.csv')
-            # Display CSV data
-            for index, row in df.iterrows():
-                row_text = ' | '.join([str(cell) for cell in row])
-                content.add_widget(Label(text=row_text, size_hint_y=None, height=40))
+# Fetch the ticker data
+ticker_data = yf.Ticker(ticker_symbol)
 
-        except Exception as e:
-            content.add_widget(Label(text=str(e), size_hint_y=None, height=40))
+# Get the last available market price
+current_price = ticker_data.history(period="1d")['Close'].iloc[-1]
 
-        scroll_view.add_widget(content)
-        layout.add_widget(scroll_view)
-        return layout
+# Print the current price
+print(f"Current price of {ticker_symbol}: {current_price}")
 
-if __name__ == '__main__':
-    CSVReaderApp().run()
