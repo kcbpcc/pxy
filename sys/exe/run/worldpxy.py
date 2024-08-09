@@ -29,8 +29,8 @@ exchanges = {
     "^GDAXI": {"name": "DE", "weight": 0.15},
     "^FCHI": {"name": "FR", "weight": 0.15},
     "^NSEBANK": {"name": "BK", "weight": 0.125},
-    "^NSEI": {"name": "NF", "weight": 0.125},
-    "NIFTY24Q.NS": {"name": "N24", "weight": 0.10}  # Added NIFTY24Q.NS
+    "^NSEI": {"name": "NF", "weight": 0.125}
+    #"NIFTY24Q.NS": {"name": "N24", "weight": 0.10}  # Added NIFTY24Q.NS
 }
 
 # Create a console object for rich text output
