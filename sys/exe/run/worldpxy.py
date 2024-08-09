@@ -51,6 +51,9 @@ for exchange, name_weight in exchanges.items():
     if len(hist_data) >= 2:
         closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
         closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
+    elif exchange == "NIFTY24Q.NS":
+        # Special case for NIFTY24Q.NS
+        closing_prices_today[name_weight['name']] = hist_data['Close'].iloc[-1]
     else:
         print(f"Not enough data for {exchange}")
 
@@ -85,4 +88,5 @@ for name, price_today in closing_prices_today.items():
 # Print the concatenated string using console.print() without extra space around |
 if index_info:
     console.print(index_info.rstrip('|'))
+
 
