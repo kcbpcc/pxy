@@ -137,7 +137,7 @@ def avg_options(df, broker):
                 else:
                     print("User chose not to place an order.")
             else:
-                print(f"{BRIGHT_GREEN}Skipping order : conditions not met.{RESET}")
+                print(f"{BRIGHT_GREEN}Skipping order placement: conditions not met.{RESET}")
 
     except Exception as e:
         print(f"Error processing row: {e}")
