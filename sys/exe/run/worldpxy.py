@@ -44,18 +44,13 @@ for exchange, name_weight in exchanges.items():
     ticker = yf.Ticker(exchange)
     hist_data = ticker.history(period="5d")
     
-    # Debug: Print fetched data
-    print(f"Data for {exchange}:")
-    print(hist_data)
-    
+    # Check if enough data is available
     if len(hist_data) >= 2:
         closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
         closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
     elif exchange == "NIFTY24Q.NS":
         # Special case for NIFTY24Q.NS
         closing_prices_today[name_weight['name']] = hist_data['Close'].iloc[-1]
-    else:
-        print(f"Not enough data for {exchange}")
 
 # Print index names with percentage change in one row with sentiment color
 index_info = ""
@@ -77,20 +72,6 @@ for name, price_today in closing_prices_today.items():
                 percentage_change_str = f"{percentage_change:.1f}"
             
             # Construct the entry with exactly 6 characters
-            entry = f"{name}{percentage_change_str}".rjust(6)
-            
-            # Determine the color based on the sentiment
-            sentiment_style = "green" if percentage_change > 0 else "red"
-            
-            # Add the entire string with the sentiment color
-            index_info += f"[{sentiment_style}]{entry}[/{sentiment_style}]|"
-
-# Append the N24 information to the end of the index_info string
-if 'n24_info' in locals():
-    index_info += n24_info
-
-# Print the concatenated string using console.print() without extra space around |
-if index_info:
-    console.print(index_info.rstrip('|'))
+            entry = f"{n
 
 
