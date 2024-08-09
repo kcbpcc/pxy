@@ -27,13 +27,15 @@ def format_investments(total_invested_pe, total_invested_ce):
     deviation_threshold = 0.05
     if abs(pe_ratio - ce_ratio) <= deviation_threshold:
         symbols = "🥅"
+        total_width = 39  # Adjusted width to fit symbols
     elif total_invested_ce > total_invested_pe:
         symbols = "🏃‍➡️⚽"
+        total_width = 37  # Adjusted width to fit symbols
     else:
         symbols = "⚽🏃"
+        total_width = 37  # Adjusted width to fit symbols
     
     # Determine the number of ━ characters for each investment
-    total_width = 39  # 40 - 1 for the symbol and 1 for the space
     pe_width = int(total_width * pe_ratio)
     ce_width = total_width - pe_width  # Remaining width for CE investment
     
