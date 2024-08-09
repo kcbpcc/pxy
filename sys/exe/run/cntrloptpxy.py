@@ -23,6 +23,11 @@ bsma = check_index_status('^NSEBANK')
 nsma = check_index_status('^NSEI')
 arrow_map = {"Buy": "⤴", "Sell": "⤵", "Bull": "⬆", "Bear": "⬇"}
 peak = peak_time()
+bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
+ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
+ndpt = ncedepth + npedepth - 1
+cdpt = bcedepth + bpedepth - 1
+
 
 column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
@@ -137,8 +142,7 @@ def compute_tgtoptsma(row):
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
-bcedepth, bpedepth = calculate_consecutive_candles("^NSEBANK")
-ncedepth, npedepth = calculate_consecutive_candles("^NSEI")
+
 from vixpxy import get_vixpxy
 n_vix, b_vix = get_vixpxy()
 nvix = n_vix / 2
