@@ -57,7 +57,7 @@ index_info = ""
 for name, price_today in closing_prices_today.items():
     if name == "N24":  # Special case for NIFTY24Q.NS
         # Print price as integer without any formatting
-        n24_info = f"N24: {int(price_today)}"
+        n24_info = f"{int(price_today)}"
     else:
         if name in closing_prices_yesterday:
             price_yesterday = closing_prices_yesterday[name]
