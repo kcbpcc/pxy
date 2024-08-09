@@ -57,30 +57,32 @@ for exchange, name_weight in exchanges.items():
 # Print index names with percentage change in one row with sentiment color
 index_info = ""
 for name, price_today in closing_prices_today.items():
-    if name in closing_prices_yesterday:
-        price_yesterday = closing_prices_yesterday[name]
-        
-        # Calculate percentage change
-        percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
-        
-        # Format percentage change with 1 decimal place and sign
-        if percentage_change > 0:
-            percentage_change_str = f"+{percentage_change:.1f}"
-        else:
-            percentage_change_str = f"{percentage_change:.1f}"
-        
-        # Construct the entry with exactly 6 characters
-        entry = f"{name}{percentage_change_str}".rjust(6)
-        
-        # Determine the color based on the sentiment
-        sentiment_style = "green" if percentage_change > 0 else "red"
-        
-        # Add the entire string with the sentiment color
-        index_info += f"[{sentiment_style}]{entry}[/{sentiment_style}]|"
+    if name == "N24":  # Special case for NIFTY24Q.NS
+        # Print price as integer without any formatting
+        console.print(f"{name}: {int(price_today)}")
+    else:
+        if name in closing_prices_yesterday:
+            price_yesterday = closing_prices_yesterday[name]
+            
+            # Calculate percentage change
+            percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
+            
+            # Format percentage change with 1 decimal place and sign
+            if percentage_change > 0:
+                percentage_change_str = f"+{percentage_change:.1f}"
+            else:
+                percentage_change_str = f"{percentage_change:.1f}"
+            
+            # Construct the entry with exactly 6 characters
+            entry = f"{name}{percentage_change_str}".rjust(6)
+            
+            # Determine the color based on the sentiment
+            sentiment_style = "green" if percentage_change > 0 else "red"
+            
+            # Add the entire string with the sentiment color
+            index_info += f"[{sentiment_style}]{entry}[/{sentiment_style}]|"
 
 # Print the concatenated string using console.print() without extra space around |
 if index_info:
     console.print(index_info.rstrip('|'))
-else:
-    print("No index information available.")
 
