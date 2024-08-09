@@ -29,8 +29,8 @@ exchanges = {
     "^GDAXI": {"name": "DE", "weight": 0.15},
     "^FCHI": {"name": "FR", "weight": 0.15},
     "^NSEBANK": {"name": "BK", "weight": 0.125},
-    "^NSEI": {"name": "NF", "weight": 0.125}
-    #"NIFTY24Q.NS": {"name": "N24", "weight": 0.10}  # Added NIFTY24Q.NS
+    "^NSEI": {"name": "NF", "weight": 0.125},
+    "NIFTY24Q.NS": {"name": "N24", "weight": 0.10}  # Added NIFTY24Q.NS
 }
 
 # Create a console object for rich text output
@@ -83,10 +83,6 @@ for name, price_today in closing_prices_today.items():
         entry = create_entry(name, price_today, closing_prices_yesterday.get(name))
         if entry:
             second_line += f"{entry}|"
-
-# Add N24 to the second line if it exists, ensuring it is added only once
-if 'N24' in closing_prices_today and "24300📣" not in second_line:
-    second_line += create_entry("N24", closing_prices_today["N24"])
 
 # Print the concatenated strings
 if first_line:
