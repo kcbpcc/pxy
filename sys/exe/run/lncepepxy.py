@@ -3,7 +3,8 @@ from clorpxy import RED, GREEN, RESET
 def format_investments(total_invested_pe, total_invested_ce):
     """
     Formats the total investments in PE and CE options using a 40-character bar
-    with color coding based on their ratio.
+    with color coding based on their ratio and symbol placement based on investment comparison.
+    Considers investments equal if the ratio is within a 5% deviation range.
     
     Args:
     total_invested_pe (float): The total investment in PE options.
@@ -22,8 +23,17 @@ def format_investments(total_invested_pe, total_invested_ce):
     pe_ratio = total_invested_pe / total_investment
     ce_ratio = total_invested_ce / total_investment
     
+    # Determine if investments are considered equal within a 5% deviation range
+    deviation_threshold = 0.05
+    if abs(pe_ratio - ce_ratio) <= deviation_threshold:
+        symbols = "🥅"
+    elif total_invested_ce > total_invested_pe:
+        symbols = "🏃‍➡️⚽"
+    else:
+        symbols = "⚽🏃"
+    
     # Determine the number of ━ characters for each investment
-    total_width = 39  # 40 - 2 for the car symbol and emoji
+    total_width = 39  # 40 - 1 for the symbol and 1 for the space
     pe_width = int(total_width * pe_ratio)
     ce_width = total_width - pe_width  # Remaining width for CE investment
     
@@ -31,14 +41,7 @@ def format_investments(total_invested_pe, total_invested_ce):
     pe_bar = RED + '━' * pe_width + RESET
     ce_bar = GREEN + '━' * ce_width + RESET
     
-    # Determine the direction of the arrow emoji
-    if pe_width > ce_width:
-        arrow = "◀"  # Pointing to the left
-    else:
-        arrow = "▶"  # Pointing to the right
-    
-    # Combine the bars with the divider and emoji
-    formatted_output = pe_bar + "⚽" + arrow + ce_bar
+    # Combine the bars with the divider and symbols
+    formatted_output = pe_bar + symbols + ce_bar
     
     return formatted_output
-
