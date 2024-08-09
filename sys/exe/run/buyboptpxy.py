@@ -61,32 +61,6 @@ def check_existing_positions(broker, symbol):
             return True
     return False
 
-import pandas as pd
-
-positions_response = broker.kite.positions()['net']
-positions_df = get_positionsinfo(positions_response, broker)
-positions_df['key'] = positions_df['exchange'] + ":" + positions_df['tradingsymbol'] if not positions_df.empty else None
-lst = positions_df['key'].tolist()
-resp = broker.kite.ohlc(lst)
-dct = {k: {'ltp': v['ohlc'].get('ltp', v['last_price'])} for k, v in resp.items()}
-positions_df['ltp'] = positions_df.apply(lambda row: dct.get(row['key'], {}).get('ltp', row['last_price']), axis=1)
-positions_df['qty'] = positions_df['quantity'].astype(int)
-positions_df['pnl'] = positions_df['pnl'].astype(int)
-positions_df['avg'] = positions_df['average_price']
-positions_df['Invested'] = (positions_df['qty'] * positions_df['avg']).round(0).astype(int)
-positions_df['value'] = positions_df['qty'] * positions_df['ltp']
-positions_df['PnL'] = (positions_df['value'] - positions_df['Invested']).astype(int)
-positions_df['PL%'] = ((positions_df['PnL'] / positions_df['Invested']) * 100).round(2)
-
-# Selecting only the required columns in the specified order
-optpxy_df = positions_df[['tradingsymbol', 'qty', 'avg', 'PnL', 'PL%']]
-
-# Saving the result to a CSV file
-optpxy_df.to_csv('optpxy_df.csv', index=False)
-
-print(optpxy_df)
-
-
 async def main():
     try:
         # Redirect sys.stdout to 'output.txt'
