@@ -84,15 +84,16 @@ for name, price_today in closing_prices_today.items():
         if entry:
             second_line += f"{entry}|"
 
-# Add N24 to the second line if it exists
-if 'N24' in closing_prices_today:
-    second_line += create_entry("N24", closing_prices_today["N24"]) + "|"
+# Add N24 to the second line if it exists, ensuring it is added only once
+if 'N24' in closing_prices_today and "24300📣" not in second_line:
+    second_line += create_entry("N24", closing_prices_today["N24"])
 
 # Print the concatenated strings
 if first_line:
     console.print(first_line.rstrip('|') + "|")
 if second_line:
-    console.print(second_line.rstrip('|'))
+    console.print(second_line.rstrip('|') + "|")
+
 
 
 
