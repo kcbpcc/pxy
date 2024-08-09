@@ -33,9 +33,9 @@ def format_investments(total_invested_pe, total_invested_ce):
     
     # Determine the direction of the arrow emoji
     if pe_width > ce_width:
-        arrow = "🏃🏻🏃🏻‍♂️‍➡️"  # Pointing to the left
+        arrow = "🏃🏻‍♂️‍➡️"  # Pointing to the left
     else:
-        arrow = "🏃🏻🏃🏻‍♂️‍➡️"  # Pointing to the right
+        arrow = "🏃🏻"  # Pointing to the right
     
     # Combine the bars with the divider and emoji
     formatted_output = pe_bar + arrow   +  "⚽"+ ce_bar
