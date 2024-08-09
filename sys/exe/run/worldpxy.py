@@ -62,7 +62,7 @@ index_info = ""
 for name, price_today in closing_prices_today.items():
     if name == "N24":  # Special case for NIFTY24Q.NS
         # Print price as integer without any formatting
-        console.print(f"{name}: {int(price_today)}")
+        n24_info = f"N24: {int(price_today)}"
     else:
         if name in closing_prices_yesterday:
             price_yesterday = closing_prices_yesterday[name]
@@ -84,6 +84,10 @@ for name, price_today in closing_prices_today.items():
             
             # Add the entire string with the sentiment color
             index_info += f"[{sentiment_style}]{entry}[/{sentiment_style}]|"
+
+# Append the N24 information to the end of the index_info string
+if 'n24_info' in locals():
+    index_info += n24_info
 
 # Print the concatenated string using console.print() without extra space around |
 if index_info:
