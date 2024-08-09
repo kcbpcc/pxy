@@ -52,40 +52,46 @@ for exchange, name_weight in exchanges.items():
         # Special case for NIFTY24Q.NS
         closing_prices_today[name_weight['name']] = hist_data['Close'].iloc[-1]
 
-# Print index names with percentage change in one row with sentiment color
-index_info = ""
-for name, price_today in closing_prices_today.items():
+# Function to create formatted entry
+def create_entry(name, price_today, price_yesterday=None):
     if name == "N24":  # Special case for NIFTY24Q.NS
-        # Print price as integer without any formatting
         rounded_price = round(price_today / 100) * 100
-        n24_info = f"{int(rounded_price)}📣"
+        return f"{int(rounded_price)}📣"
     else:
-        if name in closing_prices_yesterday:
-            price_yesterday = closing_prices_yesterday[name]
-            
-            # Calculate percentage change
+        if price_yesterday is not None:
             percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
-            
-            # Format percentage change with 1 decimal place and sign
-            if percentage_change > 0:
-                percentage_change_str = f"+{percentage_change:.1f}"
-            else:
-                percentage_change_str = f"{percentage_change:.1f}"
-            
-            # Construct the entry with exactly 6 characters
+            percentage_change_str = f"+{percentage_change:.1f}" if percentage_change > 0 else f"{percentage_change:.1f}"
             entry = f"{name}{percentage_change_str}".rjust(6)
-            
-            # Determine the color based on the sentiment
             sentiment_style = "green" if percentage_change > 0 else "red"
-            
-            # Add the entire string with the sentiment color
-            index_info += f"[{sentiment_style}]{entry}[/{sentiment_style}]|"
+            return f"[{sentiment_style}]{entry}[/{sentiment_style}]"
+        else:
+            return None
 
-# Append the N24 information to the end of the index_info string
-if 'n24_info' in locals():
-    index_info += n24_info
+# Prepare index information strings
+first_line = ""
+second_line = ""
 
-# Print the concatenated string using console.print() without extra space around |
-if index_info:
-    console.print(index_info.rstrip('|'))
+# Determine which indexes go to the first and second lines
+first_line_keys = ["DJ", "NQ", "SP", "JP", "HK", "CN"]
+
+for name, price_today in closing_prices_today.items():
+    if name in first_line_keys:
+        entry = create_entry(name, price_today, closing_prices_yesterday.get(name))
+        if entry:
+            first_line += f"{entry}|"
+    else:
+        entry = create_entry(name, price_today, closing_prices_yesterday.get(name))
+        if entry:
+            second_line += f"{entry}|"
+
+# Add N24 to the second line if it exists
+if 'N24' in closing_prices_today:
+    second_line += create_entry("N24", closing_prices_today["N24"])
+
+# Print the concatenated strings
+if first_line:
+    console.print(first_line.rstrip('|'))
+if second_line:
+    console.print(second_line.rstrip('|'))
+
 
