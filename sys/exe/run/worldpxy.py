@@ -58,7 +58,7 @@ for name, price_today in closing_prices_today.items():
     if name == "N24":  # Special case for NIFTY24Q.NS
         # Print price as integer without any formatting
         rounded_price = round(price_today / 100) * 100
-        n24_info = f"📣{int(rounded_price)}"
+        n24_info = f"{int(rounded_price)}📣"
     else:
         if name in closing_prices_yesterday:
             price_yesterday = closing_prices_yesterday[name]
