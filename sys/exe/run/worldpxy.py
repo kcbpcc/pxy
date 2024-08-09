@@ -30,6 +30,7 @@ exchanges = {
     "^FCHI": {"name": "FR", "weight": 0.15},
     "^NSEBANK": {"name": "BK", "weight": 0.125},
     "^NSEI": {"name": "NF", "weight": 0.125},
+    "NIFTY24Q.NS": {"name": "N24", "weight": 0.10}  # Added NIFTY24Q.NS
 }
 
 # Create a console object for rich text output
@@ -72,4 +73,5 @@ for name, price_today in closing_prices_today.items():
 
 # Print the concatenated string using console.print() without extra space around |
 console.print(index_info.rstrip('|'))
+
 
