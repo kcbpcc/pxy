@@ -4,7 +4,7 @@ from rich.console import Console
 console = Console()
 
 def progress_bar(duration, mktpxy):
-    for _ in range(int(duration)):
+    for i in range(int(duration)):
         time.sleep(1)
         if mktpxy == 'Buy':
             console.print('[green]..PXY®[/]👆', end='')  # Up arrow + handshake
@@ -16,4 +16,8 @@ def progress_bar(duration, mktpxy):
             console.print('[red]..PXY®[/]🔴', end='')  # Left arrow + handshake
         else:
             console.print('[yellow]..PXY®[/]🤝', end='')  # Neutral with handshake
-    console.print()
+        
+        if (i + 1) % 5 == 0:
+            console.print()  # Move to the next line after every 5 cycles
+
+    console.print()  # Ensure final newline after the loop ends
