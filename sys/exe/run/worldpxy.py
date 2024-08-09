@@ -28,8 +28,8 @@ exchanges = {
     "^FTSE": {"name": "UK", "weight": 0.20},
     "^GDAXI": {"name": "DE", "weight": 0.15},
     "^FCHI": {"name": "FR", "weight": 0.15},
-    "^NSEI": {"name": "NF", "weight": 0.125},
-    "^NSEBANK": {"name": "BK", "weight": 0.125},
+    "^NSEI": {"name": "NIFTY", "weight": 0.125},
+    "^NSEBANK": {"name": "BANK", "weight": 0.125},
     "^SNX.": {"name": "GF", "weight": 0.125}
 }
 
