@@ -88,7 +88,7 @@ for name, price_today in closing_prices_today.items():
 if first_line:
     console.print(first_line.rstrip('|') + "|")
 if second_line:
-    console.print(second_line.rstrip('|') + "|")
+    console.print(second_line.rstrip('|') )
 
 
 
