@@ -156,7 +156,7 @@ def compute_depth(row):
             if bcedepth > 1:
                 return max(row['tgtoptsma'], (bvix + 9 - bcedepth))
             elif bpedepth > 1:
-                return 3
+                return 4
             else:
                 return 5
 
@@ -164,7 +164,7 @@ def compute_depth(row):
             if bpedepth > 1:
                 return max(row['tgtoptsma'], (bvix + 9 - bpedepth))
             elif bcedepth > 1:
-                return 3
+                return 4
             else:
                 return 5
 
@@ -172,7 +172,7 @@ def compute_depth(row):
             if ncedepth > 1:
                 return max(row['tgtoptsma'], (nvix + 9 - ncedepth))
             elif npedepth > 1:
-                return 3
+                return 4
             else:
                 return 5
 
@@ -180,7 +180,7 @@ def compute_depth(row):
             if npedepth > 1:
                 return max(row['tgtoptsma'], (nvix + 9 - npedepth))
             elif ncedepth > 1:
-                return 3
+                return 4
             else:
                 return 5
 
