@@ -90,7 +90,7 @@ async def main():
                 CE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'CE')
                 PE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'PE')
 
-                def count_positions_by_type(broker, CE_symbol, PE_symbol):
+                def qty_positions_by_type(broker, CE_symbol, PE_symbol):
                     positions_response = broker.kite.positions()
                     positions_net = positions_response['net']
                     qty_CE = 0
