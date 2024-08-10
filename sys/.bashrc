@@ -12,6 +12,12 @@ esac
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
 
+# Set dim text color and background
+PS1='\[\033[38;5;240m\]\u@\h:\w\$ \[\033[0m\]'
+
+
+
+
 # append to the history file, don't overwrite it
 shopt -s histappend
 
