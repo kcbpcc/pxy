@@ -1,3 +1,12 @@
+import sys
+
+# Open a log file in append mode
+log_file = open("output_log.txt", "a")
+
+# Redirect stdout and stderr to the log file
+sys.stdout = log_file
+sys.stderr = log_file
+
 import os
 import sys
 import time
