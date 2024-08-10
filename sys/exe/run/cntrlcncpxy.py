@@ -136,7 +136,7 @@ def stocks_avg_order_place(index, row):
             return True
         if len(exchsym) >= 2 :
             logging.info(f"Placing order for {exchsym[1]}, {str(row)}")
-            qty = 1 if row['ltp'] > 1000 else 1000 // row['ltp']
+            qty = 1 if row['ltp'] > 1000 else (1000 // row['ltp']) * abs(row['dPL%'])
             qty = int(qty)  # Remove decimals
             order_id = broker.order_place(
                 tradingsymbol=exchsym[1],
@@ -326,8 +326,7 @@ try:
                         row['Invested'] < 50000 and
                         available_cash > 1000 and
                         nse_power < 0.15 and
-                        row['PL%'] < -4.1 and
-                        row['dPL%'] < -1.4
+                        row['dPL%'] < -1
                     ):
                         try:
                             # Read the stock symbols from stocks.csv
