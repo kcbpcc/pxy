@@ -101,7 +101,9 @@ clear
 
 echo -e "\033[1;32m\033[1m 🏛️PXY® PreciseXceleratedYield Pvt Ltd™🏛️ \033[0m"
 
-
+# Display the copyright notice
+copyright_notice="The PXY® trading tool and its content are protected by copyright laws and international treaties. All rights reserved by PXY®. Unauthorized use, reproduction, and distribution are strictly prohibited. Infringement may lead to legal action and financial penalties. PXY® is committed to protecting its intellectual property."
+echo -e "\033[1;31m\033[1m $copyright_notice \033[0m"
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -122,3 +124,4 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
