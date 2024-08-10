@@ -4,6 +4,7 @@ import getpass
 
 # Define color constants
 BRIGHT_YELLOW = '\033[93m'
+RED = '\033[91m'
 RESET = '\033[0m'
 
 # Define the correct password
@@ -16,6 +17,9 @@ DISCLAIMER = (
     "Once executed, this action cannot be undone."
 )
 
+# Print disclaimer text in red
+print(f"{RED}{DISCLAIMER}{RESET}")
+
 # Prompt user for password
 password = getpass.getpass("Enter password: ")
 
@@ -23,9 +27,6 @@ password = getpass.getpass("Enter password: ")
 if password != CORRECT_PASSWORD:
     print("Incorrect password. Exiting.")
     exit()
-
-# Display disclaimer text
-print(DISCLAIMER)
 
 # Read the CSV file
 combined_df = pd.read_csv('pxycombined.csv')
@@ -55,15 +56,23 @@ def format_row(pnl, percentage):
 formatted_output = format_row(green_Stocks_profit_loss, green_Stocks_capital_percentage)
 print(formatted_output)
 
-# Prompt user for confirmation with color formatting
-user_input = input(f"Want to book {BRIGHT_YELLOW}{green_Stocks_profit_loss}{RESET} @ {BRIGHT_YELLOW}{green_Stocks_capital_percentage:.2f}%{RESET}? (Yes/No): ").strip()
+# Prompt user for initial confirmation with color formatting
+initial_input = input(f"Want to book {BRIGHT_YELLOW}{green_Stocks_profit_loss}{RESET} @ {BRIGHT_YELLOW}{green_Stocks_capital_percentage:.2f}%{RESET}? (Yes/No): ").strip()
 
 # Check if the user input is exactly "Yes" or "No"
-if user_input == 'Yes':
-    # Call the external script with the updated argument
-    subprocess.run(['python', 'cntrlcncpxy.py', '--flashFLASH'])
-    print("Command executed.")
-elif user_input == 'No':
+if initial_input == 'Yes':
+    # Additional confirmation step
+    final_confirmation = input("Are you sure you want to proceed with exiting all stocks with a loss? This action cannot be undone. (Yes/No): ").strip()
+    
+    if final_confirmation == 'Yes':
+        # Call the external script with the updated argument
+        subprocess.run(['python', 'cntrlcncpxy.py', '--flashFLASH'])
+        print("Command executed.")
+    elif final_confirmation == 'No':
+        print("Action canceled.")
+    else:
+        print("Invalid input. Please enter 'Yes' or 'No'.")
+elif initial_input == 'No':
     print("Command not executed.")
 else:
     print("Invalid input. Please enter 'Yes' or 'No'.")
