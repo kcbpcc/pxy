@@ -325,7 +325,6 @@ try:
                         row['avg'] != 0 and
                         row['Invested'] < 50000 and
                         available_cash > 1000 and
-                        nse_power < 0.15 and
                         peak == 'PEAKEND' and
                         row['dPL%'] < -1
                     ):
