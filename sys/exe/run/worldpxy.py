@@ -1,7 +1,6 @@
 import yfinance as yf
 from rich.console import Console
 import warnings
-import random
 
 # Suppress warnings
 warnings.filterwarnings("ignore")
@@ -17,18 +16,6 @@ def calculate_sentiment(today_close, yesterday_close):
             return "Neutral"
     else:
         return "Data Unavailable"
-
-# Function to fetch Indian VIX data and calculate range
-def get_vix_range():
-    vix_ticker = yf.Ticker("INDEXNSE:INDIA_VIX")
-    vix_hist = vix_ticker.history(period="5d")
-    
-    if len(vix_hist) >= 1:
-        vix_value = vix_hist['Close'].iloc[-1]
-        # Define range based on VIX value (example: ±0.5 * VIX value)
-        return int(vix_value * 0.5)
-    else:
-        return 50  # Default range if VIX data is not available
 
 # Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
@@ -65,15 +52,11 @@ for exchange, name_weight in exchanges.items():
         # Special case for NIFTY24Q.NS
         closing_prices_today[name_weight['name']] = hist_data['Close'].iloc[-1]
 
-# Get VIX range
-vix_range = get_vix_range()
-
 # Function to create formatted entry
 def create_entry(name, price_today, price_yesterday=None):
     if name == "N24":  # Special case for NIFTY24Q.NS
-        # Use VIX range for random number
-        random_change = random.randint(-vix_range, vix_range)
-        return f"{int(price_today) + random_change}✍️"
+        rounded_price = round(price_today / 100) * 100
+        return f"{int(rounded_price)}✍️"
     else:
         if price_yesterday is not None:
             percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
@@ -105,5 +88,5 @@ for name, price_today in closing_prices_today.items():
 if first_line:
     console.print(first_line.rstrip('|') + "|")
 if second_line:
-    console.print(second_line.rstrip('|'))
+    console.print(second_line.rstrip('|') )
 
