@@ -283,15 +283,15 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] == 'CNC' and
-                        mktpredict != "RISE" and
+                        mktpredict == "FALL" and
                         row['PL%'] > 1.4 and 
+                        row['PnL'] > 140 and
                         (mktpxy == "Sell" or mktpxy == "Bear") and
                         (
-                            (row['PL%'] > row['tPL%'] and row['PnL'] > 200) or 
-                            (row['dPL%'] < 0 and row['oPL%'] < 0 and row['source'] == 'holdings' and mktpredict == "FALL") or
-                            (row['PL%'] > 5 and row['PnL'] > 200 and row['source'] == 'positions')
+                            (row['PL%'] > row['tPL%'] and row['PnL'] > 140 and row['PL%'] > 1.4 ) 
                         )
                     ):
+                  
                         try:
                             print(f"Trying to close: {row['key']}")
                             is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
