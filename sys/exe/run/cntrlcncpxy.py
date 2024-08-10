@@ -307,7 +307,7 @@ try:
                         row['product'] == 'CNC' and
                         flash == 'yes' and
                         row['PL%'] > 1.4 and 
-                        row['PnL'] > 140
+                        row['PnL'] > 140 and
                         (
                             flash == 'yes' 
                         )
