@@ -72,9 +72,9 @@ def create_entry(name, price_today, price_yesterday=None):
         rounded_price = round(price_today / 100) * 100
         weighted_sum = 0
         total_weight = 0
-        for key in closing_prices_today:
-            if key != "N24":
-                weighted_sum += closing_prices_today[key] * exchanges[key]['weight']
+        for key, value in closing_prices_today.items():
+            if key != "N24" and key in exchanges:
+                weighted_sum += value * exchanges[key]['weight']
                 total_weight += exchanges[key]['weight']
         if total_weight > 0:
             adjustment = (weighted_sum / total_weight) / 100
