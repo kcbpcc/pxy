@@ -19,8 +19,6 @@ bnkonemincandlesequance, bmktpxy = get_market_check('^NSEBANK')
 
 # Argument parsing
 parser = argparse.ArgumentParser(description="Process some commands.")
-parser.add_argument('command', nargs='?', choices=['l', 's'], default='s',
-                    help="Command to run the program with. Defaults to 's' if not provided.")
 parser.add_argument('--symbol', type=str, help="Symbol to filter for quantity check")
 args = parser.parse_args()
 
@@ -57,7 +55,6 @@ def send_telegram_message(message):
 
 def place_order(tradingsymbol, quantity, transaction_type, order_type, product, broker):
     try:
-        #print(f"Placing order for {tradingsymbol} with quantity {quantity}")
         order_id = broker.order_place(
             tradingsymbol=tradingsymbol,
             quantity=quantity,
@@ -104,6 +101,10 @@ blnc_opt_df['key'] = blnc_opt_df['key'].str.replace('NFO:', '', regex=False)
 blnc_opt_df['PL%'] = (blnc_opt_df['PnL'] / blnc_opt_df['Invested']) * 100
 blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 
-# Check quantity for the provided symbol
+# Check quantity for the provided symbol or ask user for input
 if args.symbol:
     check_quantity_for_symbol(blnc_opt_df, args.symbol)
+else:
+    user_symbol = input("No symbol provided. Please enter a symbol to check: ").strip()
+    check_quantity_for_symbol(blnc_opt_df, user_symbol)
+
