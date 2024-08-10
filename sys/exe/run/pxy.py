@@ -25,6 +25,33 @@ def handle_exceptions(func):
             print(f"An error occurred: {ex}")
     return wrapper
 
+def clear_console():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
+def capture_output_and_save_to_rtf(func):
+    output_buffer = io.StringIO()
+    old_stdout = sys.stdout  # Save the original stdout
+
+    try:
+        sys.stdout = output_buffer  # Redirect stdout to the string buffer
+        func()  # Run the function to capture its output
+    finally:
+        sys.stdout = old_stdout  # Restore the original stdout
+        output_text = output_buffer.getvalue()  # Get the captured output
+
+        # Write the captured output to an RTF file
+        doc = Document()
+        section = Section()
+        doc.Sections.append(section)
+        section.append(Paragraph(Text(output_text)))
+        
+        with open("output.rtf", "w") as rtf_file:
+            renderer = Renderer()
+            renderer.Write(doc, rtf_file)
+
 # Prompt for user input
 run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long:")
 
@@ -112,13 +139,12 @@ while True:
     def check_index_status_handler(symbol):
         from smapxy import check_index_status
         return check_index_status(symbol)
+
     try:
         peak = peak_time_handler()
-        if os.name == 'nt':
-            os.system('cls')
-        else:
-            if peak == 'NONPEAK':
-                os.system('clear -x')
+        clear_console()
+        if peak == 'NONPEAK':
+            clear_console()
     except Exception as e:
         print(f"Error handling peak time: {e}")
     try:
@@ -157,8 +183,13 @@ while True:
     except Exception as e:
         print(f"Error handling index status: {e}")
         nsma, bsma = None, None
+
+    # Function call to capture and save output to RTF
+    capture_output_and_save_to_rtf(lambda: print("Executing main process"))
+
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    print((BRIGHT_GREEN + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)    
+    print((BRIGHT_GREEN + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else SILVER + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) + RESET))
+   
     print("*" * 42)
     subprocess.run(['python3', 'tistpxy.py']) 
     subprocess.run(['python3', 'cntrloptpxy.py'] if run_type == 'l' else ['python3', 'cntrloptpxy.py', '-short'])
