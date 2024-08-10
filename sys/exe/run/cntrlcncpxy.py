@@ -306,8 +306,8 @@ try:
                         row['avg'] != 0 and
                         row['product'] == 'CNC' and
                         flash == 'yes' and
-                        row['PL%'] > 1.4 and 
-                        row['PnL'] > 140 and
+                        row['PL%'] > 0 and 
+                        row['PnL'] > 0 and
                         (
                             flash == 'yes' 
                         )
