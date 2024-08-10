@@ -1,21 +1,3 @@
-import sys
-import subprocess
-
-# Open a log file in append mode
-log_file = open("output_log.txt", "a")
-
-# Define a function to log and print messages
-def log_and_print(message):
-    print(message)               # Print to console
-    log_file.write(message + '\n')  # Write to log file
-    log_file.flush()
-
-# Example subprocess call
-def run_exe(command):
-    result = subprocess.run(command, text=True, capture_output=True)
-    log_and_print(result.stdout)  # Log and print stdout
-    if result.stderr:
-        log_and_print(result.stderr)  # Log and print stderr
 import os
 import sys
 import time
@@ -47,8 +29,8 @@ def handle_exceptions(func):
 run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long:")
 
 # Run cpritepxy.py
-run_exe(['python3', 'cpritepxy.py'])
-run_exe(['python3', 'worldpxy.py'])
+subprocess.run(['python3', 'cpritepxy.py'])
+subprocess.run(['python3', 'worldpxy.py'])
 
 while True:
     @handle_exceptions
@@ -178,41 +160,41 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print((BRIGHT_GREEN + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)    
     print("*" * 42)
-    run_exe(['python3', 'tistpxy.py']) 
-    run_exe(['python3', 'cntrloptpxy.py'] if run_type == 'l' else ['python3', 'cntrloptpxy.py', '-short'])
+    subprocess.run(['python3', 'tistpxy.py']) 
+    subprocess.run(['python3', 'cntrloptpxy.py'] if run_type == 'l' else ['python3', 'cntrloptpxy.py', '-short'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    run_exe(['python3', 'telvalpxy.py']) if peak == "PEAKSTART" else None
+    subprocess.run(['python3', 'telvalpxy.py']) if peak == "PEAKSTART" else None
     if bmktpxy in ['Buy', 'Sell']:
         importlib.reload(sys.modules.get('mktpxy', None))
         print("━" * 42)
-        run_exe(['python3', 'buyboptpxy.py']) if peak != 'PEAKSTART' else None
+        subprocess.run(['python3', 'buyboptpxy.py']) if peak != 'PEAKSTART' else None
     else:
         print("━" * 42)
         print(f"{GREY}🚫 Not Buying BANKS opts, as it is {(GREEN if bmktpxy == 'Bull' else RED)}{bmktpxy}{GREY} ✋{RESET}")
     if mktpxy in ['Buy', 'Sell']:
         importlib.reload(sys.modules.get('mktpxy', None))
         print("━" * 42)
-        run_exe(['python3', 'buynoptpxy.py']) if peak != 'PEAKSTART' else None
+        subprocess.run(['python3', 'buynoptpxy.py']) if peak != 'PEAKSTART' else None
     else:
         print("━" * 42)
         print(f"{GREY}🚫 Not Buying NIFTY opts, as it is {(GREEN if mktpxy == 'Bull' else RED)}{mktpxy}{GREY} ✋{RESET}")
     
-    run_exe(['python3', 'mngoptpxy.py']) #if (bnk_power > 0.85 or bnk_power < 0.15 or nse_power > 0.85 or nse_power < 0.15) else None
+    subprocess.run(['python3', 'mngoptpxy.py']) #if (bnk_power > 0.85 or bnk_power < 0.15 or nse_power > 0.85 or nse_power < 0.15) else None
 
-    run_exe(['python3', 'worldpxy.py']) if run_type == 'l' else None
+    subprocess.run(['python3', 'worldpxy.py']) if run_type == 'l' else None
     if (peak == 'PEAKEND' or peak == 'PEAKSTART') and ha_nse_action == 'Bullish':
-        run_exe(['python3', 'buycncpxy.py'])
+        subprocess.run(['python3', 'buycncpxy.py'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     if run_type == 'l':
-        run_exe(['python3', 'niftychartpxy.py'])
-        run_exe(['python3', 'daypxy.py'])
-        run_exe(['python3', 'cndlpxy.py'])
+        subprocess.run(['python3', 'niftychartpxy.py'])
+        subprocess.run(['python3', 'daypxy.py'])
+        subprocess.run(['python3', 'cndlpxy.py'])
         if 'nsma' in locals():
             color = BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW
             print(color + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET)
-        run_exe(['python3', 'bniftychartpxy.py'])
-        run_exe(['python3', 'bdaypxy.py'])
-        run_exe(['python3', 'bcndlpxy.py'])
+        subprocess.run(['python3', 'bniftychartpxy.py'])
+        subprocess.run(['python3', 'bdaypxy.py'])
+        subprocess.run(['python3', 'bcndlpxy.py'])
         if 'bsma' in locals():
             color = BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW
             print(color + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET)
@@ -220,17 +202,17 @@ while True:
     print("━" * 42)
     if mktpredict in ['FALL', 'SIDE']:
         print(f"{'જ⁀➴  જ⁀➴   CNC Action - NIFTY got down💥💥':>38}{RESET}")
-        run_exe(['python3', 'cntrlcncpxy.py'])
+        subprocess.run(['python3', 'cntrlcncpxy.py'])
     else:
         print(f"{GREY}{'✅ ✅ No Action - NIFTY on RISE  🆙 🆙':>38}{RESET}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    run_exe(['python3', 'plpxy.py']) if peak == "PEAKEND" else None
+    subprocess.run(['python3', 'plpxy.py']) if peak == "PEAKEND" else None
     print("━" * 42)
     if run_type == 's':
-        run_exe(['python3', 'cntrloptprntpxy.py', 's'])
+        subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
     elif run_type == 'l':
-        run_exe(['python3', 'cntrloptprntpxy.py', 'l'])
+        subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
     print("━" * 42)
-    run_exe(['python3', 'selfpxy.py'])
+    subprocess.run(['python3', 'selfpxy.py'])
     progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
