@@ -108,7 +108,7 @@ async def main():
 
                 print(f"Total quantity for {CE_symbol}: {qty_CE}")
                 print(f"Total quantity for {PE_symbol}: {qty_PE}")
-
+                qty_CE, qty_PE = qty_positions_by_type(broker, CE_symbol, PE_symbol)
                 CE_position_exists = check_existing_positions(broker, CE_symbol)
                 PE_position_exists = check_existing_positions(broker, PE_symbol)
 
