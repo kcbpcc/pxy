@@ -215,6 +215,6 @@ while True:
     print("━" * 42)
     subprocess.run(['python3', 'selfpxy.py'])
     screenshot_path = 'pxy.png'
-    subprocess.run(['gnome-screenshot', '-f', screenshot_path], check=True)
+    subprocess.run(['import', '-window', 'root', screenshot_path], check=True)
     progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
