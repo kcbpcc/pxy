@@ -204,7 +204,7 @@ while True:
         print(f"{'✄┈┈┈┈ CNC Action - NIFTY got down 🛬🛬🛬':>38}{RESET}")
         subprocess.run(['python3', 'cntrlcncpxy.py'])
     else:
-        print(f"{GREY}{'✅ ✅ No Action - NIFTY on RISE  🆙 🆙':>38}{RESET}")
+        print(f"{GREY}{'𓆝 ⋆｡𖦹°‧🫧⋆.ೃ࿔*:･No Action - NIFTY on RISE  🆙 🆙':>38}{RESET}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     subprocess.run(['python3', 'plpxy.py']) if peak == "PEAKEND" else None
     print("━" * 42)
