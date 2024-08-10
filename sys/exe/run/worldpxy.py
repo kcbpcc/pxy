@@ -69,7 +69,6 @@ print("Closing prices yesterday:", closing_prices_yesterday)
 # Function to create formatted entry
 def create_entry(name, price_today, price_yesterday=None):
     if name == "N24":  # Special case for NIFTY24Q.NS
-        rounded_price = round(price_today / 100) * 100
         weighted_sum = 0
         total_weight = 0
         for key, value in closing_prices_today.items():
@@ -78,10 +77,10 @@ def create_entry(name, price_today, price_yesterday=None):
                 total_weight += exchanges[key]['weight']
         if total_weight > 0:
             adjustment = (weighted_sum / total_weight) / 100
-            adjusted_price = int(rounded_price + adjustment)
+            adjusted_price = int(price_today + adjustment)
             return f"{adjusted_price}✍️"
         else:
-            return f"{rounded_price}✍️"
+            return f"{price_today}✍️"
     else:
         if price_yesterday is not None:
             percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
@@ -90,7 +89,7 @@ def create_entry(name, price_today, price_yesterday=None):
             sentiment_style = "green" if percentage_change > 0 else "red"
             return f"[{sentiment_style}]{entry}[/{sentiment_style}]"
         else:
-            return None
+            return f"{name} Data Unavailable"
 
 # Prepare index information strings
 first_line = ""
@@ -114,4 +113,5 @@ if first_line:
     console.print(first_line.rstrip('|') + "|")
 if second_line:
     console.print(second_line.rstrip('|'))
+
 
