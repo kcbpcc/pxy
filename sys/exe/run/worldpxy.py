@@ -55,7 +55,7 @@ for exchange, name_weight in exchanges.items():
 # Function to create formatted entry
 def create_entry(name, price_today, price_yesterday=None):
     if name == "N24":  # Special case for NIFTY24Q.NS
-        rounded_price = round(price_today / 100) * 100
+        rounded_price = round(price_today / 10) * 10
         return f"{int(rounded_price)}✍️"
     else:
         if price_yesterday is not None:
