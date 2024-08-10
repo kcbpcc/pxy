@@ -90,6 +90,25 @@ async def main():
                 CE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'CE')
                 PE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'PE')
 
+                def count_positions_by_type(broker, CE_symbol, PE_symbol):
+                    positions_response = broker.kite.positions()
+                    positions_net = positions_response['net']
+                    qty_CE = 0
+                    qty_PE = 0
+                    
+                    for position in positions_net:
+                        if position['tradingsymbol'] == CE_symbol:
+                            qty_CE += abs(position['quantity'])
+                        elif position['tradingsymbol'] == PE_symbol:
+                            qty_PE += abs(position['quantity'])
+                    
+
+                    
+                    return qty_CE, qty_PE
+
+                print(f"Total quantity for {CE_symbol}: {qty_CE}")
+                print(f"Total quantity for {PE_symbol}: {qty_PE}")
+
                 CE_position_exists = check_existing_positions(broker, CE_symbol)
                 PE_position_exists = check_existing_positions(broker, PE_symbol)
 
