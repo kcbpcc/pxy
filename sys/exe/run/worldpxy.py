@@ -77,10 +77,10 @@ def create_entry(name, price_today, price_yesterday=None):
                 total_weight += exchanges[key]['weight']
         if total_weight > 0:
             adjustment = (weighted_sum / total_weight) / 100
-            adjusted_price = int(price_today + adjustment)
+            adjusted_price = int(price_today + adjustment)  # No rounding
             return f"{adjusted_price}✍️"
         else:
-            return f"{price_today}✍️"
+            return f"{int(price_today)}✍️"  # No rounding
     else:
         if price_yesterday is not None:
             percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
