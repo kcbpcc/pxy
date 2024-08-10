@@ -1,6 +1,6 @@
 import pandas as pd
 import subprocess
-
+import textwrap  # Make sure this import is included
 
 # Define color code for red
 RED = "\033[91m"
@@ -17,7 +17,6 @@ print(f"{RED}{wrapped_message}{RESET}")
 
 # Define color constants
 BRIGHT_YELLOW = '\033[93m'
-RESET = '\033[0m'
 
 # Read the CSV file
 combined_df = pd.read_csv('pxycombined.csv')
@@ -51,4 +50,5 @@ elif user_input == 'No':
     print("Command not executed.")
 else:
     print("Invalid input. Please enter 'Yes' or 'No'.")
+
 
