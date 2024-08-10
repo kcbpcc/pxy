@@ -115,8 +115,8 @@ async def main():
                 #print(f"bmktpredict: {bmktpredict}")
                 #print(f"mktpxy: {mktpxy}")
                 #print(f"CE_position_exists: {CE_position_exists}")
-                print(f"{CE_symbol} {(f'{qty_CE}x' if CE_position_exists else '')}          {'🥚' if CE_position_exists else '🛒'}".rjust(41))
-                print(f"{PE_symbol} {(f'{qty_PE}x' if PE_position_exists else '')}          {'🥚' if PE_position_exists else '🛒'}".rjust(41))
+                print(f"{CE_symbol}           {(f'{qty_CE}x' if CE_position_exists else '')}{'🥚' if CE_position_exists else '🛒'}".rjust(41))
+                print(f"{PE_symbol}           {(f'{qty_PE}x' if PE_position_exists else '')}{'🥚' if PE_position_exists else '🛒'}".rjust(41))
                 #print(f"count_CE: {count_CE}")
                 #print(f"count_PE: {count_PE}")
                 
