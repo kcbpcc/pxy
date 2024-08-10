@@ -152,30 +152,44 @@ def compute_depth(row):
     try:
         global bcedepth, bpedepth, ncedepth, npedepth, bvix, nvix
         
-        if "CE" in row['key'] and row['key'].startswith("BANK"):
+        if row['key'].endswith("CE") and row['key'].startswith("BANK"):
             if bcedepth > 1:
                 return max(row['tgtoptsma'], (bvix + 9 - bcedepth))
+            elif bpedepth > 1:
+                return 3
             else:
                 return 5
-        elif "PE" in row['key'] and row['key'].startswith("BANK"):
+
+        elif row['key'].endswith("PE") and row['key'].startswith("BANK"):
             if bpedepth > 1:
                 return max(row['tgtoptsma'], (bvix + 9 - bpedepth))
+            elif bcedepth > 1:
+                return 3
             else:
                 return 5
-        elif "CE" in row['key'] and row['key'].startswith("NIFTY"):
+
+        elif row['key'].endswith("CE") and row['key'].startswith("NIFTY"):
             if ncedepth > 1:
                 return max(row['tgtoptsma'], (nvix + 9 - ncedepth))
+            elif npedepth > 1:
+                return 3
             else:
                 return 5
-        elif "PE" in row['key'] and row['key'].startswith("NIFTY"):
+
+        elif row['key'].endswith("PE") and row['key'].startswith("NIFTY"):
             if npedepth > 1:
                 return max(row['tgtoptsma'], (nvix + 9 - npedepth))
+            elif ncedepth > 1:
+                return 3
             else:
                 return 5
+
         else:
             return 5
     except Exception as e:
+        # Optionally log the exception e here
         return 5
+
 
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
 
