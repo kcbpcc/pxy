@@ -100,8 +100,8 @@ def main():
                 kite_symbol = symbol.replace('.NS', '')
                 place_buy_order(kite_symbol)
     else:
-        print(f"Live balance {live_balance} is not greater than the limit {limit}. No orders will be placed.")
-
+        print(f"Cash is {int(live_balance)}. No orders will be placed.")
+. No orders will be placed.")
 if __name__ == "__main__":
     main()
 
