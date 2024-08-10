@@ -172,7 +172,7 @@ def compute_depth(row):
             if ncedepth > 1:
                 return max(row['tgtoptsma'], (nvix + 9 - ncedepth))
             elif npedepth > 1:
-                return 5
+                return 4
             else:
                 return 5
 
