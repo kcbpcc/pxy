@@ -30,6 +30,7 @@ args = parser.parse_args()
 
 flash = 'yes' if args.flash else 'no'
 runshort = 'yes' if args.short else 'no'
+flashFLASH = 'yes' if args.flashFLASH else 'no'
 ###################################################################################"PXY® PreciseXceleratedYield Pvt Ltd™########################################################################################################################
 logging = Logger(30, dir_path + "main.log")
 try:
