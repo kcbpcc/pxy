@@ -308,10 +308,11 @@ try:
                         flash == 'yes' and
                         row['PL%'] > 1.4 and 
                         row['PnL'] > 140
-                    ):
-                        # Placeholder for future logic
-                        pass
+                        (
+                            flash == 'yes' 
+                        )
                         
+                    ):
                         try:
                             print(f"Trying to close: {row['key']}")
                             is_placed = stocks_sell_order_place(key, row) if get_open_order_status(symbol_in_order) == "NO" else False
