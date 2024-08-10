@@ -306,13 +306,10 @@ try:
                         row['qty'] > 0 and
                         row['avg'] != 0 and
                         row['product'] == 'CNC' and
-                        flash == 'yes' and
-                        row['PL%'] > 0 and 
-                        row['PnL'] > 0 and
                         (
-                            flash == 'yes' 
+                            (flash == 'yes' and row['PL%'] > 0 and row['PnL'] > 0) or  # exit only positive 
+                            (flashFLASH == 'yes')  # exit everything
                         )
-                        
                     ):
                         try:
                             print(f"Trying to close: {row['key']}")
