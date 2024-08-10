@@ -1,6 +1,20 @@
 import pandas as pd
 import subprocess
 
+
+# Define color code for red
+RED = "\033[91m"
+RESET = "\033[0m"
+
+# Message to print in red
+message = "If you want to exit all you may call my big brother with flashFLASHpxy.py to do the task"
+
+# Wrap the message to fit 40 characters per line
+wrapped_message = textwrap.fill(message, width=40)
+
+# Print the wrapped message in red
+print(f"{RED}{wrapped_message}{RESET}")
+
 # Define color constants
 BRIGHT_YELLOW = '\033[93m'
 RESET = '\033[0m'
@@ -37,3 +51,4 @@ elif user_input == 'No':
     print("Command not executed.")
 else:
     print("Invalid input. Please enter 'Yes' or 'No'.")
+
