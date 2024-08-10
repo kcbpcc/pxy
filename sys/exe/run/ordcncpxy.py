@@ -49,9 +49,9 @@ def place_buy_order(random_symbol):
         # Determine purchase limit
         purchase_limit = 0
         if random_symbol in holdings_symbols and random_symbol not in orders_symbols and random_symbol not in positions_symbols:
-            purchase_limit = 2000
+            purchase_limit = 1000
         elif random_symbol not in holdings_symbols and random_symbol not in orders_symbols and random_symbol not in positions_symbols:
-            purchase_limit = 5000
+            purchase_limit = 2000
 
         if purchase_limit <= 0:
             logger.info(f"Skipping {random_symbol}: purchase_limit is not set")
