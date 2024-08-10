@@ -32,12 +32,10 @@ exchanges = {
     "^NSEI": {"name": "NF", "weight": 0.05},
     "NIFTY24Q.NS": {"name": "N24", "weight": 0.20},  # NIFTY24Q.NS
     "^TNX": {"name": "US10Y", "weight": 0.05},       # U.S. 10-Year Treasury Yield
-    "IN10YT=RR": {"name": "IN10Y", "weight": 0.05},  # India 10-Year Government Bond Yield
-    "GC=F": {"name": "Gold", "weight": 0.05},        # Gold Prices
-    "HG=F": {"name": "Copper", "weight": 0.05},      # Copper Prices
-    "^NYFANG": {"name": "Tech", "weight": 0.10},     # Technology Index
-    "^SPNY": {"name": "Energy", "weight": 0.05},     # Energy Index
-    "BTC-USD": {"name": "BTC", "weight": 0.05}       # Bitcoin
+    "GC=F": {"name": "Gold", "weight": 0.05},         # Gold Prices
+    "HG=F": {"name": "Copper", "weight": 0.05},       # Copper Prices
+    "^NYFANG": {"name": "Tech", "weight": 0.10},      # Technology Index
+    "BTC-USD": {"name": "BTC", "weight": 0.05}        # Bitcoin
 }
 
 # Create a console object for rich text output
@@ -50,21 +48,17 @@ closing_prices_yesterday = {}
 for exchange, name_weight in exchanges.items():
     try:
         ticker = yf.Ticker(exchange)
-        hist_data = ticker.history(period="5d")
+        hist_data = ticker.history(period="1mo")  # Changed to 1mo to ensure data availability
         
-        # Check if enough data is available
         if len(hist_data) >= 2:
             closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
             closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
         elif exchange == "NIFTY24Q.NS":
-            # Special case for NIFTY24Q.NS
             closing_prices_today[name_weight['name']] = hist_data['Close'].iloc[-1]
         else:
-            # Skip if not enough data
             print(f"Warning: Not enough data for {exchange}. Skipping...")
     except Exception as e:
         print(f"Error retrieving data for {exchange}: {e}")
-        # Skip if there is an error retrieving data
         continue
 
 # Function to create formatted entry
@@ -116,7 +110,5 @@ if first_line:
     console.print(first_line.rstrip('|') + "|")
 if second_line:
     console.print(second_line.rstrip('|') )
-
-
 
 
