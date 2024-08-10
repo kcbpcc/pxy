@@ -62,6 +62,10 @@ for exchange, name_weight in exchanges.items():
         print(f"Error retrieving data for {exchange}: {e}")
         continue
 
+# Debugging print statements
+print("Closing prices today:", closing_prices_today)
+print("Closing prices yesterday:", closing_prices_yesterday)
+
 # Function to create formatted entry
 def create_entry(name, price_today, price_yesterday=None):
     if name == "N24":  # Special case for NIFTY24Q.NS
@@ -110,5 +114,4 @@ if first_line:
     console.print(first_line.rstrip('|') + "|")
 if second_line:
     console.print(second_line.rstrip('|'))
-
 
