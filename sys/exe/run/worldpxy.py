@@ -30,12 +30,12 @@ exchanges = {
     "^FCHI": {"name": "FR", "weight": 0.05},
     "^NSEBANK": {"name": "BK", "weight": 0.05},
     "^NSEI": {"name": "NF", "weight": 0.05},
-    "NIFTY24Q.NS": {"name": "N24", "weight": 0.20},  # NIFTY24Q.NS
-    "^TNX": {"name": "US10Y", "weight": 0.05},       # U.S. 10-Year Treasury Yield
-    "GC=F": {"name": "Gold", "weight": 0.05},         # Gold Prices
-    "HG=F": {"name": "Copper", "weight": 0.05},       # Copper Prices
-    "^NYFANG": {"name": "Tech", "weight": 0.10},      # Technology Index
-    "BTC-USD": {"name": "BTC", "weight": 0.05}        # Bitcoin
+    "NIFTY24Q.NS": {"name": "N24", "weight": 0.20},
+    "^TNX": {"name": "US10Y", "weight": 0.05},
+    "GC=F": {"name": "Gold", "weight": 0.05},
+    "HG=F": {"name": "Copper", "weight": 0.05},
+    "^NYFANG": {"name": "Tech", "weight": 0.10},
+    "BTC-USD": {"name": "BTC", "weight": 0.05}
 }
 
 # Create a console object for rich text output
@@ -48,7 +48,7 @@ closing_prices_yesterday = {}
 for exchange, name_weight in exchanges.items():
     try:
         ticker = yf.Ticker(exchange)
-        period = "5d" if exchange == "NIFTY24Q.NS" else "1mo"  # Use 5d for NIFTY24Q.NS
+        period = "5d" if exchange == "NIFTY24Q.NS" else "1mo"
         hist_data = ticker.history(period=period)
         
         if len(hist_data) >= 2:
@@ -78,18 +78,16 @@ def create_entry(name, price_today, price_yesterday=None):
         if total_weight > 0:
             adjustment = (weighted_sum / total_weight) / 100
             adjusted_price = int(price_today + adjustment)  # No rounding
-            return f"{adjusted_price}✍️"
+            return f"{adjusted_price:4d}"  # Ensure 4 character width
         else:
-            return f"{int(price_today)}✍️"  # No rounding
+            return f"{int(price_today):4d}"  # Ensure 4 character width
     else:
         if price_yesterday is not None:
             percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
-            percentage_change_str = f"+{percentage_change:.1f}" if percentage_change > 0 else f"{percentage_change:.1f}"
-            entry = f"{name}{percentage_change_str}".rjust(6)
-            sentiment_style = "green" if percentage_change > 0 else "red"
-            return f"[{sentiment_style}]{entry}[/{sentiment_style}]"
+            percentage_change_str = f"{percentage_change:+.1f}".rjust(4)  # Ensure 4 character width
+            return f"{name}{percentage_change_str}"  # Format title + value
         else:
-            return f"{name} Data Unavailable"
+            return f"{name}    "  # Ensure 4 character width
 
 # Prepare index information strings
 first_line = ""
@@ -98,20 +96,26 @@ second_line = ""
 # Determine which indexes go to the first and second lines
 first_line_keys = ["DJ", "NQ", "SP", "JP", "HK", "CN"]
 
+# Split the entries across two lines
 for name, price_today in closing_prices_today.items():
-    if name in first_line_keys:
-        entry = create_entry(name, price_today, closing_prices_yesterday.get(name))
-        if entry:
+    entry = create_entry(name, price_today, closing_prices_yesterday.get(name))
+    if entry:
+        if name in first_line_keys:
             first_line += f"{entry}|"
-    else:
-        entry = create_entry(name, price_today, closing_prices_yesterday.get(name))
-        if entry:
+        else:
             second_line += f"{entry}|"
 
-# Print the concatenated strings
-if first_line:
-    console.print(first_line.rstrip('|') + "|")
-if second_line:
-    console.print(second_line.rstrip('|'))
+# Format each line to fit 6 symbols
+def format_line(line):
+    parts = line.split('|')
+    formatted_lines = []
+    for i in range(0, len(parts), 6):
+        formatted_lines.append('|'.join(parts[i:i+6]))
+    return '\n'.join(formatted_lines)
 
+# Print the formatted lines
+if first_line:
+    console.print(format_line(first_line.rstrip('|')))
+if second_line:
+    console.print(format_line(second_line.rstrip('|')))
 
