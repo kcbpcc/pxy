@@ -118,11 +118,8 @@ async def main():
                 #print(f"bmktpredict: {bmktpredict}")
                 #print(f"mktpxy: {mktpxy}")
                 #print(f"CE_position_exists: {CE_position_exists}")
-                total_width = 38
-                
-                # Directly format and right-align within the print statement
-                print(f"{CE_symbol} {qty_CE}x{'🥚' if CE_position_exists else '🛒':>{total_width - len(CE_symbol) - len(str(qty_CE)) - 2}}")
-                print(f"{PE_symbol} {qty_PE}x{'🥚' if PE_position_exists else '🛒':>{total_width - len(PE_symbol) - len(str(qty_PE)) - 2}}")
+                print(f"{CE_symbol} {qty_CE}x{'🥚' if CE_position_exists else '🛒'}".rjust(38))
+                print(f"{PE_symbol} {qty_PE}x{'🥚' if PE_position_exists else '🛒'}".rjust(38))
 
                 #print(f"count_CE: {count_CE}")
                 #print(f"count_PE: {count_PE}")
