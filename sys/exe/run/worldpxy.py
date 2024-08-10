@@ -58,7 +58,7 @@ def create_entry(name, price_today, price_yesterday=None):
     if name == "N24":  # Special case for NIFTY24Q.NS
         # Use random number in the range +50 to -50
         random_change = random.randint(-50, 50)
-        return f"{int(price_today) + random_change}✍️"
+        return f"{int(price_today) }✍️"
     else:
         if price_yesterday is not None:
             percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
