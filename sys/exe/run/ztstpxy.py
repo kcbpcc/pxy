@@ -74,9 +74,25 @@ def check_quantity_for_symbol(df, symbol):
     filtered_df = df[df['key'].str.contains(symbol, case=False, na=False)]
     if not filtered_df.empty:
         print(f"\nRows for symbol '{symbol}':")
-        print(filtered_df[['key', 'qty', 'PnL', 'PL%']])
+        print(filtered_df[['key', 'qty', 'PL%']])
     else:
         print(f"No rows found for symbol '{symbol}'.")
+
+def check_corresponding_options(df, symbol):
+    """Check and print corresponding CE or PE options based on the symbol."""
+    if 'CE' in symbol:
+        corresponding_options = df[df['key'].str.contains(symbol.replace('CE', 'PE'), case=False, na=False)]
+    elif 'PE' in symbol:
+        corresponding_options = df[df['key'].str.contains(symbol.replace('PE', 'CE'), case=False, na=False)]
+    else:
+        print("Symbol is neither CE nor PE.")
+        return
+
+    if not corresponding_options.empty:
+        print(f"\nCorresponding options for symbol '{symbol}':")
+        print(corresponding_options[['key', 'qty', 'PL%']])
+    else:
+        print(f"No corresponding options found for symbol '{symbol}'.")
 
 try:
     sys.stdout = open('output.txt', 'w')
@@ -104,7 +120,9 @@ blnc_opt_df['PL%'] = blnc_opt_df['PL%'].fillna(0)
 # Check quantity for the provided symbol or ask user for input
 if args.symbol:
     check_quantity_for_symbol(blnc_opt_df, args.symbol)
+    check_corresponding_options(blnc_opt_df, args.symbol)
 else:
     user_symbol = input("No symbol provided. Please enter a symbol to check: ").strip()
     check_quantity_for_symbol(blnc_opt_df, user_symbol)
+    check_corresponding_options(blnc_opt_df, user_symbol)
 
