@@ -96,13 +96,27 @@ async def main():
                 CE_position_exists = check_existing_positions(broker, CE_symbol)
                 PE_position_exists = check_existing_positions(broker, PE_symbol)
 
+                def qty_positions_by_type(broker, CE_symbol, PE_symbol):
+                    positions_response = broker.kite.positions()
+                    positions_net = positions_response['net']
+                    qty_CE = 0
+                    qty_PE = 0
+                    
+                    for position in positions_net:
+                        if position['tradingsymbol'] == CE_symbol:
+                            qty_CE += int(abs(position['quantity']) / 25)
+                        elif position['tradingsymbol'] == PE_symbol:
+                            qty_PE += int(abs(position['quantity']) / 25)
+                   
+                    return qty_CE, qty_PE
+                qty_CE, qty_PE = qty_positions_by_type(broker, CE_symbol, PE_symbol)
+
                 # Print all relevant variables before entering the if block
                 #print(f"bmktpredict: {bmktpredict}")
                 #print(f"mktpxy: {mktpxy}")
                 #print(f"CE_position_exists: {CE_position_exists}")
-                print(f"CE_symbol: {CE_symbol}        {'🥚' if CE_position_exists else '🛒'}")
-                #print(f"PE_position_exists: {PE_position_exists}")
-                print(f"PE_symbol: {PE_symbol}        {'🥚' if PE_position_exists else '🛒'}")
+                print(f"{CE_symbol} {(f'{qty_CE}x' if CE_position_exists else '')}{'🥚' if CE_position_exists else '🛒'}".rjust(41))
+                print(f"{PE_symbol} {(f'{qty_PE}x' if PE_position_exists else '')}{'🥚' if PE_position_exists else '🛒'}".rjust(41))
                 #print(f"count_CE: {count_CE}")
                 #print(f"count_PE: {count_PE}")
                 
