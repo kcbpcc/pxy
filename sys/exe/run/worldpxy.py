@@ -48,12 +48,13 @@ closing_prices_yesterday = {}
 for exchange, name_weight in exchanges.items():
     try:
         ticker = yf.Ticker(exchange)
-        hist_data = ticker.history(period="1mo")  # Changed to 1mo to ensure data availability
+        period = "5d" if exchange == "NIFTY24Q.NS" else "1mo"  # Use 5d for NIFTY24Q.NS
+        hist_data = ticker.history(period=period)
         
         if len(hist_data) >= 2:
             closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
             closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
-        elif exchange == "NIFTY24Q.NS":
+        elif exchange == "NIFTY24Q.NS" and len(hist_data) == 1:
             closing_prices_today[name_weight['name']] = hist_data['Close'].iloc[-1]
         else:
             print(f"Warning: Not enough data for {exchange}. Skipping...")
@@ -65,7 +66,6 @@ for exchange, name_weight in exchanges.items():
 def create_entry(name, price_today, price_yesterday=None):
     if name == "N24":  # Special case for NIFTY24Q.NS
         rounded_price = round(price_today / 100) * 100
-        # Adjust the final value based on other influencers
         weighted_sum = 0
         total_weight = 0
         for key in closing_prices_today:
@@ -109,6 +109,6 @@ for name, price_today in closing_prices_today.items():
 if first_line:
     console.print(first_line.rstrip('|') + "|")
 if second_line:
-    console.print(second_line.rstrip('|') )
+    console.print(second_line.rstrip('|'))
 
 
