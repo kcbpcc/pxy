@@ -98,9 +98,9 @@ async def main():
                     
                     for position in positions_net:
                         if position['tradingsymbol'] == CE_symbol:
-                            qty_CE += abs(position['quantity'])
+                            qty_CE += abs(position['quantity'])/25
                         elif position['tradingsymbol'] == PE_symbol:
-                            qty_PE += abs(position['quantity'])
+                            qty_PE += abs(position['quantity'])/25
                     
 
                     
@@ -118,9 +118,9 @@ async def main():
                 #print(f"bmktpredict: {bmktpredict}")
                 #print(f"mktpxy: {mktpxy}")
                 #print(f"CE_position_exists: {CE_position_exists}")
-                print(f"CE_symbol: {CE_symbol}            {'🥚' if CE_position_exists else '🛒'}")
+                print(f"CE_symbol: {CE_symbol}           {qty_CE}{'🥚' if CE_position_exists else '🛒'}")
                 #print(f"PE_position_exists: {PE_position_exists}")
-                print(f"PE_symbol: {PE_symbol}            {'🥚' if PE_position_exists else '🛒'}")
+                print(f"PE_symbol: {PE_symbol}           {qty_PE}{'🥚' if PE_position_exists else '🛒'}")
                 #print(f"count_CE: {count_CE}")
                 #print(f"count_PE: {count_PE}")
                 
