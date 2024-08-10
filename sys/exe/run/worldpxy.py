@@ -19,18 +19,25 @@ def calculate_sentiment(today_close, yesterday_close):
 
 # Dictionary of major stock exchanges with weights based on their significance
 exchanges = {
-    "^DJI": {"name": "DJ", "weight": 0.35},
-    "^IXIC": {"name": "NQ", "weight": 0.30},
-    "^GSPC": {"name": "SP", "weight": 0.35},
-    "^N225": {"name": "JP", "weight": 0.20},
-    "^HSI": {"name": "HK", "weight": 0.20},
-    "000001.SS": {"name": "CN", "weight": 0.20},
-    "^FTSE": {"name": "UK", "weight": 0.20},
-    "^GDAXI": {"name": "DE", "weight": 0.15},
-    "^FCHI": {"name": "FR", "weight": 0.15},
-    "^NSEBANK": {"name": "BK", "weight": 0.125},
-    "^NSEI": {"name": "NF", "weight": 0.125},
-    "NIFTY24Q.NS": {"name": "N24", "weight": 0.10}  # Added NIFTY24Q.NS
+    "^DJI": {"name": "DJ", "weight": 0.20},
+    "^IXIC": {"name": "NQ", "weight": 0.20},
+    "^GSPC": {"name": "SP", "weight": 0.20},
+    "^N225": {"name": "JP", "weight": 0.10},
+    "^HSI": {"name": "HK", "weight": 0.10},
+    "000001.SS": {"name": "CN", "weight": 0.10},
+    "^FTSE": {"name": "UK", "weight": 0.05},
+    "^GDAXI": {"name": "DE", "weight": 0.05},
+    "^FCHI": {"name": "FR", "weight": 0.05},
+    "^NSEBANK": {"name": "BK", "weight": 0.05},
+    "^NSEI": {"name": "NF", "weight": 0.05},
+    "NIFTY24Q.NS": {"name": "N24", "weight": 0.20},  # NIFTY24Q.NS
+    "^TNX": {"name": "US10Y", "weight": 0.05},       # U.S. 10-Year Treasury Yield
+    "IN10YT=RR": {"name": "IN10Y", "weight": 0.05},  # India 10-Year Government Bond Yield
+    "GC=F": {"name": "Gold", "weight": 0.05},        # Gold Prices
+    "HG=F": {"name": "Copper", "weight": 0.05},      # Copper Prices
+    "^NYFANG": {"name": "Tech", "weight": 0.10},     # Technology Index
+    "^SPNY": {"name": "Energy", "weight": 0.05},     # Energy Index
+    "BTC-USD": {"name": "BTC", "weight": 0.05}       # Bitcoin
 }
 
 # Create a console object for rich text output
@@ -41,22 +48,42 @@ closing_prices_today = {}
 closing_prices_yesterday = {}
 
 for exchange, name_weight in exchanges.items():
-    ticker = yf.Ticker(exchange)
-    hist_data = ticker.history(period="5d")
-    
-    # Check if enough data is available
-    if len(hist_data) >= 2:
-        closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
-        closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
-    elif exchange == "NIFTY24Q.NS":
-        # Special case for NIFTY24Q.NS
-        closing_prices_today[name_weight['name']] = hist_data['Close'].iloc[-1]
+    try:
+        ticker = yf.Ticker(exchange)
+        hist_data = ticker.history(period="5d")
+        
+        # Check if enough data is available
+        if len(hist_data) >= 2:
+            closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
+            closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
+        elif exchange == "NIFTY24Q.NS":
+            # Special case for NIFTY24Q.NS
+            closing_prices_today[name_weight['name']] = hist_data['Close'].iloc[-1]
+        else:
+            # Skip if not enough data
+            print(f"Warning: Not enough data for {exchange}. Skipping...")
+    except Exception as e:
+        print(f"Error retrieving data for {exchange}: {e}")
+        # Skip if there is an error retrieving data
+        continue
 
 # Function to create formatted entry
 def create_entry(name, price_today, price_yesterday=None):
     if name == "N24":  # Special case for NIFTY24Q.NS
         rounded_price = round(price_today / 100) * 100
-        return f"{int(rounded_price)}✍️"
+        # Adjust the final value based on other influencers
+        weighted_sum = 0
+        total_weight = 0
+        for key in closing_prices_today:
+            if key != "N24":
+                weighted_sum += closing_prices_today[key] * exchanges[key]['weight']
+                total_weight += exchanges[key]['weight']
+        if total_weight > 0:
+            adjustment = (weighted_sum / total_weight) / 100
+            adjusted_price = int(rounded_price + adjustment)
+            return f"{adjusted_price}✍️"
+        else:
+            return f"{rounded_price}✍️"
     else:
         if price_yesterday is not None:
             percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
