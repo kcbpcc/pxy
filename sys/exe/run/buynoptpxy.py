@@ -90,24 +90,6 @@ async def main():
                 CE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'CE')
                 PE_symbol = construct_symbol(expiry_year, expiry_month, expiry_day, 'PE')
 
-                def qty_positions_by_type(broker, CE_symbol, PE_symbol):
-                    positions_response = broker.kite.positions()
-                    positions_net = positions_response['net']
-                    qty_CE = 0
-                    qty_PE = 0
-                    
-                    for position in positions_net:
-                        if position['tradingsymbol'] == CE_symbol:
-                            qty_CE += int(abs(position['quantity']) / 25)
-                        elif position['tradingsymbol'] == PE_symbol:
-                            qty_PE += int(abs(position['quantity']) / 25)
-                    
-
-                    
-                    return qty_CE, qty_PE
-                qty_CE, qty_PE = qty_positions_by_type(broker, CE_symbol, PE_symbol)
-                #print(f"Total quantity for {CE_symbol}: {qty_CE}")
-                #print(f"Total quantity for {PE_symbol}: {qty_PE}")
                 CE_position_exists = check_existing_positions(broker, CE_symbol)
                 PE_position_exists = check_existing_positions(broker, PE_symbol)
 
@@ -117,12 +99,9 @@ async def main():
                 #print(f"bmktpredict: {bmktpredict}")
                 #print(f"mktpxy: {mktpxy}")
                 #print(f"CE_position_exists: {CE_position_exists}")
-                # Print CE output right-aligned within 41 characters
-                print(f"{CE_symbol} {(f'{qty_CE}x' if CE_position_exists else '')}{'🥚' if CE_position_exists else '🛒'}".rjust(41))
-                
-                # Print PE output right-aligned within 41 characters, including qty_PE and x only if PE_position_exists is True
-                print(f"{PE_symbol} {(f'{qty_PE}x' if PE_position_exists else '')}{'🥚' if PE_position_exists else '🛒'}".rjust(41))
-
+                print(f"CE_symbol: {CE_symbol}            {'🥚' if CE_position_exists else '🛒'}")
+                #print(f"PE_position_exists: {PE_position_exists}")
+                print(f"PE_symbol: {PE_symbol}            {'🥚' if PE_position_exists else '🛒'}")
                 #print(f"count_CE: {count_CE}")
                 #print(f"count_PE: {count_PE}")
                 
