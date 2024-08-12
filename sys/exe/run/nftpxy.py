@@ -47,10 +47,15 @@ def get_nse_action():
         ha_nse_action = "Bullish" if ha_close.iloc[-1] > ha_open.iloc[-1] else "Bearish"
 
     except Exception as e:
-        # print(f"Error during data download for 5 days: {e}")
-        pass  # Ignore print statement
+        print(f"[red]Error during data download for 5 days: {e}[/red]")  # Handle the error with a print statement
 
     return ha_nse_action, nse_power, Day_Change, Open_Change  # Return calculated values
 
+# Get NSE action and other values
 ha_nse_action, nse_power, Day_Change, Open_Change = get_nse_action()
 
+# Print the results
+print(f"[bold]Heikin-Ashi NSE Action:[/bold] {ha_nse_action}")
+print(f"[bold]NSE Power:[/bold] {nse_power}")
+print(f"[bold]Day Change (%):[/bold] {Day_Change}")
+print(f"[bold]Open Change (%):[/bold] {Open_Change}")
