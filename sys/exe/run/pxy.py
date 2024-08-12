@@ -164,6 +164,8 @@ while True:
          else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) 
         + RESET
     )
+    print("ha_nse_action:", ha_nse_action)
+
     print("*" * 42)
     subprocess.run(['python3', 'tistpxy.py']) 
     subprocess.run(['python3', 'cntrloptpxy.py'] if run_type == 'l' else ['python3', 'cntrloptpxy.py', '-short'])
