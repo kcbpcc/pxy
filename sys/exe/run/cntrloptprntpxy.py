@@ -312,7 +312,7 @@ summary = (
     f"     Cash-Left    :   {str(int(round(live_balance, 0))).zfill(6)}\n"
     f"    Total-bPnL    :   {str(nifty_profit + bank_profit + booked + hide).zfill(6)}\n"
     f"                      \n"
-    f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/0aec4aa4)\n"
+    f"[---------PXY® Dash Board----------](https://console.zerodha.com/verified/72e03b58)\n"
 )
 
 
