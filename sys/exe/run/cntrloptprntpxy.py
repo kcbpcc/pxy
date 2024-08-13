@@ -116,10 +116,8 @@ print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP
 
 # Summary calculations
 total_invested_all = print_df['Invested'].sum()
-
 total_pl_all = print_df['PnL'].sum() + nextras + bextras
 total_pl_percentage_all = (total_pl_all / total_invested_all) * 100 if total_invested_all != 0 else 0
-
 
 summary_statement = (
     f"{BRIGHT_YELLOW}CAP:{total_invested_all:6.0f} ━━━━ P&L:{total_pl_all:7.0f} ━━━━ P&L%:{total_pl_percentage_all:3.0f}%{RESET}"
@@ -186,12 +184,6 @@ output_lines.append(left_aligned_format.format(
         right_aligned_format.format(
         f"CashNow:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{int(round(live_balance, 0)):06d}{RESET}"))
 
-# Calculate the total value once
-total_value = round(CnC_tCap_rounded + (total_invested_all / 100000) + (live_balance / 100000) - 17.8, 2)
-
-# Determine the color for the value
-value_color = BRIGHT_GREEN if total_value > 0 else BRIGHT_RED
-
 output_lines.append(
     left_aligned_format.format(
         f"{'A/C-tCap'.zfill(7)}:{BRIGHT_YELLOW}{str(round(CnC_tCap_rounded + (total_invested_all / 100000), 2)).zfill(5)}"
@@ -200,10 +192,9 @@ output_lines.append(
     right_aligned_format.format(
         f"{BRIGHT_GREEN if nmktpxy in ['Bull'] else (BRIGHT_RED if nmktpxy in ['Bear'] else GREY)}"
         f"{BOLD}®{RESET}{BRIGHT_YELLOW} {arrow_map.get(nmktpxy, '')}{RESET}    "
-        f"{value_color}A/C-tPnL:{str(total_value).zfill(5)}{RESET}"
+        f"{'A/C-tPnL'.zfill(5)}:{BRIGHT_GREEN}{str(round(CnC_tCap_rounded + (total_invested_all / 100000) - 17.8, 2)).zfill(5)}{RESET}"
     )
 )
-
 
 output_lines.append(
     left_aligned_format.format(
