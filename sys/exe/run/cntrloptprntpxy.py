@@ -186,6 +186,8 @@ output_lines.append(left_aligned_format.format(
         right_aligned_format.format(
         f"CashNow:{BRIGHT_GREEN if live_balance > 50000 else BRIGHT_YELLOW}{int(round(live_balance, 0)):06d}{RESET}"))
 
+total_value = round(CnC_tCap_rounded + (total_invested_all / 100000) + (live_balance / 100000) - 17.8, 2)
+
 output_lines.append(
     left_aligned_format.format(
         f"{'A/C-tCap'.zfill(7)}:{BRIGHT_YELLOW}{str(round(CnC_tCap_rounded + (total_invested_all / 100000), 2)).zfill(5)}"
@@ -194,10 +196,10 @@ output_lines.append(
     right_aligned_format.format(
         f"{BRIGHT_GREEN if nmktpxy in ['Bull'] else (BRIGHT_RED if nmktpxy in ['Bear'] else GREY)}"
         f"{BOLD}®{RESET}{BRIGHT_YELLOW} {arrow_map.get(nmktpxy, '')}{RESET}    "
-        f"A/C-tPnL:{str(round(CnC_tCap_rounded + (total_invested_all / 100000) + (live_balance / 100000) - 17.8, 2)).zfill(5)}{RESET}"
+        f"{BRIGHT_GREEN if total_value > 0 else BRIGHT_RED}"
+        f"A/C-tPnL:{str(total_value).zfill(5)}{RESET}"
     )
 )
-
 
 output_lines.append(
     left_aligned_format.format(
