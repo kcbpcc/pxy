@@ -316,4 +316,5 @@ summary = (
 )
 
 
-check_and_send_summary(summary, 'bordpxy')
+if peak == "PEAKSTAR": check_and_send_summary(summary, 'bordpxy')
+
