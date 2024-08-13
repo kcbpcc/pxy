@@ -4,7 +4,7 @@
 source ~/env/bin/activate
 
 # Change to the script's directory
-cd ~/pxy/sys/exe/run
+cd ~/pxy/sys/exe/run/nft
 
 # Run the Python script
 python3 ztstpxy.py
