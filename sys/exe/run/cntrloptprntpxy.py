@@ -94,6 +94,7 @@ opt_df['m2m'] = opt_df['m2m'].astype(int)
 opt_df = opt_df[['key', 'Invested', 'qty', 'PL%', 'PnL', 'pnl', 'product', 'm2m']]
 
 total_invested = opt_df['Invested'].sum()
+cashround = round(live_balance / 100000, 2)
 total_pl = opt_df['PnL'].sum()
 total_opt_pnl = opt_df['m2m'].sum()
 total_pl_percentage = (total_pl / total_invested) * 100 if total_invested != 0 else 0
@@ -192,7 +193,7 @@ output_lines.append(
     right_aligned_format.format(
         f"{BRIGHT_GREEN if nmktpxy in ['Bull'] else (BRIGHT_RED if nmktpxy in ['Bear'] else GREY)}"
         f"{BOLD}®{RESET}{BRIGHT_YELLOW} {arrow_map.get(nmktpxy, '')}{RESET}    "
-        f"{'A/C-tPnL'.zfill(5)}:{BRIGHT_GREEN}{str(round(CnC_tCap_rounded + (total_invested_all / 100000) - 17.8, 2)).zfill(5)}{RESET}"
+        f"{'A/C-tPnL'.zfill(5)}:{BRIGHT_GREEN}{str(round(CnC_tCap_rounded + (total_invested_all / 100000) + cashround - 17.8, 2)).zfill(5)}{RESET}"
     )
 )
 
