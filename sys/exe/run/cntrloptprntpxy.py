@@ -116,8 +116,6 @@ print_df = print_df[['MN', 'strike', 'Invested', 'qty', 'PL%', 'm2m', 'PnL', 'CP
 
 # Summary calculations
 total_invested_all = print_df['Invested'].sum()
-total_invested_all = int(total_invested_all + (live_balance/100000))
-print(live_balance / 10000)
 
 total_pl_all = print_df['PnL'].sum() + nextras + bextras
 total_pl_percentage_all = (total_pl_all / total_invested_all) * 100 if total_invested_all != 0 else 0
@@ -196,9 +194,10 @@ output_lines.append(
     right_aligned_format.format(
         f"{BRIGHT_GREEN if nmktpxy in ['Bull'] else (BRIGHT_RED if nmktpxy in ['Bear'] else GREY)}"
         f"{BOLD}®{RESET}{BRIGHT_YELLOW} {arrow_map.get(nmktpxy, '')}{RESET}    "
-        f"{'A/C-tPnL'.zfill(5)}:{BRIGHT_GREEN}{str(round(CnC_tCap_rounded + (total_invested_all / 100000) - 17.8, 2)).zfill(5)}{RESET}"
+        f"{'A/C-tPnL'.zfill(5)}:{BRIGHT_GREEN}{str(round(CnC_tCap_rounded + (total_invested_all / 100000) - 17.8, 2)).zfill(5)}:{int(live_balance / 100000)}{RESET}"
     )
 )
+
 
 output_lines.append(
     left_aligned_format.format(
