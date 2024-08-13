@@ -304,7 +304,7 @@ summary = (
     f"    F&O-tPnL    :   {str(round(run_opnl / 100000, 2)).zfill(4):<8}\n"
     f"    A/C-tCap    :   {str(round(CnC_tCap_rounded + (total_invested_all / 100000), 2)).zfill(5):<8}\n"
     f"    A/C-tPnL    :   {str(round(CnC_tCap_rounded + (total_invested_all / 100000) - 17.8, 2)).zfill(5):<8}\n"
-    f"    Flush         :   {str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹\n"
+    f"    Flush          :   {str(round(green_Stocks_capital_percentage, 2)).zfill(4)}% {int(green_Stocks_profit_loss / 1000)}₹\n"
     f"    C&C-dPnL    :   {int(round(all_Stocks_worth_dpnl, 0)):<8}\n"
     f"    F&O-dPnL    :   {int(m2m_opt):<8}\n"
     f"    C&C-bPnL    :   {str(int(booked)).zfill(5):<8}\n"
