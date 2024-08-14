@@ -53,7 +53,12 @@ def calculate_stock_metrics(data):
     stock_power = round(max(0.1, min(raw_stock_power, 1.0)), 2)
     day_change = round(((current_price - yesterday_close) / yesterday_close) * 100, 2)
     open_change = round(((current_price - today_open) / today_open) * 100, 2)
-
+    # Normal print statements
+    print(f"Today's Open: {today_open}")
+    print(f"Today's High: {today_high}")
+    print(f"Today's Low: {today_low}")
+    print(f"Current Price: {current_price}")
+    print(f"Yesterday's Close: {yesterday_close}")
     return stock_power, day_change, open_change
 
 def get_stock_action(data):
