@@ -144,10 +144,7 @@ def calculate_consecutive_candles(tickerSymbol):
     except Exception as e:
         return f"An error occurred: {e}"
 
-from colorama import Fore, Style, init
-
-# Initialize colorama
-init()
+from clrskc import RED, GREEN, RESET
 
 # Main Execution
 ticker_symbol = '^NSEI'  # You can change this to any valid ticker symbol
@@ -158,9 +155,9 @@ print(f"{'Heikin-Ashi Action:':<20} {ha_action:>21}")
 # Function to color the output based on value
 def color_value(value):
     if value < 0:
-        return f"{Fore.RED}{value:>21.2f}{Style.RESET_ALL}"
+        return f"{RED}{value:>21.2f}{RESET}"
     else:
-        return f"{Fore.GREEN}{value:>21.2f}{Style.RESET_ALL}"
+        return f"{GREEN}{value:>21.2f}{RESET}"
 
 print(f"{'Stock Power:':<20} {color_value(stock_power)}")
 print(f"{'Day Change (%):':<20} {color_value(day_change)}")
