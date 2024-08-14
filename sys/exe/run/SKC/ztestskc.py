@@ -147,17 +147,19 @@ def calculate_consecutive_candles(tickerSymbol):
 # Main Execution
 ticker_symbol = '^NSEI'  # You can change this to any valid ticker symbol
 ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
-print(f"{'Ticker:{ticker_symbol}':<20} {ticker_symbol:>21}")
-print(f"{'Action:':<20} {ha_action:>21}")
-print(f"{'Power:':<20} {stock_power:>21.2f}")
-print(f"{'Day%:':<20} {day_change:>21.2f}")
-print(f"{'Open%:':<20} {open_change:>21.2f}")
+
+print(f"{'Ticker:' + ticker_symbol:<20}")
+print(f"{'Action:' + ha_action:<20}")
+print(f"{'Power:' + f'{stock_power:.2f}':<20}")
+print(f"{'Day%:' + f'{day_change:.2f}':<20}")
+print(f"{'Open%:' + f'{open_change:.2f}':<20}")
 
 market_signal = get_market_check(ticker_symbol)
-print(f"{'Signal:':<20} {market_signal:>21}")
+print(f"{'Signal:' + market_signal:<20}")
 
 sma = check_index_status(ticker_symbol)
-print(f"{'Move:':<20} {sma:>21}")
+print(f"{'Move:' + sma:<20}")
+
 
 cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
 print(f"{'Depth:':<20} {(cedepth-pedepth):>21}")
