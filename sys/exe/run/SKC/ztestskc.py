@@ -217,12 +217,12 @@ def get_color_for_context(context):
 
 def get_emoji_for_context(context):
     context_emojis = {
-        'Bullish': '📈',
-        'Bearish': '📉',
-        'Up': '🔼',
-        'Down': '🔽',
-        'Bull': '🐂',
-        'Bear': '🐻',
+        'Bullish': '🟩',
+        'Bearish': '🟥',
+        'Up': '🢁',
+        'Down': '🢃',
+        'Bull': '🟢',
+        'Bear': '🔴',
         'Buy': '🛒',
         'Sell': '💸',
         'None': '⚪',
