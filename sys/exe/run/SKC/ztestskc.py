@@ -144,13 +144,10 @@ def calculate_consecutive_candles(tickerSymbol):
     except Exception as e:
         return f"An error occurred: {e}"
 
-# Main Execution
-ticker_symbol = '^NSEI'  # You can change this to any valid ticker symbol
-ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
+# Assuming you have a function to get the depth value
+depth_value = get_depth_value(ticker_symbol)  # Replace with your actual method
 
-# Define the width for alignment
-width = 20
-
+# Print statements with alignment
 print(f"{'Ticker:' + ticker_symbol:<{width}}")
 print(f"{'Action:' + ha_action:<{width}}")
 print(f"{'Power:' + f'{stock_power:.2f}':<{width}}")
@@ -163,5 +160,5 @@ print(f"{'Signal:' + market_signal:<{width}}")
 sma = check_index_status(ticker_symbol)
 print(f"{'Move:' + sma:<{width}}")
 
-depth_value = -2  # Example value for Depth
+# Print the actual depth value
 print(f"{'Depth:':<{width}} {depth_value:>{width}}")
