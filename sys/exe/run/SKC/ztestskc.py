@@ -1,46 +1,53 @@
-# ha_signal.py
+# calculate_consecutive_candles.py
 import yfinance as yf
 import pandas as pd
 
-def fetch_data(symbol, period="1d", interval="1m"):
-    """
-    Fetch real-time data for the specified interval and symbol.
-    """
-    data = yf.Ticker(symbol).history(period=period, interval=interval)
-    return data
+def calculate_consecutive_candles(ticker_symbol):
+    try:
+        # Get data on this ticker
+        ticker_data = yf.Ticker(ticker_symbol)
+        ticker_df = ticker_data.history(period='5d', interval='1m')
 
-def calculate_heikin_ashi_signals(data):
-    """
-    Calculate Heikin-Ashi candles and determine the trading signal.
-    """
-    # Calculate Heikin-Ashi close and open
-    ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
-    ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+        # Calculate Heikin-Ashi candles
+        ha_close = (ticker_df['Open'] + ticker_df['High'] + ticker_df['Low'] + ticker_df['Close']) / 4
+        ha_open = ha_close.shift(1)
+        ha_color = pd.Series('green', index=ha_close.index)
+        ha_color[ha_close < ha_open] = 'red'
 
-    # Determine the color of the last and previous Heikin-Ashi candles
-    current_color = 'Bull' if ha_close.iloc[-1] > ha_open.iloc[-1] else 'Bear'
-    last_color = 'Bull' if ha_close.iloc[-2] > ha_open.iloc[-2] else 'Bear'
+        # Calculate consecutive candles sequence
+        consecutive_count = 1
+        current_color = ha_color.iloc[-1]
 
-    # Determine the trading signal based on the color change
-    if current_color == 'Bull' and last_color == 'Bull':
-        return "Bull"
-    elif current_color == 'Bear' and last_color == 'Bear':
-        return "Bear"
-    elif current_color == 'Bull' and last_color == 'Bear':
-        return "Buy"
-    elif current_color == 'Bear' and last_color == 'Bull':
-        return "Sell"
-    else:
-        return "None"
+        for i in range(1, len(ha_color)):
+            if ha_color.iloc[i] == ha_color.iloc[i - 1]:
+                consecutive_count += 1
+            else:
+                consecutive_count = 1
+                current_color = ha_color.iloc[i]
+
+        # Calculate cedepth and pedepth
+        if current_color == 'green':
+            cedepth = min(consecutive_count, 9)
+            pedepth = 1
+        else:
+            cedepth = 1
+            pedepth = min(consecutive_count, 9)
+
+        # Format depth values with signs
+        cedepth_str = f"+{cedepth}" if cedepth > 0 else f"{cedepth}"
+        pedepth_str = f"+{pedepth}" if pedepth > 0 else f"{pedepth}"
+
+        return cedepth_str, pedepth_str
+    except Exception as e:
+        return f"An error occurred: {e}"
 
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
-    data = fetch_data(ticker_symbol)
-    Signal = calculate_heikin_ashi_signals(data)
+    cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
     
-    # Print the HA signal as `Buy`, `Sell`, `Bull`, `Bear`, or `None`
-    print(f"Signal = {Signal}")
+    # Print depth values
+    print(f"cedepth = {cedepth}")
+    print(f"pedepth = {pedepth}")
 
 if __name__ == "__main__":
     main()
-
