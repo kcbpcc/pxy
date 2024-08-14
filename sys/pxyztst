@@ -4,7 +4,7 @@
 source ~/env/bin/activate
 
 # Change to the script's directory
-cd ~/pxy/sys/exe/run/skc
+cd ~/pxy/sys/exe/run/SKC
 
 # Run the Python script
 python3 ztestskc.py
