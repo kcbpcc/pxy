@@ -3,19 +3,14 @@ import yfinance as yf
 import pandas as pd
 from rich.console import Console
 from colorama import Fore, Style, init
-from mktpxy import get_market_check
-from utcpxy import peak_time
+from depthpxy import calculate_consecutive_candles
 from macdpxy import calculate_macd_signal
 from smapxy import check_index_status
-from depthpxy import calculate_consecutive_candles
 
-# Initialize Colorama and Rich Console
-init(autoreset=True)
+init(autoreset=True)  # Initialize Colorama
+
 console = Console()
-
-# Suppress specific warnings
-warnings.filterwarnings("ignore", category=FutureWarning)
-warnings.filterwarnings("ignore", category=UserWarning)
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 OHLC_COLUMNS = ['Open', 'High', 'Low', 'Close']
 
@@ -26,7 +21,7 @@ def get_nifty50_data(period="5d"):
         ohlc_data = nifty_data[OHLC_COLUMNS]
         return ohlc_data
     except Exception as e:
-        console.print(f"[bold red]Error fetching data:[/bold red] {e}")
+        print(f"Error fetching data: {e}")
         return pd.DataFrame()
 
 def get_previous_day_close(df):
@@ -68,7 +63,7 @@ def dayprinter(o, h, l, c, prev_close):
         print(Fore.LIGHTBLACK_EX + '█' * m_length)
     
     except Exception as e:
-        console.print(f"[bold red]Error in dayprinter:[/bold red] {e}")
+        pass
 
 def fetch_data(symbol):
     data = yf.Ticker(symbol).history(period="5d", interval="1m")
@@ -86,20 +81,42 @@ def calculate_heikin_ashi_colors(data):
     candle_sequence = f'{"".join(colors)}'
     return candle_sequence, current_color, last_closed_color
 
+def calculate_last_twenty_heikin_ashi_colors(symbol):
+    data = fetch_data(symbol)
+    return calculate_heikin_ashi_colors(data)
+
+def get_market_check(symbol):
+    candle_sequence, current_color, last_closed_color = calculate_last_twenty_heikin_ashi_colors(symbol)
+
+    if current_color == 'Bear' and last_closed_color == 'Bear':
+        market_signal = 'Bear'
+    elif current_color == 'Bull' and last_closed_color == 'Bull':
+        market_signal = 'Bull'
+    elif current_color == 'Bear' and last_closed_color == 'Bull':
+        market_signal = 'Sell'
+    elif current_color == 'Bull' and last_closed_color == 'Bear':
+        market_signal = 'Buy'
+    else:
+        market_signal = 'None'
+
+    return candle_sequence, market_signal
+
 def get_stock_action(ticker):
-    ha_action, stock_power, day_change, open_change = None, 0.0, 0.0, 0.0
+    ha_action = None
+    stock_power = 0.0
+    day_change = 0.0
+    open_change = 0.0
+
     try:
         data = yf.Ticker(ticker).history(period="5d")
+
         today_open = data['Open'].iloc[-1]
         today_high = data['High'].iloc[-1]
         today_low = data['Low'].iloc[-1]
         current_price = data['Close'].iloc[-1]
 
-        today_average = (today_open + today_high + today_low + current_price) / 4
         yesterday_close = data['Close'].iloc[-2]
-        yesterday_open = data['Open'].iloc[-2]
-
-        yesterday_average = (yesterday_close + yesterday_open + today_open) / 3
+        yesterday_open = data['Open'].iloc[-2']
 
         raw_stock_power = (current_price - (today_low - 0.01)) / (abs(today_high + 0.01) - abs(today_low - 0.01))
         stock_power = round(max(0.1, min(raw_stock_power, 1.0)), 2)
@@ -112,28 +129,39 @@ def get_stock_action(ticker):
         ha_action = "Bullish" if ha_close.iloc[-1] > ha_open.iloc[-1] else "Bearish"
 
     except Exception as e:
-        console.print(f"[bold red]Error in get_stock_action:[/bold red] {e}")
+        pass
 
     return ha_action, stock_power, day_change, open_change
 
-def main():
-    ticker_symbol = '^NSEI'
-    ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
-    
-    console.print(f"Ticker: {ticker_symbol}")
-    console.print(f"Heikin-Ashi Action: {ha_action}")
-    console.print(f"Stock Power: {stock_power}")
-    console.print(f"Day Change (%): {day_change}")
-    console.print(f"Open Change (%): {open_change}")
+ticker_symbol = '^NSEI'
+ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
 
-    candle_sequence, market_signal = get_market_check(ticker_symbol)
-    console.print(f"Candle Sequence: {candle_sequence}")
-    console.print(f"Market Signal: {market_signal}")
+print(f"Ticker: {ticker_symbol}")
+print(f"Heikin-Ashi Action: {ha_action}")
+print(f"Stock Power: {stock_power}")
+print(f"Day Change (%): {day_change}")
+print(f"Open Change (%): {open_change}")
 
-    cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
-    console.print(f"CEDepth: {cedepth}")
-    console.print(f"PEDepth: {pedepth}")
+candle_sequence, market_signal = get_market_check(ticker_symbol)
+print(f"Candle Sequence: {candle_sequence}")
+print(f"Market Signal: {market_signal}")
 
-if __name__ == "__main__":
-    main()
+# Additional functions for MACD signal, SMA check, and consecutive candles
+def get_macd_signal(symbol):
+    return calculate_macd_signal(symbol)
+
+def check_index_trend(symbol):
+    return check_index_status(symbol)
+
+def get_consecutive_candles(symbol):
+    return calculate_consecutive_candles(symbol)
+
+# Example calls for additional functions
+macd_signal = get_macd_signal(ticker_symbol)
+index_trend = check_index_trend(ticker_symbol)
+consecutive_candles = get_consecutive_candles(ticker_symbol)
+
+print(f"MACD Signal: {macd_signal}")
+print(f"Index Trend: {index_trend}")
+print(f"Consecutive Candles: {consecutive_candles}")
 
