@@ -146,8 +146,8 @@ def calculate_consecutive_candles(tickerSymbol):
 
 # Define the ticker symbol and width for alignment
 ticker_symbol = 'AAPL'  # Replace with actual ticker symbol
-width_left = 15  # Adjust width for left-aligned fields
-width_right = 15  # Adjust width for right-aligned fields
+width_left = 21  # Adjust width for left-aligned fields
+width_right = 21  # Adjust width for right-aligned fields
 
 # Get stock action and depth value
 ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
