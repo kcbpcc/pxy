@@ -79,7 +79,7 @@ def get_stock_action(ticker):
 
     except Exception as e:
         # Ignore errors during data download
-        pass
+        print(f"Error fetching stock action data: {e}")
 
     return ha_action, stock_power, day_change, open_change  # Return calculated values
 
@@ -151,11 +151,12 @@ width_right = 10  # Adjust width for right-aligned fields
 
 # Get stock action and depth value
 ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
-depth_value = 0  # Replace with your actual depth value retrieval method
+market_signal = get_market_check(ticker_symbol)  # Added definition
+sma = check_index_status(ticker_symbol)  # Added definition
+depth_value, _ = calculate_consecutive_candles(ticker_symbol)  # Added definition
 
 # Print statements with alignment
 print(f"{'Ticker:' + ticker_symbol:<{width_left}}{('Action:' + ha_action):<{width_right}}")
 print(f"{'Power:' + f'{stock_power:.2f}':<{width_left}}{('Day%:' + f'{day_change:.2f}'):<{width_right}}")
 print(f"{'Open%:' + f'{open_change:.2f}':<{width_left}}{('Signal:' + market_signal):<{width_right}}")
 print(f"{'Move:' + sma:<{width_left}}{('Depth:' + str(depth_value)):<{width_right}}")
-
