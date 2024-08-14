@@ -144,6 +144,9 @@ def calculate_consecutive_candles(tickerSymbol):
     except Exception as e:
         return f"An error occurred: {e}"
 
+# Assuming you have a function to get the depth value
+depth_value = get_depth_value(ticker_symbol)  # Replace with your actual method
+
 # Print statements with alignment
 print(f"{'Ticker:' + ticker_symbol:<{width}}")
 print(f"{'Action:' + ha_action:<{width}}")
@@ -159,3 +162,4 @@ print(f"{'Move:' + sma:<{width}}")
 
 # Print the actual depth value
 print(f"{'Depth:':<{width}} {depth_value:>{width}}")
+
