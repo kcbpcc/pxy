@@ -147,7 +147,7 @@ def calculate_consecutive_candles(tickerSymbol):
 # Define the ticker symbol and width for alignment
 ticker_symbol = 'AAPL'  # Replace with actual ticker symbol
 width_left = 15  # Adjust width for left-aligned fields
-width_right = 10  # Adjust width for right-aligned fields
+width_right = 15  # Adjust width for right-aligned fields
 
 # Get stock action and depth value
 ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
@@ -157,7 +157,8 @@ depth_value, _ = calculate_consecutive_candles(ticker_symbol)  # Added definitio
 
 # Print statements with alignment
 print(f"{'Ticker:' + ticker_symbol:<{width_left}}{('Action:' + ha_action):>{width_right}}")
-print(f"{'Power:' + f'{stock_power:.2f}':<{width_left}}{('Day%:' + f'{day_change:.2f}'):{width_right}}")
+print(f"{'Power:' + f'{stock_power:.2f}':<{width_left}}{('Day%:' + f'{day_change:.2f}'):>{width_right}}")
 print(f"{'Open%:' + f'{open_change:.2f}':<{width_left}}{('Signal:' + market_signal):>{width_right}}")
 print(f"{'Move:' + sma:<{width_left}}{('Depth:' + str(depth_value)):{width_right}}")
+
 
