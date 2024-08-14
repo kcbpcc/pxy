@@ -144,14 +144,27 @@ def calculate_consecutive_candles(tickerSymbol):
     except Exception as e:
         return f"An error occurred: {e}"
 
+from colorama import Fore, Style, init
+
+# Initialize colorama
+init()
+
 # Main Execution
 ticker_symbol = '^NSEI'  # You can change this to any valid ticker symbol
 ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
 print(f"{'Ticker:':<20} {ticker_symbol:>21}")
 print(f"{'Heikin-Ashi Action:':<20} {ha_action:>21}")
-print(f"{'Stock Power:':<20} {stock_power:>21.2f}")
-print(f"{'Day Change (%):':<20} {day_change:>21.2f}")
-print(f"{'Open Change (%):':<20} {open_change:>21.2f}")
+
+# Function to color the output based on value
+def color_value(value):
+    if value < 0:
+        return f"{Fore.RED}{value:>21.2f}{Style.RESET_ALL}"
+    else:
+        return f"{Fore.GREEN}{value:>21.2f}{Style.RESET_ALL}"
+
+print(f"{'Stock Power:':<20} {color_value(stock_power)}")
+print(f"{'Day Change (%):':<20} {color_value(day_change)}")
+print(f"{'Open Change (%):':<20} {color_value(open_change)}")
 
 market_signal = get_market_check(ticker_symbol)
 print(f"{'Market Signal:':<20} {market_signal:>21}")
@@ -160,6 +173,6 @@ sma = check_index_status(ticker_symbol)
 print(f"{'Index SMA:':<20} {sma:>21}")
 
 cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
-print(f"{'Consecutive Depths:':<20} {(cedepth-pedepth):>21}")
-
-
+# Calculate and color the difference
+depth_diff = cedepth - pedepth
+print(f"{'Consecutive Depths:':<20} {color_value(depth_diff)}")
