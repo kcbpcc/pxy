@@ -144,6 +144,22 @@ def calculate_consecutive_candles(tickerSymbol):
     except Exception as e:
         return f"An error occurred: {e}"
 
+def calculate_macd(tickerSymbol):
+    try:
+        # Fetch data for the ticker
+        data = yf.Ticker(tickerSymbol).history(period="5d", interval="1m")
+
+        # Calculate MACD values
+        exp1 = data['Close'].ewm(span=12, adjust=False).mean()
+        exp2 = data['Close'].ewm(span=26, adjust=False).mean()
+        macd = exp1 - exp2
+        signal = macd.ewm(span=9, adjust=False).mean()
+        
+        # Determine if MACD is trending up or down
+        macd_trend = "Up" if macd.iloc[-1] > signal.iloc[-1] else "Down"
+
+        return macd_trend
+        
 # Define the ticker symbol and width for alignment
 ticker_symbol = '^NSEI'  # Replace with actual ticker symbol
 width_left = 21  # Adjust width for left-aligned fields
@@ -154,9 +170,9 @@ ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol
 market_signal = get_market_check(ticker_symbol)  # Added definition
 sma = check_index_status(ticker_symbol)  # Added definition
 depth_value, _ = calculate_consecutive_candles(ticker_symbol)  # Added definition
-
+macd_trend = calculate_macd(tickerSymbol)
 # Print statements with alignment
-print(f"{'Index:' + ticker_symbol:<{width_left}}{'Act:' + ha_action:>{width_right}}")
+print(f"{'MACD:' + macd_trend:<{width_left}}{'Act:' + ha_action:>{width_right}}")
 print(f"{'Power:' + f'{stock_power:.2f}':<{width_left}}{'Day%:' + f'{day_change:.2f}':>{width_right}}")
 print(f"{'Open%:' + f'{open_change:.2f}':<{width_left}}{'Depth:' + str(depth_value):>{width_right}}")
 print(f"{'OnSMA:' + sma:<{width_left}}{'Sign:' + market_signal:>{width_right}}")
