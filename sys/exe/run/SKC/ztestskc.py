@@ -26,7 +26,7 @@ def main():
     current_price = get_nifty50_current_price()
     pe_strike, ce_strike = calculate_strikes(current_price)
     if pe_strike is not None and ce_strike is not None:
-        print(f"pe_strikee: {pe_strike}")
+        print(f"pprice: {pe_strike}")
         print(f"ce_strike: {ce_strike}")
 
 if __name__ == "__main__":
