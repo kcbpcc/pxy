@@ -1,6 +1,7 @@
 import yfinance as yf
 import pandas as pd
 import warnings
+import time  # Import the time module
 from rich.console import Console
 from colorama import Fore, Style, init
 
@@ -190,3 +191,4 @@ print(f"Market Signal: {market_signal}")
 # Example usage of calculate_consecutive_candles
 cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
 print(f"Consecutive Candle Depths: Cedepth = {cedepth}, Pedepth = {pedepth}")
+
