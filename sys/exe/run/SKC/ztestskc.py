@@ -160,6 +160,22 @@ market_signal = get_market_check(ticker_symbol)  # Added definition
 sma = check_index_status(ticker_symbol)  # Added definition
 depth_value, _ = calculate_consecutive_candles(ticker_symbol)  # Added definition
 
+from rich.console import Console
+
+# Initialize the console object from rich
+console = Console()
+
+# Define the ticker symbol and width for alignment
+ticker_symbol = 'AAPL'  # Replace with actual ticker symbol
+width_left = 21  # Adjust width for left-aligned fields
+width_right = 21  # Adjust width for right-aligned fields
+
+# Get stock action and depth value
+ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
+market_signal = get_market_check(ticker_symbol)  # Added definition
+sma = check_index_status(ticker_symbol)  # Added definition
+depth_value, _ = calculate_consecutive_candles(ticker_symbol)  # Added definition
+
 # Define colors, emojis, and arrows based on context
 def get_color_for_value(value, positive_color='green', negative_color='red', default_color='white'):
     if value > 0:
@@ -213,6 +229,11 @@ ha_action_color = get_color_for_context(ha_action)
 market_signal_color = get_color_for_context(market_signal)
 sma_color = get_color_for_context(sma)
 
+# Emojis for specific contexts
+ha_action_emoji = get_emoji_for_context(ha_action)
+market_signal_emoji = get_emoji_for_context(market_signal)
+sma_emoji = get_emoji_for_context(sma)
+
 # Arrows for specific numerical values
 power_arrow = get_arrow_for_value(stock_power)
 day_change_arrow = get_arrow_for_value(day_change)
@@ -223,3 +244,4 @@ console.print(f"{'Ticker:' + ticker_symbol:<{width_left}}{'Action:' + ha_action 
 console.print(f"{'Power:' + f'{stock_power:.2f}' + ' ' + power_arrow:<{width_left}}{'Day%:' + f'{day_change:.2f}' + ' ' + day_change_arrow:>{width_right}}", style=power_color)
 console.print(f"{'Open%:' + f'{open_change:.2f}' + ' ' + open_change_arrow:<{width_left}}{'Signal:' + market_signal + ' ' + market_signal_emoji:>{width_right}}", style=open_change_color)
 console.print(f"{'Move:' + sma + ' ' + sma_emoji:<{width_left}}{'Depth:' + str(depth_value):>{width_right}}", style='white on black')
+
