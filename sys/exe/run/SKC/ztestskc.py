@@ -1,51 +1,53 @@
-# calculate_consecutive_candles.py
+# day_metrics.py
 import yfinance as yf
 import pandas as pd
 
-def calculate_consecutive_candles(ticker_symbol):
-    try:
-        # Get data on this ticker
-        ticker_data = yf.Ticker(ticker_symbol)
-        ticker_df = ticker_data.history(period='5d', interval='1m')
+def fetch_data(symbol, period="5d", interval="1d"):
+    """
+    Fetch historical daily data for the specified period and symbol.
+    """
+    data = yf.Ticker(symbol).history(period=period, interval=interval)
+    return data
 
-        # Calculate Heikin-Ashi candles
-        ha_close = (ticker_df['Open'] + ticker_df['High'] + ticker_df['Low'] + ticker_df['Close']) / 4
-        ha_open = ha_close.shift(1)
-        ha_color = pd.Series('green', index=ha_close.index)
-        ha_color[ha_close < ha_open] = 'red'
+def calculate_day_metrics(data):
+    """
+    Calculate Day Change, Open Change, and Day Power.
+    """
+    # Ensure there are at least two days of data
+    if len(data) < 2:
+        return "Not enough data"
 
-        # Calculate consecutive candles sequence
-        consecutive_count = 1
-        current_color = ha_color.iloc[-1]
+    today_open = data['Open'].iloc[-1]
+    today_high = data['High'].iloc[-1]
+    today_low = data['Low'].iloc[-1]
+    current_price = data['Close'].iloc[-1]
+    yesterday_close = data['Close'].iloc[-2]
 
-        for i in range(1, len(ha_color)):
-            if ha_color.iloc[i] == ha_color.iloc[i - 1]:
-                consecutive_count += 1
-            else:
-                consecutive_count = 1
-                current_color = ha_color.iloc[i]
+    # Calculate Day Change
+    day_change = round(((current_price - yesterday_close) / yesterday_close) * 100, 2)
+    
+    # Calculate Open Change
+    open_change = round(((current_price - today_open) / today_open) * 100, 2)
 
-        # Calculate cedepth and pedepth
-        if current_color == 'green':
-            cedepth = min(consecutive_count, 9)
-            pedepth = 1
-        else:
-            cedepth = 1
-            pedepth = min(consecutive_count, 9)
+    # Calculate Day Power
+    raw_day_power = (current_price - (today_low - 0.01)) / (abs(today_high + 0.01) - abs(today_low - 0.01))
+    day_power = round(max(0.1, min(raw_day_power, 1.0)), 2)
 
-        # Calculate and format the depth
-        depth = cedepth - pedepth
-
-        return depth
-    except Exception as e:
-        return f"An error occurred: {e}"
+    return day_change, open_change, day_power
 
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
-    depth = calculate_consecutive_candles(ticker_symbol)
+    data = fetch_data(ticker_symbol)
+    metrics = calculate_day_metrics(data)
     
-    # Print depth value
-    print(f"depth = {depth}")
+    if metrics == "Not enough data":
+        print("Not enough data to calculate metrics.")
+    else:
+        day_change, open_change, day_power = metrics
+        # Print metrics
+        print(f"Day Change: {day_change}%")
+        print(f"Open Change: {open_change}%")
+        print(f"Day Power: {day_power}")
 
 if __name__ == "__main__":
     main()
