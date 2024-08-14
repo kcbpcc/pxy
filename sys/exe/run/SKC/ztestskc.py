@@ -147,7 +147,7 @@ def calculate_consecutive_candles(tickerSymbol):
 # Main Execution
 ticker_symbol = '^NSEI'  # You can change this to any valid ticker symbol
 ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
-print(f"{'Ticker:':<20} {ticker_symbol:>21}")
+print(f"{'Ticker:{ticker_symbol}':<20} {ticker_symbol:>21}")
 print(f"{'Action:':<20} {ha_action:>21}")
 print(f"{'Power:':<20} {stock_power:>21.2f}")
 print(f"{'Day%:':<20} {day_change:>21.2f}")
