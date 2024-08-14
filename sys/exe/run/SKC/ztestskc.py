@@ -167,4 +167,3 @@ print(f"{'Move:' + sma:<{width}}")
 
 # Print the actual depth value
 print(f"{'Depth:' + str(depth_value):<{width}}")
-
