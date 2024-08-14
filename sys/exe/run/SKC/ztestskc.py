@@ -173,3 +173,4 @@ cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
 # Calculate and color the difference
 depth_diff = cedepth - pedepth
 print(f"{'Consecutive Depths:':<20} {color_value(depth_diff)}")
+
