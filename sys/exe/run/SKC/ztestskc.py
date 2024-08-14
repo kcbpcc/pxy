@@ -144,6 +144,6 @@ macd_trend = calculate_macd(data)
 # Print statements with alignment
 print(f"{'Power:' + f'{stock_power:.2f}':<{width_left}}{'Day%:' + f'{day_change:.2f}':>{width_right}}")
 print(f"{'Open%:' + f'{open_change:.2f}':<{width_left}}{'Depth:' + str(depth_value):>{width_right}}")
-print(f"{'MACD:' + macd_trend:<{width_left}}{'Act:' + ha_action:>{width_right}}")
+print(f"{'MACD:' + macd_trend:<{width_left}}{'' + ha_action:>{width_right}}")
 print(f"{'OnSMA:' + sma:<{width_left}}{'Sign:' + market_signal:>{width_right}}")
 
