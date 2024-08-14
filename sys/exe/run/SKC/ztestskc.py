@@ -116,7 +116,7 @@ def get_stock_action(ticker):
         current_price = data['Close'].iloc[-1]
 
         yesterday_close = data['Close'].iloc[-2]
-        yesterday_open = data['Open'].iloc[-2']
+        yesterday_open = data['Open'].iloc[-2]
 
         raw_stock_power = (current_price - (today_low - 0.01)) / (abs(today_high + 0.01) - abs(today_low - 0.01))
         stock_power = round(max(0.1, min(raw_stock_power, 1.0)), 2)
@@ -164,4 +164,5 @@ consecutive_candles = get_consecutive_candles(ticker_symbol)
 print(f"MACD Signal: {macd_signal}")
 print(f"Index Trend: {index_trend}")
 print(f"Consecutive Candles: {consecutive_candles}")
+
 
