@@ -39,7 +39,8 @@ def main():
     Signal = calculate_heikin_ashi_signals(data)
     
     # Print the HA signal as `Buy`, `Sell`, `Bull`, `Bear`, or `None`
-    print(f"Signal = {ha_signal}")
+    print(f"Signal = {Signal}")
 
 if __name__ == "__main__":
     main()
+
