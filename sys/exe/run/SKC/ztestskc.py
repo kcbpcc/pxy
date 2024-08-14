@@ -36,10 +36,10 @@ def calculate_heikin_ashi_signals(data):
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
     data = fetch_data(ticker_symbol)
-    ha_signal = calculate_heikin_ashi_signals(data)
+    Signal = calculate_heikin_ashi_signals(data)
     
     # Print the HA signal as `Buy`, `Sell`, `Bull`, `Bear`, or `None`
-    print(f"HA Signal = {ha_signal}")
+    print(f"Signal = {ha_signal}")
 
 if __name__ == "__main__":
     main()
