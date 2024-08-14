@@ -7,4 +7,4 @@ source ~/env/bin/activate
 cd ~/pxy/sys/exe/run/skc
 
 # Run the Python script
-python3 ztstskc.py
+python3 ztestskc.py
