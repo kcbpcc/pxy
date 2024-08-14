@@ -1,5 +1,6 @@
 import warnings
 import yfinance as yf
+import pandas as pd
 from rich.console import Console
 from colorama import Fore, Style, init, deinit
 
@@ -15,6 +16,11 @@ def get_nifty50_data(period="1d"):
     ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
     try:
         nifty_data = yf.Ticker(ticker_symbol).history(period=period)
+        if nifty_data.empty:
+            print("No data retrieved from Yahoo Finance.")
+        else:
+            print(f"Data retrieved for period '{period}':")
+            print(nifty_data.head())
         ohlc_data = nifty_data[OHLC_COLUMNS]
         return ohlc_data
     except Exception as e:
@@ -25,6 +31,7 @@ def get_previous_day_close(df):
     if len(df) >= 2:
         return df.iloc[-2]['Close']
     else:
+        print("Not enough data to retrieve previous day close.")
         return None
 
 def dayprinter(o, h, l, c, prev_close):
@@ -52,11 +59,13 @@ def dayprinter(o, h, l, c, prev_close):
         print(Fore.LIGHTBLACK_EX + '█' * m_length)
     
     except Exception as e:
-        pass
+        print(f"Error in dayprinter: {e}")
 
 def main():
     nifty50_ohlc = get_nifty50_data()
     if not nifty50_ohlc.empty:
+        print("Nifty50 OHLC data:")
+        print(nifty50_ohlc)
         today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
         previous_day_close = get_previous_day_close(nifty50_ohlc)
         if previous_day_close is not None:
@@ -70,3 +79,4 @@ if __name__ == "__main__":
     main()
 
 deinit()  # Reset Colorama settings
+
