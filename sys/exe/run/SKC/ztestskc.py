@@ -2,7 +2,6 @@
 from rich import print
 import sys
 import yfinance as yf
-import time
 import warnings
 import pandas as pd
 
@@ -23,20 +22,15 @@ def calculate_heikin_ashi_colors(data):
     ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
     ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
-    # Calculate the colors of the last 3 closed candles (oldest to latest)
-    colors = ['🔴' if ha_close.iloc[-i] < ha_open.iloc[-i] else '🟢' for i in range(1, min(4, len(ha_close) + 1))][::-1]
-
     current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
     last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
 
-    # Rich print statement for all candle colors
-    candle_sequence = f'{"".join(colors)}'
-    return candle_sequence, current_color, last_closed_color
+    return current_color, last_closed_color
 
 def get_market_check(symbol):
     # Call the function to get colors
     data = fetch_data(symbol)
-    candle_sequence, current_color, last_closed_color = calculate_heikin_ashi_colors(data)
+    current_color, last_closed_color = calculate_heikin_ashi_colors(data)
 
     # Determine the market check based on the candle colors
     if current_color == 'Bear' and last_closed_color == 'Bear':
@@ -50,7 +44,7 @@ def get_market_check(symbol):
     else:
         market_signal = 'None'
 
-    return candle_sequence, market_signal
+    return market_signal
 
 def get_stock_action(ticker):
     ha_action = None
@@ -103,13 +97,13 @@ def check_index_status(index_symbol):
         last_200sma = data['200SMA'].iloc[-1]
         current_price = data['Close'].iloc[-1]
 
-        # Check sma
+        # Check SMA
         if current_price > last_50sma:
-            return "up"
+            return "Up"
         elif current_price < last_50sma:
-            return "down"
+            return "Down"
         else:
-            return "side"
+            return "Side"
     except Exception as e:
         return f"An error occurred: {e}"
 
@@ -153,18 +147,18 @@ def calculate_consecutive_candles(tickerSymbol):
 # Main Execution
 ticker_symbol = '^NSEI'  # You can change this to any valid ticker symbol
 ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
-print(f"Ticker: {ticker_symbol}")
-print(f"Heikin-Ashi Action: {ha_action}")
-print(f"Stock Power: {stock_power}")
-print(f"Day Change (%): {day_change}")
-print(f"Open Change (%): {open_change}")
+print(f"{'Ticker:':<20} {ticker_symbol}")
+print(f"{'Heikin-Ashi Action:':<20} {ha_action}")
+print(f"{'Stock Power:':<20} {stock_power:.2f}")
+print(f"{'Day Change (%):':<20} {day_change:.2f}")
+print(f"{'Open Change (%):':<20} {open_change:.2f}")
 
-candle_sequence, market_signal = get_market_check(ticker_symbol)
-print(f"Candle Sequence: {candle_sequence}")
-print(f"Market Signal: {market_signal}")
+market_signal = get_market_check(ticker_symbol)
+print(f"{'Market Signal:':<20} {market_signal}")
 
 sma = check_index_status(ticker_symbol)
-print(f"Index SMA: {sma}")
+print(f"{'Index SMA:':<20} {sma}")
 
 cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
-print(f"Consecutive Depths: CE: {cedepth}, PE: {pedepth}")
+print(f"{'Consecutive Depths:':<20} CE: {cedepth}, PE: {pedepth}")
+
