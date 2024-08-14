@@ -103,7 +103,7 @@ def check_index_status(index_symbol):
         last_200sma = data['200SMA'].iloc[-1]
         current_price = data['Close'].iloc[-1]
 
-        # Check trend
+        # Check sma
         if current_price > last_50sma:
             return "up"
         elif current_price < last_50sma:
@@ -163,8 +163,8 @@ candle_sequence, market_signal = get_market_check(ticker_symbol)
 print(f"Candle Sequence: {candle_sequence}")
 print(f"Market Signal: {market_signal}")
 
-trend = check_index_status(ticker_symbol)
-print(f"Index Trend: {trend}")
+sma = check_index_status(ticker_symbol)
+print(f"Index SMA: {sma}")
 
 cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
 print(f"Consecutive Depths: CE: {cedepth}, PE: {pedepth}")
