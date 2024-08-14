@@ -1,7 +1,7 @@
 import yfinance as yf
 import pandas as pd
 import warnings
-import time  # Import the time module
+import time
 from rich.console import Console
 from colorama import Fore, Style, init
 
@@ -81,11 +81,8 @@ def calculate_heikin_ashi_colors(data):
 def calculate_last_twenty_heikin_ashi_colors(symbol):
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
-    if START_TIME <= current_utc_time < END_TIME:
-        data = yf.Ticker(symbol).history(period="5d", interval="5m")
-    else:
-        data = fetch_data(symbol)
-
+    # Always fetch data regardless of time
+    data = fetch_data(symbol)
     return calculate_heikin_ashi_colors(data)
 
 def get_market_check(symbol):
