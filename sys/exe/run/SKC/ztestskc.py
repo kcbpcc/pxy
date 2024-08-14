@@ -33,21 +33,19 @@ def calculate_consecutive_candles(ticker_symbol):
             cedepth = 1
             pedepth = min(consecutive_count, 9)
 
-        # Format depth values with signs
-        cedepth_str = f"+{cedepth}" if cedepth > 0 else f"{cedepth}"
-        pedepth_str = f"+{pedepth}" if pedepth > 0 else f"{pedepth}"
+        # Calculate and format the depth
+        depth = cedepth - pedepth
 
-        return cedepth_str, pedepth_str
+        return depth
     except Exception as e:
         return f"An error occurred: {e}"
 
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
-    cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
+    depth = calculate_consecutive_candles(ticker_symbol)
     
-    # Print depth values
-    print(f"cedepth = {cedepth}")
-    print(f"pedepth = {pedepth}")
+    # Print depth value
+    print(f"depth = {depth}")
 
 if __name__ == "__main__":
     main()
