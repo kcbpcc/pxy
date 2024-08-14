@@ -1,9 +1,10 @@
+# Import necessary modules
 from rich import print
 import sys
 import yfinance as yf
 import time
 import warnings
-import logging
+import pandas as pd
 
 # Set the python3IOENCODING environment variable to 'utf-8'
 sys.stdout.reconfigure(encoding='utf-8')
@@ -12,79 +13,54 @@ sys.stdout.reconfigure(encoding='utf-8')
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 
-# Configure logging for better error visibility
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-def fetch_data(symbol, period="5d", interval="1m"):
-    """Fetch historical data for the given symbol."""
-    try:
-        data = yf.Ticker(symbol).history(period=period, interval=interval)
-        if data.empty:
-            raise ValueError(f"No data retrieved for symbol {symbol}.")
-        return data
-    except Exception as e:
-        logging.error(f"Error fetching data for {symbol}: {e}")
-        return None
+def fetch_data(symbol):
+    # Fetch real-time data for the specified interval and symbol
+    data = yf.Ticker(symbol).history(period="5d", interval="1m")
+    return data
 
 def calculate_heikin_ashi_colors(data):
-    """Calculate the Heikin-Ashi colors based on historical data."""
-    try:
-        if data is None or data.empty:
-            raise ValueError("Invalid or empty data provided.")
+    # Calculate Heikin-Ashi candles
+    ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
+    ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
 
-        # Calculate Heikin-Ashi candles
-        ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
-        ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
+    # Calculate the colors of the last 3 closed candles (oldest to latest)
+    colors = ['🟥' if ha_close.iloc[-i] < ha_open.iloc[-i] else '🟩' for i in range(1, min(9, len(ha_close) + 1))][::-1]
 
-        # Calculate the colors of the last 3 closed candles (oldest to latest)
-        colors = ['🟥' if ha_close.iloc[-i] < ha_open.iloc[-i] else '🟩' for i in range(1, min(4, len(ha_close) + 1))][::-1]
+    current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
+    last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
 
-        current_color = 'Bear' if ha_close.iloc[-1] < ha_open.iloc[-1] else 'Bull'
-        last_closed_color = 'Bear' if ha_close.iloc[-2] < ha_open.iloc[-2] else 'Bull'
-
-        # Return the sequence and status
-        candle_sequence = "".join(colors)
-        return candle_sequence, current_color, last_closed_color
-    except Exception as e:
-        logging.error(f"Error calculating Heikin-Ashi colors: {e}")
-        return None, None, None
+    # Rich print statement for all candle colors
+    candle_sequence = f'{"".join(colors)}'
+    return candle_sequence, current_color, last_closed_color
 
 def get_market_check(symbol):
-    """Determine market trend based on Heikin-Ashi colors."""
-    try:
-        data = fetch_data(symbol, period="5d", interval="5m")
-        candle_sequence, current_color, last_closed_color = calculate_heikin_ashi_colors(data)
+    # Call the function to get colors
+    data = fetch_data(symbol)
+    candle_sequence, current_color, last_closed_color = calculate_heikin_ashi_colors(data)
 
-        if not candle_sequence or not current_color or not last_closed_color:
-            raise ValueError("Failed to retrieve valid candle colors.")
+    # Determine the market check based on the candle colors
+    if current_color == 'Bear' and last_closed_color == 'Bear':
+        market_signal = 'Bear'
+    elif current_color == 'Bull' and last_closed_color == 'Bull':
+        market_signal = 'Bull'
+    elif current_color == 'Bear' and last_closed_color == 'Bull':
+        market_signal = 'Sell'
+    elif current_color == 'Bull' and last_closed_color == 'Bear':
+        market_signal = 'Buy'
+    else:
+        market_signal = 'None'
 
-        # Determine the market signal based on the candle colors
-        if current_color == 'Bear' and last_closed_color == 'Bear':
-            market_signal = 'Bear'
-        elif current_color == 'Bull' and last_closed_color == 'Bull':
-            market_signal = 'Bull'
-        elif current_color == 'Bear' and last_closed_color == 'Bull':
-            market_signal = 'Sell'
-        elif current_color == 'Bull' and last_closed_color == 'Bear':
-            market_signal = 'Buy'
-        else:
-            market_signal = 'None'
-
-        return candle_sequence, market_signal
-    except Exception as e:
-        logging.error(f"Error determining market check for {symbol}: {e}")
-        return None, None
+    return candle_sequence, market_signal
 
 def get_stock_action(ticker):
-    """Analyze the stock action based on Heikin-Ashi and price movements."""
     ha_action = None
     stock_power = 0.0
     day_change = 0.0
     open_change = 0.0
 
     try:
-        # Fetch historical data
-        data = fetch_data(ticker, period="5d")
+        # Download data for a fixed 5-day period
+        data = yf.Ticker(ticker).history(period="5d")
 
         # Extract today's open, yesterday's close, and current price
         today_open = data['Open'].iloc[-1]
@@ -108,24 +84,88 @@ def get_stock_action(ticker):
         ha_action = "Bullish" if ha_close.iloc[-1] > ha_open.iloc[-1] else "Bearish"
 
     except Exception as e:
-        logging.error(f"Error in stock action calculation for {ticker}: {e}")
+        # Ignore errors during data download
+        pass
 
-    return ha_action, stock_power, day_change, open_change
+    return ha_action, stock_power, day_change, open_change  # Return calculated values
 
-# Example usage
+def check_index_status(index_symbol):
+    try:
+        # Download historical data
+        data = yf.Ticker(index_symbol).history(period="5d", interval="1m")
+
+        # Calculate SMA
+        data['50SMA'] = data['Close'].rolling(window=50).mean()
+        data['200SMA'] = data['Close'].rolling(window=200).mean()
+
+        # Get the last values of SMA and current price
+        last_50sma = data['50SMA'].iloc[-1]
+        last_200sma = data['200SMA'].iloc[-1]
+        current_price = data['Close'].iloc[-1]
+
+        # Check trend
+        if current_price > last_50sma:
+            return "up"
+        elif current_price < last_50sma:
+            return "down"
+        else:
+            return "side"
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+def calculate_consecutive_candles(tickerSymbol):
+    try:
+        # Get data on this ticker
+        tickerData = yf.Ticker(tickerSymbol)
+        tickerDf = tickerData.history(period='5d', interval='1m')
+
+        # Calculate Heiken Ashi candles
+        ha_close = (tickerDf['Open'] + tickerDf['High'] + tickerDf['Low'] + tickerDf['Close']) / 4
+        ha_open = ha_close.shift(1)
+        ha_color = pd.Series('green', index=ha_close.index)
+        ha_color[ha_close < ha_open] = 'red'
+
+        # Calculate consecutive candles sequence
+        consecutive_count = 1
+        current_color = None
+
+        for i in range(1, len(ha_color)):
+            if ha_color[i] == ha_color[i - 1]:
+                consecutive_count += 1
+            else:
+                consecutive_count = 1
+                current_color = ha_color[i]
+
+        # Calculate cedepth and pedepth
+        if current_color is not None:
+            if consecutive_count > 9:
+                consecutive_count = 9
+            if current_color == 'green':
+                cedepth = consecutive_count
+                pedepth = 1
+            else:
+                cedepth = 1
+                pedepth = consecutive_count
+            return cedepth, pedepth
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+# Main Execution
 ticker_symbol = '^NSEI'  # You can change this to any valid ticker symbol
-
-# Get stock action analysis
 ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
-
-# Print the results for stock action
 print(f"Ticker: {ticker_symbol}")
 print(f"Heikin-Ashi Action: {ha_action}")
 print(f"Stock Power: {stock_power}")
 print(f"Day Change (%): {day_change}")
 print(f"Open Change (%): {open_change}")
 
-# Call the market check function and print the candle sequence and market signal
 candle_sequence, market_signal = get_market_check(ticker_symbol)
 print(f"Candle Sequence: {candle_sequence}")
 print(f"Market Signal: {market_signal}")
+
+trend = check_index_status(ticker_symbol)
+print(f"Index Trend: {trend}")
+
+cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
+print(f"Consecutive Depths: CE: {cedepth}, PE: {pedepth}")
+
