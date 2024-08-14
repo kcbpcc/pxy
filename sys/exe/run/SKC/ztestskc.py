@@ -166,5 +166,5 @@ sma = check_index_status(ticker_symbol)
 print(f"{'Move:' + sma:<{width}}")
 
 # Print the actual depth value
-print(f"{'Depth:':<{width}} {depth_value:>{width}}")
+print(f"{'Depth:' + str(depth_value):<{width}}")
 
