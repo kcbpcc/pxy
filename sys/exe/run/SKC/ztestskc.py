@@ -145,7 +145,7 @@ def calculate_consecutive_candles(tickerSymbol):
         return f"An error occurred: {e}"
 
 # Define the ticker symbol and width for alignment
-ticker_symbol = 'AAPL'  # Replace with actual ticker symbol
+ticker_symbol = '^NSEI'  # Replace with actual ticker symbol
 width_left = 21  # Adjust width for left-aligned fields
 width_right = 21  # Adjust width for right-aligned fields
 
