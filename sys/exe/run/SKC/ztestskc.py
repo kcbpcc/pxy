@@ -1,7 +1,6 @@
 import yfinance as yf
 import pandas as pd
 import warnings
-import time
 from rich.console import Console
 from colorama import Fore, Style, init
 
@@ -81,8 +80,11 @@ def calculate_heikin_ashi_colors(data):
 def calculate_last_twenty_heikin_ashi_colors(symbol):
     current_utc_time = time.gmtime().tm_hour * 60 + time.gmtime().tm_min
 
-    # Always fetch data regardless of time
-    data = fetch_data(symbol)
+    if START_TIME <= current_utc_time < END_TIME:
+        data = yf.Ticker(symbol).history(period="5d", interval="5m")
+    else:
+        data = fetch_data(symbol)
+
     return calculate_heikin_ashi_colors(data)
 
 def get_market_check(symbol):
@@ -188,4 +190,3 @@ print(f"Market Signal: {market_signal}")
 # Example usage of calculate_consecutive_candles
 cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
 print(f"Consecutive Candle Depths: Cedepth = {cedepth}, Pedepth = {pedepth}")
-
