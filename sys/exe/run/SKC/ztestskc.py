@@ -160,6 +160,9 @@ print(f"{'Signal:' + market_signal:<20}")
 sma = check_index_status(ticker_symbol)
 print(f"{'Move:' + sma:<20}")
 
+depth_value = -2  # Example value for Depth
+print(f"{'Depth:':<20} {depth_value:>20}")
+
 
 cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
 print(f"{'Depth:':<20} {(cedepth-pedepth):>21}")
