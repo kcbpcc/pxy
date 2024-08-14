@@ -11,7 +11,7 @@ def fetch_data(symbol, period="5d", interval="1d"):
 
 def calculate_day_metrics(data):
     """
-    Calculate Day Change, Open Change, and Day Power.
+    Calculate Day Change (dChange), Open Change (oChange), and Day Power (dPower).
     """
     # Ensure there are at least two days of data
     if len(data) < 2:
@@ -23,17 +23,17 @@ def calculate_day_metrics(data):
     current_price = data['Close'].iloc[-1]
     yesterday_close = data['Close'].iloc[-2]
 
-    # Calculate Day Change
-    day_change = round(((current_price - yesterday_close) / yesterday_close) * 100, 2)
+    # Calculate Day Change (dChange)
+    dChange = round(((current_price - yesterday_close) / yesterday_close) * 100, 2)
     
-    # Calculate Open Change
-    open_change = round(((current_price - today_open) / today_open) * 100, 2)
+    # Calculate Open Change (oChange)
+    oChange = round(((current_price - today_open) / today_open) * 100, 2)
 
-    # Calculate Day Power
+    # Calculate Day Power (dPower)
     raw_day_power = (current_price - (today_low - 0.01)) / (abs(today_high + 0.01) - abs(today_low - 0.01))
-    day_power = round(max(0.1, min(raw_day_power, 1.0)), 2)
+    dPower = round(max(0.1, min(raw_day_power, 1.0)), 2)
 
-    return day_change, open_change, day_power
+    return dChange, oChange, dPower
 
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
@@ -43,11 +43,11 @@ def main():
     if metrics == "Not enough data":
         print("Not enough data to calculate metrics.")
     else:
-        day_change, open_change, day_power = metrics
+        dChange, oChange, dPower = metrics
         # Print metrics
-        print(f"Day Change: {day_change}%")
-        print(f"Open Change: {open_change}%")
-        print(f"Day Power: {day_power}")
+        print(f"dChange: {dChange}%")
+        print(f"oChange: {oChange}%")
+        print(f"dPower: {dPower}")
 
 if __name__ == "__main__":
     main()
