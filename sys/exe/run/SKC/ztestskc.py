@@ -160,6 +160,6 @@ sma = check_index_status(ticker_symbol)
 print(f"{'Index SMA:':<20} {sma:>40}")
 
 cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
-print(f"{'Consecutive Depths:':<20} {cedepth/cedepth:>40}")
+print(f"{'Consecutive Depths:':<20} {cedepth/pedepth:>40}")
 
 
