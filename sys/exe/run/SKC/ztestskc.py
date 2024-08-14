@@ -150,8 +150,8 @@ ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol
 print(f"{'Ticker:':<20} {ticker_symbol:>21}")
 print(f"{'Action:':<20} {ha_action:>21}")
 print(f"{'Power:':<20} {stock_power:>21.2f}")
-print(f"{'Change%:':<20} {day_change:>21.2f}")
-print(f"{'Change%:':<20} {open_change:>21.2f}")
+print(f"{'Day%:':<20} {day_change:>21.2f}")
+print(f"{'Open%:':<20} {open_change:>21.2f}")
 
 market_signal = get_market_check(ticker_symbol)
 print(f"{'Signal:':<20} {market_signal:>21}")
