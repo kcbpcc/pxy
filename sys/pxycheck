@@ -6,9 +6,9 @@ source ~/env/bin/activate
 cd ~/pxy/sys/exe/run/SKC
 
 read -p "Press Enter to run trndlnpxy.py..."
-python3 rmtknpxy.py
-python3 loginpxy.py
-python3 trndlnpxy.py
+#python3 rmtknpxy.py
+#python3 loginpxy.py
+#python3 trndlnpxy.py
 
 
 # Run the Python scripts sequentially with prompts
