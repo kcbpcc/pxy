@@ -27,14 +27,7 @@ def get_nifty50_data(period="1d"):
         print(f"Error fetching data: {e}")
         return pd.DataFrame()
 
-def get_previous_day_close(df):
-    if len(df) >= 2:
-        return df.iloc[-2]['Close']
-    else:
-        print("Not enough data to retrieve previous day close.")
-        return None
-
-def dayprinter(o, h, l, c, prev_close):
+def dayprinter(o, h, l, c):
     max_total_length = 42
     try:
         candle_length = h - l
@@ -64,14 +57,8 @@ def dayprinter(o, h, l, c, prev_close):
 def main():
     nifty50_ohlc = get_nifty50_data()
     if not nifty50_ohlc.empty:
-        print("Nifty50 OHLC data:")
-        print(nifty50_ohlc)
         today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
-        previous_day_close = get_previous_day_close(nifty50_ohlc)
-        if previous_day_close is not None:
-            dayprinter(*today_data, previous_day_close)
-        else:
-            print("Previous day close not available.")
+        dayprinter(*today_data)
     else:
         print("Unable to fetch data.")
 
