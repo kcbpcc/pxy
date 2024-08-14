@@ -148,21 +148,20 @@ def calculate_consecutive_candles(tickerSymbol):
 ticker_symbol = '^NSEI'  # You can change this to any valid ticker symbol
 ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
 
-print(f"{'Ticker:' + ticker_symbol:<20}")
-print(f"{'Action:' + ha_action:<20}")
-print(f"{'Power:' + f'{stock_power:.2f}':<20}")
-print(f"{'Day%:' + f'{day_change:.2f}':<20}")
-print(f"{'Open%:' + f'{open_change:.2f}':<20}")
+# Define the width for alignment
+width = 20
+
+print(f"{'Ticker:' + ticker_symbol:<{width}}")
+print(f"{'Action:' + ha_action:<{width}}")
+print(f"{'Power:' + f'{stock_power:.2f}':<{width}}")
+print(f"{'Day%:' + f'{day_change:.2f}':<{width}}")
+print(f"{'Open%:' + f'{open_change:.2f}':<{width}}")
 
 market_signal = get_market_check(ticker_symbol)
-print(f"{'Signal:' + market_signal:<20}")
+print(f"{'Signal:' + market_signal:<{width}}")
 
 sma = check_index_status(ticker_symbol)
-print(f"{'Move:' + sma:<20}")
+print(f"{'Move:' + sma:<{width}}")
 
 depth_value = -2  # Example value for Depth
-print(f"{'Depth:':<20} {depth_value:>20}")
-
-
-cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
-print(f"{'Depth:':<20} {(cedepth-pedepth):>21}")
+print(f"{'Depth:':<{width}} {depth_value:>{width}}")
