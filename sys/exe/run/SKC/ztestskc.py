@@ -52,7 +52,7 @@ def calculate_stock_metrics(data):
     raw_stock_power = (current_price - (today_low - 0.01)) / (abs(today_high + 0.01) - abs(today_low - 0.01))
     stock_power = round(max(0.1, min(raw_stock_power, 1.0)), 2)
     day_change = round(((current_price - yesterday_close) / yesterday_close) * 100, 2)
-    open_change = round(((current_price - today_open) / today_open) * 100, 5)
+    open_change = round(((current_price - today_open) / today_open) * 100, 2)
 
     return stock_power, day_change, open_change
 
