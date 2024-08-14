@@ -1,12 +1,9 @@
 import warnings
 import yfinance as yf
 import pandas as pd
-from rich.console import Console
 from colorama import Fore, Style, init, deinit
 
 init(autoreset=True)  # Initialize Colorama
-
-console = Console()
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -16,11 +13,6 @@ def get_nifty50_data(period="1d"):
     ticker_symbol = "^NSEI"  # NIFTY50 index symbol on Yahoo Finance
     try:
         nifty_data = yf.Ticker(ticker_symbol).history(period=period)
-        if nifty_data.empty:
-            print("No data retrieved from Yahoo Finance.")
-        else:
-            print(f"Data retrieved for period '{period}':")
-            print(nifty_data.head())
         ohlc_data = nifty_data[OHLC_COLUMNS]
         return ohlc_data
     except Exception as e:
@@ -59,8 +51,6 @@ def main():
     if not nifty50_ohlc.empty:
         today_data = nifty50_ohlc.iloc[-1][OHLC_COLUMNS]
         dayprinter(*today_data)
-    else:
-        print("Unable to fetch data.")
 
 if __name__ == "__main__":
     main()
