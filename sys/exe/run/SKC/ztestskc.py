@@ -144,8 +144,13 @@ def calculate_consecutive_candles(tickerSymbol):
     except Exception as e:
         return f"An error occurred: {e}"
 
-# Assuming you have a function to get the depth value
-depth_value = get_depth_value(ticker_symbol)  # Replace with your actual method
+# Define the ticker symbol and width for alignment
+ticker_symbol = 'AAPL'  # Replace with actual ticker symbol
+width = 20  # Adjust width as needed
+
+# Get stock action and depth value
+ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
+depth_value = 0  # Replace with your actual depth value retrieval method
 
 # Print statements with alignment
 print(f"{'Ticker:' + ticker_symbol:<{width}}")
