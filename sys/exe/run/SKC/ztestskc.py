@@ -231,9 +231,9 @@ def get_emoji_for_context(context):
 
 def get_arrow_for_value(value):
     if value > 0:
-        return '🔼'  # Up arrow
+        return '⬆'  # Up arrow
     elif value < 0:
-        return '🔽'  # Down arrow
+        return '⬇'  # Down arrow
     else:
         return '→'   # Right arrow (no change)
 
