@@ -147,18 +147,19 @@ def calculate_consecutive_candles(tickerSymbol):
 # Main Execution
 ticker_symbol = '^NSEI'  # You can change this to any valid ticker symbol
 ha_action, stock_power, day_change, open_change = get_stock_action(ticker_symbol)
-print(f"{'Ticker:':<20} {ticker_symbol}")
-print(f"{'Heikin-Ashi Action:':<20} {ha_action}")
-print(f"{'Stock Power:':<20} {stock_power:.2f}")
-print(f"{'Day Change (%):':<20} {day_change:.2f}")
-print(f"{'Open Change (%):':<20} {open_change:.2f}")
+print(f"{'Ticker:':<20} {ticker_symbol:>40}")
+print(f"{'Heikin-Ashi Action:':<20} {ha_action:>40}")
+print(f"{'Stock Power:':<20} {stock_power:>40.2f}")
+print(f"{'Day Change (%):':<20} {day_change:>40.2f}")
+print(f"{'Open Change (%):':<20} {open_change:>40.2f}")
 
 market_signal = get_market_check(ticker_symbol)
-print(f"{'Market Signal:':<20} {market_signal}")
+print(f"{'Market Signal:':<20} {market_signal:>40}")
 
 sma = check_index_status(ticker_symbol)
-print(f"{'Index SMA:':<20} {sma}")
+print(f"{'Index SMA:':<20} {sma:>40}")
 
 cedepth, pedepth = calculate_consecutive_candles(ticker_symbol)
-print(f"{'Consecutive Depths:':<20} CE: {cedepth}, PE: {pedepth}")
+print(f"{'Consecutive Depths:':<20} {'CE:':>20} {cedepth:>20} {'PE:':>20} {pedepth:>20}")
+
 
