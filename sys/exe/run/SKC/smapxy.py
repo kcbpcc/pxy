@@ -1,4 +1,3 @@
-# sma50pxy.py
 import yfinance as yf
 import pandas as pd
 
@@ -9,10 +8,11 @@ def fetch_data(symbol, period="1d", interval="1m"):
     data = yf.Ticker(symbol).history(period=period, interval=interval)
     return data
 
-def calculate_sma50(data):
+def calculate_sma50(symbol):
     """
-    Calculate the 50-period SMA and determine if the current price is above or below it.
+    Fetch data for the symbol and calculate the 50-period SMA to determine the trend.
     """
+    data = fetch_data(symbol)
     data['50SMA'] = data['Close'].rolling(window=50).mean()
     current_price = data['Close'].iloc[-1]
     sma50_value = data['50SMA'].iloc[-1]
@@ -21,8 +21,7 @@ def calculate_sma50(data):
 
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
-    data = fetch_data(ticker_symbol)
-    sma_trend = calculate_sma50(data)
+    sma_trend = calculate_sma50(ticker_symbol)
     
     # Print the SMA trend as `sma = Up` or `sma = Down`
     print(f"sma = {sma_trend}")
