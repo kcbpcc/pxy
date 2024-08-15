@@ -15,27 +15,29 @@ def get_current_price(ticker_symbol):
 
 def calculate_strikes(ticker_symbol):
     """
-    Calculate PE and CE strike prices based on the current price of the given ticker symbol.
+    Calculate four strike prices based on the current price of the given ticker symbol.
     """
     current_price = get_current_price(ticker_symbol)
     if current_price is not None:
-        # Calculate PE strike price (rounded to nearest 100 below)
-        bpprice = math.floor((current_price - 0) / 100) * 100
-        spprice = math.floor((current_price - 0) / 100) * 100 +100
-        # Calculate CE strike price (rounded to nearest 100 above)
-        bcprice = math.ceil((current_price + 0) / 100) * 100
-        scprice = math.ceil((current_price + 0) / 100) * 100 + 100
-        return pprice, cprice
+        # Calculate PE and CE strike prices (rounded to nearest 100)
+        bpprice = math.floor(current_price / 100) * 100
+        spprice = bpprice + 100
+        bcprice = math.ceil(current_price / 100) * 100
+        scprice = bcprice + 100
+        return bpprice, spprice, bcprice, scprice
     else:
         print("Current price is not available.")
-        return None, None
+        return None, None, None, None
 
 def main():
     ticker_symbol = "^NSEI"  # Replace with the actual ticker symbol
-    pprice, cprice = calculate_strikes(ticker_symbol)
-    if pprice is not None and cprice is not None:
-        print(f"pprice: {pprice}")
-        print(f"cprice: {cprice}")
+    bpprice, spprice, bcprice, scprice = calculate_strikes(ticker_symbol)
+    if bpprice is not None and spprice is not None and bcprice is not None and scprice is not None:
+        print(f"bpprice: {bpprice}")
+        print(f"spprice: {spprice}")
+        print(f"bcprice: {bcprice}")
+        print(f"scprice: {scprice}")
 
 if __name__ == "__main__":
     main()
+
