@@ -1,7 +1,7 @@
 import yfinance as yf
 import pandas as pd
 
-def calculate_consecutive_candles(ticker_symbol):
+def get_depth(ticker_symbol):
     try:
         # Get data on this ticker
         ticker_data = yf.Ticker(ticker_symbol)
@@ -41,7 +41,7 @@ def calculate_consecutive_candles(ticker_symbol):
 
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
-    depth = calculate_consecutive_candles(ticker_symbol)
+    depth = get_depth(ticker_symbol)
     
     # Print depth value
     print(f"depth = {depth}")
