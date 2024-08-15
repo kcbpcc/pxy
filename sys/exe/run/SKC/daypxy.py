@@ -9,7 +9,7 @@ def fetch_data(symbol, period="5d", interval="1d"):
     data = yf.Ticker(symbol).history(period=period, interval=interval)
     return data
 
-def calculate_day_metrics(symbol, period="5d", interval="1d"):
+def get_day(symbol, period="5d", interval="1d"):
     """
     Fetch data and calculate Day Change (dayd), Open Change (dayo), Day Power (dayp),
     and Heikin-Ashi candle status (daya).
@@ -50,7 +50,7 @@ def calculate_day_metrics(symbol, period="5d", interval="1d"):
 
 if __name__ == "__main__":
     # Example usage within the same script
-    dayd, dayo, dayp, daya = calculate_day_metrics('^NSEI')
+    dayd, dayo, dayp, daya = get_day('^NSEI')
     if isinstance(dayd, str):  # Handling "Not enough data" case
         print(dayd)
     else:
