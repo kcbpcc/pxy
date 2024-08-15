@@ -2,7 +2,7 @@ import sys
 import traceback
 import logging
 import os
-from cnstpxy import dir_path
+from configpxy import dir_path
 
 # Add the parent directory (cd1) to the system path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
