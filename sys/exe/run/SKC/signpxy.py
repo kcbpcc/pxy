@@ -1,4 +1,3 @@
-# ha_signal.py
 import yfinance as yf
 import pandas as pd
 
@@ -9,10 +8,12 @@ def fetch_data(symbol, period="1d", interval="1m"):
     data = yf.Ticker(symbol).history(period=period, interval=interval)
     return data
 
-def calculate_heikin_ashi_signals(data):
+def calculate_heikin_ashi_signals(symbol):
     """
-    Calculate Heikin-Ashi candles and determine the trading signal.
+    Fetch data for the symbol, calculate Heikin-Ashi candles, and determine the trading signal.
     """
+    data = fetch_data(symbol)
+    
     # Calculate Heikin-Ashi close and open
     ha_close = (data['Open'] + data['High'] + data['Low'] + data['Close']) / 4
     ha_open = (data['Open'].shift(1) + data['Close'].shift(1)) / 2
@@ -35,11 +36,10 @@ def calculate_heikin_ashi_signals(data):
 
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
-    data = fetch_data(ticker_symbol)
-    Signal = calculate_heikin_ashi_signals(data)
+    signal = calculate_heikin_ashi_signals(ticker_symbol)
     
     # Print the HA signal as `Buy`, `Sell`, `Bull`, `Bear`, or `None`
-    print(f"Signal = {Signal}")
+    print(f"Signal = {signal}")
 
 if __name__ == "__main__":
     main()
