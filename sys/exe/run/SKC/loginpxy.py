@@ -4,8 +4,8 @@ import sys
 import traceback
 import logging
 from toolkit.currency import round_to_paise
-from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path
+from ..login_get_kite import get_kite, remove_token
+from ..cnstpxy import dir_path
 
 def get_login():
     try:
