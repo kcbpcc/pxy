@@ -9,6 +9,9 @@ import os
 import sys
 import traceback
 import logging
+from loginpxy import get_login
+broker = get_login()
+
 logging = Logger(30, dir_path + "main.log")
 
 def get_holdingsinfo(resp_list, broker):
@@ -27,19 +30,7 @@ def get_positionsinfo(resp_list, broker):
     except Exception as e:
         print(f"An error occurred in positions: {e}")
         return None
-try:
-    sys.stdout = open('output.txt', 'w')
-    broker = get_kite()
-except Exception as e:
-    remove_token(dir_path)
-    print(traceback.format_exc())
-    logging.error(f"{str(e)} unable to get holdings")
-    sys.exit(1)
-finally:
-    # Ensure to close the file and restore stdout
-    if sys.stdout != sys.__stdout__:
-        sys.stdout.close()
-        sys.stdout = sys.__stdout__
+
 def process_data():
     try:
         holdings_response = broker.kite.holdings()
