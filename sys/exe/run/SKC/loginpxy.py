@@ -3,11 +3,7 @@ import traceback
 import logging
 import os
 from configpxy import dir_path
-
-# Add the parent directory (cd1) to the system path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from login_get_kite import get_kite, remove_token
+from syslogin import get_kite, remove_token
 
 def get_login():
     try:
