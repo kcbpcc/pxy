@@ -10,10 +10,5 @@ if not FUTL.is_file_exists(F_SETG):
 
 logging = Logger(10)
 settings = FUTL.get_lst_fm_yml(F_SETG)
-perc = settings["perc"]
-buff = settings["buff"]
-secs = settings["secs"]
-max_target = settings["max_target"]
-perc_col_name = f"perc_gr_{int(perc)}"
 
 CNFG = FUTL.get_lst_fm_yml("../../pxy.yml")
