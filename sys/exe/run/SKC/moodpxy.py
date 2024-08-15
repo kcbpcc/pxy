@@ -1,7 +1,7 @@
 from smapxy import calculate_sma50
 from daypxy import calculate_day_metrics
 
-def determine_mood(ticker_symbol):
+def get_mood(ticker_symbol):
     """
     Determine the market mood based on SMA trend and day metrics.
     """
@@ -19,9 +19,9 @@ def determine_mood(ticker_symbol):
 
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
-    mood = determine_mood(ticker_symbol)
+    mood = get_mood(ticker_symbol)
     print(f"Mood: {mood}")
 
 if __name__ == "__main__":
-    mood = determine_mood('^NSEI')
+    mood = get_mood('^NSEI')
     print(f"Mood: {mood}")
