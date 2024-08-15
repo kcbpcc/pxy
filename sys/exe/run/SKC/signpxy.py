@@ -8,7 +8,7 @@ def fetch_data(symbol, period="1d", interval="1m"):
     data = yf.Ticker(symbol).history(period=period, interval=interval)
     return data
 
-def calculate_heikin_ashi_signals(symbol):
+def get_sign(symbol):
     """
     Fetch data for the symbol, calculate Heikin-Ashi candles, and determine the trading signal.
     """
@@ -36,7 +36,7 @@ def calculate_heikin_ashi_signals(symbol):
 
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
-    signal = calculate_heikin_ashi_signals(ticker_symbol)
+    signal = get_sign(ticker_symbol)
     
     # Print the HA signal as `Buy`, `Sell`, `Bull`, `Bear`, or `None`
     print(f"Signal = {signal}")
