@@ -13,7 +13,7 @@ def get_current_price(ticker_symbol):
         print(f"Error fetching data: {e}")
         return None
 
-def calculate_strikes(ticker_symbol):
+def get_strike(ticker_symbol):
     """
     Calculate four strike prices based on the current price of the given ticker symbol.
     """
@@ -31,7 +31,7 @@ def calculate_strikes(ticker_symbol):
 
 def main():
     ticker_symbol = "^NSEI"  # Replace with the actual ticker symbol
-    bpprice, spprice, bcprice, scprice = calculate_strikes(ticker_symbol)
+    bpprice, spprice, bcprice, scprice = get_strike(ticker_symbol)
     if bpprice is not None and spprice is not None and bcprice is not None and scprice is not None:
         print(f"bpprice: {bpprice}")
         print(f"spprice: {spprice}")
