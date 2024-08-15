@@ -1,3 +1,4 @@
+from candlepxy import get_nifty50_data,dayprinter
 def main():
     nifty50_ohlc = get_nifty50_data()
     if not nifty50_ohlc.empty:
