@@ -1,8 +1,8 @@
 import sys
 import traceback
 import pandas as pd
-from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path
+
+
 from toolkit.logger import Logger
 import csv
 import os
@@ -10,6 +10,13 @@ import sys
 import traceback
 import logging
 logging = Logger(30, dir_path + "main.log")
+
+# Add parent directory to path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Now you can import your modules
+from login_get_kite import get_kite, remove_token
+from cnstpxy import dir_path
 
 def get_holdingsinfo(resp_list, broker):
     try:
