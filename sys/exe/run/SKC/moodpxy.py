@@ -7,7 +7,7 @@ def determine_mood(ticker_symbol):
     """
     # Get the SMA trend and day metrics
     sma_trend = calculate_sma50(ticker_symbol)
-    dayd, dayo, dayp = calculate_day_metrics(ticker_symbol)
+    dayd, dayo, dayp, daya = calculate_day_metrics(ticker_symbol)
     
     # Determine the mood
     if dayo > 0 and sma_trend == "Up":
