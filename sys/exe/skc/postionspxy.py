@@ -37,10 +37,33 @@ def process_data():
     try:
         positions_response = broker.kite.positions()['net']
         positions_df = get_positionsinfo(positions_response)
+        
         if positions_df is not None:
-            positions_df.to_csv('pxypositions.csv', index=False)
-            print("Positions DataFrame:")
-            print(positions_df)
+            # Filter by exchange 'NFO' and tradingsymbol starting with 'NFTY'
+            niftyoptions_df = positions_df[
+                (positions_df['exchange'] == 'NFO') & 
+                (positions_df['tradingsymbol'].str.startswith('NFTY'))
+            ]
+
+            # Select only the required columns
+            niftyoptions_df = niftyoptions_df[['tradingsymbol', 'quantity', 'average_price', 'pnl']]
+            
+            # Rename columns to match desired output
+            niftyoptions_df.rename(columns={
+                'quantity': 'qty',
+                'average_price': 'Invested',
+                'pnl': 'PnL'
+            }, inplace=True)
+
+            # Calculate 'Invested' and 'PL%'
+            niftyoptions_df['Invested'] = (niftyoptions_df['qty'] * niftyoptions_df['Invested']).round(0).astype(int)
+            niftyoptions_df['PnL'] = niftyoptions_df['PnL'].round(2)
+            niftyoptions_df['PL%'] = ((niftyoptions_df['PnL'] / niftyoptions_df['Invested']) * 100).round(2)
+            
+            # Save the final DataFrame to CSV
+            niftyoptions_df.to_csv('pxypositions_filtered.csv', index=False)
+            print("Filtered and Final DataFrame:")
+            print(niftyoptions_df)
         else:
             logging.error("No positions data to display.")
     except Exception as e:
@@ -49,3 +72,4 @@ def process_data():
 
 # Call the function to process data
 process_data()
+
