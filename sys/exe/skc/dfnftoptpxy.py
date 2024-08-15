@@ -42,7 +42,7 @@ def process_data():
             # Filter by exchange 'NFO' and tradingsymbol starting with 'NFTY'
             niftyoptions_df = positions_df[
                 (positions_df['exchange'] == 'NFO') & 
-                (positions_df['tradingsymbol'].str.startswith('NFTY'))
+                (positions_df['tradingsymbol'].str.startswith('NIFTY'))
             ]
 
             # Select only the required columns
