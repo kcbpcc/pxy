@@ -3,7 +3,7 @@ import traceback
 import logging
 import os
 from configpxy import dir_path
-from syslogin import get_kite, remove_token
+from sysloginpxy import get_kite, remove_token
 
 def get_login():
     try:
