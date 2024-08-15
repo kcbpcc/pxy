@@ -14,9 +14,9 @@ def get_nifty50_current_price():
 def calculate_strikes(current_price):
     if current_price is not None:
         # Calculate PE strike price (current price - 500, rounded to nearest 500)
-        pprice = math.floor((current_price - 500) / 500) * 500
+        pprice = math.floor((current_price - 0) / 100) * 100
         # Calculate CE strike price (current price + 500, rounded to nearest 500)
-        cprice = math.ceil((current_price + 500) / 500) * 500
+        cprice = math.ceil((current_price + 0) / 100) * 100
         return pprice, cprice
     else:
         print("Current price is not available.")
