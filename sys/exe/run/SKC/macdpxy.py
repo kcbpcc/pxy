@@ -8,7 +8,7 @@ def fetch_data(symbol, period="1d", interval="1m"):
     data = yf.Ticker(symbol).history(period=period, interval=interval)
     return data
 
-def calculate_macd(symbol):
+def get_macd(symbol):
     """
     Fetch data for the symbol and calculate the MACD values to determine the trend.
     """
@@ -22,7 +22,7 @@ def calculate_macd(symbol):
 
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
-    macd_trend = calculate_macd(ticker_symbol)
+    macd_trend = get_macd(ticker_symbol)
     
     # Print the MACD trend as `macd = Up` or `macd = Down`
     print(f"macd = {macd_trend}")
