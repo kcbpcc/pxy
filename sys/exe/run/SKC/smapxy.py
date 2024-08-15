@@ -8,7 +8,7 @@ def fetch_data(symbol, period="1d", interval="1m"):
     data = yf.Ticker(symbol).history(period=period, interval=interval)
     return data
 
-def calculate_sma50(symbol):
+def get_sma(symbol):
     """
     Fetch data for the symbol and calculate the 50-period SMA to determine the trend.
     """
@@ -21,7 +21,7 @@ def calculate_sma50(symbol):
 
 def main():
     ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
-    sma_trend = calculate_sma50(ticker_symbol)
+    sma_trend = get_sma(ticker_symbol)
     
     # Print the SMA trend as `sma = Up` or `sma = Down`
     print(f"sma = {sma_trend}")
