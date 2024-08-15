@@ -1,15 +1,17 @@
-# common_utils.py
-
 import sys
 import traceback
 import logging
-from toolkit.currency import round_to_paise
-from ..login_get_kite import get_kite, remove_token
-from ..cnstpxy import dir_path
+import os
+
+# Add the parent directory (cd1) to the system path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from login_get_kite import get_kite, remove_token
+from cnstpxy import dir_path
 
 def get_login():
     try:
-        #original_stdout = sys.stdout
+        original_stdout = sys.stdout
         with open('output.txt', 'w') as file:
             sys.stdout = file
             try:
@@ -21,5 +23,4 @@ def get_login():
                 logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
     finally:
-        pass
-        #sys.stdout = original_stdout
+        sys.stdout = original_stdout
