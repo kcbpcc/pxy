@@ -4,7 +4,7 @@
 source ~/env/bin/activate
 
 # Change to the script's directory
-cd ~/pxy/sys/exe/run/SKC
+cd ~/pxy/sys/exe/skc
 
 # List the files in two columns with numbers
 echo "Available scripts:"
