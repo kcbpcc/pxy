@@ -9,10 +9,13 @@ def fetch_data(symbol, period="5d", interval="1d"):
     data = yf.Ticker(symbol).history(period=period, interval=interval)
     return data
 
-def calculate_day_metrics(data):
+def calculate_day_metrics(symbol, period="5d", interval="1d"):
     """
-    Calculate Day Change (dayd), Open Change (dayo), and Day Power (dayp).
+    Fetch data and calculate Day Change (dayd), Open Change (dayo), and Day Power (dayp).
     """
+    # Fetch the historical data
+    data = fetch_data(symbol, period, interval)
+
     # Ensure there are at least two days of data
     if len(data) < 2:
         return "Not enough data"
@@ -35,19 +38,12 @@ def calculate_day_metrics(data):
 
     return dayd, dayo, dayp
 
-def main():
-    ticker_symbol = '^NSEI'  # Replace with the actual ticker symbol
-    data = fetch_data(ticker_symbol)
-    metrics = calculate_day_metrics(data)
-    
-    if metrics == "Not enough data":
-        print("Not enough data to calculate metrics.")
-    else:
-        dayd, dayo, dayp = metrics
-        # Print metrics
-        print(f"dayd: {dayd}%")
-        print(f"dayo: {dayo}%")
-        print(f"dayp: {dayp}")
-
 if __name__ == "__main__":
-    main()
+    # Example usage within the same script
+    dayd, dayo, dayp = calculate_day_metrics('^NSEI')
+    if isinstance(dayd, str):  # Handling "Not enough data" case
+        print(dayd)
+    else:
+        print(f"Day Change (dayd): {dayd}%")
+        print(f"Open Change (dayo): {dayo}%")
+        print(f"Day Power (dayp): {dayp}")
