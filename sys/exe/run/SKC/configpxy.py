@@ -2,7 +2,7 @@ from toolkit.fileutils import Fileutils
 from toolkit.logger import Logger
 
 FUTL = Fileutils()
-dir_path = "../../data/"
+dir_path = "../../../data/"
 F_SETG = dir_path + "settings.yml"
 if not FUTL.is_file_exists(F_SETG):
     FUTL.add_path(F_SETG)
