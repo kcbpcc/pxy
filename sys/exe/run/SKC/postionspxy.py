@@ -1,8 +1,8 @@
 import sys
 import traceback
 import pandas as pd
-from login_get_kite import get_kite, remove_token
-from cnstpxy import dir_path
+from sysloginpxy import get_kite, remove_token
+from configpxy import dir_path
 from toolkit.logger import Logger
 import csv
 import os
