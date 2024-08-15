@@ -9,7 +9,7 @@ from ..cnstpxy import dir_path
 
 def get_login():
     try:
-        original_stdout = sys.stdout
+        #original_stdout = sys.stdout
         with open('output.txt', 'w') as file:
             sys.stdout = file
             try:
@@ -21,4 +21,5 @@ def get_login():
                 logging.error(f"{str(e)} unable to get holdings")
                 sys.exit(1)
     finally:
-        sys.stdout = original_stdout
+        pass
+        #sys.stdout = original_stdout
