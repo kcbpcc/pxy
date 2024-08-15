@@ -1,4 +1,4 @@
-from cnstpxy import logging, CNFG, FUTL, dir_path
+from configpxy import logging, CNFG, FUTL, dir_path
 import os
 
 
