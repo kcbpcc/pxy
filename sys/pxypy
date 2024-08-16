@@ -4,7 +4,7 @@
 source ~/env/bin/activate
 
 # Change to the script's directory
-cd ~/pxy/sys/exe/skc
+cd ~/pxy/sys/exe/run
 
 # List the files in two columns with numbers
 echo "Available scripts:"
@@ -67,5 +67,3 @@ fi
 
 # Run the selected script
 python3 "$selected_script"
-
-
