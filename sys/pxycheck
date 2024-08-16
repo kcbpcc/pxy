@@ -3,7 +3,7 @@
 source ~/env/bin/activate
 
 # Change to the script's directory
-cd ~/pxy/sys/exe/run/SKC
+cd ~/pxy/sys/exe/run
 
 read -p "Press Enter to run trndlnpxy.py..."
 python3 rmtknpxy.py
