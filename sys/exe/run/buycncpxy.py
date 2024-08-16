@@ -100,6 +100,6 @@ def main():
                 kite_symbol = symbol.replace('.NS', '')
                 place_buy_order(kite_symbol)
     else:
-        print(f"Cash is : {live_balance}. lets reserve : {limit}. No buy.")
+        print(f"Cash:{live_balance}.Limit:{limit}.No buy.")
 if __name__ == "__main__":
     main()
