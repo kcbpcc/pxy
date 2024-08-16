@@ -51,7 +51,7 @@ def place_buy_order(random_symbol):
         if random_symbol in holdings_symbols and random_symbol not in orders_symbols and random_symbol not in positions_symbols:
             purchase_limit = 0
         elif random_symbol not in holdings_symbols and random_symbol not in orders_symbols and random_symbol not in positions_symbols:
-            purchase_limit = 4000
+            purchase_limit = 2000
 
         if purchase_limit <= 0:
             logger.info(f"Skipping {random_symbol}: purchase_limit is not set")
@@ -92,6 +92,4 @@ def place_buy_order(random_symbol):
             logger.warning(f"Failed to place order for {random_symbol}")
     except Exception as e:
         logger.error(f"Error while placing order: {str(e)}")
-
-
 
