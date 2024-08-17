@@ -1,11 +1,11 @@
 broker: zerodha
 zerodha:
-  userid: MM9168
-  password: PXY@tatlako00
-  totp: 37J34Q3RPPCDXGS3MEDFPBDQY5OCE5KJ
-  api_key: avku59f296gcvrv0
-  secret: baovez9h2269un6okp4aamuuec47m17u
+  userid: TZG848
+  password: Lnrysry@369
+  totp: LPNN3MIHGB6G4OKH6JLF3BGR5Y73DVVW
+  api_key: s8brgt2qgttbmtso
+  secret: lqogi61vj72qfrfoe7nairf3hpyuh1jx
 bypass:
-  userid: MM9168
-  password: PXY@tatlako00
-  totp: 37J34Q3RPPCDXGS3MEDFPBDQY5OCE5KJ
+  userid: TZG848
+  password: Lnrysry@369
+  totp: LPNN3MIHGB6G4OKH6JLF3BGR5Y73DVVW
