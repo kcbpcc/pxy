@@ -8,25 +8,20 @@ from cnstpxy import dir_path
 from toolkit.logger import Logger
 from clorpxy import SILVER, UNDERLINE, RED, GREEN, YELLOW, RESET, BRIGHT_YELLOW, BRIGHT_RED, BRIGHT_GREEN, BOLD, GREY
 
-# Initialize Logger
 logging = Logger(30, dir_path + "main.log")
 
-def get_holdings_info(broker):
+def get_holdings_info(file_path):
     try:
-        # Fetch holdings data from Kite API
-        holdings = broker.holdings()
-        df = pd.DataFrame(holdings['holdings'])
+        df = pd.read_csv(file_path)
         df['source'] = 'holdings'
         return df
     except Exception as e:
         logging.error(f"Error occurred in get_holdings_info: {e}")
         return None
 
-def get_positions_info(broker):
+def get_positions_info(file_path):
     try:
-        # Fetch positions data from Kite API
-        positions = broker.positions()
-        df = pd.DataFrame(positions['day'])
+        df = pd.read_csv(file_path)
         df['source'] = 'positions'
         return df
     except Exception as e:
@@ -57,8 +52,8 @@ def process_data_total_profit():
         total_profit_fo = 0
         
         # If broker is obtained successfully, proceed with data processing
-        holdings_df = get_holdings_info(broker)
-        positions_df = get_positions_info(broker)
+        holdings_df = get_holdings_info('pxyholdings.csv')
+        positions_df = get_positions_info('pxypositions.csv')
 
         if holdings_df is None or positions_df is None:
             raise ValueError("Failed to load holdings or positions data")
@@ -100,7 +95,7 @@ def process_data_total_profit():
             #print("I did not exit any CNC positions today🤔🤔")
 
         # Processing NFO data
-        mergedfo_df = get_positions_info(broker)
+        mergedfo_df = get_positions_info('pxycombined.csv')
 
         if mergedfo_df is None:
             raise ValueError("Failed to load NFO data")
@@ -166,4 +161,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
