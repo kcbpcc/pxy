@@ -1,3 +1,4 @@
+
 # final ...
 import traceback
 import sys
@@ -101,22 +102,27 @@ async def main():
                     positions_net = positions_response['net']
                     qty_CE = 0
                     qty_PE = 0
+                    CE_PLPREC = 0  # Initialize P&L percentage for CE
+                    PE_PLPREC = 0  # Initialize P&L percentage for PE
                     
                     for position in positions_net:
                         if position['tradingsymbol'] == CE_symbol:
                             qty_CE += int(abs(position['quantity']) / 15)
+                            CE_PLPREC = int(((position['quantity'] * position['last_price']) - (position['quantity'] * position['average_price'])) / (position['quantity'] * position['average_price']) * 100)
                         elif position['tradingsymbol'] == PE_symbol:
                             qty_PE += int(abs(position['quantity']) / 15)
+                            PE_PLPREC = int(((position['quantity'] * position['last_price']) - (position['quantity'] * position['average_price'])) / (position['quantity'] * position['average_price']) * 100)
+
                    
-                    return qty_CE, qty_PE
-                qty_CE, qty_PE = qty_positions_by_type(broker, CE_symbol, PE_symbol)
+                    return qty_CE, qty_PE,CE_PLPREC,PE_PLPREC
+                qty_CE, qty_PE,CE_PLPREC,PE_PLPREC = qty_positions_by_type(broker, CE_symbol, PE_symbol)
 
                 # Print all relevant variables before entering the if block
                 #print(f"bmktpredict: {bmktpredict}")
                 #print(f"mktpxy: {mktpxy}")
                 #print(f"CE_position_exists: {CE_position_exists}")
-                print(f"{CE_symbol}                {(f'{qty_CE}x' if CE_position_exists else '')}{'🥚' if CE_position_exists else '🛒'}".rjust(41))
-                print(f"{PE_symbol}                {(f'{qty_PE}x' if PE_position_exists else '')}{'🥚' if PE_position_exists else '🛒'}".rjust(41))
+                print(f"{CE_symbol}  {CE_PLPREC:4d}  {(f'{qty_CE}x' if CE_position_exists else '')}{'🥚' if CE_position_exists else '🛒'}".rjust(41))
+                print(f"{PE_symbol}  {PE_PLPREC:4d}  {(f'{qty_PE}x' if PE_position_exists else '')}{'🥚' if PE_position_exists else '🛒'}".rjust(41))
                 #print(f"count_CE: {count_CE}")
                 #print(f"count_PE: {count_PE}")
                 
@@ -128,7 +134,7 @@ async def main():
                         else:
                             print(f"{CE_symbol} not there, let's Buy")
                             await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
-                
+                    
                     elif mktpxy == "Sell":
                         if PE_position_exists:
                             print(f"{PE_symbol} is there, let's {BRIGHT_YELLOW}skip{RESET}")
@@ -143,33 +149,43 @@ async def main():
                         else:
                             print(f"{CE_symbol} not there, let's Buy")
                             await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
-                
+                    
                     elif mktpxy == "Sell":
                         if bnk_power > 0.75:
                             if PE_position_exists:
-                                print(f"{PE_symbol} is there, let's {BRIGHT_YELLOW}skip{RESET}")
+                                if PE_PLPREC < -7 and qty_PE < 3:
+                                    print(f"{PE_symbol} is there, let's {BRIGHT_RED}Re-Buy{RESET}")
+                                    await place_order(broker, PE_symbol, 'BUY', 'NRML', 15, 'MARKET')
+                                else:
+                                    print(f"{PE_symbol} is there, let's {BRIGHT_YELLOW}skip{RESET}")
                             else:
                                 print(f"{PE_symbol} not there, let's Buy")
                                 await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
                         else:
-                            print(f"bnk_power:{bnk_power} is not high enough,{BRIGHT_YELLOW}skipping{RESET}")
+                            print(f"bnk_power: {bnk_power} is not high enough, {BRIGHT_YELLOW}skipping{RESET}")
                 
                 elif bmktpredict == "FALL":
                     if mktpxy == "Buy":
                         if bnk_power < 0.25:
                             if CE_position_exists:
-                                print(f"{CE_symbol} is there, let's {BRIGHT_YELLOW}skip{RESET}")
+                                if CE_PLPREC < -7 and qty_CE < 3:
+                                    print(f"{CE_symbol} is there,let's {BRIGHT_RED}Re-Buy{RESET}")
+                                    await place_order(broker, CE_symbol, 'BUY', 'NRML', 15, 'MARKET')
+                                else:
+                                    print(f"{CE_symbol} is there, let's {BRIGHT_YELLOW}skip{RESET}")
                             else:
                                 print(f"{CE_symbol} not there, let's Buy")
                                 await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
                         else:
-                            print(f"bnk_power:{bnk_power} is not low enough, {BRIGHT_YELLOW}skipping{RESET}")
+                            print(f"bnk_power: {bnk_power} is not low enough, {BRIGHT_YELLOW}skipping{RESET}")
+                    
                     elif mktpxy == "Sell":
                         if PE_position_exists:
                             print(f"{PE_symbol} is there, let's {BRIGHT_YELLOW}skip{RESET}")
                         else:
                             print(f"{PE_symbol} not there, let's Buy")
                             await process_orders(broker, available_cash, False, PE_position_exists, None, PE_symbol, count_CE, count_PE, mktpxy)
+
 
             except Exception as e:
                 print(f"Error: {e}")
