@@ -100,17 +100,20 @@ async def main():
                     qty_PE = 0
                     CE_PLPREC = 0  # Initialize P&L percentage for CE
                     PE_PLPREC = 0  # Initialize P&L percentage for PE
-                    
+                
                     for position in positions_net:
                         if position['tradingsymbol'] == CE_symbol:
-                            qty_CE += int(abs(position['quantity']) / 25)
-                            CE_PLPREC = int(((position['quantity'] * position['last_price']) - (position['quantity'] * position['average_price'])) / (position['quantity'] * position['average_price']) * 100)
+                            avg_price = position['quantity'] * position['average_price']
+                            if avg_price != 0:  # Check for division by zero
+                                qty_CE += int(abs(position['quantity']) / 25)
+                                CE_PLPREC = int(((position['quantity'] * position['last_price']) - (position['quantity'] * position['average_price'])) / avg_price * 100)
                         elif position['tradingsymbol'] == PE_symbol:
-                            qty_PE += int(abs(position['quantity']) / 25)
-                            PE_PLPREC = int(((position['quantity'] * position['last_price']) - (position['quantity'] * position['average_price'])) / (position['quantity'] * position['average_price']) * 100)
-
-                   
-                    return qty_CE, qty_PE,CE_PLPREC,PE_PLPREC
+                            avg_price = position['quantity'] * position['average_price']
+                            if avg_price != 0:  # Check for division by zero
+                                qty_PE += int(abs(position['quantity']) / 25)
+                                PE_PLPREC = int(((position['quantity'] * position['last_price']) - (position['quantity'] * position['average_price'])) / avg_price * 100)
+                
+                    return qty_CE, qty_PE, CE_PLPREC, PE_PLPREC
                 qty_CE, qty_PE,CE_PLPREC,PE_PLPREC = qty_positions_by_type(broker, CE_symbol, PE_symbol)
 
                 # Print all relevant variables before entering the if block
