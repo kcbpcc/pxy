@@ -163,6 +163,7 @@ width = 42
 
 # Calculate total invested
 total_invested = blnc_opt_df['Invested'].sum() if not blnc_opt_df.empty else 0
+total_value = blnc_opt_df['Value'].sum() if not blnc_opt_df.empty else 0
 
 # Define colors based on specific conditions for each line
 if bnk_power > 0.85 or bnk_power < 0.15:
@@ -179,9 +180,9 @@ else:
 line1 = f"{line1_color}B:{last_wednesday_str}{RESET}"
 line2 = f"{line2_color}N:{last_thursday_str}{RESET}"
 formatted_total = f"{total_invested:07d}"
-
+formatted_value = f"{total_value:07d}"
 # Construct header line with colored lines
-header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {formatted_total}   ⚖   {line2}"
+header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {formatted_total}⚖{formatted_value}   {line2}"
 
 # Print border
 print("━" * width)
