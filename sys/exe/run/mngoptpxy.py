@@ -182,7 +182,7 @@ line2 = f"{line2_color}N:{last_thursday_str}{RESET}"
 formatted_total = f"{total_invested:07d}"
 formatted_value = f"{total_value:07.0f}"
 # Construct header line with colored lines
-header_line = f"{line1}{formatted_total}⚖{BRIGHT_YELLOW}{current_month_abbr}{RESET}⚖{formatted_value}{line2}"
+header_line = f"{line1}  {formatted_total}⚖ {BRIGHT_YELLOW}{current_month_abbr}{RESET}⚖ {formatted_value}  {line2}"
 
 # Print border
 print("━" * width)
