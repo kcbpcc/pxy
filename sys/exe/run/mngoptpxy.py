@@ -162,6 +162,7 @@ blnc_opt_df['Target'] = blnc_opt_df['Diff'].apply(lambda x: (100 - (x * 9)) * -1
 width = 42
 
 # Calculate total invested
+print(blnc_opt_df)
 total_invested = blnc_opt_df['Invested'].sum() if not blnc_opt_df.empty else 0
 total_value = blnc_opt_df['Value'].sum() if not blnc_opt_df.empty else 0
 
