@@ -180,7 +180,7 @@ else:
 line1 = f"{line1_color}B:{last_wednesday_str}{RESET}"
 line2 = f"{line2_color}N:{last_thursday_str}{RESET}"
 formatted_total = f"{total_invested:07d}"
-formatted_value = f"{total_value:07d}"
+formatted_value = f"{total_value:07.2f}"
 # Construct header line with colored lines
 header_line = f"{line1}  ⚖    {BRIGHT_YELLOW}{current_month_abbr}{RESET}  {formatted_total}⚖{formatted_value}   {line2}"
 
