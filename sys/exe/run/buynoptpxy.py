@@ -153,7 +153,7 @@ async def main():
                         if nse_power > 0.75:
                             if PE_position_exists:
                                 if PE_PLPREC < -7 and qty_PE < 3:
-                                    print(f"    {PE_symbol} is there, let's {BRIGHT_RED}Re-Buy{RESET}")
+                                    print(f"    {PE_symbol} is there,But {BRIGHT_RED}Re-Buy{RESET}")
                                     await place_order(broker, PE_symbol, 'BUY', 'NRML', 25, 'MARKET')
                                 else:
                                     print(f"    {PE_symbol} is there, let's {BRIGHT_YELLOW}skip{RESET}")
@@ -168,7 +168,7 @@ async def main():
                         if nse_power < 0.25:
                             if CE_position_exists:
                                 if CE_PLPREC < -7 and qty_CE < 3:
-                                    print(f"    {CE_symbol} is there, let's {BRIGHT_RED}Re-Buy{RESET}")
+                                    print(f"    {CE_symbol} is there,But {BRIGHT_RED}Re-Buy{RESET}")
                                     await place_order(broker, CE_symbol, 'BUY', 'NRML', 25, 'MARKET')
                                 else:
                                     print(f"    {CE_symbol} is there, let's {BRIGHT_YELLOW}skip{RESET}")
