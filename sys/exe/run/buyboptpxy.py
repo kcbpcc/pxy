@@ -154,7 +154,7 @@ async def main():
                             await process_orders(broker, available_cash, CE_position_exists, False, CE_symbol, None, count_CE, count_PE, mktpxy)
                     
                     elif mktpxy == "Sell":
-                        if bnk_power > 0.75:
+                        if bnk_power > 0.70:
                             if PE_position_exists:
                                 if PE_PLPREC < -7 and qty_PE < 3:
                                     print(f"{PE_symbol} is there,But {BRIGHT_RED}Re-Buy{RESET}")
@@ -169,7 +169,7 @@ async def main():
                 
                 elif bmktpredict == "FALL":
                     if mktpxy == "Buy":
-                        if bnk_power < 0.25:
+                        if bnk_power < 0.30:
                             if CE_position_exists:
                                 if CE_PLPREC < -7 and qty_CE < 3:
                                     print(f"{CE_symbol} is there,But {BRIGHT_RED}Re-Buy{RESET}")
