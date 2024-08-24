@@ -5,15 +5,15 @@ cd ~/pxy/sys/exe/run
 
 # Activate the virtual environment
 source ~/env/bin/activate
-cd ~/pxy/sys/exe/run
-# Run the Python script
-# Check if the .py file exists; if not, try .pcy
-if [ -f "pycpxy.py" ]; then
+
+# Check if the .py or .pcy file exists and run it
+if [ -f "pxypyc.py" ]; then
     python3 pxypyc.py
-elif [ -f "pycpxy.pcy" ]; then
+elif [ -f "pxypyc.pcy" ]; then
     python3 pxypyc.pcy
 else
-    echo "Neither .py nor .pcy file found."
+    echo "Error: Neither pxypyc.py nor pxypyc.pcy found in /home/pxy/pxy/sys/exe/run/"
+    exit 1
 fi
 
 # Display summary at the end
