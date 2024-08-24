@@ -7,7 +7,7 @@ RED = "\033[91m"
 RESET = "\033[0m"
 
 # Message to print in red
-message = "If you want to exit all you may call my big brother with flashFLASHpxy.py to do the task"
+message = "If you want to exit all you may call my big brother with flashFLASHpxy.pyc to do the task"
 
 # Wrap the message to fit 40 characters per line
 wrapped_message = textwrap.fill(message, width=40)
@@ -44,7 +44,7 @@ user_input = input(f"Want to book {BRIGHT_YELLOW}{green_Stocks_profit_loss}{RESE
 # Check if the user input is exactly "Yes" or "No"
 if user_input == 'Yes':
     # Call the external script
-    subprocess.run(['python', 'cntrlcncpxy.py', '-flash'])
+    subprocess.run(['python', 'cntrlcncpxy.pyc', '-flash'])
     print("Command executed.")
 elif user_input == 'No':
     print("Command not executed.")
