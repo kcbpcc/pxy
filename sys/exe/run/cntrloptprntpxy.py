@@ -278,20 +278,20 @@ for group, data in grouped_df:
     # Run the appropriate Python script based on the group value
     if group == 'N' and args.command == 's':
         if nsma == "up":
-            os.system('python cndlpxy.py')
+            os.system('python cndlpxy.pyc')
             (lambda: print((BRIGHT_GREEN) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
         elif nsma == "down":
             (lambda: print((BRIGHT_RED) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
-            os.system('python cndlpxy.py')
+            os.system('python cndlpxy.pyc')
         else:
             (lambda: print((BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET))()
     elif group == 'B' and args.command == 's':
         if bsma == "up":
-            os.system('python bcndlpxy.py')
+            os.system('python bcndlpxy.pyc')
             (lambda: print((BRIGHT_GREEN) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
         elif bsma == "down":
             (lambda: print((BRIGHT_RED) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
-            os.system('python bcndlpxy.py')
+            os.system('python bcndlpxy.pyc')
         else:
             (lambda: print((BRIGHT_YELLOW) + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET))()
 
