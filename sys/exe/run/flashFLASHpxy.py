@@ -66,7 +66,7 @@ if initial_input == 'Yes':
     
     if final_confirmation == 'Yes':
         # Call the external script with the updated argument
-        subprocess.run(['python', 'cntrlcncpxy.py', '-flashFLASH'])
+        subprocess.run(['python', 'cntrlcncpxy.pyc', '-flashFLASH'])
         print("Command executed.")
     elif final_confirmation == 'No':
         print("Action canceled.")
