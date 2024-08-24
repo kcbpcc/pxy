@@ -1,9 +1,0 @@
-#!/bin/bash
-
-source ~/env/bin/activate
-
-# Change to the script's directory
-cd ~/pxy/sys/exe/run
-
-read -p "Selling options with traget..."
-python3 tgtceselloptpxy.py
