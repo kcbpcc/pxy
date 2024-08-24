@@ -16,7 +16,7 @@ sudo chmod +x /usr/local/bin/*
 echo '                                 '
 echo "       ***** UPDATE COMPLETED *****"
 echo '                                 '
-pxypcy
+pxypyc
 #rm $HOME/pxy/sys/exe/run/filePnL.csv
 #mv $HOME/pxy/sys/exe/run/_filePnL.csv $HOME/pxy/sys/exe/run/filePnL.csv 
 #mv $HOME/pxy/sys/exe/run/_filePnL_nrml.csv $HOME/pxy/sys/exe/run/filePnL_nrml.csv
