@@ -7,9 +7,9 @@ cd ~/pxy/sys/exe/run
 source ~/env/bin/activate
 
 # Check if the .py or .pcy file exists and run it
-if [ -f "pxypyc.py" ]; then
+if [ -f "pycpxy.py" ]; then
     python3 pycpxy.py
-elif [ -f "pxypyc.pcy" ]; then
+elif [ -f "pycpxy.pcy" ]; then
     python3 pycpxy.pcy
 else
     echo "Error: Neither pxypyc.py nor pxypyc.pcy found in /home/pxy/pxy/sys/exe/run/"
