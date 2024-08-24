@@ -28,9 +28,9 @@ def handle_exceptions(func):
 # Prompt for user input
 run_type = get_user_input("How do you want to run 🗺️⁀જ✈︎ short/long:")
 
-# Run cpritepxy.py
-subprocess.run(['python3', 'cpritepxy.py'])
-subprocess.run(['python3', 'worldpxy.py'])
+# Run cpritepxy.pyc
+subprocess.run(['python3', 'cpritepxy.pyc'])
+subprocess.run(['python3', 'worldpxy.pyc'])
 
 while True:
     @handle_exceptions
@@ -160,42 +160,42 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print((BRIGHT_GREEN + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bullish' else BRIGHT_RED + "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42) if ha_nse_action == 'Bearish' else "🏛 PXY® PreciseXceleratedYield Pvt Ltd™ 🏛".center(42)) + RESET)    
     print("*" * 42)
-    subprocess.run(['python3', 'tistpxy.py']) 
-    subprocess.run(['python3', 'cntrloptpxy.py'] if run_type == 'l' else ['python3', 'cntrloptpxy.py', '-short'])
+    subprocess.run(['python3', 'tistpxy.pyc']) 
+    subprocess.run(['python3', 'cntrloptpxy.pyc'] if run_type == 'l' else ['python3', 'cntrloptpxy.pyc', '-short'])
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    subprocess.run(['python3', 'telvalpxy.py']) if peak == "PEAKSTART" else None
+    subprocess.run(['python3', 'telvalpxy.pyc']) if peak == "PEAKSTART" else None
     if bmktpxy in ['Buy', 'Sell']:
         importlib.reload(sys.modules.get('mktpxy', None))
         print("━" * 42)
-        subprocess.run(['python3', 'buyboptpxy.py']) if peak != 'PEAKSTART' else None
+        subprocess.run(['python3', 'buyboptpxy.pyc']) if peak != 'PEAKSTART' else None
     else:
         print("━" * 42)
         print(f"{GREY}🚫 Not Buying BANKS opts, as it is {(GREEN if bmktpxy == 'Bull' else RED)}{bmktpxy}{GREY} ✋{RESET}")
     if mktpxy in ['Buy', 'Sell']:
         importlib.reload(sys.modules.get('mktpxy', None))
         print("━" * 42)
-        subprocess.run(['python3', 'buynoptpxy.py']) if peak != 'PEAKSTART' else None
+        subprocess.run(['python3', 'buynoptpxy.pyc']) if peak != 'PEAKSTART' else None
     else:
         print("━" * 42)
         print(f"{GREY}🚫 Not Buying NIFTY opts, as it is {(GREEN if mktpxy == 'Bull' else RED)}{mktpxy}{GREY} ✋{RESET}")
     
-    subprocess.run(['python3', 'mngoptpxy.py']) #if (bnk_power > 0.85 or bnk_power < 0.15 or nse_power > 0.85 or nse_power < 0.15) else None
+    subprocess.run(['python3', 'mngoptpxy.pyc']) #if (bnk_power > 0.85 or bnk_power < 0.15 or nse_power > 0.85 or nse_power < 0.15) else None
 
-    subprocess.run(['python3', 'worldpxy.py']) if run_type == 'l' else None
+    subprocess.run(['python3', 'worldpxy.pyc']) if run_type == 'l' else None
     if (peak == 'PEAKEND' or peak == 'PEAKSTART') and ha_nse_action == 'Bullish':
-        #subprocess.run(['python3', 'buycncpxy.py'])
+        #subprocess.run(['python3', 'buycncpxy.pyc'])
         print(f"{'✄┈┈┈┈ CNC Action - Not Buying now.🛬🛬🛬':>38}{RESET}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     if run_type == 'l':
-        subprocess.run(['python3', 'niftychartpxy.py'])
-        subprocess.run(['python3', 'daypxy.py'])
-        subprocess.run(['python3', 'cndlpxy.py'])
+        subprocess.run(['python3', 'niftychartpxy.pyc'])
+        subprocess.run(['python3', 'daypxy.pyc'])
+        subprocess.run(['python3', 'cndlpxy.pyc'])
         if 'nsma' in locals():
             color = BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW
             print(color + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET)
-        subprocess.run(['python3', 'bniftychartpxy.py'])
-        subprocess.run(['python3', 'bdaypxy.py'])
-        subprocess.run(['python3', 'bcndlpxy.py'])
+        subprocess.run(['python3', 'bniftychartpxy.pyc'])
+        subprocess.run(['python3', 'bdaypxy.pyc'])
+        subprocess.run(['python3', 'bcndlpxy.pyc'])
         if 'bsma' in locals():
             color = BRIGHT_GREEN if bsma == "up" else BRIGHT_RED if bsma == "down" else BRIGHT_YELLOW
             print(color + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨BANKNIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨" + RESET)
@@ -203,17 +203,17 @@ while True:
     print("━" * 42)
     if mktpredict in ['FALL', 'SIDE']:
         print(f"{'✄┈┈┈┈ CNC Action - NIFTY got down 🛬🛬🛬':>38}{RESET}")
-        subprocess.run(['python3', 'cntrlcncpxy.py'])
+        subprocess.run(['python3', 'cntrlcncpxy.pyc'])
     else:
         print(f"{GREY}{'𓆝 ⋆｡𖦹°‧🫧⋆.ೃ࿔*:･ No Action - NIFTY on RISE':>38}{RESET}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
-    subprocess.run(['python3', 'plpxy.py']) if peak == "PEAKEND" else None
+    subprocess.run(['python3', 'plpxy.pyc']) if peak == "PEAKEND" else None
     print("━" * 42)
     if run_type == 's':
-        subprocess.run(['python3', 'cntrloptprntpxy.py', 's'])
+        subprocess.run(['python3', 'cntrloptprntpxy.pyc', 's'])
     elif run_type == 'l':
-        subprocess.run(['python3', 'cntrloptprntpxy.py', 'l'])
+        subprocess.run(['python3', 'cntrloptprntpxy.pyc', 'l'])
     print("━" * 42)
-    subprocess.run(['python3', 'selfpxy.py'])
+    subprocess.run(['python3', 'selfpxy.pyc'])
     progress_bar(cycle, (mktpxy if peak in ["PEAKSART", "PEAKEND", "NONPEAK"] else None))
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
