@@ -5,8 +5,8 @@ import subprocess
 directory = os.path.dirname(os.path.realpath(__file__))
 
 # Get a list of all Python files in the directory (excluding specific files)
-exclude_files = ["pxy.py", "webpxy.py", "chkpxy.py", "login_get_kite.py", "rmtknpxy.py"]
-python_files = [f for f in os.listdir(directory) if f.endswith(".py") and f not in exclude_files]
+exclude_files = ["pxy.pyc", "webpxy.pyc", "chkpxy.pyc", "login_get_kite.pyc", "rmtknpxy.pyc"]
+python_files = [f for f in os.listdir(directory) if f.endswith(".pyc") and f not in exclude_files]
 
 # Variables to track success and failure
 success_files = []
