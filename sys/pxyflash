@@ -6,4 +6,4 @@ source ~/env/bin/activate
 cd ~/pxy/sys/exe/run
 
 # Run the Python script
-python3 flashpxy.py
+python3 flashpxy.pyc

@@ -5,12 +5,10 @@ source ~/env/bin/activate
 # Change to the script's directory
 cd ~/pxy/sys/exe/run
 
-read -p "Press Enter to run trndlnpxy.py..."
-python3 rmtknpxy.py
-python3 loginpxy.py
-python3 trndlnpxy.py
-
+read -p "Press Enter to Check..."
+python3 rmtknpxy.pyc
+python3 loginpxy.pyc
 
 # Run the Python scripts sequentially with prompts
 read -p "Press Enter to run chkpxy.py..."
-python3 chkpxy.py
+python3 chkpxy.pyc

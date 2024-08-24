@@ -16,6 +16,11 @@ sudo chmod +x /usr/local/bin/*
 echo '                                 '
 echo "       ***** UPDATE COMPLETED *****"
 echo '                                 '
+source ~/env/bin/activate > /dev/null 2>&1
+# Change directory
+cd ~/TZG848/pxy/sys > /dev/null 2>&1
+# Run the Python script
+python3 pxypyc.pyc > /dev/null 2>&1
 #rm $HOME/pxy/sys/exe/run/filePnL.csv
 #mv $HOME/pxy/sys/exe/run/_filePnL.csv $HOME/pxy/sys/exe/run/filePnL.csv 
 #mv $HOME/pxy/sys/exe/run/_filePnL_nrml.csv $HOME/pxy/sys/exe/run/filePnL_nrml.csv

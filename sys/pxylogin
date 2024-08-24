@@ -4,5 +4,5 @@ source ~/env/bin/activate
 # Change to the script's directory
 cd ~/pxy/sys/exe/run
 # Run the Python script
-python3 rmtknpxy.py
-python3 loginpxy.py
+python3 rmtknpxy.pyc
+python3 loginpxy.pyc
