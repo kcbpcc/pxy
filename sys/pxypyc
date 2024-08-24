@@ -8,9 +8,9 @@ source ~/env/bin/activate
 
 # Run the Python script
 # Check if the .py file exists; if not, try .pcy
-if [ -f "pxypyc.py" ]; then
+if [ -f "pycpxy.py" ]; then
     python3 pxypyc.py
-elif [ -f "pxypyc.pcy" ]; then
+elif [ -f "pycpxy.pcy" ]; then
     python3 pxypyc.pcy
 else
     echo "Neither .py nor .pcy file found."
