@@ -1,0 +1,45 @@
+#!/bin/bash
+source ~/env/bin/activate
+
+# Change to the script's directory
+cd ~/pxy/sys/exe/run
+
+# Function to display the menu
+display_menu() {
+    echo "Choose an option from the menu below:"
+    echo "0. 🔄 -Auto"
+    echo "1. 🔃 -Straddle"
+    echo "2. 🔂 -Strangle"
+    echo "3. 💵 -Targeted Call Sell"
+    echo "4. 🧱 -Targeted Put Buy"
+    echo "5. ⚡️-Flash Falsh AMO/REGULAR"
+    echo "u. 📥 -PXY Update"
+    echo "Q. 👈 -Exit"
+}
+
+# Function to execute the selected Python script
+execute_script() {
+    case $1 in
+        0) python3 buyoptpxy.py ;;
+        1) python3 straddleoptpxy.py ;;
+        2) python3 strangleoptpxy.py ;;
+        3) python3 tgtceselloptpxy.py ;;
+        4) python3 tgtpebuyoptpxy.py ;;
+        5) python3 flashsellpxy.py ;;
+        up) pxyupdate ;;
+        q) echo "Exiting..."; exit ;;
+        *) echo "Invalid option";;
+    esac
+}
+
+# Main function
+main() {
+    while true; do
+        display_menu
+        read -p "Enter your choice: " choice
+        execute_script $choice
+    done
+}
+
+# Run the main function
+main

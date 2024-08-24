@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Full path to the log.log file
+log_file="$HOME/pxy/sys/exe/run/log.log"
+
+# Path to the output.txt file
+output_file="$HOME/pxy/sys/exe/run/output.txt"
+
+# Path to the main.log file
+main_log_file="$HOME/pxy/sys/exe/main.log"
+
+# Check if log.log file exists
+if [ ! -f "$log_file" ]; then
+    echo "log.log file not found!"
+    exit 1
+fi
+
+# Clear log.log file
+> "$log_file"
+
+# Continuously tail log.log, output.txt, and main.log files and display output simultaneously
+tail -f "$log_file" & tail -f "$main_log_file"

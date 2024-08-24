@@ -1,0 +1,8 @@
+perc: 0
+secs: 15
+sellbuff: -0.2
+buybuff: 0.2
+max_target: 5
+dynamic_target: 1.5
+initial_day_change: 0
+
