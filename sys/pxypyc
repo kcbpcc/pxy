@@ -1,0 +1,4 @@
+    cd ~/pxy/sys/exe/run
+    # Display summary at the end
+    source ~/env/bin/activate
+    python3 pxypyc.py
