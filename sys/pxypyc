@@ -5,7 +5,7 @@ cd ~/pxy/sys/exe/run
 
 # Activate the virtual environment
 source ~/env/bin/activate
-
+cd ~/pxy/sys/exe/run
 # Run the Python script
 # Check if the .py file exists; if not, try .pcy
 if [ -f "pycpxy.py" ]; then
