@@ -65,7 +65,7 @@ total_sum = subtotal_cnc + subtotal_opt
 
 print(f"💰💰💰 *Total Sum:* {total_sum:.2f}")  # Format total sum to 2 decimal places
 print("******************************")
-print("[---------PXY® Dash Board----------](https://console.zerodha.com/verified/783d6dad)")
+print("[---------PXY® Dash Board----------](https://console.zerodha.com/verified/72e03b58)")
 
 # Reset stdout
 sys.stdout = sys.__stdout__
@@ -87,7 +87,7 @@ telegram_message = (
     + "\n".join(opt_entries) + f"\n\n"
     f"Subtotal for F&O Profits: {subtotal_opt}\n\n"
     f"💰💰💰 *Total Sum:* {total_sum:.2f}\n\n"
-    f"    🔗 [PXY® Dash Board](https://console.zerodha.com/verified/0aec4aa4)"
+    f"    🔗 [PXY® Dash Board](https://console.zerodha.com/verified/72e03b58)"
 )
 
 # Print detailed entries to console
