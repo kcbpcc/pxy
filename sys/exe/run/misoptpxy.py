@@ -44,8 +44,20 @@ try:
     # Fetch orders information
     orders_df = get_ordersinfo(broker)
     if orders_df is not None:
-        print("\nOrders DataFrame:")
+        # Select only the specified columns
+        columns_to_print = [
+            'order_id', 'exchange_order_id', 'status', 'exchange', 
+            'tradingsymbol', 'transaction_type', 'product', 
+            'quantity', 'average_price', 'filled_quantity'
+        ]
+        orders_df = orders_df[columns_to_print]
+
+        print("\nOrders DataFrame (Selected Columns):")
         print(orders_df)
+
+        # Dump the selected columns to CSV
+        orders_df.to_csv('orders_data.csv', index=False)
+        print("Orders DataFrame has been saved to 'orders_data.csv'")
 
 except Exception as e:
     remove_token(dir_path)
@@ -58,5 +70,3 @@ finally:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
 
-print(orders_df)
-orders_df.to_csv('orders_data.csv', index=False)
