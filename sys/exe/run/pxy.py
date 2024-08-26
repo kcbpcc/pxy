@@ -190,7 +190,7 @@ while True:
         subprocess.run(['python3', 'niftychartpxy.pyc'])
         subprocess.run(['python3', 'daypxy.pyc'])
         subprocess.run(['python3', 'cndlpxy.pyc'])
-        if 'nsma' in locals():
+        if 'nsma' in locals(): 
             color = BRIGHT_GREEN if nsma == "up" else BRIGHT_RED if nsma == "down" else BRIGHT_YELLOW
             print(color + "ﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨NIFTY٨ﮩ٨ـﮩ٨ـﮩﮩ٨ﮩ٨ـﮩ٨ﮩ٨ـﮩ" + RESET)
         subprocess.run(['python3', 'bniftychartpxy.pyc'])
@@ -202,7 +202,7 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print("━" * 42)
     if mktpredict in ['FALL', 'SIDE']:
-        print(f"{'✄ ┈┈┈ CNC Action - NIFTY got down 🛬🛬🛬':>38}{RESET}")
+        print(f"{'✄  ┈┈┈ CNC Action - NIFTY got down 🛬🛬🛬':>38}{RESET}")
         subprocess.run(['python3', 'cntrlcncpxy.pyc'])
     else:
         print(f"{GREY}{'𓆝 ⋆｡𖦹°‧🫧⋆.ೃ࿔*:･ No Action - NIFTY on RISE':>38}{RESET}")
