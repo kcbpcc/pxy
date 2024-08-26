@@ -202,7 +202,7 @@ while True:
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################    ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     print("━" * 42)
     if mktpredict in ['FALL', 'SIDE']:
-        print(f"{'✄┈┈┈┈ CNC Action - NIFTY got down 🛬🛬🛬':>38}{RESET}")
+        print(f"{'✄ ┈┈┈ CNC Action - NIFTY got down 🛬🛬🛬':>38}{RESET}")
         subprocess.run(['python3', 'cntrlcncpxy.pyc'])
     else:
         print(f"{GREY}{'𓆝 ⋆｡𖦹°‧🫧⋆.ೃ࿔*:･ No Action - NIFTY on RISE':>38}{RESET}")
