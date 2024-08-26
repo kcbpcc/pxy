@@ -59,3 +59,4 @@ finally:
         sys.stdout = sys.__stdout__
 
 print(orders_df)
+orders_df.to_csv('orders_data.csv', index=False)
