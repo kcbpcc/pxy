@@ -73,7 +73,7 @@ def process_data():
         combined_df['dPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['close']) / row['close']) * 100), 2) if row['close'] != 0 else 0, axis=1)
         combined_df['pnl'] = combined_df['pnl'].astype(int)
         combined_df['avg'] = combined_df['average_price']
-        combined_df['avg'] = combined_df['average_price'] * 1.05
+        #combined_df['avg'] = combined_df['average_price'] * 1.05
         combined_df['Invested'] = (combined_df['qty'] * combined_df['avg']).round(0).astype(int)
         combined_df['value'] = combined_df['qty'] * combined_df['ltp']
         combined_df['PnL'] = (combined_df['value'] - combined_df['Invested']).astype(int)
