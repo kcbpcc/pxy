@@ -156,39 +156,39 @@ def compute_depth(row):
             if bcedepth > 1:
                 return max(row['tgtoptsma'], (bvix + 6 - bcedepth))
             elif bpedepth > 1:
-                return 4
+                return 10
             else:
-                return 4
+                return 10
 
         elif row['key'].endswith("PE") and row['key'].startswith("BANK"):
             if bpedepth > 1:
                 return max(row['tgtoptsma'], (bvix + 6 - bpedepth))
             elif bcedepth > 1:
-                return 4
+                return 10
             else:
-                return 4
+                return 10
 
         elif row['key'].endswith("CE") and row['key'].startswith("NIFTY"):
             if ncedepth > 1:
                 return max(row['tgtoptsma'], (nvix + 6 - ncedepth))
             elif npedepth > 1:
-                return 4
+                return 10
             else:
-                return 4
+                return 10
 
         elif row['key'].endswith("PE") and row['key'].startswith("NIFTY"):
             if npedepth > 1:
                 return max(row['tgtoptsma'], (nvix + 6 - npedepth))
             elif ncedepth > 1:
-                return 4
+                return 10
             else:
-                return 4
+                return 10
 
         else:
-            return 4
+            return 10
     except Exception as e:
         # Optionally log the exception e here
-        return 4
+        return 10
 
 
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
