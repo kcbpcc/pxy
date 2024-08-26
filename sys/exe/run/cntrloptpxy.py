@@ -134,11 +134,11 @@ def compute_tgtoptsma(row):
     key = row['key']
     
     if (bsma == "up" and key.startswith("BANK") and "CE" in key) or (bsma == "down" and key.startswith("BANK") and "PE" in key):
-        return 5
+        return 4
     elif (nsma == "up" and key.startswith("NIFTY") and "CE" in key) or (nsma == "down" and key.startswith("NIFTY") and "PE" in key):
-        return 5
+        return 4
     else:
-        return 5
+        return 4
 
 exe_opt_df['tgtoptsma'] = exe_opt_df.apply(compute_tgtoptsma, axis=1)
 
@@ -154,41 +154,41 @@ def compute_depth(row):
         
         if row['key'].endswith("CE") and row['key'].startswith("BANK"):
             if bcedepth > 1:
-                return max(row['tgtoptsma'], (bvix + 9 - bcedepth))
+                return max(row['tgtoptsma'], (bvix + 6 - bcedepth))
             elif bpedepth > 1:
                 return 4
             else:
-                return 5
+                return 4
 
         elif row['key'].endswith("PE") and row['key'].startswith("BANK"):
             if bpedepth > 1:
-                return max(row['tgtoptsma'], (bvix + 9 - bpedepth))
+                return max(row['tgtoptsma'], (bvix + 6 - bpedepth))
             elif bcedepth > 1:
                 return 4
             else:
-                return 5
+                return 4
 
         elif row['key'].endswith("CE") and row['key'].startswith("NIFTY"):
             if ncedepth > 1:
-                return max(row['tgtoptsma'], (nvix + 9 - ncedepth))
+                return max(row['tgtoptsma'], (nvix + 6 - ncedepth))
             elif npedepth > 1:
                 return 4
             else:
-                return 5
+                return 4
 
         elif row['key'].endswith("PE") and row['key'].startswith("NIFTY"):
             if npedepth > 1:
-                return max(row['tgtoptsma'], (nvix + 9 - npedepth))
+                return max(row['tgtoptsma'], (nvix + 6 - npedepth))
             elif ncedepth > 1:
                 return 4
             else:
-                return 5
+                return 4
 
         else:
-            return 5
+            return 4
     except Exception as e:
         # Optionally log the exception e here
-        return 5
+        return 4
 
 
 exe_opt_df['tgtoptsmadepth'] = exe_opt_df.apply(compute_depth, axis=1)
