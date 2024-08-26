@@ -1,13 +1,15 @@
 import sys
 import os
-import socket
-import hashlib
+import base64
 from cryptography.fernet import Fernet
 
-# Generate the same key as used during encryption
-hostname = socket.gethostname()
-key = hashlib.sha256(hostname.encode()).digest()
-cipher_suite = Fernet(Fernet.generate_key())
+# Fixed key (must match the encryption key)
+fixed_key = b"089608"
+
+# Expand the key to 32 bytes by padding
+key = fixed_key.ljust(32, b'\0')[:32]  # Ensure the key is exactly 32 bytes
+fernet_key = base64.urlsafe_b64encode(key)  # Convert to base64
+cipher_suite = Fernet(fernet_key)
 
 ENCRYPTION_MARKER = b"# ENCRYPTED FILE\n"
 
@@ -22,7 +24,11 @@ def decrypt_and_execute(filename):
 
     # Remove the marker and decrypt the code
     encrypted_code = encrypted_code[len(ENCRYPTION_MARKER):]
-    decrypted_code = cipher_suite.decrypt(encrypted_code)
+    try:
+        decrypted_code = cipher_suite.decrypt(encrypted_code)
+    except Exception as e:
+        print(f"Decryption failed: {e}")
+        return
 
     # Execute the decrypted code
     exec(decrypted_code, globals())
