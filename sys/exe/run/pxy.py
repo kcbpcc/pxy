@@ -184,7 +184,7 @@ while True:
     subprocess.run(['python3', 'worldpxy.pyc']) if run_type == 'l' else None
     if (peak == 'PEAKEND' or peak == 'PEAKSTART') and ha_nse_action == 'Bullish':
         #subprocess.run(['python3', 'buycncpxy.pyc'])
-        print(f"{'✄┈┈┈┈ CNC Action - Not Buying now.🛬🛬🛬':>38}{RESET}")
+        print(f"{'✄ ┈┈┈┈ CNC Action - Not Buying now.🛬🛬🛬':>38}{RESET}")
     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################     ############################################"PXY® PreciseXceleratedYield Pvt Ltd™############################################ 
     if run_type == 'l':
         subprocess.run(['python3', 'niftychartpxy.pyc'])
