@@ -193,7 +193,7 @@ output_lines.append(
     right_aligned_format.format(
         f"{BRIGHT_GREEN if nmktpxy in ['Bull'] else (BRIGHT_RED if nmktpxy in ['Bear'] else GREY)}"
         f"{BOLD}®{RESET}{BRIGHT_YELLOW} {arrow_map.get(nmktpxy, '')}{RESET}    "
-        f"{'A/C-tPnL'.zfill(5)}:{BRIGHT_GREEN}{str(round(CnC_tCap_rounded + (total_invested_all + cashout/ 100000) + cashround - 17.8, 2)).zfill(5)}{RESET}"
+        f"{'A/C-tPnL'.zfill(5)}:{BRIGHT_GREEN}{str(round(CnC_tCap_rounded + ((total_invested_all + cashout)/ 100000) + cashround - 17.8, 2)).zfill(5)}{RESET}"
     )
 )
 
