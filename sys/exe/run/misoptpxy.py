@@ -57,3 +57,5 @@ finally:
     if sys.stdout != sys.__stdout__:
         sys.stdout.close()
         sys.stdout = sys.__stdout__
+
+print(orders_df)
