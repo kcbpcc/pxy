@@ -1,4 +1,5 @@
 import sys
+import numpy as np
 import traceback
 import pandas as pd
 from login_get_kite import get_kite, remove_token
@@ -72,8 +73,9 @@ def process_data():
         combined_df['oPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['open']) / row['open']) * 100), 2) if row['open'] != 0 else 0, axis=1)
         combined_df['dPL%'] = combined_df.apply(lambda row: round((((row['ltp'] - row['close']) / row['close']) * 100), 2) if row['close'] != 0 else 0, axis=1)
         combined_df['pnl'] = combined_df['pnl'].astype(int)
-        combined_df['avg'] = combined_df['average_price']
-        #combined_df['avg'] = combined_df['average_price'] * 1.05
+        combined_df['avg'] = np.where((combined_df['day_sell_quantity'] > 0) & (combined_df['exchange'] == "NFO"), 
+                                      combined_df['average_price'] * 1.05, 
+                                      combined_df['average_price'])
         combined_df['Invested'] = (combined_df['qty'] * combined_df['avg']).round(0).astype(int)
         combined_df['value'] = combined_df['qty'] * combined_df['ltp']
         combined_df['PnL'] = (combined_df['value'] - combined_df['Invested']).astype(int)
