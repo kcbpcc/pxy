@@ -265,9 +265,10 @@ for group, data in grouped_df:
         if len(data) >= 2:
             formatted_output = f"{last_wednesday if group == 'B' else last_thursday}⏰ {color_none}{summary_sentence}{RESET}".rjust(50)
             formatted_balance = f"{value_statement}{RESET}".center(44)
-            print(linecepepxy)            
-            print(formatted_balance)            
+            print(linecepepxy)  
             print(f"{UNDERLINE}{formatted_output}{RESET}") if args.command == 'l' else None
+            print(formatted_balance)            
+            
     # Define ce_pe_ratio based on group
     if group == 'B':
         ratio_B = ce_pe_ratio
