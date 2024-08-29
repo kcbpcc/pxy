@@ -252,6 +252,7 @@ for group, data in grouped_df:
         color_code = BRIGHT_GREEN if total_pl_percentage_group > 0 else BRIGHT_RED
         color_none = SILVER
         # Check the command and print the corresponding output
+        print("━" * 42)
         if args.command == 'l':
             # Filter DataFrame with qty > 0
             filtered_data = data.query('qty > 0')[['MN', 'strike', 'Invested', 'qty', 'PL%', 'PnL', 'CP']]
