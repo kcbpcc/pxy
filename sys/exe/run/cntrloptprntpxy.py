@@ -142,7 +142,7 @@ if peak == "PREPEAK":
     process_acvalue(acvalue)
 
 acvalue = retrieve_acvalue()
-cashout = 500000
+cashout = 600000
 #print(" " * 42)
 column_width = 30
 left_aligned_format = "{:<" + str(column_width) + "}"
