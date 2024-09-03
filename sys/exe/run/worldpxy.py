@@ -30,7 +30,7 @@ exchanges = {
     "^FCHI": {"name": "FR", "weight": 0.15},
     "^NSEBANK": {"name": "BK", "weight": 0.125},
     "^NSEI": {"name": "NF", "weight": 0.125},
-    "^NSEI": {"name": "N24", "weight": 0.10}  # Added ^NSEI
+    "NIFTY24Q.NS": {"name": "N24", "weight": 0.10}  # Added NIFTY24Q.NS
 }
 
 # Create a console object for rich text output
@@ -48,13 +48,13 @@ for exchange, name_weight in exchanges.items():
     if len(hist_data) >= 2:
         closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
         closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
-    elif exchange == "^NSEI":
-        # Special case for ^NSEI
+    elif exchange == "NIFTY24Q.NS":
+        # Special case for NIFTY24Q.NS
         closing_prices_today[name_weight['name']] = hist_data['Close'].iloc[-1]
 
 # Function to create formatted entry
 def create_entry(name, price_today, price_yesterday=None):
-    if name == "N24":  # Special case for ^NSEI
+    if name == "N24":  # Special case for NIFTY24Q.NS
         rounded_price = round(price_today / 10) * 10
         return f"{int(rounded_price)}✍️"
     else:
