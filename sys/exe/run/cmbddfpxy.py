@@ -85,7 +85,7 @@ def process_data():
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
         combined_df['booked'] = (combined_df['day_sell_price'] - combined_df['average_price']) * combined_df['day_sell_quantity']
         combined_df['bpnl'] = round(combined_df['unrealised'] - combined_df['booked'], 2)
-        combined_df['pnlrec_'] = round((combined_df['bpnl'] / combined_df['buy_value'] * 100), 2)
+        combined_df['pnlrec_'] = round((combined_df['bpnl'] / combined_df['Invested'] * 100), 2)
 
         
         # Filter rows where 'key' starts with "NFO:"
