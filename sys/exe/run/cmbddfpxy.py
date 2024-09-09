@@ -92,7 +92,7 @@ def process_data():
         nfo_df = combined_df[combined_df['key'].str.startswith('NFO:')]
         
         # Print the filtered columns
-        print(nfo_df[['key', 'qty', 'booked', 'bpnl', 'pnlrec_']])
+        #print(nfo_df[['key', 'qty', 'booked', 'bpnl', 'pnlrec_']])
 
 
         combined_df.to_csv('pxycombined.csv', index=False)
