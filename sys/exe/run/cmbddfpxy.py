@@ -83,6 +83,10 @@ def process_data():
         combined_df['PL%'] = ((combined_df['PnL'] / combined_df['Invested']) * 100).round(2)
         combined_df['Yvalue'] = combined_df['qty'] * combined_df['close']
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
+        combined_df['booked'] = (combined_df['day_sell_price'] - combined_df['average_price']) * combined_df['day_sell_quantity']
+        combined_df['bpnl'] = combined_df['unrealised'] - combined_df['booked']
+        print(combined_df[['key', 'qty', 'booked', 'bpnl']])
+
         combined_df.to_csv('pxycombined.csv', index=False)
         return combined_df
     except Exception as e:
