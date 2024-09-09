@@ -85,12 +85,14 @@ def process_data():
         combined_df['dPnL'] = combined_df['value'] - combined_df['Yvalue']
         combined_df['booked'] = (combined_df['day_sell_price'] - combined_df['average_price']) * combined_df['day_sell_quantity']
         combined_df['bpnl'] = round(combined_df['unrealised'] - combined_df['booked'], 2)
+        combined_df['pnlrec_'] = round((combined_df['bpnl'] / combined_df['buy_value'] * 100), 2)
+
         
         # Filter rows where 'key' starts with "NFO:"
         nfo_df = combined_df[combined_df['key'].str.startswith('NFO:')]
         
         # Print the filtered columns
-        print(nfo_df[['key', 'qty', 'booked', 'bpnl', 'pnl','m2m']])
+        print(nfo_df[['key', 'qty', 'booked', 'bpnl', 'pnlrec_']])
 
 
         combined_df.to_csv('pxycombined.csv', index=False)
