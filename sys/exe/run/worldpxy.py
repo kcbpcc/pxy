@@ -43,11 +43,14 @@ closing_prices_yesterday = {}
 for exchange, name_weight in exchanges.items():
     ticker = yf.Ticker(exchange)
     hist_data = ticker.history(period="5d")
-    
+
     # Check if enough data is available
-    if len(hist_data) >= 2:
+    if not hist_data.empty and len(hist_data) >= 2:
         closing_prices_today[name_weight['name']] = hist_data['Close'][-1]
         closing_prices_yesterday[name_weight['name']] = hist_data['Close'][-2]
+    else:
+        # Log an error message for the ticker
+        console.print(f"[red]Error: No data found for {exchange}. It may be delisted or unavailable.[/red]")
 
 # Function to create formatted entry
 def create_entry(name, price_today, price_yesterday=None):
