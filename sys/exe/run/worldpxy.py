@@ -1,4 +1,4 @@
-import yfinance as yf
+import yfinance as yf 
 from rich.console import Console
 import warnings
 
@@ -29,8 +29,7 @@ exchanges = {
     "^GDAXI": {"name": "DE", "weight": 0.15},
     "^FCHI": {"name": "FR", "weight": 0.15},
     "^NSEBANK": {"name": "BK", "weight": 0.125},
-    "^NSEI": {"name": "NF", "weight": 0.125},
-    "^INDIAVIX": {"name": "VIX", "weight": 0.10}  # Replaced NIFTY24U.NS with Indian VIX
+    "^NSEI": {"name": "NF", "weight": 0.125}
 }
 
 # Create a console object for rich text output
@@ -54,18 +53,14 @@ for exchange, name_weight in exchanges.items():
 
 # Function to create formatted entry
 def create_entry(name, price_today, price_yesterday=None):
-    if name == "VIX":  # Special case for Indian VIX
-        rounded_price = round(price_today / 10) * 10
-        return f"{int(rounded_price)}⚡"
+    if price_yesterday is not None:
+        percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
+        percentage_change_str = f"+{percentage_change:.1f}" if percentage_change > 0 else f"{percentage_change:.1f}"
+        entry = f"{name}{percentage_change_str}".rjust(6)
+        sentiment_style = "green" if percentage_change > 0 else "red"
+        return f"[{sentiment_style}]{entry}[/{sentiment_style}]"
     else:
-        if price_yesterday is not None:
-            percentage_change = ((price_today - price_yesterday) / price_yesterday) * 100
-            percentage_change_str = f"+{percentage_change:.1f}" if percentage_change > 0 else f"{percentage_change:.1f}"
-            entry = f"{name}{percentage_change_str}".rjust(6)
-            sentiment_style = "green" if percentage_change > 0 else "red"
-            return f"[{sentiment_style}]{entry}[/{sentiment_style}]"
-        else:
-            return None
+        return None
 
 # Prepare index information strings
 first_line = ""
