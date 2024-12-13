@@ -7,8 +7,8 @@ peak = peak_time()
 class Trendlyne:
 
     base_url = "https://trendlyne.com/"
-    nonpeakurl = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-pxy/all/all/" 
-    peakendurl = base_url + "fundamentals/v1/stock-screener/432332/buy-plus-pxy/all/all/" 
+    nonpeakurl = base_url + "fundamentals/v1/stock-screener/615676/zscanner/all/all/" 
+    peakendurl = base_url + "fundamentals/v1/stock-screener/615676/zscanner/all/all/" 
     entry_url = peakendurl if peak == 'PEAKEND' else nonpeakurl
 
     def __init__(self):
