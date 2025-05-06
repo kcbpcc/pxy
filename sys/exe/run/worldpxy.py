@@ -42,7 +42,6 @@ closing_prices_yesterday = {}
 for exchange, name_weight in exchanges.items():
     ticker = yf.Ticker(exchange)
     hist_data = ticker.history(period="5d")
-    time.sleep(1)
 
     # Check if enough data is available
     if not hist_data.empty and len(hist_data) >= 2:
